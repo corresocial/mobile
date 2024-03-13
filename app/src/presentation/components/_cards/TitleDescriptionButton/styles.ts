@@ -24,8 +24,7 @@ export const ContainerInner = styled.TouchableOpacity`
     background-color: ${({ theme }) => theme.white3};
     border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
     border-radius: ${RFValue(15)}px;
-    padding-vertical: ${RFValue(10)}px;
-    padding-horizontal: ${RFValue(15)}px;
+    padding: ${RFValue(10)}px  ${RFValue(15)}px;
     justify-content: space-around;
 	left: ${RFValue(-5)}px;
 `
@@ -60,19 +59,19 @@ export const SmallThinFont = styled.Text`
 	text-align: right;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(18)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
 
 export const SmallStrongFont = styled.Text`
 	text-align: right;
     font-family: Arvo_700Bold;
     font-size:  ${RFValue(18)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
 
 export const LargeStrongFont = styled.Text`
 	text-align: right;
     font-family: Arvo_700Bold;
     font-size:  ${RFValue(25)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `

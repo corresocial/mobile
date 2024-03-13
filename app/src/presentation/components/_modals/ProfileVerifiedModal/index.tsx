@@ -20,6 +20,7 @@ function ProfileVerifiedModal({
 			case 'leader': return 'líder social'
 			case 'default': return 'perfil verificado'
 			case 'impact': return 'perfil de impacto'
+			case 'government': return 'perfil governamental'
 			default: return ''
 		}
 	}
@@ -29,6 +30,7 @@ function ProfileVerifiedModal({
 			case 'leader': return 'esse perfil pertence a um líder social do corre. nunca passe informações pessoais para ninguém!'
 			case 'default': return 'esse perfil foi verificado por nossa organização. ainda sim, nunca passe informações pessoais para ninguém!'
 			case 'impact': return 'esse perfil foi verificado por nossa organização e é um cidadão com maior necessidade de contratação, visibilidade e doações! nunca passe informações pessoais para ninguém!'
+			case 'government': return 'esse perfil foi verificado por nossa organização e é um perfil ligado ao governo, nunca passe informações pessoais para ninguém!'
 			default: return ''
 		}
 	}
@@ -38,6 +40,7 @@ function ProfileVerifiedModal({
 			case 'leader': return ['nunca', 'passe', 'informações', 'pessoais']
 			case 'default': return ['nunca', 'passe', 'informações', 'pessoais']
 			case 'impact': return ['nunca', 'passe', 'informações', 'pessoais']
+			case 'government': return ['nunca', 'passe', 'informações', 'pessoais']
 			default: return []
 		}
 	}

@@ -10,8 +10,7 @@ import {
 	Description,
 	Header,
 	Title,
-	TouchCloseArea,
-	TextInput
+	TouchCloseArea
 } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
@@ -21,6 +20,7 @@ import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
@@ -55,6 +55,8 @@ interface CustomModalProps {
 		placeholder: string
 		initialValue?: string
 		keyboardType?: TextInputProps['keyboardType']
+		maxLength?: number
+		validateText?: (value: string) => boolean
 	}
 	affirmativeButton?: {
 		label: string
@@ -169,12 +171,21 @@ function CustomModal({
 						}
 						{
 							customInput && (
-								<TextInput
-									keyboardType={customInput.keyboardType || 'email-address'}
-									placeholder={customInput.placeholder}
-									value={textInput}
-									onChangeText={(text: string) => setTextInput(text.trim().toLowerCase())}
-								/>
+								<>
+									<VerticalSpacing/>
+									<DefaultInput
+										{...customInput}
+										defaultBackgroundColor={theme.white2}
+										validBackgroundColor={theme.orange1}
+										fontSize={15}
+										keyboardType={customInput.keyboardType || 'email-address'}
+										placeholder={customInput.placeholder}
+										validateText={customInput.validateText}
+										value={textInput}
+										onChangeText={(text: string) => setTextInput(text.trim().toLowerCase())}
+									/>
+									<VerticalSpacing/>
+								</>
 							)
 						}
 

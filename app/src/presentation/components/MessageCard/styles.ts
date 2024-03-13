@@ -5,11 +5,11 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 
 export const Container = styled.View`
 	flex: 0;
-	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenWidth(3)}px;
 `
 
 export const MessageContainer = styled.TouchableOpacity`
-	background-color: ${({ theme }) => theme.black4}
+	background-color: ${({ theme }) => theme.black4};
 	border-width: ${RFValue(3)}px;
 	min-height: ${relativeScreenHeight(2)}px;
 	max-width: 90%;
@@ -22,11 +22,10 @@ export const MessageContainer = styled.TouchableOpacity`
 
 export const MessageContainerInner = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white3}
+	background-color: ${({ theme }) => theme.white3};
 	min-height: ${relativeScreenHeight(2)}px;
 
-	padding-vertical: ${RFValue(5)}px;
-	padding-horizontal: ${RFValue(10)}px;
+	padding: ${RFValue(5)}px  ${RFValue(10)}px;
 	border-radius: ${RFValue(15)}px;
 	border-bottom-right-radius: 0px;
 `

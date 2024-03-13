@@ -164,8 +164,11 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const navigateToProfile = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
+		const correUserId = 'gubzWyXdQFeC5xEaWlTtbaR64tT2'
+		const recipientUserId = getConversationUserName(authenticatedUserId, user1, user2) !== 'corre.' ? getConversationUserId(authenticatedUserId, user1, user2) : correUserId
+
 		navigation.navigate('ProfileChat', {
-			userId: getConversationUserId(authenticatedUserId, user1, user2),
+			userId: recipientUserId,
 			stackLabel: 'Chat'
 		})
 	}

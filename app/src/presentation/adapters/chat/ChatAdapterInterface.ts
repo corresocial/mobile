@@ -2,6 +2,8 @@ import { CheckBlockedUsersResponse } from '@domain/entities/chat'
 import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
+import { ChatGatewayAdapterInterface as ChatRepositoryAdapterInterface } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapterInterface'
+
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 interface ChatAdapterInterface {
@@ -14,7 +16,7 @@ interface ChatAdapterInterface {
 	registerNewChat(chatData: Chat): Promise<void>
 	setChatIdForUsers(userIds: Id[], chatId: Id): Promise<void>
 	generateNewMessageObject(textMessage: string, userSenderId: Id): MessageObjects
-	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
+	sendMessage(message: Message, chatId: Id, recipientUserName: string): Promise<boolean>
 	cleanChatMessages(chatId: Id, recipientUserId: Id): Promise<void>
 	makeAllUserMessagesAsRead(chatId: Id, userId: Id): Promise<void>
 	updateProfilePictureOnConversations(chatId: Id, profilePictureUrl: string): Promise<void>
@@ -27,6 +29,7 @@ interface ChatAdapterInterface {
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
 	unsubscribeChatMessagesListener(chatId: Id): void
+	chatUserHasTokenNotification(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryAdapterInterface): Promise<boolean>
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
 	hasBlockedUserOnConversation(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse>
 

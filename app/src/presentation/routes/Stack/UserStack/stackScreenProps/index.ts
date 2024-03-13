@@ -16,6 +16,7 @@ export type SocialImpactStackScreenProps = NativeStackScreenProps<UserStackParam
 export type EditProfileScreenProps = NativeStackScreenProps<UserStackParamList, 'EditProfile'>
 export type EditUserNameScreenProps = NativeStackScreenProps<UserStackParamList, 'EditUserName'>
 export type EditUserDescriptionScreenProps = NativeStackScreenProps<UserStackParamList, 'EditUserDescription'>
+export type EditUserLocationScreenProps = NativeStackScreenProps<UserStackParamList, 'EditUserLocation'>
 export type EditUserPictureScreenProps = NativeStackScreenProps<UserStackParamList, 'EditUserPicture'>
 export type EditServicePostScreenProps = NativeStackScreenProps<UserStackParamList, 'EditServicePost'>
 export type EditSalePostScreenProps = NativeStackScreenProps<UserStackParamList, 'EditSalePost'>
@@ -43,6 +44,7 @@ export type ContactUsSuccessScreenProps = NativeStackScreenProps<UserStackParamL
 export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackParamList, 'PrivacyAndSecurity'>
 export type UserDataConfigurationsScreenProps = NativeStackScreenProps<UserStackParamList, 'UserDataConfigurations'>
 export type NotificationSettingsScreenProps = NativeStackScreenProps<UserStackParamList, 'NotificationSettings'>
+export type NotificationPublicServicesSettingsScreenProps = NativeStackScreenProps<UserStackParamList, 'NotificationPublicServicesSettings'>
 
 export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList, 'ChatMessages'>
 

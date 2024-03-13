@@ -14,7 +14,8 @@ export const ContainerBottom = styled.View`
 export const ContainerSurface = styled.View`
 	border-radius: ${RFValue(20)}px;
 	border: ${RFValue(3.5)}px solid ${({ theme }) => theme.black4};
-	padding-vertical: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -25,8 +26,7 @@ export const ContainerSurface = styled.View`
 export const Label = styled.Text`
     font-size: ${RFValue(15)}px;
     font-family: Arvo_700Bold;
-    padding-horizontal: ${relativeScreenWidth(3)}px;
-    padding-vertical: ${relativeScreenHeight(0.7)}px;
+    padding: ${relativeScreenHeight(0.7)}px ${relativeScreenWidth(3)}px;
     text-align: center;
     max-width: ${relativeScreenWidth(35)}px;
 `

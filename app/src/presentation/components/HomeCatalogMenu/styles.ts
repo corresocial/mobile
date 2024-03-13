@@ -9,5 +9,5 @@ export const HorizontalPostTypes = styled.View`
 	flex-direction: row;
 	width: 100%;
 	justify-content: space-around;
-	margin-vertical: ${RFValue(15)}px;
+	margin: ${RFValue(15)}px 0px;
 `

@@ -18,17 +18,21 @@ import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { getEnvVars } from './src/infrastructure/environment'
 import { theme } from './src/presentation/common/theme'
-import { ErrorBoundaryContainer } from './src/presentation/components/_containers/ErrorBoundaryContainer'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
 import { sentryConfig } from './src/services/sentry'
 
 const { ENVIRONMENT } = getEnvVars()
 
-console.log(__DEV__)
-if (!__DEV__ && ENVIRONMENT !== 'dev') {
-	Sentry.init(sentryConfig)
-}
 LogBox.ignoreLogs(ignoredLogs)
+
+const startSentry = () => {
+	console.log(`Dev Mode: ${__DEV__}`)
+	if (!__DEV__ && ENVIRONMENT !== 'dev') {
+		Sentry.init(sentryConfig)
+	}
+}
+
+startSentry()
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
@@ -45,17 +49,15 @@ function App() {
 	}
 
 	return (
-		<ErrorBoundaryContainer>
-			<NavigationContainer>
-				<ThemeProvider theme={theme}>
-					<AlertProvider>
-						<LoaderProvider>
-							<AuthRegisterStack />
-						</LoaderProvider>
-					</AlertProvider>
-				</ThemeProvider>
-			</NavigationContainer>
-		</ErrorBoundaryContainer>
+		<NavigationContainer>
+			<ThemeProvider theme={theme}>
+				<AlertProvider>
+					<LoaderProvider>
+						<AuthRegisterStack />
+					</LoaderProvider>
+				</AlertProvider>
+			</ThemeProvider>
+		</NavigationContainer>
 	)
 }
 

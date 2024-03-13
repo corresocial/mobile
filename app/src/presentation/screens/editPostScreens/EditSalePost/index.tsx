@@ -175,6 +175,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext
 	}
 
+	console.log(editDataContext.unsaved)
+
 	return (
 		<>
 			<LocationChangeConfirmationModal

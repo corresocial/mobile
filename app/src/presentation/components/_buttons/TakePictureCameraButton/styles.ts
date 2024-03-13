@@ -13,7 +13,7 @@ export const OutlinedContainer = styled.View<TakePictureButtonProps>`
 	border-radius: 200px;
 	width: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(21) : relativeScreenWidth(24))}px;
 	left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
-	margin-horizontal: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
+	margin: 0px ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
 `
 
 export const ShadowButton = styled.View<TakePictureButtonProps>`

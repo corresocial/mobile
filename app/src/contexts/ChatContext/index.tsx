@@ -28,7 +28,7 @@ const initialValue = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
 	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),
-	userHasTokenNotification: () => new Promise<boolean>(() => { }),
+	chatUserHasTokenNotification: () => new Promise<boolean>(() => { }),
 	removeChatListeners: () => { },
 }
 
@@ -87,11 +87,11 @@ function ChatProvider({ children }: ChatProviderProps) {
 	// Notification
 
 	const initPushNotificationService = async () => {
-		const hasTokenNotification = await userHasTokenNotification()
+		const hasTokenNotification = await chatUserHasTokenNotification()
 		await setPushNotificationState(hasTokenNotification)
 	}
 
-	const userHasTokenNotification = async () => {
+	const chatUserHasTokenNotification = async () => {
 		const remoteUser = await getRemoteUserData(userDataContext.userId as Id)
 		return !!(remoteUser && remoteUser.tokenNotification)
 	}
@@ -127,7 +127,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatProviderData = ({
 		pushNotificationEnabled,
 		setPushNotificationState,
-		userHasTokenNotification,
+		chatUserHasTokenNotification,
 		chatDataContext,
 		removeChatListeners
 	})

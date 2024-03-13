@@ -41,7 +41,7 @@ function InstructionCard({
 				paddingVertical: RFValue(14),
 			}}
 		>
-			{title && <MessageTitle>{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}
+			{title && <MessageTitle >{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}
 			<Message
 				style={{
 					fontSize: fontSize ? RFValue(fontSize) : RFValue(18),

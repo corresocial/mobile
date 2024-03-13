@@ -8,7 +8,6 @@ import { theme } from '@common/theme'
 
 interface FilterButtonProps {
 	height?: string | number
-	marginRight?: number
 	backgroundColor?: string
 	backgroundSelected?: string
 	label?: string
@@ -19,7 +18,6 @@ interface FilterButtonProps {
 
 function FilterButton({
 	height = relativeScreenHeight(9),
-	marginRight = 0,
 	backgroundColor = theme.white3,
 	backgroundSelected,
 	label,
@@ -44,6 +42,7 @@ function FilterButton({
 
 	return (
 		<TouchableOpacity
+			activeOpacity={1}
 			onPressIn={pressingButton}
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
@@ -51,7 +50,7 @@ function FilterButton({
 			<ContainerBottom
 				style={{
 					height,
-					marginRight: RFValue(marginRight),
+					marginRight: RFValue(10),
 				}}
 			>
 				<ContainerSurface

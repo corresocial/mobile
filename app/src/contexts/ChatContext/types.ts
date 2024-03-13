@@ -10,6 +10,6 @@ export type ChatContextType = {
 	chatDataContext: Chat[]
 	pushNotificationEnabled: boolean
 	setPushNotificationState: (state: boolean) => Promise<void>
-	userHasTokenNotification: () => Promise<boolean>
+	chatUserHasTokenNotification: () => Promise<boolean>
 	removeChatListeners: () => void
 }

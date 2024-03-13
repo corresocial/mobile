@@ -193,7 +193,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 
 	const navigateToPostSubcatery = (macroCategory: MacroCategoriesType | 'publicServices') => {
 		if (macroCategory === 'publicServices') {
-			navigation.navigate('SelectPublicService')
+			navigation.navigate('PublicServicesStack')
 			return
 		}
 

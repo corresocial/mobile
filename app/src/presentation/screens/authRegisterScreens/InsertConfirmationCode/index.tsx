@@ -1,4 +1,3 @@
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -9,9 +8,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { UserIdentification } from '@contexts/types'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id } from '@services/firebase/types'
-
-import Firebase from '@services/firebase'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -28,10 +24,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)
-
-	const recaptchaVerifier = React.useRef(null)
-	const firebaseConfig = Firebase ? Firebase.options : undefined
+	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -39,8 +32,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const [inputCode04, setInputCode04] = useState<string>('')
 	const [inputCode05, setInputCode05] = useState<string>('')
 	const [inputCode06, setInputCode06] = useState<string>('')
-
-	const [confirmationCodeId, setConfirmationCodeId] = useState<string>('')
 
 	const [invalidCodeAfterSubmit, setInvalidCodeAfterSubmit] = useState<boolean>(false)
 	const [expiredCodeAfterSubmit, setExpiredCodeAfterSubmit] = useState<boolean>(false)
@@ -122,15 +113,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		setInsertedCodeIsValid(validation)
 	}, [expiredCodeAfterSubmit])
 
-	const clearAllCodeInputs = () => {
-		setInputCode01('')
-		setInputCode02('')
-		setInputCode03('')
-		setInputCode04('')
-		setInputCode05('')
-		setInputCode06('')
-	}
-
 	const validateCode = (text: string) => {
 		const isValid = text.length === 1
 		if (isValid) {
@@ -150,7 +132,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 			if (completeCodeIsValid) {
 				const { cellNumber } = route.params
-				const verificationCodeId = confirmationCodeId || route.params.verificationCodeId as string
+				const verificationCodeId = route.params.verificationCodeId as string
 
 				await validateVerificationCode(verificationCodeId, completeCode)
 					.then(async (userCredential: UserCredential) => {
@@ -251,19 +233,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return numberWithDDDSpace
 	}
 
-	const resendConfirmationCode = async () => {
-		setExpiredCodeAfterSubmit(false)
-		setInvalidCodeAfterSubmit(false)
-		clearAllCodeInputs()
-
-		await sendSMS(route.params.cellNumber, recaptchaVerifier.current)
-			.then((verificationCodeId: Id) => {
-				setConfirmationCodeId(verificationCodeId)
-				console.log('confirmationCodeId: ', verificationCodeId)
-			})
-			.catch((error) => console.log(error))
-	}
-
 	const navigateBackwards = () => navigation.goBack()
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -285,12 +254,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
-			<FirebaseRecaptchaVerifierModal
-				ref={recaptchaVerifier}
-				firebaseConfig={firebaseConfig}
-				languageCode={'pt-BR'}
-				attemptInvisibleVerification
-			/>
 			<DefaultHeaderContainer
 				flexDirection={'column'}
 				relativeHeight={'55%'}
@@ -312,7 +275,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						borderLeftWidth={RFValue(4)}
 						message={getFormatedCellNumber()}
 						highlightedWords={getFormatedCellNumber().split(' ')}
-
 					>
 					</InstructionCard>
 				</InstructionButtonContainer>

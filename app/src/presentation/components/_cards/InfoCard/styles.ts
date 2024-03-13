@@ -20,8 +20,7 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
     background-color: ${({ theme }) => theme.white3};
     border-radius: ${RFValue(17)}px;
     border: ${RFValue(3.2)}px solid ${({ theme }) => theme.black4};
-    padding-vertical: ${RFValue(10)}px;
-    padding-horizontal: ${RFValue(15)}px;
+    padding: ${RFValue(10)}px ${RFValue(15)}px;
     justify-content: space-around;
 	${({ hasSvgIcon }) => {
 		if (hasSvgIcon) {
@@ -30,18 +29,18 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 			align-items: center;
 		`
 		}
-	}}
+	}};
 `
 
 export const Title = styled.Text`
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(22)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
 
 export const Description = styled.Text`
     width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(13)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `

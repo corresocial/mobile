@@ -5,11 +5,11 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 export const Container = styled.View`
  	flex: 1;
 	position: relative;
-	background-color: ${({ theme }) => theme.white3}
+	background-color: ${({ theme }) => theme.white3};
  `
 
 export const Header = styled.View`
-	background-color: ${({ theme }) => theme.white3}
+	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
  	padding: ${relativeScreenWidth(4)}px;
  `
@@ -31,8 +31,11 @@ export const BodyPadding = styled(Body) <EditPostStyleProps>`
 
 export const SaveButtonContainer = styled.View`
 	width: 100%;
-	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenWidth(3)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
  `
 
 export const PostCardContainer = styled.View<EditPostStyleProps>`

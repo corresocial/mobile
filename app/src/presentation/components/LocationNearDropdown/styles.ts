@@ -25,8 +25,7 @@ export const DropdownHeaderContainer = styled.View`
 	width: 100%;
 	height: ${relativeScreenHeight(8)}px;
 	border-radius: ${RFValue(13)}px;
-	padding-horizontal: ${RFValue(15)}px;
-	padding-vertical: ${RFValue(10)}px;
+	padding: ${RFValue(10)}px ${RFValue(15)}px;
 	padding-bottom: 0px;
 `
 

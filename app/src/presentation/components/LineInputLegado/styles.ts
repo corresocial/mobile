@@ -10,7 +10,7 @@ export const Container = styled.TouchableHighlight`
     height: ${relativeScreenWidth(12.7)}px;
     border-bottom-width: 2.5px;
     border-bottom-color: black;
-    aling-items: center;
+    align-items: center;
     justify-content: center;
 `
 

@@ -23,7 +23,7 @@ export const CarouselActiveIndicatorItem = styled.View<CarouseIndicatorItemProps
 
     border-color: ${({ theme }) => theme.black4};
     background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
-    margin-horizontal: 2px;
+    margin: 0px 2px;
 `
 
 export const CarouselInactiveIndicatorItem = styled.View<CarouseIndicatorItemProps>`
@@ -33,5 +33,5 @@ export const CarouselInactiveIndicatorItem = styled.View<CarouseIndicatorItemPro
     border-width: 2px;
     border-color: ${({ theme }) => theme.black4};
 	background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
-    margin-horizontal: 2px;
+    margin: 0px 2px;
 `

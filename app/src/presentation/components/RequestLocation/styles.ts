@@ -9,8 +9,7 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	align-items: flex-start;
 	justify-content: space-between;
-	padding-horizontal: ${30}px;
-	padding-vertical: ${15}px;
+	padding: ${15}px ${30}px;
 	border-left-width: ${RFValue(5)}px;
 	border-color: ${({ theme }) => theme.black4};
 `

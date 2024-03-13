@@ -48,7 +48,7 @@ export const ConversationArea = styled.View`
 `
 
 export const ConversationCardContainer = styled.View`
-	padding-horizontal: ${RFValue(10)}px;
+	padding: 0px ${RFValue(10)}px;
 `
 
 export const ConversationList = styled.FlatList``
@@ -65,6 +65,5 @@ export const SelectPeriodButtonContainer = styled.View`
 	align-items: center;
 	flex-direction: row;
 	width: ${relativeScreenWidth(100)}px;
-	padding-horizontal: ${RFValue(15)}px;
-	padding-vertical: ${RFValue(5)}px};
+	padding: ${RFValue(5)}px ${RFValue(15)}px;
 `

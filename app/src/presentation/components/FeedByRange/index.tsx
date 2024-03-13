@@ -16,6 +16,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
+	searchEnded?: boolean
 	backgroundColor?: string
 	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
@@ -26,6 +27,7 @@ interface FeedByRangeProps {
 }
 
 function FeedByRange({
+	searchEnded,
 	backgroundColor,
 	searchEnded,
 	filteredFeedPosts,
@@ -132,7 +134,7 @@ function FeedByRange({
 			}
 			<VerticalSpacing height={relativeScreenHeight(10)} />
 			{
-				searchEnded && !hasAnyPost() && (
+				!hasAnyPost() && searchEnded && (
 					<WithoutPostsMessage
 						title={'opa!'}
 						message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}

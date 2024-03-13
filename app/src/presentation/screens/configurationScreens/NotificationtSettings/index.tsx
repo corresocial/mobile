@@ -20,21 +20,28 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { Loader } from '@components/Loader'
 
-function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {
-	const { pushNotificationEnabled, setPushNotificationState, userHasTokenNotification } = useContext(ChatContext)
+function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
+	const { pushNotificationEnabled, setPushNotificationState, chatUserHasTokenNotification } = useContext(ChatContext)
+
 	const { updateNotificationState } = useContext(AlertContext)
 
 	const [notificationIsEnabled, setNotificationIsEnabled] = useState(pushNotificationEnabled)
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		checkRemoteNotificationState()
+		checkNotificationStates()
 	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const checkRemoteNotificationState = async () => {
-		const userNotificationIsEnabled = await userHasTokenNotification()
+	const checkNotificationStates = async () => {
+		setIsLoading(true)
+		await checkChatNotificationState()
+		setIsLoading(false)
+	}
+
+	const checkChatNotificationState = async () => {
+		const userNotificationIsEnabled = await chatUserHasTokenNotification()
 		setNotificationIsEnabled(userNotificationIsEnabled)
 	}
 
@@ -46,7 +53,7 @@ function NotificationSettings({ route, navigation }: NotificationSettingsScreenP
 			updateNotificationState({ configNotificationButton: notificationIsEnabled })
 			setTimeout(() => {
 				setIsLoading(false)
-			}, 2000)
+			}, 1000)
 		} catch (err) {
 			setIsLoading(false)
 		}
@@ -64,8 +71,8 @@ function NotificationSettings({ route, navigation }: NotificationSettingsScreenP
 				<HeaderLinkCardContainer>
 					<HeaderLinkCard
 						title={'notificações⠀'}
-						value={`suas notificações estão ${notificationIsEnabled ? 'ligadas' : 'desligadas'}`}
-						highlightedWords={['ligadas', 'desligadas', 'notificações⠀']}
+						value={`suas notificações estão ${notificationIsEnabled ? 'ativadas' : 'desativadas'}`}
+						highlightedWords={[notificationIsEnabled ? 'ativadas' : 'desativadas', 'notificações⠀']}
 						SvgIcon={BellWhiteIcon}
 					/>
 				</HeaderLinkCardContainer>
@@ -77,17 +84,19 @@ function NotificationSettings({ route, navigation }: NotificationSettingsScreenP
 							<Loader />
 						)
 						: (
-							<OptionButton
-								label={`${notificationIsEnabled ? 'desligar' : 'ligar'} notificações`}
-								highlightedWords={['notificações', 'ligar', 'desligar']}
-								labelSize={17}
-								relativeHeight={relativeScreenHeight(15)}
-								SvgIcon={notificationIsEnabled ? XWhiteIcon : CheckWhiteIcon}
-								svgIconScale={['50%', '50%']}
-								leftSideColor={notificationIsEnabled ? theme.red3 : theme.green3}
-								leftSideWidth={'22%'}
-								onPress={toggleNotificationState}
-							/>
+							<>
+								<OptionButton
+									label={`${notificationIsEnabled ? 'desligar' : 'ligar'} notificações do chat`}
+									highlightedWords={['chat', 'ligar', 'desligar']}
+									labelSize={17}
+									relativeHeight={relativeScreenHeight(15)}
+									SvgIcon={notificationIsEnabled ? XWhiteIcon : CheckWhiteIcon}
+									svgIconScale={['50%', '50%']}
+									leftSideColor={notificationIsEnabled ? theme.red3 : theme.green3}
+									leftSideWidth={'22%'}
+									onPress={toggleNotificationState}
+								/>
+							</>
 						)
 				}
 			</FormContainer>

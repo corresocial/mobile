@@ -36,7 +36,8 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost: SocialImpactCollectionRemote | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: SocialImpactCollectionRemote | any = getLastUserPost() || {} // TODO Type obter mais recente
+		console.log(lastUserPost.description)
 		if (!Object.keys(lastUserPost).length) return
 
 		setSocialImpactDataContext({

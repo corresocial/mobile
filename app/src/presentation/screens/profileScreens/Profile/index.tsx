@@ -41,8 +41,10 @@ import {
 	ExpandedUserDescriptionArea,
 	VerticalPaddingContainer,
 	PostPadding,
-	OffBounceBackground,
 	SeeMoreLabel,
+	SafeAreaViewContainer,
+	PostFilterContainer,
+	OffBounceBackground
 } from './styles'
 import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -68,13 +70,13 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
-import { HorizontalTagList } from '@components/HorizontalTagList'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 import { PopOver } from '@components/PopOver'
+import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { sortArray, arrayIsEmpty } = UiUtils()
+const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
@@ -85,9 +87,10 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
+	const [filteredPosts, setFilteredPosts] = useState<PostCollection[]>([])
+	const [hasPostFilter, setHasPostFilter] = useState(false)
 
 	const [user, setUser] = useState<LocalUserData>({})
-	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
@@ -127,60 +130,13 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		setHasNetworkConnection(!!networkStatus.isConnected && !!networkStatus.isInternetReachable)
 	}
 
-	const getUserPostMacroTags = () => {
-		const posts = getUserPosts()
-		const userPostTags = posts.reduce(
-			(acc: any[], current: PostCollection) => {
-				if (acc.includes(current.postType)) {
-					return [...acc]
-				}
-
-				return [...acc, current.postType]
-			},
-			[]
-		)
-
-		return userPostTags.sort(sortArray) as string[]
-	}
-
 	const getFlatlistPosts = () => {
-		return !selectedTags.length
+		return !hasPostFilter
 			? getUserPosts()
-			: filtredUserPosts()
+			: getFilteredUserPosts()
 	}
 
-	const filtredUserPosts = () => {
-		const posts = getUserPosts()
-		return posts.filter((post: any) => {
-			const matchs = selectedTags.map((tag: string) => {
-				if (getRelativeMacroTagLabel(post.postType) === tag) return true
-				return false
-			}, [])
-			return !!matchs.includes(true)
-		})
-	}
-
-	const getRelativeMacroTagLabel = (macroTag: string): string => {
-		switch (macroTag) {
-			case 'income': return 'renda'
-			case 'culture': return 'cultura'
-			case 'socialImpact': return 'cidadania'
-			default: return ''
-		}
-	}
-
-	const onSelectTag = (tagName: string) => {
-		const currentSelectedTags = [...selectedTags]
-		if (currentSelectedTags.includes(tagName)) {
-			const selectedTagsFiltred = currentSelectedTags.filter(
-				(tag) => tag !== tagName
-			)
-			setSelectedTags(selectedTagsFiltred)
-		} else {
-			currentSelectedTags.push(tagName)
-			setSelectedTags(currentSelectedTags)
-		}
-	}
+	const getFilteredUserPosts = () => filteredPosts || []
 
 	const viewPostDetails = (post: PostCollection) => {
 		const customStackLabel = route.params?.userId ? 'Home' : route.params?.stackLabel
@@ -304,6 +260,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
 		setProfileOptionsIsOpen(false)
+		console.log({
+			type: label,
+			by: userDataContext.userId,
+			at: new Date(),
+			name: userDataContext.name || ''
+		})
 		if (user.userId && userDataContext.userId) {
 			await updateUser(user.userId, {
 				verified: {
@@ -341,6 +303,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		if (verifiedUserTypeIs('default')) return 'default'
 		if (verifiedUserTypeIs('impact')) return 'impact'
 		if (verifiedUserTypeIs('leader')) return 'leader'
+		if (verifiedUserTypeIs('government')) return 'government'
 		return ''
 	}
 
@@ -358,7 +321,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		)
 	}
 
-	const userIsVerified = () => {
+	/* const userIsVerified = () => {
 		return (
 			!isLoggedUser
 			&& userDataContext.verified
@@ -366,7 +329,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			&& user
 			&& !user.verified
 		)
-	}
+	} */
 
 	const userIsAdmin = () => {
 		return (
@@ -432,14 +395,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					/>
 				)
 			}
-			<OffBounceBackground
-				colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
-				locations={[0.25, 0.25, 0.25, 0.25]}
-			>
-				<Body>
-					<FlatList
-						ListHeaderComponent={() => {
-							return (
+			<SafeAreaViewContainer>
+				<OffBounceBackground
+					colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
+					locations={[0.25, 0.25, 0.25, 0.25]}
+				>
+					<Body >
+						<FlatList
+							ListHeaderComponent={(
 								<>
 									<DefaultHeaderContainer
 										backgroundColor={theme.white3}
@@ -471,11 +434,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												/>
 												<InfoArea>
 													<UserName numberOfLines={3}>
-														{getUserField('name')}
+														{getUserField('name') as string}
 													</UserName>
-													{
-														renderUserVerifiedType()
-													}
+													{renderUserVerifiedType()}
 													{
 														!userDescriptionIsExpanded && isLoggedUser && (
 															<TouchableOpacity
@@ -483,7 +444,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 																	&& setUserDescriptionIsExpanded(true)}
 															>
 																<UserDescription numberOfLines={3}>
-																	{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
+																	{getUserField('description')as string || 'você pode adicionar uma descrição em "editar".' }
 																</UserDescription>
 															</TouchableOpacity>
 														)
@@ -561,7 +522,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												/>
 												<PopOver
 													title={getUserField('name') as string}
-													isVerifiable={userIsVerified()}
 													isAdmin={userIsAdmin()}
 													buttonLabel={'denunciar perfil'}
 													popoverVisibility={profileOptionsIsOpen}
@@ -582,14 +542,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											</OptionsArea>
 										</ProfileHeader>
 									</DefaultHeaderContainer>
-									<VerticalSpacing />
-									<HorizontalTagList
-										tags={getUserPostMacroTags()}
-										selectedTags={selectedTags}
-										filterSelectedTags={getRelativeMacroTagLabel}
-										onSelectTag={onSelectTag}
-									/>
-									<VerticalSpacing />
 									{
 										!!numberOfOfflinePostsStored && isLoggedUser && (
 											<PostPadding>
@@ -609,36 +561,43 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											</PostPadding>
 										)
 									}
+									<PostFilterContainer>
+										<PostFilter
+											posts={getUserPosts()}
+											setHasPostFilter={setHasPostFilter}
+											setFilteredPosts={setFilteredPosts}
+										/>
+									</PostFilterContainer>
 								</>
-							)
-						}}
-						data={getFlatlistPosts()}
-						renderItem={({ item }: FlatListItem<PostCollection>) => (
-							<PostPadding>
-								<PostCard
-									post={item}
-									owner={getUserField() as PostCollectionCommonFields['owner']}
-									onPress={() => viewPostDetails(item)}
-								/>
-							</PostPadding>
-						)}
-						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
-						contentContainerStyle={{ backgroundColor: theme.orange2 }}
-						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
-							? (
-								<WithoutPostsMessage
-									title={'faça uma postagem!'}
-									message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
-									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
-									backgroundColor={theme.yellow1}
-								/>
-							)
-							: <VerticalSpacing height={relativeScreenHeight(11)} />
-						)}
-					/>
-				</Body>
-			</OffBounceBackground>
+							)}
+							data={getFlatlistPosts()}
+							renderItem={({ item }: FlatListItem<PostCollection>) => (
+								<PostPadding>
+									<PostCard
+										post={item}
+										owner={getUserField() as PostCollectionCommonFields['owner']}
+										onPress={() => viewPostDetails(item)}
+									/>
+								</PostPadding>
+							)}
+							showsVerticalScrollIndicator={false}
+							ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
+							contentContainerStyle={{ backgroundColor: theme.orange2 }}
+							ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
+								? (
+									<WithoutPostsMessage
+										title={'faça uma postagem!'}
+										message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
+										highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
+										backgroundColor={theme.yellow1}
+									/>
+								)
+								: <VerticalSpacing height={relativeScreenHeight(11)} />
+							)}
+						/>
+					</Body>
+				</OffBounceBackground>
+			</SafeAreaViewContainer>
 		</Container >
 	)
 }

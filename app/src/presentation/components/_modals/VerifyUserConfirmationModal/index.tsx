@@ -22,7 +22,7 @@ function VerifyUserConfirmationModal({
 			visibility={visibility}
 			title={title}
 			firstParagraph={{
-				text: `você tem certeza que quer ${`${subject} para` || 'verificar'} esse perfil?`,
+				text: `você tem certeza que quer ${subject} esse perfil?`,
 				highlightedWords: ['certeza', 'verificar', ...subject?.split(' ') || '']
 			}}
 			closeModal={closeModal}

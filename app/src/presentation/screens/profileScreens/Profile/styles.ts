@@ -23,7 +23,7 @@ export const ProfileInfoContainer = styled.View`
 export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;
-    padding-horizontal: ${RFValue(16)}px;
+    padding: 0px ${RFValue(16)}px;
 `
 
 export const UserName = styled.Text`
@@ -58,24 +58,30 @@ export const OptionsArea = styled.View`
 `
 
 export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
-	flex: 0;
+	flex: 1;
 	background-color: ${({ theme }) => theme.white3};
-`
-
-export const VerticalPaddingContainer = styled.View`
-	padding-vertical: ${relativeScreenHeight(1)}px;
+	overflow: visible;
 `
 
 export const OffBounceBackground = styled(LinearGradient as any)`
 	flex: 1;
 `
 
-export const Body = styled.SafeAreaView`
+export const VerticalPaddingContainer = styled.View`
+	padding: ${relativeScreenHeight(1)}px 0px;
+`
+
+export const Body = styled.View`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
 	overflow: visible;
 `
 
 export const PostPadding = styled.View`
-	padding-horizontal: ${relativeScreenWidth(2)}px;
+	padding: 0px ${relativeScreenWidth(2)}px;
+`
+
+export const PostFilterContainer = styled.View`
+	padding: ${relativeScreenHeight(1.25)}px 0px;
+	background-color: ${({ theme }) => theme.orange2};
 `

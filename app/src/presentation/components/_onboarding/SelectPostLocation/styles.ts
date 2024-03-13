@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -6,14 +7,18 @@ export const Container = styled.KeyboardAvoidingView`
     flex: 1;
 `
 
+export const HeaderDescription = styled.Text`
+	font-family: 'Arvo_400Regular';
+	font-size: ${RFValue(12)}px;
+`
+
 export const MapContainer = styled.View`
     flex: 1;
     position: relative;
 `
 
 export const SearchInputContainer = styled.View`
-	padding-horizontal: ${relativeScreenWidth(5)}px;
-	padding-vertical: ${relativeScreenHeight(1.5)}px;
+	padding: ${relativeScreenHeight(1.5)}px ${relativeScreenWidth(5)}px;
 	background-color: transparent;
 	position: absolute;
 	width: 100%;
@@ -21,7 +26,7 @@ export const SearchInputContainer = styled.View`
 `
 
 export const MyLocationButtonContainer = styled.View`
-    padding-horizontal: ${relativeScreenWidth(7)}px;
+    padding: 0px ${relativeScreenWidth(7)}px;
     width: 100%;
     position: absolute;
     top: ${relativeScreenHeight(10)}px;
@@ -29,7 +34,7 @@ export const MyLocationButtonContainer = styled.View`
 `
 
 export const ButtonContainerBottom = styled.View`
-	padding-horizontal: ${relativeScreenWidth(7)}px;
+	padding: 0px ${relativeScreenWidth(7)}px;
     width: 100%;
     position: absolute;
     bottom: ${relativeScreenHeight(5)}px;

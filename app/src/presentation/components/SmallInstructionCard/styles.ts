@@ -14,7 +14,7 @@ export const Container = styled.View<CardHighlighProps>`
 	)};
 	border-left-width: ${({ highlight }) => (highlight ? RFValue(4) : RFValue(2))}px;
 	border-left-color: ${({ theme }) => theme.black4};
-	padding-vertical: ${RFValue(4)}px;
+	padding: ${RFValue(4)}px 0px;
 	padding-left: ${RFValue(10)}px;
 `
 

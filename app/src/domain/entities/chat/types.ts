@@ -42,6 +42,7 @@ export type Message = {
 	owner: string
 	justOwner?: boolean
 	userCanView?: string
+	metadata?: { title: string }
 }
 
 export type MessageObjects = {

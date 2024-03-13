@@ -26,7 +26,7 @@ interface CultureCategory {
 }
 
 export type MacroCategoriesType = keyof IncomeCategory | keyof SocialImpactCategory | keyof CultureCategory
-export type MacroCategories = IncomeCategory & SocialImpactCategory & CultureCategory
+export type MacroCategories = IncomeCategory | SocialImpactCategory | CultureCategory
 
 export interface PostMacroCategories {
 	income: IncomeCategory

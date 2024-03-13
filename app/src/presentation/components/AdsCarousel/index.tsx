@@ -9,22 +9,19 @@ import { CustomCarousel } from '@components/CustomCarousel'
 
 interface AdsCarouselProps {
 	onPressCorreAd?: () => void
+	onPressUserLocationAd?: () => void
 	onPressPublicServicesAd?: () => void
 }
 
-function AdsCarousel({ onPressCorreAd, onPressPublicServicesAd }: AdsCarouselProps) {
+function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServicesAd }: AdsCarouselProps) {
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.white3}>
 				<SubscriptionAdContainer>
-					<PublicServicesAdButton
-						onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()}
-					/>
+					<PublicServicesAdButton onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()}/>
 				</SubscriptionAdContainer>
 				<SubscriptionAdContainer>
-					<SubscriptionButton
-						onPress={() => onPressCorreAd && onPressCorreAd()}
-					/>
+					<SubscriptionButton onPress={() => onPressCorreAd && onPressCorreAd()}/>
 				</SubscriptionAdContainer>
 			</CustomCarousel>
 		</Container>

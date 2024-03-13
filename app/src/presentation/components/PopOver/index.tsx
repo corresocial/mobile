@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { LegacyRef, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -6,6 +6,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { PostRange, VerifiedLabelName } from '@services/firebase/types'
 
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
+import CityWhiteIcon from '@assets/icons/city-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import HanOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import ImpactLabel from '@assets/icons/impactLabel.svg'
@@ -23,7 +24,6 @@ import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface PopOverProps {
 	title?: string
-	isVerifiable?: boolean
 	isAdmin?: boolean
 	popoverVisibility: boolean
 	buttonLabel: string
@@ -37,7 +37,6 @@ interface PopOverProps {
 
 function PopOver({
 	title,
-	isVerifiable,
 	isAdmin,
 	popoverVisibility,
 	buttonLabel,
@@ -50,6 +49,7 @@ function PopOver({
 }: PopOverProps) {
 	const [verifyUserModal, setVerifyUserModal] = useState(false)
 	const [verifyImpactUserModal, setVerifyImpactUserModal] = useState(false)
+	const [verifyGovernmentProfileModal, setVerifyGovernmentProfileModal] = useState(false)
 	const [freeTrielUserModal, setFreeTrielUserModal] = useState(false)
 	const [selectedSubscriptionPlanModal, setSelectSubscriptionPlanModal] = useState(false)
 
@@ -59,6 +59,10 @@ function PopOver({
 
 	const toggleVerifyImpactUserModal = () => {
 		setVerifyImpactUserModal(!verifyImpactUserModal)
+	}
+
+	const toggleVerifyGovernmentProfileModal = () => {
+		setVerifyGovernmentProfileModal(!verifyGovernmentProfileModal)
 	}
 
 	const toggleFreeTrialUserModal = () => {
@@ -84,7 +88,7 @@ function PopOver({
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
-					<View ref={sourceRef} >
+					<View ref={sourceRef as LegacyRef<View>} >
 						{children}
 					</View>
 				</TouchableOpacity>
@@ -93,19 +97,28 @@ function PopOver({
 			<VerifyUserConfirmationModal
 				visibility={verifyUserModal}
 				title={'verificar perfil'}
+				subject={'verificar'}
 				onPressButton={() => onPressVerify('default')}
 				closeModal={toggleVerifyUserModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={verifyImpactUserModal}
 				title={'tornar de impacto'}
+				subject={'tornar de impacto'}
 				onPressButton={() => onPressVerify('impact')}
 				closeModal={toggleVerifyImpactUserModal}
 			/>
 			<VerifyUserConfirmationModal
+				visibility={verifyGovernmentProfileModal}
+				title={'tornar governamental'}
+				subject={'conceder perfil governamental para'}
+				onPressButton={() => onPressVerify('government')}
+				closeModal={toggleVerifyGovernmentProfileModal}
+			/>
+			<VerifyUserConfirmationModal
 				visibility={freeTrielUserModal}
 				title={'dar assinatura'}
-				subject={'dar assinatura gratuita'}
+				subject={'dar assinatura gratuita para'}
 				onPressButton={toggleSelectSubscriptionPlanModal}
 				closeModal={toggleFreeTrialUserModal}
 			/>
@@ -171,6 +184,24 @@ function PopOver({
 						relativeHeight={relativeScreenHeight(8)}
 						onPress={toggleVerifyImpactUserModal}
 					/>
+					{
+						isAdmin && (
+							<>
+								<VerticalSpacing height={RFValue(5)} />
+								<PrimaryButton
+									color={theme.purple3}
+									SecondSvgIcon={CityWhiteIcon}
+									label={'tornar governamental'}
+									highlightedWords={['governamental']}
+									labelColor={theme.white3}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={toggleVerifyGovernmentProfileModal}
+								/>
+							</>
+						)
+					}
 					{
 						isAdmin && (
 							<>

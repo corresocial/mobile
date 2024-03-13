@@ -11,8 +11,7 @@ export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-vertical: ${relativeScreenHeight(2)}px;
-	padding-horizontal: ${relativeScreenWidth(3.5)}px;
+	padding: ${relativeScreenHeight(2)}px  ${relativeScreenWidth(3.5)}px;
 `
 
 export const Body = styled.ScrollView`

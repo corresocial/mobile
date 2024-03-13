@@ -33,7 +33,7 @@ export const MiniaturePortrait = styled.Image`
 `
 
 export const UserInfo = styled.View`
-	padding-horizontal: ${RFValue(8)}px;
+	padding: 0px ${RFValue(8)}px;
 	width: 85%;
 `
 

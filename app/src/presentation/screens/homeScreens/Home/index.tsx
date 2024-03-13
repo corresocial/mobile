@@ -295,14 +295,17 @@ function Home({ navigation }: HomeScreenProps) {
 		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
 	const navigateToSelectSubscriptionRange = () => {
 		navigation.navigate('SelectSubscriptionRange')
+	}
+
+	const navigateToEditUserLocation = () => {
+		navigation.navigate('EditProfile', { user: userDataContext })
+		navigation.navigate('EditUserLocation', { initialCoordinates: null })
+	}
+
+	const navigateToPublicServices = () => {
+		navigation.navigate('PublicServicesStack')
 	}
 
 	const userHasPaidSubscription = () => {
@@ -351,7 +354,7 @@ function Home({ navigation }: HomeScreenProps) {
 					onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 					onPressPublicServicesAd={() => { }}
 				/>
-				{!hasLocationEnable && !hasAnyPost() && (
+				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 					<RequestLocation
 						getLocationPermissions={() => {
 							requestPermissions()

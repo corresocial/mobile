@@ -60,7 +60,7 @@ const filterLeavingOnlyNumbers = (dirtyText: string) => {
 	return cleanText
 }
 
-const getShortText = (longText: string, size: number) => {
+const getShortText = (longText: string | undefined, size: number) => {
 	if (!longText) return ''
 	if (longText.length <= size) return longText
 	return `${longText.slice(0, size)}...`

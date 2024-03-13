@@ -10,8 +10,7 @@ export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-vertical: ${relativeScreenHeight(2)}px;
-	padding-horizontal: ${relativeScreenWidth(3.5)}px;
+	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3.5)}px;
 `
 
 export const Body = styled.View`
@@ -19,7 +18,7 @@ export const Body = styled.View`
 	width: 100%;
 	height: 92%;
 	background-color: ${({ theme }) => theme.orange2};
-	padding-horizontal: ${relativeScreenWidth(3.5)}px;
+	padding: 0px ${relativeScreenWidth(3.5)}px;
 `
 
 export const NewLinkButtonContainer = styled.View`
@@ -27,5 +26,5 @@ export const NewLinkButtonContainer = styled.View`
 	height: ${relativeScreenHeight(12)}px;
 	align-items: center;
 	justify-content: center;
-	padding-horizontal: ${relativeScreenWidth(12)}px;
+	padding: 0px ${relativeScreenWidth(12)}px;
 `

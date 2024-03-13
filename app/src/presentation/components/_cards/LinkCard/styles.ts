@@ -10,7 +10,7 @@ export const LinkContainer = styled.TouchableOpacity`
 	background-color: ${({ theme }) => theme.white2};
 	margin-bottom: ${RFValue(7)}px;
 	border-radius: ${RFValue(100)}px;
-	padding-vertical: ${RFValue(6)}px;
+	padding: ${RFValue(6)}px 0px;
 	align-items: center;
 	justify-content: center;
 `

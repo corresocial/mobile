@@ -4,10 +4,10 @@ import styled from 'styled-components/native'
 
 export const TouchableContainer = styled.TouchableWithoutFeedback`
     width: 100%;
-    background-color: ${({ theme }) => theme.white2}
+    background-color: ${({ theme }) => theme.white2};
 `
 
-export const ContainerBottom = styled(Animatable.View)`
+export const ContainerBottom = styled(Animatable.View as any)`
     width: 98%;
 	align-self: flex-end;
     flex-direction: row;
@@ -29,7 +29,7 @@ export const ContainerSurface = styled.View`
 `
 
 export const LeftArea = styled.View`
-    background-color: ${({ theme }) => theme.orange3}
+    background-color: ${({ theme }) => theme.orange3};
     height: 101%;
     align-items: center;
     justify-content: center;
@@ -50,8 +50,7 @@ export const LeftSideText = styled.Text<LeftSideTextProps>`
 
 export const LabelDescriptionArea = styled.View`
     flex: 1;
-    padding-vertical: ${RFValue(12)}px;
-    padding-horizontal: ${RFValue(12)}px;
+    padding: ${RFValue(12)}px ${RFValue(12)}px;
     height: 100%;
     justify-content: space-around;
 `

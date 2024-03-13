@@ -13,14 +13,14 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
     width: ${({ relativeWidth }) => relativeWidth || '100%'};
 	min-height: ${RFValue(40)}px;
-	padding-horizontal: ${RFValue(5)}px;
+	padding: ${RFValue(5)}px;
 	background-color: ${({ theme, textIsValid, focused, validBackgroundColor }) => (
 		textIsValid && validBackgroundColor
 			? validBackgroundColor
 			: focused ? theme.white3 : theme.white2
 	)};
     height: ${relativeScreenWidth(14)}px;
-    aling-items: center;
+    align-items: center;
     justify-content: center;
 	flex-direction: row;
 	border-radius: ${relativeScreenWidth(100)}px;

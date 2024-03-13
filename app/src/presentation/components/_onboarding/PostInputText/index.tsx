@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Platform } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Platform, StatusBar, TextInputProps } from 'react-native'
 
-import { ButtonsContainer, Container } from './styles'
+import { ButtonsContainer, Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -15,17 +15,24 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 
 import { ProgressBar } from '../../ProgressBar'
 
 interface PostInputTextProps {
+	children?: React.ReactElement
 	height?: string
 	backgroundColor: string
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
+	contextTitle?: string
+	contextHighlightedWords?: string[]
 	multiline?: boolean
+	isLoading?: boolean
 	inputPlaceholder?: string
+	keyboardType?: TextInputProps['keyboardType']
 	initialValue?: string
 	keyboardOpened?: boolean
 	progress?: [value: number, range: number]
@@ -36,13 +43,18 @@ interface PostInputTextProps {
 }
 
 function PostInputText({
+	children,
 	height,
 	backgroundColor,
 	validationColor,
 	customTitle,
 	customHighlight,
+	contextTitle,
+	contextHighlightedWords,
+	isLoading,
 	multiline,
 	inputPlaceholder,
+	keyboardType,
 	initialValue,
 	keyboardOpened,
 	progress,
@@ -54,6 +66,12 @@ function PostInputText({
 	const [inputText, setInputText] = useState<string>(initialValue || '')
 	const [inputTextIsValid, setInputTextIsValid] = useState<boolean>(false)
 
+	const textInputRef = useRef()
+
+	useEffect(() => {
+		setInputText(initialValue || '')
+	}, [initialValue])
+
 	useEffect(() => {
 		const validation = validateInputText(inputText)
 		setInputTextIsValid(validation)
@@ -61,27 +79,47 @@ function PostInputText({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'}/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(28)}
 				relativeHeight={height || relativeScreenHeight(28)}
 				centralized
 				backgroundColor={backgroundColor}
+				flexDirection={'column'}
 			>
-				<BackButton onPress={navigateBackwards} />
-				<InstructionCard
-					fontSize={16}
-					message={customTitle || 'fala tudo sobre o que você tá postando'}
-					highlightedWords={customHighlight || ['tudo', 'o', 'que', 'você', 'tá', 'postando']}
-				>
-					{
-						progress && (
-							<ProgressBar
-								value={progress[0]}
-								range={progress[1]}
-							/>
-						)
-					}
-				</InstructionCard>
+				{
+					contextTitle ? (
+						<>
+							<InstructionButtonContainer >
+								<BackButton onPress={navigateBackwards} />
+								<InstructionCard
+									borderLeftWidth={5}
+									fontSize={16}
+									message={contextTitle || ''}
+									highlightedWords={contextHighlightedWords || []}
+								/>
+							</InstructionButtonContainer>
+							<VerticalSpacing />
+						</>
+					) : <></>
+				}
+				<InstructionButtonContainer withPaddingLeft={!!contextTitle}>
+					{!contextTitle && <BackButton onPress={navigateBackwards} />}
+					<InstructionCard
+						fontSize={16}
+						message={customTitle || 'fala tudo sobre o que você tá postando'}
+						highlightedWords={customHighlight || ['tudo', 'o', 'que', 'você', 'tá', 'postando']}
+					>
+						{
+							progress && (
+								<ProgressBar
+									value={progress[0]}
+									range={progress[1]}
+								/>
+							)
+						}
+					</InstructionCard>
+				</InstructionButtonContainer>
 				{
 					skipScreen ? (
 						<>
@@ -104,31 +142,35 @@ function PostInputText({
 				justifyContent={'center'}
 			>
 				<DefaultInput
+					textInputRef={textInputRef}
 					value={inputText}
 					defaultBackgroundColor={theme.white2}
-					validBackgroundColor={validationColor}
+					validBackgroundColor={inputTextIsValid ? validationColor : theme.white3}
 					lastInput
 					fontSize={16}
 					multiline={multiline}
 					placeholder={inputPlaceholder || 'descreva seu post...'}
-					keyboardType={'default'}
+					keyboardType={keyboardType || 'default'}
 					textIsValid={inputTextIsValid && !keyboardOpened}
 					validateText={(text: string) => validateInputText(text)}
 					onChangeText={(text: string) => setInputText(text)}
 				/>
 				<ButtonsContainer>
 					{
-						inputTextIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SvgIcon={CheckWhiteIcon}
-								onPress={() => saveTextData(inputText.trim())}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: inputTextIsValid && !keyboardOpened
+								? (
+									<PrimaryButton
+										flexDirection={'row-reverse'}
+										color={theme.green3}
+										label={'continuar'}
+										labelColor={theme.white3}
+										SvgIcon={CheckWhiteIcon}
+										onPress={() => saveTextData(inputText.trim())}
+									/>
+								)
+								: children && children
 					}
 				</ButtonsContainer>
 			</FormContainer>
