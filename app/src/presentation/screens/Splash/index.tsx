@@ -76,7 +76,6 @@ function Splash({ navigation }: SplashScreenProps) {
 	async function onFetchUpdateAsync() {
 		try {
 			const update = await hasUpdates()
-			Alert.alert('update.isAvailable', `${update.isAvailable}`)
 			if (update.isAvailable) {
 				setOTAUpdateModalIsVisible(true)
 			} else {
