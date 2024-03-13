@@ -22,16 +22,30 @@ export const InputContainer = styled.TouchableOpacity<InputContainerProps>`
 
 export const InputInfoSection = styled.View`
     flex: 1;
-    border-bottom-width: 5px;
-    border-color: black;
+    flex-direction: column;
     margin: 4px;
 `
 
-export const InputText = styled.Text`
+interface InputTextUnderLineProps{
+    valid?: boolean
+}
+
+export const InputTextUnderLine = styled.View<InputTextUnderLineProps>`
+    height: ${({ valid }) => (valid ? 5 : 3)}px;
+    border-radius: 20px;
+    background-color: black;
+`
+
+interface InputTextProps{
+    valid?: boolean 
+}
+
+export const InputText = styled.Text<InputTextProps>`
     flex: 1;
     font-size: ${RFValue(16)}px;
     font-family: Arvo_400Regular;
     vertical-align: middle;
     text-align: center;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme, valid }) => (valid ? theme.black4 : theme.black1)};
+    font-weight: ${({ valid }) => (valid ? 'bold' : 'normal')}; 
 `

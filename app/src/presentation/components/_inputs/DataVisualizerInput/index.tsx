@@ -6,6 +6,7 @@ import { getNewDate } from '@utils-ui/common/date/dateFormat'
 import {
 	InputContainer,
 	InputInfoSection,
+	InputTextUnderLine,
 	InputText
 } from './styles'
 
@@ -45,10 +46,7 @@ function DataVisualizerInput({
 	}, [])
 
 	const inputPressHandler = () => {
-		console.log('oi')
 		if (openPickerOnTouch) {
-			console.log('tchau')
-
 			setDatePickerVisibility(true)
 		}
 	}
@@ -88,16 +86,16 @@ function DataVisualizerInput({
 
 	const getFullDate = (date: Date) => {
 		return [
-			date.getDate().toString(),
-			(date.getMonth() + 1).toString(),
+			date.getDate().toString().padStart(2, '0'),
+			(date.getMonth() + 1).toString().padStart(2, '0'),
 			date.getFullYear().toString()
 		]
 	} 
 
 	const getFullTime = (date: Date) => {
 		return [
-			date.getHours().toString(),
-			date.getMinutes().toString()
+			date.getHours().toString().padStart(2, '0'),
+			date.getMinutes().toString().padStart(2, '0')
 		]
 	}
 
@@ -113,9 +111,10 @@ function DataVisualizerInput({
 				{
 					inputValues && inputValues.map((item) => (
 						<InputInfoSection key={item.id}>
-							<InputText>
+							<InputText valid={isValid}>
 								{item.value} 
 							</InputText>
+							<InputTextUnderLine valid={isValid}/>
 						</InputInfoSection>
 					))
 				}
