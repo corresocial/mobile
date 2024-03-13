@@ -35,7 +35,7 @@ export type UserStackParamList = {
 	EditProfile: { user: LocalUserData }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
-	EditUserLocation: { initialCoordinates: LatLong }
+	EditUserLocation: { initialCoordinates: LatLong | null }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	EditServicePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
 	EditSalePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }

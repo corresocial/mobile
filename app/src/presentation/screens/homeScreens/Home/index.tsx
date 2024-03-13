@@ -301,7 +301,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const navigateToEditUserLocation = () => {
 		navigation.navigate('EditProfile', { user: userDataContext })
-		navigation.navigate('EditUserLocation')
+		navigation.navigate('EditUserLocation', { initialCoordinates: null })
 	}
 
 	const navigateToPublicServices = () => {
@@ -353,7 +353,6 @@ function Home({ navigation }: HomeScreenProps) {
 				<AdsCarousel
 					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
 					onPressUserLocationAd={navigateToEditUserLocation}
-					onPressPublicServicesAd={navigateToPublicServices}
 				/>
 				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 					<RequestLocation

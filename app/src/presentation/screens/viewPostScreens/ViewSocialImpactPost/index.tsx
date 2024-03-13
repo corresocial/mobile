@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView } from 'react-native'
+import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/entities/impactReport/types'
 
@@ -36,6 +36,7 @@ import { LinkCard } from '@components/_cards/LinkCard'
 import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { SocialImpactTypeCard } from '@components/_cards/SocialImpactType'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
+import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -60,6 +61,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
+	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	useEffect(() => {
 		return () => {
@@ -221,6 +223,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const openGallery = () => setGaleryIsVisible(true)
+
+	const closeGalery = () => setGaleryIsVisible(false)
+
 	return (
 		<Container>
 			<DefaultConfirmationModal
@@ -346,11 +352,21 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
-								<ImageCarousel
-									picturesUrl={getPostField('picturesUrl') || []}
-									indicatorColor={theme.pink1}
-									square
+								<GalleryModal
+									picturesUrl={getPostField('picturesUrl')}
+									showGallery={galeryIsVisible}
+									onClose={closeGalery}
 								/>
+								<TouchableOpacity
+									activeOpacity={1}
+									onPress={openGallery}
+								>
+									<ImageCarousel
+										picturesUrl={getPostField('picturesUrl') || []}
+										indicatorColor={theme.pink1}
+										square
+									/>
+								</TouchableOpacity>
 							</>
 						)
 					}
