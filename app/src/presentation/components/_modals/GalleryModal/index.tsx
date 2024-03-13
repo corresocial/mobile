@@ -25,8 +25,8 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { ThumbnailList } from '@components/ThumbnailList'
 
 interface GalleryProps {
-    picturesUrl: string[],
-    showGallery: boolean,
+	picturesUrl: string[],
+	showGallery: boolean,
 	onClose: () => void
 }
 
@@ -78,11 +78,13 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		setTimeout(() => {
 			if (currentIndex === picturesUrl.length - 1) {
 				goToIndex(currentIndex)
-				carouselRef.current.next()
+				if (carouselRef.current) {
+					isLandscapeMode ? carouselRef.current.next() : carouselRef.current.prev()
+				}
 				return
 			}
 			goToIndex(currentIndex)
-		}, 50)
+		}, 500)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
@@ -167,11 +169,11 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 						</CloseButtonArea>
 
 						<LeftButton onPress={() => goToNext(-1)}>
-							<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)}/>
+							<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
 						</LeftButton>
 
 						<RightButton onPress={() => goToNext(1)}>
-							<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)}/>
+							<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)} />
 						</RightButton>
 					</>
 				)
