@@ -11,6 +11,7 @@ interface SearchInputProps extends TextInputProps {
 	validBackgroundColor?: string
 	relativeWidth?: string
 	searchInputRef?: React.MutableRefObject<TextInputNative | undefined>
+	clearOnSubmit?: boolean
 	validateText?: (text: string) => void
 	onChangeText: (text: string) => void
 	onPressKeyboardSubmit?: () => void
@@ -21,6 +22,7 @@ function SearchInput({
 	validBackgroundColor,
 	placeholder,
 	keyboardType,
+	clearOnSubmit,
 	validateText,
 	relativeWidth,
 	searchInputRef,
@@ -33,6 +35,11 @@ function SearchInput({
 	const [focused, setFocused] = useState(false)
 
 	const clearInput = () => onChangeText('')
+
+	const handleSubmit = () => {
+		onPressKeyboardSubmit && onPressKeyboardSubmit()
+		clearOnSubmit && clearInput()
+	}
 
 	const somethingWasTyped = !!value.length
 
@@ -62,7 +69,7 @@ function SearchInput({
 				onFocus={() => setFocused(true)}
 				onBlur={() => setFocused(false)}
 				onChangeText={onChangeText}
-				onSubmitEditing={onPressKeyboardSubmit}
+				onSubmitEditing={handleSubmit}
 			/>
 			{
 				somethingWasTyped && (

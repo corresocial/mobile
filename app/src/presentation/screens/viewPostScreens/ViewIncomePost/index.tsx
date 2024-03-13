@@ -311,7 +311,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 							: (
 								<SmallButton
 									color={theme.green3}
-									label={isAuthor ? 'compartilhar' : 'comprar'}
+									label={isAuthor ? 'compartilhar' : 'conversar'}
 									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 									relativeWidth={isAuthor ? '80%' : '63%'}
 									height={relativeScreenWidth(12)}
