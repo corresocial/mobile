@@ -123,6 +123,8 @@ function DataVisualizerInput({
 				isVisible={isDatePickerVisible}
 				mode={pickerType}
 				textColor={'black'}
+				is24Hour={false}
+				minuteInterval={10}
 				onConfirm={onPickerConfirmHandler}
 				onCancel={onPickerCancelHandler}
 			/>
