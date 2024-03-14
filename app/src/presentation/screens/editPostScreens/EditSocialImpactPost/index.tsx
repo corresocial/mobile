@@ -109,7 +109,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote) => {
-		let value = getPostField(initialValue)
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
@@ -309,6 +309,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				/>
 				<VerticalSpacing />
 				<EditCard
+					pressionable
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}

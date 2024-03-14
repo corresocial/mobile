@@ -18,19 +18,19 @@ interface DataVisualizerInputProps {
 	defaultBackgroundColor: string,
 	validBackgroundColor: string,
 	onDateSelect?: (date: Date) => void
-  }
-  
-function DataVisualizerInput({ 
+}
+
+function DataVisualizerInput({
 	openPickerOnTouch = false,
-	fields, 
+	fields,
 	initialValue,
-	pickerType = 'date', 
-	defaultBackgroundColor, 
+	pickerType = 'date',
+	defaultBackgroundColor,
 	validBackgroundColor,
 	onDateSelect
 }: DataVisualizerInputProps) {
-	type InputValuesType = {id: number, value: string}
-	
+	type InputValuesType = { id: number, value: string }
+
 	const [isValid, setIsValid] = useState(!!initialValue)
 	const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
 	const [inputValues, setInputValues] = useState<InputValuesType[]>([])
@@ -67,7 +67,7 @@ function DataVisualizerInput({
 				formattedValues = getFullTime(dateTime)
 				break
 			}
-		} 
+		}
 		return formattedValues
 	}
 
@@ -90,7 +90,7 @@ function DataVisualizerInput({
 			(date.getMonth() + 1).toString().padStart(2, '0'),
 			date.getFullYear().toString()
 		]
-	} 
+	}
 
 	const getFullTime = (date: Date) => {
 		return [
@@ -101,7 +101,7 @@ function DataVisualizerInput({
 
 	return (
 		<>
-			<InputContainer 
+			<InputContainer
 				activeOpacity={1}
 				onPress={inputPressHandler}
 				defaultColor={defaultBackgroundColor}
@@ -112,9 +112,9 @@ function DataVisualizerInput({
 					inputValues && inputValues.map((item) => (
 						<InputInfoSection key={item.id}>
 							<InputText valid={isValid}>
-								{item.value} 
+								{item.value}
 							</InputText>
-							<InputTextUnderLine valid={isValid}/>
+							<InputTextUnderLine valid={isValid} />
 						</InputInfoSection>
 					))
 				}

@@ -104,13 +104,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, customStack?: string) => {
-		let value = getPostField(initialValue)
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
-		if (initialValue === 'location' && value) {
+		if (initialValue === 'location') {
 			value = {
 				coordinates: value.coordinates,
 				postRange: getPostField('range')
