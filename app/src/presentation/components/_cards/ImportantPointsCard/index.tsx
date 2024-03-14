@@ -11,7 +11,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -37,7 +38,10 @@ function ImportantPointsCard({ title, importantPoints = [], onEdit }: ImportantP
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'importante'}
@@ -53,7 +57,7 @@ function ImportantPointsCard({ title, importantPoints = [], onEdit }: ImportantP
 					</ImportantPointsContainer>
 				)
 			}
-		</DefaultCardContainer >
+		</DefaultTouchableCardContainer >
 	)
 }
 

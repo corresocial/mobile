@@ -221,6 +221,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={false}
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
