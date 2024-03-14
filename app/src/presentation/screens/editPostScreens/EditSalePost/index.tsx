@@ -97,7 +97,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
-		let value = getPostField(initialValue)
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
@@ -223,6 +223,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={false}
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

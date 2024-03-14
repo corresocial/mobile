@@ -104,13 +104,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, customStack?: string) => {
-		let value = getPostField(initialValue)
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
-		if (initialValue === 'location' && value) {
+		if (initialValue === 'location') {
 			value = {
 				coordinates: value.coordinates,
 				postRange: getPostField('range')
@@ -211,7 +211,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				userContext={userContext}
 				editContext={editContext}
 			>
-
 				<IncomeTypeCard
 					title={'tipo de renda'}
 					hightligtedWords={['tipo', 'renda']}
@@ -247,7 +246,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				<VerticalSpacing />
 				<VacancyPurposeCard
 					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
-					onEdit={() => {
+					onEdit={() => { // TODO Refatorar: Temporário tudante a transição de estrutura de dados
 						getPostField('vacancyPurpose' as any)
 							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
 							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')

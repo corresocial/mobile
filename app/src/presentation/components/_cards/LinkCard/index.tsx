@@ -11,7 +11,8 @@ import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -57,7 +58,10 @@ function LinkCard({ title, links = [], onEdit }: LinkCardProps) {
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'links'}
@@ -73,7 +77,7 @@ function LinkCard({ title, links = [], onEdit }: LinkCardProps) {
 					</LinksContainer>
 				)
 			}
-		</DefaultCardContainer >
+		</DefaultTouchableCardContainer >
 	)
 }
 

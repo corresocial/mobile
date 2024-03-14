@@ -41,7 +41,7 @@ function EditCard({
 	profilePicturesUrl = [],
 	indicatorColor,
 	carousel,
-	pressionable,
+	pressionable = true,
 	SecondSvgIcon,
 	RightIcon,
 	children,
@@ -67,8 +67,8 @@ function EditCard({
 	return (
 		<DefaultTouchableCardContainer
 			withoutPadding={!!profilePicturesUrl.length}
-			pressionable={pressionable}
-			onPress={pressionable ? onEdit || onPress : () => { }}
+			pressionable={!!onEdit && pressionable}
+			onPress={onPress || onEdit}
 		>
 			<CardHeader
 				style={{

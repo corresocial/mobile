@@ -10,7 +10,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface VacancyPurposeCardProps {
 	title?: string
@@ -49,7 +50,10 @@ function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords, onEdit }:
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'propósito da vaga'}
@@ -61,7 +65,7 @@ function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords, onEdit }:
 				text={getRelativeVacancyPurposeCard()}
 				SvgIcon={getRelativeValueIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

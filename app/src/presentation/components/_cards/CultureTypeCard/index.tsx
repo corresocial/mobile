@@ -12,7 +12,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface CultureTypeCardProps {
 	title?: string
@@ -41,7 +42,10 @@ function CultureTypeCard({ title, macroCategory, hightligtedWords, onEdit }: Cul
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'tipo de post'}
@@ -53,7 +57,7 @@ function CultureTypeCard({ title, macroCategory, hightligtedWords, onEdit }: Cul
 				text={getRelativeCultureType()}
 				SvgIcon={getRelativeValueIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 
