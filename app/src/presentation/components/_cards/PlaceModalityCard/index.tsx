@@ -12,7 +12,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface PlaceModalityProps {
 	title?: string
@@ -53,7 +54,10 @@ function PlaceModality({ title, placeModality, hightligtedWords, isVacancy, onEd
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'como vai ser'}
@@ -66,7 +70,7 @@ function PlaceModality({ title, placeModality, hightligtedWords, isVacancy, onEd
 				SvgIcon={getRelativeValueIcon()}
 				SecondSvgIcon={getSecondSvgIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

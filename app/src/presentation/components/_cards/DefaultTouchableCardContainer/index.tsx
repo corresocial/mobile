@@ -45,9 +45,9 @@ function DefaultTouchableCardContainer({
 		<Container
 			style={pressionable && pressionableStyle}
 			activeOpacity={1}
-			onPressIn={pressionable && pressingButton}
-			onPressOut={pressionable && notPressingButton}
-			onPress={pressionable && releaseButton}
+			onPressIn={pressionable ? pressingButton : () => { }}
+			onPressOut={pressionable ? notPressingButton : () => { }}
+			onPress={pressionable ? releaseButton : () => { }}
 		>
 			<ContainerInner
 				pressionable={pressionable}
