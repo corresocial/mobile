@@ -3,6 +3,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -117,11 +118,7 @@ function EditCard({
 											withoutBorder
 										/>
 									) : (
-										<ProfilePicture
-											source={{ uri: profilePicturesUrl[0] || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg' }}
-											width={0}
-											height={0}
-										/>
+										<ProfilePicture source={{ uri: profilePicturesUrl[0] || defaultUserProfilePicture }}/>
 									)
 							}
 

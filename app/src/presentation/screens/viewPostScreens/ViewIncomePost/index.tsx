@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView } from 'react-native'
+import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { Id } from '@domain/entities/globalTypes'
 import { ReportContext } from '@domain/entities/impactReport/types'
@@ -17,7 +17,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
-import { Body,	Container,	Header,	OptionsArea,	UserAndValueContainer } from './styles'
+import { Body,	Container,	Header,	OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
@@ -39,6 +39,7 @@ import { LinkCard } from '@components/_cards/LinkCard'
 import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
+import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -63,6 +64,8 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
+	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
+
 	useEffect(() => {
 		return () => {
 			clearEditContext()
@@ -234,6 +237,10 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const openGallery = () => setGaleryIsVisible(true)
+
+	const closeGalery = () => setGaleryIsVisible(false)
+
 	return (
 		<Container>
 			<DefaultConfirmationModal
@@ -374,13 +381,24 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
-							<ImageCarousel
-								picturesUrl={getPostField('picturesUrl') || []}
-								indicatorColor={theme.green1}
-								square
+							<GalleryModal
+								picturesUrl={getPostField('picturesUrl')}
+								showGallery={galeryIsVisible}
+								onClose={closeGalery}
 							/>
+							<TouchableOpacity
+								activeOpacity={1}
+								onPress={openGallery}
+							>
+								<ImageCarousel
+									picturesUrl={getPostField('picturesUrl') || []}
+									indicatorColor={theme.green1}
+									square
+								/>
+							</TouchableOpacity>
 						</>
 					)}
+
 					{
 						(getPostField('saleValue') || getPostField('exchangeValue')) && (
 							<>

@@ -1,9 +1,15 @@
+import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.KeyboardAvoidingView`
     flex: 1;
+`
+
+export const HeaderDescription = styled.Text`
+	font-family: 'Arvo_400Regular';
+	font-size: ${RFValue(12)}px;
 `
 
 export const MapContainer = styled.View`

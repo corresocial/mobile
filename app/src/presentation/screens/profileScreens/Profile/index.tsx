@@ -260,6 +260,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
 		setProfileOptionsIsOpen(false)
+		console.log({
+			type: label,
+			by: userDataContext.userId,
+			at: new Date(),
+			name: userDataContext.name || ''
+		})
 		if (user.userId && userDataContext.userId) {
 			await updateUser(user.userId, {
 				verified: {
@@ -297,6 +303,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		if (verifiedUserTypeIs('default')) return 'default'
 		if (verifiedUserTypeIs('impact')) return 'impact'
 		if (verifiedUserTypeIs('leader')) return 'leader'
+		if (verifiedUserTypeIs('government')) return 'government'
 		return ''
 	}
 
@@ -314,7 +321,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		)
 	}
 
-	const userIsVerified = () => {
+	/* const userIsVerified = () => {
 		return (
 			!isLoggedUser
 			&& userDataContext.verified
@@ -322,7 +329,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			&& user
 			&& !user.verified
 		)
-	}
+	} */
 
 	const userIsAdmin = () => {
 		return (
@@ -429,9 +436,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													<UserName numberOfLines={3}>
 														{getUserField('name') as string}
 													</UserName>
-													{
-														renderUserVerifiedType()
-													}
+													{renderUserVerifiedType()}
 													{
 														!userDescriptionIsExpanded && isLoggedUser && (
 															<TouchableOpacity
@@ -517,7 +522,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												/>
 												<PopOver
 													title={getUserField('name') as string}
-													isVerifiable={userIsVerified()}
 													isAdmin={userIsAdmin()}
 													buttonLabel={'denunciar perfil'}
 													popoverVisibility={profileOptionsIsOpen}

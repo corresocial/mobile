@@ -1,0 +1,1 @@
+export const defaultUserProfilePicture = 'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/public%2Fwithout-user-picture.jpg?alt=media&token=f523dc27-cf38-426b-afc4-df9243ffde50'

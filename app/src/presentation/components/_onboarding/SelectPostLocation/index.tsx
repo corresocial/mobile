@@ -9,10 +9,11 @@ import { Coordinates, LatLong } from '@services/firebase/types'
 import { LocationService } from '@services/location/LocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
-import { ButtonContainerBottom, Container, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
+import { ButtonContainerBottom, Container, HeaderDescription, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import MapPointOrangeIcon from '@assets/icons/mapPoint-orange.svg'
 import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
@@ -22,6 +23,8 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { SearchInput } from '@components/_inputs/SearchInput'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 
 import { CustomMapView } from '../../CustomMapView'
 
@@ -44,6 +47,9 @@ interface SelectPostLocationProps {
 	backgroundColor: string
 	validationColor: string
 	initialValue?: LatLong
+	isLoading?: boolean
+	headerDescription?: string
+	headerDescriptionHighlightedWords?: string[]
 	navigateBackwards: () => void
 	saveLocation: (markerCoordinate: Coordinates) => void
 }
@@ -52,6 +58,9 @@ function SelectPostLocation({
 	backgroundColor,
 	validationColor,
 	initialValue,
+	headerDescription,
+	headerDescriptionHighlightedWords,
+	isLoading,
 	saveLocation,
 	navigateBackwards
 }: SelectPostLocationProps) {
@@ -183,8 +192,8 @@ function SelectPostLocation({
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(20)}
-				relativeHeight={relativeScreenHeight(20)}
+				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
+				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
@@ -194,7 +203,16 @@ function SelectPostLocation({
 					message={'qual é o endereço?'}
 					highlightedWords={['endereço']}
 					fontSize={16}
-				/>
+				>
+					{
+						headerDescription ? (
+							<>
+								<VerticalSpacing/>
+								<HeaderDescription>{showMessageWithHighlight(headerDescription, headerDescriptionHighlightedWords)}</HeaderDescription>
+							</>
+						) : <></>
+					}
+				</InstructionCard>
 			</DefaultHeaderContainer>
 			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<SearchInputContainer>
@@ -243,17 +261,23 @@ function SelectPostLocation({
 				/>
 			</MapContainer>
 			{
-				markerCoordinate
-				&& (
+
+				markerCoordinate && (
 					<ButtonContainerBottom>
-						<PrimaryButton
-							flexDirection={'row-reverse'}
-							color={theme.green3}
-							label={'continuar'}
-							labelColor={theme.white3}
-							SvgIcon={CheckWhiteIcon}
-							onPress={() => saveLocation(markerCoordinate)}
-						/>
+						{
+							isLoading
+								? <Loader/>
+								: (
+									<PrimaryButton
+										flexDirection={'row-reverse'}
+										color={theme.green3}
+										label={'continuar'}
+										labelColor={theme.white3}
+										SvgIcon={CheckWhiteIcon}
+										onPress={() => saveLocation(markerCoordinate)}
+									/>
+								)
+						}
 					</ButtonContainerBottom>
 				)
 			}
