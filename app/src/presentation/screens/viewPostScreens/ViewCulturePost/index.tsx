@@ -71,6 +71,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	useEffect(() => {
+		// getPostById()
 		return () => {
 			clearEditContext()
 		}

@@ -14,13 +14,17 @@ import { theme } from '@common/theme'
 
 import { CustomModal } from '@components/_modals/CustomModal'
 
-function Splash({ navigation }: SplashScreenProps) {
+function Splash({ route, navigation }: SplashScreenProps) {
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
 
+	const { screen, id: idFromLinking } = route.params
+
 	useEffect(() => {
+		console.log(route.params)
+
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
 			duration: 1000,
@@ -68,6 +72,19 @@ function Splash({ navigation }: SplashScreenProps) {
 		})
 	}
 
+	const navigateToProfile = () => {
+		navigation.navigate('UserStack', { // TODO userStack
+			screen: 'HomeTab',
+			params: {
+				screen: 'ProfileStack',
+				params: {
+					screen: 'Profile',
+					params: { userId: idFromLinking }
+				}
+			}
+		} as any) // TODO type
+	}
+
 	const redirectToApp = async () => {
 		try {
 			const hasLocalUser = await hasValidLocalUser()
@@ -77,6 +94,18 @@ function Splash({ navigation }: SplashScreenProps) {
 				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
+
+				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/profile/gubzWyXdQFeC5xEaWlTtbaR64tT2 --ios
+				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/post/ID_DO_POST --ios
+				if (screen === 'profile' && idFromLinking) {
+					return navigateToProfile()
+				}
+
+				if (screen === 'post' && idFromLinking) {
+					return console.log('Navigate to post')
+					// return navigateToProfile()
+				}
+
 				navigation.reset({
 					index: 0,
 					routes: [{

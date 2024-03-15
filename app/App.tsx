@@ -6,7 +6,6 @@ import {
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo'
 import { NavigationContainer } from '@react-navigation/native'
-import { createURL, useURL } from 'expo-linking'
 import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
@@ -51,38 +50,23 @@ function App() {
 	}
 
 	const linking = {
-		prefixes: ['exp://192.168.2.2:8081/--/com.corresocial.corresocial'], // Substitua pelo seu prefixo
+		prefixes: ['exp://192.168.1.100:8081/--/com.corresocial.corresocial'], // Substitua pelo seu prefixo
 		config: {
 			screens: {
-				initialRouteName: 'SelectAuthRegister',
-				UserStack: {
-					path: 'UserStack',
-					screens: {
-						HomeTab: {
-							path: 'HomeTab',
-							screens: {
-								ProfileStack: {
-									path: 'ProfileStack',
-									screens: {
-										Profile: {
-											path: 'Profile/:userId'
-										}
-									}
-								}
-							}
-						}
-					}
+				Splash: {
+					path: 'redirect/:screen/:id'
 				}
-				, 
 			},
 		},
-	}  
-	// const redirectURL = useURL()
+	}
 
-	// const url = createURL('profile', {})
-	// console.log('URL => ', url)
-	// console.log('REDIRECT =>', redirectURL)
-
+	/* useEffect(() => {
+		const redirectURL = useURL()
+		const url = createURL('profile', {})
+		console.log('URL => ', url)
+		console.log('REDIRECT =>', redirectURL)
+	}, [])
+ */
 	return (
 		<ErrorBoundaryContainer>
 			<NavigationContainer linking={linking}>

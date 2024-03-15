@@ -99,9 +99,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	console.log(route.params)
 
 	useEffect(() => {
-		console.log('antes if')
 		if (route.params && route.params.userId) {
-			console.log('depois if')
 			setIsLoggedUser(false)
 			getProfileDataFromRemote(route.params.userId)
 		} else {
@@ -110,7 +108,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [])
 
 	useEffect(() => {
-		console.log('oi')
 		const unsubscribe = navigation.addListener('focus', () => {
 			checkNetworkConnection()
 			checkHasOfflinePosts()
@@ -450,7 +447,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 																	&& setUserDescriptionIsExpanded(true)}
 															>
 																<UserDescription numberOfLines={3}>
-																	{getUserField('description')as string || 'você pode adicionar uma descrição em "editar".' }
+																	{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
 																</UserDescription>
 															</TouchableOpacity>
 														)
