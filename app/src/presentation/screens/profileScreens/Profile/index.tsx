@@ -1,4 +1,3 @@
-import { Image } from 'expo-image'
 import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -169,16 +168,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const navigationToBack = () => navigation.goBack()
 
 	const shareProfile = async () => {
-		Image.clearDiskCache()
-		Image.clearMemoryCache()
-		/* share(
+		share(
 			`${isLoggedUser
 				? `olá! me chamo ${getUserField('name')} e tô no corre.`
 				: `olha quem eu encontrei no corre.\n${getUserField(
 					'name'
 				)}`
 			}\n\nhttps://corre.social/u/${getUserField('userId')}`
-		) */
+		)
 	}
 
 	const getUserProfilePictureFromContext = () => {
