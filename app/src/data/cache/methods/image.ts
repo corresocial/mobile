@@ -3,7 +3,7 @@ import { Image } from 'expo-image'
 
 const cacheImageConfig = {
 	clearCacheOnExpire: true,
-	persistenceTime: Date.now()
+	persistenceTime: 2592000000 // 30 dias
 }
 
 const getLastCacheImageDatetime = async () => {
