@@ -131,6 +131,8 @@ function Home({ navigation }: HomeScreenProps) {
 				userDataContext.userId as Id
 			)
 
+			console.log(remoteFeedPosts)
+
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)

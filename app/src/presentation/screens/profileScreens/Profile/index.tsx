@@ -96,8 +96,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
 	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
 
+	console.log(route.params)
+
 	useEffect(() => {
+		console.log('antes if')
 		if (route.params && route.params.userId) {
+			console.log('depois if')
 			setIsLoggedUser(false)
 			getProfileDataFromRemote(route.params.userId)
 		} else {
@@ -106,6 +110,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [])
 
 	useEffect(() => {
+		console.log('oi')
 		const unsubscribe = navigation.addListener('focus', () => {
 			checkNetworkConnection()
 			checkHasOfflinePosts()
@@ -116,6 +121,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
+		console.log(remoteUser)
 		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = remoteUser as LocalUserData
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
