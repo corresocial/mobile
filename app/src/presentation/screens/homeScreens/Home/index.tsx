@@ -4,6 +4,10 @@ import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
+import { useQuery } from '@tanstack/react-query'
+
+import { cacheRequestConfig } from '@data/cache/methods/requests'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -12,11 +16,11 @@ import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
 import {
-	SearchParams,
 	LatLong,
 	AddressSearchResult,
 	SelectedAddressRender,
 	GeocodeAddress,
+	SearchParams,
 } from '@services/maps/types'
 
 import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
@@ -61,6 +65,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
+	const [feedSearchParams, setFeedSearchParams] = useState<SearchParams>()
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
@@ -82,6 +87,23 @@ function Home({ navigation }: HomeScreenProps) {
 			findFeedPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
+
+	const feedQuery = useQuery({
+		queryKey: ['home.feed'],
+		queryFn: () => loadFeed(),
+		enabled: false,
+		staleTime: cacheRequestConfig.homeFeed.persistenceTime,
+		gcTime: cacheRequestConfig.homeFeed.persistenceTime
+	})
+
+	const loadFeed = async () => {
+		if (!feedSearchParams) return null
+		console.log('reloadData')
+		return getPostsByLocationCloud(
+			feedSearchParams as SearchParams,
+			userDataContext.userId as Id
+		)
+	}
 
 	const requestPermissions = async () => {
 		if (hasLocationPermission) return true
@@ -111,7 +133,6 @@ function Home({ navigation }: HomeScreenProps) {
 		refresh?: boolean,
 		firstLoad?: boolean
 	) => {
-		if (!hasLocationPermission) return
 		locationIsEnable()
 
 		try {
@@ -126,10 +147,20 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const remoteFeedPosts = await getPostsByLocationCloud(
-				searchParams,
-				userDataContext.userId as Id
-			)
+			await updateSearchParamsRequest(searchParams)
+
+			let remoteFeedPosts: FeedPosts = initialFeedPosts
+			if (!refresh) {
+				remoteFeedPosts = feedQuery.data || initialFeedPosts // TODO Type
+			} else {
+				const { data } = await feedQuery.refetch()
+				remoteFeedPosts = data
+			}
+
+			// const remoteFeedPosts = feedQuery.dataawait getPostsByLocationCloud(
+			// 	searchParams,
+			// 	userDataContext.userId as Id
+			// )
 
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
@@ -150,6 +181,11 @@ function Home({ navigation }: HomeScreenProps) {
 	const refreshFeedPosts = async () => {
 		console.log('refreshing feed...')
 		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
+	}
+
+	const updateSearchParamsRequest = async (searchParams: SearchParams) => {
+		console.log(searchParams)
+		setFeedSearchParams(searchParams)
 	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
@@ -217,10 +253,8 @@ function Home({ navigation }: HomeScreenProps) {
 		})
 
 		return {
-			range: 'nearby',
 			city: structuredAddress.city,
 			country: structuredAddress.country,
-			postType: 'service',
 			coordinates,
 			geohashes: geohashObject.geohashNearby,
 		} as SearchParams
@@ -292,7 +326,12 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const hasAnyPost = () => {
-		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
+		return feedPosts
+			&& (
+				(feedPosts.nearby && feedPosts.nearby.length > 0)
+				|| (feedPosts.city && feedPosts.city.length > 0)
+				|| (feedPosts.country && feedPosts.country.length > 0)
+			)
 	}
 
 	const navigateToSelectSubscriptionRange = () => {

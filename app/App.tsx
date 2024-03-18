@@ -10,6 +10,7 @@ import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import * as Sentry from 'sentry-expo'
 
 import { LoaderContainer } from './App.styles'
@@ -33,6 +34,8 @@ const startSentry = () => {
 	}
 }
 
+const queryClient = new QueryClient()
+
 startSentry()
 
 function App() {
@@ -55,7 +58,9 @@ function App() {
 				<ThemeProvider theme={theme}>
 					<AlertProvider>
 						<LoaderProvider>
-							<AuthRegisterStack />
+							<QueryClientProvider client={queryClient}>
+								<AuthRegisterStack />
+							</QueryClientProvider>
 						</LoaderProvider>
 					</AlertProvider>
 				</ThemeProvider>

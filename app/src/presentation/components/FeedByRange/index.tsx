@@ -45,7 +45,7 @@ function FeedByRange({
 	}
 
 	const hasNearbyPosts = () => {
-		return (filteredFeedPosts.nearby && filteredFeedPosts.nearby.length && (typeof (filteredFeedPosts.nearby.length === 1 && filteredFeedPosts.nearby[0]) !== 'string'))
+		return (filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
 	}
 
 	const hasCityPosts = () => {
