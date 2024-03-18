@@ -3,7 +3,12 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useContext, createContext, useEffect, useState } from 'react'
 
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+
+import { Id } from '@domain/entities/globalTypes'
+
+import { cacheRequestConfig } from '@data/cache/methods/requests'
 
 import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
@@ -91,6 +96,13 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const navigation = useNavigation<UserStackNavigationProps>()
 
+	const stripeProductsQuery = useQuery({
+		queryKey: ['stripe.products'],
+		queryFn: () => getStripeProducts(),
+		staleTime: cacheRequestConfig.stripeProducts.persistenceTime,
+		gcTime: cacheRequestConfig.stripeProducts.persistenceTime
+	})
+
 	useEffect(() => {
 		getProducts()
 		if (userHasSubscription()) {
@@ -100,7 +112,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	async function getProducts() {
 		try {
-			const stripeProducts = await getStripeProducts()
+			const { data: stripeProducts } = (stripeProductsQuery && stripeProductsQuery.data) ? stripeProductsQuery : await stripeProductsQuery.refetch()
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
@@ -303,8 +315,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 		const lastUserPost: PostCollection = getLastUserPost()
 
 		const owner: PostCollection['owner'] = {
-			userId: userDataContext.userId,
-			name: userDataContext.name,
+			userId: userDataContext.userId as Id,
+			name: userDataContext.name as string,
 			profilePictureUrl: userDataContext.profilePictureUrl
 		}
 

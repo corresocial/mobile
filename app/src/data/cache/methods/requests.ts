@@ -1,7 +1,10 @@
 const cacheRequestConfig = { // TODO Integrar ao requestImages
 	homeFeed: {
-		persistenceTime: 86400000
-	}
+		persistenceTime: 86400000 // Dia
+	},
+	stripeProducts: {
+		persistenceTime: 86400000 * 7
+	},
 }
 
 export { cacheRequestConfig }
