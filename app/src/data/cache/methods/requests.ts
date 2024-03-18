@@ -5,6 +5,9 @@ const cacheRequestConfig = { // TODO Integrar ao requestImages
 	stripeProducts: {
 		persistenceTime: 86400000 * 7
 	},
+	algoliaPosts: {
+		persistenceTime: 86400000
+	},
 }
 
 export { cacheRequestConfig }

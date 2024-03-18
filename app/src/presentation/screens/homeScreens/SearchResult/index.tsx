@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { useQuery } from '@tanstack/react-query'
+
+import { cacheRequestConfig } from '@data/cache/methods/requests'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -35,34 +39,68 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { searchByRange } = route.params
 	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory.backgroundColor
 
+	const searchParamsFromRoute = { ...route.params.searchParams }
+	const algoliaSearchText = searchText || searchParamsFromRoute.searchText
+
+	const algoliaSearchPosts = useQuery({ // TODO Type
+		queryKey: ['algolia.search', algoliaSearchText || 'common', searchParamsFromRoute],
+		queryFn: () => searchPostsByAlgolia(),
+		staleTime: cacheRequestConfig.algoliaPosts.persistenceTime,
+		gcTime: cacheRequestConfig.algoliaPosts.persistenceTime
+	})
+
 	useEffect(() => {
 		searchPostByText()
 	}, [])
 
 	const searchPostByText = async () => {
-		const searchParamsFromRoute = { ...route.params.searchParams }
-
-		const algoliaSearchText = searchText || searchParamsFromRoute.searchText
-
+		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
-		setLoaderIsVisible(true)
-		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
-		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
+		try {
+			setLoaderIsVisible(true)
+
+			let postsFromAlgolia = initialFeedPosts
+
+			if (algoliaSearchPosts.data && hasAnyPost(algoliaSearchPosts.data)) {
+				console.log('CACHE')
+				postsFromAlgolia = algoliaSearchPosts.data
+			} else {
+				console.log('REFETCH')
+				postsFromAlgolia = await searchPostsByAlgolia()
+			}
+
+			setResultPosts(postsFromAlgolia)
+
+			if (!searchText) setSearchText(searchParamsFromRoute.searchText)
+			setLoaderIsVisible(false)
+		} catch (error) {
+			setLoaderIsVisible(false)
+			console.log(error)
+		}
+	}
+
+	const searchPostsByAlgolia = async () => {
+		return searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
 				if (!posts) {
-					setResultPosts(initialFeedPosts as FeedPosts)
-				} else {
-					setResultPosts(posts as FeedPosts)
+					return initialFeedPosts
 				}
-
-				if (!searchText) setSearchText(route.params.searchParams.searchText)
-				setLoaderIsVisible(false)
+				return posts
 			})
 			.catch((err) => {
 				console.log(err)
 				setLoaderIsVisible(false)
 			})
+	}
+
+	const hasAnyPost = (postsByRange: FeedPosts) => {
+		return postsByRange
+			&& (
+				(postsByRange.nearby && postsByRange.nearby.length > 0)
+				|| (postsByRange.city && postsByRange.city.length > 0)
+				|| (postsByRange.country && postsByRange.country.length > 0)
+			)
 	}
 
 	const getRelativePath = () => {
@@ -124,7 +162,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onPressKeyboardSubmit={searchPostByText}
+						onPressKeyboardSubmit={algoliaSearchPosts.refetch}
 					/>
 				</InputContainer>
 			</Header>

@@ -151,8 +151,10 @@ function Home({ navigation }: HomeScreenProps) {
 
 			let remoteFeedPosts: FeedPosts = initialFeedPosts
 			if (!refresh) {
+				console.log('CACHE')
 				remoteFeedPosts = feedQuery.data || initialFeedPosts // TODO Type
 			} else {
+				console.log('REFETCH')
 				const { data } = await feedQuery.refetch()
 				remoteFeedPosts = data
 			}
