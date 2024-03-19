@@ -320,10 +320,6 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('PublicServicesStack')
 	} */
 
-	const userHasPaidSubscription = () => {
-		return (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
-	}
-
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
