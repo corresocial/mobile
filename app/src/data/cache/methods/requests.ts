@@ -1,18 +1,8 @@
 import { QueryClient } from '@tanstack/react-query'
 
-const cacheRequestConfig = { // TODO Integrar ao requestImages
-	homeFeed: {
-		persistenceTime: 86400000 // Dia
-	},
-	stripeProducts: {
-		persistenceTime: 86400000 * 7
-	},
-	algoliaPosts: {
-		persistenceTime: 86400000
-	},
-}
+const defaultCachePersistence = 604800000
 
-async function checkCachedData(cacheClient: QueryClient, cacheKey: any[], fetchMethod: any, refresh?: boolean) {
+async function executeCachedRequest(cacheClient: QueryClient, cacheKey: any[], fetchMethod: any, refresh?: boolean) {
 	if (refresh) console.log('REFRESHED')
 
 	if (!refresh) {
@@ -29,4 +19,4 @@ async function checkCachedData(cacheClient: QueryClient, cacheKey: any[], fetchM
 	return data
 }
 
-export { cacheRequestConfig, checkCachedData }
+export { defaultCachePersistence, executeCachedRequest }

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { checkCachedData } from '@data/cache/methods/requests'
+import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -34,6 +34,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const queryClient = useQueryClient()
+	const { executeCachedRequest } = CacheRepositoryAdapter()
 
 	const [searchText, setSearchText] = useState('')
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
@@ -55,7 +56,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 			setLoaderIsVisible(true)
 
 			const queryKey = ['algolia.search', algoliaSearchText || 'common', searchParamsFromRoute]
-			const postsFromAlgolia = await checkCachedData(
+			const postsFromAlgolia = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				() => searchPostsByAlgolia()

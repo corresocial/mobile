@@ -1,10 +1,13 @@
 import { CacheRepositoryAdapterInterface } from './CacheRepositoryAdapterInterface'
-import { cacheImageConfig, checkCacheImageValidation } from './methods/image'
+import { checkCacheImageValidation } from './methods/images'
+import { defaultCachePersistence, executeCachedRequest } from './methods/requests'
 
 function CacheRepositoryAdapter(): CacheRepositoryAdapterInterface {
 	return {
-		cacheImageConfig: cacheImageConfig,
-		checkCacheImageValidation: checkCacheImageValidation
+		checkCacheImageValidation: checkCacheImageValidation,
+
+		defaultCachePersistence: defaultCachePersistence,
+		executeCachedRequest: executeCachedRequest
 	}
 }
 
