@@ -363,7 +363,7 @@ function Home({ navigation }: HomeScreenProps) {
 				)}
 			>
 				<AdsCarousel
-					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
+					onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 					onPressUserLocationAd={navigateToEditUserLocation}
 				/>
 				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
