@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { cacheRequestConfig } from '@data/cache/methods/requests'
+import { checkCachedData } from '@data/cache/methods/requests'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -14,7 +13,7 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
+import { FeedPosts, PostCollection, PostRange, PostType } from '@services/firebase/types'
 import {
 	LatLong,
 	AddressSearchResult,
@@ -65,7 +64,6 @@ function Home({ navigation }: HomeScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [feedSearchParams, setFeedSearchParams] = useState<SearchParams>()
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
@@ -88,22 +86,7 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 	}, [hasLocationPermission])
 
-	const feedQuery = useQuery({
-		queryKey: ['home.feed'],
-		queryFn: () => loadFeed(),
-		enabled: false,
-		staleTime: cacheRequestConfig.homeFeed.persistenceTime,
-		gcTime: cacheRequestConfig.homeFeed.persistenceTime
-	})
-
-	const loadFeed = async () => {
-		if (!feedSearchParams) return null
-		console.log('reloadData')
-		return getPostsByLocationCloud(
-			feedSearchParams as SearchParams,
-			userDataContext.userId as Id
-		)
-	}
+	const queryClient = useQueryClient()
 
 	const requestPermissions = async () => {
 		if (hasLocationPermission) return true
@@ -147,22 +130,13 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			await updateSearchParamsRequest(searchParams)
-
-			let remoteFeedPosts: FeedPosts = initialFeedPosts
-			if (!refresh) {
-				console.log('CACHE')
-				remoteFeedPosts = feedQuery.data || initialFeedPosts // TODO Type
-			} else {
-				console.log('REFETCH')
-				const { data } = await feedQuery.refetch()
-				remoteFeedPosts = data
-			}
-
-			// const remoteFeedPosts = feedQuery.dataawait getPostsByLocationCloud(
-			// 	searchParams,
-			// 	userDataContext.userId as Id
-			// )
+			const userId = userDataContext.userId as string
+			const queryKey = ['home.feed', searchParams, userId]
+			const remoteFeedPosts = await checkCachedData(
+				queryClient,
+				queryKey,
+				() => getPostsByLocationCloud(searchParams, userId)
+			)
 
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
@@ -183,11 +157,6 @@ function Home({ navigation }: HomeScreenProps) {
 	const refreshFeedPosts = async () => {
 		console.log('refreshing feed...')
 		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
-	}
-
-	const updateSearchParamsRequest = async (searchParams: SearchParams) => {
-		console.log(searchParams)
-		setFeedSearchParams(searchParams)
 	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
@@ -345,9 +314,9 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('EditUserLocation', { initialCoordinates: null })
 	}
 
-	const navigateToPublicServices = () => {
+	/* const navigateToPublicServices = () => {
 		navigation.navigate('PublicServicesStack')
-	}
+	} */
 
 	const userHasPaidSubscription = () => {
 		return (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')

@@ -34,7 +34,14 @@ const startSentry = () => {
 	}
 }
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 604800000, // 604800000 // 7 dias
+			gcTime: 604800000
+		},
+	}
+})
 
 startSentry()
 
