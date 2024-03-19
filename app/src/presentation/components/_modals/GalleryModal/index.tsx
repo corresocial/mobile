@@ -77,8 +77,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 
 		setTimeout(() => {
 			if (picturesUrl && currentIndex === picturesUrl.length - 1) {
-				console.log(currentIndex)
-				console.log(picturesUrl.length - 1)
 				goToIndex(currentIndex)
 				if (carouselRef.current) {
 					isLandscapeMode ? carouselRef.current.next() : carouselRef.current.prev()
