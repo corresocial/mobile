@@ -3,12 +3,12 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useContext, createContext, useEffect, useState } from 'react'
 
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
-import { useQuery } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
 import { Id } from '@domain/entities/globalTypes'
 
-import { cacheRequestConfig } from '@data/cache/methods/requests'
+import { checkCachedData } from '@data/cache/methods/requests'
 
 import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
@@ -88,6 +88,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
 	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 
+	const queryClient = useQueryClient()
+
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)
 
@@ -95,13 +97,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const [numberOfSubscriptionExpiredDays, setNumberOfSubscriptionExpiredDays] = useState(0)
 
 	const navigation = useNavigation<UserStackNavigationProps>()
-
-	const stripeProductsQuery = useQuery({
-		queryKey: ['stripe.products'],
-		queryFn: () => getStripeProducts(),
-		staleTime: cacheRequestConfig.stripeProducts.persistenceTime,
-		gcTime: cacheRequestConfig.stripeProducts.persistenceTime
-	})
 
 	useEffect(() => {
 		getProducts()
@@ -112,7 +107,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	async function getProducts() {
 		try {
-			const { data: stripeProducts } = (stripeProductsQuery && stripeProductsQuery.data) ? stripeProductsQuery : await stripeProductsQuery.refetch()
+			const queryKey = ['stripe.products']
+			const stripeProducts = await checkCachedData(
+				queryClient,
+				queryKey,
+				() => getStripeProducts()
+			)
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)

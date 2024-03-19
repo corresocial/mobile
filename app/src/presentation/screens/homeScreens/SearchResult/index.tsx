@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { cacheRequestConfig } from '@data/cache/methods/requests'
+import { checkCachedData } from '@data/cache/methods/requests'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -33,6 +33,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
+	const queryClient = useQueryClient()
+
 	const [searchText, setSearchText] = useState('')
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
 
@@ -42,33 +44,22 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const searchParamsFromRoute = { ...route.params.searchParams }
 	const algoliaSearchText = searchText || searchParamsFromRoute.searchText
 
-	const algoliaSearchPosts = useQuery({ // TODO Type
-		queryKey: ['algolia.search', algoliaSearchText || 'common', searchParamsFromRoute],
-		queryFn: () => searchPostsByAlgolia(),
-		staleTime: cacheRequestConfig.algoliaPosts.persistenceTime,
-		gcTime: cacheRequestConfig.algoliaPosts.persistenceTime
-	})
-
 	useEffect(() => {
 		searchPostByText()
 	}, [])
 
 	const searchPostByText = async () => {
-		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		try {
 			setLoaderIsVisible(true)
 
-			let postsFromAlgolia = initialFeedPosts
-
-			if (algoliaSearchPosts.data && hasAnyPost(algoliaSearchPosts.data)) {
-				console.log('CACHE')
-				postsFromAlgolia = algoliaSearchPosts.data
-			} else {
-				console.log('REFETCH')
-				postsFromAlgolia = await searchPostsByAlgolia()
-			}
+			const queryKey = ['algolia.search', algoliaSearchText || 'common', searchParamsFromRoute]
+			const postsFromAlgolia = await checkCachedData(
+				queryClient,
+				queryKey,
+				() => searchPostsByAlgolia()
+			)
 
 			setResultPosts(postsFromAlgolia)
 
@@ -92,15 +83,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 				console.log(err)
 				setLoaderIsVisible(false)
 			})
-	}
-
-	const hasAnyPost = (postsByRange: FeedPosts) => {
-		return postsByRange
-			&& (
-				(postsByRange.nearby && postsByRange.nearby.length > 0)
-				|| (postsByRange.city && postsByRange.city.length > 0)
-				|| (postsByRange.country && postsByRange.country.length > 0)
-			)
 	}
 
 	const getRelativePath = () => {
@@ -162,7 +144,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onPressKeyboardSubmit={algoliaSearchPosts.refetch}
+						onPressKeyboardSubmit={searchPostByText}
 					/>
 				</InputContainer>
 			</Header>

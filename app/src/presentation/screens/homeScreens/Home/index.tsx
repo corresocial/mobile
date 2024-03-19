@@ -64,6 +64,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
+	const queryClient = useQueryClient()
+
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
@@ -85,8 +87,6 @@ function Home({ navigation }: HomeScreenProps) {
 			findFeedPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
-
-	const queryClient = useQueryClient()
 
 	const requestPermissions = async () => {
 		if (hasLocationPermission) return true
@@ -132,10 +132,12 @@ function Home({ navigation }: HomeScreenProps) {
 
 			const userId = userDataContext.userId as string
 			const queryKey = ['home.feed', searchParams, userId]
+			console.log(refresh)
 			const remoteFeedPosts = await checkCachedData(
 				queryClient,
 				queryKey,
-				() => getPostsByLocationCloud(searchParams, userId)
+				() => getPostsByLocationCloud(searchParams, userId),
+				refresh
 			)
 
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })

@@ -89,8 +89,7 @@ function LocationNearDropdown({
 			{
 				lat: address.lat,
 				lon: address.lon
-			},
-			true
+			}
 		)
 	}
 
