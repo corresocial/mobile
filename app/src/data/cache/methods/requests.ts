@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query'
 
-const defaultCachePersistence = 604800000
+const defaultCachePersistence = 86400000 // 1 dia
 
 async function executeCachedRequest(cacheClient: QueryClient, cacheKey: any[], fetchMethod: any, refresh?: boolean) {
 	if (refresh) console.log('REFRESHED')
