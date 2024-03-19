@@ -3,7 +3,12 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useContext, createContext, useEffect, useState } from 'react'
 
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
+import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+
+import { Id } from '@domain/entities/globalTypes'
+
+import { checkCachedData } from '@data/cache/methods/requests'
 
 import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
@@ -83,6 +88,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
 	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 
+	const queryClient = useQueryClient()
+
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)
 
@@ -100,7 +107,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	async function getProducts() {
 		try {
-			const stripeProducts = await getStripeProducts()
+			const queryKey = ['stripe.products']
+			const stripeProducts = await checkCachedData(
+				queryClient,
+				queryKey,
+				() => getStripeProducts()
+			)
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
@@ -303,8 +315,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 		const lastUserPost: PostCollection = getLastUserPost()
 
 		const owner: PostCollection['owner'] = {
-			userId: userDataContext.userId,
-			name: userDataContext.name,
+			userId: userDataContext.userId as Id,
+			name: userDataContext.name as string,
 			profilePictureUrl: userDataContext.profilePictureUrl
 		}
 

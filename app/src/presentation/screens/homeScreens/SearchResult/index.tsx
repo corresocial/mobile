@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { useQueryClient } from '@tanstack/react-query'
+
+import { checkCachedData } from '@data/cache/methods/requests'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -29,35 +33,51 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
+	const queryClient = useQueryClient()
+
 	const [searchText, setSearchText] = useState('')
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
 
 	const { searchByRange } = route.params
 	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory.backgroundColor
 
+	const searchParamsFromRoute = { ...route.params.searchParams }
+	const algoliaSearchText = searchText || searchParamsFromRoute.searchText
+
 	useEffect(() => {
 		searchPostByText()
 	}, [])
 
 	const searchPostByText = async () => {
-		const searchParamsFromRoute = { ...route.params.searchParams }
-
-		const algoliaSearchText = searchText || searchParamsFromRoute.searchText
-
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
-		setLoaderIsVisible(true)
-		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
-		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
+		try {
+			setLoaderIsVisible(true)
+
+			const queryKey = ['algolia.search', algoliaSearchText || 'common', searchParamsFromRoute]
+			const postsFromAlgolia = await checkCachedData(
+				queryClient,
+				queryKey,
+				() => searchPostsByAlgolia()
+			)
+
+			setResultPosts(postsFromAlgolia)
+
+			if (!searchText) setSearchText(searchParamsFromRoute.searchText)
+			setLoaderIsVisible(false)
+		} catch (error) {
+			setLoaderIsVisible(false)
+			console.log(error)
+		}
+	}
+
+	const searchPostsByAlgolia = async () => {
+		return searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
 				if (!posts) {
-					setResultPosts(initialFeedPosts as FeedPosts)
-				} else {
-					setResultPosts(posts as FeedPosts)
+					return initialFeedPosts
 				}
-
-				if (!searchText) setSearchText(route.params.searchParams.searchText)
-				setLoaderIsVisible(false)
+				return posts
 			})
 			.catch((err) => {
 				console.log(err)

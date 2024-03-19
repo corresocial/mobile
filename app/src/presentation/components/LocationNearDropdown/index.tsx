@@ -34,7 +34,13 @@ interface LocationNearDropdownProps {
 	clearAddressSuggestions: () => void
 	selectAddress: (address: SelectedAddressRender) => void
 	findAddressSuggestions: (text: string) => void
-	findNearPosts: (text: string, currentPosition: boolean, searchOptions?: LatLong) => void
+	findNearPosts: (
+		searchText: string,
+		currentPosition?: boolean,
+		alternativeCoordinates?: LatLong,
+		refresh?: boolean,
+		firstLoad?: boolean
+	) => void
 }
 
 function LocationNearDropdown({
@@ -77,10 +83,14 @@ function LocationNearDropdown({
 			addressHighlighted: `${address.formattedAddress.split(',')[0].trim()}${greaterThanThree ? `, ${address.formattedAddress.split(',')[1].trim()}` : ''}`,
 			addressThin: `${greaterThanThree ? address.formattedAddress.split(',')[2].trim() : address.formattedAddress.split(',')[1].trim()}${greaterThanThree ? ` - ${address.formattedAddress.split(',')[3].trim()}` : ''}`,
 		})
-		findNearPosts('', false, {
-			lat: address.lat,
-			lon: address.lon
-		})
+		findNearPosts(
+			'',
+			false,
+			{
+				lat: address.lat,
+				lon: address.lon
+			}
+		)
 	}
 
 	const toggleDropdownVisibility = () => {
