@@ -13,6 +13,8 @@ import { ThemeProvider } from 'styled-components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import * as Sentry from 'sentry-expo'
 
+import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
+
 import { LoaderContainer } from './App.styles'
 import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
@@ -34,15 +36,6 @@ const startSentry = () => {
 	}
 }
 
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: 604800000, // 604800000 // 7 dias
-			gcTime: 604800000
-		},
-	}
-})
-
 startSentry()
 
 function App() {
@@ -58,6 +51,9 @@ function App() {
 			</LoaderContainer>
 		)
 	}
+
+	const { defaultCachePersistence } = CacheRepositoryAdapter()
+	const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: defaultCachePersistence, gcTime: defaultCachePersistence } } })
 
 	return (
 		<ErrorBoundaryContainer>

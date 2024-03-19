@@ -41,4 +41,4 @@ async function checkCacheImageValidation() {
 	}
 }
 
-export { cacheImageConfig, checkCacheImageValidation }
+export { checkCacheImageValidation }

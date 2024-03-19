@@ -5,7 +5,7 @@ import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { checkCachedData } from '@data/cache/methods/requests'
+import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -65,6 +65,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const queryClient = useQueryClient()
+	const { executeCachedRequest } = CacheRepositoryAdapter()
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -133,7 +134,7 @@ function Home({ navigation }: HomeScreenProps) {
 			const userId = userDataContext.userId as string
 			const queryKey = ['home.feed', searchParams, userId]
 			console.log(refresh)
-			const remoteFeedPosts = await checkCachedData(
+			const remoteFeedPosts = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				() => getPostsByLocationCloud(searchParams, userId),
