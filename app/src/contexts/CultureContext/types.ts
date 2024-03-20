@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { CultureData } from '@contexts/types'
+import { CultureCollection } from '@services/firebase/types'
 
 export interface CultureProviderProps {
 	children: React.ReactNode
 }
+
+export type CultureData = CultureCollection | {}
 
 export type CultureContextType = {
 	isSecondPost: boolean

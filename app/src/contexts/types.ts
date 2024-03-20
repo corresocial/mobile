@@ -6,7 +6,6 @@ import {
 	ExhibitionPlaceType,
 	LocationViewType,
 	PaymentType,
-	PlaceModalityType,
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
@@ -14,11 +13,10 @@ import {
 	ItemStatus,
 	VacancyPurpose,
 	SocialImpactType,
-	CultureType,
 	PostCollection,
 	UserSubscription,
 	FeedPosts,
-	IncomeType
+	IncomeType,
 } from '@services/firebase/types'
 import { CurrentCategory, SearchParams } from '@services/maps/types'
 
@@ -150,44 +148,6 @@ export type VacancyData = {
 	importantPoints?: string[]
 	vacancyPurpose?: VacancyPurpose
 	workFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
-	startDate?: Date
-	endDate?: Date
-	startHour?: Date
-	endHour?: Date
-	picturesUrl?: string[]
-	tags?: string[]
-	category?: string
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-}
-
-export type CultureData = {
-	lookingFor?: boolean
-	macroCategory?: CultureType
-	title?: string
-	description?: string
-	locationView?: LocationViewType
-	range?: PostRange
-	eventPlaceModality?: PlaceModalityType
-	repeat?: EventRepeatType
-	entryValue?: string
-	exhibitionFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date

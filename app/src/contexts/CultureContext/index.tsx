@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { CultureData } from '../types'
-import { CultureContextType, CultureProviderProps } from './types'
+import { CultureContextType, CultureData, CultureProviderProps } from './types'
 import { CultureCollectionRemote } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
