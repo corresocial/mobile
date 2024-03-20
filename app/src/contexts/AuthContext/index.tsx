@@ -2,8 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
 import React, { createContext, useState } from 'react'
 
-import { PhoneAuthProvider, signInWithCredential, UserCredential } from 'firebase/auth'
+import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 
+import { AuthContextType, AuthProviderProps } from './types'
 import { PostCollection, UserCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
@@ -11,27 +12,12 @@ import { getUser } from '@services/firebase/user/getUser'
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
-type AuthContextType = {
-	userDataContext: UserCollection
-	setUserDataOnContext: (data: UserCollection) => void
-	getUserDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserCollection>
-	hasValidLocalUser: () => Promise<boolean>
-	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
-	deleteLocaluser: () => Promise<void>
-	setRemoteUserOnLocal: (uid?: string, userData?: UserCollection) => Promise<boolean | undefined>
-	getLastUserPost: () => PostCollection
-	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
-	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
-}
-
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
-
-interface AuthProviderProps {
-	children: React.ReactNode
-}
 
 function AuthProvider({ children }: AuthProviderProps) {
 	const [userDataContext, setUserDataContext] = useState({})
+
+	console.log('ContextUpdated === AuthContext')
 
 	const getUserDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
 		try {

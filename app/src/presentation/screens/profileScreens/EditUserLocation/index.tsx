@@ -24,7 +24,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const saveUserLocation = async (coordinates:PostCollectionCommonFields['location']['coordinates']) => {
+	const saveUserLocation = async (coordinates: PostCollectionCommonFields['location']['coordinates']) => {
 		try {
 			setIsLoading(true)
 
