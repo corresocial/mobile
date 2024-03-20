@@ -21,7 +21,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 	}, [])
 
 	const saveServicePurpose = (lookingFor: boolean) => {
-		setServiceDataOnContext({ lookingFor, macroCategory: 'service' })
+		setServiceDataOnContext({ lookingFor })
 		navigation.navigate('SelectServiceCategory')
 	}
 

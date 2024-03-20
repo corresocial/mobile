@@ -17,7 +17,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
-import { Body,	Container,	Header,	OptionsArea, UserAndValueContainer } from './styles'
+import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
@@ -67,6 +67,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	useEffect(() => {
+		console.log(route.params)
 		return () => {
 			clearEditContext()
 		}
@@ -311,7 +312,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 							: (
 								<SmallButton
 									color={theme.green3}
-									label={isAuthor ? 'compartilhar' : 'conversar'}
+									label={isAuthor ? 'compartilhar' : 'comprar'}
 									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 									relativeWidth={isAuthor ? '80%' : '63%'}
 									height={relativeScreenWidth(12)}

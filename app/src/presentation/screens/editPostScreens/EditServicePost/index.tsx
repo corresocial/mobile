@@ -207,7 +207,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					title={'tipo de renda'}
 					hightligtedWords={['tipo', 'renda']}
 					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard

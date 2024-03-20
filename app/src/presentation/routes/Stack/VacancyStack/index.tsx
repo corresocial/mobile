@@ -7,6 +7,7 @@ import { VacancyProvider } from '@contexts/VacancyContext'
 import { VacancyStackParamList } from './types'
 
 import { EditVacancyPost } from '@screens/editPostScreens/EditVacancyPost'
+import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertExchangeValue } from '@screens/vacancyRegisterScreens/InsertExchangeValue'
 import { InsertVacancyValue } from '@screens/vacancyRegisterScreens/InsertSaleValue'
@@ -68,6 +69,8 @@ export function VacancyStack() {
 				<Stack.Screen name={'InsertVacancyEndHour'} component={InsertVacancyEndHour} />
 				<Stack.Screen name={'InsertVacancyImportantPoints'} component={InsertVacancyImportantPoints} />
 				<Stack.Screen name={'EditVacancyPostReview'} component={EditVacancyPost} />
+
+				<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 			</Stack.Navigator>
 		</VacancyProvider>
 	)

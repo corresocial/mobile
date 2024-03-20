@@ -24,7 +24,7 @@ const initialValue = {
 	clearUnsavedEditContext: () => { },
 	clearEditContext: () => { },
 	setEditDataOnContext: (data: any) => { },
-	clearUnsavedEditFieldContext: (data:any) => { }
+	clearUnsavedEditFieldContext: (data: any) => { }
 }
 
 const EditContext = createContext<EditContextType>(initialValue)
@@ -52,7 +52,7 @@ function EditProvider({ children }: EditProviderProps) {
 		})
 	}
 
-	const clearUnsavedEditFieldContext = (field:any) => {
+	const clearUnsavedEditFieldContext = (field: any) => {
 		const editContextUnsaved = { ...editDataContext.unsaved }
 		delete editContextUnsaved[field]
 		setEditDataContext({

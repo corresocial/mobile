@@ -32,7 +32,8 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
 
 	const setServiceDataOnContext = async (data: ServiceData) => {
-		setServiceDataContext({ ...serviceDataContext, ...data })
+		const customData = { macroCategory: 'service', ...data } // Solução temporária para o problema de definir macro categorias de vendas, serviços e vagas
+		setServiceDataContext({ ...serviceDataContext, ...customData })
 	}
 
 	const getAditionalDataFromLastPost = () => {

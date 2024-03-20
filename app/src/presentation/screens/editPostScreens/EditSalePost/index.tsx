@@ -63,6 +63,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		return editDataContext.unsaved[fieldName] || currentPostData[fieldName]
 	}
 
+	console.log(`getPostField macro: ${getPostField('postType')}`)
+	console.log(`getPostField macro: ${getPostField('macroCategory')}`)
+
 	const getPicturesUrl = () => {
 		const picturesUrl = getPostField('picturesUrl')
 		if (arrayIsEmpty(picturesUrl)) return []
@@ -97,7 +100,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
-		let value = getPostField(initialValue)
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
@@ -110,7 +113,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			}
 		}
 
-		navigation.push(customStack || 'SaleStack' as any, { // TODO Type
+		console.log(customStack)
+
+		navigation.navigate(customStack || 'SaleStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -209,7 +214,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					title={'tipo de renda'}
 					hightligtedWords={['tipo', 'renda']}
 					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard

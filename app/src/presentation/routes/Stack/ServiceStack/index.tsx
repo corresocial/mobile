@@ -7,6 +7,7 @@ import { ServiceProvider } from '@contexts/ServiceContext'
 import { ServiceStackParamList } from './types'
 
 import { EditServicePost } from '@screens/editPostScreens/EditServicePost'
+import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertExchangeValue } from '@screens/serviceRegisterScreens/InsertExchangeValue'
 import { InsertSaleValue } from '@screens/serviceRegisterScreens/InsertSaleValue'
@@ -60,6 +61,8 @@ export function ServiceStack() {
 				<Stack.Screen name={'InsertServiceStartHour'} component={InsertServiceStartHour} />
 				<Stack.Screen name={'InsertServiceEndHour'} component={InsertServiceEndHour} />
 				<Stack.Screen name={'EditServicePostReview'} component={EditServicePost} />
+
+				<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 			</Stack.Navigator>
 		</ServiceProvider>
 	)
