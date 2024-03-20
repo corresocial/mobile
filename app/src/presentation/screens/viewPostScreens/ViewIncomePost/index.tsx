@@ -67,6 +67,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	useEffect(() => {
+		console.log(route.params)
 		return () => {
 			clearEditContext()
 		}

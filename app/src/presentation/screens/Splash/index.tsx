@@ -20,11 +20,10 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
 
-	const { screen, id: idFromLinking } = route.params
-
 	useEffect(() => {
-		console.log(route.params)
-
+		console.log(route.params, '<=')
+		// view the actual URL
+		// console.log(createURL('hello', {}))
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
 			duration: 1000,
@@ -72,17 +71,76 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		})
 	}
 
-	const navigateToProfile = () => {
+	const navigateToProfile = (id: string) => {
+		console.log('Going to Profile...')
 		navigation.navigate('UserStack', { // TODO userStack
 			screen: 'HomeTab',
 			params: {
 				screen: 'ProfileStack',
 				params: {
 					screen: 'Profile',
-					params: { userId: idFromLinking }
+					params: { userId: id }
 				}
 			}
 		} as any) // TODO type
+	}
+
+	const navigateToPost = (id: string, post: string) => {
+		switch (post) {
+			case 'income': {
+				navigation.navigate('UserStack', { 
+					screen: 'HomeTab',
+					params: {
+						screen: 'HomeStack',
+						params: {
+							screen: 'ViewIncomePostHome',
+							params: { redirectedPostId: id }
+						}
+					}
+				} as any)
+				break
+			}
+			case 'culture': {
+				console.log('ViewCulturePostHome')
+				navigation.navigate('UserStack', { 
+					screen: 'HomeTab',
+					params: {
+						screen: 'HomeStack',
+						params: {
+							screen: 'ViewSocialImpactPostHome',
+							params: { redirectedPostId: id }
+						}
+					}
+				} as any)
+				break
+			}
+			case 'socialimpact': {
+				navigation.navigate('UserStack', { 
+					screen: 'HomeTab',
+					params: {
+						screen: 'HomeStack',
+						params: {
+							screen: 'ViewSocialImpactPostHome',
+							params: { redirectedPostId: id }
+						}
+					}
+				} as any)
+				break
+			}
+			case 'vacancy': {
+				navigation.navigate('UserStack', { 
+					screen: 'HomeTab',
+					params: {
+						screen: 'HomeStack',
+						params: {
+							screen: 'ViewVacancyPostHome',
+							params: { redirectedPostId: id }
+						}
+					}
+				} as any)
+				break
+			}
+		}
 	}
 
 	const redirectToApp = async () => {
@@ -97,14 +155,23 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/profile/gubzWyXdQFeC5xEaWlTtbaR64tT2 --ios
 				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/post/ID_DO_POST --ios
-				if (screen === 'profile' && idFromLinking) {
-					return navigateToProfile()
+				if (route.params?.screen) {
+					switch (route.params.screen) {
+						case 'profile': {
+							return navigateToProfile(route.params.id)
+						}
+						case 'post': {
+							return navigateToPost(route.params.id, route.params.postType)
+						}
+					}
 				}
 
-				if (screen === 'post' && idFromLinking) {
-					return console.log('Navigate to post')
-					// return navigateToProfile()
-				}
+				console.log('SDASIDASOIDJSAIODJASIODJASODOKASJODASJODASJ')
+
+				// if () 
+				// return navigateToPost(idFromLinking, postType)
+				// return navigateToProfile()
+				// }
 
 				navigation.reset({
 					index: 0,
