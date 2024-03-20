@@ -2,7 +2,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 
 import { Chat } from '@domain/entities/chat/types'
 
-import { LocalUserData } from '@contexts/types'
+import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { ContactUsType } from '@services/discord/types'
 import {

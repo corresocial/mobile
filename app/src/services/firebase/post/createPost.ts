@@ -1,6 +1,6 @@
 import { addDoc, collection } from 'firebase/firestore'
 
-import { LocalUserData } from '@contexts/types'
+import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { PostCollectionType, PostCollection, PostType } from '../types'
 

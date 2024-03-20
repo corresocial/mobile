@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { RegisterUserData } from '@contexts/types'
+import { RegisterUserData } from '@contexts/AuthContext/types'
 
 import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'

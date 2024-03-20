@@ -4,8 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
+import { LocalUserData } from '@contexts/AuthContext/types'
 import { StripeContext } from '@contexts/StripeContext'
-import { LocalUserData } from '@contexts/types'
 
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'

@@ -1,4 +1,4 @@
-import { LocalUserData } from '@contexts/types'
+import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { Id, PostCollection } from '../types'
 

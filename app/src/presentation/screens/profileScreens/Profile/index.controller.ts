@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { LocalUserData } from '@contexts/types'
+import { LocalUserData } from '@contexts/AuthContext/types'
 
 function useViewController() {
 	const [user, setUser] = useState<LocalUserData>({})

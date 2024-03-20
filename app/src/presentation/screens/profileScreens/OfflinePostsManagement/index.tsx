@@ -5,7 +5,7 @@ import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { LocalUserData } from '@contexts/types'
+import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'

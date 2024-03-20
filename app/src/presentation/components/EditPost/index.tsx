@@ -3,7 +3,7 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { LocalUserData } from '@contexts/types'
+import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { SearchParams } from '@services/cloudFunctions/types'
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
@@ -421,7 +421,7 @@ function EditPost({
 
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
-		&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
+			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
 	}
 
 	const performPicturesUpload = async (postsUpdated?: PostCollection[]) => {

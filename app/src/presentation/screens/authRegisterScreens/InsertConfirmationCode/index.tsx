@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { UserCredential } from 'firebase/auth'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { UserIdentification } from '@contexts/types'
+import { UserIdentification } from '@contexts/AuthContext/types'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 
