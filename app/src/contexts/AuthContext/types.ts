@@ -8,14 +8,16 @@ export interface AuthProviderProps {
 	children: ReactNode
 }
 
+export type UserData = UserCollection
+
 export type AuthContextType = {
-	userDataContext: UserCollection
-	setUserDataOnContext: (data: UserCollection) => void
-	getUserDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserCollection>
+	userDataContext: UserData
+	setUserDataOnContext: (data: UserData) => void
+	getUserDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserData>
 	hasValidLocalUser: () => Promise<boolean>
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 	deleteLocaluser: () => Promise<void>
-	setRemoteUserOnLocal: (uid?: string, userData?: UserCollection) => Promise<boolean | undefined>
+	setRemoteUserOnLocal: (uid?: string, userData?: UserData) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection
 	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
 	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>

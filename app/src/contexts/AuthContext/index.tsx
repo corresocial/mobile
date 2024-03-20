@@ -4,8 +4,8 @@ import React, { createContext, useState } from 'react'
 
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 
-import { AuthContextType, AuthProviderProps } from './types'
-import { PostCollection, UserCollection } from '@services/firebase/types'
+import { AuthContextType, AuthProviderProps, UserData } from './types'
+import { PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
 import { getUser } from '@services/firebase/user/getUser'
@@ -89,7 +89,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		await AsyncStorage.removeItem('corre.user')
 	}
 
-	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserCollection) => {
+	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserData) => {
 		if (uid) {
 			const currentUser = await getUser(uid)
 			if (currentUser && currentUser.userId) {
@@ -141,11 +141,10 @@ function AuthProvider({ children }: AuthProviderProps) {
 		)
 
 		const userCredential = await signInWithCredential(auth, credential)
-		// console.log(userCredential)
 		return userCredential
 	}
 
-	const setUserDataOnContext = (data: UserCollection) => {
+	const setUserDataOnContext = (data: UserData) => {
 		setUserDataContext({
 			...userDataContext, ...data
 		})
@@ -163,18 +162,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 			return {} as PostCollection
 		}
 	}
-
-	/* const authDataProvider = React.useMemo(() => ({
-		userDataContext,
-		setUserDataOnContext,
-		getUserDataFromSecureStore,
-		hasValidLocalUser,
-		setDataOnSecureStore,
-		deleteLocaluser,
-		setRemoteUserOnLocal,
-		sendSMS,
-		validateVerificationCode
-	}), []) */
 
 	return (
 		<AuthContext.Provider
