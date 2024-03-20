@@ -38,6 +38,8 @@ function AlertProvider({ children }: AlertProviderProps) {
 		loadAlertLocalData()
 	}, [])
 
+	console.log('ContextUpdated === AlertContext')
+
 	const loadAlertLocalData = async () => {
 		const localAlertData = await AsyncStorage.getItem('corre.alert')
 		if (localAlertData) {

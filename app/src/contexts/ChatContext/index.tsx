@@ -51,6 +51,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const chatDataContextRef = useRef(chatDataContext)
 
+	console.log('ContextUpdated === ChatContext')
+
 	useEffect(() => {
 		loadChatFromCache()
 		initUserInstance(userDataContext.userId as Id)

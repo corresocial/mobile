@@ -24,6 +24,8 @@ function SmasProvider({ children }: SmasProviderProps) {
 		setSmasDataContext({ ...smasDataContext, ...data })
 	}
 
+	console.log('ContextUpdated === SmasContext')
+
 	const getNumberOfMissingInfo = useCallback(() => {
 		const storagedInfo = [smasDataContext.motherName, smasDataContext.dateOfBirth, smasDataContext.anonymizedCpf]
 		return 3 - storagedInfo.filter((data) => data).length

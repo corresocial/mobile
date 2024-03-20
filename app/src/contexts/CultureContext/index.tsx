@@ -1,20 +1,10 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { CultureData } from './types'
+import { CultureData } from '../types'
+import { CultureContextType, CultureProviderProps } from './types'
 import { CultureCollectionRemote } from '@services/firebase/types'
 
-import { AuthContext } from './AuthContext'
-
-type CultureContextType = {
-	isSecondPost: boolean
-	cultureDataContext: CultureData
-	setCultureDataOnContext: (data: CultureData) => void
-	getAditionalDataFromLastPost: () => void
-}
-
-interface CultureProviderProps {
-	children: React.ReactNode
-}
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
@@ -34,6 +24,8 @@ function CultureProvider({ children }: CultureProviderProps) {
 	const setCultureDataOnContext = async (data: CultureData) => {
 		setCultureDataContext({ ...cultureDataContext, ...data })
 	}
+
+	console.log('ContextUpdated === CultureContext')
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []

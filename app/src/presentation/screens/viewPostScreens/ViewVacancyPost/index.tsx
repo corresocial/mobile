@@ -337,7 +337,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				<Body>
 					<VerticalSpacing />
 					<VacancyPurposeCard
-						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
+						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')} // TODO Vacancy purpose não existe mais
 					/>
 					<VerticalSpacing />
 					<DescriptionCard
