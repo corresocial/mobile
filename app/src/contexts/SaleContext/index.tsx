@@ -1,25 +1,13 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { SaleData } from './types'
-import { IncomeCollectionRemote } from '@services/firebase/types'
+import { SaleContextType, SalePostData, SaleProviderProps } from './types'
 
-import { AuthContext } from './AuthContext'
-
-type SaleContextType = {
-	isSecondPost: boolean
-	saleDataContext: SaleData
-	setSaleDataOnContext: (data: SaleData) => void
-	getAditionalDataFromLastPost: () => void
-}
-
-interface SaleProviderProps {
-	children: React.ReactNode
-}
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	saleDataContext: {},
-	setSaleDataOnContext: (data: SaleData) => { },
+	setSaleDataOnContext: (data: SalePostData) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -31,15 +19,17 @@ function SaleProvider({ children }: SaleProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [saleDataContext, setSaleDataContext] = useState(initialValue.saleDataContext)
 
-	const setSaleDataOnContext = async (data: SaleData) => {
+	const setSaleDataOnContext = async (data: SalePostData) => {
 		setSaleDataContext({ ...saleDataContext, ...data })
 	}
+
+	console.log('ContextUpdated === SaleContext')
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: IncomeCollectionRemote | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: SalePostData | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setSaleDataContext({

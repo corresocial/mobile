@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { CultureContextType, CultureData, CultureProviderProps } from './types'
+import { CultureContextType, CulturePostData, CultureProviderProps } from './types'
 import { CultureCollectionRemote } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
-const initialValue = {
+const initialValue: CultureContextType = {
 	isSecondPost: false,
 	cultureDataContext: {},
-	setCultureDataOnContext: (data: CultureData) => { },
-	getAditionalDataFromLastPost: () => { }
+	setCultureDataOnContext: (data: CulturePostData) => { },
+	getAditionalDataFromLastPost: () => { },
 }
 
 const CultureContext = createContext<CultureContextType>(initialValue)
@@ -20,7 +20,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
 
-	const setCultureDataOnContext = async (data: CultureData) => {
+	const setCultureDataOnContext = async (data: CulturePostData) => {
 		setCultureDataContext({ ...cultureDataContext, ...data })
 	}
 
@@ -30,7 +30,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: CultureCollectionRemote | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: CultureCollectionRemote | any = getLastUserPost() || {} // TODO Type Deve ser Genérico
 		if (!Object.keys(lastUserPost).length) return
 
 		setCultureDataContext({

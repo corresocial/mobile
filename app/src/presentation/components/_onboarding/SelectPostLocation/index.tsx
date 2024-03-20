@@ -207,7 +207,7 @@ function SelectPostLocation({
 					{
 						headerDescription ? (
 							<>
-								<VerticalSpacing/>
+								<VerticalSpacing />
 								<HeaderDescription>{showMessageWithHighlight(headerDescription, headerDescriptionHighlightedWords)}</HeaderDescription>
 							</>
 						) : <></>
@@ -266,7 +266,7 @@ function SelectPostLocation({
 					<ButtonContainerBottom>
 						{
 							isLoading
-								? <Loader/>
+								? <Loader />
 								: (
 									<PrimaryButton
 										flexDirection={'row-reverse'}

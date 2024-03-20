@@ -1,30 +1,17 @@
 import React, { createContext, useMemo, useState } from 'react'
 
-import { StateData } from './types'
-
-type EditContextType = {
-	editDataContext: { unsaved: any, saved: any }
-	addNewUnsavedFieldToEditContext: (dataObject: any) => void
-	clearEditContext: () => void
-	clearUnsavedEditContext: () => void,
-	clearUnsavedEditFieldContext: (field: any) => void
-	setEditDataOnContext: (data: any) => void,
-}
-
-interface EditProviderProps {
-	children: React.ReactNode
-}
+import { EditContextType, EditProviderProps } from './types'
 
 const initialValue = {
 	editDataContext: {
 		unsaved: {},
 		saved: {}
 	},
-	addNewUnsavedFieldToEditContext: (dataObject: any) => { },
+	addNewUnsavedFieldToEditContext: (data: object) => { },
 	clearUnsavedEditContext: () => { },
 	clearEditContext: () => { },
-	setEditDataOnContext: (data: any) => { },
-	clearUnsavedEditFieldContext: (data:any) => { }
+	setEditDataOnContext: (data: object) => { },
+	clearUnsavedEditFieldContext: (data: string) => { }
 }
 
 const EditContext = createContext<EditContextType>(initialValue)
@@ -32,15 +19,17 @@ const EditContext = createContext<EditContextType>(initialValue)
 function EditProvider({ children }: EditProviderProps) {
 	const [editDataContext, setEditDataContext] = useState(initialValue.editDataContext)
 
-	const setEditDataOnContext = async (data: StateData) => {
+	console.log('ContextUpdated === EditContext')
+
+	const setEditDataOnContext = async (data: object) => {
 		setEditDataContext({
 			...editDataContext, ...data
 		})
 	}
 
-	const addNewUnsavedFieldToEditContext = (dataObject: any) => {
+	const addNewUnsavedFieldToEditContext = (data: object) => {
 		setEditDataContext({
-			unsaved: { ...editDataContext.unsaved, ...dataObject },
+			unsaved: { ...editDataContext.unsaved, ...data },
 			saved: editDataContext.saved
 		})
 	}
@@ -52,8 +41,8 @@ function EditProvider({ children }: EditProviderProps) {
 		})
 	}
 
-	const clearUnsavedEditFieldContext = (field:any) => {
-		const editContextUnsaved = { ...editDataContext.unsaved }
+	const clearUnsavedEditFieldContext = (field: string) => {
+		const editContextUnsaved = { ...editDataContext.unsaved } as any // TODO Type
 		delete editContextUnsaved[field]
 		setEditDataContext({
 			unsaved: editContextUnsaved,

@@ -1,25 +1,14 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
-import { ServiceData } from './types'
+import { ServiceContextType, ServicePostData, ServiceProviderProps } from './types'
 import { IncomeCollectionRemote } from '@services/firebase/types'
 
-import { AuthContext } from './AuthContext'
-
-type ServiceContextType = {
-	isSecondPost: boolean
-	serviceDataContext: ServiceData
-	setServiceDataOnContext: (data: ServiceData) => void
-	getAditionalDataFromLastPost: () => void
-}
-
-interface ServiceProviderProps {
-	children: React.ReactNode
-}
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	serviceDataContext: {},
-	setServiceDataOnContext: (data: ServiceData) => { },
+	setServiceDataOnContext: (data: ServicePostData) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -31,9 +20,11 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
 
-	const setServiceDataOnContext = async (data: ServiceData) => {
+	const setServiceDataOnContext = async (data: ServicePostData) => {
 		setServiceDataContext({ ...serviceDataContext, ...data })
 	}
+
+	console.log('ContextUpdated === ServiceContext')
 
 	const getAditionalDataFromLastPost = () => {
 		const lastUserPost: IncomeCollectionRemote | any = getLastUserPost() || {} // TODO Type

@@ -2,18 +2,11 @@ import React, { createContext, useMemo, useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { LoaderContextType, LoaderProviderProps } from './types'
+
 import { Loader } from '@components/Loader'
 
-import { relativeScreenHeight, relativeScreenWidth } from '../presentation/common/screenDimensions'
-
-type LoaderContextType = {
-	loaderIsVisible: boolean;
-	setLoaderIsVisible: (visibility: boolean) => void;
-};
-
-interface LoaderProviderProps {
-	children: React.ReactNode;
-}
+import { relativeScreenHeight, relativeScreenWidth } from '../../presentation/common/screenDimensions'
 
 const initialValue: LoaderContextType = {
 	loaderIsVisible: false,
@@ -28,6 +21,8 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 	const memoizedSetLoaderIsVisible = useCallback((visibility: boolean) => {
 		setLoaderIsVisible(visibility)
 	}, [])
+
+	console.log('ContextUpdated === LoaderContext')
 
 	const loaderDataProvider = useMemo(() => ({
 		loaderIsVisible,

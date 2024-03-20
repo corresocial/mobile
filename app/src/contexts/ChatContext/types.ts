@@ -1,9 +1,9 @@
-import React from 'react'
+import { ReactNode } from 'react'
 
 import { Chat } from '@domain/entities/chat/types'
 
 export interface ChatProviderProps {
-	children: React.ReactNode
+	children: ReactNode
 }
 
 export type ChatContextType = {

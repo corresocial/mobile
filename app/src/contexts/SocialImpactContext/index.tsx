@@ -1,25 +1,14 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { SocialImpactData } from './types'
+import { SocialImpactProviderProps, SocialImpactContextType, SocialImpactPostData } from './types'
 import { SocialImpactCollectionRemote } from '@services/firebase/types'
 
-import { AuthContext } from './AuthContext'
-
-type SocialImpactContextType = {
-	isSecondPost: boolean,
-	socialImpactDataContext: SocialImpactData
-	setSocialImpactDataOnContext: (data: SocialImpactData) => void
-	getAditionalDataFromLastPost: () => void
-}
-
-interface SocialImpactProviderProps {
-	children: React.ReactNode
-}
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	socialImpactDataContext: {},
-	setSocialImpactDataOnContext: (data: SocialImpactData) => { },
+	setSocialImpactDataOnContext: (data: SocialImpactPostData) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -31,9 +20,11 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
 
-	const setSocialImpactDataOnContext = async (data: SocialImpactData) => {
+	const setSocialImpactDataOnContext = async (data: SocialImpactPostData) => {
 		setSocialImpactDataContext({ ...socialImpactDataContext, ...data })
 	}
+
+	console.log('ContextUpdated === SocialImpactContext')
 
 	const getAditionalDataFromLastPost = () => {
 		const lastUserPost: SocialImpactCollectionRemote | any = getLastUserPost() || {} // TODO Type obter mais recente

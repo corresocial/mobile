@@ -10,7 +10,7 @@ import { Id } from '@domain/entities/globalTypes'
 
 import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
-import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
+import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
@@ -19,10 +19,10 @@ import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
 
-import { getEnvVars } from '../infrastructure/environment'
-import { dateHasExpired } from '../presentation/common/auxiliaryFunctions'
-import { AuthContext } from './AuthContext'
-import { SubscriptionContext } from './SubscriptionContext'
+import { getEnvVars } from '../../infrastructure/environment'
+import { dateHasExpired } from '../../presentation/common/auxiliaryFunctions'
+import { AuthContext } from '../AuthContext'
+import { SubscriptionContext } from '../SubscriptionContext'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -56,7 +56,7 @@ const defaultStripeProducts = {
 	countryYearly: { ...defaultPlan }
 }
 
-export const StripeContext = createContext<StripeContextState>({
+const initialValue = {
 	stripeProductsPlans: { ...defaultStripeProducts },
 	subscriptionHasActive: true,
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
@@ -73,7 +73,9 @@ export const StripeContext = createContext<StripeContextState>({
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => new Promise(() => { }),
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
 	sendReceiptByEmail: (customerId: string, email: string) => new Promise(() => { }),
-})
+}
+
+export const StripeContext = createContext<StripeContextState>(initialValue)
 
 const { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } = getEnvVars()
 
@@ -105,6 +107,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 			checkCurrentSubscriptionStatus()
 		}
 	}, [])
+
+	console.log('ContextUpdated === StripeContext')
 
 	async function getProducts() {
 		try {

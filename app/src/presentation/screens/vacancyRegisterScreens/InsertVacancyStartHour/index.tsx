@@ -11,7 +11,7 @@ import { PostTime } from '@components/_onboarding/PostTime'
 
 function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-	
+
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const skipScreen = () => {

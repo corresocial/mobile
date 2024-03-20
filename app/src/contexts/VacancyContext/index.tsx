@@ -1,25 +1,14 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { VacancyData } from './types'
+import { VacancyContextType, VacancyProviderProps, VacancyPostData } from './types'
 import { VacancyCollectionRemote } from '@services/firebase/types'
 
-import { AuthContext } from './AuthContext'
-
-type VacancyContextType = {
-	isSecondPost: boolean
-	vacancyDataContext: VacancyData
-	setVacancyDataOnContext: (data: VacancyData) => void
-	getAditionalDataFromLastPost: () => void
-}
-
-interface VacancyProviderProps {
-	children: React.ReactNode
-}
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	vacancyDataContext: {},
-	setVacancyDataOnContext: (data: VacancyData) => { },
+	setVacancyDataOnContext: (data: VacancyPostData) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -31,9 +20,10 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
-	const setVacancyDataOnContext = async (data: VacancyData) => {
+	const setVacancyDataOnContext = async (data: VacancyPostData) => {
 		setVacancyDataContext({ ...vacancyDataContext, ...data })
 	}
+	console.log('ContextUpdated === VacancyContext')
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []

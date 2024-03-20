@@ -1,27 +1,16 @@
 import React, { createContext, useCallback, useMemo, useState, useContext } from 'react'
 
-import { SubscriptionData } from './types'
+import { SubscriptionContextType, SubscriptionData, SubscriptionProviderProps } from './types'
 import { Id, PostRange, UserSubscription } from '@services/firebase/types'
 
 import { updateUser } from '@services/firebase/user/updateUser'
 
-import { AuthContext } from './AuthContext'
-
-type SubscriptionContextType = {
-	subscriptionDataContext: SubscriptionData
-	setSubscriptionDataOnContext: (data: SubscriptionData) => void
-	updateUserSubscription: (userSubscription: UserSubscription) => Promise<boolean> | boolean
-}
-
-interface SubscriptionProviderProps {
-	children: React.ReactNode
-}
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	subscriptionDataContext: { subscriptionRange: 'near' as PostRange },
 	setSubscriptionDataOnContext: (data: SubscriptionData) => { },
 	updateUserSubscription: (userSubscription: UserSubscription) => new Promise<boolean>(() => { })
-
 }
 
 const SubscriptionContext = createContext<SubscriptionContextType>(initialValue)
@@ -34,6 +23,8 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 	const setSubscriptionDataOnContext = useCallback((data: SubscriptionData) => {
 		setSubscriptionDataContext((prevData) => ({ ...prevData, ...data }))
 	}, [])
+
+	console.log('ContextUpdated === SubscriptionContext')
 
 	const updateUserSubscription = useCallback(async (userSubscription: UserSubscription) => {
 		await updateLocalUserSubscription(userSubscription)

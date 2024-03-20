@@ -1,9 +1,9 @@
-import React from 'react'
+import { ReactNode } from 'react'
 
 import { SmasRecoveryNISData } from '@domain/entities/smas/types'
 
 export interface SmasProviderProps {
-	children: React.ReactNode
+	children: ReactNode
 }
 
 export type SmasContextType = {

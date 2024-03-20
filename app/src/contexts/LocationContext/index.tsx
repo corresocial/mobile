@@ -1,25 +1,10 @@
 import React, { createContext, useMemo, useState } from 'react'
 
-import { MacroCategoriesType } from '../presentation/utils/postMacroCategories/types'
-import { LocationData } from './types'
-import { FeedPosts, PostType } from '@services/firebase/types'
-import { CurrentCategory, SearchParams } from '@services/maps/types'
+import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
+import { LocationContextType, LocationData, LocationProviderProps } from './types'
+import { PostType } from '@services/firebase/types'
 
 import QuestionMarkIcon from '@assets/icons/questionMark-white.svg'
-
-type LocationContextType = {
-	locationDataContext: {
-		searchParams: SearchParams
-		currentCategory: CurrentCategory
-		feedPosts: FeedPosts
-		lastRefreshInMilliseconds: number
-	}
-	setLocationDataOnContext: (data: LocationData) => void
-}
-
-interface LocationProviderProps {
-	children: React.ReactNode
-}
 
 const initialValue = {
 	locationDataContext: {
@@ -57,6 +42,8 @@ function LocationProvider({ children }: LocationProviderProps) {
 	const setLocationDataOnContext = async (data: LocationData) => {
 		setLocationDataContext({ ...locationDataContext, ...data as any })
 	}
+
+	console.log('ContextUpdated === LocationContext')
 
 	const locationProviderData = useMemo(() => ({
 		locationDataContext,

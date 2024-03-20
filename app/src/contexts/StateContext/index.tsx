@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 
-import { StateData } from './types'
+import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
 import { Id } from '@services/firebase/types'
 
 import { updateUser } from '@services/firebase/user/updateUser'
@@ -9,29 +9,18 @@ import { updateUser } from '@services/firebase/user/updateUser'
 import { ShareModal } from '@components/_modals/ShareModal'
 import { TourModal } from '@components/_modals/TourModal'
 
-import { share } from '../presentation/common/share'
-import { AuthContext } from './AuthContext'
-
-type StateContextType = {
-	stateDataContext: StateData
-	setStateDataOnContext: (data: StateData) => void,
-	toggleTourModalVisibility: (visibility: boolean, navigation: any) => void
-	toggleShareModalVisibility: (visibility: boolean) => void
-}
-
-interface StateProviderProps {
-	children: React.ReactNode
-}
+import { share } from '../../presentation/common/share'
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	stateDataContext: {
 		showTourModal: false,
 		showShareModal: false
 	},
-	setStateDataOnContext: (data: StateData) => { },
+	setStateDataOnContext: (data: ApplicationStateData) => { },
 	toggleTourModalVisibility: (visibility: boolean) => { },
 	toggleShareModalVisibility: (visibility: boolean) => { }
-} as any
+} as any // TODO TYpe
 
 const StateContext = createContext<StateContextType>(initialValue)
 
@@ -45,9 +34,11 @@ function StateProvider({ children }: StateProviderProps) {
 	const [stateDataContext, setStateDataContext] = useState(initialValue.stateDataContext)
 	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
 
-	const setStateDataOnContext = async (data: StateData) => {
+	const setStateDataOnContext = async (data: ApplicationStateData) => {
 		setStateDataContext({ ...stateDataContext, ...data })
 	}
+
+	console.log('ContextUpdated === StateContext')
 
 	const sharePost = () => {
 		const { lastPostTitle, lastPostId } = stateDataContext
