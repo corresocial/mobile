@@ -6,7 +6,7 @@ export interface CultureProviderProps {
 	children: ReactNode
 }
 
-export type CulturePostData = CultureCollection
+export type CulturePostData = Partial<CultureCollection>
 
 export type CultureContextType = {
 	isSecondPost: boolean

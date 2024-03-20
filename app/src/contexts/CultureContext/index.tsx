@@ -28,7 +28,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: CultureCollectionRemote | any = getLastUserPost() || {} // TODO Type Deve ser Genérico
+		const lastUserPost: CultureCollectionRemote | any = getLastUserPost() || {} // TODO Tipagem de posts deve ser Genérico
 		if (!Object.keys(lastUserPost).length) return
 
 		setCultureDataContext({

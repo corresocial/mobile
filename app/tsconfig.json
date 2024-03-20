@@ -22,6 +22,9 @@
 			"@data/*": [
 				"./src/data/*"
 			],
+			"@newutils/*": [
+				"src/newutils/*"
+			],
 			"@utils/*": [
 				"src/presentation/utils/*"
 			],

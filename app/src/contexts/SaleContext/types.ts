@@ -6,7 +6,7 @@ export interface SaleProviderProps {
 	children: ReactNode
 }
 
-export type SalePostData = IncomeCollection
+export type SalePostData = Partial<IncomeCollection>
 
 export type SaleContextType = {
 	isSecondPost: boolean

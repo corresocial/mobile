@@ -1,4 +1,6 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
+
+import { objectValuesAreEquals } from '@newutils/objects'
 
 import { EditContextType, EditProviderProps } from './types'
 
@@ -19,39 +21,40 @@ const EditContext = createContext<EditContextType>(initialValue)
 function EditProvider({ children }: EditProviderProps) {
 	const [editDataContext, setEditDataContext] = useState(initialValue.editDataContext)
 
-	const setEditDataOnContext = async (data: object) => {
+	const setEditDataOnContext = useCallback((data: object) => {
+		if (objectValuesAreEquals(editDataContext, data)) return
 		setEditDataContext({ ...editDataContext, ...data })
-	}
+	}, [editDataContext])
 
-	const addNewUnsavedFieldToEditContext = (data: object) => {
+	const addNewUnsavedFieldToEditContext = useCallback((data: object) => {
 		setEditDataContext({
 			unsaved: { ...editDataContext.unsaved, ...data },
 			saved: editDataContext.saved
 		})
-	}
+	}, [editDataContext])
 
-	const clearUnsavedEditContext = () => {
-		setEditDataContext({
-			unsaved: {},
-			saved: editDataContext.saved
-		})
-	}
-
-	const clearUnsavedEditFieldContext = (field: string) => {
+	const clearUnsavedEditFieldContext = useCallback((field: string) => {
 		const editContextUnsaved = { ...editDataContext.unsaved } as any // TODO Type
 		delete editContextUnsaved[field]
 		setEditDataContext({
 			unsaved: editContextUnsaved,
 			saved: editDataContext.saved
 		})
-	}
+	}, [editDataContext])
 
-	const clearEditContext = () => {
+	const clearUnsavedEditContext = useCallback(() => {
+		setEditDataContext({
+			unsaved: {},
+			saved: editDataContext.saved
+		})
+	}, [editDataContext])
+
+	const clearEditContext = useCallback(() => {
 		setEditDataContext({
 			unsaved: {},
 			saved: {}
 		})
-	}
+	}, [])
 
 	const editProviderData = useMemo(() => ({
 		editDataContext,

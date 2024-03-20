@@ -6,7 +6,7 @@ export interface VacancyProviderProps {
 	children: ReactNode
 }
 
-export type VacancyPostData = VacancyCollection
+export type VacancyPostData = Partial<VacancyCollection>
 
 export type VacancyContextType = {
 	isSecondPost: boolean

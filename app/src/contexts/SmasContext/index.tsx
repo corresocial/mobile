@@ -1,6 +1,8 @@
-import React, { createContext, useCallback, useState } from 'react'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
 
-import { SmasContextType, SmasProviderProps } from './types'
+import { objectValuesAreEquals } from '@newutils/objects'
+
+import { SmasContextType, SmasDataContext, SmasProviderProps } from './types'
 
 const initialValue = {
 	smasDataContext: {
@@ -12,7 +14,7 @@ const initialValue = {
 	},
 	clearSmasDataContext: () => { },
 	getNumberOfMissingInfo: () => 0,
-	setSmasDataOnContext: (data: Partial<SmasContextType['smasDataContext']>) => { },
+	setSmasDataOnContext: (data: SmasDataContext) => { },
 }
 
 const SmasContext = createContext<SmasContextType>(initialValue)
@@ -20,9 +22,10 @@ const SmasContext = createContext<SmasContextType>(initialValue)
 function SmasProvider({ children }: SmasProviderProps) {
 	const [smasDataContext, setSmasDataContext] = useState(initialValue.smasDataContext)
 
-	const setSmasDataOnContext = async (data: Partial<SmasContextType['smasDataContext']>) => {
+	const setSmasDataOnContext = useCallback(async (data: SmasDataContext) => {
+		if (objectValuesAreEquals(smasDataContext, data)) return
 		setSmasDataContext({ ...smasDataContext, ...data })
-	}
+	}, [smasDataContext])
 
 	const getNumberOfMissingInfo = useCallback(() => {
 		const storagedInfo = [smasDataContext.motherName, smasDataContext.dateOfBirth, smasDataContext.anonymizedCpf]
@@ -33,12 +36,12 @@ function SmasProvider({ children }: SmasProviderProps) {
 		setSmasDataContext(initialValue.smasDataContext)
 	}, [])
 
-	const smasProviderData = {
+	const smasProviderData = useMemo(() => ({
 		smasDataContext,
 		clearSmasDataContext,
 		getNumberOfMissingInfo,
 		setSmasDataOnContext,
-	}
+	}), [smasDataContext])
 
 	return (
 		<SmasContext.Provider value={smasProviderData} >

@@ -6,7 +6,7 @@ export interface ServiceProviderProps {
 	children: ReactNode
 }
 
-export type ServicePostData = IncomeCollection
+export type ServicePostData = Partial<IncomeCollection>
 
 export type ServiceContextType = {
 	isSecondPost: boolean

@@ -6,9 +6,11 @@ export interface SmasProviderProps {
 	children: ReactNode
 }
 
+export type SmasDataContext = Partial<SmasRecoveryNISData>
+
 export type SmasContextType = {
-	smasDataContext: SmasRecoveryNISData
+	smasDataContext: SmasDataContext
 	clearSmasDataContext: () => void
 	getNumberOfMissingInfo: () => number
-	setSmasDataOnContext: (data: Partial<SmasRecoveryNISData>) => void
+	setSmasDataOnContext: (data: SmasDataContext) => void
 }

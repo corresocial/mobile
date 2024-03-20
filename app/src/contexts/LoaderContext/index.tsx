@@ -18,18 +18,21 @@ const LoaderContext = createContext<LoaderContextType>(initialValue)
 function LoaderProvider({ children }: LoaderProviderProps) {
 	const [loaderIsVisible, setLoaderIsVisible] = useState(initialValue.loaderIsVisible)
 
-	const memoizedSetLoaderIsVisible = useCallback((visibility: boolean) => {
+	const getLoaderYAxisCenter = useCallback(() => relativeScreenHeight(50) - (RFValue(loaderScale) / 2), [loaderIsVisible])
+	const getLoaderXAxisCenter = useCallback(() => relativeScreenWidth(50) - (RFValue(loaderScale) / 2), [loaderIsVisible])
+
+	const loaderScale = 70
+	const loaderYAxisCenter = getLoaderYAxisCenter()
+	const loaderXAxisCenter = getLoaderXAxisCenter()
+
+	const setLoaderModalIsVisible = useCallback((visibility: boolean) => {
 		setLoaderIsVisible(visibility)
 	}, [])
 
 	const loaderDataProvider = useMemo(() => ({
 		loaderIsVisible,
-		setLoaderIsVisible: memoizedSetLoaderIsVisible,
-	}), [loaderIsVisible, memoizedSetLoaderIsVisible])
-
-	const loaderScale = 70
-	const loaderYAxisCenter = relativeScreenHeight(50) - (RFValue(loaderScale) / 2)
-	const loaderXAxisCenter = relativeScreenWidth(50) - (RFValue(loaderScale) / 2)
+		setLoaderIsVisible: setLoaderModalIsVisible,
+	}), [loaderIsVisible, setLoaderModalIsVisible])
 
 	return (
 		<LoaderContext.Provider value={loaderDataProvider}>

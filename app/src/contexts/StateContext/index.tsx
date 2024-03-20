@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
+
+import { objectValuesAreEquals } from '@newutils/objects'
 
 import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
 import { Id } from '@services/firebase/types'
@@ -37,41 +39,27 @@ function StateProvider({ children }: StateProviderProps) {
 	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
 
 	const setStateDataOnContext = async (data: ApplicationStateData) => {
-		console.log(stateDataContext)
-		console.log(data)
-		if (!objectValuesAreEquals(stateDataContext, data)) { // REFACTOR Transformar em utils e aplicar à todos os updates de contextos para eviar atualizações de contexto desnecessárias
-			setStateDataContext({ ...stateDataContext, ...data })
-		}
+		if (objectValuesAreEquals(stateDataContext, data)) return // REFACTOR Transformar em utils e aplicar à todos os updates de contextos para eviar atualizações de contexto desnecessárias
+		setStateDataContext({ ...stateDataContext, ...data })
 	}
 
-	const objectValuesAreEquals = (completeObject: any, abstractObject: any) => {
-		const res = Object.entries(abstractObject).reduce((acc: boolean[], [key, value]) => {
-			return [...acc, completeObject[key] === value]
-		}, [])
-
-		const areEquals = res.every((item) => item === true)
-		return areEquals
-	}
-
-	const sharePost = () => {
+	const sharePost = useCallback(() => {
 		const { lastPostTitle, lastPostId } = stateDataContext
 		share(`Olha o que estou anunciando no corre. \n\n${lastPostTitle}\n\nhttps://corre.social/p/${lastPostId}`)
-	}
+	}, [stateDataContext])
 
-	const toggleTourModalVisibility = (visibility: boolean, tourHandler?: any) => {
-		if (stateDataContext.showTourModal !== visibility) {
-			setStateDataOnContext({ showTourModal: visibility })
-			setHandlerTourModalButton(tourHandler)
-		}
-	}
+	const toggleTourModalVisibility = useCallback((visibility: boolean, tourHandler?: any) => {
+		if (stateDataContext.showTourModal === visibility) return
+		setStateDataOnContext({ showTourModal: visibility })
+		setHandlerTourModalButton(tourHandler)
+	}, [stateDataContext])
 
-	const toggleShareModalVisibility = (visibility: boolean) => {
-		if (stateDataContext.showShareModal !== visibility) {
-			setStateDataOnContext({ showShareModal: visibility })
-		}
-	}
+	const toggleShareModalVisibility = useCallback((visibility: boolean) => {
+		if (stateDataContext.showShareModal === visibility) return
+		setStateDataOnContext({ showShareModal: visibility })
+	}, [stateDataContext])
 
-	const navigateToTour = () => {
+	const navigateToTour = useCallback(() => {
 		if (handlerTourModalButton) {
 			handlerTourModalButton.navigation.navigate('SelectPostType')
 			setStateDataOnContext({ showTourModal: false })
@@ -80,7 +68,7 @@ function StateProvider({ children }: StateProviderProps) {
 			Alert.alert('ops!', 'não foi possível iniciar o tour')
 			setStateDataOnContext({ showTourModal: false })
 		}
-	}
+	}, [])
 
 	const closeTourModal = () => {
 		setStateDataOnContext({ showTourModal: false })

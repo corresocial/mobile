@@ -6,7 +6,7 @@ export interface SocialImpactProviderProps {
 	children: ReactNode
 }
 
-export type SocialImpactPostData = SocialImpactCollection
+export type SocialImpactPostData = Partial<SocialImpactCollection>
 
 export type SocialImpactContextType = {
 	isSecondPost: boolean,

@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
 
+import { objectValuesAreEquals } from '@newutils/objects'
+
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
 
@@ -38,7 +40,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 		loadAlertLocalData()
 	}, [])
 
-	const loadAlertLocalData = async () => {
+	const loadAlertLocalData = useCallback(async () => {
 		const localAlertData = await AsyncStorage.getItem('corre.alert')
 		if (localAlertData) {
 			const localAlertDataObject = JSON.parse(localAlertData)
@@ -48,16 +50,16 @@ function AlertProvider({ children }: AlertProviderProps) {
 		} else {
 			await setAlertLocalDataStructure()
 		}
-	}
+	}, [])
 
-	const setAlertLocalDataStructure = async () => {
+	const setAlertLocalDataStructure = useCallback(async () => {
 		await updateLocalAlertData(initialNotificationState)
 		setNotificationState(initialNotificationState)
-	}
+	}, [])
 
-	const updateLocalAlertData = async (data: Partial<InitialNotificationStateType>) => {
+	const updateLocalAlertData = useCallback(async (data: Partial<InitialNotificationStateType>) => {
 		await AsyncStorage.setItem('corre.alert', JSON.stringify(data))
-	}
+	}, [])
 
 	const showAlertNotificationModal = useCallback(() => {
 		if (notificationState.notificationAlertModal) setAlertNotificationIsVisible(true)
@@ -67,23 +69,25 @@ function AlertProvider({ children }: AlertProviderProps) {
 		if (notificationState.newHomePresentationModal) setNewHomePresentationIsVisible(true)
 	}, [notificationState])
 
-	const handlerAlertNotificationModal = () => {
+	const handlerAlertNotificationModal = useCallback(() => {
 		setAlertNotificationIsVisible(false)
 		updateNotificationState({ notificationAlertModal: false, configNotificationButton: false })
 		navigation.navigate('Configurations')
 		navigation.navigate('NotificationSettings')
-	}
+	}, [])
 
-	const handleNewHomePresentationModal = () => {
+	const handleNewHomePresentationModal = useCallback(() => {
 		setNewHomePresentationIsVisible(false)
 		updateNotificationState({ newHomePresentationModal: false })
-	}
+	}, [])
 
-	const updateNotificationState = async (state: Partial<InitialNotificationStateType>) => {
+	const updateNotificationState = useCallback(async (state: Partial<InitialNotificationStateType>) => {
+		if (objectValuesAreEquals(notificationState, state)) return
+
 		setAlertNotificationIsVisible(false)
 		setNotificationState({ ...notificationState, ...state })
 		updateLocalAlertData({ ...notificationState, ...state })
-	}
+	}, [notificationState])
 
 	const alertDataProvider = useMemo(() => ({
 		notificationState,
