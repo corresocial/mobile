@@ -51,8 +51,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const chatDataContextRef = useRef(chatDataContext)
 
-	console.log('ContextUpdated === ChatContext')
-
 	useEffect(() => {
 		loadChatFromCache()
 		initUserInstance(userDataContext.userId as Id)
@@ -150,6 +148,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 		chatDataContext,
 		removeChatListeners
 	})
+
+	// REFACTOR useMemo
 
 	return (
 		<ChatContext.Provider value={chatProviderData as any} >

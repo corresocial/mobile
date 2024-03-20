@@ -23,7 +23,6 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 	const setVacancyDataOnContext = async (data: VacancyPostData) => {
 		setVacancyDataContext({ ...vacancyDataContext, ...data })
 	}
-	console.log('ContextUpdated === VacancyContext')
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []

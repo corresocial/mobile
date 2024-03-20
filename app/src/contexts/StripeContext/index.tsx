@@ -108,8 +108,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 		}
 	}, [])
 
-	console.log('ContextUpdated === StripeContext')
-
 	async function getProducts() {
 		try {
 			const queryKey = ['stripe.products']
@@ -510,6 +508,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 		navigation.navigate('Configurations') // TODO Type
 		navigation.navigate('SelectSubscriptionRange')
 	}
+
+	// REFACTOR useMemo
 
 	return (
 		<StripeContext.Provider

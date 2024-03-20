@@ -24,8 +24,6 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 		setServiceDataContext({ ...serviceDataContext, ...data })
 	}
 
-	console.log('ContextUpdated === ServiceContext')
-
 	const getAditionalDataFromLastPost = () => {
 		const lastUserPost: IncomeCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return

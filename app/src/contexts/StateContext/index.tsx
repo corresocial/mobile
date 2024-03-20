@@ -15,12 +15,14 @@ import { AuthContext } from '../AuthContext'
 const initialValue = {
 	stateDataContext: {
 		showTourModal: false,
-		showShareModal: false
+		showShareModal: false,
+		lastPostTitle: '',
+		lastPostId: ''
 	},
 	setStateDataOnContext: (data: ApplicationStateData) => { },
 	toggleTourModalVisibility: (visibility: boolean) => { },
 	toggleShareModalVisibility: (visibility: boolean) => { }
-} as any // TODO TYpe
+}
 
 const StateContext = createContext<StateContextType>(initialValue)
 
@@ -35,10 +37,21 @@ function StateProvider({ children }: StateProviderProps) {
 	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
 
 	const setStateDataOnContext = async (data: ApplicationStateData) => {
-		setStateDataContext({ ...stateDataContext, ...data })
+		console.log(stateDataContext)
+		console.log(data)
+		if (!objectValuesAreEquals(stateDataContext, data)) { // REFACTOR Transformar em utils e aplicar à todos os updates de contextos para eviar atualizações de contexto desnecessárias
+			setStateDataContext({ ...stateDataContext, ...data })
+		}
 	}
 
-	console.log('ContextUpdated === StateContext')
+	const objectValuesAreEquals = (completeObject: any, abstractObject: any) => {
+		const res = Object.entries(abstractObject).reduce((acc: boolean[], [key, value]) => {
+			return [...acc, completeObject[key] === value]
+		}, [])
+
+		const areEquals = res.every((item) => item === true)
+		return areEquals
+	}
 
 	const sharePost = () => {
 		const { lastPostTitle, lastPostId } = stateDataContext
@@ -46,16 +59,16 @@ function StateProvider({ children }: StateProviderProps) {
 	}
 
 	const toggleTourModalVisibility = (visibility: boolean, tourHandler?: any) => {
-		setStateDataOnContext({
-			showTourModal: visibility
-		})
-		setHandlerTourModalButton(tourHandler)
+		if (stateDataContext.showTourModal !== visibility) {
+			setStateDataOnContext({ showTourModal: visibility })
+			setHandlerTourModalButton(tourHandler)
+		}
 	}
 
 	const toggleShareModalVisibility = (visibility: boolean) => {
-		setStateDataOnContext({
-			showShareModal: visibility
-		})
+		if (stateDataContext.showShareModal !== visibility) {
+			setStateDataOnContext({ showShareModal: visibility })
+		}
 	}
 
 	const navigateToTour = () => {
@@ -77,18 +90,18 @@ function StateProvider({ children }: StateProviderProps) {
 	const closeShareModal = () => setStateDataOnContext({ showShareModal: false })
 
 	const setUserTourPerformed = async () => {
-		await updateUser(userDataContext.userId as Id, {
-			tourPerformed: true
-		})
+		await updateUser(userDataContext.userId as Id, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 
-	const stateProviderData = useMemo(() => ({
-		stateDataContext,
-		setStateDataOnContext,
-		toggleShareModalVisibility,
-		toggleTourModalVisibility
-	}), [stateDataContext])
+	const stateProviderData = useMemo(() => {
+		return ({
+			stateDataContext,
+			setStateDataOnContext,
+			toggleShareModalVisibility,
+			toggleTourModalVisibility
+		})
+	}, [stateDataContext])
 
 	return (
 		<StateContext.Provider value={stateProviderData}>

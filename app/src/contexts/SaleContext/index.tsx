@@ -23,8 +23,6 @@ function SaleProvider({ children }: SaleProviderProps) {
 		setSaleDataContext({ ...saleDataContext, ...data })
 	}
 
-	console.log('ContextUpdated === SaleContext')
-
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return

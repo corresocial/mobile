@@ -22,8 +22,6 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 		setLoaderIsVisible(visibility)
 	}, [])
 
-	console.log('ContextUpdated === LoaderContext')
-
 	const loaderDataProvider = useMemo(() => ({
 		loaderIsVisible,
 		setLoaderIsVisible: memoizedSetLoaderIsVisible,

@@ -19,12 +19,8 @@ const EditContext = createContext<EditContextType>(initialValue)
 function EditProvider({ children }: EditProviderProps) {
 	const [editDataContext, setEditDataContext] = useState(initialValue.editDataContext)
 
-	console.log('ContextUpdated === EditContext')
-
 	const setEditDataOnContext = async (data: object) => {
-		setEditDataContext({
-			...editDataContext, ...data
-		})
+		setEditDataContext({ ...editDataContext, ...data })
 	}
 
 	const addNewUnsavedFieldToEditContext = (data: object) => {

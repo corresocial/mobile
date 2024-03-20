@@ -49,9 +49,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}
 
 	const goToHome = () => {
-		setStateDataOnContext({
-			showTourModal: false
-		})
+		setStateDataOnContext({ showTourModal: false })
 		setUserTourPerformed()
 		navigation.navigate('HomeTab', { showsInFirstTab: true })
 	}
@@ -65,9 +63,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}
 
 	const goToProfile = () => {
-		setStateDataOnContext({
-			showTourModal: true
-		})
+		setStateDataOnContext({ showTourModal: false })
 		navigation.navigate('HomeTab')
 	}
 

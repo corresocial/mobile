@@ -24,8 +24,6 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 		setSocialImpactDataContext({ ...socialImpactDataContext, ...data })
 	}
 
-	console.log('ContextUpdated === SocialImpactContext')
-
 	const getAditionalDataFromLastPost = () => {
 		const lastUserPost: SocialImpactCollectionRemote | any = getLastUserPost() || {} // TODO Type obter mais recente
 		console.log(lastUserPost.description)

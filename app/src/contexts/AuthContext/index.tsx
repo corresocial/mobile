@@ -17,8 +17,6 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 function AuthProvider({ children }: AuthProviderProps) {
 	const [userDataContext, setUserDataContext] = useState({})
 
-	console.log('ContextUpdated === AuthContext')
-
 	const getUserDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
 		try {
 			if (requireAuthentication) {
@@ -163,6 +161,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 		}
 	}
 
+	// REFACTOR useMemo
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -183,9 +183,4 @@ function AuthProvider({ children }: AuthProviderProps) {
 	)
 }
 
-const useAuth = () => {
-	/* const auth = useContext(AuthContext)
-	return auth */
-}
-
-export { AuthProvider, AuthContext, useAuth }
+export { AuthProvider, AuthContext }

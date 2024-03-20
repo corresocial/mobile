@@ -24,8 +24,6 @@ function CultureProvider({ children }: CultureProviderProps) {
 		setCultureDataContext({ ...cultureDataContext, ...data })
 	}
 
-	console.log('ContextUpdated === CultureContext')
-
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return

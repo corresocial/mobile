@@ -24,8 +24,6 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 		setSubscriptionDataContext((prevData) => ({ ...prevData, ...data }))
 	}, [])
 
-	console.log('ContextUpdated === SubscriptionContext')
-
 	const updateUserSubscription = useCallback(async (userSubscription: UserSubscription) => {
 		await updateLocalUserSubscription(userSubscription)
 		await updateRemoteUserSubscription(userSubscription)

@@ -5,7 +5,7 @@ export interface EditProviderProps {
 }
 
 export type EditContextType = {
-	editDataContext: { unsaved: object, saved: object }
+	editDataContext: { unsaved: any, saved: any }
 	addNewUnsavedFieldToEditContext: (data: object) => void
 	clearEditContext: () => void
 	clearUnsavedEditContext: () => void,

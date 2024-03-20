@@ -40,10 +40,8 @@ function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)
 
 	const setLocationDataOnContext = async (data: LocationData) => {
-		setLocationDataContext({ ...locationDataContext, ...data as any })
+		setLocationDataContext({ ...locationDataContext, ...data as any }) // REFACTOR Type
 	}
-
-	console.log('ContextUpdated === LocationContext')
 
 	const locationProviderData = useMemo(() => ({
 		locationDataContext,
