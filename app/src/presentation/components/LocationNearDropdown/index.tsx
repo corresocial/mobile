@@ -3,9 +3,9 @@ import { Animated, FlatList, Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
+import { useLocationRepository } from 'src/location/useLocationRepository'
 
-import { setRecentAddressOnStorage } from '@utils/maps/recentAddresses'
+import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
 
 import {
 	Container,
@@ -25,6 +25,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 import { DropdownItem } from '../DropdownItem'
+
+const { localStorage } = useLocationRepository()
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender
@@ -74,7 +76,7 @@ function LocationNearDropdown({
 	const findNearPostsByAddress = async (address: AddressSearchResult) => {
 		setDropdownIsVisible(false)
 		if (!address.recent) {
-			await setRecentAddressOnStorage(address)
+			await localStorage.saveAddressData(address)
 			saveRecentAddresses(address)
 		}
 

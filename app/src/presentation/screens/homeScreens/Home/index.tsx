@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
+import { useLocationRepository } from 'src/location/useLocationRepository'
 
 import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
@@ -27,13 +28,9 @@ import { LocationService } from '@services/location/LocationService'
 import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
 import { searchAddressByText } from '@services/maps/searchAddressByText'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
-import { getLastRecentAddress, getRecentAdressesFromStorage } from '@utils/maps/recentAddresses'
+import { getMostRecentAddress } from '@utils/maps/recentAddresses'
 
-import {
-	Container,
-	DropdownContainer,
-	RecentPostsContainer
-} from './styles'
+import { Container, DropdownContainer, RecentPostsContainer } from './styles'
 import { generateGeohashes } from '@common/generateGeohashes'
 import { theme } from '@common/theme'
 
@@ -45,6 +42,7 @@ import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
 
+const { localStorage } = useLocationRepository()
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
@@ -106,7 +104,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const loadRecentAddresses = async () => {
-		const addresses = await getRecentAdressesFromStorage()
+		const addresses = await localStorage.getRecentAddresses()
 		setRecentAddresses(addresses)
 	}
 
@@ -164,7 +162,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
 			if (firstLoad) {
-				const recentPosition = getLastRecentAddress(recentAddresses)
+				const recentPosition = getMostRecentAddress(recentAddresses)
 
 				if (recentPosition) {
 					return {
@@ -182,7 +180,7 @@ function Home({ navigation }: HomeScreenProps) {
 		} catch (error) {
 			console.log(error)
 
-			const recentPosition = getLastRecentAddress(recentAddresses)
+			const recentPosition = getMostRecentAddress(recentAddresses)
 			if (!recentPosition) {
 				return null
 			}

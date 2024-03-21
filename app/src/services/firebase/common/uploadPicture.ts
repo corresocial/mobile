@@ -21,8 +21,8 @@ async function uploadImage(
 		const uploadTask = uploadBytesResumable(fileRef, blob)
 
 		return { uploadTask, blob }
-	} catch (e) {
-		console.log(e)
+	} catch (error) {
+		console.log(error)
 	}
 }
 
