@@ -3,7 +3,7 @@ import { Platform, StatusBar } from 'react-native'
 
 import { Id } from '@domain/entities/globalTypes'
 
-import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
+import { SmasRepositoryAdapter } from '@data/smas/useSmasRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext'

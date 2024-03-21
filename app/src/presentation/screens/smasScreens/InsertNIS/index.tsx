@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/entities/smas/types'
 
-import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
+import { SmasRepositoryAdapter } from '@data/smas/useSmasRepository'
 
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { PostCollection } from '@services/firebase/types'
 
-const getOfflinePosts = async () => {
+const getOfflinePosts = async () => { // REFACTOR é de post
 	const storedPosts = await AsyncStorage.getItem('corre.offlinePosts')
 	if (storedPosts) {
 		const storedPostsObject = JSON.parse(storedPosts)

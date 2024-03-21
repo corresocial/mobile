@@ -1,8 +1,8 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { SmasRepositoryAdapterInterface } from '@data/smas/SmasRepositoryAdapterInterface'
+import { SmasRepositoryInterface } from '@data/smas/SmasRepositoryInterface'
 
-async function setSmasPushNotificationStateUC(state: boolean, nis: string, userId: Id, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) {
+async function setSmasPushNotificationStateUC(state: boolean, nis: string, userId: Id, SmasRepositoryAdapter: () => SmasRepositoryInterface) {
 	const { remote } = SmasRepositoryAdapter()
 
 	try {
