@@ -7,7 +7,7 @@ import { Id, PostRange, UserSubscription } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
-const { localUser, remoteUser } = useUserRepository()
+const { localStorage, remoteStorage } = useUserRepository()
 
 const initialValue = {
 	subscriptionDataContext: { subscriptionRange: 'near' as PostRange },
@@ -34,11 +34,11 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 
 	const updateLocalUserSubscription = async (userSubscription: UserSubscription) => {
 		setUserDataOnContext({ subscription: { ...userDataContext.subscription, ...userSubscription } })
-		await localUser.saveLocalUserData({ ...userDataContext, subscription: { customerId: userDataContext.subscription?.customerId, ...userSubscription } })
+		await localStorage.saveLocalUserData({ ...userDataContext, subscription: { customerId: userDataContext.subscription?.customerId, ...userSubscription } })
 	}
 
 	const updateRemoteUserSubscription = async (userSubscription: UserSubscription) => {
-		await remoteUser.updateUserData(userDataContext.userId as Id, { subscription: userSubscription })
+		await remoteStorage.updateUserData(userDataContext.userId as Id, { subscription: userSubscription })
 	}
 
 	const subscriptionProviderData = useMemo(() => ({

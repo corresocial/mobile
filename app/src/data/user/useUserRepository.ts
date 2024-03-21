@@ -14,13 +14,13 @@ import { UserRepositoryInterface } from './UserRepositoryInterface'
 
 function useUserRepository(): UserRepositoryInterface {
 	return {
-		localUser: {
+		localStorage: {
 			getLocalUserData: getLocalUserData,
 			saveLocalUserData: saveLocalUserData,
 			clearLocalUserData: clearLocalUserData,
 		},
 
-		remoteUser: {
+		remoteStorage: {
 			// GET
 			getUserData: getUserData,
 			getPrivateContacts: getPrivateContacts,

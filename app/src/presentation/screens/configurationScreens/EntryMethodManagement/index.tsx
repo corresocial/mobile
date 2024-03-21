@@ -38,7 +38,7 @@ import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -78,7 +78,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [hasError])
 
 	const loadPrivateContacts = async () => {
-		const userContacts = await remoteUser.getPrivateContacts(userDataContext.userId as Id)
+		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId as Id)
 		setUserPrivateContacts(userContacts as any) // TODO Type
 	}
 
@@ -120,7 +120,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 			if (registredCellNumber) {
 				await unlinkAuthProvider('phone')
-				await remoteUser.updatePrivateContacts(
+				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId as Id,
 					{ cellNumber: '' }
 				)
@@ -159,7 +159,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 
-				await remoteUser.updatePrivateContacts(
+				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId as Id,
 					{ email: linkedUser.email || '' }
 				)

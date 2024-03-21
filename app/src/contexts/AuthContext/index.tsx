@@ -10,7 +10,7 @@ import { PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
 
-const { localUser, remoteUser } = useUserRepository()
+const { localStorage, remoteStorage } = useUserRepository()
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
@@ -22,7 +22,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const getUserDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
 		try {
 			if (requireAuthentication) {
-				const storedUser = await handleMethodWithAuthentication(localUser.getLocalUserData)
+				const storedUser = await handleMethodWithAuthentication(localStorage.getLocalUserData)
 
 				if (!storedUser) {
 					throw new Error('Erro ao validar identidade')
@@ -30,7 +30,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 				return storedUser
 			}
 
-			const storedUser = await localUser.getLocalUserData()
+			const storedUser = await localStorage.getLocalUserData()
 			if (!storedUser) return null
 
 			if (accountIdentifier) {
@@ -60,19 +60,19 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const hasValidLocalUser = async () => {
-		const storedUser = await localUser.getLocalUserData()
+		const storedUser = await localStorage.getLocalUserData()
 		return !!(storedUser && storedUser.userId)
 	}
 
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserData) => {
 		if (uid) {
-			const currentUser = await remoteUser.getUserData(uid) // REFACTOR userRepository.getUserData
+			const currentUser = await remoteStorage.getUserData(uid)
 			if (currentUser && currentUser.userId) {
 				setUserDataContext({
 					...currentUser,
 					userId: uid
 				})
-				await localUser.saveLocalUserData({
+				await localStorage.saveLocalUserData({
 					...currentUser,
 					userId: uid
 				})

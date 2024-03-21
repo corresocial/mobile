@@ -1,19 +1,18 @@
-import { clearNisValue, getNisValue, saveNisValue } from '@data/smas/localRepository/methods'
-import { getNotificationTokenByNis } from '@data/smas/remoteRepository/getNotificationTokenByNis'
-import { updateSmasTokenNotification } from '@data/smas/remoteRepository/updateSmasTokenNotification'
-
+import { clearNisValue, getNisValue, saveNisValue } from './localRepository/methods'
+import { getNotificationTokenByNis } from './remoteRepository/getNotificationTokenByNis'
+import { updateSmasTokenNotification } from './remoteRepository/updateSmasTokenNotification'
 import { SmasRepositoryInterface } from './SmasRepositoryInterface'
 
 function useSmasRepository(): SmasRepositoryInterface {
 	return {
-		local: {
+		localStorage: {
 			getNisValue: getNisValue,
 			saveNisValue: saveNisValue,
 			clearNisValue: clearNisValue
 		},
-		remote: {
-			getNotificationTokenByNis,
-			updateSmasTokenNotification
+		remoteStorage: {
+			getNotificationTokenByNis: getNotificationTokenByNis,
+			updateSmasTokenNotification: updateSmasTokenNotification
 		}
 	}
 }

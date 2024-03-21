@@ -22,7 +22,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -74,7 +74,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
-			await remoteUser.updateUserData(userDataContext.userId as string, socialMediaData)
+			await remoteStorage.updateUserData(userDataContext.userId as string, socialMediaData)
 			setUserDataOnContext(socialMediaData)
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {

@@ -76,7 +76,7 @@ import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
@@ -117,7 +117,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [navigation])
 
 	const getProfileDataFromRemote = async (userId: string) => {
-		const userData = await remoteUser.getUserData(userId)
+		const userData = await remoteStorage.getUserData(userId)
 		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as LocalUserData
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
@@ -269,7 +269,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			name: userDataContext.name || ''
 		})
 		if (user.userId && userDataContext.userId) {
-			await remoteUser.updateUserData(user.userId, {
+			await remoteStorage.updateUserData(user.userId, {
 				verified: {
 					type: label,
 					by: userDataContext.userId,

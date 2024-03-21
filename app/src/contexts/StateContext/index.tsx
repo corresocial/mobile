@@ -14,7 +14,7 @@ import { TourModal } from '@components/_modals/TourModal'
 import { share } from '../../presentation/common/share'
 import { AuthContext } from '../AuthContext'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const { objectValuesAreEquals } = useUtils()
 
@@ -82,7 +82,7 @@ function StateProvider({ children }: StateProviderProps) {
 	const closeShareModal = () => setStateDataOnContext({ showShareModal: false })
 
 	const setUserTourPerformed = async () => {
-		await remoteUser.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
+		await remoteStorage.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

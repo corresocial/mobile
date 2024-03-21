@@ -1,13 +1,13 @@
 import { PrivateUserCollection, UserCollection } from '@services/firebase/types'
 
 interface UserRepositoryInterface {
-	localUser: {
+	localStorage: {
 		getLocalUserData: () => Promise<UserCollection | null>
 		saveLocalUserData: (data: UserCollection) => Promise<boolean>
 		clearLocalUserData: () => Promise<boolean>
 	}
 
-	remoteUser: {
+	remoteStorage: {
 		// GET
 		getUserData: (userId: string) => Promise<UserCollection | null>
 		getPrivateContacts: (userId: string) => Promise<PrivateUserCollection['contacts'] | null>

@@ -13,7 +13,7 @@ import { firestore } from '@services/firebase'
 
 import { updatePost } from '../post/updatePost'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const mergePostFields = async () => {
 	const docs: any = []
@@ -38,7 +38,7 @@ const mergePostFields = async () => {
 
 		// console.log(filteredAllPosts)
 
-		await remoteUser.updateUserData(doc.userId, { posts: filteredAllPosts as PostCollection[] })
+		await remoteStorage.updateUserData(doc.userId, { posts: filteredAllPosts as PostCollection[] })
 			.then(() => console.log(`success userPosts: ${doc.userId}`))
 			.catch((err: any) => {
 				console.log(err)

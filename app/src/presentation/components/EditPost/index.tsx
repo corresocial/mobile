@@ -42,7 +42,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
-const { localUser: localUserStorage } = useUserRepository()
+const { localStorage } = useUserRepository()
 
 const { notifyUsersOnLocation } = CloudFunctionService()
 
@@ -382,7 +382,7 @@ function EditPost({
 						{ ...postDataToSave, owner } as PostCollectionRemote
 					],
 				})
-				localUserStorage.saveLocalUserData({
+				localStorage.saveLocalUserData({
 					...localUser,
 					tourPerformed: true,
 					posts: [

@@ -1,13 +1,13 @@
 import { SmasRepositoryInterface } from '@data/smas/SmasRepositoryInterface'
 
-async function smasNisHasLinkedWithUserUC(nis: string, SmasRepositoryAdapter: () => SmasRepositoryInterface) {
-	const { local, remote } = SmasRepositoryAdapter()
+async function smasNisHasLinkedWithUserUC(nis: string, useSmasRepository: () => SmasRepositoryInterface) {
+	const { localStorage, remoteStorage } = useSmasRepository()
 
-	const linkedNis = nis || await local.getNisValue()
+	const linkedNis = nis || await localStorage.getNisValue()
 
 	if (!linkedNis) return false
 
-	const smasTokenNotification = await remote.getNotificationTokenByNis(linkedNis)
+	const smasTokenNotification = await remoteStorage.getNotificationTokenByNis(linkedNis)
 	return !!smasTokenNotification
 }
 

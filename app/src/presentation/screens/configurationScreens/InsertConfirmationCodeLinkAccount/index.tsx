@@ -26,7 +26,7 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -143,7 +143,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 				const linkedUser = await linkAuthProvider(phoneAuthCredential)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
-				await remoteUser.updatePrivateContacts(
+				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId as Id,
 					{ cellNumber: cellNumber || '' }
 				)

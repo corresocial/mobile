@@ -31,7 +31,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
-const { localUser: localUserRepository } = useUserRepository()
+const { localStorage } = useUserRepository()
 
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -200,7 +200,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 						{ ...postDataToSave } as PostCollection
 					],
 				})
-				localUserRepository.saveLocalUserData({
+				localStorage.saveLocalUserData({
 					...localUser,
 					tourPerformed: true,
 					posts: [

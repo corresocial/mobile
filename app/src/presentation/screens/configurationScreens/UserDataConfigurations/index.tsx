@@ -27,7 +27,7 @@ import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenCon
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
-const { localUser } = useUserRepository()
+const { localStorage } = useUserRepository()
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -96,7 +96,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const performLogout = async () => {
 		try {
 			removeChatListeners()
-			await localUser.clearLocalUserData()
+			await localStorage.clearLocalUserData()
 			await clearOfflinePosts()
 			await auth.signOut()
 			navigateToInitialScreen()

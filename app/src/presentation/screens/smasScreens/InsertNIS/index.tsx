@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/entities/smas/types'
 
-import { SmasRepositoryAdapter } from '@data/smas/useSmasRepository'
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
@@ -32,7 +32,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	}, [navigation])
 
 	const loadStoragedNis = async () => {
-		const nis = await getNisFromLocalRepository(SmasRepositoryAdapter)
+		const nis = await getNisFromLocalRepository(useSmasRepository)
 		if (nis) {
 			storagedNis !== nis && setStoragedNis('')
 			setStoragedNis(nis)

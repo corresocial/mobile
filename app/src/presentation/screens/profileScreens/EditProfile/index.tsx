@@ -33,7 +33,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
 
-const { localUser, remoteUser } = useUserRepository()
+const { localStorage, remoteStorage } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 const { updateProfilePictureOnConversations } = ChatAdapter()
@@ -54,7 +54,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		const userLocation = await remoteUser.getPrivateLocation(userDataContext.userId as string)
+		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId as string)
 		setPrivateUserLocation(userLocation)
 	}
 
@@ -132,18 +132,18 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 	const updateRemoteUser = async () => {
 		if (!editDataContext.unsaved.profilePictureUrl) {
-			await remoteUser.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved })
+			await remoteStorage.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved })
 
 			await updateAllOwnerOnPosts(
 				{ ...editDataContext.unsaved },
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
 
-			await localUser.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, location: {} })
+			await localStorage.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 
 			if (editDataContext.unsaved && editDataContext.unsaved.location) {
-				await remoteUser.updatePrivateLocation(
+				await remoteStorage.updatePrivateLocation(
 					userDataContext.userId as Id,
 					editDataContext.unsaved.location
 				)
@@ -165,7 +165,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
 								.then(async (profilePictureUrl) => {
-									await remoteUser.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+									await remoteStorage.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 
 									await updateAllOwnerOnPosts(
 										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
@@ -173,14 +173,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 									)
 
 									if (!arrayIsEmpty(userDataContext)) {
-										await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+										await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 									}
 
 									await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl)
 
 									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await localUser.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+									await localStorage.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+									await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 
 									setIsLoading(false)
 									navigation.goBack()

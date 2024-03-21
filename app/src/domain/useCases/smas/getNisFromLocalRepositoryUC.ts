@@ -1,8 +1,8 @@
 import { SmasRepositoryInterface } from '@data/smas/SmasRepositoryInterface'
 
-async function getNisFromLocalRepositoryUC(SmasRepositoryAdapter: () => SmasRepositoryInterface) {
-	const { local } = SmasRepositoryAdapter()
-	return local.getNisValue()
+async function getNisFromLocalRepositoryUC(useSmasRepository: () => SmasRepositoryInterface) {
+	const { localStorage } = useSmasRepository()
+	return localStorage.getNisValue()
 }
 
 export { getNisFromLocalRepositoryUC }

@@ -8,7 +8,7 @@ import { auth } from '../..'
 import { deletePost } from '../../post/deletePost'
 import { deletePostPictures } from '../../post/deletePostPictures'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostCollection[] = []) => {
 	const user = auth.currentUser
@@ -19,8 +19,8 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 		return true
 	})
 
-	await remoteUser.deleteUserProfilePicture(userPictureUrl) // Storage
-	await remoteUser.deleteUserData(userId) // Firestore
+	await remoteStorage.deleteUserProfilePicture(userPictureUrl) // Storage
+	await remoteStorage.deleteUserData(userId) // Firestore
 	await deleteUser(user as any) // Auth
 
 	return true

@@ -48,7 +48,7 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-const { localUser } = useUserRepository()
+const { localStorage } = useUserRepository()
 
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
@@ -100,7 +100,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
-			localUser.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
 
 			setPostOptionsIsOpen(false)
 

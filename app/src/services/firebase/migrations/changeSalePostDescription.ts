@@ -12,7 +12,7 @@ import { firestore } from '@services/firebase'
 
 import { updatePost } from '../post/updatePost'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const updatePostFieldsDescriptionName = async () => {
 	const docs: any = []
@@ -60,7 +60,7 @@ const updatePostFieldsDescriptionName = async () => {
 			})
 		)
 
-		await remoteUser.updateUserData(doc.userId, { posts: updatedUserPosts as PostCollection[] })
+		await remoteStorage.updateUserData(doc.userId, { posts: updatedUserPosts as PostCollection[] })
 			.then(() => {
 				console.log(`success updatedUserPosts: ${doc.userId}`)
 			})

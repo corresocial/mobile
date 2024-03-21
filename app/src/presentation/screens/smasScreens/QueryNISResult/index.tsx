@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { SmasRepositoryAdapter } from '@data/smas/useSmasRepository'
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { SmasContext } from '@contexts/SmasContext'
 
@@ -43,7 +43,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 		}
 
 		setSmasDataOnContext({ NIS })
-		setNisOnLocalRepository(NIS, SmasRepositoryAdapter)
+		setNisOnLocalRepository(NIS, useSmasRepository)
 		setNisIsSaved(true)
 	}
 

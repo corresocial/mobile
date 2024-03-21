@@ -29,7 +29,7 @@ import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -83,7 +83,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 				if (userId && email) {
 					setAuthenticatedUser({ userId, email })
-					const userAlreadyExists = await remoteUser.userExists(userId)
+					const userAlreadyExists = await remoteStorage.userExists(userId)
 
 					if (!newUser && !userAlreadyExists) {
 						console.log('Usuário não está cadastrado, quer cadastrar?')

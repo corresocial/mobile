@@ -7,7 +7,7 @@ import { firestore } from '@services/firebase'
 
 import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const removeUnregisteredUserPosts = async () => { // Set Collection Name
 	const usersQuery = query(collection(firestore, 'users'))
@@ -35,7 +35,7 @@ const removeUnregisteredUserPosts = async () => { // Set Collection Name
 			return postFiltered
 		})
 
-		await remoteUser.updateUserData(currentUser.userId, { posts: postsFiltered } as any)
+		await remoteStorage.updateUserData(currentUser.userId, { posts: postsFiltered } as any)
 			.then(() => console.log(`${currentUser.name}: success!`))
 			.catch((err) => {
 				console.log(err)

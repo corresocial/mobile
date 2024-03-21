@@ -26,7 +26,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -67,7 +67,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			await saveInFirebase(userData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-				await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+				await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 				await updateAllOwnerOnPosts(
 					{ profilePictureUrl: [] },
 					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
@@ -95,9 +95,9 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			userObject.createdAt = new Date()
 		}
 
-		await remoteUser.updateUserData(userData.userIdentification.uid, userObject)
+		await remoteStorage.updateUserData(userData.userIdentification.uid, userObject)
 
-		await remoteUser.updatePrivateContacts(
+		await remoteStorage.updatePrivateContacts(
 			userData.userIdentification.uid,
 			{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 		)

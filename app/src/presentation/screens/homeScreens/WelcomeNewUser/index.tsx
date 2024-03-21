@@ -19,7 +19,7 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -58,7 +58,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const setUserTourPerformed = async () => {
 		console.log(userDataContext.userId)
-		await remoteUser.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
+		await remoteStorage.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

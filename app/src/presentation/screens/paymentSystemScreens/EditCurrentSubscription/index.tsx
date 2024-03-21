@@ -32,7 +32,7 @@ import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeCon
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()
@@ -63,7 +63,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}, [])
 
 	const loadPrivateEmail = async () => {
-		const userContacts = await remoteUser.getPrivateContacts(userDataContext.userId as Id)
+		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId as Id)
 		setPrivateEmail(userContacts && userContacts.email ? userContacts.email : '')
 	}
 
@@ -183,7 +183,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setIsLoading(true)
 			await sendReceiptByEmail(userDataContext.subscription?.customerId || '', email)
 			await updateStripeCustomer(userDataContext.subscription?.customerId, { email })
-			await remoteUser.updatePrivateContacts(
+			await remoteStorage.updatePrivateContacts(
 				userDataContext.userId as Id,
 				{ email }
 			)

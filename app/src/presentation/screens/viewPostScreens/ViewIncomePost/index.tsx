@@ -51,7 +51,7 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-const { localUser } = useUserRepository()
+const { localStorage } = useUserRepository()
 const { sendImpactReport } = ImpactReportAdapter()
 
 const { textHasOnlyNumbers, convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
@@ -112,7 +112,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
-			localUser.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
 
 			setPostOptionsIsOpen(false)
 

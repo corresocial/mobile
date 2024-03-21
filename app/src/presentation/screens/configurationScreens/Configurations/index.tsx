@@ -41,7 +41,7 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-const { localUser } = useUserRepository()
+const { localStorage } = useUserRepository()
 
 const { updateUserTokenNotification } = ChatAdapter()
 
@@ -59,7 +59,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const performLogout = async () => {
 		removeChatListeners()
 		await updateUserTokenNotification(userDataContext.userId as Id, '')
-		await localUser.clearLocalUserData()
+		await localStorage.clearLocalUserData()
 		await clearOfflinePosts()
 		await auth.signOut()
 		navigateToInitialScreen()

@@ -9,7 +9,7 @@ type PostRangeLocation = {
 	location: PostCollectionRemote['location']
 }
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 async function updateAllRangeAndLocation(
 	userOwner: PostCollectionRemote['owner'],
@@ -39,7 +39,7 @@ async function updateAllRangeAndLocation(
 			})
 	})
 
-	return remoteUser.updateUserData(userOwner.userId, { posts: updatedUserPosts })
+	return remoteStorage.updateUserData(userOwner.userId, { posts: updatedUserPosts })
 		.then(() => {
 			return updatedUserPosts
 		})

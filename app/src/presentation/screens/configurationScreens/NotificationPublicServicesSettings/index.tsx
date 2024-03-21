@@ -3,7 +3,7 @@ import { Platform, StatusBar } from 'react-native'
 
 import { Id } from '@domain/entities/globalTypes'
 
-import { SmasRepositoryAdapter } from '@data/smas/useSmasRepository'
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext'
@@ -29,7 +29,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { InsertNisModal } from '@components/_modals/InsertNisModal'
 import { Loader } from '@components/Loader'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = SmasAdapter()
 
@@ -66,15 +66,15 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 	}
 
 	const checkSmasMessagesState = async (nis?: string) => {
-		const currentNis = nis || await getNisFromLocalRepository(SmasRepositoryAdapter)
-		const smasMessagesState = await smasNisHasLinkedWithUser(currentNis, SmasRepositoryAdapter)
+		const currentNis = nis || await getNisFromLocalRepository(useSmasRepository)
+		const smasMessagesState = await smasNisHasLinkedWithUser(currentNis, useSmasRepository)
 
 		setSmasMessagesIsEnabled(smasMessagesState)
 		setUserNis(currentNis)
 	}
 
 	const checkGovernmentNotificationState = async () => {
-		const privateUserLocation = await remoteUser.getPrivateLocation(userDataContext.userId as string)
+		const privateUserLocation = await remoteStorage.getPrivateLocation(userDataContext.userId as string)
 		setGovernmentNotificationIsEnabled(!!(privateUserLocation && privateUserLocation.visibleToGovernment))
 	}
 
@@ -86,13 +86,13 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 
 			if (newState) {
 				if (!inputedNis || (inputedNis && inputedNis.trim().length !== 11)) throw new Error('NIS inválido!')
-				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, SmasRepositoryAdapter)
+				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, useSmasRepository)
 				setUserNis(inputedNis)
-				await setNisOnLocalRepository(inputedNis, SmasRepositoryAdapter)
+				await setNisOnLocalRepository(inputedNis, useSmasRepository)
 			} else {
-				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, SmasRepositoryAdapter)
+				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, useSmasRepository)
 				setUserNis('')
-				await setNisOnLocalRepository('', SmasRepositoryAdapter)
+				await setNisOnLocalRepository('', useSmasRepository)
 			}
 
 			setSmasMessagesIsEnabled(newState)
@@ -108,7 +108,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 			setIsLoading(true)
 			const newNotificationState = !governmentNotificationIsEnabled
 
-			await remoteUser.updatePrivateLocation(
+			await remoteStorage.updatePrivateLocation(
 				userDataContext.userId as Id,
 				{ visibleToGovernment: newNotificationState }
 			)

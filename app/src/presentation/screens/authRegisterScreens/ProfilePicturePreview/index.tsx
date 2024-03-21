@@ -29,7 +29,7 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
-const { remoteUser } = useUserRepository()
+const { remoteStorage } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -110,8 +110,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					currentUser.createdAt = new Date()
 				}
 
-				await remoteUser.updateUserData(userData.userIdentification.uid, currentUser)
-				await remoteUser.updatePrivateContacts(
+				await remoteStorage.updateUserData(userData.userIdentification.uid, currentUser)
+				await remoteStorage.updatePrivateContacts(
 					userData.userIdentification.uid,
 					{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 				)
@@ -144,14 +144,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 											currentUser.createdAt = new Date()
 										}
 
-										await remoteUser.updateUserData(userData.userIdentification.uid, currentUser)
-										await remoteUser.updatePrivateContacts(
+										await remoteStorage.updateUserData(userData.userIdentification.uid, currentUser)
+										await remoteStorage.updatePrivateContacts(
 											userData.userIdentification.uid,
 											{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 										)
 
 										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-											await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+											await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 											await updateAllOwnerOnPosts(
 												{ ...currentUser },
 												userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
