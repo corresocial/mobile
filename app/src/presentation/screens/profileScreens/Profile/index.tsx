@@ -118,9 +118,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [navigation])
 
 	const getProfileDataFromRemote = async (userId: string) => {
-		console.log('OIIIIII')
 		const remoteUser = await getUser(userId)
-		console.log('oi')
 		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = remoteUser as LocalUserData
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
