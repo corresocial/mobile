@@ -6,6 +6,7 @@ import {
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo'
 import { NavigationContainer } from '@react-navigation/native'
+import { createURL } from 'expo-linking'
 import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
@@ -50,8 +51,7 @@ function App() {
 	}
 
 	const linking = {
-		// 'exp://192.168.2.2:8081/--/com.corresocial.corresocial'
-		prefixes: ['exp://192.168.2.2:8081/--/com.corresocial.corresocial'], // Substitua pelo seu prefixo
+		prefixes: [createURL('/com.corresocial.corresocial')],
 		config: {
 			screens: {
 				Splash: {
@@ -61,13 +61,6 @@ function App() {
 		},
 	}
 
-	/* useEffect(() => {
-		const redirectURL = useURL()
-		const url = createURL('profile', {})
-		console.log('URL => ', url)
-		console.log('REDIRECT =>', redirectURL)
-	}, [])
- */
 	return (
 		<ErrorBoundaryContainer>
 			<NavigationContainer linking={linking}>
