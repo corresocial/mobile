@@ -2,13 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
 
-import { objectValuesAreEquals } from '@newutils/objects'
+import { useUtils } from '@newutils/useUtils'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
 
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { NewHomePresentationModal } from '@components/_modals/NewHomePresentationModal'
+
+const { objectValuesAreEquals } = useUtils()
 
 const initialNotificationState = { // private
 	notificationAlertModal: true,
@@ -57,7 +59,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 		setNotificationState(initialNotificationState)
 	}, [])
 
-	const updateLocalAlertData = useCallback(async (data: Partial<InitialNotificationStateType>) => {
+	const updateLocalAlertData = useCallback(async (data: InitialNotificationStateType) => {
 		await AsyncStorage.setItem('corre.alert', JSON.stringify(data))
 	}, [])
 

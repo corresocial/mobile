@@ -1,8 +1,10 @@
 import React, { createContext, useCallback, useMemo, useState } from 'react'
 
-import { objectValuesAreEquals } from '@newutils/objects'
+import { useUtils } from '@newutils/useUtils'
 
 import { SmasContextType, SmasDataContext, SmasProviderProps } from './types'
+
+const { objectValuesAreEquals } = useUtils()
 
 const initialValue = {
 	smasDataContext: {

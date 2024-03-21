@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 
-import { objectValuesAreEquals } from '@newutils/objects'
+import { useUtils } from '@newutils/useUtils'
 
 import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
 import { Id } from '@services/firebase/types'
@@ -13,6 +13,8 @@ import { TourModal } from '@components/_modals/TourModal'
 
 import { share } from '../../presentation/common/share'
 import { AuthContext } from '../AuthContext'
+
+const { objectValuesAreEquals } = useUtils()
 
 const initialValue = {
 	stateDataContext: {
