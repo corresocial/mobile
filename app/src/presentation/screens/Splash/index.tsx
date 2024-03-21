@@ -72,32 +72,20 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}
 
 	const navigateToProfile = (id: string) => {
-		console.log('Going to Profile...')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'UserStack' as any,
+			}],
+		})
 		navigation.navigate('UserStack', { // TODO userStack
 			screen: 'HomeTab',
 			params: {
 				screen: 'HomeStack',
-				params: {
-					screen: 'ProfileHome',
-					params: { userId: id }
-				}
 			}
 		} as any) // TODO type
+		navigation.navigate('ProfileHome' as any, { userId: id })
 	}
-
-	// case 'income': {
-	// 	navigation.navigate('UserStack', { 
-	// 		screen: 'HomeTab',
-	// 		params: {
-	// 			screen: 'HomeStack',
-	// 			params: {
-	// 				screen: 'ViewIncomePostHome',
-	// 				params: { redirectedPostId: id }
-	// 			}
-	// 		}
-	// 	} as any)
-	// 	break
-	// }
 
 	const navigateToPost = (id: string, post: string) => {
 		let screenName = ''
@@ -119,6 +107,12 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				break
 			}
 		}
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'UserStack' as any,
+			}],
+		})
 		navigation.navigate('UserStack', { 
 			screen: 'HomeTab',
 			params: {
@@ -150,10 +144,6 @@ function Splash({ route, navigation }: SplashScreenProps) {
 						}
 					}
 				}
-				// if () 
-				// return navigateToPost(idFromLinking, postType)
-				// return navigateToProfile()
-				// }
 
 				navigation.reset({
 					index: 0,
