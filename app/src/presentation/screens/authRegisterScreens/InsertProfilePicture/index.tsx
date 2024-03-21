@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { RegisterUserData } from '@contexts/AuthContext/types'
 
@@ -10,7 +12,6 @@ import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container } from './styles'
@@ -26,6 +27,8 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
+
+const { remoteUser } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -96,10 +99,9 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 		await updateUser(userData.userIdentification.uid, userObject)
 
-		await updateUserPrivateData(
-			{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+		await remoteUser.updatePrivateContacts(
 			userData.userIdentification.uid,
-			'contacts',
+			{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 		)
 	}
 

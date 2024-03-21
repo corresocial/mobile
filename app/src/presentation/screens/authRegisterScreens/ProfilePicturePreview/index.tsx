@@ -3,6 +3,8 @@ import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
@@ -12,7 +14,6 @@ import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, InstructionCardContainer } from './styles'
@@ -29,6 +30,8 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
+
+const { remoteUser } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -110,10 +113,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				}
 
 				await updateUser(userData.userIdentification.uid, currentUser)
-				await updateUserPrivateData(
-					{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+				await remoteUser.updatePrivateContacts(
 					userData.userIdentification.uid,
-					'contacts',
+					{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 				)
 
 				await setRemoteUserOnLocal(userData.userIdentification.uid)
@@ -145,10 +147,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 										}
 
 										await updateUser(userData.userIdentification.uid, currentUser)
-										await updateUserPrivateData(
-											{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+										await remoteUser.updatePrivateContacts(
 											userData.userIdentification.uid,
-											'contacts',
+											{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 										)
 
 										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {

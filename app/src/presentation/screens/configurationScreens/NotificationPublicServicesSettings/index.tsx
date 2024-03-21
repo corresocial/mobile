@@ -4,15 +4,13 @@ import { Platform, StatusBar } from 'react-native'
 import { Id } from '@domain/entities/globalTypes'
 
 import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { NotificationPublicServicesSettingsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
-import { getPrivateLocation } from '@services/firebase/user/getPrivateLocation'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 
 import { Container, HeaderLinkCardContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'
@@ -30,6 +28,8 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { InsertNisModal } from '@components/_modals/InsertNisModal'
 import { Loader } from '@components/Loader'
+
+const { remoteUser } = useUserRepository()
 
 const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = SmasAdapter()
 
@@ -74,8 +74,8 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 	}
 
 	const checkGovernmentNotificationState = async () => {
-		const privateUserLocation = await getPrivateLocation(userDataContext.userId as string)
-		setGovernmentNotificationIsEnabled(privateUserLocation && privateUserLocation.visibleToGovernment)
+		const privateUserLocation = await remoteUser.getPrivateLocation(userDataContext.userId as string)
+		setGovernmentNotificationIsEnabled(!!(privateUserLocation && privateUserLocation.visibleToGovernment))
 	}
 
 	const toggleMessagesSmasState = async (inputedNis?: string) => {
@@ -108,10 +108,9 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 			setIsLoading(true)
 			const newNotificationState = !governmentNotificationIsEnabled
 
-			await updateUserPrivateData(
-				{ visibleToGovernment: newNotificationState },
+			await remoteUser.updatePrivateLocation(
 				userDataContext.userId as Id,
-				'location'
+				{ visibleToGovernment: newNotificationState }
 			)
 
 			setGovernmentNotificationIsEnabled(newNotificationState)

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/AuthContext/types'
@@ -20,7 +22,6 @@ import {
 	VerifiedLabelName,
 } from '@services/firebase/types'
 
-import { getUser } from '@services/firebase/user/getUser'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -76,6 +77,8 @@ import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
+const { remoteUser } = useUserRepository()
+
 const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
 
@@ -115,8 +118,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [navigation])
 
 	const getProfileDataFromRemote = async (userId: string) => {
-		const remoteUser = await getUser(userId)
-		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = remoteUser as LocalUserData
+		const userData = await remoteUser.getUserData(userId)
+		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as LocalUserData
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
 

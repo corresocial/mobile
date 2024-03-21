@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
@@ -9,7 +11,6 @@ import { Id } from '@services/firebase/types'
 
 import { getPhoneAuthCredential } from '@services/firebase/user/getPhoneAuthCredential'
 import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -24,6 +25,8 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
+
+const { remoteUser } = useUserRepository()
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -140,7 +143,10 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 				const linkedUser = await linkAuthProvider(phoneAuthCredential)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
-				await updateUserPrivateData({ cellNumber: cellNumber || '' }, userDataContext.userId as Id, 'contacts')
+				await remoteUser.updatePrivateContacts(
+					userDataContext.userId as Id,
+					{ cellNumber: cellNumber || '' }
+				)
 
 				navigateToLinkResultScreen(true, cellNumber)
 			} else {

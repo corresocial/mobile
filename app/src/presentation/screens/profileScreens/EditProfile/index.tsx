@@ -4,19 +4,19 @@ import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id, Location, PostCollection } from '@services/firebase/types'
+import { Id, PostCollection, PrivateUserCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
-import { getPrivateLocation } from '@services/firebase/user/getPrivateLocation'
 import { updateUser } from '@services/firebase/user/updateUser'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
@@ -35,6 +35,8 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
 
+const { remoteUser } = useUserRepository()
+
 const { arrayIsEmpty } = UiUtils()
 const { updateProfilePictureOnConversations } = ChatAdapter()
 
@@ -43,7 +45,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
-	const [privateUserLocation, setPrivateUserLocation] = useState<Location>()
+	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserCollection['location'] | null>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
@@ -54,7 +56,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		const userLocation = await getPrivateLocation(userDataContext.userId as string)
+		const userLocation = await remoteUser.getPrivateLocation(userDataContext.userId as string)
 		setPrivateUserLocation(userLocation)
 	}
 
@@ -88,7 +90,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				break
 			}
 			case 'EditUserLocation': {
-				navigation.navigate('EditUserLocation', { initialCoordinates: privateUserLocation?.coordinates || null })
+				navigation.navigate('EditUserLocation', { initialCoordinates: privateUserLocation?.coordinates as any || null }) // TODO Type
 				break
 			}
 			case 'SocialMediaManagement': {
@@ -143,10 +145,9 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 
 			if (editDataContext.unsaved && editDataContext.unsaved.location) {
-				await updateUserPrivateData(
-					editDataContext.unsaved.location,
+				await remoteUser.updatePrivateLocation(
 					userDataContext.userId as Id,
-					'location',
+					editDataContext.unsaved.location
 				)
 			}
 

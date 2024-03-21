@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
@@ -9,8 +11,6 @@ import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/stac
 import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
 
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
-import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
@@ -31,6 +31,8 @@ import { InsertUserEmailModal } from '@components/_modals/InsertUserEmailModal'
 import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeConfirmatiomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
+
+const { remoteUser } = useUserRepository()
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()
@@ -61,7 +63,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}, [])
 
 	const loadPrivateEmail = async () => {
-		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
+		const userContacts = await remoteUser.getPrivateContacts(userDataContext.userId as Id)
 		setPrivateEmail(userContacts && userContacts.email ? userContacts.email : '')
 	}
 
@@ -181,10 +183,9 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setIsLoading(true)
 			await sendReceiptByEmail(userDataContext.subscription?.customerId || '', email)
 			await updateStripeCustomer(userDataContext.subscription?.customerId, { email })
-			await updateUserPrivateData(
-				{ email },
+			await remoteUser.updatePrivateContacts(
 				userDataContext.userId as Id,
-				'contacts',
+				{ email }
 			)
 			// await updateUserSubscription({ ...userDataContext.subscription/* , receiptEmail: email  */})
 			setIsLoading(false)

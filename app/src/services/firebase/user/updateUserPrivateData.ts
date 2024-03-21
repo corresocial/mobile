@@ -1,7 +1,5 @@
 import { doc, updateDoc, setDoc } from 'firebase/firestore'
 
-import { PrivateUserCollection } from '../types'
-
 import { firestore } from '@services/firebase'
 
 async function updateUserPrivateData(data: any, userId: string, privateField: string = '') { // TODO Type

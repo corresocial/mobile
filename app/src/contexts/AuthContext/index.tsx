@@ -4,11 +4,14 @@ import React, { createContext, useState } from 'react'
 
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContextType, AuthProviderProps, UserData } from './types'
 import { PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
-import { getUser } from '@services/firebase/user/getUser'
+
+const { remoteUser } = useUserRepository()
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
@@ -89,7 +92,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserData) => {
 		if (uid) {
-			const currentUser = await getUser(uid)
+			const currentUser = await remoteUser.getUserData(uid) // REFACTOR userRepository.getUserData
 			if (currentUser && currentUser.userId) {
 				setUserDataContext({
 					...currentUser,

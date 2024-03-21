@@ -1,9 +1,11 @@
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { UserCredential } from 'firebase/auth'
+
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -11,10 +13,8 @@ import { EntryMethodManagementScreenProps } from '@routes/Stack/UserStack/stackS
 import { Id } from '@services/firebase/types'
 
 import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
-import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
 import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
 import { unlinkAuthProvider } from '@services/firebase/user/unlinkAuthProvider'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 
 import { Container } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
@@ -37,6 +37,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
+
+const { remoteUser } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -61,7 +63,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const [hasError, setHasError] = useState(false)
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = useState(false)
 	const [unlinkPhoneConfirmationModalIsVisible, setUnlinkPhoneConfirmationModalIsVisible] = useState(false)
-	// const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -77,8 +78,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [hasError])
 
 	const loadPrivateContacts = async () => {
-		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
-		setUserPrivateContacts(userContacts)
+		const userContacts = await remoteUser.getPrivateContacts(userDataContext.userId as Id)
+		setUserPrivateContacts(userContacts as any) // TODO Type
 	}
 
 	useEffect(() => {
@@ -119,7 +120,10 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 			if (registredCellNumber) {
 				await unlinkAuthProvider('phone')
-				await updateUserPrivateData({ cellNumber: '' }, userDataContext.userId as Id, 'contacts')
+				await remoteUser.updatePrivateContacts(
+					userDataContext.userId as Id,
+					{ cellNumber: '' }
+				)
 				setUserPrivateContacts({ ...userPrivateContacts, cellNumber: '' })
 				navigateToLinkResultScreen(false, registredCellNumber)
 			}
@@ -155,7 +159,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 
-				await updateUserPrivateData({ email: linkedUser.email || '' }, userDataContext.userId as Id, 'contacts')
+				await remoteUser.updatePrivateContacts(
+					userDataContext.userId as Id,
+					{ email: linkedUser.email || '' }
+				)
+
 				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
 				navigateToLinkResultScreen(true, linkedUser.email)
 			} else {
@@ -172,26 +180,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			setIsLoading(false)
 		}
 	}
-
-	/* const unlinkGoogleProvider = async () => { // THis unlink do not remove user auth
-		try {
-			setIsLoading(true)
-			setHasError(false)
-			const registredGoogleEmail = userPrivateContacts.email
-
-			if (registredGoogleEmail) {
-				await unlinkAuthProvider('google.com')
-				await updateUserPrivateData({ email: '' }, userDataContext.userId as Id, 'contacts')
-				setUserPrivateContacts({ ...userPrivateContacts, email: '' })
-				navigateToLinkResultScreen(false, registredGoogleEmail)
-			}
-		} catch (error: any) {
-			console.log(error)
-			setHasError(true)
-		} finally {
-			setIsLoading(false)
-		}
-	} */
 
 	const navigateToLinkResultScreen = (wasLinked: boolean, accountIdentifier?: string | null) => {
 		navigation.navigate('LinkingAccountResult', { accountIdentifier, wasLinked })
@@ -224,15 +212,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				closeModal={toggleUnlinkPhoneConfirmationModalVisibility}
 				onPressButton={unlinkPhoneProvider}
 			/>
-			{/* <DefaultConfirmationModal
-				visibility={unlinkGoogleConfirmationModalIsVisible}
-				title={'desvincular'}
-				text={'não poderá mais acessar sua conta utilizando este email. \n\nvocê tem certeza que deseja desvincular este email da sua conta?'}
-				highlightedWords={['você', 'desvincular', 'este', 'email', 'da', 'sua', 'conta', 'desvincular', 'esta', 'conta']}
-				buttonKeyword={'desvincular'}
-				closeModal={toggleUnlinkGoogleConfirmationModalVisibility}
-				onPressButton={unlinkGoogleProvider}
-			/> */}
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={userPrivateContacts.email}
