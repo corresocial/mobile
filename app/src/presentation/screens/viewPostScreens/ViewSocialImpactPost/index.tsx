@@ -7,7 +7,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
-import { Id, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
+import { Id, PostCollection, SocialImpactCategories, SocialImpactCollection } from '@services/firebase/types'
 
 import { deletePost } from '@services/firebase/post/deletePost'
 import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
