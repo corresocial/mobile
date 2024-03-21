@@ -18,7 +18,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
-import { Body,	Container,	Header,	OptionsArea, UserAndValueContainer } from './styles'
+import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
@@ -67,7 +67,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
-	
+
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<IncomeCollection>(route.params?.postData || null)
 
@@ -257,7 +257,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	if (!postLoaded) {
 		return (
-			<Loader flex/>
+			<Loader flex />
 		)
 	}
 

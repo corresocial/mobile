@@ -91,19 +91,19 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		let screenName = ''
 		switch (post) {
 			case 'income': {
-				screenName = 'ViewIncomePost'
+				screenName = 'ViewIncomePostHome'
 				break
 			}
 			case 'culture': {
-				screenName = 'ViewCulturePost'
+				screenName = 'ViewCulturePostHome'
 				break
 			}
 			case 'socialimpact': {
-				screenName = 'ViewSocialImpactPost'
+				screenName = 'ViewSocialImpactPostHome'
 				break
 			}
 			case 'vacancy': {
-				screenName = 'ViewVacancyPost'
+				screenName = 'ViewVacancyPostHome'
 				break
 			}
 		}
@@ -113,10 +113,10 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				name: 'UserStack' as any,
 			}],
 		})
-		navigation.navigate('UserStack', { 
+		navigation.navigate('UserStack', {
 			screen: 'HomeTab',
 			params: {
-				screen: 'ProfileStack',
+				screen: 'HomeStack',
 			}
 		} as any)
 		navigation.navigate(screenName as any, { redirectedPostId: id })
@@ -132,7 +132,9 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
 
-				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/profile/gubzWyXdQFeC5xEaWlTtbaR64tT2 --ios
+				// npx uri-scheme open exp://192.168.1.102:8081/--/com.corresocial.corresocial/redirect/profile/blAn4iSfycRaAzg7eyKqiO09cI52 --ios
+				// npx uri-scheme open exp://192.168.1.102:8081/--/com.corresocial.corresocial/redirect/post/2IK5gKfwKX6qSIiQntu4/socialImpact --ios
+
 				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/post/ID_DO_POST --ios
 				if (route.params?.screen) {
 					switch (route.params.screen) {
