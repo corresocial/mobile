@@ -76,71 +76,56 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		navigation.navigate('UserStack', { // TODO userStack
 			screen: 'HomeTab',
 			params: {
-				screen: 'ProfileStack',
+				screen: 'HomeStack',
 				params: {
-					screen: 'Profile',
+					screen: 'ProfileHome',
 					params: { userId: id }
 				}
 			}
 		} as any) // TODO type
 	}
 
+	// case 'income': {
+	// 	navigation.navigate('UserStack', { 
+	// 		screen: 'HomeTab',
+	// 		params: {
+	// 			screen: 'HomeStack',
+	// 			params: {
+	// 				screen: 'ViewIncomePostHome',
+	// 				params: { redirectedPostId: id }
+	// 			}
+	// 		}
+	// 	} as any)
+	// 	break
+	// }
+
 	const navigateToPost = (id: string, post: string) => {
+		let screenName = ''
 		switch (post) {
 			case 'income': {
-				navigation.navigate('UserStack', { 
-					screen: 'HomeTab',
-					params: {
-						screen: 'HomeStack',
-						params: {
-							screen: 'ViewIncomePostHome',
-							params: { redirectedPostId: id }
-						}
-					}
-				} as any)
+				screenName = 'ViewIncomePost'
 				break
 			}
 			case 'culture': {
-				console.log('ViewCulturePostHome')
-				navigation.navigate('UserStack', { 
-					screen: 'HomeTab',
-					params: {
-						screen: 'HomeStack',
-						params: {
-							screen: 'ViewSocialImpactPostHome',
-							params: { redirectedPostId: id }
-						}
-					}
-				} as any)
+				screenName = 'ViewCulturePost'
 				break
 			}
 			case 'socialimpact': {
-				navigation.navigate('UserStack', { 
-					screen: 'HomeTab',
-					params: {
-						screen: 'HomeStack',
-						params: {
-							screen: 'ViewSocialImpactPostHome',
-							params: { redirectedPostId: id }
-						}
-					}
-				} as any)
+				screenName = 'ViewSocialImpactPost'
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('UserStack', { 
-					screen: 'HomeTab',
-					params: {
-						screen: 'HomeStack',
-						params: {
-							screen: 'ViewVacancyPostHome',
-							params: { redirectedPostId: id }
-						}
-					}
-				} as any)
+				screenName = 'ViewVacancyPost'
 				break
 			}
 		}
+		navigation.navigate('UserStack', { 
+			screen: 'HomeTab',
+			params: {
+				screen: 'ProfileStack',
+			}
+		} as any)
+		navigation.navigate(screenName as any, { redirectedPostId: id })
 	}
 
 	const redirectToApp = async () => {
@@ -165,9 +150,6 @@ function Splash({ route, navigation }: SplashScreenProps) {
 						}
 					}
 				}
-
-				console.log('SDASIDASOIDJSAIODJASIODJASODOKASJODASJODASJ')
-
 				// if () 
 				// return navigateToPost(idFromLinking, postType)
 				// return navigateToProfile()
