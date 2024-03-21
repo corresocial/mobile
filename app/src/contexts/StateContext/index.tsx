@@ -3,16 +3,18 @@ import { Alert } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
 import { Id } from '@services/firebase/types'
-
-import { updateUser } from '@services/firebase/user/updateUser'
 
 import { ShareModal } from '@components/_modals/ShareModal'
 import { TourModal } from '@components/_modals/TourModal'
 
 import { share } from '../../presentation/common/share'
 import { AuthContext } from '../AuthContext'
+
+const { remoteUser } = useUserRepository()
 
 const { objectValuesAreEquals } = useUtils()
 
@@ -80,7 +82,7 @@ function StateProvider({ children }: StateProviderProps) {
 	const closeShareModal = () => setStateDataOnContext({ showShareModal: false })
 
 	const setUserTourPerformed = async () => {
-		await updateUser(userDataContext.userId as Id, { tourPerformed: true })
+		await remoteUser.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

@@ -12,8 +12,6 @@ import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
-import { updateUser } from '@services/firebase/user/updateUser'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, InstructionCardContainer } from './styles'
@@ -112,7 +110,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					currentUser.createdAt = new Date()
 				}
 
-				await updateUser(userData.userIdentification.uid, currentUser)
+				await remoteUser.updateUserData(userData.userIdentification.uid, currentUser)
 				await remoteUser.updatePrivateContacts(
 					userData.userIdentification.uid,
 					{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
@@ -146,14 +144,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 											currentUser.createdAt = new Date()
 										}
 
-										await updateUser(userData.userIdentification.uid, currentUser)
+										await remoteUser.updateUserData(userData.userIdentification.uid, currentUser)
 										await remoteUser.updatePrivateContacts(
 											userData.userIdentification.uid,
 											{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 										)
 
 										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-											await deleteUserPicture(userDataContext.profilePictureUrl || [])
+											await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 											await updateAllOwnerOnPosts(
 												{ ...currentUser },
 												userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]

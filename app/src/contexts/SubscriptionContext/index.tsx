@@ -1,11 +1,13 @@
 import React, { createContext, useCallback, useMemo, useState, useContext } from 'react'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { SubscriptionContextType, SubscriptionData, SubscriptionProviderProps } from './types'
 import { Id, PostRange, UserSubscription } from '@services/firebase/types'
 
-import { updateUser } from '@services/firebase/user/updateUser'
-
 import { AuthContext } from '../AuthContext'
+
+const { remoteUser } = useUserRepository()
 
 const initialValue = {
 	subscriptionDataContext: { subscriptionRange: 'near' as PostRange },
@@ -36,7 +38,7 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 	}
 
 	const updateRemoteUserSubscription = async (userSubscription: UserSubscription) => {
-		await updateUser(userDataContext.userId as Id, { subscription: userSubscription })
+		await remoteUser.updateUserData(userDataContext.userId as Id, { subscription: userSubscription })
 	}
 
 	const subscriptionProviderData = useMemo(() => ({

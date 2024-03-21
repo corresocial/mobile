@@ -16,8 +16,6 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { Id, PostRange, SubscriptionPlan, UserSubscription } from '../../firebase/types'
 
-import { updateUser } from '../../firebase/user/updateUser'
-
 const { remoteUser } = useUserRepository()
 
 async function setFreeTrialPlans(
@@ -65,7 +63,7 @@ async function setFreeTrialPlans(
 
 			console.log(userSubscription)
 
-			await updateUser(userId, { subscription: userSubscription })
+			await remoteUser.updateUserData(userId, { subscription: userSubscription })
 
 			callback && await callback()
 

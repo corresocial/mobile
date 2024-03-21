@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { collection, query, getDocs, doc, getDoc } from 'firebase/firestore'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { firestore } from '@services/firebase'
 
-import { getPostCollectionName } from '@common/dbAuxiliaryFunctions'
+import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
 
-import { updateUser } from '../user/updateUser'
+const { remoteUser } = useUserRepository()
 
 const removeUnregisteredUserPosts = async () => { // Set Collection Name
 	const usersQuery = query(collection(firestore, 'users'))
@@ -33,7 +35,7 @@ const removeUnregisteredUserPosts = async () => { // Set Collection Name
 			return postFiltered
 		})
 
-		await updateUser(currentUser.userId, { posts: postsFiltered } as any)
+		await remoteUser.updateUserData(currentUser.userId, { posts: postsFiltered } as any)
 			.then(() => console.log(`${currentUser.name}: success!`))
 			.catch((err) => {
 				console.log(err)

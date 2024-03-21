@@ -15,8 +15,6 @@ import { Id, PostCollection, PrivateUserCollection } from '@services/firebase/ty
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
-import { updateUser } from '@services/firebase/user/updateUser'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
@@ -134,7 +132,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 	const updateRemoteUser = async () => {
 		if (!editDataContext.unsaved.profilePictureUrl) {
-			await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved })
+			await remoteUser.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved })
 
 			await updateAllOwnerOnPosts(
 				{ ...editDataContext.unsaved },
@@ -167,7 +165,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
 								.then(async (profilePictureUrl) => {
-									await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+									await remoteUser.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 
 									await updateAllOwnerOnPosts(
 										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
@@ -175,14 +173,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 									)
 
 									if (!arrayIsEmpty(userDataContext)) {
-										await deleteUserPicture(userDataContext.profilePictureUrl || [])
+										await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 									}
 
 									await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl)
 
 									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 									await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await deleteUserPicture(userDataContext.profilePictureUrl || [])
+									await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 
 									setIsLoading(false)
 									navigation.goBack()

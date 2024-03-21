@@ -1,8 +1,10 @@
 import { collection, query, getDocs } from 'firebase/firestore'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { firestore } from '@services/firebase'
 
-import { updateUser } from '../user/updateUser'
+const { remoteUser } = useUserRepository()
 
 const insertNewFieldOnUsers = async () => {
 	const docs: any = []
@@ -19,7 +21,7 @@ const insertNewFieldOnUsers = async () => {
 
 		const createdAt = currentUser.updatedAt || new Date()
 
-		await updateUser(currentUser.userId, { createdAt })
+		await remoteUser.updateUserData(currentUser.userId, { createdAt })
 			.then(() => console.log(`success userPosts: ${currentUser.userId}`))
 			.catch((err: any) => {
 				console.log(err)

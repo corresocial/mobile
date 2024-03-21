@@ -12,6 +12,7 @@ async function getPrivateLocation(userId: string) {
 		if (docSnap.exists()) {
 			return { ...docSnap.data() as PrivateUserCollection['location'] }
 		}
+
 		return null
 	} catch (error) {
 		console.log(error)

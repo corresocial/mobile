@@ -15,11 +15,13 @@ interface UserRepositoryInterface {
 		// POST
 
 		// UPDATE
+		updateUserData: (userId: string, data: UserCollection) => Promise<boolean>
 		updatePrivateContacts: (userId: string, data: PrivateUserCollection['contacts']) => Promise<boolean>
 		updatePrivateLocation: (userId: string, data: PrivateUserCollection['location']) => Promise<boolean>
 
 		// DELETE
 		deleteUserData: (userId: string) => Promise<boolean>
+		deleteUserProfilePicture: (profilePictures: string[]) => Promise<boolean>
 	}
 }
 

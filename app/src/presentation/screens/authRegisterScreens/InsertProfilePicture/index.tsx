@@ -10,8 +10,6 @@ import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
-import { updateUser } from '@services/firebase/user/updateUser'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container } from './styles'
@@ -69,7 +67,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			await saveInFirebase(userData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-				await deleteUserPicture(userDataContext.profilePictureUrl || [])
+				await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 				await updateAllOwnerOnPosts(
 					{ profilePictureUrl: [] },
 					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
@@ -97,7 +95,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			userObject.createdAt = new Date()
 		}
 
-		await updateUser(userData.userIdentification.uid, userObject)
+		await remoteUser.updateUserData(userData.userIdentification.uid, userObject)
 
 		await remoteUser.updatePrivateContacts(
 			userData.userIdentification.uid,

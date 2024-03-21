@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
-
-import { updateUser } from '@services/firebase/user/updateUser'
 
 import { Container, ContainerButtons } from './styles'
 import LoupWhiteIcon from '@assets/icons/loup-white.svg'
@@ -18,6 +18,8 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+
+const { remoteUser } = useUserRepository()
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -56,9 +58,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const setUserTourPerformed = async () => {
 		console.log(userDataContext.userId)
-		await updateUser(userDataContext.userId as Id, {
-			tourPerformed: true
-		})
+		await remoteUser.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

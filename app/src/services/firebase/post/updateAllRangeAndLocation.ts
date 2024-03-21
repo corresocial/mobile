@@ -1,12 +1,15 @@
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { PostCollection, PostCollectionRemote } from '../types'
 
-import { updateUser } from '../user/updateUser'
 import { updatePost } from './updatePost'
 
 type PostRangeLocation = {
 	range: string
 	location: PostCollectionRemote['location']
 }
+
+const { remoteUser } = useUserRepository()
 
 async function updateAllRangeAndLocation(
 	userOwner: PostCollectionRemote['owner'],
@@ -36,7 +39,7 @@ async function updateAllRangeAndLocation(
 			})
 	})
 
-	return updateUser(userOwner.userId, { posts: updatedUserPosts })
+	return remoteUser.updateUserData(userOwner.userId, { posts: updatedUserPosts })
 		.then(() => {
 			return updatedUserPosts
 		})

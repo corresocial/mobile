@@ -9,12 +9,11 @@ import { PostCollection } from '@services/firebase/types'
 import { auth } from '@services/firebase'
 import { deletePost } from '@services/firebase/post/deletePost'
 import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
-import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 
 const { remoteUser } = useUserRepository()
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostCollection[] = []) => {
-	const user = auth.currentUser
+	const user = auth.currentUser // REFACTOR Requer Autenticação(services) e Posts(data) estruturados
 
 	posts.map(async (post) => {
 		await deletePost(post.postId as Id, userId)
@@ -22,7 +21,7 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 		return true
 	})
 
-	await deleteUserPicture(userPictureUrl)
+	await remoteUser.deleteUserProfilePicture(userPictureUrl)
 	await remoteUser.deleteUserData(userId)
 	await deleteUser(user as any)
 

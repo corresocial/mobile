@@ -5,12 +5,15 @@
 
 import { collection, query, getDocs } from 'firebase/firestore'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
 
 import { firestore } from '@services/firebase'
 
 import { updatePost } from '../post/updatePost'
-import { updateUser } from '../user/updateUser'
+
+const { remoteUser } = useUserRepository()
 
 const updatePostFieldsName = async () => {
 	const docs: any = []
@@ -53,7 +56,7 @@ const updatePostFieldsName = async () => {
 			//  }
 		})
 
-		await updateUser(doc.userId, { posts: updatedUserPosts as PostCollection[] })
+		await remoteUser.updateUserData(doc.userId, { posts: updatedUserPosts as PostCollection[] })
 			.then(() => console.log(`success updatedUserPosts: ${doc.userId}`))
 			.catch((err: any) => {
 				console.log(err)

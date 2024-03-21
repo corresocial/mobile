@@ -22,7 +22,6 @@ import {
 	VerifiedLabelName,
 } from '@services/firebase/types'
 
-import { updateUser } from '@services/firebase/user/updateUser'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -270,7 +269,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			name: userDataContext.name || ''
 		})
 		if (user.userId && userDataContext.userId) {
-			await updateUser(user.userId, {
+			await remoteUser.updateUserData(user.userId, {
 				verified: {
 					type: label,
 					by: userDataContext.userId,
