@@ -38,7 +38,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
@@ -178,8 +178,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {

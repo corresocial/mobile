@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
 import React, { createContext, useState } from 'react'
 
@@ -11,7 +10,7 @@ import { PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
 
-const { remoteUser } = useUserRepository()
+const { localUser, remoteUser } = useUserRepository()
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
@@ -23,7 +22,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const getUserDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
 		try {
 			if (requireAuthentication) {
-				const storedUser = await handleMethodWithAuthentication(getLocalUserData)
+				const storedUser = await handleMethodWithAuthentication(localUser.getLocalUserData)
 
 				if (!storedUser) {
 					throw new Error('Erro ao validar identidade')
@@ -31,7 +30,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 				return storedUser
 			}
 
-			const storedUser = await getLocalUserData()
+			const storedUser = await localUser.getLocalUserData()
+			if (!storedUser) return null
 
 			if (accountIdentifier) {
 				return { userId: storedUser.userId, name: storedUser.name }
@@ -59,35 +59,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 		throw new Error('Authentication failed')
 	}
 
-	const getLocalUserData = async () => {
-		try {
-			const storagedDataJSON = await AsyncStorage.getItem('corre.user')
-			const storagedData = storagedDataJSON ? JSON.parse(storagedDataJSON) : {}
-			return storagedData
-		} catch (error) {
-			console.log(error)
-			return null
-		}
-	}
-
 	const hasValidLocalUser = async () => {
-		const storedUser = await getLocalUserData()
-		return storedUser && storedUser.userId
-	}
-
-	const setDataOnSecureStore = async (key: string, data: any) => {
-		try {
-			await AsyncStorage.setItem(key, JSON.stringify({ ...userDataContext, ...data }))
-			return true
-		} catch (err) {
-			console.log(`Error: ${err}`)
-			return false
-		}
-	}
-
-	const deleteLocaluser = async () => {
-		setUserDataContext({})
-		await AsyncStorage.removeItem('corre.user')
+		const storedUser = await localUser.getLocalUserData()
+		return !!(storedUser && storedUser.userId)
 	}
 
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserData) => {
@@ -98,7 +72,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 					...currentUser,
 					userId: uid
 				})
-				await setDataOnSecureStore('corre.user', {
+				await localUser.saveLocalUserData({
 					...currentUser,
 					userId: uid
 				})
@@ -173,8 +147,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 				setUserDataOnContext,
 				getUserDataFromSecureStore,
 				hasValidLocalUser,
-				setDataOnSecureStore,
-				deleteLocaluser,
 				setRemoteUserOnLocal,
 				getLastUserPost,
 				sendSMS,

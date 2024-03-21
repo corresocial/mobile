@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 
 import { differenceInMinutes } from 'date-fns'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
@@ -25,8 +27,10 @@ import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenCon
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
+const { localUser } = useUserRepository()
+
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
-	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
@@ -92,7 +96,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const performLogout = async () => {
 		try {
 			removeChatListeners()
-			await deleteLocaluser()
+			await localUser.clearLocalUserData()
 			await clearOfflinePosts()
 			await auth.signOut()
 			navigateToInitialScreen()

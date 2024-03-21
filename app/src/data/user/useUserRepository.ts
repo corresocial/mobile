@@ -1,3 +1,6 @@
+import { clearLocalUserData } from './localRepository/deleteLocalUser'
+import { getLocalUserData } from './localRepository/getLocalUserData'
+import { saveLocalUserData } from './localRepository/saveLocalUserData'
 import { deleteUserData } from './remoteRepository/deleteUserData'
 import { deleteUserProfilePicture } from './remoteRepository/deleteUserProfilePicture'
 import { getPrivateContacts } from './remoteRepository/getPrivateContacts'
@@ -12,7 +15,9 @@ import { UserRepositoryInterface } from './UserRepositoryInterface'
 function useUserRepository(): UserRepositoryInterface {
 	return {
 		localUser: {
-
+			getLocalUserData: getLocalUserData,
+			saveLocalUserData: saveLocalUserData,
+			clearLocalUserData: clearLocalUserData,
 		},
 
 		remoteUser: {

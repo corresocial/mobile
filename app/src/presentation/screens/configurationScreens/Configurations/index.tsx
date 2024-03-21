@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
@@ -39,11 +41,13 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
+const { localUser } = useUserRepository()
+
 const { updateUserTokenNotification } = ChatAdapter()
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
-	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -55,7 +59,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const performLogout = async () => {
 		removeChatListeners()
 		await updateUserTokenNotification(userDataContext.userId as Id, '')
-		await deleteLocaluser()
+		await localUser.clearLocalUserData()
 		await clearOfflinePosts()
 		await auth.signOut()
 		navigateToInitialScreen()

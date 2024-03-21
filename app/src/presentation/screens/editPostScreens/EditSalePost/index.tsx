@@ -38,7 +38,7 @@ const { getTextualAddress } = UiLocationUtils()
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setDataOnSecureStore, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
@@ -165,8 +165,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {

@@ -7,7 +7,7 @@ import { Id, PostRange, UserSubscription } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
-const { remoteUser } = useUserRepository()
+const { localUser, remoteUser } = useUserRepository()
 
 const initialValue = {
 	subscriptionDataContext: { subscriptionRange: 'near' as PostRange },
@@ -18,7 +18,7 @@ const initialValue = {
 const SubscriptionContext = createContext<SubscriptionContextType>(initialValue)
 
 function SubscriptionProvider({ children }: SubscriptionProviderProps) {
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [subscriptionDataContext, setSubscriptionDataContext] = useState(initialValue.subscriptionDataContext)
 
@@ -34,7 +34,7 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 
 	const updateLocalUserSubscription = async (userSubscription: UserSubscription) => {
 		setUserDataOnContext({ subscription: { ...userDataContext.subscription, ...userSubscription } })
-		await setDataOnSecureStore('corre.user', { ...userDataContext, subscription: { customerId: userDataContext.subscription?.customerId, ...userSubscription } })
+		await localUser.saveLocalUserData({ ...userDataContext, subscription: { customerId: userDataContext.subscription?.customerId, ...userSubscription } })
 	}
 
 	const updateRemoteUserSubscription = async (userSubscription: UserSubscription) => {

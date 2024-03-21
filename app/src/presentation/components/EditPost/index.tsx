@@ -3,6 +3,8 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { SearchParams } from '@services/cloudFunctions/types'
@@ -40,12 +42,13 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
+const { localUser: localUserStorage } = useUserRepository()
+
 const { notifyUsersOnLocation } = CloudFunctionService()
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
 	setUserDataOnContext: (data: UserCollection) => void;
-	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 }
 
 type EditContextFragment = {
@@ -379,7 +382,7 @@ function EditPost({
 						{ ...postDataToSave, owner } as PostCollectionRemote
 					],
 				})
-				userContext.setDataOnSecureStore('corre.user', {
+				localUserStorage.saveLocalUserData({
 					...localUser,
 					tourPerformed: true,
 					posts: [

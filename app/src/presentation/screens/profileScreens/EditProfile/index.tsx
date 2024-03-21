@@ -33,13 +33,13 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
 
-const { remoteUser } = useUserRepository()
+const { localUser, remoteUser } = useUserRepository()
 
 const { arrayIsEmpty } = UiUtils()
 const { updateProfilePictureOnConversations } = ChatAdapter()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
@@ -139,7 +139,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
 
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, location: {} })
+			await localUser.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 
 			if (editDataContext.unsaved && editDataContext.unsaved.location) {
@@ -179,7 +179,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 									await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl)
 
 									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+									await localUser.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 									await remoteUser.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 
 									setIsLoading(false)

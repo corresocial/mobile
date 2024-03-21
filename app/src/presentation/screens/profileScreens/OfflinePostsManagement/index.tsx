@@ -4,6 +4,8 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/AuthContext/types'
 
@@ -29,8 +31,10 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
+const { localUser: localUserRepository } = useUserRepository()
+
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [offlinePosts, setOfflinePosts] = useState([])
@@ -187,21 +191,21 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			!!userDataContext.posts,
 		)
 			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts as any] as PostCollectionRemote[] : [] // TODO Type
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setUserDataOnContext({
 					...localUser,
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{ ...postDataToSave } as PostCollectionRemote
+						{ ...postDataToSave } as PostCollection
 					],
 				})
-				setDataOnSecureStore('corre.user', {
+				localUserRepository.saveLocalUserData({
 					...localUser,
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{ ...postDataToSave }
+						{ ...postDataToSave } as PostCollection
 					],
 				})
 
@@ -294,7 +298,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 				}
 
 			</Header>
-			<Body backgroundColor={hasError && theme.red2}>
+			<Body backgroundColor={hasError ? theme.red2 : theme.orange2}>
 				{
 					<FlatListPosts
 						data={offlinePosts}

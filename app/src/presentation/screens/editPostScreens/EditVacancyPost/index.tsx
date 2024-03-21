@@ -38,7 +38,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
@@ -172,8 +172,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {

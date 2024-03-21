@@ -37,7 +37,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
@@ -176,8 +176,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {

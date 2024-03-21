@@ -3,6 +3,8 @@ import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/entities/impactReport/types'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
@@ -54,12 +56,15 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
-const { mergeArrayPosts } = UiPostUtils()
+const { localUser } = useUserRepository()
+
 const { sendImpactReport } = ImpactReportAdapter()
 
+const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { mergeArrayPosts } = UiPostUtils()
+
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
-	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
@@ -103,7 +108,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
-			setDataOnSecureStore('corre.user', { posts: mergedPosts })
+			localUser.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
 
 			setPostOptionsIsOpen(false)
 
