@@ -8,10 +8,11 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@services/firebase/types'
+import { PostCollection, SaleCategories, IncomeCollectionRemote, IncomeCollection } from '@services/firebase/types'
 
 import { deletePost } from '@services/firebase/post/deletePost'
 import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
+import { getPostById } from '@services/firebase/post/getPostById'
 import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -46,6 +47,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
+import { Loader } from '@components/Loader'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
@@ -59,30 +61,41 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
-	const [isCompleted, setIsCompleted] = useState(route.params.postData.completed || false)
+	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
+	
+	const [postLoaded, setPostLoaded] = useState(false)
+	const [postData, setPostData] = useState<IncomeCollection>(route.params?.postData || null)
 
 	useEffect(() => {
-		console.log(route.params)
+		getPost()
 		return () => {
 			clearEditContext()
 		}
 	}, [])
 
+	const getPost = (async () => {
+		if (route.params.redirectedPostId) {
+			const post = await getPostById(route.params.redirectedPostId)
+			setPostData(post as IncomeCollection)
+			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+		}
+		setPostLoaded(true)
+	})
+
 	const loggedUserIsOwner = () => {
-		if (!route.params.postData || !route.params.postData.owner) { return false }
-		return userDataContext.userId === route.params.postData.owner.userId
+		if (!postData || !postData.owner) { return false }
+		return userDataContext.userId === postData.owner.userId
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: IncomeCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
-		const formatedDate = formatRelativeDate(postData.createdAt)
+		const formatedDate = formatRelativeDate(postData.createdAt || '')
 		return formatedDate
 	}
 
@@ -106,7 +119,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
+			markPostAsComplete(userDataContext, postData.postId as string, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			setDataOnSecureStore('corre.user', { posts: mergedPosts })
@@ -131,7 +144,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
-		await deletePost(postData.postId, postData.owner.userId)
+		await deletePost(postData.postId as string, postData.owner.userId)
 		await deletePostPictures(getPostField('picturesUrl') || [])
 		await removePostOnContext()
 		setIsLoading(false)
@@ -241,6 +254,12 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
+
+	if (!postLoaded) {
+		return (
+			<Loader flex/>
+		)
+	}
 
 	return (
 		<Container>
