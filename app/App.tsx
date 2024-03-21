@@ -50,11 +50,12 @@ function App() {
 	}
 
 	const linking = {
-		prefixes: ['exp://192.168.1.100:8081/--/com.corresocial.corresocial'], // Substitua pelo seu prefixo
+		// 'exp://192.168.2.2:8081/--/com.corresocial.corresocial'
+		prefixes: ['exp://192.168.2.2:8081/--/com.corresocial.corresocial'], // Substitua pelo seu prefixo
 		config: {
 			screens: {
 				Splash: {
-					path: 'redirect/:screen/:id'
+					path: 'redirect/:screen/:id/:postType?'
 				}
 			},
 		},
