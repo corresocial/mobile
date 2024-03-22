@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { LOCAL_SMAS_REPOSITORY_KEY } from '@data/localStorageConfig'
+
 async function getNisValue() {
 	try {
-		const storedNis = await AsyncStorage.getItem('corre.nis')
+		const storedNis = await AsyncStorage.getItem(LOCAL_SMAS_REPOSITORY_KEY)
 
 		if (storedNis) {
 			const storedNisObject = JSON.parse(storedNis)
@@ -19,7 +21,7 @@ async function getNisValue() {
 async function saveNisValue(nis: string) {
 	try {
 		const nisObject = { nis }
-		await AsyncStorage.setItem('corre.nis', JSON.stringify(nisObject))
+		await AsyncStorage.setItem(LOCAL_SMAS_REPOSITORY_KEY, JSON.stringify(nisObject))
 		return true
 	} catch (error) {
 		console.log(error)
@@ -29,7 +31,7 @@ async function saveNisValue(nis: string) {
 
 async function clearNisValue() {
 	try {
-		await AsyncStorage.removeItem('corre.nis')
+		await AsyncStorage.removeItem(LOCAL_SMAS_REPOSITORY_KEY)
 		return true
 	} catch (error) {
 		console.log(error)

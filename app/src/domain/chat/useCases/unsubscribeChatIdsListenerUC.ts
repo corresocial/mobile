@@ -1,6 +1,6 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
+import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
 
 function unsubscribeChatIdsListenerUC(userId: Id) {
 	const { unsubscribeUserChatIdsListener } = ChatGatewayAdapter()

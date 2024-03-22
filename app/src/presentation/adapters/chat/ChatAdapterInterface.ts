@@ -2,7 +2,7 @@ import { CheckBlockedUsersResponse } from '@domain/entities/chat'
 import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapterInterface as ChatRepositoryAdapterInterface } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapterInterface'
+import { ChatGatewayAdapterInterface as ChatRepositoryAdapterInterface } from '@data/chat/gatewayAdapter/ChatGatewayAdapterInterface'
 
 import { MutableObjectReference } from '@services/pushNotification/types'
 

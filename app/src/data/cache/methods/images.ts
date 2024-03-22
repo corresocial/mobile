@@ -1,13 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Image } from 'expo-image'
 
+import { LOCAL_CACHE_IMAGE_CONTROL_KEY } from '@data/localStorageConfig'
+
 const cacheImageConfig = {
 	clearCacheOnExpire: true,
 	persistenceTime: 2592000000 // 30 dias
 }
 
 const getLastCacheImageDatetime = async () => {
-	const lastCacheDatetime = await AsyncStorage.getItem('corre.cacheimage')
+	const lastCacheDatetime = await AsyncStorage.getItem(LOCAL_CACHE_IMAGE_CONTROL_KEY)
 	if (lastCacheDatetime) {
 		return parseInt(lastCacheDatetime)
 	}
@@ -15,7 +17,7 @@ const getLastCacheImageDatetime = async () => {
 }
 
 const setLastCacheImageDatetime = async (datetime: number) => {
-	await AsyncStorage.setItem('corre.cacheimage', JSON.stringify(datetime))
+	await AsyncStorage.setItem(LOCAL_CACHE_IMAGE_CONTROL_KEY, JSON.stringify(datetime))
 	return true
 }
 

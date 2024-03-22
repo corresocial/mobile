@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { LOCAL_OFFLINE_POSTS_REPOSITORY_KEY } from '@data/localStorageConfig'
+
 import { PostCollection } from '@services/firebase/types'
 
 const getOfflinePosts = async () => { // REFACTOR é de post
-	const storedPosts = await AsyncStorage.getItem('corre.offlinePosts')
+	const storedPosts = await AsyncStorage.getItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY)
 	if (storedPosts) {
 		const storedPostsObject = JSON.parse(storedPosts)
 		return storedPostsObject
@@ -33,7 +35,7 @@ const setOfflinePost = async (newPost: PostCollection) => {
 
 	const allOfflinePosts = [...filteredPosts, { ...newPost }]
 
-	await AsyncStorage.setItem('corre.offlinePosts', JSON.stringify(allOfflinePosts))
+	await AsyncStorage.setItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY, JSON.stringify(allOfflinePosts))
 	return true
 }
 
@@ -42,12 +44,12 @@ const deletePostByDescription = async (description: string) => {
 
 	const filteredPosts = storedPosts.filter((post: PostCollection) => post.description !== description)
 
-	await AsyncStorage.setItem('corre.offlinePosts', JSON.stringify(filteredPosts))
+	await AsyncStorage.setItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY, JSON.stringify(filteredPosts))
 	return true
 }
 
 const clearOfflinePosts = async () => {
-	await AsyncStorage.removeItem('corre.offlinePosts')
+	await AsyncStorage.removeItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY)
 	return true
 }
 

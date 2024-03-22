@@ -1,7 +1,7 @@
 import { Message } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
+import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
 
 async function sendMessageUC(message: Message, chatId: Id, recipientUserName: string) {
 	const { sendMessage } = ChatGatewayAdapter()

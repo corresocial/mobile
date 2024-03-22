@@ -1,6 +1,6 @@
 import { Chat } from '@domain/entities/chat/types'
 
-import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
+import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
 
 async function registerNewChatUC(initialChatData: Partial<Chat>) {
 	const { registerNewChat } = ChatGatewayAdapter()
