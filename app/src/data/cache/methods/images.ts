@@ -8,7 +8,7 @@ const cacheImageConfig = {
 	persistenceTime: 2592000000 // 30 dias
 }
 
-const getLastCacheImageDatetime = async () => {
+async function getLastCacheImageDatetime() {
 	const lastCacheDatetime = await AsyncStorage.getItem(LOCAL_CACHE_IMAGE_CONTROL_KEY)
 	if (lastCacheDatetime) {
 		return parseInt(lastCacheDatetime)
@@ -16,7 +16,7 @@ const getLastCacheImageDatetime = async () => {
 	return 0
 }
 
-const setLastCacheImageDatetime = async (datetime: number) => {
+async function setLastCacheImageDatetime(datetime: number) {
 	await AsyncStorage.setItem(LOCAL_CACHE_IMAGE_CONTROL_KEY, JSON.stringify(datetime))
 	return true
 }

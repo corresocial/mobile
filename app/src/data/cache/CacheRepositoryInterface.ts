@@ -1,10 +1,10 @@
 import { QueryClient } from '@tanstack/react-query'
 
-interface CacheRepositoryAdapterInterface {
+interface CacheRepositoryInterface {
 	checkCacheImageValidation: () => void
 
 	defaultCachePersistence: number
 	executeCachedRequest: (cacheClient: QueryClient, cacheKey: any[], fetchMethod: any, refresh?: boolean) => Promise<any>
 }
 
-export { CacheRepositoryAdapterInterface }
+export { CacheRepositoryInterface }

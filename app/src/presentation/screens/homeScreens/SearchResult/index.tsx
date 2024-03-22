@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
+import { useCacheRepository } from '@data/cache/useCacheRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -34,7 +34,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const queryClient = useQueryClient()
-	const { executeCachedRequest } = CacheRepositoryAdapter()
+	const { executeCachedRequest } = useCacheRepository()
 
 	const [searchText, setSearchText] = useState('')
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)

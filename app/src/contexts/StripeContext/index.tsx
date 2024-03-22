@@ -8,7 +8,7 @@ import axios from 'axios'
 
 import { Id } from '@domain/entities/globalTypes'
 
-import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
+import { useCacheRepository } from '@data/cache/useCacheRepository'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
@@ -91,7 +91,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 
 	const queryClient = useQueryClient()
-	const { executeCachedRequest } = CacheRepositoryAdapter()
+	const { executeCachedRequest } = useCacheRepository()
 
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)

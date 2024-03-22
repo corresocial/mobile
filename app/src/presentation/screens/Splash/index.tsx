@@ -2,7 +2,7 @@ import * as Updates from 'expo-updates'
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
-import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
+import { useCacheRepository } from '@data/cache/useCacheRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -17,7 +17,7 @@ import { theme } from '@common/theme'
 import { CustomModal } from '@components/_modals/CustomModal'
 
 function Splash({ navigation }: SplashScreenProps) {
-	const { checkCacheImageValidation } = CacheRepositoryAdapter()
+	const { checkCacheImageValidation } = useCacheRepository()
 
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
