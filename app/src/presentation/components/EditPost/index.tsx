@@ -3,6 +3,7 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { LocalUserData } from '@contexts/AuthContext/types'
@@ -18,7 +19,6 @@ import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { updatePost } from '@services/firebase/post/updatePost'
 import { getNetworkStatus } from '@utils/deviceNetwork'
-import { deletePostByDescription, setOfflinePost } from '@utils/offlinePost'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'
@@ -43,6 +43,7 @@ import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
 const { localStorage } = useUserRepository()
+const { localStorage: localPostStorage } = usePostRepository()
 
 const { notifyUsersOnLocation } = CloudFunctionService()
 
@@ -223,12 +224,12 @@ function EditPost({
 		if (offlinePost && !hasValidConnection) return
 
 		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
-			await setOfflinePost({ ...postData, owner })
+			await localPostStorage.saveOfflinePost({ ...postData, owner })
 			navigateToProfile && navigateToProfile()
 			return
 		}
 
-		await setOfflinePost({ ...postData, owner })
+		await localPostStorage.saveOfflinePost({ ...postData, owner })
 
 		const postPictures = extractPostPictures(postData)
 
@@ -404,7 +405,7 @@ function EditPost({
 	}
 
 	const deleteOfflinePostByDescription = async (description: string) => {
-		await deletePostByDescription(description)
+		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
 	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
@@ -547,7 +548,7 @@ function EditPost({
 	}
 
 	const removeOfflinePost = async () => {
-		await deletePostByDescription(initialPostData.description)
+		await localPostStorage.deleteOfflinePostByDescription(initialPostData.description)
 		navigateBackwards()
 	}
 

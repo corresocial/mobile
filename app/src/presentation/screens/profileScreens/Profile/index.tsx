@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext/index'
@@ -26,7 +27,6 @@ import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 import {
 	Body,
@@ -77,6 +77,7 @@ import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
 const { remoteStorage } = useUserRepository()
+const { localStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
@@ -123,7 +124,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const checkHasOfflinePosts = async () => {
-		const numberOfOfflinePosts = await getNumberOfStoredOfflinePosts()
+		const numberOfOfflinePosts = await localStorage.getNumberOfOfflinePosts()
 		setNumberOfOfflinePostsStored(numberOfOfflinePosts)
 	}
 

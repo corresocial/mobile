@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -16,7 +17,6 @@ import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { createPost } from '@services/firebase/post/createPost'
 import { getNetworkStatus } from '@utils/deviceNetwork'
-import { deletePostByDescription, getOfflinePosts } from '@utils/offlinePost'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
@@ -32,12 +32,13 @@ import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
 const { localStorage } = useUserRepository()
+const { localStorage: localPostsStorage } = usePostRepository()
 
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
-	const [offlinePosts, setOfflinePosts] = useState([])
+	const [offlinePosts, setOfflinePosts] = useState<PostCollection[]>([])
 
 	const [hasError, setHasError] = useState(false)
 
@@ -47,7 +48,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}, [navigation])
 
 	const loadOfflinePosts = async () => {
-		const storedOfflinePosts = await getOfflinePosts()
+		const storedOfflinePosts = await localPostsStorage.getOfflinePosts()
 
 		if (!storedOfflinePosts || !storedOfflinePosts.length) {
 			navigation.goBack()
@@ -78,7 +79,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		try {
 			for await (const post of offlinePosts as PostCollectionRemote[]) {
 				const currentPost = await saveAndReturnPost(post, savedPosts)
-				await deletePostByDescription(post.description)
+				await localPostsStorage.deleteOfflinePostByDescription(post.description)
 				savedPosts.push(currentPost)
 			}
 

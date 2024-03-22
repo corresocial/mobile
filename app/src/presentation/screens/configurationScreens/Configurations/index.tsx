@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext/index'
@@ -12,7 +13,6 @@ import { UserStackParamList } from '@routes/Stack/UserStack/types'
 import { Id } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
-import { clearOfflinePosts } from '@utils/offlinePost'
 
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
@@ -42,6 +42,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const { localStorage } = useUserRepository()
+const { localStorage: localPostsStorage } = usePostRepository()
 
 const { updateUserTokenNotification } = ChatAdapter()
 
@@ -60,7 +61,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 		removeChatListeners()
 		await updateUserTokenNotification(userDataContext.userId as Id, '')
 		await localStorage.clearLocalUserData()
-		await clearOfflinePosts()
+		await localPostsStorage.clearOfflinePosts()
 		await auth.signOut()
 		navigateToInitialScreen()
 	}

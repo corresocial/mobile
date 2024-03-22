@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 
 import { differenceInMinutes } from 'date-fns'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -12,7 +13,6 @@ import { Id, PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
 import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
-import { clearOfflinePosts } from '@utils/offlinePost'
 
 import { Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -28,6 +28,7 @@ import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
 const { localStorage } = useUserRepository()
+const { localStorage: localPostStorage } = usePostRepository()
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -97,7 +98,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 		try {
 			removeChatListeners()
 			await localStorage.clearLocalUserData()
-			await clearOfflinePosts()
+			await localPostStorage.clearOfflinePosts()
 			await auth.signOut()
 			navigateToInitialScreen()
 		} catch (error) {
