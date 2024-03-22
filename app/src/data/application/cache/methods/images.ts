@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Image } from 'expo-image'
 
-import { LOCAL_CACHE_IMAGE_CONTROL_KEY } from '@data/localStorageConfig'
+import { LOCAL_CACHE_IMAGE_CONTROL_KEY } from '@data/localStorageKeys'
 
 const cacheImageConfig = {
 	clearCacheOnExpire: true,

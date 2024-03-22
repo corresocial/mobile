@@ -1,3 +1,6 @@
+// REFACTOR centralizar em outro lugar
+// REFACTOR Criar um de keys para collections firestore
+
 const LOCAL_USER_REPOSITORY_KEY = 'corre.user'
 const LOCAL_SMAS_REPOSITORY_KEY = 'corre.smas'
 const LOCAL_OFFLINE_POSTS_REPOSITORY_KEY = 'corre.offlinePosts'

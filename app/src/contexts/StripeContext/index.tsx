@@ -8,7 +8,7 @@ import axios from 'axios'
 
 import { Id } from '@domain/entities/globalTypes'
 
-import { useCacheRepository } from '@data/cache/useCacheRepository'
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'

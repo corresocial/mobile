@@ -2,7 +2,7 @@ import * as Updates from 'expo-updates'
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
-import { useCacheRepository } from '@data/cache/useCacheRepository'
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 

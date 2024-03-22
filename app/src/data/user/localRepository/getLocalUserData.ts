@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { LOCAL_USER_REPOSITORY_KEY } from '@data/localStorageConfig'
+import { LOCAL_USER_REPOSITORY_KEY } from '@data/localStorageKeys'
 
 import { UserCollection } from '@services/firebase/types'
 

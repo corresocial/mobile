@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { LOCAL_SMAS_REPOSITORY_KEY } from '@data/localStorageConfig'
+import { LOCAL_SMAS_REPOSITORY_KEY } from '@data/localStorageKeys'
 
 async function getNisValue() {
 	try {

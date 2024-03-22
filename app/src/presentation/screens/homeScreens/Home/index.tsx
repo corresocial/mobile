@@ -5,8 +5,8 @@ import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { useCacheRepository } from '@data/cache/useCacheRepository'
-import { useLocationRepository } from '@data/location/useLocationRepository'
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
+import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'

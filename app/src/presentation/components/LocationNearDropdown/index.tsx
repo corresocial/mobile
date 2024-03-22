@@ -3,7 +3,7 @@ import { Animated, FlatList, Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
-import { useLocationRepository } from '@data/location/useLocationRepository'
+import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
 import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
 
