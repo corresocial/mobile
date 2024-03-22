@@ -1,7 +1,7 @@
 import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-export interface ChatGatewayAdapterInterface {
+interface ChatRepositoryInterface {
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
@@ -24,3 +24,5 @@ export interface ChatGatewayAdapterInterface {
 	unsubscribeChatMessagesListener(chatId: Id): void
 	updateUserTokenNotification(userId: Id, tokenNotification: string, getRemoteUserData: (idUser: Id) => Promise<ChatUserData>): Promise<void>
 }
+
+export { ChatRepositoryInterface }

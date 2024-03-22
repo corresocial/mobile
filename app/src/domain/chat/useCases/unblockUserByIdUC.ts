@@ -1,9 +1,9 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function unblockUserByIdUC(targetBlockUserId: Id, ownerBlockUserId: Id) {
-	const { getRemoteUserData, updateBlockedUsersList } = ChatGatewayAdapter()
+	const { getRemoteUserData, updateBlockedUsersList } = useChatRepository()
 
 	const { blockedUsers } = await getRemoteUserData(ownerBlockUserId)
 	const filteredBlockedUsers = blockedUsers.filter((id) => id !== targetBlockUserId)

@@ -1,10 +1,10 @@
 import { Message } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function sendMessageUC(message: Message, chatId: Id, recipientUserName: string) {
-	const { sendMessage } = ChatGatewayAdapter()
+	const { sendMessage } = useChatRepository()
 
 	return sendMessage({ ...message, metadata: { title: recipientUserName } }, chatId)
 

@@ -6,7 +6,7 @@ import { realTimeDatabase } from '@services/firebase'
 
 async function addNewUserChatId(userId: Id, chatId: Id) {
 	const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}/chatIds`)
-	push(realTimeDatabaseRef, chatId)
+	await push(realTimeDatabaseRef, chatId)
 }
 
 export { addNewUserChatId }

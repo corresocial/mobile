@@ -1,9 +1,9 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 function unsubscribeChatIdsListenerUC(userId: Id) {
-	const { unsubscribeUserChatIdsListener } = ChatGatewayAdapter()
+	const { unsubscribeUserChatIdsListener } = useChatRepository()
 
 	if (!userId) return
 	try {

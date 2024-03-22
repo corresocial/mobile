@@ -1,11 +1,11 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 import { PushNotificationService } from '@services/pushNotification/PushNotificationService'
 
 async function updateChatCompletedStateUC(chatId: Id, currentCompletedState: boolean, recipientUserId?: Id, senderUserName?: string) {
-	const { getRemoteUserData, updateChatCompletedState } = ChatGatewayAdapter()
+	const { getRemoteUserData, updateChatCompletedState } = useChatRepository()
 	const { getNotificationConfig, sendPushNotification } = PushNotificationService()
 
 	const updatedCompletedStatus = await updateChatCompletedState(chatId, !!currentCompletedState)

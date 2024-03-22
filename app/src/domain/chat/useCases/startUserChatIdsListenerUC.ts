@@ -3,10 +3,10 @@ import { isArray } from 'lodash'
 import { Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function startUserChatIdsListenerUC(userId: Id, callback: (chatIds: Id[], userChats: Chat[]) => void) {
-	const { existsOnDatabase, getUserChats, startUserChatIdsListener } = ChatGatewayAdapter()
+	const { existsOnDatabase, getUserChats, startUserChatIdsListener } = useChatRepository()
 
 	const listenerCallback = async (chatIds: Id[]) => {
 		let chatIdsList = chatIds

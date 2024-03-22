@@ -1,11 +1,11 @@
 import { ChatUserIdentification } from '@domain/entities/chat/types'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 import { generateNewChatIds } from '../rules/generateNewChatIds'
 
 async function getRemoteChatDataByUserUC(user1: ChatUserIdentification, user2: ChatUserIdentification) {
-	const { existsOnDatabase, getRemoteChatData } = ChatGatewayAdapter()
+	const { existsOnDatabase, getRemoteChatData } = useChatRepository()
 
 	const { chatId1, chatId2 } = generateNewChatIds(user1, user2)
 

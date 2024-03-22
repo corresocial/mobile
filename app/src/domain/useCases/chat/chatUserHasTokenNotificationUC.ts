@@ -1,8 +1,8 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapterInterface as ChatRepositoryAdapterInterface } from '@data/chat/gatewayAdapter/ChatGatewayAdapterInterface'
+import { ChatRepositoryInterface } from '@data/chat/ChatRepositoryInterface'
 
-async function chatUserHasTokenNotificationUC(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryAdapterInterface) {
+async function chatUserHasTokenNotificationUC(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryInterface) {
 	const { getRemoteUserData } = ChatRepositoryAdapter()
 
 	const remoteUser = await getRemoteUserData(userId)

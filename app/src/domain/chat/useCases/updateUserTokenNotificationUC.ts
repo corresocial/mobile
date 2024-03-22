@@ -1,9 +1,9 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function updateUserTokenNotificationUC(userId: Id, tokenNotification: string) {
-	const { getRemoteUserData, updateUserTokenNotification } = ChatGatewayAdapter()
+	const { getRemoteUserData, updateUserTokenNotification } = useChatRepository()
 
 	return updateUserTokenNotification(userId, tokenNotification, getRemoteUserData)
 }

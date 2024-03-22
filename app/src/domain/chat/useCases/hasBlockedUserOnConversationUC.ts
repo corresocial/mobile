@@ -1,10 +1,10 @@
 import { CheckBlockedUsersResponse } from '@domain/entities/chat'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function hasBlockedUserOnConversationUC(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse> {
-	const { getRemoteUserData } = ChatGatewayAdapter()
+	const { getRemoteUserData } = useChatRepository()
 
 	if (!userId1 || !userId2) return { hasUserBlocked: false, userBlockOwnerId: '' }
 

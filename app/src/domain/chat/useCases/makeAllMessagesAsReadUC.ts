@@ -1,10 +1,10 @@
 import { MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function makeAllUserMessagesAsReadUC(chatId: Id, userId: Id) {
-	const { getRemoteChatData, updateChatMessages } = ChatGatewayAdapter()
+	const { getRemoteChatData, updateChatMessages } = useChatRepository()
 
 	if (!chatId || !userId) return
 

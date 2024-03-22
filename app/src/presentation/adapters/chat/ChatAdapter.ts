@@ -50,7 +50,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		unblockUserById: unblockUserByIdUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,
 		startUserChatListeners: startUserChatListenersUC,
-		startChatMessagesListener: startChatMessagesListenerUC,
+		// startChatMessagesListener: startChatMessagesListenerUC,
 		unsubscribeUserChatIdsListener: unsubscribeChatIdsListenerUC,
 		unsubscribeUserChatsListener: unsubscribeUserChatsListenerUC,
 		unsubscribeChatMessagesListener: unsubscribeChatMessagesListenerUC,

@@ -1,10 +1,10 @@
 import { Chat, ObjectChatIds } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function startUserChatListenersUC(chatIds: Id[], callback: (chatId: Id, updatedChat: Chat) => void) {
-	const { existsOnDatabase, startUserChatListener } = ChatGatewayAdapter()
+	const { existsOnDatabase, startUserChatListener } = useChatRepository()
 
 	const chatIdsList = convertChatIdsToArray(chatIds as any) // TODO Type
 

@@ -1,9 +1,9 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function existsOnDatabaseUC(nodeId?: Id) {
-	const { existsOnDatabase } = ChatGatewayAdapter()
+	const { existsOnDatabase } = useChatRepository()
 	return existsOnDatabase(nodeId)
 }
 

@@ -1,9 +1,9 @@
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function updateProfilePictureOnConversationsUC(userId: Id, profilePictureUrl: string) {
-	const { getUserChatIds, getRemoteChatData, updateUserChatProfilePicture } = ChatGatewayAdapter()
+	const { getUserChatIds, getRemoteChatData, updateUserChatProfilePicture } = useChatRepository()
 
 	try {
 		const userChatIds = await getUserChatIds(userId)

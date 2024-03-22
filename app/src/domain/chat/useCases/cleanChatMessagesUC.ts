@@ -1,12 +1,12 @@
 import { MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 import { updateMessagesCanViewedByUser } from '../rules/userCanViewMessages'
 
 async function cleanChatMessagesUC(chatId: Id, userIdCanView: Id) {
-	const { getRemoteChatData, setChatMessages, updateChatMessages } = ChatGatewayAdapter()
+	const { getRemoteChatData, setChatMessages, updateChatMessages } = useChatRepository()
 
 	const { messages: chatMessages } = await getRemoteChatData(chatId)
 

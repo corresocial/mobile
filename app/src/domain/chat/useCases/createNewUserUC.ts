@@ -1,10 +1,10 @@
 import { initialUserDataStructure } from '@domain/entities/chat'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/chat/gatewayAdapter/ChatGatewayAdapter'
+import { useChatRepository } from '@data/chat/useChatRepository'
 
 async function createNewUserUC(userId: Id) {
-	const { registerNewUser } = ChatGatewayAdapter()
+	const { registerNewUser } = useChatRepository()
 	return registerNewUser(userId, initialUserDataStructure)
 }
 

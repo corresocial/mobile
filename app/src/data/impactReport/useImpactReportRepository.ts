@@ -3,7 +3,12 @@ import { createNewReport } from './remoteRepository/createNewReport'
 
 function useImpactReportRepository(): ImpactReportRepositoryInterface {
 	return {
-		createNewReport: createNewReport
+		localStorage: {
+
+		},
+		remoteStorage: {
+			createNewReport: createNewReport
+		}
 	}
 }
 

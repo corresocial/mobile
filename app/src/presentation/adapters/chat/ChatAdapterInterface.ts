@@ -2,7 +2,7 @@ import { CheckBlockedUsersResponse } from '@domain/entities/chat'
 import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapterInterface as ChatRepositoryAdapterInterface } from '@data/chat/gatewayAdapter/ChatGatewayAdapterInterface'
+import { ChatRepositoryInterface } from '@data/chat/ChatRepositoryInterface'
 
 import { MutableObjectReference } from '@services/pushNotification/types'
 
@@ -25,11 +25,11 @@ interface ChatAdapterInterface {
 	updateChatCompletedState(chatId: Id, currentCompletedState?: boolean, recipientUserId?: Id, senderUserName?: string): Promise<void>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[], chats: Chat[]) => void): Promise<void>
 	startUserChatListeners(chatIds: Id[], callback: (chatId: Id, updatedChat: Chat) => void): Promise<void>
-	startChatMessagesListener: (chatId: Id, callback: (newMessages: MessageObjects) => void) => void
+	// startChatMessagesListener: (chatId: Id, callback: (newMessages: MessageObjects) => void) => void
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
 	unsubscribeChatMessagesListener(chatId: Id): void
-	chatUserHasTokenNotification(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryAdapterInterface): Promise<boolean>
+	chatUserHasTokenNotification(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryInterface): Promise<boolean>
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
 	hasBlockedUserOnConversation(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse>
 
