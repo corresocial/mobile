@@ -4,6 +4,7 @@ import { Animated, StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { Container, LogoContainer } from './styles'
@@ -80,29 +81,16 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			params: {
 				screen: 'HomeStack',
 			}
-		} as any) // TODO type
-		navigation.navigate('ProfileHome' as any, { userId: id })
+		} as any)
+		navigation.navigate('ProfileHome' as any, { userId: id }) // TODO type
 	}
 
-	const navigateToPost = (id: string, post: string) => {
-		let screenName = ''
-		switch (post) {
-			case 'income': {
-				screenName = 'ViewIncomePostHome'
-				break
-			}
-			case 'culture': {
-				screenName = 'ViewCulturePostHome'
-				break
-			}
-			case 'socialimpact': {
-				screenName = 'ViewSocialImpactPostHome'
-				break
-			}
-			case 'vacancy': {
-				screenName = 'ViewVacancyPostHome'
-				break
-			}
+	const navigateToPost = (id: string, postType: PostKey) => {
+		const postPages = {
+			income: 'ViewIncomePostHome',
+			culture: 'ViewCulturePostHome',
+			socialimpact: 'ViewSocialImpactPostHome',
+			vacancy: 'ViewVacancyPostHome',
 		}
 		navigation.reset({
 			index: 0,
@@ -116,7 +104,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate(screenName as any, { redirectedPostId: id })
+		navigation.navigate(postPages[postType] as any, { redirectedPostId: id }) // TODO type
 	}
 
 	const redirectToApp = async () => {
@@ -129,17 +117,13 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
 
-				// npx uri-scheme open exp://192.168.1.102:8081/--/com.corresocial.corresocial/redirect/profile/blAn4iSfycRaAzg7eyKqiO09cI52 --ios
-				// npx uri-scheme open exp://192.168.1.102:8081/--/com.corresocial.corresocial/redirect/post/2IK5gKfwKX6qSIiQntu4/socialImpact --ios
-
-				// npx uri-scheme open exp://192.168.1.100:8081/--/com.corresocial.corresocial/redirect/post/ID_DO_POST --ios
 				if (route.params?.screen) {
 					switch (route.params.screen) {
 						case 'profile': {
 							return navigateToProfile(route.params.id)
 						}
 						case 'post': {
-							return navigateToPost(route.params.id, route.params.postType)
+							return navigateToPost(route.params.id, route.params.postType as PostKey)
 						}
 					}
 				}
