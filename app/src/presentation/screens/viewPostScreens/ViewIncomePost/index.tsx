@@ -211,7 +211,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	}
 
 	const navigateToProfile = () => {
-		if (userDataContext.userId === postData.owner.userId) {
+		if (userDataContext.userId === postData.owner.userId && !route.params.redirectedPostId) {
 			return navigation.navigate('Profile')
 		}
 		navigation.navigate('ProfileHome' as any, {
