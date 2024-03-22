@@ -8,9 +8,10 @@ async function createNewReport(impactReportData: ImpactReport) {
 	try {
 		const collectionRef = collection(firestore, 'impactReports')
 		await addDoc(collectionRef, impactReportData)
-	} catch (err: any) {
-		console.log(err)
-		throw new Error(err)
+		return true
+	} catch (error) {
+		console.log(error)
+		return false
 	}
 }
 

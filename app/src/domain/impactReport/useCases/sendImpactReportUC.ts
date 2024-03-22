@@ -1,10 +1,10 @@
 import { Id } from '@domain/entities/globalTypes'
 import { ReportContext } from '@domain/entities/impactReport/types'
 
-import { ImpactReportGatewayAdapter } from '@data/impactReport/gatewayAdapter/ImpactReportGatewayAdapter'
+import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 
 async function sendImpactReportUC(usersIdInvolved: Id[], hadImpact: boolean, impactValue: number, reportContext?: ReportContext) {
-	const { createNewReport } = ImpactReportGatewayAdapter()
+	const { createNewReport } = useImpactReportRepository()
 
 	return createNewReport({
 		dateTime: new Date(),
