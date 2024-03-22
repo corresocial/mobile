@@ -2,7 +2,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { PostCollection } from '@services/firebase/types'
 
-import { usePostRepository } from '../usePostRepository'
+import { updatePostData } from './updatePostData' // from data/post
 
 export type PostRangeLocation = {
 	range: string
@@ -12,7 +12,6 @@ export type PostRangeLocation = {
 // THIS is DOMAIN
 
 const { remoteStorage } = useUserRepository()
-const { remoteStorage: remotePostRepository } = usePostRepository()
 
 async function updateRangeAndLocationOnPosts(
 	userOwner: PostCollection['owner'],
@@ -34,7 +33,7 @@ async function updateRangeAndLocationOnPosts(
 		updatedUserPosts.map(async (post) => {
 			if (!post.postId) return false
 
-			await remotePostRepository.updatePostData(post.postId, {
+			await updatePostData(post.postId, {
 				...post,
 				owner: { ...userOwner }
 			})
