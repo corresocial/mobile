@@ -4,6 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardForm } from '@stripe/stripe-react-native'
 
+import { usePostRepository } from '@data/post/usePostRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
@@ -13,7 +15,6 @@ import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription }
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 
-import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
@@ -32,6 +33,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
+
+const { remoteStorage } = usePostRepository()
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
@@ -129,7 +132,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		}
 
 		if (!lastUserPost) return
-		const userPostsUpdated = await updateAllRangeAndLocation(
+		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 			owner as any, // TODO Type
 			userDataContext.posts || [],
 			{
@@ -137,9 +140,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				location: lastUserPost.location
 			},
 			true
-		)
+		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[]) // TODO Type
 	}
 
 	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {

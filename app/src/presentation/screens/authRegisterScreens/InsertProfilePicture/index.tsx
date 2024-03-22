@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -9,7 +10,6 @@ import { RegisterUserData } from '@contexts/AuthContext/types'
 import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
-import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container } from './styles'
@@ -27,6 +27,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -68,7 +69,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 				await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
-				await updateAllOwnerOnPosts(
+				await remotePostStorage.updateOwnerDataOnPosts(
 					{ profilePictureUrl: [] },
 					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 				)

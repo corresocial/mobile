@@ -1,51 +1,61 @@
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { PostCollection, PostCollectionRemote } from '../types'
+import { PostCollection } from '@services/firebase/types'
 
-import { updatePost } from './updatePost'
+import { usePostRepository } from '../usePostRepository'
 
-type PostRangeLocation = {
+export type PostRangeLocation = {
 	range: string
-	location: PostCollectionRemote['location']
+	location: PostCollection['location']
 }
 
-const { remoteStorage } = useUserRepository()
+// THIS is DOMAIN
 
-async function updateAllRangeAndLocation(
-	userOwner: PostCollectionRemote['owner'],
+const { remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostRepository } = usePostRepository()
+
+async function updateRangeAndLocationOnPosts(
+	userOwner: PostCollection['owner'],
 	userPosts: PostCollection[],
 	newPostRangeLocation: PostRangeLocation,
 	subscriptionChange?: boolean
 ) {
-	if (!userPosts || (userPosts && !userPosts.length)) return console.log('Usuário não outros posts')
+	try {
+		if (!userPosts || (userPosts && !userPosts.length)) {
+			console.log('Usuário não outros posts')
+			return true
+		}
 
-	let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
-	if (subscriptionChange) {
-		updatedUserPosts = await updatePostsRange(updatedUserPosts, newPostRangeLocation)
+		let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
+		if (subscriptionChange) {
+			updatedUserPosts = await updatePostsRange(updatedUserPosts, newPostRangeLocation)
+		}
+
+		updatedUserPosts.map(async (post) => {
+			if (!post.postId) return false
+
+			await remotePostRepository.updatePostData(post.postId, {
+				...post,
+				owner: { ...userOwner }
+			})
+				.then(() => {
+					console.log(`success: ${post.postId}`)
+				})
+				.catch((err: any) => {
+					console.log(err)
+				})
+		})
+
+		return remoteStorage.updateUserData(userOwner.userId, { posts: updatedUserPosts })
+			.then(() => updatedUserPosts)
+			.catch((error) => {
+				console.log(error)
+				return false
+			})
+	} catch (error) {
+		console.log(error)
+		return false
 	}
-
-	updatedUserPosts.map(async (post) => {
-		if (!post.postId) return
-
-		await updatePost('posts', post.postId, {
-			...post,
-			owner: { ...userOwner }
-		})
-			.then(() => {
-				console.log(`success: ${post.postId}`)
-			})
-			.catch((err: any) => {
-				console.log(err)
-			})
-	})
-
-	return remoteStorage.updateUserData(userOwner.userId, { posts: updatedUserPosts })
-		.then(() => {
-			return updatedUserPosts
-		})
-		.catch((err: any) => {
-			console.log(err)
-		})
 }
 
 const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {
@@ -113,4 +123,4 @@ const updatePostsRange = async (posts: PostCollection[], newPostRangeLocation: P
 	return updatedPosts
 }
 
-export { updateAllRangeAndLocation }
+export { updateRangeAndLocationOnPosts }

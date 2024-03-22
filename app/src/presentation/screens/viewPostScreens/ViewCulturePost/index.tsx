@@ -3,6 +3,7 @@ import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/entities/impactReport/types'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -11,9 +12,6 @@ import { EditContext } from '@contexts/EditContext'
 import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
 import { CultureCategories, CultureCollection, CultureCollectionRemote, Id, PostCollection } from '@services/firebase/types'
 
-import { deletePost } from '@services/firebase/post/deletePost'
-import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
-import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
@@ -56,6 +54,7 @@ import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 const { localStorage } = useUserRepository()
+const { remoteStorage } = usePostRepository()
 const { sendImpactReport } = ImpactReportAdapter()
 
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
@@ -103,7 +102,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(userDataContext.userId as string, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
@@ -128,8 +127,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
-		await deletePost(postData.postId, postData.owner.userId)
-		await deletePostPictures(getPostField('picturesUrl') || [])
+		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()

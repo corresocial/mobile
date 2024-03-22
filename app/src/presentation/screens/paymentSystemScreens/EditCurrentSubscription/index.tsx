@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -10,7 +11,6 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
 
-import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
@@ -33,6 +33,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()
@@ -136,12 +137,12 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		const lastUserPost: PostCollection = getLastUserPost()
 
 		if (!lastUserPost) return
-		const userPostsUpdated = await updateAllRangeAndLocation(
+		const userPostsUpdated = await remotePostStorage.updateRangeAndLocationOnPosts(
 			owner as any, // TODO Type
 			userDataContext.posts || [],
 			{ range: 'near', location: lastUserPost.location },
 			true
-		)
+		) || []
 
 		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
 	}

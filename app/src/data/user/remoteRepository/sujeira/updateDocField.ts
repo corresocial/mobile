@@ -1,8 +1,8 @@
 import { arrayUnion, doc, setDoc } from 'firebase/firestore'
 
-import { firestore } from '../index'
+import { firestore } from '../../../../services/firebase/index'
 
-async function updateDocField(
+async function updateDocField( // REFACTOR sujeira
 	collection: string,
 	docId: string,
 	field: string,

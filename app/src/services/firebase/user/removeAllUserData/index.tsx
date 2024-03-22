@@ -1,21 +1,21 @@
 import { deleteUser } from 'firebase/auth'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { Id, PostCollection } from '../../types'
 
 import { auth } from '../..'
-import { deletePost } from '../../post/deletePost'
-import { deletePostPictures } from '../../post/deletePostPictures'
 
 const { remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostCollection[] = []) => {
 	const user = auth.currentUser
 
 	posts.map(async (post) => {
-		await deletePost(post.postId as Id, userId)
-		await deletePostPictures(post.picturesUrl || [])
+		await remotePostStorage.deletePost(post.postId as Id, userId)
+		await remotePostStorage.deletePostPictures(post.picturesUrl || [])
 		return true
 	})
 

@@ -2,12 +2,12 @@ import { deleteObject, getMetadata, ref } from 'firebase/storage'
 
 import { storage } from '@services/firebase'
 
-async function deleteUserProfilePicture(profilePictures: string[]) {
+async function deletePostPictures(postPictures: string[]) {
 	try {
-		profilePictures.map(async (pictureUrl: string) => {
-			const startIndex = pictureUrl.indexOf('users%2F') + 8 // REFACTOR Tratativas muito instáveis
+		postPictures.map(async (pictureUrl: string) => {
+			const startIndex = pictureUrl.indexOf('posts%2F') + 8
 			const endIndex = pictureUrl.indexOf('?alt')
-			const picturePath = `pictures/users/${pictureUrl.substring(startIndex, endIndex)}`
+			const picturePath = `pictures/posts/${pictureUrl.substring(startIndex, endIndex)}`
 
 			const pictureStorageRef = ref(storage, picturePath)
 			const fileExists = await getMetadata(pictureStorageRef)
@@ -18,8 +18,7 @@ async function deleteUserProfilePicture(profilePictures: string[]) {
 			}
 
 			return deleteObject(pictureStorageRef)
-				.then(() => true)
-				.catch((err) => {
+				.then(() => { return true }).catch((err) => {
 					console.log(`error: ${picturePath}`)
 					console.log(err)
 					return false
@@ -33,4 +32,4 @@ async function deleteUserProfilePicture(profilePictures: string[]) {
 	}
 }
 
-export { deleteUserProfilePicture }
+export { deletePostPictures }

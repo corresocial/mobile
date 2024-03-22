@@ -1,8 +1,8 @@
+import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
+
 import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { Id, PostCollection } from '../types'
-
-import { updateDocField } from '@services/firebase/common/updateDocField'
 
 import { updatePost } from './updatePost'
 

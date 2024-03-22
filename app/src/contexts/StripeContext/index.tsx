@@ -9,12 +9,12 @@ import axios from 'axios'
 import { Id } from '@domain/entities/globalTypes'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
+import { usePostRepository } from '@data/post/usePostRepository'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
-import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
@@ -23,6 +23,8 @@ import { getEnvVars } from '../../infrastructure/environment'
 import { dateHasExpired } from '../../presentation/common/auxiliaryFunctions'
 import { AuthContext } from '../AuthContext'
 import { SubscriptionContext } from '../SubscriptionContext'
+
+const { remoteStorage } = usePostRepository()
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -324,7 +326,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 		}
 
 		if (!lastUserPost) return
-		const userPostsUpdated = await updateAllRangeAndLocation(
+		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 			owner as any, // TODO Type
 			userDataContext.posts || [],
 			{
@@ -332,7 +334,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				location: lastUserPost.location
 			},
 			true
-		)
+		) || []
 
 		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
 	}

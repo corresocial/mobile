@@ -1,0 +1,21 @@
+import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
+
+import { PostCollection } from '@services/firebase/types'
+
+import { usePostRepository } from '../usePostRepository'
+
+const { remoteStorage } = usePostRepository()
+
+const markPostAsComplete = async (userId: string, postId: string, currentPost: PostCollection, userPosts: PostCollection[]) => { // REFACTOR Precisa mesmo de todos so posts?
+	try {
+		await remoteStorage.updatePostData(postId, currentPost)
+		await updateDocField('users', userId as string, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
+
+		return true
+	} catch (error) {
+		console.log(error)
+		return false
+	}
+}
+
+export { markPostAsComplete }

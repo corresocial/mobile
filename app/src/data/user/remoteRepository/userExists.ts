@@ -8,8 +8,8 @@ async function userExists(userId: string) {
 		const userSnap = await getDoc(userRef)
 
 		return userSnap.exists()
-	} catch (e) {
-		console.log(e)
+	} catch (error) {
+		console.log(error)
 		return false
 	}
 }

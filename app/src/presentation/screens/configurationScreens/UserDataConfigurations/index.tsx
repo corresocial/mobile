@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react'
 import { differenceInMinutes } from 'date-fns'
 
 import { usePostRepository } from '@data/post/usePostRepository'
+import { removeAllUserData } from '@data/user/remoteRepository/sujeira/remoteAllUserData'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -12,7 +13,6 @@ import { UserDataConfigurationsScreenProps } from '@routes/Stack/UserStack/stack
 import { Id, PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
-import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
 
 import { Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'

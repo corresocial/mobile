@@ -6,6 +6,7 @@ import { getDownloadURL } from 'firebase/storage'
 import { PostType } from '@domain/entities/posts/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
+import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { LocalUserData } from '@contexts/AuthContext/types'
@@ -14,11 +15,7 @@ import { SearchParams } from '@services/cloudFunctions/types'
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
 
 import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
-import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
-import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
-import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
-import { updatePost } from '@services/firebase/post/updatePost'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
@@ -161,7 +158,7 @@ function EditPost({
 
 			let userPostsUpdated: any = [] // TODO Type
 			if (locationRangeChanged()) {
-				userPostsUpdated = await updateAllRangeAndLocation(
+				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 					owner,
 					getUserPostsWithoutEdited(),
 					{
@@ -185,10 +182,10 @@ function EditPost({
 			const registredPicturesUrl = initialPostData.picturesUrl || []
 			const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
 			if (picturesAlreadyUploadedToRemove.length) {
-				await deletePostPictures(picturesAlreadyUploadedToRemove)
+				await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
 			}
 
-			await updatePost('posts', initialPostData.postId, postDataToSave)
+			await remoteStorage.updatePostData(initialPostData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby
@@ -251,7 +248,7 @@ function EditPost({
 			let userPostsUpdated: any = [] // TODO Type
 			if (locationRangeChanged()) {
 				console.log(`localização ou range mudaram: ${locationRangeChanged()}`)
-				userPostsUpdated = await updateAllRangeAndLocation(
+				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 					owner,
 					getUserPostsWithoutEdited(),
 					{
@@ -459,10 +456,10 @@ function EditPost({
 											const registredPicturesUrl = initialPostData.picturesUrl || []
 											const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
 											if (picturesAlreadyUploadedToRemove.length) {
-												await deletePostPictures(picturesAlreadyUploadedToRemove)
+												await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
 											}
 
-											await updatePost('posts', initialPostData.postId, postDataToSave)
+											await remoteStorage.updatePostData(initialPostData.postId, postDataToSave)
 
 											if (postDataToSave.location) {
 												delete postDataToSave.location.geohashNearby

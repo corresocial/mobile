@@ -7,6 +7,7 @@ import { getDownloadURL } from 'firebase/storage'
 import { PostType } from '@domain/entities/posts/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
+import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -15,7 +16,6 @@ import { LocalUserData } from '@contexts/AuthContext/types'
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
-import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 

@@ -3,6 +3,7 @@ import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/entities/impactReport/types'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -11,9 +12,6 @@ import { EditContext } from '@contexts/EditContext'
 import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
 import { Id, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
-import { deletePost } from '@services/firebase/post/deletePost'
-import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
-import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
@@ -49,10 +47,11 @@ import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 const { localStorage } = useUserRepository()
+const { remoteStorage } = usePostRepository()
+const { sendImpactReport } = ImpactReportAdapter()
 
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
-const { sendImpactReport } = ImpactReportAdapter()
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -97,7 +96,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(userDataContext.userId as string, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
@@ -122,8 +121,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
-		await deletePost(postData.postId, postData.owner.userId)
-		await deletePostPictures(getPostField('picturesUrl') || [])
+		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()

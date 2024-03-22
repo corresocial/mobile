@@ -1,24 +1,26 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { PostCollection, PostCollectionType } from '../types'
+import { PostCollection } from '@services/firebase/types'
 
 import { firestore } from '@services/firebase'
 
 type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number }
 
-async function updatePost(postCollection: PostCollectionType, postId: string, data: PostCollection) {
+async function updatePostData(postId: string, data: PostCollection) {
 	try {
-		const createdAtPost = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {}
+		const createdAtPost = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {} // Garante que sempre haverá uma data de criação
+		const docRef = doc(firestore, 'posts', postId)
 
-		const ref = doc(firestore, postCollection, postId)
-		const finished = await setDoc(
-			ref,
+		await setDoc(
+			docRef,
 			{ ...data, updatedAt: new Date(), ...createdAtPost },
-			{ merge: true },
-		).then(() => true)
-		return finished
+			{ merge: true }
+		)
+
+		return true
 	} catch (error) {
 		console.log(error)
+		return false
 	}
 }
 
@@ -34,4 +36,4 @@ const getNewDate = (date: any) => {
 	return new Date(date)
 }
 
-export { updatePost }
+export { updatePostData }

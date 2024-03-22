@@ -4,6 +4,7 @@ import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -14,7 +15,6 @@ import { UserStackParamList } from '@routes/Stack/UserStack/types'
 import { Id, PostCollection, PrivateUserCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
-import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
@@ -34,6 +34,7 @@ import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList
 import { Loader } from '@components/Loader'
 
 const { localStorage, remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
 const { updateProfilePictureOnConversations } = ChatAdapter()
@@ -134,7 +135,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		if (!editDataContext.unsaved.profilePictureUrl) {
 			await remoteStorage.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved })
 
-			await updateAllOwnerOnPosts(
+			await remotePostStorage.updateOwnerDataOnPosts(
 				{ ...editDataContext.unsaved },
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
@@ -167,7 +168,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 								.then(async (profilePictureUrl) => {
 									await remoteStorage.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 
-									await updateAllOwnerOnPosts(
+									await remotePostStorage.updateOwnerDataOnPosts(
 										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
 										userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 									)
