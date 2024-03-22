@@ -7,7 +7,7 @@ import { deletePostPictures } from './remoteStorage/deletePostPictures'
 import { getPostById } from './remoteStorage/getPostById'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
-import { updatePostData } from './remoteStorage/updatePost'
+import { updatePostData } from './remoteStorage/updatePostData'
 import { updateRangeAndLocationOnPosts } from './remoteStorage/updateRangeAndLocationOnPosts'
 
 function usePostRepository(): PostRepositoryInterface {

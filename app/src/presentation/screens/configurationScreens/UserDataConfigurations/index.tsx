@@ -74,7 +74,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			setHasError(false)
 			setIsLoading(true)
 
-			await removeAllUserData(
+			await removeAllUserData( // REFACTOR Não importar direto
 				userDataContext.userId as Id,
 				userDataContext.profilePictureUrl || [],
 				userDataContext.posts as PostCollection[]

@@ -5,6 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { PostType } from '@domain/entities/posts/types'
 
+import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -15,7 +16,6 @@ import { SearchParams } from '@services/cloudFunctions/types'
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
 
 import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
-import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'

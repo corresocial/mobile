@@ -3,6 +3,7 @@ import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -11,7 +12,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
-import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, InstructionCardContainer } from './styles'

@@ -4,6 +4,7 @@ import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
+import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -14,7 +15,6 @@ import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
 import { Id, PostCollection, PrivateUserCollection } from '@services/firebase/types'
 
-import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 

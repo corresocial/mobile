@@ -4,7 +4,8 @@ import { storage } from '@services/firebase'
 
 type CollectionUpload = 'users' | 'posts'
 
-async function uploadImageRefactored(
+// REFACTOR Definir um nome melhor para o encapsulamento
+async function uploadImage( // REFACTOR Colocar em uma interface
 	localPath: string,
 	collection: CollectionUpload,
 	index?: number
@@ -21,9 +22,9 @@ async function uploadImageRefactored(
 		const uploadTask = uploadBytesResumable(fileRef, blob)
 
 		return { uploadTask, blob }
-	} catch (err) {
-		console.log(err)
+	} catch (error) {
+		console.log(error)
 	}
 }
 
-export { uploadImageRefactored }
+export { uploadImage }
