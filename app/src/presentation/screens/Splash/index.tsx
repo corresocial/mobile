@@ -21,9 +21,6 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
-		console.log(route.params, '<=')
-		// view the actual URL
-		// console.log(createURL('hello', {}))
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
 			duration: 1000,

@@ -98,11 +98,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
-			console.log('Entrou no if do params')
 			setIsLoggedUser(false)
-			
 			getProfileDataFromRemote(route.params.userId)
-			console.log('chamada da função')
 		} else {
 			setIsLoggedUser(true)
 		}
