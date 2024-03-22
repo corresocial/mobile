@@ -63,6 +63,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	}, [showGallery])
 
 	useEffect(() => {
+		setCurrentIndex(0)
+		goToIndex(0, true)
 		if (isLandscapeMode) {
 			setScreenSizes({
 				width: relativeScreenHeight(100),
@@ -74,17 +76,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				height: relativeScreenHeight(100)
 			})
 		}
-
-		setTimeout(() => {
-			if (currentIndex === picturesUrl.length - 1) {
-				goToIndex(currentIndex)
-				if (carouselRef.current) {
-					isLandscapeMode ? carouselRef.current.next() : carouselRef.current.prev()
-				}
-				return
-			}
-			goToIndex(currentIndex)
-		}, 500)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
@@ -105,8 +96,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		goToIndex(nextIndex)
 	}
 
-	const goToIndex = (index: number, animate?: boolean) => {
-		carouselRef.current?.scrollTo({ index, animated: true })
+	const goToIndex = (index: number, noAnimation?: boolean) => {
+		carouselRef.current?.scrollTo({ index, animated: !noAnimation })
 	}
 
 	const imagePressHandler = () => {
