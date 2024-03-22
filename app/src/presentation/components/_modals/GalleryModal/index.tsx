@@ -96,6 +96,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		}
 	}, [currentIndex])
 
+	const hideArrows = picturesUrl.length < 2 
+
 	const goToNext = (direction: number) => {
 		const { length } = picturesUrl
 		const nextIndex = (currentIndex + direction + length) % length
@@ -168,13 +170,19 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 							/>
 						</CloseButtonArea>
 
-						<LeftButton onPress={() => goToNext(-1)}>
-							<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
-						</LeftButton>
+						{
+							!hideArrows && (
+								<>
+									<LeftButton onPress={() => goToNext(-1)}>
+										<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
+									</LeftButton>
 
-						<RightButton onPress={() => goToNext(1)}>
-							<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)} />
-						</RightButton>
+									<RightButton onPress={() => goToNext(1)}>
+										<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+									</RightButton>
+								</>
+							)
+						}
 					</>
 				)
 			}
