@@ -2,13 +2,13 @@ import { addDoc, collection } from 'firebase/firestore'
 
 import { LocalUserData } from '@contexts/AuthContext/types'
 
-import { PostCollectionType, PostCollection, PostType } from '../types'
+import { PostCollection, PostType } from '@services/firebase/types'
 
 import { firestore } from '@services/firebase'
 
-async function createPost(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType, postType: PostType) {
+async function createPost(post: PostCollection, user: LocalUserData, postType: PostType) {
 	try {
-		const docRef = await addDoc(collection(firestore, postCollection), {
+		const docRef = await addDoc(collection(firestore, 'posts'), {
 			...post,
 			postType,
 			createdAt: new Date(),
@@ -18,10 +18,11 @@ async function createPost(post: PostCollection, user: LocalUserData, postCollect
 				profilePictureUrl: user.profilePictureUrl ? user.profilePictureUrl : [],
 			},
 		})
+
 		return docRef.id
-	} catch (err: any) {
-		console.log(err)
-		throw new Error(err)
+	} catch (error) {
+		console.log(error)
+		return null
 	}
 }
 

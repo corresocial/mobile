@@ -4,6 +4,8 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { PostType } from '@domain/entities/posts/types'
+
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -15,7 +17,6 @@ import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
-import { createPost } from '@services/firebase/post/createPost'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -32,7 +33,7 @@ import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
 const { localStorage } = useUserRepository()
-const { localStorage: localPostsStorage } = usePostRepository()
+const { localStorage: localPostsStorage, remoteStorage } = usePostRepository()
 
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -108,7 +109,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			const storedUserPosts = [...localUserPosts, ...currentBatchPosts]
 
 			if (!postPictures.length) {
-				const postId = await createPost(postData, localUser, 'posts', postData.postType)
+				const postId = await remoteStorage.createPost(postData, localUser, postData.postType as PostType) // REFACTOR remover as
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				const savedPostData = await updateUserPost(
@@ -140,7 +141,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 											if (picturePostsUrls.length === postPictures.length) {
 												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(postDataWithPicturesUrl, localUser, 'posts', postData.postType)
+												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType as PostType) // REFACTOR remover as
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												return updateUserPost(

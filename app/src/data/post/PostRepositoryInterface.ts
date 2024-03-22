@@ -1,4 +1,6 @@
-import { PostCollection } from '@services/firebase/types'
+import { PostType } from '@domain/entities/posts/types'
+
+import { PostCollection, UserCollection } from '@services/firebase/types'
 
 interface PostRepositoryInterface {
 	localStorage: {
@@ -10,8 +12,9 @@ interface PostRepositoryInterface {
 		deleteOfflinePostByDescription: (description: string) => Promise<boolean>
 		clearOfflinePosts: () => Promise<boolean>
 	},
-	remoteStorage: {
 
+	remoteStorage: {
+		createPost: (post: PostCollection, user: UserCollection, postType: PostType) => Promise<string | null>
 	}
 }
 
