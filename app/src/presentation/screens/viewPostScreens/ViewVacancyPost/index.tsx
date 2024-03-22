@@ -370,6 +370,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 									picturesUrl={getPostField('picturesUrl') || []}
 									indicatorColor={theme.green1}
 									square
+									showFullscreenIcon
 								/>
 							</TouchableOpacity>
 						</>
