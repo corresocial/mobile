@@ -28,7 +28,7 @@ function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, o
 	const getRelativeMacroCategoryCard = () => {
 		try {
 			const currentPostType = postMacroCategories[postType] as MacroCategories
-			const currentMacroCategory = currentPostType[macroCategory]
+			const currentMacroCategory = currentPostType[macroCategory] // TODO Type
 			return currentMacroCategory.label
 		} catch (err) {
 			console.log(err)
@@ -39,7 +39,7 @@ function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, o
 	const getRelativeValueIcon = () => {
 		try {
 			const currentPostType = postMacroCategories[postType] as MacroCategories
-			const currentMacroCategory = currentPostType[macroCategory]
+			const currentMacroCategory = currentPostType[macroCategory] // TODO Type
 			return currentMacroCategory.SvgIcon
 		} catch (err) {
 			console.log(err)

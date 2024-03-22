@@ -119,7 +119,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const viewPostDetails = (postData: PostCollection) => {
-		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToResultScreen = () => {

@@ -133,7 +133,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 		if (!lastUserPost) return
 		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner as any, // TODO Type
+			owner,
 			userDataContext.posts || [],
 			{
 				range: 'near',

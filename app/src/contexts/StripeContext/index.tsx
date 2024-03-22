@@ -327,7 +327,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 		if (!lastUserPost) return
 		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner as any, // TODO Type
+			owner,
 			userDataContext.posts || [],
 			{
 				range: 'near',
@@ -336,7 +336,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			true
 		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[])
 	}
 
 	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {

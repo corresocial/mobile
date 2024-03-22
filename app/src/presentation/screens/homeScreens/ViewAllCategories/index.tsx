@@ -35,7 +35,7 @@ const { sortPostCategories } = UiPostUtils()
 function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote>()
+	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote[]>()
 	const [searchText, setSearchText] = useState('')
 
 	const { inactiveColor } = locationDataContext.currentCategory
@@ -43,13 +43,13 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 
 	useEffect(() => {
 		const posts = filterPostsByTypeAndMacroCategory()
-		setFilteredPosts(posts as any) // TODO Type
+		setFilteredPosts(posts) // TODO Type
 	}, [])
 
 	const filterPostsByTypeAndMacroCategory = () => {
 		const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
 
-		return feedPosts.filter((post: any) => { // TODO Type
+		return feedPosts.filter((post) => {
 			if (
 				post.macroCategory === macroCategory
 				&& post.postType === postType
@@ -79,7 +79,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	const getHeaderTextPath = () => {
 		const customPostType = postType as NewHomePostType
 		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory]
+		const currentMacroCategory = currentPostType[macroCategory] // TODO Type
 		return currentMacroCategory.label
 	}
 

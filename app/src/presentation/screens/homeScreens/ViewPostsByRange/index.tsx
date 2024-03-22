@@ -102,7 +102,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	)
 
 	return (
-		<Container deviceIsIOS={Platform.OS === 'ios'}>
+		<Container >
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader

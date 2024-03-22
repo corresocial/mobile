@@ -138,13 +138,13 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 		if (!lastUserPost) return
 		const userPostsUpdated = await remotePostStorage.updateRangeAndLocationOnPosts(
-			owner as any, // TODO Type
+			owner,
 			userDataContext.posts || [],
 			{ range: 'near', location: lastUserPost.location },
 			true
 		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[])
 	}
 
 	const getLastPostAddress = () => {

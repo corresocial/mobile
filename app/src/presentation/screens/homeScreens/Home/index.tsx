@@ -267,7 +267,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const viewPostDetails = (postData: PostCollection) => {
-		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToPostCategories = (postType: PostType) => {

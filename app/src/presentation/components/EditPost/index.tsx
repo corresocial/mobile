@@ -474,7 +474,7 @@ function EditPost({
 											)
 
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
-											updateUserContext(postDataToSave, postsUpdated as any[]) // TODO Type
+											updateUserContext(postDataToSave, postsUpdated as PostCollectionRemote[])
 											setIsLoading(false)
 											navigateBackwards()
 										}

@@ -55,7 +55,7 @@ async function sendContactUsMessageToDiscord({
 	ID da entidade: ${reportedId || '---'}
     Mensagem: ${shortMessage}`
 	const response = await fetch(
-		`${getRelativeWebHook()}?${new URLSearchParams({ wait: true } as any)}`, // TODO Type
+		`${getRelativeWebHook()}?${new URLSearchParams({ wait: true } as any)}`,
 		{
 			method: 'POST',
 			headers: {

@@ -41,7 +41,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		setCurrentCategoryColorsOnContext()
 
 		const posts = filterPostsByPostType()
-		setFeedPostsByType(posts as any) // TODO Type
+		setFeedPostsByType(posts)
 	}, [])
 
 	useEffect(() => {

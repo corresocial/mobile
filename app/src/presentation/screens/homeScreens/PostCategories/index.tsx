@@ -40,7 +40,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote>()
+	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote[]>()
 
 	const [feedPostsByTypeAndMacroCategory, setFeedPostsByTypeAndMacroCategory] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
@@ -55,7 +55,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	useEffect(() => {
 		const posts = filterPostsByTypeAndMacroCategory()
-		setFilteredPosts(posts as any) // TODO Type
+		setFilteredPosts(posts)
 	}, [feedPostsByTypeAndMacroCategory])
 
 	useEffect(() => {
@@ -127,14 +127,14 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const getRelativeTitle = () => {
 		const customPostType = postType as NewHomePostType
 		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory]
+		const currentMacroCategory = currentPostType[macroCategory] // TODO Type
 		return currentMacroCategory.label
 	}
 
 	const getRelativeHeaderIcon = () => {
 		const customPostType = postType as NewHomePostType
 		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory]
+		const currentMacroCategory = currentPostType[macroCategory] // TODO Type
 		return currentMacroCategory.SvgIcon
 	}
 
@@ -221,7 +221,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const viewPostDetails = (postData: PostCollection) => {
-		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {
