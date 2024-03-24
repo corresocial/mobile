@@ -4,7 +4,7 @@ import { Chat } from '@domain/entities/chat/types'
 
 import { LocalUserData } from '@contexts/AuthContext/types'
 
-import { ContactUsType } from '@services/discord/types'
+import { DiscordContactUsType } from '@services/discord/types/contactUs'
 import {
 	CultureCollectionRemote,
 	PostCollectionRemote,
@@ -59,7 +59,7 @@ export type UserStackParamList = {
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
 	ContactUs: undefined
-	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedType?: ReportedTarget, reportedId?: string }
+	ContactUsInsertMessage: { title: string, contactUsType: DiscordContactUsType, reportedType?: ReportedTarget, reportedId?: string }
 	ContactUsSuccess: { reportType: ReportedTarget } | undefined
 	PrivacyAndSecurity: undefined
 	UserDataConfigurations: undefined

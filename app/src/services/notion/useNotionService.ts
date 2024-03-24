@@ -1,6 +1,7 @@
 import { sendMessageToNotionContactUs } from './methods/sendContactUsMessage'
+import { NotionServiceInterface } from './NotionServiceInterface'
 
-function useNotionService() {
+function useNotionService(): NotionServiceInterface {
 	return {
 		sendMessageToNotionContactUs: sendMessageToNotionContactUs
 	}

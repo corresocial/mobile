@@ -1,7 +1,7 @@
-import { NotionContactUsOptions } from './types/contactUs'
+import { NotionContactUsOptions, NotionPage } from './types/contactUs'
 
 interface NotionServiceInterface {
-	sendMessageToNotionContactUs: (data: NotionContactUsOptions) => Promise<boolean>
+	sendMessageToNotionContactUs: (data: NotionContactUsOptions) => Promise<NotionPage>
 }
 
 export { NotionServiceInterface }

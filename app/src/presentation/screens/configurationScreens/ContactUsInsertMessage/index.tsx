@@ -4,9 +4,8 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ContactUsInsertMessageScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { NotionPage } from '@services/notion/types/contactUs'
 
-import { sendContactUsMessageToDiscord } from '@services/discord/contactUs'
+import { useDiscordService } from '@services/discord/useDiscordService'
 import { useNotionService } from '@services/notion/useNotionService'
 
 import { Container } from './styles'
@@ -24,6 +23,7 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
 const { sendMessageToNotionContactUs } = useNotionService()
+const { sendMessageToDiscordContactUs } = useDiscordService()
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -62,7 +62,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const sendMessage = async () => {
 		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
-			const notionPage: NotionPage = await sendMessageToNotionContactUs({
+			const notionPage = await sendMessageToNotionContactUs({
 				userId: userDataContext.userId as string,
 				type: route.params.contactUsType,
 				message,
@@ -70,7 +70,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				reportedId: route.params.reportedId
 			})
 
-			await sendContactUsMessageToDiscord({
+			await sendMessageToDiscordContactUs({
 				userId: userDataContext.userId as string,
 				userName: userDataContext.name as string,
 				type: route.params.contactUsType,
