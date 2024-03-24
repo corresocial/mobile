@@ -51,15 +51,11 @@ function Splash({ navigation }: SplashScreenProps) {
 			if (update.isAvailable) {
 				setConfirmationModalIsVisible(true)
 			} else {
-				setTimeout(() => {
-					redirectToApp()
-				}, 3000)
+				redirectToApp()
 			}
 		} catch (error: any) {
 			console.log(error)
-			setTimeout(() => {
-				redirectToApp()
-			}, 3000)
+			redirectToApp()
 		}
 	}
 
