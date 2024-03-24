@@ -8,7 +8,7 @@ import { EditContext } from '@contexts/EditContext'
 import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { getReverseGeocodeByMapsApi } from '@services/googleMaps/getReverseGeocodeByMapsApi'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'

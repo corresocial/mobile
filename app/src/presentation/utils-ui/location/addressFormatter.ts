@@ -1,7 +1,7 @@
 import * as Location from 'expo-location'
 
 import { PostCollectionCommonFields } from '@services/firebase/types'
-import { GeocodeAddress } from '@services/maps/types'
+import { GeocodeAddress } from '@services/googleMaps/types/types'
 
 const structureAddress = (geocodeAddress: GeocodeAddress, latitude?: number, longitude?: number) => ({
 	country: geocodeAddress.country || '',

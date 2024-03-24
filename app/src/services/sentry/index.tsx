@@ -1,6 +1,6 @@
 import { getEnvVars } from '@infrastructure/environment'
 
-const { DSN_SENTRY } = getEnvVars()
+const { DSN_SENTRY } = getEnvVars() // REFACTOR Centralizar configs
 
 const sentryConfig = {
 	dsn: DSN_SENTRY,

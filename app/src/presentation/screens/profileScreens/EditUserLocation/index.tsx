@@ -8,7 +8,7 @@ import { EditContext } from '@contexts/EditContext'
 import { EditUserLocationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollectionCommonFields } from '@services/firebase/types'
 
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { getReverseGeocodeByMapsApi } from '@services/googleMaps/getReverseGeocodeByMapsApi'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'

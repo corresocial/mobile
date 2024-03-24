@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 import { FeedPosts } from '@services/firebase/types'
-import { CurrentCategory, SearchParams } from '@services/maps/types'
+import { CurrentCategory, SearchParams } from '@services/googleMaps/types/types'
 
 export interface LocationProviderProps {
 	children: ReactNode

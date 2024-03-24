@@ -2,11 +2,11 @@ import { LocationServiceInterface } from './LocationServiceInterface'
 import { convertGeocodeToAddress } from './methods/geocodeConverter'
 import { getCurrentLocation } from './methods/getCurrentLocation'
 
-function LocationService(): LocationServiceInterface {
+function useLocationService(): LocationServiceInterface {
 	return {
-		getCurrentLocation,
-		convertGeocodeToAddress
+		getCurrentLocation: getCurrentLocation,
+		convertGeocodeToAddress: convertGeocodeToAddress
 	}
 }
 
-export { LocationService }
+export { useLocationService }

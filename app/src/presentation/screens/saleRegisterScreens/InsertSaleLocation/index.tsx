@@ -8,7 +8,7 @@ import { SaleContext } from '@contexts/SaleContext'
 import { InsertSaleLocationScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { getReverseGeocodeByMapsApi } from '@services/googleMaps/getReverseGeocodeByMapsApi'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'

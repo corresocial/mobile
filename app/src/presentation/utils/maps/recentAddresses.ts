@@ -1,4 +1,4 @@
-import { AddressSearchResult } from '@services/maps/types'
+import { AddressSearchResult } from '@services/googleMaps/types/types'
 
 const getMostRecentAddress = (recentAddresses: AddressSearchResult[]) => {
 	if (recentAddresses && recentAddresses.length) {

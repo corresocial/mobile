@@ -6,7 +6,7 @@ import { LoaderContext } from '@contexts/LoaderContext'
 
 import { Coordinates, LatLong } from '@services/firebase/types'
 
-import { LocationService } from '@services/location/LocationService'
+import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { ButtonContainerBottom, Container, HeaderDescription, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
@@ -28,7 +28,7 @@ import { Loader } from '@components/Loader'
 
 import { CustomMapView } from '../../CustomMapView'
 
-const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
+const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
 const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
