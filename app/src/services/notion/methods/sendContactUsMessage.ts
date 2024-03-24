@@ -1,20 +1,20 @@
 /* eslint-disable camelcase */
 import uuid from 'react-uuid'
 
-import { ContactUsOptions } from './types'
+import { NotionContactUsOptions } from '../types/contactUs'
 
 import { getEnvVars } from '@infrastructure/environment'
 
 const { NOTION_FALECONOSCO_ID, NOTION_FALECONOSCO_KEY } = getEnvVars()
 
-async function sendContactUsMessageToNotion({
+async function sendMessageToNotionContactUs({
 	userId,
 	type,
 	title,
 	message,
 	reportTarged,
 	reportedId
-}: ContactUsOptions) {
+}: NotionContactUsOptions) {
 	const getReportTitle = () => {
 		if (title) return title
 		if (message.length > 15) {
@@ -37,7 +37,7 @@ async function sendContactUsMessageToNotion({
 	const options = {
 		method: 'POST',
 		headers: {
-			Accept: 'application/json',
+			Accept: 'application/json', // REFACTOR centralizar configs
 			'Notion-Version': '2022-02-22',
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${NOTION_FALECONOSCO_KEY} `,
@@ -142,4 +142,4 @@ async function sendContactUsMessageToNotion({
 	return { ...result, reportId }
 }
 
-export { sendContactUsMessageToNotion }
+export { sendMessageToNotionContactUs }

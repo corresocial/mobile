@@ -4,10 +4,10 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ContactUsInsertMessageScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { NotionPage } from '@services/notion/types'
+import { NotionPage } from '@services/notion/types/contactUs'
 
 import { sendContactUsMessageToDiscord } from '@services/discord/contactUs'
-import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
+import { useNotionService } from '@services/notion/useNotionService'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -22,6 +22,8 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
+
+const { sendMessageToNotionContactUs } = useNotionService()
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -58,9 +60,9 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	const sendMessage = async () => {
-		try {
+		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
-			const notionPage: NotionPage = await sendContactUsMessageToNotion({
+			const notionPage: NotionPage = await sendMessageToNotionContactUs({
 				userId: userDataContext.userId as string,
 				type: route.params.contactUsType,
 				message,
