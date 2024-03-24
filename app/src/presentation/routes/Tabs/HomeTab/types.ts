@@ -7,4 +7,4 @@ export type HomeTabParamList = {
 	Post: undefined
 	ProfileStack: undefined
 	ChatStack: { chat: Chat }
-} & UserStackParamList
+} & UserStackParamList // REFACTOR erradoooo!

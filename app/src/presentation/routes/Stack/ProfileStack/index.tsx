@@ -14,7 +14,13 @@ import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
 
 const Stack = createStackNavigator<ProfileStackParamList>()
 
-export function ProfileStack({ route }: any) {
+export function ProfileStack({ route, navigation }: any) {
+	/* useHomeTabDisplay<'ProfileStack', ProfileStackParamList>({
+		navigation,
+		route,
+		screens: ['Profile', 'ViewIncomePost'],
+	}) */
+
 	return (
 		<StateProvider>
 			<Stack.Navigator
