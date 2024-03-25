@@ -3,7 +3,12 @@ import { ReportContext } from '@domain/entities/impactReport/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 
-async function sendImpactReportUC(usersIdInvolved: Id[], hadImpact: boolean, impactValue: number, reportContext?: ReportContext) {
+async function sendImpactReportUC(
+	usersIdInvolved: Id[],
+	hadImpact: boolean,
+	impactValue: number,
+	reportContext?: ReportContext
+) {
 	const { remoteStorage } = useImpactReportRepository()
 
 	return remoteStorage.createNewReport({
