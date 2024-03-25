@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { AuthRegisterStackParamList } from '../types'
+import { AuthRegisterStackParamList } from './types'
 
 export type SplashScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'Splash'>
 export type SelectAuthRegisterScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'SelectAuthRegister'>

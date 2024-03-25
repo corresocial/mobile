@@ -7,7 +7,7 @@ import { UserCredential } from 'firebase/auth'
 import { AuthContext } from '@contexts/AuthContext'
 import { UserIdentification } from '@contexts/AuthContext/types'
 
-import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

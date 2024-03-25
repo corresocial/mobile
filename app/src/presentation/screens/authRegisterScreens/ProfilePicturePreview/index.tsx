@@ -9,7 +9,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'

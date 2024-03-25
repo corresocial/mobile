@@ -89,6 +89,8 @@ export function UserStack({ route }: any) {
 								>
 									<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
 									<Stack.Screen name={'HomeTab'} component={HomeTab} />
+
+									{/* REFACTOR migrar para postStack? */}
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
 									<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
@@ -96,47 +98,8 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
 									<Stack.Screen name={'CultureStack'} component={CultureStack} />
 									<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
-									<Stack.Screen name={'EditProfile'} component={EditProfile} />
-									<Stack.Screen name={'EditUserName'} component={EditUserName} />
-									<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
-									<Stack.Screen name={'EditUserLocation'} component={EditUserLocation} />
-									<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
+
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
-
-									<Stack.Screen name={'EditServicePost'} component={EditServicePost} />
-									<Stack.Screen name={'EditSalePost'} component={EditSalePost} />
-									<Stack.Screen name={'EditVacancyPost'} component={EditVacancyPost} />
-									<Stack.Screen name={'EditSocialImpactPost'} component={EditSocialImpactPost} />
-									<Stack.Screen name={'EditCulturePost'} component={EditCulturePost} />
-
-									<Stack.Screen name={'ViewCompletedPosts'} component={ViewCompletedPosts} />
-									<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
-									<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
-									<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
-									<Stack.Screen name={'Configurations'} component={Configurations} />
-									<Stack.Screen name={'EntryMethodManagement'} component={EntryMethodManagement} />
-									<Stack.Screen name={'InsertCellNumberLinkAccount'} component={InsertCellNumberLinkAccount} />
-									<Stack.Screen name={'InsertConfirmationCodeLinkAccount'} component={InsertConfirmationCodeLinkAccount} />
-									<Stack.Screen name={'LinkingAccountResult'} component={LinkingAccountResult} />
-									<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
-									<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />
-									<Stack.Screen name={'WhoWeAreCulture'} component={WhoWeAreCulture} />
-									<Stack.Screen name={'WhoWeAreTransformation'} component={WhoWeAreTransformation} />
-									<Stack.Screen name={'HelpUs'} component={HelpUs} />
-									<Stack.Screen name={'ContactUs'} component={ContactUs} />
-									<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
-									<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
-									<Stack.Screen name={'UserDataConfigurations'} component={UserDataConfigurations} />
-									<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
-									<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
-									<Stack.Screen name={'NotificationPublicServicesSettings'} component={NotificationPublicServicesSettings} />
-
-									<Stack.Screen name={'ViewIncomePostUser'} component={ViewIncomePost} />
-									<Stack.Screen name={'ViewVacancyPostUser'} component={ViewVacancyPost} />
-									<Stack.Screen name={'ViewCulturePostUser'} component={ViewCulturePost} />
-									<Stack.Screen name={'ViewSocialImpactPostUser'} component={ViewSocialImpactPost} />
-
-									<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
 
 									<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
 									<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
@@ -149,8 +112,6 @@ export function UserStack({ route }: any) {
 									/>
 									<Stack.Screen name={'SelectSubscriptionRange'} component={SelectSubscriptionRange} />
 									<Stack.Screen name={'EditCurrentSubscription'} component={EditCurrentSubscription} />
-
-									<Stack.Screen name={'PublicServicesStack'} component={PublicServicesStack} />
 								</Stack.Navigator>
 							</LocationProvider>
 						</StripeProvider>

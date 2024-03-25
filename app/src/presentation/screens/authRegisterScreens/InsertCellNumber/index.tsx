@@ -3,7 +3,7 @@ import { Animated, StatusBar, Platform, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/checkUserPhoneAlreadyRegistred'
 import Firebase from '@services/firebase'

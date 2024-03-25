@@ -6,7 +6,7 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { Container, LogoContainer } from './styles'
 import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'

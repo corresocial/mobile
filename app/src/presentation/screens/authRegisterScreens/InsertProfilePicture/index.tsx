@@ -7,7 +7,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { RegisterUserData } from '@contexts/AuthContext/types'
 
-import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'

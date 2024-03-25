@@ -3,7 +3,7 @@ import { BackHandler, Platform, StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { Container, CarouselItemContainer, Slogan } from './styles'
 import Logo from '@assets/icons/logo.svg'

@@ -10,7 +10,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'

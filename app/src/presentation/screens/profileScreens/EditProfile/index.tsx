@@ -11,8 +11,8 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { UserStackParamList } from '@routes/Stack/UserStack/types'
+import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 import { Id, PostCollection, PrivateUserCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -72,7 +72,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		return null
 	}
 
-	const goToEditScreen = (screenName: keyof UserStackParamList) => {
+	const goToEditScreen = (screenName: keyof ProfileStackParamList) => {
 		switch (screenName) {
 			case 'EditUserName': {
 				navigation.navigate('EditUserName', {
@@ -281,7 +281,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						title={'sua foto'}
 						highlightedWords={['foto']}
 						profilePicturesUrl={[getProfilePictureUrl()] || []}
-						pressionable
+						pressionable={false}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
 					<VerticalSpacing height={relativeScreenHeight(5)} />

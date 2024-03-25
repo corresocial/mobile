@@ -3,7 +3,7 @@ import { Animated, Keyboard, StatusBar, Platform, TextInput } from 'react-native
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { InsertNameScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { InsertNameScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

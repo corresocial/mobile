@@ -9,7 +9,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'

@@ -7,7 +7,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
 import { signinByCredential } from '@services/firebase/user/signingByCredential'

@@ -10,7 +10,7 @@ export type CulturePostData = Partial<CultureCollection>
 
 export type CultureContextType = {
 	isSecondPost: boolean
-	cultureDataContext: CulturePostData | {}
+	cultureDataContext: CulturePostData
 	setCultureDataOnContext: (data: CulturePostData) => void
 	getAditionalDataFromLastPost: () => void
 }

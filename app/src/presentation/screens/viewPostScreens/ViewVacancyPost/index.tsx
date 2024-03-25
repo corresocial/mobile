@@ -9,7 +9,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id, PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'

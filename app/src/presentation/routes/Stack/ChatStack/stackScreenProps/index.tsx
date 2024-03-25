@@ -4,6 +4,7 @@ import { ChatStackParamList } from '../types'
 
 export type ChatConversationsScreenProps = NativeStackScreenProps<ChatStackParamList, 'ChatConversations'>
 export type ProfileChatScreenProps = NativeStackScreenProps<ChatStackParamList, 'ProfileChat'>
+export type ChatMessagesScreenProps = NativeStackScreenProps<ChatStackParamList, 'ChatMessages'>
 
 export type ViewServicePostScreenProps = NativeStackScreenProps<ChatStackParamList, 'ViewIncomePostChat'>
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<ChatStackParamList, 'ViewVacancyPostChat'>

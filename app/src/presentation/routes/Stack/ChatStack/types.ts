@@ -1,6 +1,5 @@
 import { Chat } from '@domain/entities/chat/types'
 
-import { UserStackParamList } from '../UserStack/types'
 import { Id, PostCollection } from '@services/firebase/types'
 
 export type ChatStackParamList = {
@@ -12,4 +11,4 @@ export type ChatStackParamList = {
 	ViewVacancyPostChat: { postData: PostCollection }
 	ViewSocialImpactPostChat: { postData: PostCollection }
 	ViewCulturePostChat: { postData: PostCollection }
-} & UserStackParamList
+}

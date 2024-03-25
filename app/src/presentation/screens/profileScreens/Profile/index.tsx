@@ -12,7 +12,7 @@ import { StripeContext } from '@contexts/StripeContext'
 
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
-import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import {
 	Id,
 	PostCollection,
@@ -142,7 +142,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const getFilteredUserPosts = () => filteredPosts || []
 
 	const viewPostDetails = (post: PostCollection) => {
-		const customStackLabel = route.params?.userId ? 'Home' : route.params?.stackLabel
+		const customStackLabel = route.params?.userId && !route.params?.stackLabel ? 'Home' : route.params?.stackLabel
 		const postData = { ...post, owner: getUserDataOnly() } as PostCollection
 
 		navigateToPostView(postData, navigation, customStackLabel)
@@ -165,7 +165,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile' as any, { user })
+		navigation.navigate('EditProfile', { user })
 	}
 
 	const navigationToBack = () => navigation.goBack()
