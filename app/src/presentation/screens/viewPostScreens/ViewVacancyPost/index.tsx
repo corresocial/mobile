@@ -167,7 +167,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
 
-		navigation.navigate('ChatMessages', {
+		navigation.navigate('ChatMessages' as any, {
 			chat: {
 				chatId: '',
 				user1: {

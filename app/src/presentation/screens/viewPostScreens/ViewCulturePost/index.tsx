@@ -165,7 +165,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
 
-		navigation.navigate('ChatMessages', {
+		navigation.navigate('ChatMessages' as any, { // TODO REFACTOR não enxerga métodos de profileStack
 			chat: {
 				chatId: '',
 				user1: {

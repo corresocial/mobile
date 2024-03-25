@@ -12,7 +12,7 @@ import { StripeContext } from '@contexts/StripeContext'
 
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
-import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import {
 	Id,
 	PostCollection,
@@ -82,7 +82,7 @@ const { localStorage } = usePostRepository()
 const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
 
-function Profile({ route, navigation }: HomeTabScreenProps) {
+function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
@@ -189,7 +189,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const openChat = async () => {
-		navigation.navigate('ChatMessages', {
+		navigation.navigate('ChatMessages' as any, {
 			chat: {
 				chatId: '',
 				user1: {

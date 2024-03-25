@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { ProfileStackParamList } from './types'
 
+export type ProfileTabScreenProps = NativeStackScreenProps<ProfileStackParamList, 'Profile'>
 export type ViewIncomePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewIncomePost'>
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewVacancyPost'>
 export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewSocialImpactPost'>

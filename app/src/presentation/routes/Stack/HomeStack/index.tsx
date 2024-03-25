@@ -30,7 +30,7 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 	useHomeTabDisplay<'HomeStack', HomeStackParamList>({
 		navigation,
 		route,
-		screens: ['Home'],
+		screens: ['Home', 'ProfileHome'],
 	})
 
 	return (

@@ -53,7 +53,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
 									<Stack.Screen name={'HomeTab'} component={HomeTab} />
 
-									{/* REFACTOR migrar para postStack se o custo de acesso não for grande */}
+									{/* Rever a possibilidade de migrar para postStack se o custo de acesso não for grande */}
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
 									<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
