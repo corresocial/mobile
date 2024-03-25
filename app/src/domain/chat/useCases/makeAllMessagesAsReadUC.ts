@@ -18,7 +18,7 @@ async function makeAllUserMessagesAsReadUC(chatId: Id, userId: Id) {
 	return updateChatMessages(chatId, updatedChatMessages)
 }
 
-function updateReadState(messages: MessageObjects, ownerUserId: Id) { // TODO rule
+function updateReadState(messages: MessageObjects, ownerUserId: Id) { // REFACTOR rule
 	return Object.entries(messages).map((message) => {
 		if (message[1].owner !== ownerUserId) {
 			return { [message[0]]: { ...message[1], readed: true, metadata: {} } }

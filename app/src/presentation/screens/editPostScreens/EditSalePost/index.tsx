@@ -89,7 +89,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
 	const viewPostDetails = (post: PostCollection) => {

@@ -36,7 +36,9 @@ function EditProvider({ children }: EditProviderProps) {
 	}, [editDataContext])
 
 	const clearUnsavedEditFieldContext = useCallback((field: string) => {
-		const editContextUnsaved = { ...editDataContext.unsaved } as any // TODO Type
+		type EditContextUnsaved = { [key: string]: object }
+
+		const editContextUnsaved: EditContextUnsaved = { ...editDataContext.unsaved }
 		delete editContextUnsaved[field]
 		setEditDataContext({
 			unsaved: editContextUnsaved,

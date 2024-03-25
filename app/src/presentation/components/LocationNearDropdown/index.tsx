@@ -75,10 +75,8 @@ function LocationNearDropdown({
 
 	const findNearPostsByAddress = async (address: AddressSearchResult) => {
 		setDropdownIsVisible(false)
-		if (!address.recent) {
-			await localStorage.saveAddressData(address)
-			saveRecentAddresses(address)
-		}
+		await localStorage.saveAddressData(address)
+		saveRecentAddresses(address)
 
 		const greaterThanThree = address.formattedAddress.split(',').length > 3
 		selectAddress({

@@ -45,7 +45,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const getUserNameFromLocal = async () => {
 		if (!userDataContext.userId) {
-			navigation.navigate('InsertCellNumber' as any) // TODO Type
+			navigation.navigate('InsertCellNumber' as any) // TODO Type todas as navegações entre stacks que estão no mesmo nível
 		}
 		setUserName(userDataContext.name || 'amigo')
 	}

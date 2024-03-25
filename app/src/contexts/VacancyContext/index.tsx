@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { VacancyContextType, VacancyProviderProps, VacancyPostData } from './types'
-import { VacancyCollectionRemote } from '@services/firebase/types'
+import { PostCollectionCommonFields } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
@@ -28,20 +28,13 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: VacancyCollectionRemote | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setVacancyDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
-			location: lastUserPost.location || '',
-			attendanceFrequency: lastUserPost.workFrequency || '',
-			daysOfWeek: lastUserPost.daysOfWeek || [],
-			startDate: lastUserPost.startDate || '',
-			startHour: lastUserPost.startHour || '',
-			endDate: lastUserPost.endDate || '',
-			endHour: lastUserPost.endHour || '',
-			importantPoints: lastUserPost.importantPoints || [],
+			location: lastUserPost.location || ''
 		})
 		setIsSecondPost(true)
 	}

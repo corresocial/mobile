@@ -41,7 +41,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })

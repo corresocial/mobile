@@ -50,7 +50,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })

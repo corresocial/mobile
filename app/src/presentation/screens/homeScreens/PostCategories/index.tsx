@@ -9,7 +9,6 @@ import { LocationContext } from '@contexts/LocationContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
-import { MacroCategories } from '@utils/postMacroCategories/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -50,7 +49,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	useEffect(() => {
 		const posts = filterPostsByPostType()
-		setFeedPostsByTypeAndMacroCategory(posts as any) // TODO Type
+		setFeedPostsByTypeAndMacroCategory(posts)
 	}, [])
 
 	useEffect(() => {
@@ -73,7 +72,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const postBelongContextPostType = (post: any) => { // TODO type
+	const postBelongContextPostType = (post: PostCollection) => {
 		if (!post) return false
 		return (post.postType === locationDataContext.searchParams.postType
 			&& post.macroCategory === macroCategory)
@@ -86,7 +85,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 			...feedPostsByTypeAndMacroCategory.country
 		] || []
 
-		return feedPosts.filter((post: any) => { // TODO Type
+		return feedPosts.filter((post: PostCollection) => {
 			if (
 				post.macroCategory === macroCategory
 				&& post.postType === postType
@@ -126,15 +125,15 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const getRelativeTitle = () => {
 		const customPostType = postType as NewHomePostType
-		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory] // TODO Type
+		const currentPostType: any = postMacroCategories[customPostType]
+		const currentMacroCategory = currentPostType[macroCategory]
 		return currentMacroCategory.label
 	}
 
 	const getRelativeHeaderIcon = () => {
 		const customPostType = postType as NewHomePostType
-		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory] // TODO Type
+		const currentPostType: any = postMacroCategories[customPostType]
+		const currentMacroCategory = currentPostType[macroCategory]
 		return currentMacroCategory.SvgIcon
 	}
 
@@ -199,7 +198,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })

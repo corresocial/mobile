@@ -88,7 +88,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
 	const viewPostDetails = (post: PostCollection) => {

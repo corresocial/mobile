@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
+import { ListRenderItem } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
@@ -134,11 +134,21 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
+
+	const renderCategoryCard: ListRenderItem<string> = ({ item }) => (
+		<CategoryCard
+			hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
+			inactiveColor={inactiveColor}
+			title={item}
+			withoutMargin
+			onPress={() => viewPostsByTag(item)}
+		/>
+	)
 
 	return (
 		<Container>
@@ -189,15 +199,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 										ItemSeparatorComponent={() => <HorizontalSpacing />}
 										ListFooterComponentStyle={{ height: 0 }}
 										ListFooterComponent={<HorizontalSpacing />}
-										renderItem={({ item }: FlatListItem<string>) => (
-											<CategoryCard
-												hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
-												inactiveColor={inactiveColor}
-												title={item}
-												withoutMargin
-												onPress={() => viewPostsByTag(item)}
-											/>
-										)}
+										renderItem={renderCategoryCard as ListRenderItem<unknown>}
 									/>
 								</TagsContainer>
 							</>

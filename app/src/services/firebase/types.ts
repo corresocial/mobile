@@ -138,24 +138,17 @@ export type PrivateUserCollection = {
 }
 
 export type PrivateAddress = {
-	postType?: string
-	locationView?: LocationViewType
+	userId?: string,
 	country?: string
 	state?: string
 	city?: string
 	district?: string
 	street?: string
-	residenceNumber?: number
 	postalCode?: string
-	number?: number
-	reference?: string
-	coordinates?: { lat: number, lng: number }
-	geohash?: string
-	geohashNear?: string[]
-	geohashCity?: string[]
+	geohashNearby?: string[]
 }
 
-export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture'
+export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture' // REFACTOR deve morrer
 
 export type NewHomePostType = 'income' | 'socialImpact' | 'culture'
 

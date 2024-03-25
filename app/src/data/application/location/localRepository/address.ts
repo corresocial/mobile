@@ -18,7 +18,7 @@ const getRecentAddresses = async () => {
 	}
 }
 
-const saveAddressData = async (data: AddressSearchResult) => { // TODO Refatorar
+const saveAddressData = async (data: AddressSearchResult) => {
 	try {
 		const storedAddresses = await getRecentAddresses()
 

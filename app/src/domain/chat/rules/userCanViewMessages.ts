@@ -1,7 +1,7 @@
 import { MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-function updateMessagesCanViewedByUser(messages: MessageObjects, userIdCanView: Id): MessageObjects[] { // TODO rule
+function updateMessagesCanViewedByUser(messages: MessageObjects, userIdCanView: Id): MessageObjects[] {
 	const updatedMessages = Object.entries(messages).map((message) => {
 		if (!message[1].userCanView) {
 			return { [message[0]]: { ...message[1], userCanView: userIdCanView } }

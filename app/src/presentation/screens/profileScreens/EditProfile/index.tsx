@@ -89,7 +89,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				break
 			}
 			case 'EditUserLocation': {
-				navigation.navigate('EditUserLocation', { initialCoordinates: privateUserLocation?.coordinates as any || null }) // TODO Type
+				navigation.navigate('EditUserLocation')
 				break
 			}
 			case 'SocialMediaManagement': {

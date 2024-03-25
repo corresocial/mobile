@@ -318,7 +318,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
-						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted as any} // TODO Type
+						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
 						editPost={goToEditPost}
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { CultureContextType, CulturePostData, CultureProviderProps } from './types'
-import { CultureCollectionRemote } from '@services/firebase/types'
+import { PostCollectionCommonFields } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
@@ -28,21 +28,13 @@ function CultureProvider({ children }: CultureProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: CultureCollectionRemote | any = getLastUserPost() || {} // TODO Tipagem de posts deve ser Genérico
+		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setCultureDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
-			location: lastUserPost.location || '',
-			entryValue: lastUserPost.entryValue || '',
-			exhibitionFrequency: lastUserPost.exhibitionFrequency || '',
-			daysOfWeek: lastUserPost.daysOfWeek || [],
-			repeat: lastUserPost.repeat || 'unrepeatable',
-			startDate: lastUserPost.startDate || '',
-			startHour: lastUserPost.startHour || '',
-			endDate: lastUserPost.endDate || '',
-			endHour: lastUserPost.endHour || '',
+			location: lastUserPost.location || ''
 		})
 		setIsSecondPost(true)
 	}

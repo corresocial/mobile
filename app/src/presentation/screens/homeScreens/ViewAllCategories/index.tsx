@@ -7,7 +7,7 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
-import { MacroCategories } from '@utils/postMacroCategories/types'
+import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -43,7 +43,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 
 	useEffect(() => {
 		const posts = filterPostsByTypeAndMacroCategory()
-		setFilteredPosts(posts) // TODO Type
+		setFilteredPosts(posts)
 	}, [])
 
 	const filterPostsByTypeAndMacroCategory = () => {
@@ -78,8 +78,8 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 
 	const getHeaderTextPath = () => {
 		const customPostType = postType as NewHomePostType
-		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory] // TODO Type
+		const currentPostType: any = postMacroCategories[customPostType] as MacroCategories
+		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.label
 	}
 

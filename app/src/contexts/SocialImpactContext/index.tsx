@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { SocialImpactProviderProps, SocialImpactContextType, SocialImpactPostData } from './types'
-import { SocialImpactCollectionRemote } from '@services/firebase/types'
+import { PostCollectionCommonFields } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
@@ -25,22 +25,13 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost: SocialImpactCollectionRemote | any = getLastUserPost() || {} // TODO Type obter mais recente
-		console.log(lastUserPost.description)
+		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setSocialImpactDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
-			location: lastUserPost.location || '',
-			exhibitionPlace: lastUserPost.exhibitionPlace || '',
-			exhibitionFrequency: lastUserPost.exhibitionFrequency || '',
-			daysOfWeek: lastUserPost.daysOfWeek || [],
-			repeat: lastUserPost.repeat || 'unrepeatable',
-			startDate: lastUserPost.startDate || '',
-			startHour: lastUserPost.startHour || '',
-			endDate: lastUserPost.endDate || '',
-			endHour: lastUserPost.endHour || '',
+			location: lastUserPost.location || ''
 		})
 		setIsSecondPost(true)
 	}

@@ -29,7 +29,7 @@ interface PostRepositoryInterface {
 			userPosts: PostCollection[],
 			newPostRangeLocation: PostRangeLocation,
 			subscriptionChange?: boolean
-		) => Promise<PostCollection[] | boolean>
+		) => Promise<PostCollection[]>
 
 		deletePost: (postId: string, userId: string) => Promise<boolean>
 		deletePostPictures: (postPictures: string[]) => Promise<boolean>

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { SaleContextType, SalePostData, SaleProviderProps } from './types'
+import { PostCollectionCommonFields } from '@services/firebase/types'
 
 import { AuthContext } from '../AuthContext'
 
@@ -27,18 +28,13 @@ function SaleProvider({ children }: SaleProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: SalePostData | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setSaleDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
-			location: lastUserPost.location || '',
-			deliveryMethod: lastUserPost.deliveryMethod || '',
-			attendanceFrequency: lastUserPost.attendanceFrequency || '',
-			daysOfWeek: lastUserPost.daysOfWeek || [],
-			startHour: lastUserPost.startHour || '',
-			endHour: lastUserPost.endHour || '',
+			location: lastUserPost.location || ''
 		})
 		setIsSecondPost(true)
 	}

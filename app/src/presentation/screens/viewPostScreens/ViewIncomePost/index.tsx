@@ -331,7 +331,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
-						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted as any} // TODO Type
+						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton

@@ -59,7 +59,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 	}
 
 	const getPostTypes = () => {
-		const postTypes = posts.reduce((acc: any[], current: PostCollection) => { // TODO Type
+		const postTypes = posts.reduce((acc: any[], current: PostCollection) => {
 			if (acc.includes(current.postType)) { return [...acc] }
 			return [...acc, current.postType]
 		}, [])
@@ -68,7 +68,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 	}
 
 	const getPostMacroCategories = (postType: PostType): MacroCategoriesType[] => {
-		return posts.reduce((acc: any[], current: PostCollection) => { // TODO Type
+		return posts.reduce((acc: any[], current: PostCollection) => {
 			if (acc.includes(current.macroCategory)) { return [...acc] }
 			if (postType === current.postType) { return [...acc, current.macroCategory] }
 			return [...acc]

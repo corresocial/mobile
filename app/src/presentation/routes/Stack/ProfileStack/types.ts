@@ -4,7 +4,6 @@ import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
 import { DiscordContactUsType } from '@services/discord/types/contactUs'
 import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '@services/firebase/types'
-import { LatLong } from '@services/googleMaps/types/maps'
 import { ReportedTarget } from '@services/types'
 
 export type ProfileStackParamList = {
@@ -23,7 +22,7 @@ export type ProfileStackParamList = {
 	EditProfile: { user: UserData }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
-	EditUserLocation: { initialCoordinates: LatLong | null }
+	EditUserLocation: undefined
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }

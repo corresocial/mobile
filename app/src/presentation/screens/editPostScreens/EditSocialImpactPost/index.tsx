@@ -7,7 +7,7 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
-import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
+import { EventRepeatType, PostCollection, PostCollectionCommonFields, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -45,11 +45,11 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: any = { // TODO Type
+	const owner: PostCollectionCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
-	}
+	} as PostCollectionCommonFields['owner']
 
 	useEffect(() => {
 		showPresentationModal && togglePostReviewPresentationModalVisibility()
@@ -101,7 +101,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
 	const navigateToPostView = (socialImpactPostData: PostCollection) => {

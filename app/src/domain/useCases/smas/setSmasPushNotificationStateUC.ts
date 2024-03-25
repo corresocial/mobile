@@ -9,7 +9,7 @@ async function setSmasPushNotificationStateUC(state: boolean, nis: string, userI
 		if (state) {
 			await remoteStorage.updateSmasTokenNotification(nis, userId)
 		} else {
-			await remoteStorage.updateSmasTokenNotification(nis, '') // TODO trocar por método delete quando onis chegar vazio, para remover resquícios do realtime database
+			await remoteStorage.updateSmasTokenNotification(nis, '') // REFACTOR trocar por método delete quando onis chegar vazio, para remover resquícios do realtime database
 		}
 	} catch (err) {
 		console.log(err)

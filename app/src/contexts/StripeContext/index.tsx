@@ -36,7 +36,7 @@ interface StripeContextState {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
-	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any> // TODO Type
+	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any>
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string, attach?: boolean) => Promise<any>

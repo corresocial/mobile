@@ -142,7 +142,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			true
 		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[]) // TODO Type
+		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[])
 	}
 
 	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {

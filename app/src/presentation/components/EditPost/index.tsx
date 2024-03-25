@@ -71,7 +71,7 @@ interface EditPostProps {
 	navigateToPostView: (postData: PostCollectionRemote) => void
 	navigateToSubscriptionContext: () => void
 	showShareModal: (visibility: boolean, postTitle?: string, postId?: string) => void
-	getPostField: (fieldName: keyof PostCollectionRemote, allowNull?: boolean) => any // TODO Type return
+	getPostField: <K extends keyof PostCollectionRemote>(fieldName: K, allowNull?: boolean) => PostCollectionRemote[K]
 	userContext: UserContextFragment
 	editContext: EditContextFragment
 }
@@ -118,7 +118,7 @@ function EditPost({
 		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId) || []
 	}
 
-	const locationRangeChanged = () => { // TODO Aprimorar função
+	const locationRangeChanged = () => { // REFACTOR Refatorar função
 		// Se near location foi editada && location.latitute ou latitude foi editada
 		// Se city location foi editada && location city unsaved ou initialData city foi editada
 
@@ -155,8 +155,7 @@ function EditPost({
 
 		try {
 			setIsLoading(true)
-
-			let userPostsUpdated: any = [] // TODO Type
+			let userPostsUpdated: PostCollection[] = []
 			if (locationRangeChanged()) {
 				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 					owner,
@@ -165,10 +164,10 @@ function EditPost({
 						range: getPostField('range'),
 						location: getPostField('location')
 					}
-				)
+				) as PostCollection[]
 			}
 
-			userPostsUpdated = userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
+			userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('Fotos modificadas')
@@ -199,7 +198,7 @@ function EditPost({
 				[postDataToSave, ...userPostsUpdated]
 			)
 
-			updateUserContext(postDataToSave, userPostsUpdated)
+			updateUserContext(postDataToSave, userPostsUpdated as PostCollectionRemote[])
 			changeStateOfEditedFields()
 			setIsLoading(false)
 			navigateBackwards()
@@ -245,7 +244,7 @@ function EditPost({
 		}
 
 		try {
-			let userPostsUpdated: any = [] // TODO Type
+			let userPostsUpdated: PostCollection[] = []
 			if (locationRangeChanged()) {
 				console.log(`localização ou range mudaram: ${locationRangeChanged()}`)
 				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
@@ -372,7 +371,7 @@ function EditPost({
 			!!userDataContext.posts,
 		)
 			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts as any] as PostCollectionRemote[] : [] // TODO Type
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollectionRemote[] : []
 				userContext.setUserDataOnContext({
 					...localUser,
 					tourPerformed: true,
@@ -392,7 +391,7 @@ function EditPost({
 
 				setIsLoading(false)
 				showShareModal(true, getShortText(postDataToSave.description, 70), postDataToSave.postId)
-				navigateToPostView({ ...postDataToSave, owner } as any) // TODO
+				navigateToPostView({ ...postDataToSave, owner })
 			})
 			.catch((err: any) => {
 				console.log(err)

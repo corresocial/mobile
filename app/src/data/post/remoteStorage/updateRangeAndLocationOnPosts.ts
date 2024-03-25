@@ -22,7 +22,7 @@ async function updateRangeAndLocationOnPosts(
 	try {
 		if (!userPosts || (userPosts && !userPosts.length)) {
 			console.log('Usuário não outros posts')
-			return true
+			return []
 		}
 
 		let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
@@ -31,7 +31,7 @@ async function updateRangeAndLocationOnPosts(
 		}
 
 		updatedUserPosts.map(async (post) => {
-			if (!post.postId) return false
+			if (!post.postId) return []
 
 			await updatePostData(post.postId, {
 				...post,
@@ -49,11 +49,11 @@ async function updateRangeAndLocationOnPosts(
 			.then(() => updatedUserPosts)
 			.catch((error) => {
 				console.log(error)
-				return false
+				return []
 			})
 	} catch (error) {
 		console.log(error)
-		return false
+		return []
 	}
 }
 

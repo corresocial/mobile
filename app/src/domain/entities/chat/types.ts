@@ -56,8 +56,6 @@ export type MessageObjects = {
 	}
 }
 
-export type ObjectChatIds = { [key: string]: string }
-
 export type UserDatabase = {
 	blockedUsers: Id[]
 	chatIds: Id[]

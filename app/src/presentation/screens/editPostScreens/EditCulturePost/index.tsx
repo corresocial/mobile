@@ -7,7 +7,7 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '@services/firebase/types'
+import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection, PostCollectionCommonFields } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -45,11 +45,11 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const owner: any = { // TODO Type
+	const owner: PostCollectionCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
-	}
+	} as PostCollectionCommonFields['owner']
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 
@@ -103,7 +103,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any) // TODO Type todas as navegações entre stacks que estão no mesmo nível
 	}
 
 	const navigateToPostView = (culturePostData: PostCollection) => {

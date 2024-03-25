@@ -27,8 +27,8 @@ interface MacroCategoryCardProps {
 function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, onEdit }: MacroCategoryCardProps) {
 	const getRelativeMacroCategoryCard = () => {
 		try {
-			const currentPostType = postMacroCategories[postType] as MacroCategories
-			const currentMacroCategory = currentPostType[macroCategory] // TODO Type
+			const currentPostType: any = postMacroCategories[postType] as MacroCategories
+			const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 			return currentMacroCategory.label
 		} catch (err) {
 			console.log(err)
@@ -38,8 +38,8 @@ function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, o
 
 	const getRelativeValueIcon = () => {
 		try {
-			const currentPostType = postMacroCategories[postType] as MacroCategories
-			const currentMacroCategory = currentPostType[macroCategory] // TODO Type
+			const currentPostType: any = postMacroCategories[postType] as MacroCategories
+			const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 			return currentMacroCategory.SvgIcon
 		} catch (err) {
 			console.log(err)

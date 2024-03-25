@@ -2,7 +2,7 @@
 
 import { get, ref } from 'firebase/database'
 
-import { Chat, ObjectChatIds } from '@domain/entities/chat/types'
+import { Chat } from '@domain/entities/chat/types'
 
 import { Id } from '@services/firebase/types'
 
@@ -10,9 +10,7 @@ import { realTimeDatabase } from '@services/firebase'
 
 async function getUserChats(chatIds: Id[]) {
 	try {
-		const chatIdsList = convertChatIdsToArray(chatIds as any) // TODO Type
-
-		const chats = chatIdsList.map(async (chatId) => {
+		const chats = chatIds.map(async (chatId) => {
 			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 
 			const chatData: Chat = await get(realTimeDatabaseRef)
@@ -27,10 +25,6 @@ async function getUserChats(chatIds: Id[]) {
 		console.log(err)
 		return []
 	}
-}
-
-function convertChatIdsToArray(chatIds: ObjectChatIds): Id[] {
-	return Object.values(chatIds).map((chatId) => chatId)
 }
 
 export { getUserChats }
