@@ -6,7 +6,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectVacancyRangeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { SelectVacancyRangeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

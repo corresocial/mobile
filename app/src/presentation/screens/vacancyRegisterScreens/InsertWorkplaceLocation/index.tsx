@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { InsertWorkplaceLocationScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { InsertWorkplaceLocationScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'

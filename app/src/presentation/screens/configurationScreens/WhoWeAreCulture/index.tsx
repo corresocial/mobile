@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { WhoWeAreCultureScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { WhoWeAreCultureScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'

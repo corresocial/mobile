@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { InsertSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'

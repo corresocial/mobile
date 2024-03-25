@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { VacancyType } from '@services/firebase/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'

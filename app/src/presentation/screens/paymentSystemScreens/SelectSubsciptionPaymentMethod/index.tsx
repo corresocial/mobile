@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { SelectSubsciptionPaymentMethodScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { SelectSubsciptionPaymentMethodScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { SubscriptionPaymentMethod } from '@services/firebase/types'
 
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'

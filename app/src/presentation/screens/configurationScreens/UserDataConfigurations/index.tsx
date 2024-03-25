@@ -9,7 +9,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { UserDataConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { UserDataConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id, PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'

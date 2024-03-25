@@ -6,7 +6,7 @@ import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { SelectCultureRangeScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { SelectCultureRangeScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

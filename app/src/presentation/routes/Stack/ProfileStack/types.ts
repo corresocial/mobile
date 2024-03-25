@@ -1,6 +1,7 @@
 import { UserData } from '@contexts/AuthContext/types'
 
 import { StackLabelProps } from '../../types'
+import { UserStackParamList } from '../UserStack/types'
 import { DiscordContactUsType } from '@services/discord/types/contactUs'
 import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '@services/firebase/types'
 import { LatLong } from '@services/googleMaps/types/maps'
@@ -46,4 +47,4 @@ export type ProfileStackParamList = {
 	UserDataConfigurations: undefined
 	NotificationSettings: undefined
 	NotificationPublicServicesSettings: undefined
-}
+} & UserStackParamList

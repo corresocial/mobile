@@ -5,7 +5,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
 import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 

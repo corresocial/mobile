@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { SocialImpactStackParamList } from '../types'
+import { SocialImpactStackParamList } from './types'
 
 export type SelectSocialImpactTypeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactType'>
 export type SelectSocialImpactPurposeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactPurpose'>

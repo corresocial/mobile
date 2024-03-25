@@ -3,7 +3,7 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertAnonymizedCpfNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertAnonymizedCpfNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
 

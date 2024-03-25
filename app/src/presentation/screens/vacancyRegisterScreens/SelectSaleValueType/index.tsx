@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectSaleValueTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { SelectSaleValueTypeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { SaleValueType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

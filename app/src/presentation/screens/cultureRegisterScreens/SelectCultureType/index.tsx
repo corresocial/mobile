@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { CultureType } from '@services/firebase/types'
 
 import BooksWhiteIcon from '@assets/icons/books-white.svg'

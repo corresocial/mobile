@@ -8,7 +8,7 @@ import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/stackScreenProps'
+import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/screenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'

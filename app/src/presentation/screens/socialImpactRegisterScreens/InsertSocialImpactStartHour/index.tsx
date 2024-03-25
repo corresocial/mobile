@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertSocialImpactStartHourScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactStartHourScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { theme } from '@common/theme'
 

@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureEndHourScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { InsertCultureEndHourScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { theme } from '@common/theme'
 

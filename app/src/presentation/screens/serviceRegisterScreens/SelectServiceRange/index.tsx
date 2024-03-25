@@ -6,7 +6,7 @@ import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { SelectServiceRangeScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { SelectServiceRangeScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

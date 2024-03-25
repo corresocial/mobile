@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectServiceFrequencyScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { SelectServiceFrequencyScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

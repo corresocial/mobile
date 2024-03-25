@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'

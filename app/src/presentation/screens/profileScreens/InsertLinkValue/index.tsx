@@ -5,7 +5,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { InsertLinkValueScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { InsertLinkValueScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { SocialMedia } from '@services/firebase/types'
 
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '@utils/socialMedias'

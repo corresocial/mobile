@@ -4,7 +4,7 @@ import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/ent
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 
-import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { getUserDataSmasByNis } from '@services/cloudFunctions/getUserDataSmasByNis'
 

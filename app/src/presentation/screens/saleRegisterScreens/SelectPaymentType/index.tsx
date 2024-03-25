@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectPaymentTypeScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { SelectPaymentTypeScreenProps } from '@routes/Stack/SaleStack/screenProps'
 import { PaymentType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { SearchParams } from '@services/googleMaps/types/maps'
 

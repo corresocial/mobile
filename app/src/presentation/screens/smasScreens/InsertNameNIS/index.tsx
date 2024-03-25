@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { theme } from '@common/theme'
 

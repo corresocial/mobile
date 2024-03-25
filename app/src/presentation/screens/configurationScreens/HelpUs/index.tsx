@@ -1,7 +1,7 @@
 import React from 'react'
 import { Linking, StatusBar } from 'react-native'
 
-import { HelpUsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { HelpUsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, ButtonsContainer } from './styles'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'

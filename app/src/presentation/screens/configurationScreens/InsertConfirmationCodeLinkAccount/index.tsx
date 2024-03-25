@@ -6,7 +6,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id } from '@services/firebase/types'
 
 import { getPhoneAuthCredential } from '@services/firebase/user/getPhoneAuthCredential'

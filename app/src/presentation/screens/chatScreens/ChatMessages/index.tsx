@@ -11,7 +11,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { FlatListItem } from '@globalTypes/global/types'
-import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { ChatMessagesScreenProps } from '@routes/Stack/ChatStack/screenProps'
 import { Id } from '@services/firebase/types'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'

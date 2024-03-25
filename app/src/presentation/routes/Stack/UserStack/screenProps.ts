@@ -1,11 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { UserStackParamList } from '../types'
+import { UserStackParamList } from './types'
 
 export type WelcomeNewUserScreenProps = NativeStackScreenProps<UserStackParamList, 'WelcomeNewUser'>
-export type ViewPostsByRangecreenProps = NativeStackScreenProps<UserStackParamList, 'ViewPostsByRange'>
+export type HomeTabStackScreenProps = NativeStackScreenProps<UserStackParamList, 'HomeTab'>
+
 export type OfflinePostsManagementScreenProps = NativeStackScreenProps<UserStackParamList, 'OfflinePostsManagement'>
-export type HomeTabScreenProps = NativeStackScreenProps<UserStackParamList, 'HomeTab'>
+
 export type SelectPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPostType'>
 export type SelectIncomeTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectIncomeType'>
 export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'ServiceStack'>

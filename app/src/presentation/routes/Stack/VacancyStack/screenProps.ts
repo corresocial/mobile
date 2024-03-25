@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { VacancyStackParamList } from '../types'
+import { VacancyStackParamList } from './types'
 
 export type SelectVacancyPurposeScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyPurpose'>
 export type InsertVacancyDescriptionScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyDescription'>

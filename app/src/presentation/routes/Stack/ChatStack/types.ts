@@ -4,9 +4,9 @@ import { Id, PostCollection } from '@services/firebase/types'
 
 export type ChatStackParamList = {
 	ChatConversations: undefined
-	ProfileChat: { userId: Id, stackLabel?: string }
 	ChatMessages: { chat: Chat }
 
+	ProfileChat: { userId: Id, stackLabel?: string }
 	ViewIncomePostChat: { postData: PostCollection }
 	ViewVacancyPostChat: { postData: PostCollection }
 	ViewSocialImpactPostChat: { postData: PostCollection }

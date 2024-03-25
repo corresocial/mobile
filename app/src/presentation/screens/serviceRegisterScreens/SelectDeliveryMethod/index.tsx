@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { SelectDeliveryMethodScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { SelectDeliveryMethodScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 import { DeliveryMethod } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

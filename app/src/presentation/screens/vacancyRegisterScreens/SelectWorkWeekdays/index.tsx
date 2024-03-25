@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectWorkWeekdaysScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { SelectWorkWeekdaysScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { DaysOfWeek } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

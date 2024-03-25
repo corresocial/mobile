@@ -5,7 +5,7 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
-import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'

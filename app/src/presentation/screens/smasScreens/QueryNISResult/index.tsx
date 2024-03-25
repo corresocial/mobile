@@ -5,7 +5,7 @@ import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { QueryNISResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { QueryNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

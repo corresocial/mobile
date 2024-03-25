@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { PostCollection, PostRange } from '@services/firebase/types'
 
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

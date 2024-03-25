@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertMotherNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertMotherNameNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
 

@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { SmasService } from '@domain/entities/smas/types'
 
-import { SelectPublicServiceScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { SelectPublicServiceScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { Container, Header } from './styles'
 import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'

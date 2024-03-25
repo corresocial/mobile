@@ -8,8 +8,8 @@ import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { ConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { UserStackParamList } from '@routes/Stack/UserStack/types'
+import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 import { Id } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
@@ -79,7 +79,15 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performUserSubscription = () => {
-		navigateToScreen('SelectSubscriptionRange')
+		/* navigation.push('UserStack', {
+			screen: screenName,
+			params: {
+				editMode: true,
+				initialValue: value
+			}
+		}) */
+
+		navigateToScreen('SelectSubscriptionRange' as any) // TODO Type
 	}
 
 	const shareMessage = () => {
@@ -95,7 +103,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 		}
 	}
 
-	const navigateToScreen = (screenName: keyof UserStackParamList, alertPropForUpdate?: string) => {
+	const navigateToScreen = (screenName: keyof ProfileStackParamList, alertPropForUpdate?: string) => {
 		if (alertPropForUpdate) {
 			updateNotificationState({ [alertPropForUpdate]: false })
 		}

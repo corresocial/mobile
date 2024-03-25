@@ -5,7 +5,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '@services/firebase/types'
 

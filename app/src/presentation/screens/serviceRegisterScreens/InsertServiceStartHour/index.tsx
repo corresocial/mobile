@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertServiceStartHourScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServiceStartHourScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
 import { theme } from '@common/theme'
 

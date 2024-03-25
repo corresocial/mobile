@@ -13,7 +13,7 @@ import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedPosts, PostCollection, PostRange, PostType } from '@services/firebase/types'
 import {
 	LatLong,
@@ -310,8 +310,8 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToEditUserLocation = () => {
-		navigation.navigate('EditProfile', { user: userDataContext })
-		navigation.navigate('EditUserLocation', { initialCoordinates: null })
+		navigation.navigate('EditProfile' as any, { user: userDataContext })
+		navigation.navigate('EditUserLocation' as any, { initialCoordinates: null })
 	}
 
 	/* const navigateToPublicServices = () => {

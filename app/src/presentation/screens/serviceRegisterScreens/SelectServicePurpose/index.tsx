@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { SelectServicePurposeScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { SelectServicePurposeScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
 import GiftWhiteIcon from '@assets/icons/megaphone-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'

@@ -4,7 +4,7 @@ import uuid from 'react-uuid'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertVacancyImportantPointsScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyImportantPointsScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

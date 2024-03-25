@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectCultureTagsScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { SelectCultureTagsScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { cultureCategories, updateCultureTags } from '@utils/postsCategories/cultureCategories'
 

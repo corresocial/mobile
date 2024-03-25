@@ -1,3 +1,4 @@
+import { UserStackParamList } from '../UserStack/types'
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '@services/firebase/types'
 import { SearchParams } from '@services/googleMaps/types/maps'
 
@@ -20,4 +21,4 @@ export type HomeStackParamList = {
 	ProfileHome: { userId: string, stackLabel?: string }
 
 	PublicServicesStack: undefined
-}
+} & UserStackParamList

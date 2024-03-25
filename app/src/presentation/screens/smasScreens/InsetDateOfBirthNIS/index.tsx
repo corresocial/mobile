@@ -3,7 +3,7 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertDateOfBirthNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertDateOfBirthNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
 

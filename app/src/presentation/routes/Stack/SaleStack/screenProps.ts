@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { SaleStackParamList } from '../types'
+import { SaleStackParamList } from './types'
 
 export type SelectSaleCategoryScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleCategory'>
 export type SelectSaleTagsScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleTags'>

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import { CultureContext } from '@contexts/CultureContext'
 
-import { SelectCulturePurposeScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { SelectCulturePurposeScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import GiftWhiteIcon from '@assets/icons/megaphone-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'

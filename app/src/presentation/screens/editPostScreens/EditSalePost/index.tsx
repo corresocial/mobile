@@ -6,7 +6,7 @@ import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { EditSalePostReviewScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { EditSalePostReviewScreenProps } from '@routes/Stack/SaleStack/screenProps'
 import { SaleStackParamList } from '@routes/Stack/SaleStack/types'
 import { PostCollection, SaleCategories, IncomeCollection } from '@services/firebase/types'
 

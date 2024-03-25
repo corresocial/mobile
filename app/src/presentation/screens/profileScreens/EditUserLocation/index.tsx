@@ -5,8 +5,8 @@ import { useTheme } from 'styled-components'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { EditUserLocationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { PostCollectionCommonFields } from '@services/firebase/types'
+import { EditUserLocationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { LatLong, PostCollectionCommonFields } from '@services/firebase/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -55,6 +55,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 		if (route.params && route.params.initialCoordinates) {
 			return route.params.initialCoordinates
 		}
+		return { latitude: 0, longitude: 0 } as LatLong
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -65,7 +66,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 			<SelectPostLocation
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
-				initialValue={getInitialCoordinateValue()}
+				initialValue={getInitialCoordinateValue() as LatLong}
 				isLoading={isLoading}
 				headerDescription={'Localização utilizada para envio de notificações da prefeitura. \nessa informação não será divulgada publicamente'}
 				headerDescriptionHighlightedWords={['\nessa', 'informação', 'não', 'será', 'divulgada', 'publicamente']}

@@ -7,7 +7,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 import { MacroCategories } from '@utils/postMacroCategories/types'
 

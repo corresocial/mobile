@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { PlaceModalityType } from '@services/firebase/types'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'

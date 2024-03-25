@@ -4,7 +4,7 @@ import { usePostRepository } from '@data/post/usePostRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
 

@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { InsertServicePrestationLocationScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServicePrestationLocationScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'

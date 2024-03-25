@@ -9,7 +9,7 @@ import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { SearchResultScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { SearchResultScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
 
 import { searchPostsCloud } from '@services/cloudFunctions/searchPostsCloud'

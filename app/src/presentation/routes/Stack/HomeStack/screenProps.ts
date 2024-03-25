@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { HomeStackParamList } from '../types'
+import { HomeStackParamList } from './types'
 
 export type HomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'Home'>
 
@@ -15,7 +15,6 @@ export type PostCategoryDetailsScreenProps = NativeStackScreenProps<HomeStackPar
 export type ViewAllTagsScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllTags'>
 export type ViewPostsByRangeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByRange'>
 export type ViewAllCategoriesScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllCategories'>
-
 export type ViewPostsByTagScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByTag'>
 export type SearchResultScreenProps = NativeStackScreenProps<HomeStackParamList, 'SearchResult'>
 export type ProfileHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ProfileHome'>

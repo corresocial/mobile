@@ -14,7 +14,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/AuthContext/types'
 
-import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -260,11 +260,11 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 
 	const naigateToReviewPost = (post: PostCollection) => {
 		switch (post.postType) {
-			case 'service': return navigation.navigate('EditServicePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'sale': return navigation.navigate('EditSalePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'vacancy': return navigation.navigate('EditVacancyPost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'culture': return navigation.navigate('EditCulturePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'socialImpact': return navigation.navigate('EditSocialImpactPost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'service': return navigation.navigate('EditServicePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
+			case 'sale': return navigation.navigate('EditSalePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'vacancy': return navigation.navigate('EditVacancyPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'culture': return navigation.navigate('EditCulturePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'socialImpact': return navigation.navigate('EditSocialImpactPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			default: return null
 		}
 	}

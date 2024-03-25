@@ -8,7 +8,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
 
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

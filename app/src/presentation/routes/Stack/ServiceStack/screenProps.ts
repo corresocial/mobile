@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { ServiceStackParamList } from '../types'
+import { ServiceStackParamList } from './types'
 
 export type InsertServiceDescriptionScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceDescription'>
 export type SelectServicePurposeScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServicePurpose'>

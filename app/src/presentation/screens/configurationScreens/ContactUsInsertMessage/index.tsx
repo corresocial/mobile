@@ -3,7 +3,7 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { ContactUsInsertMessageScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { ContactUsInsertMessageScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { useDiscordService } from '@services/discord/useDiscordService'
 import { useNotionService } from '@services/notion/useNotionService'

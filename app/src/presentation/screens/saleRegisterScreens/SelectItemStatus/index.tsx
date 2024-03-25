@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/screenProps'
 import { ItemStatus } from '@services/firebase/types'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'

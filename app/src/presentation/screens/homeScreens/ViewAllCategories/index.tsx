@@ -5,7 +5,7 @@ import uuid from 'react-uuid'
 
 import { LocationContext } from '@contexts/LocationContext'
 
-import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { MacroCategories } from '@utils/postMacroCategories/types'
 

@@ -507,11 +507,17 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	const navigateToEditCurrentPlanScreen = () => {
-		navigation.navigate('Configurations') // TODO Type
-		navigation.navigate('SelectSubscriptionRange')
+		navigation.navigate('HomeTab', {
+			screen: 'ProfileStack',
+			params: {
+				screen: 'SelectSubscriptionRange',
+				params: {
+					editMode: true,
+					initialValue: 'value'
+				}
+			}
+		} as any)
 	}
-
-	// REFACTOR useMemo
 
 	return (
 		<StripeContext.Provider

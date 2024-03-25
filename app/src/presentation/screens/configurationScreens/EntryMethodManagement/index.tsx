@@ -9,7 +9,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { EntryMethodManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { EntryMethodManagementScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id } from '@services/firebase/types'
 
 import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'

@@ -4,7 +4,7 @@ import { Platform, StatusBar } from 'react-native'
 import { AlertContext } from '@contexts/AlertContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { NotificationSettingsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { NotificationSettingsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, HeaderLinkCardContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'

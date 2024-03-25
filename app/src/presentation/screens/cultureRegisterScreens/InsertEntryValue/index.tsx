@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertEntryValueScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { InsertEntryValueScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

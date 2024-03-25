@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectVacancyTagsScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { SelectVacancyTagsScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { vacancyCategories, updateVacancyTags } from '@utils/postsCategories/vacancyCategories'
 

@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertVacancyEndDateScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyEndDateScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { theme } from '@common/theme'
 

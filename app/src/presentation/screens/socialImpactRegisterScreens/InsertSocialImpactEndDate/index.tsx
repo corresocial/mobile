@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertSocialImpactEndDateScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactEndDateScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { theme } from '@common/theme'
 

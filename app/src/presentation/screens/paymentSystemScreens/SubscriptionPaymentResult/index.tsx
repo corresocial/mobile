@@ -6,7 +6,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { SubscriptionPaymentResultScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { SubscriptionPaymentResultScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 

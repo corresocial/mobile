@@ -6,7 +6,7 @@ import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { SelectSocialImpactRangeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { SelectSocialImpactRangeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

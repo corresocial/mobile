@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useFocusEffect } from '@react-navigation/native'
+import { RouteProp, useFocusEffect } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useContext } from 'react'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -9,6 +10,7 @@ import { AlertContext } from '@contexts/AlertContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { HomeTabParamList } from './types'
+import { UserStackParamList } from '@routes/Stack/UserStack/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
@@ -22,11 +24,15 @@ import { Post } from '@screens/postScreens/Post'
 import { ChatStack } from '../../Stack/ChatStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { ProfileStack } from '../../Stack/ProfileStack'
-import { HomeTabScreenProps } from '../../Stack/UserStack/stackScreenProps'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
-export function HomeTab({ route, navigation }: HomeTabScreenProps) {
+type HomeTabProps = {
+	navigation: NativeStackNavigationProp<UserStackParamList, 'HomeTab', undefined>
+	route: RouteProp<UserStackParamList, 'HomeTab'>
+}
+
+export function HomeTab({ route, navigation }: HomeTabProps) {
 	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
 	const { notificationState } = useContext(AlertContext)
 
@@ -116,8 +122,8 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				}}
 			/>
 			<Tab.Screen
-				name={'Post'} // REFACTOR
-				component={Post}
+				name={'Post'}
+				component={Post} // REFACTOR
 				options={{
 					tabBarIcon: ({ focused }) => renderPlusIcon(focused)
 				}}

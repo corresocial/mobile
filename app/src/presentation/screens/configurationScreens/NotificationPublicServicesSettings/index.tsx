@@ -10,7 +10,7 @@ import { AlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { NotificationPublicServicesSettingsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { NotificationPublicServicesSettingsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, HeaderLinkCardContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'

@@ -6,7 +6,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
-import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { Id } from '@services/firebase/types'
 
 import { Container, ContainerButtons } from './styles'

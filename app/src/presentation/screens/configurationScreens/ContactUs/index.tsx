@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { ContactUsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { ContactUsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '@common/theme'

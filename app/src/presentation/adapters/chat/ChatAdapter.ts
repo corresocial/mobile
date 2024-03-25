@@ -16,7 +16,6 @@ import { registerNewChatUC } from '@domain/chat/useCases/registerNewChatUC'
 import { registerPushNotificationUC } from '@domain/chat/useCases/registerPushNotificationUC'
 import { sendMessageUC } from '@domain/chat/useCases/sendMessageUC'
 import { setChatIdForUsersUC } from '@domain/chat/useCases/setChatIdForUsersUC'
-import { startChatMessagesListenerUC } from '@domain/chat/useCases/startMessagesListenerUC'
 import { startUserChatIdsListenerUC } from '@domain/chat/useCases/startUserChatIdsListenerUC'
 import { startUserChatListenersUC } from '@domain/chat/useCases/startUserChatListenersUC'
 import { unblockUserByIdUC } from '@domain/chat/useCases/unblockUserByIdUC'
@@ -50,7 +49,6 @@ function ChatAdapter(): ChatAdapterInterface {
 		unblockUserById: unblockUserByIdUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,
 		startUserChatListeners: startUserChatListenersUC,
-		// startChatMessagesListener: startChatMessagesListenerUC,
 		unsubscribeUserChatIdsListener: unsubscribeChatIdsListenerUC,
 		unsubscribeUserChatsListener: unsubscribeUserChatsListenerUC,
 		unsubscribeChatMessagesListener: unsubscribeChatMessagesListenerUC,

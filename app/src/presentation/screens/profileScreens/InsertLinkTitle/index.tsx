@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
-import { InsertLinkTitleScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { InsertLinkTitleScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { SocialMedia } from '@services/firebase/types'
 
 import { ButtonContainer, Container, InputsContainer, HeaderLinkCardContainer } from './styles'
