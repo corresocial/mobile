@@ -5,7 +5,7 @@ import uuid from 'react-uuid'
 
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/googleMaps/types/types'
+import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/googleMaps/types/maps'
 
 import {
 	Container,

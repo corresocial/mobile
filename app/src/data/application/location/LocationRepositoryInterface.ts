@@ -1,4 +1,4 @@
-import { AddressSearchResult } from '@services/googleMaps/types/types'
+import { AddressSearchResult } from '@services/googleMaps/types/maps'
 
 interface LocationRepositoryInterface {
 	localStorage: {

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { AddressSearchResult } from '@services/googleMaps/types/types'
+import { AddressSearchResult } from '@services/googleMaps/types/maps'
 
 const getRecentAddresses = async () => {
 	try {

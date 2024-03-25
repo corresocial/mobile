@@ -1,6 +1,6 @@
-import { getReverseGeocodeByMapsApi } from './getReverseGeocodeByMapsApi'
 import { GoogleMapsServiceInterface } from './GoogleMapsServiceInterface'
 import { getPlaceLimits } from './methods/getPlaceLimits'
+import { getReverseGeocodeByMapsApi } from './methods/getReverseGeocodeByMapsApi'
 import { searchAddressByText } from './methods/searchAddressByText'
 
 function useGoogleMapsService(): GoogleMapsServiceInterface {
@@ -9,6 +9,6 @@ function useGoogleMapsService(): GoogleMapsServiceInterface {
 		searchAddressByText: searchAddressByText,
 		getReverseGeocodeByMapsApi: getReverseGeocodeByMapsApi
 	}
-} // REFACTOR OCURRENCES of "getReverseGeocodeByMapsApi"
+}
 
 export { useGoogleMapsService }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { AddressSearchResult } from '../types/types'
+import { AddressSearchResult } from '../types/maps'
 
 import { getEnvVars } from '@infrastructure/environment'
 

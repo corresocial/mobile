@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { GeocodeAddress } from '../types/maps'
+
 import { getEnvVars } from '@infrastructure/environment'
 
 const { MAPS_API } = getEnvVars()
@@ -54,7 +56,7 @@ async function getReverseGeocodeByMapsApi(latitude: number, longitude: number) {
 		return res
 	} catch (error) {
 		console.log(error)
-		return null
+		return {} as GeocodeAddress
 	}
 }
 

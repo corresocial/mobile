@@ -21,10 +21,9 @@ import {
 	SelectedAddressRender,
 	GeocodeAddress,
 	SearchParams,
-} from '@services/googleMaps/types/types'
+} from '@services/googleMaps/types/maps'
 
 import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
-import { getReverseGeocodeByMapsApi } from '@services/googleMaps/getReverseGeocodeByMapsApi'
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -44,7 +43,7 @@ import { RequestLocation } from '@components/RequestLocation'
 
 const { localStorage } = useLocationRepository()
 const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
-const { searchAddressByText } = useGoogleMapsService()
+const { searchAddressByText, getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
 const initialSelectedAddress = {

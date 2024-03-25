@@ -3,7 +3,7 @@ import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
 import { CompleteAddress, LocationViewType, PostCollectionCommonFields, PostRange } from '@services/firebase/types'
-import { GeocodeAddress } from '@services/googleMaps/types/types'
+import { GeocodeAddress } from '@services/googleMaps/types/maps'
 
 export interface UiLocationUtilsInterface {
 	getPostRangeLabel(range: PostRange): string

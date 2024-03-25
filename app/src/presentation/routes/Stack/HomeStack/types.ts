@@ -1,6 +1,6 @@
 import { UserStackParamList } from '../UserStack/types'
 import { PostCollection, PostType } from '@services/firebase/types'
-import { SearchParams } from '@services/googleMaps/types/types'
+import { SearchParams } from '@services/googleMaps/types/maps'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }

@@ -8,14 +8,15 @@ import { EditContext } from '@contexts/EditContext'
 import { EditUserLocationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollectionCommonFields } from '@services/firebase/types'
 
-import { getReverseGeocodeByMapsApi } from '@services/googleMaps/getReverseGeocodeByMapsApi'
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'
 
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // NOTE This is a service
+const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
+const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // REFACTOR This is a service
 
 function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 	const theme = useTheme()
@@ -29,7 +30,12 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 			setIsLoading(true)
 
 			const geocodeAddress = await getReverseGeocodeByMapsApi(coordinates?.latitude as number, coordinates?.longitude as number)
-			console.log(geocodeAddress)
+
+			if (!geocodeAddress) {
+				console.log('Não foi possível converter o geocode')
+				return
+			}
+
 			const addressObject = structureAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
 			const { geohashNearby } = generateGeohashes(coordinates.latitude, coordinates.longitude)
 

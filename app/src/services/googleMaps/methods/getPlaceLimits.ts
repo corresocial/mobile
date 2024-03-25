@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { PlaceLimits } from '../types/types'
+import { PlaceLimits } from '../types/maps'
 
 import { getEnvVars } from '@infrastructure/environment'
 
