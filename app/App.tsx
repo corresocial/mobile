@@ -16,9 +16,9 @@ import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { getEnvVars } from './src/infrastructure/environment'
+import { sentryConfig } from './src/infrastructure/sentry'
 import { theme } from './src/presentation/common/theme'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
-import { sentryConfig } from './src/services/sentry'
 
 const { ENVIRONMENT } = getEnvVars()
 

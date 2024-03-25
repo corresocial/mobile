@@ -2,11 +2,11 @@ import { Id } from '@domain/entities/globalTypes'
 
 import { useChatRepository } from '@data/chat/useChatRepository'
 
-import { PushNotificationService } from '@services/pushNotification/PushNotificationService'
+import { usePushNotificationService } from '@services/pushNotification/usePushNotificationService'
 
 async function updateChatCompletedStateUC(chatId: Id, currentCompletedState: boolean, recipientUserId?: Id, senderUserName?: string) {
 	const { getRemoteUserData, updateChatCompletedState } = useChatRepository()
-	const { getNotificationConfig, sendPushNotification } = PushNotificationService()
+	const { getNotificationConfig, sendPushNotification } = usePushNotificationService()
 
 	const updatedCompletedStatus = await updateChatCompletedState(chatId, !!currentCompletedState)
 

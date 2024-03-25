@@ -4,14 +4,14 @@ import { registerPushNotification } from './methods/registerPushNotification'
 import { sendPushNotification } from './methods/sendPushNotification'
 import { PushNotificationServiceInterface } from './PushNotificationServiceInterface'
 
-function PushNotificationService(): PushNotificationServiceInterface {
+function usePushNotificationService(): PushNotificationServiceInterface {
 	return {
-		getNotificationConfig,
-		registerPushNotification,
-		sendPushNotification,
-		addNotificationListener,
-		removeNotificationListener,
+		getNotificationConfig: getNotificationConfig,
+		registerPushNotification: registerPushNotification,
+		sendPushNotification: sendPushNotification,
+		addNotificationListener: addNotificationListener,
+		removeNotificationListener: removeNotificationListener,
 	}
 }
 
-export { PushNotificationService }
+export { usePushNotificationService }

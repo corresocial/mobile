@@ -1,7 +1,7 @@
-import { PushNotificationService } from '@services/pushNotification/PushNotificationService'
+import { usePushNotificationService } from '@services/pushNotification/usePushNotificationService'
 
 async function registerPushNotificationUC() {
-	const { registerPushNotification } = PushNotificationService()
+	const { registerPushNotification } = usePushNotificationService()
 
 	return registerPushNotification()
 }
