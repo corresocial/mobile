@@ -42,7 +42,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
 
 	const { searchByRange } = route.params
-	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory.backgroundColor
+	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory?.backgroundColor
 
 	const searchParamsFromRoute = { ...route.params.searchParams }
 	const algoliaSearchText = searchText || searchParamsFromRoute.searchText
@@ -91,7 +91,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const getRelativePath = () => {
 		if (route.params.searchParams.tag) return route.params.searchParams.tag
 		if (route.params.searchParams.category) return route.params.categoryLabel
-		return getRelativeTitle(locationDataContext.searchParams.postType as PostType)
+		return getRelativeTitle(locationDataContext.searchParams?.postType as PostType)
 	}
 
 	const getRelativeTitle = (postType: PostType) => {
@@ -118,7 +118,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const viewPostsByRange = (postRange: PostRange) => {
 		const postRangeValue = searchByRange ? '' : postRange
 		const postsByRange = getPostsByRange(postRange)
-		const { postType } = locationDataContext.searchParams
+		const postType = locationDataContext.searchParams?.postType
 
 		navigation.navigate('ViewPostsByRange', { postsByRange, postRange: postRangeValue, postType })
 	}

@@ -2,7 +2,7 @@ import React, { createContext, useMemo, useState } from 'react'
 
 import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
 import { LocationContextType, LocationData, LocationProviderProps } from './types'
-import { PostType } from '@services/firebase/types'
+import { NewHomePostType } from '@services/firebase/types'
 
 import QuestionMarkIcon from '@assets/icons/questionMark-white.svg'
 
@@ -16,9 +16,9 @@ const initialValue = {
 			tag: '',
 			city: '',
 			country: '',
-			postType: '' as PostType,
+			postType: '' as NewHomePostType,
 			geohashes: [],
-			coordinates: { lat: 0, lon: 0 }
+			coordinates: { latitude: 0, longitude: 0 }
 		},
 		currentCategory: {
 			backgroundColor: '',
@@ -34,7 +34,7 @@ const initialValue = {
 	setLocationDataOnContext: (data: LocationData) => { }
 }
 
-const LocationContext = createContext<LocationContextType>(initialValue)
+const LocationContext = createContext<LocationContextType>(initialValue as any)
 
 function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)

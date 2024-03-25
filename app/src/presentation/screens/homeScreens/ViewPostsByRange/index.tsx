@@ -51,19 +51,19 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		const customSearchParams = searchByRange
 			? {
 				range: postRange,
-				geohashes: locationDataContext.searchParams.geohashes,
-				city: locationDataContext.searchParams.city,
-				country: locationDataContext.searchParams.country,
+				geohashes: locationDataContext.searchParams?.geohashes,
+				city: locationDataContext.searchParams?.city,
+				country: locationDataContext.searchParams?.country,
 				searchText,
 				category: '',
 			}
 			: {
 				...locationDataContext.searchParams,
 				searchText,
-				category: locationDataContext.currentCategory.categoryName,
+				category: locationDataContext.currentCategory?.categoryName,
 			}
 
-		const categoryLabel = searchByRange ? getRelativeTitle() : locationDataContext.currentCategory.categoryTitle
+		const categoryLabel = searchByRange ? getRelativeTitle() : locationDataContext.currentCategory?.categoryTitle
 
 		navigation.navigate('SearchResult', { searchParams: customSearchParams as FeedSearchParams, categoryLabel, searchByRange })
 	}

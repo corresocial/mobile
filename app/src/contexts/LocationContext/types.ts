@@ -16,11 +16,6 @@ export type LocationData = {
 }
 
 export type LocationContextType = {
-	locationDataContext: {
-		searchParams: Partial<FeedSearchParams>
-		currentCategory: CurrentCategory
-		feedPosts: FeedPosts
-		lastRefreshInMilliseconds: number
-	}
+	locationDataContext: LocationData
 	setLocationDataOnContext: (data: LocationData) => void
 }

@@ -157,7 +157,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const refreshFeedPosts = async () => {
 		console.log('refreshing feed...')
-		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null as any, true)
+		await findFeedPosts('', false, locationDataContext.searchParams?.coordinates || null as any, true)
 	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {

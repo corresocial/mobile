@@ -12,7 +12,7 @@ export type FeedSearchParams = {
 	category: string
 	tag: string
 	postType: PostType
-	coordinates: LatLong
+	coordinates: LatLong // Não existem
 	geohashes: string[]
 }
 
