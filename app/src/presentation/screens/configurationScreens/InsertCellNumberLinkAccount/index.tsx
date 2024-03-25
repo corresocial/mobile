@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertCellNumberLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/checkUserPhoneAlreadyRegistred'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import Firebase from '@services/firebase'
 
 import { Container, InputsContainer } from './styles'
@@ -22,6 +22,8 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
+
+const { checkUserPhoneAlreadyRegistredCloud } = useCloudFunctionService()
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 

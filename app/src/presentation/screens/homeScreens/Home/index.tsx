@@ -14,16 +14,16 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { FeedPosts, PostCollection, PostRange, PostType } from '@services/firebase/types'
 import {
 	LatLong,
 	AddressSearchResult,
 	SelectedAddressRender,
-	GeocodeAddress,
-	SearchParams,
+	GeocodeAddress
 } from '@services/googleMaps/types/maps'
 
-import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -41,6 +41,7 @@ import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
 
+const { getPostsByLocationCloud } = useCloudFunctionService()
 const { localStorage } = useLocationRepository()
 const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
 const { searchAddressByText, getReverseGeocodeByMapsApi } = useGoogleMapsService()
@@ -120,7 +121,7 @@ function Home({ navigation }: HomeScreenProps) {
 		try {
 			refresh ? setFeedIsUpdating(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
-			let searchParams = {} as SearchParams
+			let searchParams = {}
 			if (currentPosition || !hasLocationPermission) {
 				const coordinates = await getCurrentPositionCoordinates(firstLoad)
 				searchParams = await getSearchParams(coordinates as LatLong)
@@ -134,7 +135,7 @@ function Home({ navigation }: HomeScreenProps) {
 			const remoteFeedPosts = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getPostsByLocationCloud(searchParams, userId),
+				() => getPostsByLocationCloud(searchParams as FeedSearchParams, userId),
 				refresh
 			)
 
@@ -143,7 +144,7 @@ function Home({ navigation }: HomeScreenProps) {
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext({
-				searchParams,
+				searchParams: searchParams as FeedSearchParams,
 				feedPosts: remoteFeedPosts,
 				lastRefreshInMilliseconds: Date.now(),
 			})
@@ -156,7 +157,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const refreshFeedPosts = async () => {
 		console.log('refreshing feed...')
-		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
+		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null as any, true)
 	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
@@ -228,7 +229,7 @@ function Home({ navigation }: HomeScreenProps) {
 			country: structuredAddress.country,
 			coordinates,
 			geohashes: geohashObject.geohashNearby,
-		} as SearchParams
+		}
 	}
 
 	const checkLanguageAndConvertGeocodeToAddress = async (latitude: number, longitude: number) => {
@@ -273,7 +274,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const navigateToPostCategories = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
-			searchParams: { ...locationDataContext.searchParams, postType }
+			searchParams: { ...locationDataContext.searchParams, postType } as any // TODO Type
 		})
 
 		navigation.navigate('ViewPostsByPostType', { postType })

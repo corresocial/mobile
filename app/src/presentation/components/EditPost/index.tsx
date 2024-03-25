@@ -12,10 +12,10 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { LocalUserData } from '@contexts/AuthContext/types'
 
-import { SearchParams } from '@services/cloudFunctions/types'
+import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
 
-import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
@@ -43,7 +43,7 @@ import { Loader } from '../Loader'
 const { localStorage } = useUserRepository()
 const { localStorage: localPostStorage, remoteStorage } = usePostRepository()
 
-const { notifyUsersOnLocation } = CloudFunctionService()
+const { notifyUsersOnLocation } = useCloudFunctionService()
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -278,7 +278,7 @@ function EditPost({
 						state: postData.location.state as string,
 						city: postData.location.city as string,
 						district: postData.location.district as string,
-						postRange: postData.range as SearchParams['postRange']
+						postRange: postData.range as NotifyUsersByLocationParams['postRange']
 					}, {
 						postDescription: postData.description,
 						userId: localUser.userId,
@@ -326,7 +326,7 @@ function EditPost({
 														state: postData.location.state as string,
 														city: postData.location.city as string,
 														district: postData.location.district as string,
-														postRange: postData.range as SearchParams['postRange']
+														postRange: postData.range as NotifyUsersByLocationParams['postRange']
 													}, {
 														postDescription: postData.description,
 														userId: localUser.userId as Id,

@@ -190,7 +190,7 @@ function LocationNearDropdown({
 							/>
 						)}
 						ItemSeparatorComponent={() => <VerticalSpacing height={RFValue(5)} />}
-						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(20)} />}
+						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(40)} />}
 					/>
 				</DropdownBody>
 				{

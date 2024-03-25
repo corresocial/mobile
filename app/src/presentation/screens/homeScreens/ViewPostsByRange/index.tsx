@@ -6,8 +6,8 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
-import { SearchParams } from '@services/googleMaps/types/maps'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -65,7 +65,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 		const categoryLabel = searchByRange ? getRelativeTitle() : locationDataContext.currentCategory.categoryTitle
 
-		navigation.navigate('SearchResult', { searchParams: customSearchParams as SearchParams, categoryLabel, searchByRange })
+		navigation.navigate('SearchResult', { searchParams: customSearchParams as FeedSearchParams, categoryLabel, searchByRange })
 	}
 
 	const getRelativeTitle = () => {

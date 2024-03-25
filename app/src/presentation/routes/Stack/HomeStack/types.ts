@@ -1,6 +1,6 @@
 import { UserStackParamList } from '../UserStack/types'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '@services/firebase/types'
-import { SearchParams } from '@services/googleMaps/types/maps'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
@@ -17,7 +17,7 @@ export type HomeStackParamList = {
 	ViewAllTags: undefined
 	ViewPostsByTag: { currentTagSelected: string }
 	ViewPostsByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
-	SearchResult: { searchParams: SearchParams, categoryLabel?: string, searchByRange?: boolean }
+	SearchResult: { searchParams: FeedSearchParams, categoryLabel?: string, searchByRange?: boolean }
 	ProfileHome: { userId: string, stackLabel?: string }
 
 	PublicServicesStack: undefined

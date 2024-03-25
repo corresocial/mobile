@@ -6,7 +6,7 @@ import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
-import { getUserDataSmasByNis } from '@services/cloudFunctions/getUserDataSmasByNis'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
@@ -16,6 +16,7 @@ import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
+const { getBenefitDataSmasByNis } = useCloudFunctionService()
 const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = SmasAdapter()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
@@ -42,7 +43,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const saveNIS = async (NISValue: string) => {
 		try {
 			setIsLoading(true)
-			const response = await getUserDataSmasByNis(NISValue.trim(), smasService)
+			const response = await getBenefitDataSmasByNis(NISValue.trim(), smasService)
 
 			const queryResult = treatSmasApiResponse(response, smasService)
 

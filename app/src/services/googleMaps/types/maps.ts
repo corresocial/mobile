@@ -1,9 +1,6 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
-import { MacroCategoriesType } from '../../../presentation/utils/postMacroCategories/types'
-import { PostType } from '../../firebase/types'
-
 export type AddressSearchResult = { // REFACTOR Isso deveria existir, e aqui?
 	formattedAddress: string
 	lat: number
@@ -24,19 +21,6 @@ export type GeocodeAddress = {
 export type LatLong = {
 	lat: number,
 	lon: number
-}
-
-export type SearchParams = { // REFACTOR Isso deveria estar aqui?
-	searchText: string
-	range: string
-	city: string
-	country: string
-	macroCategory: MacroCategoriesType
-	category: string
-	tag: string
-	postType: PostType
-	coordinates: LatLong
-	geohashes: string[]
 }
 
 export type CurrentCategory = {

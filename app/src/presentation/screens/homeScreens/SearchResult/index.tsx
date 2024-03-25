@@ -12,7 +12,7 @@ import { navigateToPostView } from '@routes/auxMethods'
 import { SearchResultScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
 
-import { searchPostsCloud } from '@services/cloudFunctions/searchPostsCloud'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, Header, InputContainer } from './styles'
 import { theme } from '@common/theme'
@@ -21,6 +21,8 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+
+const { searchPostsCloud } = useCloudFunctionService()
 
 const initialFeedPosts = {
 	nearby: [],
