@@ -2,10 +2,11 @@ import React, { useContext, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
+import { PostCollection } from '@domain/post/entity/types'
+
 import { LocationContext } from '@contexts/LocationContext'
 
 import { ViewAllTagsScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { PostCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 

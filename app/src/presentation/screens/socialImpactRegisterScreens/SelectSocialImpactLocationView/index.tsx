@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { LocationViewType } from '@domain/post/entity/types'
+
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactLocationViewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
-import { LocationViewType } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

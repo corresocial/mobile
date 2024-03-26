@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import uuid from 'react-uuid'
 
-import { PostType } from '@domain/post/entity/types'
+import { PostType, PostCollection } from '@domain/post/entity/types'
 
-import { PostCollection } from '@domain/post/entity/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { postMacroCategories } from '@utils/postMacroCategories'

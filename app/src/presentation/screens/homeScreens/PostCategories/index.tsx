@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, MacroCategory, PostType, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -126,14 +126,14 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const getRelativeTitle = () => {
-		const customPostType = postType as NewHomePostType
+		const customPostType = postType as PostType
 		const currentPostType: any = postMacroCategories[customPostType]
 		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.label
 	}
 
 	const getRelativeHeaderIcon = () => {
-		const customPostType = postType as NewHomePostType
+		const customPostType = postType as PostType
 		const currentPostType: any = postMacroCategories[customPostType]
 		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.SvgIcon

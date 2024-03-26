@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from 'react'
 
-import { NewHomePostType } from '@domain/post/entity/types'
+import { PostType } from '@domain/post/entity/types'
 
 import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
 import { LocationContextType, LocationData, LocationProviderProps } from './types'
@@ -17,7 +17,7 @@ const initialValue = {
 			tag: '',
 			city: '',
 			country: '',
-			postType: '' as NewHomePostType,
+			postType: '' as PostType,
 			geohashes: [],
 			coordinates: { latitude: 0, longitude: 0 }
 		},
@@ -40,8 +40,8 @@ const LocationContext = createContext<LocationContextType>(initialValue as any)
 function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)
 
-	const setLocationDataOnContext = async (data: LocationData) => { // REFACTOR Implementar verificação se dados mudaram
-		setLocationDataContext({ ...locationDataContext, ...data as any }) // REFACTOR Type
+	const setLocationDataOnContext = async (data: Partial<LocationData>) => { // REFACTOR Implementar verificação se dados mudaram
+		setLocationDataContext({ ...locationDataContext, ...data as any })
 	}
 
 	const locationProviderData = useMemo(() => ({

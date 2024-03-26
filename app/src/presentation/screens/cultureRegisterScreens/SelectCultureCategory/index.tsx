@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { CultureCategories } from '@domain/post/entity/types'
+
 import { CultureContext } from '@contexts/CultureContext'
 
 import { SelectCultureCategoryScreenProps } from '@routes/Stack/CultureStack/screenProps'
-import { CultureCategories } from '@domain/post/entity/types'
 
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 

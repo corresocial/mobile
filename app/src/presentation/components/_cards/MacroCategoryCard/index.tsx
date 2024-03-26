@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { NewHomePostType } from '@domain/post/entity/types'
+import { PostType } from '@domain/post/entity/types'
+
 import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -16,7 +17,7 @@ import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface MacroCategoryCardProps {
 	title?: string
-	postType: NewHomePostType
+	postType: PostType
 	macroCategory: MacroCategoriesType
 	hightligtedWords?: string[]
 	onEdit?: () => void

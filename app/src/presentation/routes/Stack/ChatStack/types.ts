@@ -1,5 +1,4 @@
 import { Chat } from '@domain/chat/entity/types'
-
 import { Id, PostCollection } from '@domain/post/entity/types'
 
 export type ChatStackParamList = {

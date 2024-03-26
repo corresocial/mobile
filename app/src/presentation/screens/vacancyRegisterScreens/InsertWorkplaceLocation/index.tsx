@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { Coordinates, PostCollection } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { InsertWorkplaceLocationScreenProps } from '@routes/Stack/VacancyStack/screenProps'
-import { Coordinates, PostCollection } from '@domain/post/entity/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

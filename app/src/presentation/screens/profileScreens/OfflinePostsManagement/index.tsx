@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { PostType } from '@domain/post/entity/types'
+import { PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -15,7 +15,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
 

@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PostRange as PostRangeType } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectCultureRangeScreenProps } from '@routes/Stack/CultureStack/screenProps'
-import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

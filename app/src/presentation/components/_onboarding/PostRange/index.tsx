@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { PostRange as PostRangeType } from '@domain/post/entity/types'
+
 import { StripeProducts } from '@services/stripe/types'
 
 import { ButtonsContainer, Container } from './styles'

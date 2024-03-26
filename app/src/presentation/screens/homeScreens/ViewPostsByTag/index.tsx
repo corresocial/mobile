@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
 
+import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByTagScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
 
 import { Container, Header, InputContainer } from './styles'
 import { theme } from '@common/theme'

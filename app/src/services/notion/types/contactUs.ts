@@ -1,6 +1,5 @@
-import { ReportedTarget } from '../../types'
-
 type NotionContactUsType = 'erro' | 'denúncia' | 'melhoria' | 'outro'
+export type ReportedTarget = 'none' | 'income' | 'culture' | 'socialImpact' | 'user'
 
 export type NotionContactUsOptions = {
 	userId: string

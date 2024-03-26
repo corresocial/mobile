@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { SocialImpactProviderProps, SocialImpactContextType, SocialImpactPostData } from './types'
 import { PostCollectionCommonFields } from '@domain/post/entity/types'
+
+import { SocialImpactProviderProps, SocialImpactContextType, SocialImpactPostData } from './types'
 
 import { AuthContext } from '../AuthContext'
 

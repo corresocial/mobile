@@ -2,9 +2,9 @@ import * as Location from 'expo-location'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 
-import { LoaderContext } from '@contexts/LoaderContext'
-
 import { Coordinates, LatLong } from '@domain/post/entity/types'
+
+import { LoaderContext } from '@contexts/LoaderContext'
 
 import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

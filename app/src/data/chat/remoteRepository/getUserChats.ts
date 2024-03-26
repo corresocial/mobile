@@ -3,7 +3,6 @@
 import { get, ref } from 'firebase/database'
 
 import { Chat } from '@domain/chat/entity/types'
-
 import { Id } from '@domain/post/entity/types'
 
 import { realTimeDatabase } from '@infrastructure/firebase/index'

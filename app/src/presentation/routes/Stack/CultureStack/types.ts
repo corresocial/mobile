@@ -1,5 +1,6 @@
-import { UserStackParamList } from '../UserStack/types'
 import { CultureCategories, CultureCollectionRemote, DaysOfWeek, LatLong, LocationViewType, PostRange } from '@domain/post/entity/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
 	SelectCultureType: { editMode: boolean } | undefined

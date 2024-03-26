@@ -1,6 +1,5 @@
-import { ReportedTarget } from '../../types'
-
 export type DiscordContactUsType = 'erro' | 'denúncia' | 'melhoria' | 'outro'
+export type ReportedTarget = 'none' | 'income' | 'culture' | 'socialImpact' | 'user'
 
 export type DiscordContactUsOptions = {
 	userId: string

@@ -1,7 +1,8 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
-import { StackLabelProps } from './types'
 import { PostCollection } from '@domain/post/entity/types'
+
+import { StackLabelProps } from './types'
 
 const navigateToPostView = (postData: PostCollection, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type
 	switch (postData.postType) {

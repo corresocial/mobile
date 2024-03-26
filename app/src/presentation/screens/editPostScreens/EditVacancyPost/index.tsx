@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
@@ -7,7 +9,6 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditVacancyPostReviewScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

@@ -1,5 +1,6 @@
-import { UserStackParamList } from '../UserStack/types'
 import { DaysOfWeek, LatLong, LocationViewType, PostRange, VacancyCategories, VacancyCollectionRemote } from '@domain/post/entity/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type VacancyStackParamList = {
 	SelectVacancyPurpose: { editMode: boolean } | undefined

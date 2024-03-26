@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { ServiceCategories } from '@domain/post/entity/types'
+
 import { ServiceContext } from '@contexts/ServiceContext'
 
 import { SelectServiceCategoryScreenProps } from '@routes/Stack/ServiceStack/screenProps'
-import { ServiceCategories } from '@domain/post/entity/types'
 
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 

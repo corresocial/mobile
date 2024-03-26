@@ -1,3 +1,4 @@
+import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '@domain/post/entity/types'
 import { SocialMedia } from '@domain/user/entity/types'
 
 import { UserData } from '@contexts/AuthContext/types'
@@ -5,8 +6,7 @@ import { UserData } from '@contexts/AuthContext/types'
 import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
 import { DiscordContactUsType } from '@services/discord/types/contactUs'
-import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '@domain/post/entity/types'
-import { ReportedTarget } from '@services/types'
+import { ReportedTarget } from '@services/notion/types/contactUs'
 
 export type ProfileStackParamList = {
 	Profile: { userId: string, stackLabel: StackLabelProps } | undefined

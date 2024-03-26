@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { FeedPosts, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByPostTypeScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { FeedPosts, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { Container, Header, InputContainer, MacroCategoryContainer } from './styles'

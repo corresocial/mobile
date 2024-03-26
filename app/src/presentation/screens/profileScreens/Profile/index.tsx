@@ -13,9 +13,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/AuthContext/types'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { FlatListItem } from 'src/presentation/types'
 
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'

@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 
 import { differenceInMinutes } from 'date-fns'
 
+import { Id, PostCollection } from '@domain/post/entity/types'
+
 import { usePostRepository } from '@data/post/usePostRepository'
 import { removeAllUserData } from '@data/user/remoteRepository/sujeira/remoteAllUserData'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -10,7 +12,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { UserDataConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id, PostCollection } from '@domain/post/entity/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

@@ -8,13 +8,13 @@ import _ from 'lodash'
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
+import { Id } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/ChatStack/screenProps'
-import { Id } from '@domain/post/entity/types'
+import { FlatListItem } from 'src/presentation/types'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'

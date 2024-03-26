@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { MacroCategory, PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 
 import { LocationContext } from '@contexts/LocationContext'
 
@@ -78,7 +78,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	}
 
 	const getHeaderTextPath = () => {
-		const customPostType = postType as NewHomePostType
+		const customPostType = postType as PostType
 		const currentPostType: any = postMacroCategories[customPostType] as MacroCategories
 		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.label

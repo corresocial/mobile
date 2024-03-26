@@ -1,7 +1,8 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
-import { ServiceContextType, ServicePostData, ServiceProviderProps } from './types'
 import { PostCollectionCommonFields } from '@domain/post/entity/types'
+
+import { ServiceContextType, ServicePostData, ServiceProviderProps } from './types'
 
 import { AuthContext } from '../AuthContext'
 

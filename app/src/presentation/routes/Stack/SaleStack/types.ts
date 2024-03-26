@@ -1,5 +1,6 @@
-import { UserStackParamList } from '../UserStack/types'
 import { DaysOfWeek, LatLong, LocationViewType, PostRange, SaleCategories, IncomeCollectionRemote } from '@domain/post/entity/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type SaleStackParamList = {
 	SelectSaleCategory: { editMode: boolean } | undefined

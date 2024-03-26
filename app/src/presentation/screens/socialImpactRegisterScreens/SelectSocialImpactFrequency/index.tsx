@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { DaysOfWeek, WeekdaysFrequency } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectSocialImpactFrequencyScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
-import { DaysOfWeek, WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

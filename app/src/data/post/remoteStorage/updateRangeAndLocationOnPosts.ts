@@ -1,6 +1,6 @@
-import { useUserRepository } from '@data/user/useUserRepository'
-
 import { PostCollection } from '@domain/post/entity/types'
+
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { updatePostData } from './updatePostData' // from data/post
 

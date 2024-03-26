@@ -87,9 +87,7 @@ export type Location = {
 	coordinates: Coordinates
 }
 
-export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture' // REFACTOR deve morrer
-
-export type NewHomePostType = 'income' | 'socialImpact' | 'culture'
+export type PostType = 'income' | 'socialImpact' | 'culture'
 
 export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
 

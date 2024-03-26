@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
+import { Id } from '@domain/post/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -12,7 +13,6 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
-import { Id } from '@domain/post/entity/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

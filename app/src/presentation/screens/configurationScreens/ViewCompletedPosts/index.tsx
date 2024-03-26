@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import { FlatList, StatusBar } from 'react-native'
 
+import { PostCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewCompletedPostsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { PostCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
+import { FlatListItem } from 'src/presentation/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'

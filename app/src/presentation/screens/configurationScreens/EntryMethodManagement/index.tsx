@@ -5,12 +5,13 @@ import { StatusBar } from 'react-native'
 
 import { UserCredential } from 'firebase/auth'
 
+import { Id } from '@domain/post/entity/types'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { EntryMethodManagementScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id } from '@domain/post/entity/types'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 

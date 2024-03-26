@@ -1,12 +1,11 @@
 import { deleteUser } from 'firebase/auth'
 
 import { Id } from '@domain/globalTypes'
+import { PostCollection } from '@domain/post/entity/types'
 
 import { deletePost } from '@data/post/remoteStorage/deletePost' // from data/post
 import { deletePostPictures } from '@data/post/remoteStorage/deletePostPictures' // from data/post
 import { useUserRepository } from '@data/user/useUserRepository'
-
-import { PostCollection } from '@domain/post/entity/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

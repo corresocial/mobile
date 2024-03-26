@@ -5,6 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
+import { Id, PostCollection } from '@domain/post/entity/types'
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -16,7 +17,6 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
-import { Id, PostCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'

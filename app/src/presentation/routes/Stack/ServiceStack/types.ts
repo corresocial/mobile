@@ -1,5 +1,6 @@
-import { UserStackParamList } from '../UserStack/types'
 import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, IncomeCollectionRemote } from '@domain/post/entity/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type ServiceStackParamList = {
 	SelectServicePurpose: { editMode: boolean } | undefined

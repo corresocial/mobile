@@ -4,6 +4,7 @@ import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 import { Id } from '@domain/globalTypes'
 import { ReportContext } from '@domain/impactReport/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
+import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@domain/post/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -12,7 +13,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'

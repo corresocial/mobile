@@ -1,6 +1,6 @@
-import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
-
 import { PostCollection } from '@domain/post/entity/types'
+
+import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 
 import { updatePostData } from './updatePostData' // from data/post
 

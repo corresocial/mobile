@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
+import { Id } from '@domain/post/entity/types'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { Id } from '@domain/post/entity/types'
 
 import { Container, ContainerButtons } from './styles'
 import LoupWhiteIcon from '@assets/icons/loup-white.svg'

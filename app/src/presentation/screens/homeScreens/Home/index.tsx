@@ -5,6 +5,8 @@ import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
+import { FeedPosts, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
+
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
@@ -15,7 +17,6 @@ import { LocationContext } from '@contexts/LocationContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
-import { FeedPosts, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
 import {
 	LatLong,
 	AddressSearchResult,

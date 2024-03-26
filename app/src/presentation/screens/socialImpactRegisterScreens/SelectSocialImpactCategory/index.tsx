@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { SocialImpactCategories } from '@domain/post/entity/types'
+
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactCategoryScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
-import { SocialImpactCategories } from '@domain/post/entity/types'
 
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 

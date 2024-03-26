@@ -1,8 +1,7 @@
 import { ReactNode } from 'react'
 
-import { UserSubscription } from '@domain/user/entity/types'
-
 import { PostCollection } from '@domain/post/entity/types'
+import { UserSubscription } from '@domain/user/entity/types'
 
 export interface SubscriptionProviderProps {
 	children: ReactNode

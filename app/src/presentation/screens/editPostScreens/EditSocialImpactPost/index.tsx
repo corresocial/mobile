@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { EventRepeatType, PostCollection, PostCollectionCommonFields, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
@@ -7,7 +9,6 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
-import { EventRepeatType, PostCollection, PostCollectionCommonFields, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
