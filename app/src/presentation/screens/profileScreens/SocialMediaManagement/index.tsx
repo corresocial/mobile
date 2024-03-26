@@ -2,8 +2,9 @@ import React from 'react'
 import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
+import { SocialMedia } from '@domain/user/entity/types'
+
 import { SocialMediaManagementScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { SocialMedia } from '@services/firebase/types'
 
 import {
 	getRelativeSocialMediaIcon,

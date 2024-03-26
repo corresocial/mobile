@@ -3,6 +3,7 @@ import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -12,7 +13,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-import { Id, PostCollection, UserCollection } from '@services/firebase/types'
+import { Id, PostCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -105,7 +106,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			setIsLoading(true)
 
 			if (localUser && localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-				const currentUser: Partial<UserCollection> = {
+				const currentUser: Partial<UserEntity> = {
 					name: userData.userName,
 					profilePictureUrl: profilePicture,
 					tourPerformed: !!localUser.tourPerformed,
@@ -139,7 +140,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 								blob.close()
 								getDownloadURL(uploadTask.snapshot.ref)
 									.then(async (profilePictureUrl) => {
-										const currentUser: UserCollection = {
+										const currentUser: UserEntity = {
 											name: userData.userName,
 											profilePictureUrl: [profilePictureUrl as string],
 											tourPerformed: !!localUser.tourPerformed,

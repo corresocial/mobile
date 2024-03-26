@@ -1,6 +1,7 @@
 import { PostType } from '@domain/post/entity/types'
+import { UserEntity } from '@domain/user/entity/types'
 
-import { PostCollection, UserCollection } from '@services/firebase/types'
+import { PostCollection } from '@services/firebase/types'
 
 import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
 
@@ -18,7 +19,7 @@ interface PostRepositoryInterface {
 	remoteStorage: {
 		getPostById: (postId: string) => Promise<PostCollection | null>
 
-		createPost: (post: PostCollection, user: UserCollection, postType: PostType) => Promise<string | null>
+		createPost: (post: PostCollection, user: UserEntity, postType: PostType) => Promise<string | null>
 		createPostWithCustomId: (postData: PostCollection, ownerPost: PostCollection['owner'], postType: PostType, customId: string) => Promise<string | boolean>
 
 		updatePostData: (postId: string, data: PostCollection) => Promise<boolean>

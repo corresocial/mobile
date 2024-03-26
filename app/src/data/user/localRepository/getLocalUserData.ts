@@ -1,14 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { LOCAL_USER_REPOSITORY_KEY } from '@data/localStorageKeys'
+import { UserEntity } from '@domain/user/entity/types'
 
-import { UserCollection } from '@services/firebase/types'
+import { LOCAL_USER_REPOSITORY_KEY } from '@data/localStorageKeys'
 
 async function getLocalUserData() { // REFACTOR Isso deveria ter um id?
 	try {
 		const storagedDataJSON = await AsyncStorage.getItem(LOCAL_USER_REPOSITORY_KEY)
 		const storagedData = storagedDataJSON ? JSON.parse(storagedDataJSON) : null
-		return storagedData as UserCollection
+		return storagedData as UserEntity
 	} catch (error) {
 		console.log(error)
 		return null

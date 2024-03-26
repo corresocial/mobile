@@ -5,6 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
+import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -15,7 +16,7 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
-import { Id, PostCollection, PrivateUserCollection } from '@services/firebase/types'
+import { Id, PostCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
@@ -44,7 +45,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
-	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserCollection['location'] | null>()
+	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {

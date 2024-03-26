@@ -1,6 +1,6 @@
 import { Linking } from 'react-native'
 
-import { SocialMedia } from '@services/firebase/types'
+import { SocialMedia } from '@domain/user/entity/types'
 
 import FacebookIcon from '@assets/icons/facebook.svg'
 import InstagramIcon from '@assets/icons/instagram.svg'

@@ -1,10 +1,10 @@
 import { doc, updateDoc, setDoc } from 'firebase/firestore'
 
-import { PrivateUserCollection } from '@services/firebase/types'
+import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-async function updatePrivateLocation(userId: string, data: PrivateUserCollection['location']) {
+async function updatePrivateLocation(userId: string, data: PrivateUserEntity['location']) {
 	try {
 		try {
 			const docRef = doc(firestore, 'users', userId, 'private', 'location')

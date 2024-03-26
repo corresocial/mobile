@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -10,7 +11,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { RegisterUserData } from '@contexts/AuthContext/types'
 
 import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-import { Id, PostCollection, UserCollection } from '@services/firebase/types'
+import { Id, PostCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -92,7 +93,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt?: Date) => { // TODO Type
-		const userObject: Partial<UserCollection> = {
+		const userObject: Partial<UserEntity> = {
 			name: userData.userName,
 			profilePictureUrl: [],
 			tourPerformed: !!tourPerformed

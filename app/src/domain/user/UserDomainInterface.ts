@@ -1,12 +1,12 @@
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { UserCollection } from '@services/firebase/types'
+import { UserEntity } from './entity/types'
 
 import { AuthenticationServiceInterface } from '@services/authentication/AuthenticationServiceInterface'
 
 interface UserDomainInterface {
-	getLocalUserDataWithDeviceAuth: (useUserRepository: () => UserRepositoryInterface, useAuthenticationService: () => AuthenticationServiceInterface) => Promise<UserCollection | null>
-	getLocalUserData: (useUserRepository: () => UserRepositoryInterface) => Promise<UserCollection | null>
+	getLocalUserDataWithDeviceAuth: (useUserRepository: () => UserRepositoryInterface, useAuthenticationService: () => AuthenticationServiceInterface) => Promise<UserEntity | null>
+	getLocalUserData: (useUserRepository: () => UserRepositoryInterface) => Promise<UserEntity | null>
 }
 
 export { UserDomainInterface }

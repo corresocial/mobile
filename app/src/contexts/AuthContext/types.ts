@@ -2,13 +2,15 @@ import { ReactNode } from 'react'
 
 import { UserCredential } from 'firebase/auth'
 
-import { PostCollection, UserCollection } from '@services/firebase/types'
+import { UserEntity } from '@domain/user/entity/types'
+
+import { PostCollection } from '@services/firebase/types'
 
 export interface AuthProviderProps {
 	children: ReactNode
 }
 
-export type UserData = UserCollection
+export type UserData = UserEntity
 
 export type UserIdentification = { // REFACTOR Mover para autenticação
 	uid: string
@@ -26,7 +28,7 @@ export type RegisterUserData = { // Dados de registro exclusivos do contexto
 	userIdentification: UserIdentification
 }
 
-export interface LocalUserData extends UserCollection {
+export interface LocalUserData extends UserEntity {
 	userId?: string,
 	userIdentification?: UserIdentification
 }

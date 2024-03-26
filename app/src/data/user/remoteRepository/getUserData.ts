@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import { UserCollection } from '@services/firebase/types'
+import { UserEntity } from '@domain/user/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
@@ -10,7 +10,7 @@ async function getUserData(userId: string) { // BEFORE getUser
 		const userSnap = await getDoc(userRef)
 
 		if (userSnap.exists()) {
-			return { userId, ...userSnap.data() as UserCollection }
+			return { userId, ...userSnap.data() as UserEntity }
 		}
 
 		return null

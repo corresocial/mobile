@@ -4,6 +4,7 @@ import { Alert, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
 import { PostType } from '@domain/post/entity/types'
+import { UserEntity } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -13,7 +14,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
-import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
+import { Id, PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -46,8 +47,8 @@ const { localStorage: localPostStorage, remoteStorage } = usePostRepository()
 const { notifyUsersOnLocation } = useCloudFunctionService()
 
 type UserContextFragment = {
-	userDataContext: UserCollection;
-	setUserDataOnContext: (data: UserCollection) => void;
+	userDataContext: UserEntity;
+	setUserDataOnContext: (data: UserEntity) => void;
 }
 
 type EditContextFragment = {

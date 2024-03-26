@@ -1,6 +1,8 @@
 import { ReactElement } from 'react'
 
-import { PostRange, SubscriptionPlan } from '@services/firebase/types'
+import { SubscriptionPlan } from '@domain/user/entity/types'
+
+import { PostRange } from '@services/firebase/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
 export interface StripeContextProps {

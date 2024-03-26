@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { SubscriptionPaymentMethod } from '@domain/user/entity/types'
+
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { SelectSubsciptionPaymentMethodScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { SubscriptionPaymentMethod } from '@services/firebase/types'
 
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 

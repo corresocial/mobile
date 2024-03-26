@@ -29,10 +29,6 @@ export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
 export type PostRange = 'near' | 'city' | 'country'
 
-export type SubscriptionPlan = 'monthly' | 'yearly' | ''
-
-export type SubscriptionPaymentMethod = 'pix' | 'creditCard' | 'debitCard' | ''
-
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
 export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
@@ -89,63 +85,6 @@ export type Location = {
 	state?: string | null
 	country?: string | null
 	coordinates: Coordinates
-}
-
-export type SocialMedia = {
-	title: string,
-	link: string
-}
-
-export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default'
-
-export type VerifiedType = {
-	type: VerifiedLabelName
-	by: string
-	name: string
-	at: Date
-	admin?: boolean
-}
-
-export type UserSubscription = {
-	subscriptionRange?: PostRange
-	subscriptionPlan?: SubscriptionPlan
-	subscriptionPaymentMethod?: SubscriptionPaymentMethod
-	customerId?: Id
-	subscriptionId?: Id
-}
-
-export type UserCollection = {
-	userId?: Id
-	name?: string
-	description?: string
-	profilePictureUrl?: string[]
-	tourPerformed?: boolean
-	createdAt?: Date
-	updatedAt?: Date
-	posts?: PostCollection[]
-	verified?: VerifiedType
-	socialMedias?: SocialMedia[]
-	subscription?: UserSubscription
-	newUser?: boolean // local only
-}
-
-export type PrivateUserCollection = {
-	contacts: {
-		cellNumber?: string
-		email?: string
-	},
-	location: PrivateAddress & { visibleToGovernment: boolean }
-}
-
-export type PrivateAddress = {
-	userId?: string,
-	country?: string
-	state?: string
-	city?: string
-	district?: string
-	street?: string
-	postalCode?: string
-	geohashNearby?: string[]
 }
 
 export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture' // REFACTOR deve morrer

@@ -1,25 +1,25 @@
-import { PrivateUserCollection, UserCollection } from '@services/firebase/types'
+import { PrivateUserEntity, UserEntity } from '@domain/user/entity/types'
 
 interface UserRepositoryInterface {
 	localStorage: {
-		getLocalUserData: () => Promise<UserCollection | null>
-		saveLocalUserData: (data: UserCollection) => Promise<boolean>
+		getLocalUserData: () => Promise<UserEntity | null>
+		saveLocalUserData: (data: UserEntity) => Promise<boolean>
 		clearLocalUserData: () => Promise<boolean>
 	}
 
 	remoteStorage: {
 		// GET
-		getUserData: (userId: string) => Promise<UserCollection | null>
-		getPrivateContacts: (userId: string) => Promise<PrivateUserCollection['contacts'] | null>
-		getPrivateLocation: (userId: string) => Promise<PrivateUserCollection['location'] | null>
+		getUserData: (userId: string) => Promise<UserEntity | null>
+		getPrivateContacts: (userId: string) => Promise<PrivateUserEntity['contacts'] | null>
+		getPrivateLocation: (userId: string) => Promise<PrivateUserEntity['location'] | null>
 
 		userExists: (userId: string) => Promise<boolean>
 		// POST
 
 		// UPDATE
-		updateUserData: (userId: string, data: UserCollection) => Promise<boolean>
-		updatePrivateContacts: (userId: string, data: PrivateUserCollection['contacts']) => Promise<boolean>
-		updatePrivateLocation: (userId: string, data: PrivateUserCollection['location']) => Promise<boolean>
+		updateUserData: (userId: string, data: UserEntity) => Promise<boolean>
+		updatePrivateContacts: (userId: string, data: PrivateUserEntity['contacts']) => Promise<boolean>
+		updatePrivateLocation: (userId: string, data: PrivateUserEntity['location']) => Promise<boolean>
 
 		// DELETE
 		deleteUserData: (userId: string) => Promise<boolean>

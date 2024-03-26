@@ -1,10 +1,10 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { UserCollection } from '@services/firebase/types'
+import { UserEntity } from '@domain/user/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-async function updateUserData(userId: string, data: UserCollection) {
+async function updateUserData(userId: string, data: UserEntity) {
 	try {
 		const docRef = doc(firestore, 'users', userId)
 

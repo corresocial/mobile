@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import { PrivateUserCollection } from '@services/firebase/types'
+import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
@@ -10,7 +10,7 @@ async function getPrivateLocation(userId: string) {
 		const docSnap = await getDoc(docRef)
 
 		if (docSnap.exists()) {
-			return { ...docSnap.data() as PrivateUserCollection['location'] }
+			return { ...docSnap.data() as PrivateUserEntity['location'] }
 		}
 
 		return null

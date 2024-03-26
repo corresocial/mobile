@@ -1,6 +1,6 @@
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { UserCollection } from '@services/firebase/types'
+import { UserEntity } from '../entity/types'
 
 import { AuthenticationServiceInterface } from '@services/authentication/AuthenticationServiceInterface'
 
@@ -9,7 +9,7 @@ async function getLocalUserDataWithDeviceAuthDM(useUserRepository: () => UserRep
 		const { handleMethodWithDeviceAuthentication } = useAuthenticationService()
 		const { localStorage } = useUserRepository()
 
-		const storedUser: UserCollection = await handleMethodWithDeviceAuthentication(localStorage.getLocalUserData)
+		const storedUser: UserEntity = await handleMethodWithDeviceAuthentication(localStorage.getLocalUserData)
 		if (!storedUser) return null
 		return storedUser
 	} catch (error) {

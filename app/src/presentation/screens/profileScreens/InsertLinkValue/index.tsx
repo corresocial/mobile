@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
+import { SocialMedia } from '@domain/user/entity/types'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertLinkValueScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { SocialMedia } from '@services/firebase/types'
 
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '@utils/socialMedias'
 

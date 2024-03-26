@@ -12,9 +12,11 @@
 	)
 */
 
+import { SubscriptionPlan, UserSubscription } from '@domain/user/entity/types'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { Id, PostRange, SubscriptionPlan, UserSubscription } from '../../firebase/types'
+import { Id, PostRange } from '../../firebase/types'
 
 const { remoteStorage } = useUserRepository()
 
