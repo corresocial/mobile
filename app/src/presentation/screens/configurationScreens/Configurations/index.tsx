@@ -14,7 +14,7 @@ import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProp
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 import { Id } from '@services/firebase/types'
 
-import { auth } from '@services/firebase'
+import { auth } from '@infrastructure/firebase/index'
 
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'

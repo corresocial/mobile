@@ -3,7 +3,7 @@ import { ref, set } from 'firebase/database'
 import { ChatUserData } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@services/firebase'
+import { realTimeDatabase } from '@infrastructure/firebase/index'
 
 async function updateUserTokenNotification(userId: Id, tokenNotification: string, getRemoteUserData: (idUser: Id) => Promise<ChatUserData>) {
 	const dbRef = ref(realTimeDatabase, `${userId}`)

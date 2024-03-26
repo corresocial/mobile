@@ -2,7 +2,7 @@ import { doc, setDoc } from 'firebase/firestore'
 
 import { PostCollection, PostType } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function createPostWithCustomId(
 	postData: PostCollection,

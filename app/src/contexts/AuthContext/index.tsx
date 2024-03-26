@@ -7,7 +7,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContextType, AuthProviderProps, UserData } from './types'
 import { PostCollection } from '@services/firebase/types'
 
-import { auth } from '@services/firebase'
+import { auth } from '@infrastructure/firebase/index'
 
 const { localStorage, remoteStorage } = useUserRepository()
 

@@ -5,8 +5,8 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertCellNumberLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
+import Firebase from '@infrastructure/firebase/index'
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
-import Firebase from '@services/firebase'
 
 import { Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

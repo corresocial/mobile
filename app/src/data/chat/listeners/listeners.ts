@@ -3,7 +3,7 @@ import { onValue, ref } from 'firebase/database'
 import { Chat, MessageObjects } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@services/firebase'
+import { realTimeDatabase } from '@infrastructure/firebase/index'
 
 function startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void) {
 	if (!userId) return

@@ -2,7 +2,7 @@ import { deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore'
 
 import { PostCollection, UserCollection } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function deletePost(postId: string, userId: string) {
 	try {

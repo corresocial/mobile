@@ -1,6 +1,6 @@
 import { deleteObject, getMetadata, ref } from 'firebase/storage'
 
-import { storage } from '@services/firebase'
+import { storage } from '@infrastructure/firebase/index'
 
 async function deletePostPictures(postPictures: string[]) {
 	try {

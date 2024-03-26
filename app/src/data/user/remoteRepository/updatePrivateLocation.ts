@@ -2,7 +2,7 @@ import { doc, updateDoc, setDoc } from 'firebase/firestore'
 
 import { PrivateUserCollection } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function updatePrivateLocation(userId: string, data: PrivateUserCollection['location']) {
 	try {

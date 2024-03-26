@@ -2,7 +2,7 @@ import { doc, setDoc } from 'firebase/firestore'
 
 import { PostCollection } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function updateOwnerDataOnPosts(ownerPost: Partial<PostCollection['owner']>, userPostIds: string[]) {
 	try {

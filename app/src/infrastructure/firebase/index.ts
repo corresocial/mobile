@@ -1,11 +1,14 @@
+/* eslint-disable import/no-default-export */
+/* eslint-disable camelcase */
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import { initializeApp } from 'firebase/app'
 import { getAuth, initializeAuth } from 'firebase/auth'
+import { getReactNativePersistence } from 'firebase/auth/react-native'
+import { getDatabase } from 'firebase/database'
 import { getFirestore } from 'firebase/firestore'
-import { getStorage } from 'firebase/storage'
 import { getFunctions } from 'firebase/functions'
-import { getDatabase } from "firebase/database"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { getReactNativePersistence } from 'firebase/auth/react-native';
+import { getStorage } from 'firebase/storage'
 
 import { getEnvVars } from '@infrastructure/environment'
 
@@ -37,7 +40,7 @@ const Firebase = initializeApp(firebaseConfig)
 
 initializeAuth(Firebase, {
 	persistence: getReactNativePersistence(AsyncStorage)
-});
+})
 
 export const firestore = getFirestore(Firebase)
 export const auth = getAuth(Firebase)

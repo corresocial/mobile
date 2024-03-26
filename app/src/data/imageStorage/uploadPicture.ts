@@ -1,6 +1,6 @@
 import { ref, uploadBytesResumable } from 'firebase/storage'
 
-import { storage } from '@services/firebase'
+import { storage } from '@infrastructure/firebase/index'
 
 type CollectionUpload = 'users' | 'posts'
 

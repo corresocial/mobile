@@ -2,7 +2,7 @@ import { doc, setDoc } from 'firebase/firestore'
 
 import { UserCollection } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function updateUserData(userId: string, data: UserCollection) {
 	try {

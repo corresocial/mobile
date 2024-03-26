@@ -9,8 +9,7 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
-import { signinByCredential } from '@services/firebase/user/signingByCredential'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { Container } from './styles'
 import GoogleWhiteIcon from '@assets/icons/google-white.svg'
@@ -28,6 +27,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
+
+const { generateGoogleAuthCredential, signInByGoogleCredential } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
@@ -79,7 +80,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			setHasError(false)
 			if (tokenGoogle) {
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const { userId, email } = await signinByCredential(googleCredential)
+				const { userId, email } = await signInByGoogleCredential(googleCredential)
 
 				if (userId && email) {
 					setAuthenticatedUser({ userId, email })

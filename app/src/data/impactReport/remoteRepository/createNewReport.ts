@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore'
 
 import { ImpactReport } from '@domain/impactReport/entity/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function createNewReport(impactReportData: ImpactReport) {
 	try {

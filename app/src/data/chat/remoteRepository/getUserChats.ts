@@ -6,7 +6,7 @@ import { Chat } from '@domain/chat/entity/types'
 
 import { Id } from '@services/firebase/types'
 
-import { realTimeDatabase } from '@services/firebase'
+import { realTimeDatabase } from '@infrastructure/firebase/index'
 
 async function getUserChats(chatIds: Id[]) {
 	try {

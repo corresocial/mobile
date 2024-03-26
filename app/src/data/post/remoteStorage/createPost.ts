@@ -4,7 +4,7 @@ import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { PostCollection, PostType } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function createPost(post: PostCollection, user: LocalUserData, postType: PostType) {
 	try {

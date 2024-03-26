@@ -2,7 +2,7 @@ import { ref, update } from 'firebase/database'
 
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@services/firebase'
+import { realTimeDatabase } from '@infrastructure/firebase/index'
 
 async function updateChatCompletedState(chatId: Id, state: boolean) {
 	try {

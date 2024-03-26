@@ -1,6 +1,6 @@
 import { ref, set } from 'firebase/database'
 
-import { smasRealTimeDatabase } from '@services/firebase'
+import { smasRealTimeDatabase } from '@infrastructure/firebase/index'
 
 async function updateSmasTokenNotification(nis: string, userId: string) {
 	try {

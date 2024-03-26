@@ -2,7 +2,7 @@ import { doc, getDoc } from 'firebase/firestore'
 
 import { UserCollection } from '@services/firebase/types'
 
-import { firestore } from '@services/firebase'
+import { firestore } from '@infrastructure/firebase/index'
 
 async function getUserData(userId: string) { // BEFORE getUser
 	try {

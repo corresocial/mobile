@@ -9,8 +9,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id } from '@services/firebase/types'
 
-import { getPhoneAuthCredential } from '@services/firebase/user/getPhoneAuthCredential'
-import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -25,6 +24,8 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
+
+const { generatePhoneAuthCredential, linkAuthProvider } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
@@ -139,7 +140,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				const { cellNumber } = route.params
 				const verificationCodeId = route.params.verificationCodeId as string
 
-				const phoneAuthCredential = await getPhoneAuthCredential(verificationCodeId, completeCode)
+				const phoneAuthCredential = await generatePhoneAuthCredential(verificationCodeId, completeCode)
 
 				const linkedUser = await linkAuthProvider(phoneAuthCredential)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')

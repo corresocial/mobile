@@ -12,9 +12,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EntryMethodManagementScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Id } from '@services/firebase/types'
 
-import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
-import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
-import { unlinkAuthProvider } from '@services/firebase/user/unlinkAuthProvider'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { Container } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
@@ -37,6 +35,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
+
+const { generateGoogleAuthCredential, linkAuthProvider, unlinkAuthProvider } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 

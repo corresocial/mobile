@@ -2,7 +2,7 @@ import { off, ref } from 'firebase/database'
 
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@services/firebase'
+import { realTimeDatabase } from '@infrastructure/firebase/index'
 
 async function unsubscribeUserChatIdsListener(userId: Id) {
 	const listenerRef = ref(realTimeDatabase, `${userId}`)

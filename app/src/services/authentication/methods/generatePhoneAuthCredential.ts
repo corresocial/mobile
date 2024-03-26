@@ -1,6 +1,6 @@
 import { PhoneAuthProvider } from 'firebase/auth'
 
-const getPhoneAuthCredential = async (verificationCodeId: string, verificationCode: string) => {
+async function generatePhoneAuthCredential(verificationCodeId: string, verificationCode: string) {
 	const credential = PhoneAuthProvider.credential(
 		verificationCodeId,
 		verificationCode,
@@ -9,4 +9,4 @@ const getPhoneAuthCredential = async (verificationCodeId: string, verificationCo
 	return credential
 }
 
-export { getPhoneAuthCredential }
+export { generatePhoneAuthCredential }
