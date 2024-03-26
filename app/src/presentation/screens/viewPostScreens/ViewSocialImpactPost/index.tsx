@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/impactReport/entity/types'
+import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -26,8 +27,6 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
-import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
-
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DateTimeCard } from '@components/_cards/DateTimeCard'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
@@ -48,7 +47,7 @@ import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 const { localStorage } = useUserRepository()
 const { remoteStorage } = usePostRepository()
-const { sendImpactReport } = ImpactReportAdapter()
+const { sendImpactReport } = useImpactReportDomain()
 
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()

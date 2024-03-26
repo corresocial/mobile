@@ -7,6 +7,7 @@ import _ from 'lodash'
 
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
+import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
@@ -23,8 +24,6 @@ import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-
-import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -43,7 +42,7 @@ import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
 const { convertTextToNumber } = UiUtils()
 
-const { sendImpactReport } = ImpactReportAdapter()
+const { sendImpactReport } = useImpactReportDomain()
 
 const {
 	existsOnDatabase,

@@ -1,8 +1,8 @@
 import { Id } from '@domain/globalTypes'
 import { ReportContext } from '@domain/impactReport/entity/types'
 
-interface ImpactReportAdapterInterface {
+interface ImpactReportDomainInterface {
 	sendImpactReport(usersIdInvolved: Id[], hadImpact: boolean, impactValue: number, reportContext?: ReportContext): Promise<boolean>
 }
 
-export { ImpactReportAdapterInterface }
+export { ImpactReportDomainInterface }
