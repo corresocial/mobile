@@ -3,21 +3,15 @@ import { ReactNode } from 'react'
 import { PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
+import { UserIdentification } from '@services/authentication/types'
+
 export interface AuthProviderProps {
 	children: ReactNode
 }
 
 export type UserData = UserEntity
 
-export type UserIdentification = { // REFACTOR Mover para autenticação
-	uid: string
-	authTime?: string
-	accessToken?: string
-	tokenExpirationTime?: string
-	refreshToken?: string
-}
-
-export type RegisterUserData = { // Dados de registro exclusivos do contexto
+export type RegisterUserData = {
 	cellNumber: string
 	email?: string
 	userName: string

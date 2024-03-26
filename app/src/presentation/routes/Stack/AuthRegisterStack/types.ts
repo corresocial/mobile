@@ -1,4 +1,4 @@
-import { UserIdentification } from '@contexts/AuthContext/types'
+import { UserIdentification } from '@services/authentication/types'
 
 export type AuthRegisterStackParamList = {
 	Splash: undefined

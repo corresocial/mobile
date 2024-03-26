@@ -7,9 +7,9 @@ import { UserCredential } from 'firebase/auth'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { UserIdentification } from '@contexts/AuthContext/types'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
+import { UserIdentification } from '@services/authentication/types'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
