@@ -34,7 +34,6 @@ export interface LocalUserData extends UserCollection {
 export type AuthContextType = {
 	userDataContext: UserData
 	setUserDataOnContext: (data: UserData) => void
-	getUserDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserData>
 	hasValidLocalUser: () => Promise<boolean>
 	setRemoteUserOnLocal: (uid?: string, userData?: UserData) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection

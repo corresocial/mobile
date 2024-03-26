@@ -29,7 +29,7 @@ interface ChatDomainInterface {
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
 	unsubscribeChatMessagesListener(chatId: Id): void
-	chatUserHasTokenNotification(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryInterface): Promise<boolean>
+	chatUserHasTokenNotification(userId: Id, useChatRepository: () => ChatRepositoryInterface): Promise<boolean>
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
 	hasBlockedUserOnConversation(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse>
 

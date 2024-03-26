@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -26,13 +28,15 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
+const { getLocalUserData } = useUserDomain()
+
 const { remoteStorage } = useUserRepository()
 const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-	const { userDataContext, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { userDataContext, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -60,10 +64,12 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const saveUserData = async () => {
-		const userData = getRouteParams()
-		const localUser = await getUserDataFromSecureStore()
-
 		try {
+			const userData = getRouteParams()
+			const localUser = await getLocalUserData(useUserRepository)
+
+			if (!localUser || (localUser && !localUser.createdAt)) throw new Error('Usuário')
+
 			setIsLoading(true)
 			await saveInFirebase(userData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)

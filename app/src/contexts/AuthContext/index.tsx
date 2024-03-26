@@ -1,4 +1,3 @@
-import * as LocalAuthentication from 'expo-local-authentication'
 import React, { createContext, useState } from 'react'
 
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
@@ -18,46 +17,6 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
 function AuthProvider({ children }: AuthProviderProps) {
 	const [userDataContext, setUserDataContext] = useState({})
-
-	const getUserDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
-		try {
-			if (requireAuthentication) {
-				const storedUser = await handleMethodWithAuthentication(localStorage.getLocalUserData)
-
-				if (!storedUser) {
-					throw new Error('Erro ao validar identidade')
-				}
-				return storedUser
-			}
-
-			const storedUser = await localStorage.getLocalUserData()
-			if (!storedUser) return null
-
-			if (accountIdentifier) {
-				return { userId: storedUser.userId, name: storedUser.name }
-			}
-
-			return storedUser
-		} catch (err) {
-			return null
-		}
-	}
-
-	const handleMethodWithAuthentication = async (secureMethod: any) => {
-		const config = {
-			cancelLabel: 'cancelLabel',
-			promptMessage: 'Confirme sua identidade',
-			requireConfirmation: false
-		}
-
-		const hasAuth = await LocalAuthentication.authenticateAsync(config)
-		if (hasAuth.success) {
-			const result = await secureMethod()
-			return result
-		}
-
-		throw new Error('Authentication failed')
-	}
 
 	const hasValidLocalUser = async () => {
 		const storedUser = await localStorage.getLocalUserData()
@@ -145,7 +104,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 			value={{
 				userDataContext,
 				setUserDataOnContext,
-				getUserDataFromSecureStore,
 				hasValidLocalUser,
 				setRemoteUserOnLocal,
 				getLastUserPost,

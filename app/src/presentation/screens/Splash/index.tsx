@@ -2,11 +2,16 @@ import * as Updates from 'expo-updates'
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
+
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { Container, LogoContainer } from './styles'
 import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
@@ -16,10 +21,12 @@ import { theme } from '@common/theme'
 
 import { CustomModal } from '@components/_modals/CustomModal'
 
+const { getLocalUserData, getLocalUserDataWithDeviceAuth } = useUserDomain()
+
 function Splash({ navigation }: SplashScreenProps) {
 	const { checkCacheImageValidation } = useCacheRepository()
 
-	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { hasValidLocalUser, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
@@ -59,12 +66,12 @@ function Splash({ navigation }: SplashScreenProps) {
 		}
 	}
 
-	const navigateToInitialScreen = (userId?: string, userName?: string) => {
+	const navigateToInitialScreen = (userIdentification: { userId?: string, name?: string }) => {
 		navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'SelectAuthRegister',
-				params: { userId, userName }
+				params: { userId: userIdentification.userId, userName: userIdentification.name }
 			}],
 		})
 	}
@@ -74,7 +81,7 @@ function Splash({ navigation }: SplashScreenProps) {
 			const hasLocalUser = await hasValidLocalUser()
 
 			if (hasLocalUser) {
-				const localUser = await getUserDataFromSecureStore(true)
+				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
 				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
@@ -86,13 +93,15 @@ function Splash({ navigation }: SplashScreenProps) {
 					}],
 				})
 			} else {
-				const storedUser = await getUserDataFromSecureStore(false, true)
-				navigateToInitialScreen(storedUser.userId, storedUser.name)
+				const storedUser = await getLocalUserData(useUserRepository)
+				if (!storedUser) return
+				navigateToInitialScreen(storedUser)
 			}
-		} catch (err) {
-			console.log(err)
-			const storedUser = await getUserDataFromSecureStore(false, true)
-			navigateToInitialScreen(storedUser.userId, storedUser.name)
+		} catch (error) {
+			console.log(error)
+			const storedUser = await getLocalUserData(useUserRepository)
+			if (!storedUser) return
+			navigateToInitialScreen(storedUser)
 		}
 	}
 

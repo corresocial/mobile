@@ -3,6 +3,8 @@ import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -29,13 +31,15 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
+const { getLocalUserData } = useUserDomain()
+
 const { remoteStorage } = useUserRepository()
 const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { setRemoteUserOnLocal, userDataContext, getUserDataFromSecureStore } = useContext(AuthContext)
+	const { setRemoteUserOnLocal, userDataContext } = useContext(AuthContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
@@ -94,9 +98,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	const saveUserData = async () => {
 		try {
 			const userData = getRouteParams()
-			const localUser = await getUserDataFromSecureStore()
+			const localUser = await getLocalUserData(useUserRepository)
 
-			if (!profilePicture.length) return
+			if (!localUser || !profilePicture.length) return
 
 			setIsLoading(true)
 
