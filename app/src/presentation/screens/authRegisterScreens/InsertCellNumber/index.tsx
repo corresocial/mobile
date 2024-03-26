@@ -6,6 +6,7 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import Firebase from '@infrastructure/firebase/index'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, InputsContainer } from './styles'
@@ -142,7 +143,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
 
-		await requestPhoneVerificationCode(currentCellNumber, recaptchaVerifier.current)
+		await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
 			.then((verificationCodeId) => {
 				navigation.navigate('InsertConfirmationCode', {
 					cellNumber: currentCellNumber, verificationCodeId

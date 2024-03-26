@@ -140,28 +140,27 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				const { cellNumber } = route.params
 				const verificationCodeId = route.params.verificationCodeId as string
 
-				await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId, completeCode)
-					.then(async (userCredential: UserCredential) => {
-						const userIdentification = await extractUserIdentification(userCredential)
-						const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
+				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId, completeCode)
 
-						setIsLoading(false)
-						if (!userHasAccount) {
-							navigation.navigate('InsertName', {
-								cellNumber,
-								userIdentification,
-							})
-							return
-						}
+				const userIdentification = await extractUserIdentification(userCredential)
+				const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
 
-						navigation.reset({
-							index: 0,
-							routes: [{
-								name: 'UserStack',
-								params: { tourPerformed: true }
-							}],
-						})
+				setIsLoading(false)
+				if (!userHasAccount) {
+					navigation.navigate('InsertName', {
+						cellNumber,
+						userIdentification,
 					})
+					return
+				}
+
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'UserStack',
+						params: { tourPerformed: true }
+					}],
+				})
 			} else {
 				!completeCodeIsValid && setInvalidCodeAfterSubmit(true)
 			}

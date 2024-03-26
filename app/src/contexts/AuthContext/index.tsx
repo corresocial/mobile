@@ -17,7 +17,12 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserData) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid, localUserData)
-			setUserDataContext({ ...userData })
+
+			if (userData) {
+				setUserDataContext({ ...userData })
+				return true
+			}
+
 			return true
 		} catch (error: any) {
 			console.log(error)

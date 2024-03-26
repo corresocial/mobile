@@ -62,8 +62,8 @@ function getWebviewSource(
 </head>
 <body>
 ${invisible
-				? '<button id="recaptcha-btn" type="button" onclick="onClickButton()">Confirm reCAPTCHA</button>'
-				: '<div id="recaptcha-cont" class="g-recaptcha"/></div>'}
+		? '<button id="recaptcha-btn" type="button" onclick="onClickButton()">Confirm reCAPTCHA</button>'
+		: '<div id="recaptcha-cont" class="g-recaptcha"/></div>'}
 <script>
 var fullChallengeTimer;
 function onVerify(token) {
