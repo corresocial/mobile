@@ -40,7 +40,7 @@ const LocationContext = createContext<LocationContextType>(initialValue as any)
 function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)
 
-	const setLocationDataOnContext = async (data: Partial<LocationData>) => { // REFACTOR Implementar verificação se dados mudaram
+	const setLocationDataOnContext = async (data: Partial<LocationData>) => {
 		setLocationDataContext({ ...locationDataContext, ...data as any })
 	}
 

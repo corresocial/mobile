@@ -1,66 +1,66 @@
 import { ChatDomainInterface } from './ChatDomainInterface'
-import { conversationsIsValidToSortUC } from './core/validation'
-import { blockUserByIdUC } from './methods/blockUserByIdUC'
-import { chatUserHasTokenNotificationUC } from './methods/chatUserHasTokenNotificationUC'
-import { cleanChatMessagesUC } from './methods/cleanChatMessagesUC'
-import { createNewUserUC } from './methods/createNewUserUC'
-import { existsOnDatabaseUC } from './methods/existsOnDatabaseUC'
-import { filterInvalidMessagesUC } from './methods/filterInvalidMessagesUC'
-import { generateNewMessageObjectUC } from './methods/generateNewMessageObjectUC'
-import { getRemoteChatDataByUserUC } from './methods/getRemoteChatDataByUserUC'
-import { getRemoteUserDataUC } from './methods/getRemoteUserDataUC'
-import { getUserChatIdsUC } from './methods/getUserChatIdsUC'
-import { getUserChatsUC } from './methods/getUserChatsUC'
-import { hasBlockedUserOnConversationUC } from './methods/hasBlockedUserOnConversationUC'
-import { makeAllUserMessagesAsReadUC } from './methods/makeAllMessagesAsReadUC'
-import { addNotificationListenerUC, removeNotificationListenerUC } from './methods/notificationListenersUC'
-import { registerNewChatUC } from './methods/registerNewChatUC'
-import { registerPushNotificationUC } from './methods/registerPushNotificationUC'
-import { sendMessageUC } from './methods/sendMessageUC'
-import { setChatIdForUsersUC } from './methods/setChatIdForUsersUC'
-import { startUserChatIdsListenerUC } from './methods/startUserChatIdsListenerUC'
-import { startUserChatListenersUC } from './methods/startUserChatListenersUC'
-import { unblockUserByIdUC } from './methods/unblockUserByIdUC'
-import { unsubscribeChatIdsListenerUC } from './methods/unsubscribeChatIdsListenerUC'
-import { unsubscribeChatMessagesListenerUC } from './methods/unsubscribeChatMessagesListenerUC'
-import { unsubscribeUserChatsListenerUC } from './methods/unsubscribeUserChatsListenerUC'
-import { updateChatCompletedStateUC } from './methods/updateChatCompletedStateUC'
-import { updateProfilePictureOnConversationsUC } from './methods/updateProfilePictureOnConversations'
-import { updateUserTokenNotificationUC } from './methods/updateUserTokenNotificationUC'
+import { conversationsIsValidToSortDM } from './core/validation'
+import { blockUserByIdDM } from './methods/blockUserByIdDM'
+import { chatUserHasTokenNotificationDM } from './methods/chatUserHasTokenNotificationDM'
+import { cleanChatMessagesDM } from './methods/cleanChatMessagesDM'
+import { createNewUserDM } from './methods/createNewUserDM'
+import { existsOnDatabaseDM } from './methods/existsOnDatabaseDM'
+import { filterInvalidMessagesDM } from './methods/filterInvalidMessagesDM'
+import { generateNewMessageObjectDM } from './methods/generateNewMessageObjectDM'
+import { getRemoteChatDataByUserDM } from './methods/getRemoteChatDataByUserDM'
+import { getRemoteUserDataDM } from './methods/getRemoteUserDataDM'
+import { getUserChatIdsDM } from './methods/getUserChatIdsDM'
+import { getUserChatsDM } from './methods/getUserChatsDM'
+import { hasBlockedUserOnConversationDM } from './methods/hasBlockedUserOnConversationDM'
+import { makeAllUserMessagesAsReadDM } from './methods/makeAllMessagesAsReadDM'
+import { addNotificationListenerDM, removeNotificationListenerDM } from './methods/notificationListenersDM'
+import { registerNewChatDM } from './methods/registerNewChatDM'
+import { registerPushNotificationDM } from './methods/registerPushNotificationDM'
+import { sendMessageDM } from './methods/sendMessageDM'
+import { setChatIdForUsersDM } from './methods/setChatIdForUsersDM'
+import { startUserChatIdsListenerDM } from './methods/startUserChatIdsListenerDM'
+import { startUserChatListenersDM } from './methods/startUserChatListenersDM'
+import { unblockUserByIdDM } from './methods/unblockUserByIdDM'
+import { unsubscribeChatIdsListenerDM } from './methods/unsubscribeChatIdsListenerDM'
+import { unsubscribeChatMessagesListenerDM } from './methods/unsubscribeChatMessagesListenerDM'
+import { unsubscribeUserChatsListenerDM } from './methods/unsubscribeUserChatsListenerDM'
+import { updateChatCompletedStateDM } from './methods/updateChatCompletedStateDM'
+import { updateProfilePictureOnConversationsDM } from './methods/updateProfilePictureOnConversationsDM'
+import { updateUserTokenNotificationDM } from './methods/updateUserTokenNotificationDM'
 
 function useChatDomain(): ChatDomainInterface {
 	return {
-		existsOnDatabase: existsOnDatabaseUC,
-		getUserChatIds: getUserChatIdsUC,
-		getUserChats: getUserChatsUC,
-		getRemoteUserData: getRemoteUserDataUC,
-		getRemoteChatDataByUser: getRemoteChatDataByUserUC,
-		createNewUser: createNewUserUC,
-		registerNewChat: registerNewChatUC,
-		setChatIdForUsers: setChatIdForUsersUC,
-		generateNewMessageObject: generateNewMessageObjectUC,
-		sendMessage: sendMessageUC,
-		cleanChatMessages: cleanChatMessagesUC,
-		makeAllUserMessagesAsRead: makeAllUserMessagesAsReadUC,
-		updateProfilePictureOnConversations: updateProfilePictureOnConversationsUC,
-		updateChatCompletedState: updateChatCompletedStateUC,
-		blockUserById: blockUserByIdUC,
-		unblockUserById: unblockUserByIdUC,
-		startUserChatIdsListener: startUserChatIdsListenerUC,
-		startUserChatListeners: startUserChatListenersUC,
-		unsubscribeUserChatIdsListener: unsubscribeChatIdsListenerUC,
-		unsubscribeUserChatsListener: unsubscribeUserChatsListenerUC,
-		unsubscribeChatMessagesListener: unsubscribeChatMessagesListenerUC,
-		chatUserHasTokenNotification: chatUserHasTokenNotificationUC,
-		updateUserTokenNotification: updateUserTokenNotificationUC,
-		hasBlockedUserOnConversation: hasBlockedUserOnConversationUC,
+		existsOnDatabase: existsOnDatabaseDM,
+		getUserChatIds: getUserChatIdsDM,
+		getUserChats: getUserChatsDM,
+		getRemoteUserData: getRemoteUserDataDM,
+		getRemoteChatDataByUser: getRemoteChatDataByUserDM,
+		createNewUser: createNewUserDM,
+		registerNewChat: registerNewChatDM,
+		setChatIdForUsers: setChatIdForUsersDM,
+		generateNewMessageObject: generateNewMessageObjectDM,
+		sendMessage: sendMessageDM,
+		cleanChatMessages: cleanChatMessagesDM,
+		makeAllUserMessagesAsRead: makeAllUserMessagesAsReadDM,
+		updateProfilePictureOnConversations: updateProfilePictureOnConversationsDM,
+		updateChatCompletedState: updateChatCompletedStateDM,
+		blockUserById: blockUserByIdDM,
+		unblockUserById: unblockUserByIdDM,
+		startUserChatIdsListener: startUserChatIdsListenerDM,
+		startUserChatListeners: startUserChatListenersDM,
+		unsubscribeUserChatIdsListener: unsubscribeChatIdsListenerDM,
+		unsubscribeUserChatsListener: unsubscribeUserChatsListenerDM,
+		unsubscribeChatMessagesListener: unsubscribeChatMessagesListenerDM,
+		chatUserHasTokenNotification: chatUserHasTokenNotificationDM,
+		updateUserTokenNotification: updateUserTokenNotificationDM,
+		hasBlockedUserOnConversation: hasBlockedUserOnConversationDM,
 
-		registerPushNotification: registerPushNotificationUC,
-		addNotificationListener: addNotificationListenerUC,
-		removeNotificationListener: removeNotificationListenerUC,
+		registerPushNotification: registerPushNotificationDM,
+		addNotificationListener: addNotificationListenerDM,
+		removeNotificationListener: removeNotificationListenerDM,
 
-		filterInvalidMessages: filterInvalidMessagesUC,
-		conversationsIsValidToSort: conversationsIsValidToSortUC,
+		filterInvalidMessages: filterInvalidMessagesDM,
+		conversationsIsValidToSort: conversationsIsValidToSortDM,
 	}
 }
 

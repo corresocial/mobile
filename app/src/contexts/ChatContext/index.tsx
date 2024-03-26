@@ -148,8 +148,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 		removeChatListeners
 	})
 
-	// REFACTOR useMemo
-
 	return (
 		<ChatContext.Provider value={chatProviderData as any} >
 			{children}

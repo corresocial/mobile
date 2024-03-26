@@ -1,21 +1,21 @@
-import { getNisFromLocalRepositoryUC } from './methods/getNisFromLocalRepositoryUC'
-import { setNisOnLocalRepositoryUC } from './methods/setNisOnLocalRepositoryUC'
-import { setSmasPushNotificationStateUC } from './methods/setSmasPushNotificationStateUC'
-import { smasNisHasLinkedWithUserUC } from './methods/smasNisHasLinkedWithUser'
-import { treatSmasApiResponseUC } from './methods/treatSmasApiResponseUC'
-import { validateNameUC } from './methods/validateNameUC'
-import { validateNISUC } from './methods/validateNISUC'
+import { getNisFromLocalRepositoryDM } from './methods/getNisFromLocalRepositoryDM'
+import { setNisOnLocalRepositoryDM } from './methods/setNisOnLocalRepositoryDM'
+import { setSmasPushNotificationStateDM } from './methods/setSmasPushNotificationStateDM'
+import { smasNisHasLinkedWithUserDM } from './methods/smasNisHasLinkedWithUserDM'
+import { treatSmasApiResponseDM } from './methods/treatSmasApiResponseDM'
+import { validateNameDM } from './methods/validateNameDM'
+import { validateNISDM } from './methods/validateNISDM'
 import { SmasDomainInterface } from './SmasDomainInterface'
 
 function useSmasDomain(): SmasDomainInterface {
 	return {
-		validateNIS: validateNISUC,
-		validateName: validateNameUC,
-		treatSmasApiResponse: treatSmasApiResponseUC,
-		setNisOnLocalRepository: setNisOnLocalRepositoryUC,
-		getNisFromLocalRepository: getNisFromLocalRepositoryUC,
-		smasNisHasLinkedWithUser: smasNisHasLinkedWithUserUC,
-		setSmasPushNotificationState: setSmasPushNotificationStateUC
+		validateNIS: validateNISDM,
+		validateName: validateNameDM,
+		treatSmasApiResponse: treatSmasApiResponseDM,
+		setNisOnLocalRepository: setNisOnLocalRepositoryDM,
+		getNisFromLocalRepository: getNisFromLocalRepositoryDM,
+		smasNisHasLinkedWithUser: smasNisHasLinkedWithUserDM,
+		setSmasPushNotificationState: setSmasPushNotificationStateDM
 	}
 }
 
