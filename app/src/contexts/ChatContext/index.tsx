@@ -3,12 +3,11 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { useQueryClient } from '@tanstack/react-query'
 
 import { Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
 import { Id } from '@domain/globalTypes'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { MutableObjectReference } from '@services/pushNotification/types'
-
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { AuthContext } from '../AuthContext'
 
@@ -24,7 +23,7 @@ const {
 	registerPushNotification,
 	addNotificationListener,
 	removeNotificationListener
-} = ChatAdapter()
+} = useChatDomain()
 
 const initialValue = {
 	chatDataContext: [],

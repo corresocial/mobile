@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import { ListRenderItem, ListRenderItemInfo, ScrollView, TextInput } from 'react-native'
 
 import { MessageObjects, ChatUserIdentification, Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
 import { Id } from '@domain/globalTypes'
 
 import { AlertContext } from '@contexts/AlertContext/index'
@@ -31,8 +32,6 @@ import LoupIcon from '@assets/icons/loup-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ConversationCard } from '@components/_cards/ConversationCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
@@ -51,7 +50,7 @@ const {
 	getConversationProfilePicture
 } = UiChatUtils()
 
-const { filterInvalidMessages, conversationsIsValidToSort } = ChatAdapter()
+const { filterInvalidMessages, conversationsIsValidToSort } = useChatDomain()
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

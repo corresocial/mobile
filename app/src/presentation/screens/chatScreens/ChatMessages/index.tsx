@@ -6,6 +6,7 @@ import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
 
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
@@ -23,7 +24,6 @@ import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -58,7 +58,7 @@ const {
 	blockUserById,
 	unblockUserById,
 	hasBlockedUserOnConversation,
-} = ChatAdapter()
+} = useChatDomain()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

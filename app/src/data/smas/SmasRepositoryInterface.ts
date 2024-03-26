@@ -1,6 +1,6 @@
 interface SmasRepositoryInterface {
 	localStorage: {
-		getNisValue: () => Promise<string | null>
+		getNisValue: () => Promise<string>
 		saveNisValue: (nis: string) => Promise<boolean>
 		clearNisValue: () => Promise<boolean>
 	}

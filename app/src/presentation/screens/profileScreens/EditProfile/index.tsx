@@ -4,6 +4,8 @@ import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
+
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -24,8 +26,6 @@ import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { EditCard } from '@components/_cards/EditCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -37,7 +37,7 @@ const { localStorage, remoteStorage } = useUserRepository()
 const { remoteStorage: remotePostStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
-const { updateProfilePictureOnConversations } = ChatAdapter()
+const { updateProfilePictureOnConversations } = useChatDomain()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)

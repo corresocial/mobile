@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { SmasContext } from '@contexts/SmasContext'
@@ -13,8 +15,6 @@ import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
@@ -22,7 +22,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-const { setNisOnLocalRepository } = SmasAdapter()
+const { setNisOnLocalRepository } = useSmasDomain()
 
 function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 	const { setSmasDataOnContext } = useContext(SmasContext)
@@ -93,15 +93,17 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 			</DefaultHeaderContainer>
 			< FormContainer backgroundColor={theme.white3}>
 				{
-					status === 200 && !nisIsSaved && (
-						<PrimaryButton
-							color={theme.red3}
-							label={'não, obrigado'}
-							labelColor={theme.white3}
-							SvgIcon={XWhiteIcon}
-							onPress={backToInicialStackScreen}
-						/>
-					)
+					status === 200 && !nisIsSaved
+						? (
+							<PrimaryButton
+								color={theme.red3}
+								label={'não, obrigado'}
+								labelColor={theme.white3}
+								SvgIcon={XWhiteIcon}
+								onPress={backToInicialStackScreen}
+							/>
+						)
+						: <></>
 				}
 				<PrimaryButton
 					color={theme.green3}

@@ -11,10 +11,10 @@ async function getNisValue() {
 			return storedNisObject.nis
 		}
 
-		return null
+		return ''
 	} catch (error) {
 		console.log(error)
-		return null
+		return ''
 	}
 }
 

@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
+
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -32,8 +34,6 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
@@ -44,7 +44,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 const { localStorage } = useUserRepository()
 const { localStorage: localPostsStorage } = usePostRepository()
 
-const { updateUserTokenNotification } = ChatAdapter()
+const { updateUserTokenNotification } = useChatDomain()
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)

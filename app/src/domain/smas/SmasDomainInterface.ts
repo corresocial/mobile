@@ -3,7 +3,7 @@ import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from
 
 import { SmasRepositoryInterface } from '@data/smas/SmasRepositoryInterface'
 
-interface SmasAdapterInterface {
+interface SmasDomainInterface {
 	validateNIS: (NISValue: string) => boolean
 	validateName: (name: string) => boolean
 	treatSmasApiResponse: (apiResponse: any, smasService: SmasService) => QueryBeeResult | QueryPbfResult | QueryCadunicoResult | { nisNotFound: boolean }
@@ -13,4 +13,4 @@ interface SmasAdapterInterface {
 	setSmasPushNotificationState: (state: boolean, nis: string, userId: Id, useSmasRepository: () => SmasRepositoryInterface) => Promise<void>
 }
 
-export { SmasAdapterInterface }
+export { SmasDomainInterface }

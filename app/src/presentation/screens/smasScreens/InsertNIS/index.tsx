@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/smas/entity/types'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 
@@ -11,13 +12,11 @@ import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFuncti
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 const { getBenefitDataSmasByNis } = useCloudFunctionService()
-const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = SmasAdapter()
+const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = useSmasDomain()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const [isLoading, setIsLoading] = React.useState(false)

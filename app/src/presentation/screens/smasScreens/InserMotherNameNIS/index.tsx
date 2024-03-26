@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { SmasRecoveryNISData } from '@domain/smas/entity/types'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
 import { SmasContext } from '@contexts/SmasContext'
 
@@ -11,11 +12,9 @@ import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFuncti
 
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateName } = SmasAdapter()
+const { validateName } = useSmasDomain()
 
 const { getNisByUserData } = useCloudFunctionService()
 

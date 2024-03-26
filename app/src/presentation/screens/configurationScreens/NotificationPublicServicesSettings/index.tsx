@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
 import { Id } from '@domain/globalTypes'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -19,8 +20,6 @@ import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { BackButton } from '@components/_buttons/BackButton'
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { HeaderLinkCard } from '@components/_cards/HeaderLinkCard'
@@ -31,7 +30,7 @@ import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
 
-const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = SmasAdapter()
+const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = useSmasDomain()
 
 function NotificationPublicServicesSettings({ navigation }: NotificationPublicServicesSettingsScreenProps) {
 	const { pushNotificationEnabled, chatUserHasTokenNotification } = useContext(ChatContext)

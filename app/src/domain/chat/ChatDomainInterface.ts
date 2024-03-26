@@ -6,7 +6,7 @@ import { ChatRepositoryInterface } from '@data/chat/ChatRepositoryInterface'
 
 import { MutableObjectReference } from '@services/pushNotification/types'
 
-interface ChatAdapterInterface {
+interface ChatDomainInterface {
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
@@ -41,4 +41,4 @@ interface ChatAdapterInterface {
 	conversationsIsValidToSort(firstConversation: Chat, secondConversation: Chat): boolean
 }
 
-export { ChatAdapterInterface }
+export { ChatDomainInterface }
