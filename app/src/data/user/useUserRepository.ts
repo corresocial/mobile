@@ -1,5 +1,6 @@
 import { clearLocalUserData } from './localRepository/deleteLocalUser'
 import { getLocalUserData } from './localRepository/getLocalUserData'
+import { hasValidLocalUser } from './localRepository/hasValidLocalUser'
 import { saveLocalUserData } from './localRepository/saveLocalUserData'
 import { deleteUserData } from './remoteRepository/deleteUserData'
 import { deleteUserProfilePicture } from './remoteRepository/deleteUserProfilePicture'
@@ -18,6 +19,7 @@ function useUserRepository(): UserRepositoryInterface {
 			getLocalUserData: getLocalUserData,
 			saveLocalUserData: saveLocalUserData,
 			clearLocalUserData: clearLocalUserData,
+			hasValidLocalUser: hasValidLocalUser
 		},
 
 		remoteStorage: {

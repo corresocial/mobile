@@ -76,7 +76,6 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	const redirectToApp = async () => {
 		try {
 			const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
-
 			if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
 			await setRemoteUserOnLocal(localUser.userId, localUser)

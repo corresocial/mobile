@@ -1,4 +1,4 @@
-import { AuthCredential, OAuthCredential, PhoneAuthCredential, User } from 'firebase/auth'
+import { ApplicationVerifier, AuthCredential, OAuthCredential, PhoneAuthCredential, User, UserCredential } from 'firebase/auth'
 
 type UnknowFunction = any
 
@@ -7,6 +7,8 @@ interface AuthenticationServiceInterface {
 
 	generatePhoneAuthCredential: (verificationCodeId: string, verificationCode: string) => Promise<PhoneAuthCredential>
 	generateGoogleAuthCredential: (accessTokenId: string) => OAuthCredential
+	getPhoneVerificationCodeId: (completeNumber: string, recaptchaVerifier: ApplicationVerifier | any) => Promise<string>
+	validatePhoneVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
 
 	signInByGoogleCredential: (googleCredential: OAuthCredential) => Promise<{ email: string, userId: string }>
 	linkAuthProvider: (credential: AuthCredential) => Promise<User>

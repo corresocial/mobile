@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, ServiceCategories, IncomeCollection } from '@domain/post/entity/types'
+import { PostCollection, ServiceCategories, IncomeCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -45,9 +45,9 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: any = { // TODO Type
-		userId: userDataContext.userId,
-		name: userDataContext.name,
+	const owner: PostCollectionCommonFields['owner'] = {
+		userId: userDataContext.userId as string,
+		name: userDataContext.name as string,
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 

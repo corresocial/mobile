@@ -87,7 +87,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 			}
 		}) */
 
-		navigateToScreen('SelectSubscriptionRange' as any) // TODO Type
+		navigateToScreen('SelectSubscriptionRange')
 	}
 
 	const shareMessage = () => {

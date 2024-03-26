@@ -6,6 +6,7 @@ import { StatusBar } from 'react-native'
 import { UserCredential } from 'firebase/auth'
 
 import { Id } from '@domain/post/entity/types'
+import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -54,7 +55,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const [tokenGoogle, setTokenGoogle] = useState<string | undefined>()
-	const [userPrivateContacts, setUserPrivateContacts] = useState({ cellNumber: '', email: '' })
+	const [userPrivateContacts, setUserPrivateContacts] = useState<PrivateUserEntity['contacts']>({ cellNumber: '', email: '' })
 	// eslint-disable-next-line no-unused-vars
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
 		projectNameForProxy: '@corresocial/corresocial'
@@ -80,7 +81,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	const loadPrivateContacts = async () => {
 		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId as Id)
-		setUserPrivateContacts(userContacts as any) // TODO Type
+		setUserPrivateContacts(userContacts as PrivateUserEntity['contacts'])
 	}
 
 	useEffect(() => {

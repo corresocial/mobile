@@ -118,7 +118,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						onPress={() => navigation.navigate('CultureStack')}
 					/>
 					{
-						!!numberOfOfflinePostsStored && (
+						numberOfOfflinePostsStored ? (
 							<OptionButton
 								label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
 								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
@@ -131,7 +131,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 								svgIconScale={['70%', '70%']}
 								onPress={() => navigation.navigate('OfflinePostsManagement')}
 							/>
-						)
+						) : <></>
 					}
 				</FormContainer>
 				<SubtitleCard

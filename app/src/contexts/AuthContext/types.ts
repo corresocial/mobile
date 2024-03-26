@@ -1,7 +1,5 @@
 import { ReactNode } from 'react'
 
-import { UserCredential } from 'firebase/auth'
-
 import { PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
@@ -35,9 +33,6 @@ export interface LocalUserData extends UserEntity {
 export type AuthContextType = {
 	userDataContext: UserData
 	setUserDataOnContext: (data: UserData) => void
-	hasValidLocalUser: () => Promise<boolean>
 	setRemoteUserOnLocal: (uid?: string, userData?: UserData) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection
-	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
-	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
 }

@@ -4,10 +4,14 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { UserCredential } from 'firebase/auth'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { UserIdentification } from '@contexts/AuthContext/types'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
+
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -23,8 +27,10 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
+const { phoneVerificationCodeIsValid } = useUserDomain()
+
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -134,7 +140,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				const { cellNumber } = route.params
 				const verificationCodeId = route.params.verificationCodeId as string
 
-				await validateVerificationCode(verificationCodeId, completeCode)
+				await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId, completeCode)
 					.then(async (userCredential: UserCredential) => {
 						const userIdentification = await extractUserIdentification(userCredential)
 						const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
@@ -171,10 +177,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		if (errorCode === 'auth/code-expired') {
 			return setExpiredCodeAfterSubmit(true)
 		}
-		if (errorCode === 'auth/invalid-verification-code') {
-			return setInvalidCodeAfterSubmit(true)
-		}
-		if (errorCode === 'auth/invalid-verification-id') {
+		if (errorCode === 'auth/invalid-verification-code' || errorCode === 'auth/invalid-verification-code') {
 			return setInvalidCodeAfterSubmit(true)
 		}
 		setHasServerSideError(true)

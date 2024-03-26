@@ -3,28 +3,28 @@ import * as React from 'react'
 import { WebView } from 'react-native-webview'
 
 interface Props extends React.ComponentProps<typeof WebView> {
-  firebaseConfig?: FirebaseOptions;
-  firebaseVersion?: string;
-  appVerificationDisabledForTesting?: boolean;
-  languageCode?: string;
-  onLoad?: () => any;
-  onError?: () => any;
-  onVerify: (token: string) => any;
-  onFullChallenge?: () => any;
-  invisible?: boolean;
-  verify?: boolean;
+	firebaseConfig?: FirebaseOptions;
+	firebaseVersion?: string;
+	appVerificationDisabledForTesting?: boolean;
+	languageCode?: string;
+	onLoad?: () => any;
+	onError?: () => any;
+	onVerify: (token: string) => any;
+	onFullChallenge?: () => any;
+	invisible?: boolean;
+	verify?: boolean;
 }
 
 type FirebaseOptions = {
-    appId?: string | undefined;
-    apiKey?: string | undefined;
-    databaseURL?: string | undefined;
-    trackingId?: string | undefined;
-    messagingSenderId?: string | undefined;
-    storageBucket?: string | undefined;
-    projectId?: string | undefined;
-    authDomain?: string | undefined;
-    measurementId?: string | undefined;
+	appId?: string | undefined;
+	apiKey?: string | undefined;
+	databaseURL?: string | undefined;
+	trackingId?: string | undefined;
+	messagingSenderId?: string | undefined;
+	storageBucket?: string | undefined;
+	projectId?: string | undefined;
+	authDomain?: string | undefined;
+	measurementId?: string | undefined;
 }
 
 function getWebviewSource(
@@ -61,9 +61,9 @@ function getWebviewSource(
 	</style>
 </head>
 <body>
-	${invisible
-		? '<button id="recaptcha-btn" type="button" onclick="onClickButton()">Confirm reCAPTCHA</button>'
-		: '<div id="recaptcha-cont" class="g-recaptcha"/></div>'}
+${invisible
+				? '<button id="recaptcha-btn" type="button" onclick="onClickButton()">Confirm reCAPTCHA</button>'
+				: '<div id="recaptcha-cont" class="g-recaptcha"/></div>'}
 <script>
 var fullChallengeTimer;
 function onVerify(token) {
@@ -177,7 +177,6 @@ function CustomRecaptcha(props: Props) {
 				true;
 				`)
 		}
-		return () => { console.log('Empty return') }
 	}, [webview, verify, loaded])
 
 	validateFirebaseConfig(firebaseConfig)

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, PostCollectionCommonFields, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -47,9 +47,9 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: any = { // TODO Type
-		userId: userDataContext.userId,
-		name: userDataContext.name,
+	const owner: PostCollectionCommonFields['owner'] = {
+		userId: userDataContext.userId as string,
+		name: userDataContext.name as string,
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 

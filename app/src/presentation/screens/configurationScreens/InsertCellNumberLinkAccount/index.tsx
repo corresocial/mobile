@@ -1,7 +1,7 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Animated, StatusBar, Platform, TextInput } from 'react-native'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { InsertCellNumberLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
@@ -22,6 +22,8 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
+
+const { requestPhoneVerificationCode } = useUserDomain()
 
 const { checkUserPhoneAlreadyRegistredCloud } = useCloudFunctionService()
 
@@ -47,8 +49,6 @@ const headerMessages = {
 }
 
 export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNumberLinkAccountScreenProps) {
-	const { sendSMS } = useContext(AuthContext)
-
 	const recaptchaVerifier = React.useRef(null)
 
 	const [DDD, setDDD] = useState<string>('')
@@ -133,7 +133,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
 
-		await sendSMS(currentCellNumber, recaptchaVerifier.current)
+		await requestPhoneVerificationCode(currentCellNumber, recaptchaVerifier.current)
 			.then((verificationCodeId) => {
 				navigation.navigate('InsertConfirmationCodeLinkAccount', {
 					cellNumber: currentCellNumber, verificationCodeId

@@ -17,23 +17,23 @@ import { CustomRecaptcha } from './CustomRecaptcha'
 interface FirebaseAuthApplicationVerifier {
 	readonly type: string;
 	verify(): Promise<string>;
-  }
+}
 
 interface Props
-  extends Omit<React.ComponentProps<typeof CustomRecaptcha>, 'onVerify' | 'invisible' | 'verify' | 'onVerify' | 'onLoad' | 'onError' | 'onFullChallenge'> {
-  title?: string;
-  cancelLabel?: string;
-  attemptInvisibleVerification?: boolean;
+	extends Omit<React.ComponentProps<typeof CustomRecaptcha>, 'onVerify' | 'invisible' | 'verify' | 'onVerify' | 'onLoad' | 'onError' | 'onFullChallenge'> {
+	title?: string;
+	cancelLabel?: string;
+	attemptInvisibleVerification?: boolean;
 }
 
 interface State {
-  visible: boolean;
-  visibleLoaded: boolean;
-  invisibleLoaded: boolean;
-  invisibleVerify: boolean;
-  invisibleKey: number;
-  resolve?: (token: string) => void;
-  reject?: (error: Error) => void;
+	visible: boolean;
+	visibleLoaded: boolean;
+	invisibleLoaded: boolean;
+	invisibleVerify: boolean;
+	invisibleKey: number;
+	resolve?: (token: string) => void;
+	reject?: (error: Error) => void;
 }
 
 class CustomRecaptchaModal
@@ -87,7 +87,7 @@ class CustomRecaptchaModal
 		})
 	}
 
-	_reset(...args: any): void { console.log('Reset') }
+	_reset(...args: any): void { }
 
 	private onVisibleLoad = () => {
 		this.setState({ visibleLoaded: true, })
@@ -128,7 +128,7 @@ class CustomRecaptchaModal
 
 	cancel = () => {
 		const { reject } = this.state
-		if (reject) {	reject(new CodedError('ERR_FIREBASE_RECAPTCHA_CANCEL', 'Cancelled by user')) }
+		if (reject) { reject(new CodedError('ERR_FIREBASE_RECAPTCHA_CANCEL', 'Cancelled by user')) }
 		this.setState({ visible: false, })
 	}
 

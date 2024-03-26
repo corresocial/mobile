@@ -22,11 +22,12 @@ import { theme } from '@common/theme'
 import { CustomModal } from '@components/_modals/CustomModal'
 
 const { getLocalUserData, getLocalUserDataWithDeviceAuth } = useUserDomain()
+const { localStorage } = useUserRepository()
 
 function Splash({ navigation }: SplashScreenProps) {
 	const { checkCacheImageValidation } = useCacheRepository()
 
-	const { hasValidLocalUser, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
@@ -78,7 +79,7 @@ function Splash({ navigation }: SplashScreenProps) {
 
 	const redirectToApp = async () => {
 		try {
-			const hasLocalUser = await hasValidLocalUser()
+			const hasLocalUser = await localStorage.hasValidLocalUser()
 
 			if (hasLocalUser) {
 				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)

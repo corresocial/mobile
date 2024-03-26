@@ -5,6 +5,7 @@ interface UserRepositoryInterface {
 		getLocalUserData: () => Promise<UserEntity | null>
 		saveLocalUserData: (data: UserEntity) => Promise<boolean>
 		clearLocalUserData: () => Promise<boolean>
+		hasValidLocalUser: () => Promise<boolean>
 	}
 
 	remoteStorage: {
