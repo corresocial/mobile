@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { DaysOfWeek } from '@services/firebase/types'
+import { DaysOfWeek } from '@domain/post/entity/types'
 
 import {
 	Container,

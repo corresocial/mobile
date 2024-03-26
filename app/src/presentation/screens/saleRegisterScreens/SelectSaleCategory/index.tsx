@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { SaleContext } from '@contexts/SaleContext'
 
 import { SelectSaleCategoryScreenProps } from '@routes/Stack/SaleStack/screenProps'
-import { SaleCategories } from '@services/firebase/types'
+import { SaleCategories } from '@domain/post/entity/types'
 
 import { saleCategories } from '@utils/postsCategories/saleCategories'
 

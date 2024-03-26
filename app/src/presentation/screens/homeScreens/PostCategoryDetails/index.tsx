@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 
+import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -70,7 +71,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const getFiltredCategoryTags = () => {
-		const allTags = [...categoryTags]
+		const allTags = [...categoryTags as string[]]
 
 		if (!searchText) {
 			return allTags
@@ -85,7 +86,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const hasAnyFilteredCategory = () => {
-		const allTags = [...categoryTags, ...getFeedPostsTags()]
+		const allTags = [...categoryTags as string[], ...getFeedPostsTags()]
 		const filtredTags = allTags
 			.filter((tag, index, array) => filterTag(tag, searchText) && array.indexOf(tag) === index)
 		return filtredTags.length

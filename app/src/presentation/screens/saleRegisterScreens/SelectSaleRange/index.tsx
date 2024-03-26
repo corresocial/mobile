@@ -7,7 +7,7 @@ import { SaleContext } from '@contexts/SaleContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSaleRangeScreenProps } from '@routes/Stack/SaleStack/screenProps'
-import { PostRange as PostRangeType } from '@services/firebase/types'
+import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

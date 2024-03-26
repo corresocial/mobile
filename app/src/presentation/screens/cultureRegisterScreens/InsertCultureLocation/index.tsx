@@ -6,7 +6,7 @@ import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/screenProps'
-import { Coordinates, PostCollection } from '@services/firebase/types'
+import { Coordinates, PostCollection } from '@domain/post/entity/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

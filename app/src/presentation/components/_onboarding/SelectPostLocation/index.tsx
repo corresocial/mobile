@@ -4,7 +4,7 @@ import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, Statu
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
-import { Coordinates, LatLong } from '@services/firebase/types'
+import { Coordinates, LatLong } from '@domain/post/entity/types'
 
 import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { PaymentType } from '@services/firebase/types'
+import { PaymentType } from '@domain/post/entity/types'
 
 import { ButtonsContainer, Container } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'

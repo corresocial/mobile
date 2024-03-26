@@ -5,7 +5,7 @@ import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactRepeatScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
-import { EventRepeatType } from '@services/firebase/types'
+import { EventRepeatType } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

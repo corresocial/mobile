@@ -3,6 +3,7 @@ import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { Id, PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -13,7 +14,6 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-import { Id, PostCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 

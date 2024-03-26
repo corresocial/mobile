@@ -12,7 +12,7 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
-import { Id } from '@services/firebase/types'
+import { Id } from '@domain/post/entity/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

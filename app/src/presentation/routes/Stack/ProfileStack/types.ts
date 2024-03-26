@@ -5,7 +5,7 @@ import { UserData } from '@contexts/AuthContext/types'
 import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
 import { DiscordContactUsType } from '@services/discord/types/contactUs'
-import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '@services/firebase/types'
+import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '@domain/post/entity/types'
 import { ReportedTarget } from '@services/types'
 
 export type ProfileStackParamList = {

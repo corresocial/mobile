@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { DeliveryMethod } from '@services/firebase/types'
+import { DeliveryMethod } from '@domain/post/entity/types'
 
 import { Container, ButtonsContainer } from './styles'
 import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'

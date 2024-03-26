@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCultureDaysOfWeekScreenProps } from '@routes/Stack/CultureStack/screenProps'
-import { DaysOfWeek } from '@services/firebase/types'
+import { DaysOfWeek } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

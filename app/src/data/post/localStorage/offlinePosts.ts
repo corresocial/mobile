@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { LOCAL_OFFLINE_POSTS_REPOSITORY_KEY } from '@data/localStorageKeys'
+import { PostCollection } from '@domain/post/entity/types'
 
-import { PostCollection } from '@services/firebase/types'
+import { LOCAL_OFFLINE_POSTS_REPOSITORY_KEY } from '@data/localStorageKeys'
 
 async function getOfflinePosts() {
 	try {

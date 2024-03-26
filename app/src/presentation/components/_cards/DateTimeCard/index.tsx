@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
-import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@services/firebase/types'
+import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { WeekdaysFrequency } from '@services/firebase/types'
+import { WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { ButtonsContainer, Container } from './styles'
 import CalendarBusinessDay from '@assets/icons/calendarBusinessDay-white.svg'

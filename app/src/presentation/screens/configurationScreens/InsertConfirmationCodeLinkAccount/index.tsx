@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { Id } from '@domain/post/entity/types'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id } from '@services/firebase/types'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 

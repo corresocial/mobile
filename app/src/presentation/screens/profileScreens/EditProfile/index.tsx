@@ -16,7 +16,7 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
-import { Id, PostCollection } from '@services/firebase/types'
+import { Id, PostCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'

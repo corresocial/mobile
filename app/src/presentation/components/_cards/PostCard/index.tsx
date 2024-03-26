@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { PostCollection, PostCollectionCommonFields } from '@services/firebase/types'
+import { PostCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 

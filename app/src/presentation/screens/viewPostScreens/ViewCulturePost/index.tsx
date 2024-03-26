@@ -11,7 +11,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, Id, PostCollection } from '@services/firebase/types'
+import { CultureCategories, CultureCollection, CultureCollectionRemote, Id, PostCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'

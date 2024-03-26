@@ -2,10 +2,11 @@ import React, { createContext, useState } from 'react'
 
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 
+import { PostCollection } from '@domain/post/entity/types'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps, UserData } from './types'
-import { PostCollection } from '@services/firebase/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

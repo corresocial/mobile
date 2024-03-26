@@ -7,7 +7,7 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditVacancyPostReviewScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
+import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

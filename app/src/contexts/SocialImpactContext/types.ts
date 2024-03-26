@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { SocialImpactCollection } from '@services/firebase/types'
+import { SocialImpactCollection } from '@domain/post/entity/types'
 
 export interface SocialImpactProviderProps {
 	children: ReactNode

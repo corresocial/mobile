@@ -1,5 +1,5 @@
 import { UserStackParamList } from '../UserStack/types'
-import { CultureCategories, CultureCollectionRemote, DaysOfWeek, LatLong, LocationViewType, PostRange } from '@services/firebase/types'
+import { CultureCategories, CultureCollectionRemote, DaysOfWeek, LatLong, LocationViewType, PostRange } from '@domain/post/entity/types'
 
 export type CultureStackParamList = {
 	SelectCultureType: { editMode: boolean } | undefined

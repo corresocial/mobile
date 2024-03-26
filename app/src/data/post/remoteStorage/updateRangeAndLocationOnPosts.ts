@@ -1,6 +1,6 @@
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 
 import { updatePostData } from './updatePostData' // from data/post
 

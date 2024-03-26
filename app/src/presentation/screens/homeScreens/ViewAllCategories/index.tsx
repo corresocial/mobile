@@ -3,10 +3,11 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
+import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+
 import { LocationContext } from '@contexts/LocationContext'
 
 import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'

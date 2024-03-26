@@ -7,7 +7,7 @@ import { LocationContext } from '@contexts/LocationContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
-import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
+import { PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'

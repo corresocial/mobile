@@ -11,7 +11,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
+import { Id, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'

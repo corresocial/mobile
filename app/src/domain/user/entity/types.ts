@@ -1,4 +1,4 @@
-import { PostCollection, PostRange } from '@services/firebase/types'
+import { PostCollection, PostRange } from '@domain/post/entity/types'
 
 export type UserEntity = {
 	userId?: string
@@ -12,7 +12,6 @@ export type UserEntity = {
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
-	newUser?: boolean
 	private?: PrivateUserEntity
 }
 

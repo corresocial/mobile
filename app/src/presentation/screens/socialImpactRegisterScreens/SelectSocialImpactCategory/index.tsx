@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactCategoryScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
-import { SocialImpactCategories } from '@services/firebase/types'
+import { SocialImpactCategories } from '@domain/post/entity/types'
 
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 

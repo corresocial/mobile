@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { EventRepeatType } from '@services/firebase/types'
+import { EventRepeatType } from '@domain/post/entity/types'
 
 import { Container, ButtonsContainer } from './styles'
 import CalendarBiweeklyWhiteIcon from '@assets/icons/calendarBiweekly-white.svg'

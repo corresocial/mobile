@@ -4,7 +4,7 @@ import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
 import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/screenProps'
-import { ItemStatus } from '@services/firebase/types'
+import { ItemStatus } from '@domain/post/entity/types'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'
 import UsedLabelWhiteIcon from '@assets/icons/usedLabel-white.svg'

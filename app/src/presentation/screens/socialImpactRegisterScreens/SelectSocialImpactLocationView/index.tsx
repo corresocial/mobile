@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactLocationViewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
-import { LocationViewType } from '@services/firebase/types'
+import { LocationViewType } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

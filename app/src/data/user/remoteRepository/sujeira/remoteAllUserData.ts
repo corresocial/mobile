@@ -6,7 +6,7 @@ import { deletePost } from '@data/post/remoteStorage/deletePost' // from data/po
 import { deletePostPictures } from '@data/post/remoteStorage/deletePostPictures' // from data/post
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

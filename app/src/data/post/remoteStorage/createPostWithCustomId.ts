@@ -1,6 +1,6 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { PostCollection, PostType } from '@services/firebase/types'
+import { PostCollection, PostType } from '@domain/post/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 

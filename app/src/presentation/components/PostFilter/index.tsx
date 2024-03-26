@@ -3,7 +3,7 @@ import uuid from 'react-uuid'
 
 import { PostType } from '@domain/post/entity/types'
 
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { postMacroCategories } from '@utils/postMacroCategories'

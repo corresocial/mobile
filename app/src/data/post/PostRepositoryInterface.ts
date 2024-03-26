@@ -1,7 +1,5 @@
-import { PostType } from '@domain/post/entity/types'
+import { PostType, PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
-
-import { PostCollection } from '@services/firebase/types'
 
 import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
 

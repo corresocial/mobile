@@ -4,6 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardForm } from '@stripe/stripe-react-native'
 
+import { Id, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
 import { UserSubscription } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -13,7 +14,6 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { Id, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 

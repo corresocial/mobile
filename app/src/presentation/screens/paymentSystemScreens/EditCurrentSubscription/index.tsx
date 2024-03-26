@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { Id, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 import { UserSubscription } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -11,7 +12,6 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { Id, PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { NewHomePostType } from '@services/firebase/types'
+import { NewHomePostType } from '@domain/post/entity/types'
 import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { postMacroCategories } from '@utils/postMacroCategories'

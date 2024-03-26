@@ -5,7 +5,7 @@ import uuid from 'react-uuid'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { ViewAllTagsScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 

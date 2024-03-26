@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { SelectVacancyLocationViewScreenProps } from '@routes/Stack/VacancyStack/screenProps'
-import { LocationViewType } from '@services/firebase/types'
+import { LocationViewType } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

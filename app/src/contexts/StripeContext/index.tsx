@@ -7,13 +7,13 @@ import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
 import { Id } from '@domain/globalTypes'
+import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
 import { SubscriptionPlan, UserSubscription } from '@domain/user/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
-import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'

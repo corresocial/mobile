@@ -1,8 +1,9 @@
 import React, { createContext, useMemo, useState } from 'react'
 
+import { NewHomePostType } from '@domain/post/entity/types'
+
 import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
 import { LocationContextType, LocationData, LocationProviderProps } from './types'
-import { NewHomePostType } from '@services/firebase/types'
 
 import QuestionMarkIcon from '@assets/icons/questionMark-white.svg'
 

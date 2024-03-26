@@ -1,4 +1,4 @@
-import { MacroCategory, PostCollectionRemote } from '@services/firebase/types'
+import { MacroCategory, PostCollectionRemote } from '@domain/post/entity/types'
 
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
 

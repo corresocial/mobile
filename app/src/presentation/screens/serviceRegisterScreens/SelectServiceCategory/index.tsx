@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ServiceContext } from '@contexts/ServiceContext'
 
 import { SelectServiceCategoryScreenProps } from '@routes/Stack/ServiceStack/screenProps'
-import { ServiceCategories } from '@services/firebase/types'
+import { ServiceCategories } from '@domain/post/entity/types'
 
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 

@@ -3,7 +3,7 @@ import React, { createContext, useCallback, useMemo, useState, useContext } from
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { SubscriptionContextType, SubscriptionData, SubscriptionProviderProps } from './types'
-import { Id, PostRange } from '@services/firebase/types'
+import { Id, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '../AuthContext'
 

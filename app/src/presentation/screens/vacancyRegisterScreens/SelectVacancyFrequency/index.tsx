@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectVacancyFrequencyScreenProps } from '@routes/Stack/VacancyStack/screenProps'
-import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
+import { DaysOfWeek, WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

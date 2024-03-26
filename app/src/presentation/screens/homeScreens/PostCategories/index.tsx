@@ -3,12 +3,14 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
+import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -45,7 +47,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 
 	const { postType, macroCategory } = locationDataContext.searchParams
-	const { backgroundColor, inactiveColor } = locationDataContext.currentCategory
+	const { inactiveColor, backgroundColor } = locationDataContext.currentCategory
 
 	useEffect(() => {
 		const posts = filterPostsByPostType()
@@ -66,15 +68,15 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const filterPostsByPostType = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || []
+			nearby: locationDataContext.feedPosts?.nearby.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
+			city: locationDataContext.feedPosts?.city.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
+			country: locationDataContext.feedPosts?.country.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || []
 		}
 	}
 
 	const postBelongContextPostType = (post: PostCollection) => {
 		if (!post) return false
-		return (post.postType === locationDataContext.searchParams.postType
+		return (post.postType === locationDataContext.searchParams?.postType
 			&& post.macroCategory === macroCategory)
 	}
 
@@ -126,14 +128,14 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const getRelativeTitle = () => {
 		const customPostType = postType as NewHomePostType
 		const currentPostType: any = postMacroCategories[customPostType]
-		const currentMacroCategory = currentPostType[macroCategory]
+		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.label
 	}
 
 	const getRelativeHeaderIcon = () => {
 		const customPostType = postType as NewHomePostType
 		const currentPostType: any = postMacroCategories[customPostType]
-		const currentMacroCategory = currentPostType[macroCategory]
+		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.SvgIcon
 	}
 
@@ -206,7 +208,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		const postsByRange = getPostsByRange(postRange)
-		const { postType: postTypeFromRoute } = locationDataContext.searchParams
+		const postTypeFromRoute = locationDataContext.searchParams?.postType
 
 		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType: postTypeFromRoute })
 	}

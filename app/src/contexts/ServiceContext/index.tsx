@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
 import { ServiceContextType, ServicePostData, ServiceProviderProps } from './types'
-import { PostCollectionCommonFields } from '@services/firebase/types'
+import { PostCollectionCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '../AuthContext'
 

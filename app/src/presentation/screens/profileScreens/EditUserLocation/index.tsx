@@ -6,7 +6,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { EditUserLocationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { LatLong, PostCollectionCommonFields } from '@services/firebase/types'
+import { LatLong, PostCollectionCommonFields } from '@domain/post/entity/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

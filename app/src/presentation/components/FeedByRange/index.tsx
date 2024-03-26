@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
-import { FeedPosts, PostCollection, PostRange } from '@services/firebase/types'
+import { FeedPosts, PostCollection, PostRange } from '@domain/post/entity/types'
 
 import { Container, PostCardContainer } from './styles'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'

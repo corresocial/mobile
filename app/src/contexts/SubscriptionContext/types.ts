@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import { UserSubscription } from '@domain/user/entity/types'
 
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 
 export interface SubscriptionProviderProps {
 	children: ReactNode

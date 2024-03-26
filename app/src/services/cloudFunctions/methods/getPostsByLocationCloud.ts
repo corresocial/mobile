@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { FeedPosts, Id } from '../../firebase/types'
+import { FeedPosts, Id } from '../../../domain/post/entity/types'
 import { FeedSearchParams } from '../types/types'
 
 import { getEnvVars } from '@infrastructure/environment'

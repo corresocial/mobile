@@ -10,7 +10,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { UserDataConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id, PostCollection } from '@services/firebase/types'
+import { Id, PostCollection } from '@domain/post/entity/types'
 
 import { auth } from '@infrastructure/firebase/index'
 

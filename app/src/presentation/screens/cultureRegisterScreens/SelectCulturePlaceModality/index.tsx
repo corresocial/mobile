@@ -4,7 +4,7 @@ import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/screenProps'
-import { PlaceModalityType } from '@services/firebase/types'
+import { PlaceModalityType } from '@domain/post/entity/types'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'
 import ShopWhiteIcon from '@assets/icons/shop-white.svg'

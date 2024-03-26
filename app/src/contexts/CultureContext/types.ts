@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { CultureCollection } from '@services/firebase/types'
+import { CultureCollection } from '@domain/post/entity/types'
 
 export interface CultureProviderProps {
 	children: ReactNode

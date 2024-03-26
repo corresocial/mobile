@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
-import { PostCategoriesObject, PostCategoriesType } from '@services/firebase/types'
+import { PostCategoriesObject, PostCategoriesType } from '@domain/post/entity/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 

@@ -6,7 +6,7 @@ import { useUtils } from '@newutils/useUtils'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
-import { Id } from '@services/firebase/types'
+import { Id } from '@domain/post/entity/types'
 
 import { ShareModal } from '@components/_modals/ShareModal'
 import { TourModal } from '@components/_modals/TourModal'

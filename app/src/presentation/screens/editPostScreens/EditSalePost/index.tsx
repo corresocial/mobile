@@ -8,7 +8,7 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { EditSalePostReviewScreenProps } from '@routes/Stack/SaleStack/screenProps'
 import { SaleStackParamList } from '@routes/Stack/SaleStack/types'
-import { PostCollection, SaleCategories, IncomeCollection } from '@services/firebase/types'
+import { PostCollection, SaleCategories, IncomeCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

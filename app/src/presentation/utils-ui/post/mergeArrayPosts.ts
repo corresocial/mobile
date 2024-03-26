@@ -1,4 +1,4 @@
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 
 function mergeArrayPosts(posts: PostCollection[], postDataToMerge: PostCollection) {
 	if (!posts) return posts

@@ -1,4 +1,4 @@
-import { PostRange } from '@services/firebase/types'
+import { PostRange } from '@domain/post/entity/types'
 
 const getPossessivePronounByRange = (range: PostRange | undefined) => {
 	return range !== 'country' ? 'sua' : 'seu'

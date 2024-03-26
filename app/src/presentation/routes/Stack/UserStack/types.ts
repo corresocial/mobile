@@ -1,6 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 
-import { PostRange } from '@services/firebase/types'
+import { PostRange } from '@domain/post/entity/types'
 
 export type UserStackNavigationProps = StackNavigationProp<UserStackParamList>
 

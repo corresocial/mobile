@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection } from '@domain/post/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 

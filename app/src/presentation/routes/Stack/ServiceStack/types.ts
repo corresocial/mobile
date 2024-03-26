@@ -1,5 +1,5 @@
 import { UserStackParamList } from '../UserStack/types'
-import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, IncomeCollectionRemote } from '@services/firebase/types'
+import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, IncomeCollectionRemote } from '@domain/post/entity/types'
 
 export type ServiceStackParamList = {
 	SelectServicePurpose: { editMode: boolean } | undefined

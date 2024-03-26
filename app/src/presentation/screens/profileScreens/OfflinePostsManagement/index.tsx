@@ -15,7 +15,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
+import { PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
 

@@ -1,8 +1,8 @@
 import React, { JSXElementConstructor, ReactElement, useState } from 'react'
 
+import { PostRange } from '@domain/post/entity/types'
 import { SubscriptionPlan as SubscriptionPlanType } from '@domain/user/entity/types'
 
-import { PostRange } from '@services/firebase/types'
 import { StripeProducts } from '@services/stripe/types'
 
 import { ButtonsContainer, Container } from './styles'

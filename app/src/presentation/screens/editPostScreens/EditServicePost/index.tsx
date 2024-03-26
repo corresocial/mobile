@@ -8,7 +8,7 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { EditServicePostReviewScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 import { ServiceStackParamList } from '@routes/Stack/ServiceStack/types'
-import { PostCollection, ServiceCategories, IncomeCollection } from '@services/firebase/types'
+import { PostCollection, ServiceCategories, IncomeCollection } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

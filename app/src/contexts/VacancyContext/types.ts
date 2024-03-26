@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { VacancyCollection } from '@services/firebase/types'
+import { VacancyCollection } from '@domain/post/entity/types'
 
 export interface VacancyProviderProps {
 	children: ReactNode

@@ -5,7 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { PostCollection, PostRange } from '@services/firebase/types'
+import { PostCollection, PostRange } from '@domain/post/entity/types'
 
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'

@@ -10,7 +10,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { EntryMethodManagementScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id } from '@services/firebase/types'
+import { Id } from '@domain/post/entity/types'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 

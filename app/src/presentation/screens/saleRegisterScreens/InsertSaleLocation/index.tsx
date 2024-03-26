@@ -6,7 +6,7 @@ import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
 import { InsertSaleLocationScreenProps } from '@routes/Stack/SaleStack/screenProps'
-import { Coordinates, PostCollection } from '@services/firebase/types'
+import { Coordinates, PostCollection } from '@domain/post/entity/types'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'

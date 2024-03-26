@@ -5,7 +5,7 @@ import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
 import { SelectDeliveryMethodScreenProps } from '@routes/Stack/ServiceStack/screenProps'
-import { DeliveryMethod } from '@services/firebase/types'
+import { DeliveryMethod } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 

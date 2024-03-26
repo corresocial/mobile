@@ -2,9 +2,8 @@ import { ReactNode } from 'react'
 
 import { UserCredential } from 'firebase/auth'
 
+import { PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
-
-import { PostCollection } from '@services/firebase/types'
 
 export interface AuthProviderProps {
 	children: ReactNode

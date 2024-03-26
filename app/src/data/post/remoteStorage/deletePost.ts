@@ -1,8 +1,7 @@
 import { deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore'
 
+import { PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
-
-import { PostCollection } from '@services/firebase/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 

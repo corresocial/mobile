@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
+import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
+
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -10,7 +12,7 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { SearchResultScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
@@ -66,7 +68,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 			setResultPosts(postsFromAlgolia)
 
-			if (!searchText) setSearchText(searchParamsFromRoute.searchText)
+			if (!searchText) setSearchText(searchParamsFromRoute.searchText || '')
 			setLoaderIsVisible(false)
 		} catch (error) {
 			setLoaderIsVisible(false)
@@ -75,7 +77,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	}
 
 	const searchPostsByAlgolia = async () => {
-		return searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
+		return searchPostsCloud(algoliaSearchText || '', searchParamsFromRoute as FeedSearchParams, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
 				if (!posts) {
 					return initialFeedPosts

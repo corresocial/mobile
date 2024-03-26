@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { IncomeCollection } from '@services/firebase/types'
+import { IncomeCollection } from '@domain/post/entity/types'
 
 export interface SaleProviderProps {
 	children: ReactNode

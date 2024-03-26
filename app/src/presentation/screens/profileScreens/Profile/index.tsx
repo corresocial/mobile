@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { Id, PostCollection, PostCollectionCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -15,7 +16,6 @@ import { StripeContext } from '@contexts/StripeContext'
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { Id, PostCollection, PostCollectionCommonFields, PostRange } from '@services/firebase/types'
 
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'

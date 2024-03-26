@@ -1,7 +1,7 @@
+import { FeedPosts } from '@domain/post/entity/types'
 import { SmasRecoveryNISData, SmasService } from '@domain/smas/entity/types'
 
 import { RequestData, NotifyUsersByLocationParams, FeedSearchParams } from './types/types'
-import { FeedPosts } from '@services/firebase/types'
 
 // TODO Type functions return
 
