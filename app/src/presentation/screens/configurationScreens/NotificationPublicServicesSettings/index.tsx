@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { Id } from '@domain/entities/globalTypes'
+import { Id } from '@domain/globalTypes'
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 import { useUserRepository } from '@data/user/useUserRepository'

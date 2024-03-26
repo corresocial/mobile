@@ -1,7 +1,7 @@
 import { onValue, ref } from 'firebase/database'
 
-import { Chat, MessageObjects } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { Chat, MessageObjects } from '@domain/chat/entity/types'
+import { Id } from '@domain/globalTypes'
 
 import { realTimeDatabase } from '@services/firebase'
 

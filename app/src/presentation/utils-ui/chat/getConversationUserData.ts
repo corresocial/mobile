@@ -1,4 +1,4 @@
-import { ChatUserIdentification } from '@domain/entities/chat/types'
+import { ChatUserIdentification } from '@domain/chat/entity/types'
 
 import { Id } from '@globalTypes/global/types'
 

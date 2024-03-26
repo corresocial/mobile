@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
 
-import { Chat, Message, MessageObjects } from '@domain/entities/chat/types'
+import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'

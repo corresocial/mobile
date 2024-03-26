@@ -1,6 +1,6 @@
 import { ref, set } from 'firebase/database'
 
-import { Chat } from '@domain/entities/chat/types'
+import { Chat } from '@domain/chat/entity/types'
 
 import { realTimeDatabase } from '@services/firebase'
 

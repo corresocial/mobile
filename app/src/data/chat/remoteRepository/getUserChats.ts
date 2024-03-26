@@ -2,7 +2,7 @@
 
 import { get, ref } from 'firebase/database'
 
-import { Chat } from '@domain/entities/chat/types'
+import { Chat } from '@domain/chat/entity/types'
 
 import { Id } from '@services/firebase/types'
 

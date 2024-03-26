@@ -6,7 +6,7 @@ import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMetho
 import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
-import { Id } from '@domain/entities/globalTypes'
+import { Id } from '@domain/globalTypes'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'

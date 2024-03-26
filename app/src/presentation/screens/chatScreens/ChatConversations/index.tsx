@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { ListRenderItem, ListRenderItemInfo, ScrollView, TextInput } from 'react-native'
 
-import { MessageObjects, ChatUserIdentification, Chat } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { MessageObjects, ChatUserIdentification, Chat } from '@domain/chat/entity/types'
+import { Id } from '@domain/globalTypes'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'

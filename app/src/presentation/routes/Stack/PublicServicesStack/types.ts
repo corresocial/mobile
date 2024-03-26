@@ -1,4 +1,4 @@
-import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/entities/smas/types'
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/smas/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import uuid from 'react-uuid'
 
-import { PostType } from '@domain/entities/posts/types'
+import { PostType } from '@domain/post/entity/types'
 
 import { PostCollection } from '@services/firebase/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'

@@ -2,8 +2,8 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { Chat } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { Chat } from '@domain/chat/entity/types'
+import { Id } from '@domain/globalTypes'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { MutableObjectReference } from '@services/pushNotification/types'

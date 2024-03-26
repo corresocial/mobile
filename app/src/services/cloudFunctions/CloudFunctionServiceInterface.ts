@@ -1,4 +1,4 @@
-import { SmasRecoveryNISData, SmasService } from '@domain/entities/smas/types'
+import { SmasRecoveryNISData, SmasService } from '@domain/smas/entity/types'
 
 import { RequestData, NotifyUsersByLocationParams, FeedSearchParams } from './types/types'
 import { FeedPosts } from '@services/firebase/types'

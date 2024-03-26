@@ -1,7 +1,7 @@
 import { ref, set } from 'firebase/database'
 
-import { UserDatabase } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { UserDatabase } from '@domain/chat/entity/types'
+import { Id } from '@domain/globalTypes'
 
 import { realTimeDatabase } from '@services/firebase'
 

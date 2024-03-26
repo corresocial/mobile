@@ -1,6 +1,6 @@
 import { addDoc, collection } from 'firebase/firestore'
 
-import { ImpactReport } from '@domain/entities/impactReport/types'
+import { ImpactReport } from '@domain/impactReport/entity/types'
 
 import { firestore } from '@services/firebase'
 

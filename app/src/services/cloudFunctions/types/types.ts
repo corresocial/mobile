@@ -1,4 +1,4 @@
-import { PostType } from '@domain/entities/posts/types'
+import { PostType } from '@domain/post/entity/types'
 
 import { LatLong } from '@services/firebase/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'

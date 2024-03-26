@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
-import { Id } from '@domain/entities/globalTypes'
-import { ReportContext } from '@domain/entities/impactReport/types'
+import { Id } from '@domain/globalTypes'
+import { ReportContext } from '@domain/impactReport/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'

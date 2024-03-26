@@ -1,4 +1,4 @@
-import { ImpactReport } from '@domain/entities/impactReport/types'
+import { ImpactReport } from '@domain/impactReport/entity/types'
 
 interface ImpactReportRepositoryInterface {
 	localStorage: {

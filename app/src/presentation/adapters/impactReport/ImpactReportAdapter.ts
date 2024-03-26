@@ -1,4 +1,4 @@
-import { sendImpactReportUC } from '@domain/impactReport/useCases/sendImpactReportUC'
+import { sendImpactReportUC } from '@domain/impactReport/methods/sendImpactReportUC'
 
 import { ImpactReportAdapterInterface } from './ImpactReportAdapterInterface'
 

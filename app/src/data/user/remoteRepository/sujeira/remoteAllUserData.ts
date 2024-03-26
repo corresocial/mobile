@@ -1,6 +1,6 @@
 import { deleteUser } from 'firebase/auth'
 
-import { Id } from '@domain/entities/globalTypes'
+import { Id } from '@domain/globalTypes'
 
 import { deletePost } from '@data/post/remoteStorage/deletePost' // from data/post
 import { deletePostPictures } from '@data/post/remoteStorage/deletePostPictures' // from data/post

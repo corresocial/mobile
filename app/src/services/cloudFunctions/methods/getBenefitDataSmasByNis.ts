@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { SmasService } from '@domain/entities/smas/types'
+import { SmasService } from '@domain/smas/entity/types'
 
 import { getEnvVars } from '@infrastructure/environment'
 

@@ -1,6 +1,6 @@
-import { CheckBlockedUsersResponse } from '@domain/entities/chat'
-import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { CheckBlockedUsersResponse } from '@domain/chat/entity'
+import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/chat/entity/types'
+import { Id } from '@domain/globalTypes'
 
 import { ChatRepositoryInterface } from '@data/chat/ChatRepositoryInterface'
 

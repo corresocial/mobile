@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
-import { SmasRecoveryNISData } from '@domain/entities/smas/types'
+import { SmasRecoveryNISData } from '@domain/smas/entity/types'
 
 import { SmasContext } from '@contexts/SmasContext'
 

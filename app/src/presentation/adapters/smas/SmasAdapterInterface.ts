@@ -1,5 +1,5 @@
-import { Id } from '@domain/entities/globalTypes'
-import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/entities/smas/types'
+import { Id } from '@domain/globalTypes'
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/smas/entity/types'
 
 import { SmasRepositoryInterface } from '@data/smas/SmasRepositoryInterface'
 

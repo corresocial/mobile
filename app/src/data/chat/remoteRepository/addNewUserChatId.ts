@@ -1,6 +1,6 @@
 import { push, ref } from 'firebase/database'
 
-import { Id } from '@domain/entities/globalTypes'
+import { Id } from '@domain/globalTypes'
 
 import { realTimeDatabase } from '@services/firebase'
 

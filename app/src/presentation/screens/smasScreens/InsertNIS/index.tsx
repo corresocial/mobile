@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/entities/smas/types'
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/smas/entity/types'
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 

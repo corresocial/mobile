@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
-import { ReportContext } from '@domain/entities/impactReport/types'
+import { ReportContext } from '@domain/impactReport/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
