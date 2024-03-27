@@ -23,7 +23,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 
 	const viewPostDetails = (post: PostCollection) => {
 		const postData = { ...post, owner: getUserDataOnly() }
-		navigateToPostView(postData as PostCollection, navigation, 'User')
+		navigateToPostView(postData as PostCollection, navigation)
 	}
 
 	const getUserDataOnly = () => {
