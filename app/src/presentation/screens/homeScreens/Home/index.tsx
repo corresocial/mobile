@@ -17,12 +17,7 @@ import { LocationContext } from '@contexts/LocationContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
-import {
-	LatLong,
-	AddressSearchResult,
-	SelectedAddressRender,
-	GeocodeAddress
-} from '@services/googleMaps/types/maps'
+import { LatLong, AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
@@ -170,7 +165,7 @@ function Home({ navigation }: HomeScreenProps) {
 					return {
 						lat: recentPosition.lat,
 						lon: recentPosition.lon,
-					} as LatLong
+					}
 				}
 			}
 
@@ -178,7 +173,7 @@ function Home({ navigation }: HomeScreenProps) {
 			return {
 				lat: currentPosition.coords.latitude,
 				lon: currentPosition.coords.longitude
-			} as LatLong
+			}
 		} catch (error) {
 			console.log(error)
 
@@ -190,7 +185,7 @@ function Home({ navigation }: HomeScreenProps) {
 			return {
 				lat: recentPosition.lat,
 				lon: recentPosition.lon,
-			} as LatLong
+			}
 		}
 	}
 

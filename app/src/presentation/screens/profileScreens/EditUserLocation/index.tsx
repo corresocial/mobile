@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { LatLong, PostEntityCommonFields } from '@domain/post/entity/types'
+import { PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -56,7 +56,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 		if (route.params && route.params.initialCoordinates) {
 			return route.params.initialCoordinates
 		}
-		return { latitude: 0, longitude: 0 } as LatLong
+		return { latitude: 0, longitude: 0 }
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -67,7 +67,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 			<SelectPostLocation
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
-				initialValue={getInitialCoordinateValue() as LatLong}
+				initialValue={getInitialCoordinateValue()}
 				isLoading={isLoading}
 				headerDescription={'Localização utilizada para envio de notificações da prefeitura. \nessa informação não será divulgada publicamente'}
 				headerDescriptionHighlightedWords={['\nessa', 'informação', 'não', 'será', 'divulgada', 'publicamente']}

@@ -74,23 +74,6 @@ export type LatLong = {
 	longitude: number
 }
 
-export type Location = {
-	street?: string | null
-	streetNumber?: string | null
-	number?: string | null
-	district?: string | null
-	postalCode?: string | null
-	city?: string | null
-	subregion?: string | null
-	state?: string | null
-	country?: string | null
-	coordinates: Coordinates
-}
-
-export type PostType = 'income' | 'socialImpact' | 'culture'
-
-export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
-
 export type CompleteAddress = {
 	country: string
 	state: string
@@ -110,6 +93,8 @@ export type FeedPosts = {
 	city: PostEntity[],
 	country: PostEntity[],
 }
+
+export type PostType = 'income' | 'socialImpact' | 'culture'
 
 export type PostEntity = IncomeEntity | VacancyEntity | CultureEntity | SocialImpactEntity
 export type PostCollection = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
