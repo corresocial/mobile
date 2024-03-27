@@ -5,10 +5,10 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
-import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
@@ -37,6 +37,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
+
+const { updateUserRepository } = useUserDomain()
 
 const { localStorage } = useUserRepository()
 const { localStorage: localPostStorage, remoteStorage } = usePostRepository()
@@ -189,11 +191,10 @@ function EditPost({
 				delete postDataToSave.location.geohashCity
 			}
 
-			await updateDocField(
-				'users',
-				userDataContext.userId,
-				'posts',
-				[postDataToSave, ...userPostsUpdated]
+			await updateUserRepository(
+				useUserRepository,
+				userDataContext,
+				{ posts: [...userPostsUpdated, postDataToSave] }
 			)
 
 			updateUserContext(postDataToSave, userPostsUpdated as PostCollectionRemote[])
@@ -261,6 +262,8 @@ function EditPost({
 			if (!postPictures.length) {
 				const postId = await remoteStorage.createPost(postData, localUser, postData.postType as PostType) // REFACTOR remote as
 				if (!postId) throw new Error('Não foi possível identificar o post')
+
+				userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
 
 				await updateUserPost(
 					localUser,
@@ -353,50 +356,49 @@ function EditPost({
 		localUser: UserEntity,
 		postId: string,
 		postData: PostCollectionRemote,
-		postsUpdated?: PostCollection[]
+		postsUpdated: PostCollection[] = []
 	) => {
-		const postDataToSave = {
-			...postData,
-			postId,
-			postType: postData.postType,
-			createdAt: new Date()
-		}
-		await updateDocField(
-			'users',
-			localUser.userId,
-			'posts',
-			userDataContext.posts ? postDataToSave : [postDataToSave],
-			!!userDataContext.posts,
-		)
-			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollectionRemote[] : []
-				userContext.setUserDataOnContext({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{ ...postDataToSave, owner } as PostCollectionRemote
-					],
-				})
-				localStorage.saveLocalUserData({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{ ...postDataToSave, owner }
-					],
-				})
+		try {
+			const postDataToSave = {
+				...postData,
+				postId,
+				postType: postData.postType,
+				createdAt: new Date()
+			}
 
-				setIsLoading(false)
-				showShareModal(true, getShortText(postDataToSave.description, 70), postDataToSave.postId)
-				navigateToPostView({ ...postDataToSave, owner })
+			await updateUserRepository(
+				useUserRepository,
+				userDataContext,
+				{ posts: [...postsUpdated, postDataToSave] }
+			)
+
+			const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollectionRemote[] : []
+			userContext.setUserDataOnContext({
+				...localUser,
+				tourPerformed: true,
+				posts: [
+					...localUserPosts,
+					{ ...postDataToSave, owner } as PostCollectionRemote
+				],
 			})
-			.catch((err: any) => {
-				console.log(err)
-				Alert.alert('Error', 'Second went wrong')
-				setIsLoading(false)
-				setHasError(true)
+			localStorage.saveLocalUserData({
+				...localUser,
+				tourPerformed: true,
+				posts: [
+					...localUserPosts,
+					{ ...postDataToSave, owner }
+				],
 			})
+
+			setIsLoading(false)
+			showShareModal(true, getShortText(postDataToSave.description, 70), postDataToSave.postId)
+			navigateToPostView({ ...postDataToSave, owner })
+		} catch (err: any) {
+			console.log(err)
+			Alert.alert('Error', 'Second went wrong')
+			setIsLoading(false)
+			setHasError(true)
+		}
 	}
 
 	const deleteOfflinePostByDescription = async (description: string) => {
@@ -423,7 +425,7 @@ function EditPost({
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
 	}
 
-	const performPicturesUpload = async (postsUpdated?: PostCollection[]) => {
+	const performPicturesUpload = async (postsUpdated: PostCollection[]) => {
 		const picturesNotUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => !url.includes('https://')) || []
 		const picturesAlreadyUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')) || []
 
@@ -463,11 +465,10 @@ function EditPost({
 												delete postDataToSave.location.geohashCity
 											}
 
-											await updateDocField(
-												'users',
-												userDataContext.userId,
-												'posts',
-												[postDataToSave, ...getUserPostsWithoutEdited()]
+											await updateUserRepository(
+												useUserRepository,
+												userDataContext,
+												{ posts: [...postsUpdated, postDataToSave] }
 											)
 
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])

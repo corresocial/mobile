@@ -12,6 +12,8 @@ import { deleteUserData } from '../deleteUserData'
 import { deleteUserProfilePicture } from '../deleteUserProfilePicture'
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostCollection[] = []) => {
+	// REFACTOR Deve virar um domain method
+
 	const user = auth.currentUser // REFACTOR Requer Autenticação(services) e Posts(data) estruturados
 
 	posts.map(async (post) => {

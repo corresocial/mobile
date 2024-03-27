@@ -5,7 +5,7 @@ import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocFie
 import { updatePostData } from './updatePostData' // from data/post
 
 const markPostAsComplete = async (userId: string, postId: string, currentPost: PostCollection, userPosts: PostCollection[]) => { // REFACTOR Precisa mesmo de todos so posts?
-	try {
+	try { // REFACTOR Deve virar um domain method
 		await updatePostData(postId, currentPost)
 		await updateDocField('users', userId, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
 
