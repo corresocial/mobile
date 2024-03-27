@@ -8,8 +8,10 @@ async function updateProfilePictureOnConversationsDM(userId: Id, profilePictureU
 	try {
 		const userChatIds = await getUserChatIds(userId)
 		console.log(userChatIds)
+		const chatIdsList = convertChatIdsToArray(userChatIds as any)
+		console.log(chatIdsList)
 
-		return userChatIds.forEach(async (chatId) => {
+		return chatIdsList.forEach(async (chatId) => {
 			const chatData = await getRemoteChatData(chatId)
 
 			if (chatData.user1.userId === userId && chatData.user1.profilePictureUrl !== profilePictureUrl) {
@@ -25,6 +27,11 @@ async function updateProfilePictureOnConversationsDM(userId: Id, profilePictureU
 	} catch (err) {
 		console.log(err)
 	}
+}
+
+function convertChatIdsToArray(chatIds: object | any[]): Id[] { // ObjectChatIds
+	if (Array.isArray(chatIds)) return chatIds
+	return Object.values(chatIds).map((chatId) => chatId)
 }
 
 export { updateProfilePictureOnConversationsDM }

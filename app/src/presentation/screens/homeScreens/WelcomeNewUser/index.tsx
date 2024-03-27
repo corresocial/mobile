@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -18,7 +20,7 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 
-const { remoteStorage } = useUserRepository()
+const { updateUserRepository } = useUserDomain()
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -57,7 +59,13 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const setUserTourPerformed = async () => {
 		console.log(userDataContext.userId)
-		await remoteStorage.updateUserData(userDataContext.userId, { tourPerformed: true })
+
+		await updateUserRepository(
+			useUserRepository,
+			userDataContext,
+			{ tourPerformed: true }
+		)
+
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

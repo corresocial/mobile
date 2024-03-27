@@ -17,12 +17,7 @@ async function deletePostPictures(postPictures: string[]) {
 				return true
 			}
 
-			return deleteObject(pictureStorageRef)
-				.then(() => { return true }).catch((err) => {
-					console.log(`error: ${picturePath}`)
-					console.log(err)
-					return false
-				})
+			await deleteObject(pictureStorageRef)
 		})
 
 		return true

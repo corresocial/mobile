@@ -4,6 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Id, PostCollection, PostCollectionCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -68,6 +69,8 @@ import { PopOver } from '@components/PopOver'
 import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+
+const { updateUserRepository } = useUserDomain()
 
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
@@ -256,21 +259,17 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
 		setProfileOptionsIsOpen(false)
-		console.log({
-			type: label,
-			by: userDataContext.userId,
-			at: new Date(),
-			name: userDataContext.name || ''
-		})
 		if (user.userId && userDataContext.userId) {
-			await remoteStorage.updateUserData(user.userId, {
+			const verifiedObject = {
 				verified: {
 					type: label,
 					by: userDataContext.userId,
 					at: new Date(),
 					name: userDataContext.name || ''
-				},
-			})
+				}
+			}
+
+			await updateUserRepository(useUserRepository, userDataContext, verifiedObject)
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
 	}

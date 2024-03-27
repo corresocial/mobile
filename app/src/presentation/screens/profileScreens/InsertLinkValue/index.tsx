@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { SocialMedia } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -23,7 +24,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
-const { remoteStorage } = useUserRepository()
+const { updateUserRepository } = useUserDomain()
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -75,8 +76,14 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
-			await remoteStorage.updateUserData(userDataContext.userId, socialMediaData)
+
+			await updateUserRepository(
+				useUserRepository,
+				userDataContext,
+				socialMediaData
+			)
 			setUserDataOnContext(socialMediaData)
+
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {
 			console.log(err)

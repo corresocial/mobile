@@ -10,7 +10,7 @@ async function getUserData(userId: string) { // BEFORE getUser
 		const userSnap = await getDoc(userRef)
 
 		if (userSnap.exists()) {
-			return { userId, ...userSnap.data() as UserEntity }
+			return { ...userSnap.data() as UserEntity, userId }
 		}
 
 		return null

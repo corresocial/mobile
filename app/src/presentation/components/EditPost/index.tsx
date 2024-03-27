@@ -11,8 +11,6 @@ import { usePostRepository } from '@data/post/usePostRepository'
 import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { UserData } from '@contexts/AuthContext/types'
-
 import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
@@ -352,7 +350,7 @@ function EditPost({
 	}
 
 	const updateUserPost = async (
-		localUser: UserData,
+		localUser: UserEntity,
 		postId: string,
 		postData: PostCollectionRemote,
 		postsUpdated?: PostCollection[]

@@ -32,7 +32,7 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
-const { getLocalUserData } = useUserDomain()
+const { getLocalUserData, updateUserRepository } = useUserDomain()
 
 const { remoteStorage } = useUserRepository()
 const { remoteStorage: remotePostStorage } = usePostRepository()
@@ -116,7 +116,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					currentUser.createdAt = new Date()
 				}
 
-				await remoteStorage.updateUserData(userData.userIdentification.uid, currentUser)
+				await updateUserRepository(
+					useUserRepository,
+					userDataContext,
+					{ ...currentUser, userId: userData.userIdentification.uid }
+				)
+
 				await remoteStorage.updatePrivateContacts(
 					userData.userIdentification.uid,
 					{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
@@ -150,7 +155,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 											currentUser.createdAt = new Date()
 										}
 
-										await remoteStorage.updateUserData(userData.userIdentification.uid, currentUser)
+										await updateUserRepository(
+											useUserRepository,
+											userDataContext,
+											{ ...currentUser, userId: userData.userIdentification.uid }
+										)
+
 										await remoteStorage.updatePrivateContacts(
 											userData.userIdentification.uid,
 											{ cellNumber: userData.cellNumber || '', email: userData.email || '' }

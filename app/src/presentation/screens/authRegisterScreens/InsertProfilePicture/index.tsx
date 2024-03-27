@@ -29,7 +29,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-const { getLocalUserData } = useUserDomain()
+const { getLocalUserData, updateUserRepository } = useUserDomain()
 
 const { remoteStorage } = useUserRepository()
 const { remoteStorage: remotePostStorage } = usePostRepository()
@@ -72,7 +72,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			if (!localUser || (localUser && !localUser.createdAt)) throw new Error('Usuário')
 
 			setIsLoading(true)
-			await saveInFirebase(userData, true, localUser.createdAt)
+			await saveInFirebase(userData as RegisterUserData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 				await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
@@ -103,7 +103,12 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			userObject.createdAt = new Date()
 		}
 
-		await remoteStorage.updateUserData(userData.userIdentification.uid, userObject)
+		await updateUserRepository(
+			useUserRepository,
+			userDataContext,
+			userObject
+		)
+		// await remoteStorage.updateUserData(userData.userIdentification.uid, userObject)
 
 		await remoteStorage.updatePrivateContacts(
 			userData.userIdentification.uid,

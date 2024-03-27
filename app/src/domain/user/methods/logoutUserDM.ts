@@ -5,7 +5,7 @@ import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
 import { auth } from '@infrastructure/firebase' // Refactor
 
-async function logoutUser(
+async function logoutUserDM(
 	useUserRepository: () => UserRepositoryInterface,
 	usePostRepository: () => PostRepositoryInterface,
 	useChatDomain: () => ChatDomainInterface,
@@ -28,4 +28,4 @@ async function logoutUser(
 	}
 }
 
-export { logoutUser }
+export { logoutUserDM }
