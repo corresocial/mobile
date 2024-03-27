@@ -4,6 +4,7 @@ import { logoutUser } from './methods/logoutUser'
 import { phoneVerificationCodeIsValidDM } from './methods/phoneVerificationCodeIsValidDM'
 import { requestPhoneVerificationCodeDM } from './methods/requestPhoneVerificationCodeDM'
 import { syncWithRemoteUserDM } from './methods/syncWithRemoteUserDM'
+import { updateUserSubscriptionDataDM } from './methods/updateUserSubscriptionDataDm'
 import { UserDomainInterface } from './UserDomainInterface'
 
 function useUserDomain(): UserDomainInterface {
@@ -14,6 +15,8 @@ function useUserDomain(): UserDomainInterface {
 
 		requestPhoneVerificationCode: requestPhoneVerificationCodeDM,
 		phoneVerificationCodeIsValid: phoneVerificationCodeIsValidDM,
+
+		updateUserSubscriptionData: updateUserSubscriptionDataDM,
 
 		logoutUser: logoutUser
 	}

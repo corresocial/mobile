@@ -36,7 +36,7 @@ const { formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
-	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
@@ -146,18 +146,16 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const navigateToSubscriptionContext = () => {
-		setSubscriptionDataOnContext({
-			currentPost: {
-				...postData,
-				...editDataContext.unsaved,
-				postType: 'income',
-				macroCategory: 'service',
-				createdAt: new Date(),
-				owner: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl
-				}
+		setCurrentPostDataOnContext({
+			...postData,
+			...editDataContext.unsaved,
+			postType: 'income',
+			macroCategory: 'service',
+			createdAt: new Date(),
+			owner: {
+				userId: userDataContext.userId,
+				name: userDataContext.name,
+				profilePictureUrl: userDataContext.profilePictureUrl
 			}
 		})
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })

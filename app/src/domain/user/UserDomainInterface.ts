@@ -5,7 +5,7 @@ import { ChatDomainInterface } from '@domain/chat/ChatDomainInterface'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { UserEntity } from './entity/types'
+import { UserEntity, UserSubscription } from './entity/types'
 
 import { AuthenticationServiceInterface } from '@services/authentication/AuthenticationServiceInterface'
 
@@ -16,6 +16,8 @@ interface UserDomainInterface {
 
 	requestPhoneVerificationCode: (useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string, recaptchaVerifier: ApplicationVerifier | any) => Promise<string>
 	phoneVerificationCodeIsValid: (useAuthenticationService: () => AuthenticationServiceInterface, verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
+
+	updateUserSubscriptionData: (useUserRepository: () => UserRepositoryInterface, userData: UserEntity, subscriptionData: UserSubscription) => Promise<void>
 
 	logoutUser: (
 		useUserRepository: () => UserRepositoryInterface,

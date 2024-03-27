@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 import { PostCollection } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
+import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
 import { UserIdentification } from '@services/authentication/types'
 
@@ -17,12 +17,9 @@ export type RegisterUserData = {
 	userIdentification: UserIdentification
 }
 
-export type UserData = UserEntity
-export type UserDataOptional = Partial<UserEntity>
-
 export type AuthContextType = {
-	userDataContext: UserData
-	setUserDataOnContext: (data: UserDataOptional) => void
-	setRemoteUserOnLocal: (uid?: string, userData?: UserData) => Promise<boolean | undefined>
+	userDataContext: UserEntity
+	setUserDataOnContext: (data: UserEntityOptional) => void
+	setRemoteUserOnLocal: (uid?: string, userData?: UserEntity) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection
 }

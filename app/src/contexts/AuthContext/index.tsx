@@ -1,12 +1,12 @@
 import React, { createContext, useState } from 'react'
 
 import { PostCollection } from '@domain/post/entity/types'
-import { UserEntityOptional } from '@domain/user/entity/types'
+import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContextType, AuthProviderProps, UserData } from './types'
+import { AuthContextType, AuthProviderProps } from './types'
 
 const { syncWithRemoteUser } = useUserDomain()
 
@@ -16,7 +16,7 @@ const initialValue: AuthContextType = {
 		name: ''
 	},
 	setUserDataOnContext: () => { },
-	setRemoteUserOnLocal: (uid?: string, localUserData?: UserData) => new Promise<boolean>(() => { }),
+	setRemoteUserOnLocal: (uid?: string, localUserData?: UserEntity) => new Promise<boolean>(() => { }),
 	getLastUserPost: () => ({}) as PostCollection
 }
 
@@ -25,7 +25,7 @@ const AuthContext = createContext<AuthContextType>(initialValue)
 function AuthProvider({ children }: AuthProviderProps) {
 	const [userDataContext, setUserDataContext] = useState(initialValue.userDataContext)
 
-	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserData) => {
+	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserEntity) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid, localUserData)
 

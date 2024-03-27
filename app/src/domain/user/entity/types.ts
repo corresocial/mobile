@@ -1,5 +1,6 @@
 import { PostCollection, PostRange } from '@domain/post/entity/types'
 
+export type UserEntityOptional = Partial<UserEntity>
 export type UserEntity = {
 	userId: string
 	name: string
@@ -14,8 +15,6 @@ export type UserEntity = {
 	subscription?: UserSubscription
 	private?: PrivateUserEntity
 }
-
-export type UserEntityOptional = Partial<UserEntity>
 
 export type SocialMedia = {
 	title: string,
@@ -35,6 +34,7 @@ export type VerifiedType = {
 export type SubscriptionPlan = 'monthly' | 'yearly' | ''
 export type SubscriptionPaymentMethod = 'pix' | 'creditCard' | 'debitCard' | ''
 
+export type UserSubscriptionOptional = Partial<UserSubscription>
 export type UserSubscription = {
 	subscriptionRange?: PostRange
 	subscriptionPlan?: SubscriptionPlan
