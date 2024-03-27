@@ -1,7 +1,7 @@
 import { PostCollection, PostRange } from '@domain/post/entity/types'
 
 export type UserEntity = {
-	userId?: string
+	userId: string
 	name?: string
 	description?: string
 	profilePictureUrl?: string[]

@@ -9,8 +9,6 @@ export interface AuthProviderProps {
 	children: ReactNode
 }
 
-export type UserData = UserEntity
-
 export type RegisterUserData = {
 	cellNumber: string
 	email?: string
@@ -19,14 +17,15 @@ export type RegisterUserData = {
 	userIdentification: UserIdentification
 }
 
-export interface LocalUserData extends UserEntity {
-	userId?: string,
-	userIdentification?: UserIdentification
-}
+export type UserData = UserEntity
+
+export type LocalUserData = Partial<UserEntity>
+// userIdentification?: UserIdentification
+// }
 
 export type AuthContextType = {
-	userDataContext: UserData
-	setUserDataOnContext: (data: UserData) => void
+	userDataContext: LocalUserData
+	setUserDataOnContext: (data: LocalUserData) => void
 	setRemoteUserOnLocal: (uid?: string, userData?: UserData) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection
 }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { Id } from '@domain/post/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -13,8 +13,6 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
-
-import { auth } from '@infrastructure/firebase/index'
 
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
@@ -41,10 +39,7 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-const { localStorage } = useUserRepository()
-const { localStorage: localPostsStorage } = usePostRepository()
-
-const { updateUserTokenNotification } = useChatDomain()
+const { logoutUser } = useUserDomain()
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
@@ -58,11 +53,13 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performLogout = async () => {
-		removeChatListeners()
-		await updateUserTokenNotification(userDataContext.userId as Id, '')
-		await localStorage.clearLocalUserData()
-		await localPostsStorage.clearOfflinePosts()
-		await auth.signOut()
+		await logoutUser(
+			useUserRepository,
+			usePostRepository,
+			useChatDomain,
+			removeChatListeners,
+			userDataContext.userId as string
+		)
 		navigateToInitialScreen()
 	}
 

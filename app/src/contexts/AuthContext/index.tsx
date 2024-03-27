@@ -5,7 +5,7 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContextType, AuthProviderProps, UserData } from './types'
+import { AuthContextType, AuthProviderProps, LocalUserData, UserData } from './types'
 
 const { syncWithRemoteUser } = useUserDomain()
 
@@ -30,7 +30,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		}
 	}
 
-	const setUserDataOnContext = (data: UserData) => {
+	const setUserDataOnContext = (data: LocalUserData) => {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 

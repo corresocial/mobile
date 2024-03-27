@@ -2,7 +2,9 @@ import React, { useState, useContext } from 'react'
 
 import { differenceInMinutes } from 'date-fns'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
 import { Id, PostCollection } from '@domain/post/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { removeAllUserData } from '@data/user/remoteRepository/sujeira/remoteAllUserData'
@@ -28,8 +30,7 @@ import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenCon
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
-const { localStorage } = useUserRepository()
-const { localStorage: localPostStorage } = usePostRepository()
+const { logoutUser } = useUserDomain()
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -97,14 +98,18 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const performLogout = async () => {
 		try {
-			removeChatListeners()
-			await localStorage.clearLocalUserData()
-			await localPostStorage.clearOfflinePosts()
-			await auth.signOut()
+			await logoutUser(
+				useUserRepository,
+				usePostRepository,
+				useChatDomain,
+				removeChatListeners,
+				userDataContext.userId as string
+			)
+
 			navigateToInitialScreen()
-		} catch (error) {
+		} catch (error: any) {
 			console.log('erro ao fazer logout')
-			console.log(error)
+			throw new Error(error)
 		}
 	}
 

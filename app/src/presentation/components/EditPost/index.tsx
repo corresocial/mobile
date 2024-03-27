@@ -11,7 +11,7 @@ import { usePostRepository } from '@data/post/usePostRepository'
 import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { LocalUserData } from '@contexts/AuthContext/types'
+import { UserData } from '@contexts/AuthContext/types'
 
 import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
 
@@ -308,7 +308,7 @@ function EditPost({
 											if (picturePostsUrls.length === postPictures.length) {
 												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
 
-												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType as PostType) // REFACTOR remote as
+												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType)
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
@@ -352,7 +352,7 @@ function EditPost({
 	}
 
 	const updateUserPost = async (
-		localUser: LocalUserData,
+		localUser: UserData,
 		postId: string,
 		postData: PostCollectionRemote,
 		postsUpdated?: PostCollection[]
@@ -503,7 +503,7 @@ function EditPost({
 					postAfterEdit
 				]
 				: [...allPosts]
-		})
+		} as UserEntity)
 	}
 
 	const cancelAllChangesAndGoBack = () => {
