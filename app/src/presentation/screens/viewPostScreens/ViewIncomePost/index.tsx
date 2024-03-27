@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, SaleCategories, IncomeEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -79,7 +79,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: IncomeCollectionRemote }
+	const { postData } = route.params as { postData: IncomeEntity }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -219,7 +219,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		}
 	}
 
-	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeEntity, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}

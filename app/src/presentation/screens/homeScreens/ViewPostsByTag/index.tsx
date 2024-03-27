@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+import { PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -30,13 +30,13 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const filterPostsByCategory = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
+			nearby: locationDataContext.feedPosts.nearby.filter((post) => filterPostsByRange(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post) => filterPostsByRange(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post) => filterPostsByRange(post)) || []
 		}
 	}
 
-	const filterPostsByRange = (post: PostCollectionRemote) => {
+	const filterPostsByRange = (post: PostEntity) => {
 		return post.category === categoryName
 			&& post.postType === locationDataContext.searchParams.postType
 			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length

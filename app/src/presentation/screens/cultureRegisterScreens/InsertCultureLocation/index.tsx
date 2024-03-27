@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Coordinates, PostCollection } from '@domain/post/entity/types'
+import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { CultureContext } from '@contexts/CultureContext'
@@ -43,7 +43,7 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 	}
 
 	const getLastPostCity = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 		return lastUserPost && lastUserPost.location ? lastUserPost.location?.city || '' : ''
 	}
 
@@ -87,8 +87,8 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 			setCultureDataOnContext({
 				location: {
 					...completeAddress,
-					...geohashObject
-				}
+					...geohashObject,
+				} as PostEntityCommonFields['location']
 			})
 		}
 

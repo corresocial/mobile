@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { LatLong, PostCollectionCommonFields } from '@domain/post/entity/types'
+import { LatLong, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -26,7 +26,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const saveUserLocation = async (coordinates: PostCollectionCommonFields['location']['coordinates']) => {
+	const saveUserLocation = async (coordinates: PostEntityCommonFields['location']['coordinates']) => {
 		try {
 			setIsLoading(true)
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, SaleCategories, IncomeCollection } from '@domain/post/entity/types'
+import { PostCollection, SaleCategories, IncomeEntityOptional } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -57,7 +57,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'income' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -97,7 +97,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigateToPostView(post, navigation)
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
 		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
@@ -123,8 +123,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {

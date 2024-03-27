@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { FlatList, StatusBar } from 'react-native'
 
-import { PostCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
+import { PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -55,7 +55,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 						<PostPadding>
 							<PostCard
 								post={item}
-								owner={getUserDataOnly() as PostCollectionCommonFields['owner']}
+								owner={getUserDataOnly() as PostEntityCommonFields['owner']}
 								onPress={() => viewPostDetails(item)}
 							/>
 						</PostPadding>

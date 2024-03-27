@@ -1,4 +1,4 @@
-import { PostType, PostCollection } from '@domain/post/entity/types'
+import { PostType, PostCollection, PostEntity } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
 import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
@@ -24,11 +24,11 @@ interface PostRepositoryInterface {
 		markPostAsComplete: (userId: string, postId: string, currentPost: PostCollection, userPosts: PostCollection[]) => Promise<boolean>
 		updateOwnerDataOnPosts: (ownerPost: Partial<PostCollection['owner']>, userPostIds: string[]) => Promise<boolean>
 		updateRangeAndLocationOnPosts: (
-			userOwner: PostCollection['owner'],
-			userPosts: PostCollection[],
+			userOwner: PostEntity['owner'],
+			userPosts: PostEntity[],
 			newPostRangeLocation: PostRangeLocation,
 			subscriptionChange?: boolean
-		) => Promise<PostCollection[]>
+		) => Promise<PostEntity[]>
 
 		deletePost: (postId: string, userId: string) => Promise<boolean>
 		deletePostPictures: (postPictures: string[]) => Promise<boolean>

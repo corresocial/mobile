@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, PostEntity } from '@domain/post/entity/types'
 import { UserSubscription } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -136,7 +136,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
 		console.log(`${currentRangeSubscription} --> near`)
 
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 
 		if (!lastUserPost) return
 		const userPostsUpdated = await remotePostStorage.updateRangeAndLocationOnPosts(
@@ -146,16 +146,15 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			true
 		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[])
+		updateUserContext(userSubscription, userPostsUpdated as PostEntity[])
 	}
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		// console.log(`last address: ${getTextualAddress(lastUserPost?.location)}`)
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
-	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostEntity[] | []) => {
 		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
 	}
 

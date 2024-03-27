@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -86,7 +86,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: VacancyCollectionRemote }
+	const { postData } = route.params as { postData: VacancyEntity }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -214,7 +214,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		}
 	}
 
-	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof VacancyEntityOptional, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}

@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { PostCollectionCommonFields } from '@domain/post/entity/types'
+import { CultureEntity, CultureEntityOptional } from '@domain/post/entity/types'
 
-import { CultureContextType, CulturePostData, CultureProviderProps } from './types'
+import { CultureContextType, CultureProviderProps } from './types'
 
 import { AuthContext } from '../AuthContext'
 
 const initialValue: CultureContextType = {
 	isSecondPost: false,
-	cultureDataContext: {},
-	setCultureDataOnContext: (data: CulturePostData) => { },
+	cultureDataContext: {} as CultureEntity,
+	setCultureDataOnContext: (data: CultureEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { },
 }
 
@@ -21,7 +21,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
 
-	const setCultureDataOnContext = async (data: CulturePostData) => {
+	const setCultureDataOnContext = async (data: CultureEntityOptional) => {
 		setCultureDataContext({ ...cultureDataContext, ...data })
 	}
 
@@ -29,7 +29,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
+		const lastUserPost = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setCultureDataContext({

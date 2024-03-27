@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { PostCollectionCommonFields } from '@domain/post/entity/types'
+import { VacancyEntityOptional } from '@domain/post/entity/types'
 
-import { VacancyContextType, VacancyProviderProps, VacancyPostData } from './types'
+import { VacancyContextType, VacancyProviderProps } from './types'
 
 import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	vacancyDataContext: {},
-	setVacancyDataOnContext: (data: VacancyPostData) => { },
+	setVacancyDataOnContext: (data: VacancyEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -21,7 +21,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
-	const setVacancyDataOnContext = async (data: VacancyPostData) => {
+	const setVacancyDataOnContext = async (data: VacancyEntityOptional) => {
 		setVacancyDataContext({ ...vacancyDataContext, ...data })
 	}
 
@@ -29,7 +29,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
+		const lastUserPost = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setVacancyDataContext({

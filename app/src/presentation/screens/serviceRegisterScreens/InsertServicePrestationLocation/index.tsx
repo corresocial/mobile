@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Coordinates, PostCollection } from '@domain/post/entity/types'
+import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -43,7 +43,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	}
 
 	const getLastPostCity = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 		return lastUserPost && lastUserPost.location ? lastUserPost.location?.city || '' : ''
 	}
 
@@ -88,7 +88,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 				location: {
 					...completeAddress,
 					...geohashObject
-				}
+				} as PostEntityCommonFields['location']
 			})
 		}
 

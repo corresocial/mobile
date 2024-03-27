@@ -1,16 +1,14 @@
 import { ReactNode } from 'react'
 
-import { SocialImpactCollection } from '@domain/post/entity/types'
+import { SocialImpactEntity, SocialImpactEntityOptional } from '@domain/post/entity/types'
 
 export interface SocialImpactProviderProps {
 	children: ReactNode
 }
 
-export type SocialImpactPostData = Partial<SocialImpactCollection>
-
 export type SocialImpactContextType = {
 	isSecondPost: boolean,
-	socialImpactDataContext: SocialImpactPostData | {}
-	setSocialImpactDataOnContext: (data: SocialImpactPostData) => void
+	socialImpactDataContext: SocialImpactEntity | {}
+	setSocialImpactDataOnContext: (data: SocialImpactEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

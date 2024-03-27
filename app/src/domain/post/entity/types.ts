@@ -91,10 +91,6 @@ export type PostType = 'income' | 'socialImpact' | 'culture'
 
 export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
 
-export type PostCollection = IncomeCollection | VacancyCollection | CultureCollection | SocialImpactCollection
-
-export type PostCollectionRemote = IncomeCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
-
 export type CompleteAddress = {
 	country: string
 	state: string
@@ -110,43 +106,87 @@ export type CompleteAddress = {
 }
 
 export type FeedPosts = {
-	nearby: PostCollectionRemote[],
-	city: PostCollectionRemote[],
-	country: PostCollectionRemote[],
+	nearby: PostEntity[],
+	city: PostEntity[],
+	country: PostEntity[],
 }
 
-export interface PostCollectionCommonFields {
-	postId?: string
-	postType?: PostType
-	category?: string
-	tags?: string[]
-	description?: string
-	lookingFor?: boolean
+export type PostEntity = IncomeEntity | VacancyEntity | CultureEntity | SocialImpactEntity
+export type PostCollection = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
+
+export type IncomeEntityOptional = Partial<IncomeEntity>
+export interface IncomeEntity extends PostEntityCommonFields {
+	macroCategory?: IncomeType
+	saleValue?: string
+	exchangeValue?: string
+	itemStatus: ItemStatus
+	deliveryMethod?: DeliveryMethod
+	attendanceFrequency?: WeekdaysFrequency
+}
+
+export type VacancyEntityOptional = Partial<VacancyEntity>
+export interface VacancyEntity extends PostEntityCommonFields {
+	macroCategory?: IncomeType
+	vacancyType?: VacancyType
+	workplace?: WorkplaceType
+	importantPoints?: string[]
+	workFrequency?: WeekdaysFrequency
+	startDate?: Date
+	endDate?: Date
+	saleValue?: string
+	exchangeValue?: string
+}
+
+export type CultureEntityOptional = Partial<CultureEntity>
+export interface CultureEntity extends PostEntityCommonFields {
+	macroCategory: CultureType
+	eventPlaceModality?: PlaceModalityType
+	repeat?: EventRepeatType
+	entryValue?: string
+	exhibitionFrequency?: WeekdaysFrequency
+	startDate?: Date
+	endDate?: Date
+}
+
+export type SocialImpactEntityOptional = Partial<SocialImpactEntity>
+export interface SocialImpactEntity extends PostEntityCommonFields {
+	macroCategory?: SocialImpactType
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
+	repeat?: EventRepeatType
+	startDate?: Date
+	endDate?: Date
+}
+
+export interface PostEntityCommonFields {
+	postId: string
+	postType: PostType
+	category: string
+	tags: string[]
+	description: string
+	lookingFor: boolean
 	completed?: boolean
-	locationView?: LocationViewType
-	range?: PostRange
+	locationView: LocationViewType
+	range: PostRange
 	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
 	links?: string[]
-	createdAt?: Date
+	createdAt: Date
 	location: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
+		country: string
+		state: string
+		city: string
+		postalCode: string
+		district: string
+		street: string
+		number: string
 		coordinates: {
 			latitude: number
 			longitude: number
 		}
-		geohash: string
-		geohashNear: string[]
-		geohashCity: string[]
+		geohashNearby: string[]
 	}
 	owner: {
 		userId: string
@@ -155,7 +195,49 @@ export interface PostCollectionCommonFields {
 	}
 }
 
-export interface PostCollectionCommonFieldsRemote {
+// [DEPRECATED] ---------------------
+
+/* export interface IncomeCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: IncomeType
+	saleValue?: string
+	exchangeValue?: string
+	deliveryMethod?: DeliveryMethod
+	attendanceFrequency?: WeekdaysFrequency
+	itemStatus: ItemStatus
+} */
+
+/* export interface VacancyCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: IncomeType
+	vacancyType: VacancyType
+	workplace: WorkplaceType
+	workFrequency?: WeekdaysFrequency
+	importantPoints?: string[]
+	startDate?: Date
+	endDate?: Date
+	saleValue?: string
+	exchangeValue?: string
+} */
+
+/* export interface CultureCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: CultureType
+	eventPlaceModality?: PlaceModalityType
+	repeat?: EventRepeatType
+	entryValue?: string
+	exhibitionFrequency?: WeekdaysFrequency
+	startDate?: Date
+	endDate?: Date
+} */
+
+/* export interface SocialImpactCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory?: SocialImpactType
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
+	repeat?: EventRepeatType
+	startDate?: Date
+	endDate?: Date
+} */
+
+/* export interface PostCollectionCommonFieldsRemote {
 	postId: string
 	postType: PostType
 	category: string
@@ -185,7 +267,7 @@ export interface PostCollectionCommonFieldsRemote {
 			longitude: number
 		}
 		geohash: string
-		geohashNear: string[]
+		geohashNearby: string[]
 		geohashCity: string[]
 	}
 	owner: {
@@ -193,84 +275,4 @@ export interface PostCollectionCommonFieldsRemote {
 		name: string
 		profilePictureUrl?: string[]
 	}
-}
-
-export interface IncomeCollection extends PostCollectionCommonFields {
-	macroCategory?: IncomeType
-	saleValue?: string
-	exchangeValue?: string
-	itemStatus: ItemStatus
-	deliveryMethod?: DeliveryMethod
-	attendanceFrequency?: WeekdaysFrequency
-}
-
-export interface IncomeCollectionRemote extends PostCollectionCommonFieldsRemote {
-	macroCategory: IncomeType
-	saleValue?: string
-	exchangeValue?: string
-	deliveryMethod?: DeliveryMethod
-	attendanceFrequency?: WeekdaysFrequency
-	itemStatus: ItemStatus
-}
-
-export interface VacancyCollection extends PostCollectionCommonFields {
-	macroCategory?: IncomeType
-	vacancyType?: VacancyType
-	workplace?: WorkplaceType
-	importantPoints?: string[]
-	workFrequency?: WeekdaysFrequency
-	startDate?: Date
-	endDate?: Date
-	saleValue?: string
-	exchangeValue?: string
-}
-
-export interface VacancyCollectionRemote extends PostCollectionCommonFieldsRemote {
-	macroCategory: IncomeType
-	vacancyType: VacancyType
-	workplace: WorkplaceType
-	workFrequency?: WeekdaysFrequency
-	importantPoints?: string[]
-	startDate?: Date
-	endDate?: Date
-	saleValue?: string
-	exchangeValue?: string
-}
-
-export interface CultureCollection extends PostCollectionCommonFields {
-	macroCategory: CultureType
-	eventPlaceModality?: PlaceModalityType
-	repeat?: EventRepeatType
-	entryValue?: string
-	exhibitionFrequency?: WeekdaysFrequency
-	startDate?: Date
-	endDate?: Date
-}
-
-export interface CultureCollectionRemote extends PostCollectionCommonFieldsRemote {
-	macroCategory: CultureType
-	eventPlaceModality?: PlaceModalityType
-	repeat?: EventRepeatType
-	entryValue?: string
-	exhibitionFrequency?: WeekdaysFrequency
-	startDate?: Date
-	endDate?: Date
-}
-
-export interface SocialImpactCollection extends PostCollectionCommonFields {
-	macroCategory?: SocialImpactType
-	exhibitionPlace?: ExhibitionPlaceType
-	exhibitionFrequency?: WeekdaysFrequency
-	repeat?: EventRepeatType
-	startDate?: Date
-	endDate?: Date
-}
-
-export interface SocialImpactCollectionRemote extends PostCollectionCommonFieldsRemote {
-	macroCategory?: SocialImpactType
-	exhibitionPlace?: ExhibitionPlaceType
-	exhibitionFrequency?: WeekdaysFrequency
-	repeat?: EventRepeatType
-	startDate?: Date
-	endDate?: Date
-}
+} */

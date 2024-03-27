@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { PostCollection, PostRange } from '@domain/post/entity/types'
+import { PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
@@ -84,8 +84,8 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const renderSelectedRangeCard = () => {

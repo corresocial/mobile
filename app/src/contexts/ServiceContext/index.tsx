@@ -1,7 +1,5 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
-import { PostCollectionCommonFields } from '@domain/post/entity/types'
-
 import { ServiceContextType, ServicePostData, ServiceProviderProps } from './types'
 
 import { AuthContext } from '../AuthContext'
@@ -26,7 +24,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
+		const lastUserPost = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setServiceDataContext({

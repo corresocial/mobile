@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, PostCollection } from '@domain/post/entity/types'
+import { CultureCategories, CultureEntityOptional, CultureEntity, PostCollection } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -77,7 +77,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: CultureCollectionRemote }
+	const { postData } = route.params as { postData: CultureEntity }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -206,7 +206,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		}
 	}
 
-	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}

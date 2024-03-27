@@ -1,4 +1,4 @@
-import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, IncomeCollectionRemote } from '@domain/post/entity/types'
+import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, IncomeEntity } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -22,5 +22,5 @@ export type ServiceStackParamList = {
 	SelectServiceDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditServicePostReview: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditServicePostReview: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

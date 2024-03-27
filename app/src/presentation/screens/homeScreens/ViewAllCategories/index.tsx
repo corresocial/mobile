@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { MacroCategory, PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { MacroCategory, PostType, PostCollection, PostEntity } from '@domain/post/entity/types'
 
 import { LocationContext } from '@contexts/LocationContext'
 
@@ -36,7 +36,7 @@ const { sortPostCategories } = UiPostUtils()
 function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote[]>()
+	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>()
 	const [searchText, setSearchText] = useState('')
 
 	const { inactiveColor } = locationDataContext.currentCategory

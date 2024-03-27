@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, PostCollectionCommonFields, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, PostEntityCommonFields, VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -47,7 +47,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: PostCollectionCommonFields['owner'] = {
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -58,7 +58,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof VacancyEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'income' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -104,7 +104,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, customStack?: string) => {
+	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyEntity, customStack?: string) => {
 		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
@@ -130,8 +130,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectVacancyLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {

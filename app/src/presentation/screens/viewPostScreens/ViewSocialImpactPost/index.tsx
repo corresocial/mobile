@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -77,7 +77,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: SocialImpactCollectionRemote }
+	const { postData } = route.params as { postData: SocialImpactEntity }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -206,7 +206,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		}
 	}
 
-	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof SocialImpactEntityOptional, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}

@@ -1,4 +1,4 @@
-import { PostCollection, PostCollectionRemote, PostRange, PostType } from '@domain/post/entity/types'
+import { PostCollection, PostEntity, PostRange, PostType } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
@@ -17,7 +17,7 @@ export type HomeStackParamList = {
 	ViewAllCategories: undefined
 	ViewAllTags: undefined
 	ViewPostsByTag: { currentTagSelected: string }
-	ViewPostsByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
+	ViewPostsByRange: { postsByRange: PostEntity[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
 	SearchResult: { searchParams: Partial<FeedSearchParams>, categoryLabel?: string, searchByRange?: boolean }
 	ProfileHome: { userId: string, stackLabel?: string }
 

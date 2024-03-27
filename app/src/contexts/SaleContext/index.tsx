@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { PostCollectionCommonFields } from '@domain/post/entity/types'
+import { IncomeEntityOptional } from '@domain/post/entity/types'
 
-import { SaleContextType, SalePostData, SaleProviderProps } from './types'
+import { SaleContextType, SaleProviderProps } from './types'
 
 import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	saleDataContext: {},
-	setSaleDataOnContext: (data: SalePostData) => { },
+	setSaleDataOnContext: (data: IncomeEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -21,7 +21,7 @@ function SaleProvider({ children }: SaleProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [saleDataContext, setSaleDataContext] = useState(initialValue.saleDataContext)
 
-	const setSaleDataOnContext = async (data: SalePostData) => {
+	const setSaleDataOnContext = async (data: IncomeEntityOptional) => {
 		setSaleDataContext({ ...saleDataContext, ...data })
 	}
 
@@ -29,7 +29,7 @@ function SaleProvider({ children }: SaleProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
+		const lastUserPost = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setSaleDataContext({

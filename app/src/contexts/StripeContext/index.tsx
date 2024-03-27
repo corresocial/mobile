@@ -6,7 +6,7 @@ import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMetho
 import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
-import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+import { PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
 import { SubscriptionPlan, UserSubscription } from '@domain/user/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -317,7 +317,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 
 		const owner: PostCollection['owner'] = {
 			userId: userDataContext.userId,
@@ -336,10 +336,10 @@ export function StripeProvider({ children }: StripeContextProps) {
 			true
 		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as PostCollectionRemote[])
+		updateUserContext(userSubscription, userPostsUpdated as PostEntity[])
 	}
 
-	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostEntity[] | []) => {
 		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
 	}
 

@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react'
 
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -17,7 +17,7 @@ const initialValue: AuthContextType = {
 	},
 	setUserDataOnContext: () => { },
 	setRemoteUserOnLocal: (uid?: string, localUserData?: UserEntity) => new Promise<boolean>(() => { }),
-	getLastUserPost: () => ({}) as PostCollection
+	getLastUserPost: () => ({}) as PostEntity
 }
 
 const AuthContext = createContext<AuthContextType>(initialValue)
@@ -47,14 +47,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const getLastUserPost = () => {
 		try {
-			const { posts: userPosts }: PostCollection[] | any = userDataContext
+			const { posts: userPosts } = userDataContext
 
-			if (userPosts && !userPosts.length) return {} as PostCollection
+			if (!userPosts || (userPosts && !userPosts.length)) return {} as PostEntity
 
-			const lastUserPost: PostCollection = userPosts[0]
+			const lastUserPost = userPosts[0]
 			return lastUserPost
 		} catch (err) {
-			return {} as PostCollection
+			return {} as PostEntity
 		}
 	}
 

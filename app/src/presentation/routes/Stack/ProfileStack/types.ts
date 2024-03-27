@@ -1,4 +1,4 @@
-import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '@domain/post/entity/types'
+import { CultureEntity, IncomeEntity, LatLong, PostCollection, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity } from '@domain/user/entity/types'
 
 import { StackLabelProps } from '../../types'
@@ -13,16 +13,16 @@ export type ProfileStackParamList = {
 	ViewSocialImpactPost: { postData: PostCollection }
 	ViewCulturePost: { postData: PostCollection }
 
-	EditServicePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditSalePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditServicePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditSalePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditVacancyPost: { postData: VacancyEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditSocialImpactPost: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditCulturePost: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
 	EditProfile: { user: UserEntity }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
-	EditUserLocation: undefined
+	EditUserLocation: { initialCoordinates: LatLong }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }

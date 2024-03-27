@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, ServiceCategories, IncomeCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
+import { PostCollection, ServiceCategories, IncomeEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -45,7 +45,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: PostCollectionCommonFields['owner'] = {
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -56,7 +56,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'income' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -96,7 +96,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigateToPostView(post, navigation) // TODO Implementar nas outras telas de revisão
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
 		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
@@ -122,8 +122,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {

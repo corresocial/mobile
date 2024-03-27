@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { PostCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
+import { PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -30,7 +30,7 @@ const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 interface PostCardProps {
 	post: PostCollection | any
-	owner: PostCollectionCommonFields['owner']
+	owner: PostEntityCommonFields['owner']
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }

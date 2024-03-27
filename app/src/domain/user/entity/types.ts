@@ -1,4 +1,4 @@
-import { PostCollection, PostRange } from '@domain/post/entity/types'
+import { PostEntity, PostRange } from '@domain/post/entity/types'
 
 export type UserEntityOptional = Partial<UserEntity>
 export type UserEntity = {
@@ -9,7 +9,7 @@ export type UserEntity = {
 	tourPerformed?: boolean
 	createdAt?: Date
 	updatedAt?: Date
-	posts?: PostCollection[]
+	posts?: PostEntity[]
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription

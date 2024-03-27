@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { PostType, PostCollection, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -57,7 +57,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		setOfflinePosts(storedOfflinePosts)
 	}
 
-	const extractPostPictures = (postData: PostCollectionRemote) => postData.picturesUrl as string[] || []
+	const extractPostPictures = (postData: PostEntity) => postData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -77,7 +77,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		const savedPosts = []
 
 		try {
-			for await (const post of offlinePosts as PostCollectionRemote[]) {
+			for await (const post of offlinePosts as PostEntity[]) {
 				const currentPost = await saveAndReturnPost(post, savedPosts)
 				await localPostsStorage.deleteOfflinePostByDescription(post.description)
 				savedPosts.push(currentPost)
@@ -94,7 +94,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		return currentPost
 	}
 
-	const savePost = async (postData: PostCollectionRemote, currentBatchPosts: PostCollectionRemote[] = []) => {
+	const savePost = async (postData: PostEntity, currentBatchPosts: PostEntity[] = []) => {
 		const postPictures = extractPostPictures(postData)
 
 		setHasError(false)
@@ -170,7 +170,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	const updateUserPost = async (
 		localUser: UserEntityOptional,
 		postId: string,
-		postData: PostCollectionRemote,
+		postData: PostEntity,
 	) => {
 		const postDataToSave = {
 			...postData,
@@ -192,13 +192,13 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			!!userDataContext.posts,
 		)
 			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostEntity[] : []
 				setUserDataOnContext({
 					...localUser,
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{ ...postDataToSave } as PostCollection
+						{ ...postDataToSave }
 					],
 				})
 				localStorage.saveLocalUserData({
@@ -242,7 +242,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	const renderPostItem = (item: PostCollection) => (
 		<PostCard
 			post={{ ...item, createdAt: new Date() }}
-			owner={item.owner}
+			owner={item.owner as PostEntityCommonFields['owner']}
 			onPress={() => naigateToReviewPost(item)}
 		/>
 	)

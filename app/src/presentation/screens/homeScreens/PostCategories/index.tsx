@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { FeedPosts, MacroCategory, PostType, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, MacroCategory, PostType, PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -41,7 +41,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote[]>()
+	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>()
 
 	const [feedPostsByTypeAndMacroCategory, setFeedPostsByTypeAndMacroCategory] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
@@ -68,9 +68,9 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const filterPostsByPostType = () => {
 		return {
-			nearby: locationDataContext.feedPosts?.nearby.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			city: locationDataContext.feedPosts?.city.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			country: locationDataContext.feedPosts?.country.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || []
+			nearby: locationDataContext.feedPosts?.nearby.filter((post) => postBelongContextPostType(post)) || [],
+			city: locationDataContext.feedPosts?.city.filter((post) => postBelongContextPostType(post)) || [],
+			country: locationDataContext.feedPosts?.country.filter((post) => postBelongContextPostType(post)) || []
 		}
 	}
 
@@ -100,13 +100,13 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const filterPostsByText = () => {
 		return {
-			nearby: feedPostsByTypeAndMacroCategory.nearby.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
-			city: feedPostsByTypeAndMacroCategory.city.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
-			country: feedPostsByTypeAndMacroCategory.country.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || []
+			nearby: feedPostsByTypeAndMacroCategory.nearby.filter((post) => hasPostDescriptionMatch(post)) || [],
+			city: feedPostsByTypeAndMacroCategory.city.filter((post) => hasPostDescriptionMatch(post)) || [],
+			country: feedPostsByTypeAndMacroCategory.country.filter((post) => hasPostDescriptionMatch(post)) || []
 		}
 	}
 
-	const hasPostDescriptionMatch = (post: PostCollectionRemote) => {
+	const hasPostDescriptionMatch = (post: PostEntity) => {
 		if (!post) return false
 		return !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}

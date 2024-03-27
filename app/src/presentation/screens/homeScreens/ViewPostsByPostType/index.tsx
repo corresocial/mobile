@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { FeedPosts, PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -63,26 +63,26 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 
 	const filterPostsByPostType = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || []
+			nearby: locationDataContext.feedPosts.nearby.filter((post) => postBelongContextPostType(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post) => postBelongContextPostType(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post) => postBelongContextPostType(post)) || []
 		}
 	}
 
-	const postBelongContextPostType = (post: PostCollectionRemote) => {
+	const postBelongContextPostType = (post: PostEntity) => {
 		if (!post) return false
 		return post.postType === locationDataContext.searchParams.postType
 	}
 
 	const filterPostsByText = () => {
 		return {
-			nearby: feedPostsByType.nearby.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
-			city: feedPostsByType.city.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
-			country: feedPostsByType.country.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || []
+			nearby: feedPostsByType.nearby.filter((post) => hasPostDescriptionMatch(post)) || [],
+			city: feedPostsByType.city.filter((post) => hasPostDescriptionMatch(post)) || [],
+			country: feedPostsByType.country.filter((post) => hasPostDescriptionMatch(post)) || []
 		}
 	}
 
-	const hasPostDescriptionMatch = (post: PostCollectionRemote) => {
+	const hasPostDescriptionMatch = (post: PostEntity) => {
 		if (!post) return false
 		return !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}

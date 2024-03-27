@@ -3,7 +3,7 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { PostType, PostCollection, PostEntity } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -60,18 +60,18 @@ type EditContextFragment = {
 }
 
 interface EditPostProps {
-	initialPostData: PostCollectionRemote
-	owner: PostCollectionRemote['owner']
+	initialPostData: PostEntity
+	owner: PostEntity['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
 	offlinePost?: boolean
 	children: React.ReactNode | React.ReactNode[]
 	navigateBackwards: () => void
 	navigateToProfile?: () => void
-	navigateToPostView: (postData: PostCollectionRemote) => void
+	navigateToPostView: (postData: PostEntity) => void
 	navigateToSubscriptionContext: () => void
 	showShareModal: (visibility: boolean, postTitle?: string, postId?: string) => void
-	getPostField: <K extends keyof PostCollectionRemote>(fieldName: K, allowNull?: boolean) => PostCollectionRemote[K]
+	getPostField: <K extends keyof PostEntity>(fieldName: K, allowNull?: boolean) => PostEntity[K]
 	userContext: UserContextFragment
 	editContext: EditContextFragment
 }
@@ -113,7 +113,7 @@ function EditPost({
 		return !!networkStatus.isConnected && !!networkStatus.isInternetReachable
 	}
 
-	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostCollectionRemote[]) => {
+	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostEntity[]) => {
 		const userPosts = updatedLocationPosts || userDataContext.posts || []
 		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId) || []
 	}
@@ -197,7 +197,7 @@ function EditPost({
 				{ posts: [...userPostsUpdated, postDataToSave] }
 			)
 
-			updateUserContext(postDataToSave, userPostsUpdated as PostCollectionRemote[])
+			updateUserContext(postDataToSave, userPostsUpdated as PostEntity[])
 			changeStateOfEditedFields()
 			setIsLoading(false)
 			navigateBackwards()
@@ -208,14 +208,14 @@ function EditPost({
 		}
 	}
 
-	const extractPostPictures = (postData: PostCollectionRemote) => postData.picturesUrl as string[] || []
+	const extractPostPictures = (postData: PostEntity) => postData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
 	const savePost = async () => {
 		const hasValidConnection = await checkNetworkStatus()
 
-		const postData = { ...initialPostData, completed: false, ...editDataContext.unsaved } as PostCollectionRemote
+		const postData = { ...initialPostData, completed: false, ...editDataContext.unsaved } as PostEntity
 
 		if (offlinePost && !hasValidConnection) return
 
@@ -243,7 +243,7 @@ function EditPost({
 		}
 
 		try {
-			let userPostsUpdated: PostCollection[] = []
+			let userPostsUpdated: PostEntity[] = []
 			if (locationRangeChanged()) {
 				console.log(`localização ou range mudaram: ${locationRangeChanged()}`)
 				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
@@ -355,8 +355,8 @@ function EditPost({
 	const updateUserPost = async (
 		localUser: UserEntity,
 		postId: string,
-		postData: PostCollectionRemote,
-		postsUpdated: PostCollection[] = []
+		postData: PostEntity,
+		postsUpdated: PostEntity[] = []
 	) => {
 		try {
 			const postDataToSave = {
@@ -372,13 +372,13 @@ function EditPost({
 				{ posts: [...postsUpdated, postDataToSave] }
 			)
 
-			const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollectionRemote[] : []
+			const localUserPosts = localUser.posts ? [...localUser.posts] as PostEntity[] : []
 			userContext.setUserDataOnContext({
 				...localUser,
 				tourPerformed: true,
 				posts: [
 					...localUserPosts,
-					{ ...postDataToSave, owner } as PostCollectionRemote
+					{ ...postDataToSave, owner } as PostEntity
 				],
 			})
 			localStorage.saveLocalUserData({
@@ -472,7 +472,7 @@ function EditPost({
 											)
 
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
-											updateUserContext(postDataToSave, postsUpdated as PostCollectionRemote[])
+											updateUserContext(postDataToSave, postsUpdated as PostEntity[])
 											setIsLoading(false)
 											navigateBackwards()
 										}
@@ -492,7 +492,7 @@ function EditPost({
 		return picturePostsUrls
 	}
 
-	const updateUserContext = (postAfterEdit: PostCollectionRemote | false, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+	const updateUserContext = (postAfterEdit: PostEntity | false, updatedLocationPosts?: PostEntity[] | []) => {
 		const allPosts = updatedLocationPosts && updatedLocationPosts.length ? [...updatedLocationPosts] : [...getUserPostsWithoutEdited()]
 
 		userContext.setUserDataOnContext({

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -33,7 +33,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		const { postsByRange } = route.params
 
 		if (searchText) {
-			return postsByRange.filter((post: PostCollectionRemote) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length)
+			return postsByRange.filter((post) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
 		return postsByRange
 	}
@@ -95,7 +95,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		<ContainerPadding>
 			<PostCard
 				post={item}
-				owner={item.owner}
+				owner={item.owner as PostEntityCommonFields['owner']}
 				navigateToProfile={navigateToProfile}
 				onPress={() => viewPostDetails(item)}
 			/>

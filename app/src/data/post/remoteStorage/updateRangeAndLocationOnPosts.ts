@@ -1,4 +1,4 @@
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -6,7 +6,7 @@ import { updatePostData } from './updatePostData' // from data/post
 
 export type PostRangeLocation = {
 	range: string
-	location: PostCollection['location']
+	location: PostEntity['location']
 }
 
 // THIS is DOMAIN
@@ -14,8 +14,8 @@ export type PostRangeLocation = {
 const { remoteStorage } = useUserRepository()
 
 async function updateRangeAndLocationOnPosts(
-	userOwner: PostCollection['owner'],
-	userPosts: PostCollection[],
+	userOwner: PostEntity['owner'],
+	userPosts: PostEntity[],
 	newPostRangeLocation: PostRangeLocation,
 	subscriptionChange?: boolean
 ) {
@@ -57,7 +57,7 @@ async function updateRangeAndLocationOnPosts(
 	}
 }
 
-const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {
+const updatePostsLocation = async (posts: PostEntity[], newPostRangeLocation: PostRangeLocation) => {
 	if (!posts) return []
 
 	const updatedPosts = posts.map((post) => {
@@ -88,7 +88,7 @@ const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation
 	return updatedPosts
 }
 
-const updatePostsRange = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {
+const updatePostsRange = async (posts: PostEntity[], newPostRangeLocation: PostRangeLocation) => {
 	if (!posts) return []
 
 	const updatedPosts = posts.map((post) => {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { EventRepeatType, PostCollection, PostCollectionCommonFields, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@domain/post/entity/types'
+import { EventRepeatType, PostCollection, PostEntityCommonFields, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -46,18 +46,18 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: PostCollectionCommonFields['owner'] = {
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
-	} as PostCollectionCommonFields['owner']
+	}
 
 	useEffect(() => {
 		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof SocialImpactEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'socialImpact' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -109,7 +109,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		navigation.navigate('ViewSocialImpactPost' as any, { postData: socialImpactPostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactEntity) => {
 		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
@@ -135,8 +135,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {

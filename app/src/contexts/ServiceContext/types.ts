@@ -1,16 +1,16 @@
 import { ReactNode } from 'react'
 
-import { IncomeCollection } from '@domain/post/entity/types'
+import { IncomeEntity, IncomeEntityOptional } from '@domain/post/entity/types'
 
 export interface ServiceProviderProps {
 	children: ReactNode
 }
 
-export type ServicePostData = Partial<IncomeCollection>
+export type ServicePostData = Partial<IncomeEntity>
 
 export type ServiceContextType = {
 	isSecondPost: boolean
-	serviceDataContext: ServicePostData | {}
-	setServiceDataOnContext: (data: ServicePostData) => void
+	serviceDataContext: IncomeEntity | {}
+	setServiceDataOnContext: (data: IncomeEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

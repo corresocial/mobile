@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection, PostCollectionCommonFields } from '@domain/post/entity/types'
+import { CultureCategories, CultureEntityOptional, CultureEntity, EventRepeatType, PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -46,11 +46,11 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const owner: PostCollectionCommonFields['owner'] = {
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
-	} as PostCollectionCommonFields['owner']
+	}
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 
@@ -59,7 +59,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'culture' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -111,7 +111,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureEntity) => {
 		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
@@ -137,8 +137,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectCultureLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {

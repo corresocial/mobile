@@ -1,16 +1,14 @@
 import { ReactNode } from 'react'
 
-import { CultureCollection } from '@domain/post/entity/types'
+import { CultureEntity, CultureEntityOptional } from '@domain/post/entity/types'
 
 export interface CultureProviderProps {
 	children: ReactNode
 }
 
-export type CulturePostData = Partial<CultureCollection>
-
 export type CultureContextType = {
 	isSecondPost: boolean
-	cultureDataContext: CulturePostData | {}
-	setCultureDataOnContext: (data: CulturePostData) => void
+	cultureDataContext: CultureEntity | {}
+	setCultureDataOnContext: (data: CultureEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

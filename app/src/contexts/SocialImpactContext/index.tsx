@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { PostCollectionCommonFields } from '@domain/post/entity/types'
+import { SocialImpactEntityOptional } from '@domain/post/entity/types'
 
-import { SocialImpactProviderProps, SocialImpactContextType, SocialImpactPostData } from './types'
+import { SocialImpactProviderProps, SocialImpactContextType } from './types'
 
 import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
 	socialImpactDataContext: {},
-	setSocialImpactDataOnContext: (data: SocialImpactPostData) => { },
+	setSocialImpactDataOnContext: (data: SocialImpactEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { }
 }
 
@@ -21,12 +21,12 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
 
-	const setSocialImpactDataOnContext = async (data: SocialImpactPostData) => {
+	const setSocialImpactDataOnContext = async (data: SocialImpactEntityOptional) => {
 		setSocialImpactDataContext({ ...socialImpactDataContext, ...data })
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost: PostCollectionCommonFields = getLastUserPost() || {}
+		const lastUserPost = getLastUserPost() || {}
 		if (!Object.keys(lastUserPost).length) return
 
 		setSocialImpactDataContext({

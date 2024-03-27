@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 
-import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
+import { PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -45,13 +45,13 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 
 	const filterPostsByCategory = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
+			nearby: locationDataContext.feedPosts.nearby.filter((post) => filterPostsByRange(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post) => filterPostsByRange(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post) => filterPostsByRange(post)) || []
 		}
 	}
 
-	const filterPostsByRange = (post: PostCollectionRemote) => {
+	const filterPostsByRange = (post: PostEntity) => {
 		return post.macroCategory === locationDataContext.searchParams.macroCategory
 			&& post.postType === locationDataContext.searchParams.postType
 			&& post.category === categoryName

@@ -1,4 +1,4 @@
-import { CultureCategories, CultureCollectionRemote, DaysOfWeek, LatLong, LocationViewType, PostRange } from '@domain/post/entity/types'
+import { CultureCategories, CultureEntity, DaysOfWeek, LatLong, LocationViewType, PostRange } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -23,5 +23,5 @@ export type CultureStackParamList = {
 	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditCulturePostReview: { postData: CultureCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditCulturePostReview: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList
