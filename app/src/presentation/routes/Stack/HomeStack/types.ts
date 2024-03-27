@@ -1,4 +1,4 @@
-import { PostCollection, PostEntity, PostRange, PostType } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntity, PostRange, PostType } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
@@ -6,10 +6,10 @@ import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 export type HomeStackParamList = {
 	Home: { userId?: string }
 
-	ViewIncomePostHome: { postData: PostCollection }
-	ViewVacancyPostHome: { postData: PostCollection }
-	ViewSocialImpactPostHome: { postData: PostCollection }
-	ViewCulturePostHome: { postData: PostCollection }
+	ViewIncomePostHome: { postData: PostEntityOptional }
+	ViewVacancyPostHome: { postData: PostEntityOptional }
+	ViewSocialImpactPostHome: { postData: PostEntityOptional }
+	ViewCulturePostHome: { postData: PostEntityOptional }
 
 	PostCategories: undefined
 	ViewPostsByPostType: { postType: PostType }

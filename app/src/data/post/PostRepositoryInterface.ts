@@ -1,4 +1,4 @@
-import { PostType, PostCollection, PostEntity } from '@domain/post/entity/types'
+import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
 import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
@@ -6,23 +6,23 @@ import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts
 interface PostRepositoryInterface {
 	localStorage: {
 		getNumberOfOfflinePosts: () => Promise<number>
-		getOfflinePosts: () => Promise<PostCollection[]>
+		getOfflinePosts: () => Promise<PostEntityOptional[]>
 
-		saveOfflinePost: (post: PostCollection) => Promise<boolean>
+		saveOfflinePost: (post: PostEntityOptional) => Promise<boolean>
 
 		deleteOfflinePostByDescription: (description: string) => Promise<boolean>
 		clearOfflinePosts: () => Promise<boolean>
 	},
 
 	remoteStorage: {
-		getPostById: (postId: string) => Promise<PostCollection | null>
+		getPostById: (postId: string) => Promise<PostEntityOptional | null>
 
-		createPost: (post: PostCollection, user: UserEntity, postType: PostType) => Promise<string | null>
-		createPostWithCustomId: (postData: PostCollection, ownerPost: PostCollection['owner'], postType: PostType, customId: string) => Promise<string | boolean>
+		createPost: (post: PostEntityOptional, user: UserEntity, postType: PostType) => Promise<string | null>
+		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
 
-		updatePostData: (postId: string, data: PostCollection) => Promise<boolean>
-		markPostAsComplete: (userId: string, postId: string, currentPost: PostCollection, userPosts: PostCollection[]) => Promise<boolean>
-		updateOwnerDataOnPosts: (ownerPost: Partial<PostCollection['owner']>, userPostIds: string[]) => Promise<boolean>
+		updatePostData: (postId: string, data: PostEntityOptional) => Promise<boolean>
+		markPostAsComplete: (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => Promise<boolean>
+		updateOwnerDataOnPosts: (ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
 		updateRangeAndLocationOnPosts: (
 			userOwner: PostEntity['owner'],
 			userPosts: PostEntity[],

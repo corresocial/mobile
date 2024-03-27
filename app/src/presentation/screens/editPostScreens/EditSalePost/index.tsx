@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, SaleCategories, IncomeEntityOptional } from '@domain/post/entity/types'
+import { PostEntityOptional, SaleCategories, IncomeEntityOptional } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -93,7 +93,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigation.navigate('Profile' as any)
 	}
 
-	const viewPostDetails = (post: PostCollection) => {
+	const viewPostDetails = (post: PostEntityOptional) => {
 		navigateToPostView(post, navigation)
 	}
 

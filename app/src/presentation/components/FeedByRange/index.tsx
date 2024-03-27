@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
-import { FeedPosts, PostCollection, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
 
 import { Container, PostCardContainer } from './styles'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
@@ -22,7 +22,7 @@ interface FeedByRangeProps {
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
 	navigateToProfile: (userId: string) => void
-	goToPostView: (post: PostCollection) => void
+	goToPostView: (post: PostEntityOptional) => void
 }
 
 function FeedByRange({
@@ -63,12 +63,12 @@ function FeedByRange({
 		})
 	}
 
-	const renderPostItem = (item: PostCollection) => {
+	const renderPostItem = (item: PostEntityOptional) => {
 		return (
 			<PostCardContainer key={uuid()}>
 				<PostCard
 					post={item}
-					owner={item.owner}
+					owner={item.owner as PostEntityCommonFields['owner']}
 					navigateToProfile={navigateToProfile}
 					onPress={() => goToPostView(item)}
 				/>

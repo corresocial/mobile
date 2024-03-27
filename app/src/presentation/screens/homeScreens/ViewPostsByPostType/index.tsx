@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { FeedPosts, PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -102,7 +102,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 	}
 
-	const viewPostViewDetails = (postData: PostCollection) => {
+	const viewPostViewDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { VacancyEntityOptional } from '@domain/post/entity/types'
+import { VacancyEntity, VacancyEntityOptional } from '@domain/post/entity/types'
 
 import { VacancyContextType, VacancyProviderProps } from './types'
 
@@ -8,7 +8,7 @@ import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
-	vacancyDataContext: {},
+	vacancyDataContext: {} as VacancyEntity,
 	setVacancyDataOnContext: (data: VacancyEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { }
 }
@@ -36,7 +36,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || ''
-		})
+		} as VacancyEntity)
 		setIsSecondPost(true)
 	}
 

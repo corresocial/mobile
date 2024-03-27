@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { EventRepeatType, PostCollection, PostEntityCommonFields, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
+import { EventRepeatType, PostEntityOptional, PostEntityCommonFields, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -105,7 +105,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		navigation.navigate('Profile' as any)
 	}
 
-	const navigateToPostView = (socialImpactPostData: PostCollection) => {
+	const navigateToPostView = (socialImpactPostData: PostEntityOptional) => {
 		navigation.navigate('ViewSocialImpactPost' as any, { postData: socialImpactPostData })
 	}
 

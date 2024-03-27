@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { PostCollection, PostEntity } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 import { UserSubscription } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -55,7 +55,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
 
-	const owner: PostCollection['owner'] = {
+	const owner: PostEntityOptional['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl

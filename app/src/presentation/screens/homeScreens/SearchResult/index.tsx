@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { FeedPosts, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -105,7 +105,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 

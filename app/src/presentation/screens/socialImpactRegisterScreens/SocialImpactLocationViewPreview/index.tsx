@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLocationViewPreviewScreenProps) {
-	const { socialImpactDataContext, } = useContext(SocialImpactContext)
+	const { socialImpactDataContext } = useContext(SocialImpactContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params

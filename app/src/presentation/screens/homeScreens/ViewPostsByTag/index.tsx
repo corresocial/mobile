@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import { PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -45,7 +45,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const filteredFeedPosts = filterPostsByCategory()
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
@@ -64,7 +64,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			category: locationDataContext.currentCategory.categoryName,
 			tag: route.params.currentTagSelected
 		}
-		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle })
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {

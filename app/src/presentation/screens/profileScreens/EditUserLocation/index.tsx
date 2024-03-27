@@ -17,7 +17,7 @@ import { generateGeohashes } from '@common/generateGeohashes'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
-const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // REFACTOR This is a service
+const { structureAddress } = UiLocationUtils() // REFACTOR This is domain
 
 function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 	const theme = useTheme()

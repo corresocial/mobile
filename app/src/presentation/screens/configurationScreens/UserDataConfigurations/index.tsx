@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 import { differenceInMinutes } from 'date-fns'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -79,7 +79,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			await removeAllUserData( // REFACTOR Não importar direto
 				userDataContext.userId,
 				userDataContext.profilePictureUrl || [],
-				userDataContext.posts as PostCollection[]
+				userDataContext.posts as PostEntityOptional[]
 			).then(() => toggleSuccessModalVisibility())
 			setIsLoading(false)
 		} catch (error: any) {

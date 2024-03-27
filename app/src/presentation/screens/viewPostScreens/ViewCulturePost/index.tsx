@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureCategories, CultureEntityOptional, CultureEntity, PostCollection } from '@domain/post/entity/types'
+import { CultureCategories, CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -129,7 +129,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
+		const postsWithoutDeletedPost = currentUserPosts.filter((post) => post.postId !== postData.postId)
 		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 

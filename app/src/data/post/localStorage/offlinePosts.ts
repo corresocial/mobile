@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { LOCAL_OFFLINE_POSTS_REPOSITORY_KEY } from '@data/localStorageKeys'
 
@@ -8,7 +8,7 @@ async function getOfflinePosts() {
 	try {
 		const storedPosts = await AsyncStorage.getItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY)
 		if (storedPosts) {
-			const storedPostsObject: PostCollection[] = JSON.parse(storedPosts)
+			const storedPostsObject: PostEntityOptional[] = JSON.parse(storedPosts)
 			return storedPostsObject
 		}
 		return []
@@ -28,11 +28,11 @@ async function getNumberOfOfflinePosts() {
 	}
 }
 
-async function saveOfflinePost(newPost: PostCollection) {
+async function saveOfflinePost(newPost: PostEntityOptional) {
 	try {
 		const storedPosts = await getOfflinePosts()
 
-		const filteredPosts = storedPosts.reduce((acc: PostCollection[], post: PostCollection) => {
+		const filteredPosts = storedPosts.reduce((acc: PostEntityOptional[], post: PostEntityOptional) => {
 			if (post.description === newPost.description) {
 				return [...acc]
 			}
@@ -54,7 +54,7 @@ async function deleteOfflinePostByDescription(description: string) {
 	try {
 		const storedPosts = await getOfflinePosts()
 
-		const filteredPosts = storedPosts.filter((post: PostCollection) => post.description !== description)
+		const filteredPosts = storedPosts.filter((post: PostEntityOptional) => post.description !== description)
 		await AsyncStorage.setItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY, JSON.stringify(filteredPosts))
 		return true
 	} catch (error) {

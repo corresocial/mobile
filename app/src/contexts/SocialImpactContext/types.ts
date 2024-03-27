@@ -8,7 +8,7 @@ export interface SocialImpactProviderProps {
 
 export type SocialImpactContextType = {
 	isSecondPost: boolean,
-	socialImpactDataContext: SocialImpactEntity | {}
+	socialImpactDataContext: SocialImpactEntity
 	setSocialImpactDataOnContext: (data: SocialImpactEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

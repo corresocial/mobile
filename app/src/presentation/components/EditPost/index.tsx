@@ -3,7 +3,7 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { PostType, PostCollection, PostEntity } from '@domain/post/entity/types'
+import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -115,7 +115,7 @@ function EditPost({
 
 	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostEntity[]) => {
 		const userPosts = updatedLocationPosts || userDataContext.posts || []
-		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId) || []
+		return userPosts.filter((post) => post.postId !== initialPostData.postId) || []
 	}
 
 	const locationRangeChanged = () => { // REFACTOR Refatorar função
@@ -155,7 +155,7 @@ function EditPost({
 
 		try {
 			setIsLoading(true)
-			let userPostsUpdated: PostCollection[] = []
+			let userPostsUpdated: PostEntityOptional[] = []
 			if (locationRangeChanged()) {
 				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 					owner,
@@ -164,7 +164,7 @@ function EditPost({
 						range: getPostField('range'),
 						location: getPostField('location')
 					}
-				) as PostCollection[]
+				) as PostEntityOptional[]
 			}
 
 			userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
@@ -425,7 +425,7 @@ function EditPost({
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
 	}
 
-	const performPicturesUpload = async (postsUpdated: PostCollection[]) => {
+	const performPicturesUpload = async (postsUpdated: PostEntityOptional[]) => {
 		const picturesNotUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => !url.includes('https://')) || []
 		const picturesAlreadyUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')) || []
 

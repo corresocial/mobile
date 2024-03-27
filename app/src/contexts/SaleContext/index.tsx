@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { IncomeEntityOptional } from '@domain/post/entity/types'
+import { IncomeEntity, IncomeEntityOptional } from '@domain/post/entity/types'
 
 import { SaleContextType, SaleProviderProps } from './types'
 
@@ -8,7 +8,7 @@ import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
-	saleDataContext: {},
+	saleDataContext: {} as IncomeEntity,
 	setSaleDataOnContext: (data: IncomeEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { }
 }
@@ -36,7 +36,7 @@ function SaleProvider({ children }: SaleProviderProps) {
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || ''
-		})
+		} as IncomeEntity)
 		setIsSecondPost(true)
 	}
 

@@ -199,7 +199,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 						horizontal
 						showsHorizontalScrollIndicator={false}
 						pagingEnabled
-						contentContainerStyle={{ justifyContent: 'center', }}
+						contentContainerStyle={{ justifyContent: 'center' }}
 					>
 						<SelectPeriodButtonContainer>
 							<SearchInputContainer>

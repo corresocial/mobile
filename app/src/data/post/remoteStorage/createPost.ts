@@ -1,11 +1,11 @@
 import { addDoc, collection } from 'firebase/firestore'
 
-import { PostCollection, PostType } from '@domain/post/entity/types'
+import { PostEntityOptional, PostType } from '@domain/post/entity/types'
 import { UserEntityOptional } from '@domain/user/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-async function createPost(post: PostCollection, user: UserEntityOptional, postType: PostType) {
+async function createPost(post: PostEntityOptional, user: UserEntityOptional, postType: PostType) {
 	try {
 		const docRef = await addDoc(collection(firestore, 'posts'), {
 			...post,

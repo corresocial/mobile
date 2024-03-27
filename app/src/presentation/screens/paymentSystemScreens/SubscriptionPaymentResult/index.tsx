@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import { Alert, BackHandler } from 'react-native'
 
+import { PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
@@ -132,7 +134,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 								{
 									(currentPostOnSubscription && postReview) && (
 										<PostCard
-											owner={currentPostOnSubscription && currentPostOnSubscription.owner}
+											owner={currentPostOnSubscription && currentPostOnSubscription.owner as PostEntityCommonFields['owner']}
 											post={currentPostOnSubscription}
 											onPress={() => { }}
 										/>

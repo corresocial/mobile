@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import uuid from 'react-uuid'
 
-import { PostType, PostCollection } from '@domain/post/entity/types'
+import { PostType, PostEntityOptional } from '@domain/post/entity/types'
 
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
@@ -15,9 +15,9 @@ import { FilterButton } from '@components/_buttons/FilterButton'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface PostFilterProps {
-	posts: PostCollection[],
+	posts: PostEntityOptional[],
 	setHasPostFilter: React.Dispatch<React.SetStateAction<boolean>>,
-	setFilteredPosts: React.Dispatch<React.SetStateAction<PostCollection[]>>
+	setFilteredPosts: React.Dispatch<React.SetStateAction<PostEntityOptional[]>>
 }
 
 function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterProps) {
@@ -30,7 +30,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 	}, [selectedPostType, selectedMacroCategories])
 
 	const performFilterPostsByPostTypeAndMacroCategory = () => {
-		const filteredPosts = posts.filter((post: PostCollection) => {
+		const filteredPosts = posts.filter((post) => {
 			if (
 				selectedPostType
 				&& !selectedMacroCategories.length
@@ -58,7 +58,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 	}
 
 	const getPostTypes = () => {
-		const postTypes = posts.reduce((acc: any[], current: PostCollection) => {
+		const postTypes = posts.reduce((acc: any[], current: PostEntityOptional) => {
 			if (acc.includes(current.postType)) { return [...acc] }
 			return [...acc, current.postType]
 		}, [])
@@ -67,7 +67,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 	}
 
 	const getPostMacroCategories = (postType: PostType): MacroCategoriesType[] => {
-		return posts.reduce((acc: any[], current: PostCollection) => {
+		return posts.reduce((acc: any[], current: PostEntityOptional) => {
 			if (acc.includes(current.macroCategory)) { return [...acc] }
 			if (postType === current.postType) { return [...acc, current.macroCategory] }
 			return [...acc]

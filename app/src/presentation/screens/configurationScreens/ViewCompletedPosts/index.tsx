@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { FlatList, StatusBar } from 'react-native'
 
-import { PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -21,9 +21,9 @@ import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const viewPostDetails = (post: PostCollection) => {
+	const viewPostDetails = (post: PostEntityOptional) => {
 		const postData = { ...post, owner: getUserDataOnly() }
-		navigateToPostView(postData as PostCollection, navigation)
+		navigateToPostView(postData as PostEntityOptional, navigation)
 	}
 
 	const getUserDataOnly = () => {
@@ -51,7 +51,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 			<Body>
 				<FlatList
 					data={getCompletedPosts()}
-					renderItem={({ item }: FlatListItem<PostCollection>) => (
+					renderItem={({ item }: FlatListItem<PostEntityOptional>) => (
 						<PostPadding>
 							<PostCard
 								post={item}

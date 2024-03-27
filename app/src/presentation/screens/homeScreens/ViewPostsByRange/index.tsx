@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -87,11 +87,11 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
-	const renderPostItem = (item: PostCollection) => (
+	const renderPostItem = (item: PostEntityOptional) => (
 		<ContainerPadding>
 			<PostCard
 				post={item}

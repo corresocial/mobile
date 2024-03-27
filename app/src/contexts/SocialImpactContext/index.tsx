@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { SocialImpactEntityOptional } from '@domain/post/entity/types'
+import { SocialImpactEntity, SocialImpactEntityOptional } from '@domain/post/entity/types'
 
 import { SocialImpactProviderProps, SocialImpactContextType } from './types'
 
@@ -8,7 +8,7 @@ import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
-	socialImpactDataContext: {},
+	socialImpactDataContext: {} as SocialImpactEntity,
 	setSocialImpactDataOnContext: (data: SocialImpactEntityOptional) => { },
 	getAditionalDataFromLastPost: () => { }
 }
@@ -33,7 +33,7 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || ''
-		})
+		} as SocialImpactEntity)
 		setIsSecondPost(true)
 	}
 

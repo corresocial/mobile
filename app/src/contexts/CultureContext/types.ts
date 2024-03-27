@@ -8,7 +8,7 @@ export interface CultureProviderProps {
 
 export type CultureContextType = {
 	isSecondPost: boolean
-	cultureDataContext: CultureEntity | {}
+	cultureDataContext: CultureEntity
 	setCultureDataOnContext: (data: CultureEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

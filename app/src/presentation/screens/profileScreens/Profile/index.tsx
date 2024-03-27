@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Id, PostCollection, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
+import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -86,7 +86,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
-	const [filteredPosts, setFilteredPosts] = useState<PostCollection[]>([])
+	const [filteredPosts, setFilteredPosts] = useState<PostEntityOptional[]>([])
 	const [hasPostFilter, setHasPostFilter] = useState(false)
 
 	const [user, setUser] = useState<UserEntityOptional>({})
@@ -137,9 +137,9 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const getFilteredUserPosts = () => filteredPosts || []
 
-	const viewPostDetails = (post: PostCollection) => {
+	const viewPostDetails = (post: PostEntityOptional) => {
 		const customStackLabel = route.params?.userId && !route.params?.stackLabel ? 'Home' : route.params?.stackLabel
-		const postData = { ...post, owner: getUserDataOnly() } as PostCollection
+		const postData = { ...post, owner: getUserDataOnly() } as PostEntityOptional
 
 		navigateToPostView(postData, navigation, customStackLabel)
 	}
@@ -246,7 +246,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			return user.posts
 				? user.posts
 					.filter((post) => !post.completed)
-					.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number)
+					.sort(sortPostsByCreatedData as (a: PostEntityOptional, b: PostEntityOptional) => number)
 				: []
 		}
 
@@ -566,7 +566,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								</>
 							)}
 							data={getFlatlistPosts()}
-							renderItem={({ item }: FlatListItem<PostCollection>) => (
+							renderItem={({ item }: FlatListItem<PostEntityOptional>) => (
 								<PostPadding>
 									<PostCard
 										post={item}

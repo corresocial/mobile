@@ -10,8 +10,8 @@ export interface LocationProviderProps {
 }
 
 export type LocationData = {
-	searchParams: Partial<FeedSearchParams>
-	currentCategory: Partial<CurrentCategory>
+	searchParams: FeedSearchParams
+	currentCategory: CurrentCategory
 	feedPosts: FeedPosts
 	lastRefreshInMilliseconds?: number
 }

@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { MacroCategory, PostType, PostCollection, PostEntity } from '@domain/post/entity/types'
+import { MacroCategory, PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 
 import { LocationContext } from '@contexts/LocationContext'
 
@@ -117,7 +117,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	}
 
 	const hasPostsOnCategory = (category: string) => {
-		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostCollection) => post.category === category))
+		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostEntityOptional) => post.category === category))
 		return postsOnCategory ? !!postsOnCategory.length : false
 	}
 

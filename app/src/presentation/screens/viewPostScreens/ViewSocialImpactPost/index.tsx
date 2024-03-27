@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostCollection, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
+import { PostEntityOptional, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -129,7 +129,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
+		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostEntityOptional) => post.postId !== postData.postId)
 		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 

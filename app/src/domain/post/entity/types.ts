@@ -97,7 +97,7 @@ export type FeedPosts = {
 export type PostType = 'income' | 'socialImpact' | 'culture'
 
 export type PostEntity = IncomeEntity | VacancyEntity | CultureEntity | SocialImpactEntity
-export type PostCollection = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
+export type PostEntityOptional = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
 
 export type IncomeEntityOptional = Partial<IncomeEntity>
 export interface IncomeEntity extends PostEntityCommonFields {

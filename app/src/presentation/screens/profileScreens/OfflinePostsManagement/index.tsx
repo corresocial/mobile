@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { PostType, PostCollection, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
+import { PostType, PostEntityOptional, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -38,7 +38,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
-	const [offlinePosts, setOfflinePosts] = useState<PostCollection[]>([])
+	const [offlinePosts, setOfflinePosts] = useState<PostEntityOptional[]>([])
 
 	const [hasError, setHasError] = useState(false)
 
@@ -206,7 +206,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{ ...postDataToSave } as PostCollection
+						{ ...postDataToSave } as PostEntityOptional
 					],
 				} as UserEntity)
 
@@ -221,7 +221,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const allOfflinePostsOnRange = () => {
-		const posts = offlinePosts.map((post: PostCollection) => {
+		const posts = offlinePosts.map((post: PostEntityOptional) => {
 			if (post.range === 'city' && userDataContext.subscription?.subscriptionRange === 'near') return false
 			if (post.range === 'country' && userDataContext.subscription?.subscriptionRange === 'near') return false
 			if (post.range === 'country' && userDataContext.subscription?.subscriptionRange === 'city') return false
@@ -232,14 +232,14 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const getMajorOfflinePostRange = () => {
-		const postsRange = offlinePosts.map((post: PostCollection) => post.range)
+		const postsRange = offlinePosts.map((post: PostEntityOptional) => post.range)
 
 		if (postsRange.includes('country')) return 'country'
 		if (postsRange.includes('city')) return 'city'
 		return 'near'
 	}
 
-	const renderPostItem = (item: PostCollection) => (
+	const renderPostItem = (item: PostEntityOptional) => (
 		<PostCard
 			post={{ ...item, createdAt: new Date() }}
 			owner={item.owner as PostEntityCommonFields['owner']}
@@ -257,7 +257,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		return allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']
 	}
 
-	const naigateToReviewPost = (post: PostCollection) => {
+	const naigateToReviewPost = (post: PostEntityOptional) => {
 		switch (post.postType as any) { // REFACTOR Remover any e Verificar funcionamento
 			case 'service': return navigation.navigate('EditServicePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
 			case 'sale': return navigation.navigate('EditSalePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })

@@ -1,6 +1,6 @@
 import { deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore'
 
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
@@ -15,7 +15,7 @@ async function deletePost(postId: string, userId: string) {
 		const userData = await getDoc(postOwnerRef) as UserEntity | any
 
 		const updatedUserPosts = userData.data()
-			? userData.data().posts.filter((post: PostCollection) => post.postId !== postId)
+			? userData.data().posts.filter((post: PostEntityOptional) => post.postId !== postId)
 			: []
 
 		await updateDoc(postOwnerRef, {

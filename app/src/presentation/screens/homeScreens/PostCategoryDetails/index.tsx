@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 
-import { PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -61,7 +61,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const filteredFeedPosts = filterPostsByCategory()
 
 	const getFeedPostsTags = () => {
-		const userPostTags = feedPosts.reduce((acc: any[], current: PostCollection) => {
+		const userPostTags = feedPosts.reduce((acc: any[], current: PostEntityOptional) => {
 			if (!current.tags || current.category !== categoryName) return [...acc]
 			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
 			return [...acc, ...filtredCurrentTags as string[]]
@@ -119,7 +119,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
@@ -130,7 +130,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 			category: locationDataContext.currentCategory.categoryName,
 		}
 
-		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle })
 	}
 
 	const navigateToProfile = (userId: string) => {

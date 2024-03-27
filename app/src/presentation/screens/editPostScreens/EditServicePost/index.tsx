@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, ServiceCategories, IncomeEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+import { PostEntityOptional, ServiceCategories, IncomeEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -92,7 +92,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigation.navigate('Profile' as any)
 	}
 
-	const viewPostDetails = (post: PostCollection) => {
+	const viewPostDetails = (post: PostEntityOptional) => {
 		navigateToPostView(post, navigation) // TODO Implementar nas outras telas de revisão
 	}
 

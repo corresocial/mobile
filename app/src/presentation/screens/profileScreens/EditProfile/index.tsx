@@ -5,7 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { Id, PostCollection } from '@domain/post/entity/types'
+import { Id, PostEntityOptional } from '@domain/post/entity/types'
 import { PrivateUserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -150,7 +150,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 		await remotePostStorage.updateOwnerDataOnPosts(
 			{ ...editDataContext.unsaved },
-			userDataContext.posts?.map((post: PostCollection) => post.postId) as string[]
+			userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as string[]
 		)
 
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
@@ -184,7 +184,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 									await remotePostStorage.updateOwnerDataOnPosts(
 										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
-										userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+										userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as Id[]
 									)
 
 									if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {

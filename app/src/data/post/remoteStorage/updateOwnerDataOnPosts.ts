@@ -1,16 +1,19 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-async function updateOwnerDataOnPosts(ownerPost: Partial<PostCollection['owner']>, userPostIds: string[]) {
+async function updateOwnerDataOnPosts(ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) {
 	try {
 		if (!userPostIds) return true
 
-		const owner = {
-			owner: ownerPost.name,
-			ownerPost: ownerPost.profilePictureUrl
+		let owner = {}
+		if (ownerPost && ownerPost.name) {
+			owner = { ...owner, name: ownerPost.name }
+		}
+		if (ownerPost && ownerPost.name) {
+			owner = { ...owner, profilePictureUrl: ownerPost.profilePictureUrl }
 		}
 
 		userPostIds.map(async (postId) => {

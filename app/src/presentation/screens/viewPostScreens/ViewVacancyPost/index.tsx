@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostCollection, VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
+import { VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -137,7 +137,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
+		const postsWithoutDeletedPost = currentUserPosts.filter((post) => post.postId !== postData.postId)
 		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 

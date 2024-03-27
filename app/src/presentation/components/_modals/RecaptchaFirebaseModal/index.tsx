@@ -90,11 +90,11 @@ class CustomRecaptchaModal
 	_reset(...args: any): void { }
 
 	private onVisibleLoad = () => {
-		this.setState({ visibleLoaded: true, })
+		this.setState({ visibleLoaded: true })
 	}
 
 	private onInvisibleLoad = () => {
-		this.setState({ invisibleLoaded: true, })
+		this.setState({ invisibleLoaded: true })
 	}
 
 	private onFullChallenge = async () => {
@@ -129,7 +129,7 @@ class CustomRecaptchaModal
 	cancel = () => {
 		const { reject } = this.state
 		if (reject) { reject(new CodedError('ERR_FIREBASE_RECAPTCHA_CANCEL', 'Cancelled by user')) }
-		this.setState({ visible: false, })
+		this.setState({ visible: false })
 	}
 
 	onDismiss = () => {

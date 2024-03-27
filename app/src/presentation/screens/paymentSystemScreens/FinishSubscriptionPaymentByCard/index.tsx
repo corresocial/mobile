@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardForm } from '@stripe/stripe-react-native'
 
-import { PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
 import { UserSubscription } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -127,7 +127,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
 		const lastUserPost = getLastUserPost()
 
-		const owner: PostCollection['owner'] = {
+		const owner: PostEntityOptional['owner'] = {
 			userId: userDataContext.userId,
 			name: userDataContext.name,
 			profilePictureUrl: userDataContext.profilePictureUrl

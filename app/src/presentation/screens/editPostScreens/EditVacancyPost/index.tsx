@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { PostCollection, PostEntityCommonFields, VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntityCommonFields, VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -100,7 +100,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		navigation.navigate('Profile' as any)
 	}
 
-	const navigateToPostView = (vacancyPostData: PostCollection) => {
+	const navigateToPostView = (vacancyPostData: PostEntityOptional) => {
 		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
 	}
 

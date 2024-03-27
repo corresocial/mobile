@@ -1,12 +1,14 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
+import { IncomeEntity } from '@domain/post/entity/types'
+
 import { ServiceContextType, ServicePostData, ServiceProviderProps } from './types'
 
 import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	isSecondPost: false,
-	serviceDataContext: {},
+	serviceDataContext: {} as IncomeEntity,
 	setServiceDataOnContext: (data: ServicePostData) => { },
 	getAditionalDataFromLastPost: () => { }
 }
@@ -31,7 +33,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || ''
-		})
+		} as IncomeEntity)
 		setIsSecondPost(true)
 	}
 

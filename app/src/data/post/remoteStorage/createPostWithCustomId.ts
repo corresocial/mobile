@@ -1,12 +1,12 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { PostCollection, PostType } from '@domain/post/entity/types'
+import { PostEntity, PostEntityOptional, PostType } from '@domain/post/entity/types'
 
 import { firestore } from '@infrastructure/firebase/index'
 
 async function createPostWithCustomId(
-	postData: PostCollection,
-	ownerPost: PostCollection['owner'],
+	postData: PostEntityOptional,
+	ownerPost: PostEntity['owner'],
 	postType: PostType,
 	customId: string
 ) {

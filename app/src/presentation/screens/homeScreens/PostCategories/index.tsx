@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { FeedPosts, MacroCategory, PostType, PostCollection, PostEntity, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, MacroCategory, PostType, PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -74,7 +74,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const postBelongContextPostType = (post: PostCollection) => {
+	const postBelongContextPostType = (post: PostEntityOptional) => {
 		if (!post) return false
 		return (post.postType === locationDataContext.searchParams?.postType
 			&& post.macroCategory === macroCategory)
@@ -87,7 +87,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 			...feedPostsByTypeAndMacroCategory.country
 		] || []
 
-		return feedPosts.filter((post: PostCollection) => {
+		return feedPosts.filter((post) => {
 			if (
 				post.macroCategory === macroCategory
 				&& post.postType === postType
@@ -180,7 +180,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const hasPostsOnCategory = (category: string) => {
-		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostCollection) => post.category === category))
+		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostEntityOptional) => post.category === category))
 		return postsOnCategory ? !!postsOnCategory.length : false
 	}
 
@@ -221,7 +221,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 

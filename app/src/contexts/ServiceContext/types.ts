@@ -10,7 +10,7 @@ export type ServicePostData = Partial<IncomeEntity>
 
 export type ServiceContextType = {
 	isSecondPost: boolean
-	serviceDataContext: IncomeEntity | {}
+	serviceDataContext: IncomeEntity
 	setServiceDataOnContext: (data: IncomeEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

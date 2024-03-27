@@ -36,7 +36,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || ''
-		})
+		} as CultureEntity)
 		setIsSecondPost(true)
 	}
 

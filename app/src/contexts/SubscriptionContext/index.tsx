@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useMemo, useState, useContext } from 'react'
 
-import { PostCollection, PostRange } from '@domain/post/entity/types'
+import { PostEntityOptional, PostRange } from '@domain/post/entity/types'
 import { UserSubscription, UserSubscriptionOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -15,8 +15,8 @@ const { updateUserSubscriptionData } = useUserDomain()
 const initialValue = {
 	subscriptionDataContext: { subscriptionRange: 'near' as PostRange },
 	setSubscriptionDataOnContext: (data: UserSubscriptionOptional) => { },
-	currentPostOnSubscription: {} as PostCollection,
-	setCurrentPostDataOnContext: (data: PostCollection) => { },
+	currentPostOnSubscription: {} as PostEntityOptional,
+	setCurrentPostDataOnContext: (data: PostEntityOptional) => { },
 	updateUserSubscription: (userSubscription: UserSubscription) => new Promise<void>(() => { })
 }
 
@@ -37,8 +37,8 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 		setUserDataOnContext({ subscription: { ...userDataContext.subscription, ...userSubscription } })
 	}, [subscriptionDataContext])
 
-	const setCurrentPostDataOnContext = useCallback((data: PostCollection) => {
-		setCurrentPostOnSubscription({ ...currentPostOnSubscription, ...data } as PostCollection)
+	const setCurrentPostDataOnContext = useCallback((data: PostEntityOptional) => {
+		setCurrentPostOnSubscription({ ...currentPostOnSubscription, ...data } as PostEntityOptional)
 	}, [currentPostOnSubscription])
 
 	const subscriptionProviderData = useMemo(() => ({

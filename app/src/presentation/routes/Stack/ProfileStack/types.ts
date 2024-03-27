@@ -1,4 +1,4 @@
-import { CultureEntity, IncomeEntity, LatLong, PostCollection, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
+import { CultureEntity, IncomeEntity, LatLong, PostEntityOptional, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity } from '@domain/user/entity/types'
 
 import { StackLabelProps } from '../../types'
@@ -8,10 +8,10 @@ import { ReportedTarget } from '@services/notion/types/contactUs'
 
 export type ProfileStackParamList = {
 	Profile: { userId: string, stackLabel: StackLabelProps } | undefined
-	ViewIncomePost: { postData: PostCollection }
-	ViewVacancyPost: { postData: PostCollection }
-	ViewSocialImpactPost: { postData: PostCollection }
-	ViewCulturePost: { postData: PostCollection }
+	ViewIncomePost: { postData: PostEntityOptional }
+	ViewVacancyPost: { postData: PostEntityOptional }
+	ViewSocialImpactPost: { postData: PostEntityOptional }
+	ViewCulturePost: { postData: PostEntityOptional }
 
 	EditServicePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 	EditSalePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
@@ -22,7 +22,7 @@ export type ProfileStackParamList = {
 	EditProfile: { user: UserEntity }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
-	EditUserLocation: { initialCoordinates: LatLong }
+	EditUserLocation: { initialCoordinates: LatLong } | undefined
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }

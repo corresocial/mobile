@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { PostCollection } from '@domain/post/entity/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { LocationContext } from '@contexts/LocationContext'
 
@@ -32,7 +32,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { inactiveColor, categoryName, categoryTags } = locationDataContext.currentCategory
 
 	const getFeedPostsTags = () => {
-		const userPostTags = feedPosts.reduce((acc: any[], current: PostCollection) => {
+		const userPostTags = feedPosts.reduce((acc: any[], current: PostEntityOptional) => {
 			if (!current.tags || current.category !== categoryName) return [...acc]
 			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
 			return [...acc, ...filtredCurrentTags as string[]]
@@ -78,7 +78,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			searchText,
 			category: locationDataContext.currentCategory.categoryName,
 		}
-		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle })
 	}
 
 	return (

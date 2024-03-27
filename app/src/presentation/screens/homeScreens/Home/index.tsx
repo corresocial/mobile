@@ -5,7 +5,7 @@ import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { FeedPosts, LatLong, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
@@ -260,7 +260,7 @@ function Home({ navigation }: HomeScreenProps) {
 		])
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 

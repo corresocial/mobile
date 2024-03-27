@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostCollection, SaleCategories, IncomeEntity } from '@domain/post/entity/types'
+import { PostEntityOptional, SaleCategories, IncomeEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -141,7 +141,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
 		const postsWithoutDeletedPost = currentUserPosts.filter(
-			(post: PostCollection) => post.postId !== postData.postId
+			(post: PostEntityOptional) => post.postId !== postData.postId
 		)
 		setUserDataOnContext({
 			...userDataContext,

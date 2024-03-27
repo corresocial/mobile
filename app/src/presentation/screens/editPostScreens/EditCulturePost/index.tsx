@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { CultureCategories, CultureEntityOptional, CultureEntity, EventRepeatType, PostCollection, PostEntityCommonFields } from '@domain/post/entity/types'
+import { CultureCategories, CultureEntityOptional, CultureEntity, EventRepeatType, PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -107,7 +107,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		navigation.navigate('Profile' as any) // TODO Type todas as navegações entre stacks que estão no mesmo nível
 	}
 
-	const navigateToPostView = (culturePostData: PostCollection) => {
+	const navigateToPostView = (culturePostData: PostEntityOptional) => {
 		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
 	}
 

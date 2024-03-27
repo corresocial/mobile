@@ -8,7 +8,7 @@ export interface VacancyProviderProps {
 
 export type VacancyContextType = {
 	isSecondPost: boolean
-	vacancyDataContext: VacancyEntity | {}
+	vacancyDataContext: VacancyEntity
 	setVacancyDataOnContext: (data: VacancyEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

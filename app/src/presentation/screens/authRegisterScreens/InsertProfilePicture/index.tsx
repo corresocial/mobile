@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Id, PostCollection } from '@domain/post/entity/types'
+import { Id, PostEntityOptional } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -78,7 +78,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 				await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 				await remotePostStorage.updateOwnerDataOnPosts(
 					{ profilePictureUrl: [] },
-					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+					userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as Id[]
 				)
 			}
 
