@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { CultureCategories } from '@domain/post/entity/types'
+import { CultureCategories, PostCategoriesType } from '@domain/post/entity/types'
 
 import { CultureContext } from '@contexts/CultureContext'
 
@@ -12,6 +12,8 @@ import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
+
+type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
 	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
@@ -35,7 +37,7 @@ function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScree
 				categories={cultureCategories}
 				progress={[2, isSecondPost ? 4 : 5]}
 				navigateBackwards={() => navigation.goBack()}
-				savePostCategory={onSelectCategory}
+				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>
 	)
