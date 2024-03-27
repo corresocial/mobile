@@ -5,7 +5,7 @@ import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { FeedPosts, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, LatLong, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
@@ -17,7 +17,7 @@ import { LocationContext } from '@contexts/LocationContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
-import { LatLong, AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
+import { AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
@@ -163,16 +163,16 @@ function Home({ navigation }: HomeScreenProps) {
 
 				if (recentPosition) {
 					return {
-						lat: recentPosition.lat,
-						lon: recentPosition.lon,
+						latitude: recentPosition.lat,
+						longitude: recentPosition.lon,
 					}
 				}
 			}
 
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
 			return {
-				lat: currentPosition.coords.latitude,
-				lon: currentPosition.coords.longitude
+				latitude: currentPosition.coords.latitude,
+				longitude: currentPosition.coords.longitude
 			}
 		} catch (error) {
 			console.log(error)
@@ -183,8 +183,8 @@ function Home({ navigation }: HomeScreenProps) {
 			}
 
 			return {
-				lat: recentPosition.lat,
-				lon: recentPosition.lon,
+				latitude: recentPosition.lat,
+				longitude: recentPosition.lon,
 			}
 		}
 	}
@@ -196,24 +196,21 @@ function Home({ navigation }: HomeScreenProps) {
 			return false
 		}
 		return {
-			lat: addressGeolocation[0].latitude,
-			lon: addressGeolocation[0].longitude,
+			latitude: addressGeolocation[0].latitude,
+			longitude: addressGeolocation[0].longitude,
 		} as LatLong
 	}
 
 	const getSearchParams = async (coordinates: LatLong) => {
-		const geocodeAddress = await checkLanguageAndConvertGeocodeToAddress(coordinates.lat, coordinates.lon)
+		const geocodeAddress = await checkLanguageAndConvertGeocodeToAddress(coordinates.latitude, coordinates.longitude)
 
 		const deviceLanguage = getLocales()[0].languageCode
 
 		const structuredAddress = deviceLanguage === 'pt'
-			? structureExpoLocationAddress(geocodeAddress as Location.LocationGeocodedAddress[], coordinates.lat, coordinates.lon)
-			: structureAddress(geocodeAddress as GeocodeAddress, coordinates.lat, coordinates.lon)
+			? structureExpoLocationAddress(geocodeAddress as Location.LocationGeocodedAddress[], coordinates.latitude, coordinates.longitude)
+			: structureAddress(geocodeAddress as GeocodeAddress, coordinates.latitude, coordinates.longitude)
 
-		const geohashObject = generateGeohashes(
-			coordinates.lat,
-			coordinates.lon
-		)
+		const geohashObject = generateGeohashes(coordinates.latitude, coordinates.longitude)
 
 		setSelectedAddress({
 			addressHighlighted: `${structuredAddress.street}, ${structuredAddress.number} - ${structuredAddress.district}`,

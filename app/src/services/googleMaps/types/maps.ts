@@ -18,11 +18,6 @@ export type GeocodeAddress = {
 	postalCode?: string
 }
 
-export type LatLong = {
-	lat: number,
-	lon: number
-}
-
 export type CurrentCategory = {
 	backgroundColor?: string
 	inactiveColor?: string

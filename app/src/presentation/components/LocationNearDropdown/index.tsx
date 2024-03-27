@@ -3,9 +3,11 @@ import { Animated, FlatList, Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
+import { LatLong } from '@domain/post/entity/types'
+
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/googleMaps/types/maps'
+import { AddressSearchResult, SelectedAddressRender } from '@services/googleMaps/types/maps'
 
 import {
 	Container,
@@ -87,8 +89,8 @@ function LocationNearDropdown({
 			'',
 			false,
 			{
-				lat: address.lat,
-				lon: address.lon
+				latitude: address.lat,
+				longitude: address.lon
 			}
 		)
 	}
