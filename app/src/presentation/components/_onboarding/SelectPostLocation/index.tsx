@@ -1,6 +1,6 @@
 import * as Location from 'expo-location'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 
 import { Coordinates, LatLong } from '@domain/post/entity/types'
 
@@ -172,22 +172,6 @@ function SelectPostLocation({
 		markerCoordinate && setInvalidAddressAfterSubmit(false)
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted()
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [backgroundColor, theme.red2],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
@@ -195,7 +179,7 @@ function SelectPostLocation({
 				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={navigateBackwards} />

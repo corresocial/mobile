@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, StatusBar, Platform, TextInput } from 'react-native'
+import { Keyboard, StatusBar, Platform, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -101,29 +101,13 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted()
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.green2, theme.red2],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

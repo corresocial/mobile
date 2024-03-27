@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { Animated, StatusBar, Platform, TextInput } from 'react-native'
+import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { InsertCellNumberLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import Firebase from '@infrastructure/firebase/index'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, InputsContainer } from './styles'
@@ -133,7 +134,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
 
-		await requestPhoneVerificationCode(currentCellNumber, recaptchaVerifier.current)
+		await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
 			.then((verificationCodeId) => {
 				navigation.navigate('InsertConfirmationCodeLinkAccount', {
 					cellNumber: currentCellNumber, verificationCodeId
@@ -161,22 +162,6 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 		setLoginAlertModalIsVisible((previousValue) => !previousValue)
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted() || hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.orange2, theme.red2],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
@@ -196,7 +181,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

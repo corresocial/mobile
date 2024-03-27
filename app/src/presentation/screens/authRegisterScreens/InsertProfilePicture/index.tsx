@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react'
-import { Animated, StatusBar } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
 
 import { Id, PostCollection } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
@@ -127,29 +127,13 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.green2, theme.red2],
-		})
-	}
-
 	return (
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={hasServerSideError ? theme.red2 : theme.green2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Animated, StatusBar, Platform, TextInput } from 'react-native'
+import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -171,22 +171,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 		setLoginAlertModalIsVisible((previousValue) => !previousValue)
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted() || hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [newUser ? theme.purple2 : theme.green2, theme.red2],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : newUser ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
@@ -205,7 +189,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : newUser ? theme.purple2 : theme.green2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

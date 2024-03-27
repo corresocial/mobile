@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, ScrollView, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { ScrollView, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
@@ -193,22 +193,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			)
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = hasUpdateError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.orange2, theme.red2],
-		})
-	}
-
 	return (
 		<Container >
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -242,7 +226,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					)
 				}
 			</Header>
-			<Body style={{ backgroundColor: animateDefaultHeaderBackgound() }}	>
+			<Body style={{ backgroundColor: hasUpdateError ? theme.red2 : theme.orange2 }}	>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<VerticalSpacing />
 					<EditCard

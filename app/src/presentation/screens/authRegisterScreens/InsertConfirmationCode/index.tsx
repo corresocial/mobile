@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Platform, StatusBar, TextInput } from 'react-native'
+import { Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { UserCredential } from 'firebase/auth'
@@ -237,22 +237,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted() || hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.blue2, getRelativeHeaderErrorStyle()],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
@@ -260,7 +244,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				flexDirection={'column'}
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.blue2}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />

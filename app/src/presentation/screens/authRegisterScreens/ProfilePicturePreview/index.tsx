@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
@@ -182,22 +182,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.green2, theme.red2],
-		})
-	}
-
 	if (!profilePicture.length && !cameraModalVisibility) {
 		navigateBackwards()
 	}
@@ -216,7 +200,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				withoutPadding
 				flexDirection={'column'}
 				justifyContent={'space-around'}
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={hasServerSideError ? theme.red2 : theme.green2}
 			>
 				<InstructionCardContainer>
 					<BackButton onPress={navigateBackwards} />
