@@ -2,7 +2,7 @@ import { PostCollection, PostRange } from '@domain/post/entity/types'
 
 export type UserEntity = {
 	userId: string
-	name?: string
+	name: string
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
@@ -14,6 +14,8 @@ export type UserEntity = {
 	subscription?: UserSubscription
 	private?: PrivateUserEntity
 }
+
+export type UserEntityOptional = Partial<UserEntity>
 
 export type SocialMedia = {
 	title: string,

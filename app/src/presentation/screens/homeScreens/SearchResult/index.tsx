@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, PostCollection, PostRange, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -77,7 +77,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	}
 
 	const searchPostsByAlgolia = async () => {
-		return searchPostsCloud(algoliaSearchText || '', searchParamsFromRoute as FeedSearchParams, searchByRange || false, userDataContext.userId as Id)
+		return searchPostsCloud(algoliaSearchText || '', searchParamsFromRoute as FeedSearchParams, searchByRange || false, userDataContext.userId)
 			.then((posts) => {
 				if (!posts) {
 					return initialFeedPosts

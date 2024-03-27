@@ -5,7 +5,6 @@ import { StatusBar } from 'react-native'
 
 import { UserCredential } from 'firebase/auth'
 
-import { Id } from '@domain/post/entity/types'
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -80,7 +79,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [hasError])
 
 	const loadPrivateContacts = async () => {
-		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId as Id)
+		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
 		setUserPrivateContacts(userContacts as PrivateUserEntity['contacts'])
 	}
 
@@ -123,7 +122,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			if (registredCellNumber) {
 				await unlinkAuthProvider('phone')
 				await remoteStorage.updatePrivateContacts(
-					userDataContext.userId as Id,
+					userDataContext.userId,
 					{ cellNumber: '' }
 				)
 				setUserPrivateContacts({ ...userPrivateContacts, cellNumber: '' })
@@ -162,7 +161,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 
 				await remoteStorage.updatePrivateContacts(
-					userDataContext.userId as Id,
+					userDataContext.userId,
 					{ email: linkedUser.email || '' }
 				)
 

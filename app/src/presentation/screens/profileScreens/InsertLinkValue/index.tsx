@@ -75,7 +75,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
-			await remoteStorage.updateUserData(userDataContext.userId as string, socialMediaData)
+			await remoteStorage.updateUserData(userDataContext.userId, socialMediaData)
 			setUserDataOnContext(socialMediaData)
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {

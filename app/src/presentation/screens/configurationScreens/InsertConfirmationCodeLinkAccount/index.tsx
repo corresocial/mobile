@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Id } from '@domain/post/entity/types'
-
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -146,7 +144,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				const linkedUser = await linkAuthProvider(phoneAuthCredential)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 				await remoteStorage.updatePrivateContacts(
-					userDataContext.userId as Id,
+					userDataContext.userId,
 					{ cellNumber: cellNumber || '' }
 				)
 

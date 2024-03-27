@@ -6,7 +6,6 @@ import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMetho
 import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
-import { Id } from '@domain/globalTypes'
 import { PostCollection, PostCollectionRemote, PostRange } from '@domain/post/entity/types'
 import { SubscriptionPlan, UserSubscription } from '@domain/user/entity/types'
 
@@ -321,8 +320,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 		const lastUserPost: PostCollection = getLastUserPost()
 
 		const owner: PostCollection['owner'] = {
-			userId: userDataContext.userId as Id,
-			name: userDataContext.name as string,
+			userId: userDataContext.userId,
+			name: userDataContext.name,
 			profilePictureUrl: userDataContext.profilePictureUrl
 		}
 

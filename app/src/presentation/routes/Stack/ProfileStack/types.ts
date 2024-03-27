@@ -1,7 +1,5 @@
 import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '@domain/post/entity/types'
-import { SocialMedia } from '@domain/user/entity/types'
-
-import { UserData } from '@contexts/AuthContext/types'
+import { SocialMedia, UserEntity } from '@domain/user/entity/types'
 
 import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
@@ -21,7 +19,7 @@ export type ProfileStackParamList = {
 	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
-	EditProfile: { user: UserData }
+	EditProfile: { user: UserEntity }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserLocation: undefined

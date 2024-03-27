@@ -173,7 +173,6 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 								onPress={sendUserDataToNextScreen}
 							/>
 						)
-
 					}
 				</ButtonContainer>
 			</FormContainer>

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
-import { Id } from '@domain/globalTypes'
 import { ReportContext } from '@domain/impactReport/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@domain/post/entity/types'
@@ -107,7 +106,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			remoteStorage.markPostAsComplete(userDataContext.userId as string, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
@@ -124,7 +123,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
-		const usersIdInvolved = [userDataContext.userId as Id]
+		const usersIdInvolved = [userDataContext.userId]
 		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
 
 		toggleImpactReportSuccessModalVisibility()

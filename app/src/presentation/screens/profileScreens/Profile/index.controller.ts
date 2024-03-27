@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-import { LocalUserData } from '@contexts/AuthContext/types'
+import { UserEntityOptional } from '@domain/user/entity/types'
 
 function useViewController() {
-	const [user, setUser] = useState<LocalUserData>({})
+	const [user, setUser] = useState<UserEntityOptional>({})
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)

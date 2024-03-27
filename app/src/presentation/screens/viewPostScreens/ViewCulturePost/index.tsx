@@ -3,7 +3,7 @@ import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/impactReport/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, Id, PostCollection } from '@domain/post/entity/types'
+import { CultureCategories, CultureCollection, CultureCollectionRemote, PostCollection } from '@domain/post/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -17,13 +17,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
-import {
-	Body,
-	Container,
-	Header,
-	OptionsArea,
-	UserAndValueContainer
-} from './styles'
+import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
@@ -101,7 +95,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			remoteStorage.markPostAsComplete(userDataContext.userId as string, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
@@ -118,7 +112,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
-		const usersIdInvolved = [userDataContext.userId as Id]
+		const usersIdInvolved = [userDataContext.userId]
 		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
 
 		toggleImpactReportSuccessModalVisibility()

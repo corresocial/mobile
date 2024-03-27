@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Id, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 import { UserSubscription } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -56,8 +56,8 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
 
 	const owner: PostCollection['owner'] = {
-		userId: userDataContext.userId as Id,
-		name: userDataContext.name as string,
+		userId: userDataContext.userId,
+		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
@@ -66,7 +66,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}, [])
 
 	const loadPrivateEmail = async () => {
-		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId as Id)
+		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
 		setPrivateEmail(userContacts && userContacts.email ? userContacts.email : '')
 	}
 
@@ -187,7 +187,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			await sendReceiptByEmail(userDataContext.subscription?.customerId || '', email)
 			await updateStripeCustomer(userDataContext.subscription?.customerId, { email })
 			await remoteStorage.updatePrivateContacts(
-				userDataContext.userId as Id,
+				userDataContext.userId,
 				{ email }
 			)
 			// await updateUserSubscription({ ...userDataContext.subscription/* , receiptEmail: email  */})

@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useMemo, useState, useContext } from 'react'
 
-import { Id, PostRange } from '@domain/post/entity/types'
+import { PostRange } from '@domain/post/entity/types'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -39,7 +39,7 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 	}
 
 	const updateRemoteUserSubscription = async (userSubscription: SubscriptionData) => {
-		await remoteStorage.updateUserData(userDataContext.userId as Id, { subscription: userSubscription })
+		await remoteStorage.updateUserData(userDataContext.userId, { subscription: userSubscription })
 	}
 
 	const subscriptionProviderData = useMemo(() => ({

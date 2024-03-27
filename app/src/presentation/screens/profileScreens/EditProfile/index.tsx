@@ -56,7 +56,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId as string)
+		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
 		setPrivateUserLocation(userLocation)
 	}
 
@@ -134,11 +134,11 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 	const updateRemoteUser = async () => {
 		if (!editDataContext.unsaved.profilePictureUrl) {
-			await remoteStorage.updateUserData(userDataContext.userId as Id, { ...editDataContext.unsaved })
+			await remoteStorage.updateUserData(userDataContext.userId, { ...editDataContext.unsaved })
 
 			await remotePostStorage.updateOwnerDataOnPosts(
 				{ ...editDataContext.unsaved },
-				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+				userDataContext.posts?.map((post: PostCollection) => post.postId) as string[]
 			)
 
 			await localStorage.saveLocalUserData({ ...userDataContext, ...editDataContext.unsaved, location: {} })

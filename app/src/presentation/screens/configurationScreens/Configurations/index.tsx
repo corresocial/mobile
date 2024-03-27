@@ -58,7 +58,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 			usePostRepository,
 			useChatDomain,
 			removeChatListeners,
-			userDataContext.userId as string
+			userDataContext.userId
 		)
 		navigateToInitialScreen()
 	}

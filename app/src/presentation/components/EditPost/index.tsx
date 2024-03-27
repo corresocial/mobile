@@ -3,7 +3,7 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { PostType, Id, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -193,7 +193,7 @@ function EditPost({
 
 			await updateDocField(
 				'users',
-				userDataContext.userId as Id,
+				userDataContext.userId,
 				'posts',
 				[postDataToSave, ...userPostsUpdated]
 			)
@@ -282,7 +282,7 @@ function EditPost({
 					}, {
 						postDescription: postData.description,
 						userId: localUser.userId,
-						userName: localUser.name as string
+						userName: localUser.name
 					})
 				}
 
@@ -329,8 +329,8 @@ function EditPost({
 														postRange: postData.range as NotifyUsersByLocationParams['postRange']
 													}, {
 														postDescription: postData.description,
-														userId: localUser.userId as Id,
-														userName: localUser.name as string
+														userId: localUser.userId,
+														userName: localUser.name
 													})
 												}
 
@@ -365,7 +365,7 @@ function EditPost({
 		}
 		await updateDocField(
 			'users',
-			localUser.userId as string,
+			localUser.userId,
 			'posts',
 			userDataContext.posts ? postDataToSave : [postDataToSave],
 			!!userDataContext.posts,
@@ -467,7 +467,7 @@ function EditPost({
 
 											await updateDocField(
 												'users',
-												userDataContext.userId as Id,
+												userDataContext.userId,
 												'posts',
 												[postDataToSave, ...getUserPostsWithoutEdited()]
 											)

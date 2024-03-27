@@ -7,7 +7,7 @@ import { updatePostData } from './updatePostData' // from data/post
 const markPostAsComplete = async (userId: string, postId: string, currentPost: PostCollection, userPosts: PostCollection[]) => { // REFACTOR Precisa mesmo de todos so posts?
 	try {
 		await updatePostData(postId, currentPost)
-		await updateDocField('users', userId as string, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
+		await updateDocField('users', userId, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
 
 		return true
 	} catch (error) {

@@ -131,7 +131,7 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const userId = userDataContext.userId as string
+			const { userId } = userDataContext
 			const queryKey = ['home.feed', searchParams, userId]
 			const remoteFeedPosts = await executeCachedRequest(
 				queryClient,

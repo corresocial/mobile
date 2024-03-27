@@ -11,21 +11,18 @@ export interface AuthProviderProps {
 
 export type RegisterUserData = {
 	cellNumber: string
-	email?: string
+	email: string
 	userName: string
 	profilePictureUri?: string
 	userIdentification: UserIdentification
 }
 
 export type UserData = UserEntity
-
-export type LocalUserData = Partial<UserEntity>
-// userIdentification?: UserIdentification
-// }
+export type UserDataOptional = Partial<UserEntity>
 
 export type AuthContextType = {
-	userDataContext: LocalUserData
-	setUserDataOnContext: (data: LocalUserData) => void
+	userDataContext: UserData
+	setUserDataOnContext: (data: UserDataOptional) => void
 	setRemoteUserOnLocal: (uid?: string, userData?: UserData) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection
 }

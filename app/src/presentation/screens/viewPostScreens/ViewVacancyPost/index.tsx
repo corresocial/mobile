@@ -3,7 +3,7 @@ import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { ReportContext } from '@domain/impactReport/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { Id, PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
+import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@domain/post/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -104,7 +104,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			remoteStorage.markPostAsComplete(userDataContext.userId as string, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
@@ -121,7 +121,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
-		const usersIdInvolved = [userDataContext.userId as Id]
+		const usersIdInvolved = [userDataContext.userId]
 		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
 
 		toggleImpactReportSuccessModalVisibility()

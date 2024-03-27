@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
-import { Id } from '@domain/post/entity/types'
-
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -59,7 +57,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const setUserTourPerformed = async () => {
 		console.log(userDataContext.userId)
-		await remoteStorage.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
+		await remoteStorage.updateUserData(userDataContext.userId, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

@@ -4,7 +4,7 @@ import { Animated, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
 import { Id, PostCollection } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
+import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -140,7 +140,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 								blob.close()
 								getDownloadURL(uploadTask.snapshot.ref)
 									.then(async (profilePictureUrl) => {
-										const currentUser: UserEntity = {
+										const currentUser: UserEntityOptional = {
 											name: userData.userName,
 											profilePictureUrl: [profilePictureUrl as string],
 											tourPerformed: !!localUser.tourPerformed,

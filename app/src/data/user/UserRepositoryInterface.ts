@@ -1,4 +1,4 @@
-import { PrivateUserEntity, UserEntity } from '@domain/user/entity/types'
+import { PrivateUserEntity, UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
 interface UserRepositoryInterface {
 	localStorage: {
@@ -18,7 +18,7 @@ interface UserRepositoryInterface {
 		// POST
 
 		// UPDATE
-		updateUserData: (userId: string, data: UserEntity) => Promise<boolean>
+		updateUserData: (userId: string, data: UserEntityOptional) => Promise<boolean>
 		updatePrivateContacts: (userId: string, data: PrivateUserEntity['contacts']) => Promise<boolean>
 		updatePrivateLocation: (userId: string, data: PrivateUserEntity['location']) => Promise<boolean>
 

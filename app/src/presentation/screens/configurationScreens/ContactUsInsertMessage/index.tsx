@@ -63,7 +63,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
 			const notionPage = await sendMessageToNotionContactUs({
-				userId: userDataContext.userId as string,
+				userId: userDataContext.userId,
 				type: route.params.contactUsType,
 				message,
 				reportTarged: route.params.reportedType,
@@ -71,8 +71,8 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			await sendMessageToDiscordContactUs({
-				userId: userDataContext.userId as string,
-				userName: userDataContext.name as string,
+				userId: userDataContext.userId,
+				userName: userDataContext.name,
 				type: route.params.contactUsType,
 				message,
 				reportId: notionPage.reportId,
@@ -124,7 +124,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					onChangeText={(text: string) => setItemDescription(text)}
 				/>
 				{
-					messageIsValid && !keyboardOpened && (
+					messageIsValid && !keyboardOpened ? (
 						isLoading
 							? <Loader />
 							: (
@@ -139,7 +139,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 									onPress={sendMessage}
 								/>
 							)
-					)
+					) : <></>
 				}
 			</FormContainer>
 		</Container >

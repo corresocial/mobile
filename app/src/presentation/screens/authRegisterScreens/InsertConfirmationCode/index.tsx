@@ -333,20 +333,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 								/>
 							)
 					}
-					{/* <View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit || invalidCodeAfterSubmit ? 'flex' : 'none' }}>
-						<PrimaryButton
-							disabled
-							timer
-							color={theme.yellow3}
-							flexDirection={'row-reverse'}
-							justifyContent={'space-around'}
-							labelColor={theme.black4}
-							label={'reenviar código'}
-							highlightedWords={['reenviar', 'código']}
-							startsHidden={false}
-							onPress={resendConfirmationCode}
-						/>
-					</View> */}
 				</ButtonContainer>
 			</FormContainer>
 		</Container >

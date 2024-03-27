@@ -46,8 +46,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 	const owner: PostCollectionCommonFields['owner'] = {
-		userId: userDataContext.userId as string,
-		name: userDataContext.name as string,
+		userId: userDataContext.userId,
+		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 

@@ -52,7 +52,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	useEffect(() => {
 		loadChatFromCache()
-		initUserInstance(userDataContext.userId as Id)
+		initUserInstance(userDataContext.userId)
 		initPushNotificationService()
 	}, [])
 
@@ -108,12 +108,12 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const chatUserHasTokenNotification = async () => {
-		const remoteUser = await getRemoteUserData(userDataContext.userId as Id)
+		const remoteUser = await getRemoteUserData(userDataContext.userId)
 		return !!(remoteUser && remoteUser.tokenNotification)
 	}
 
 	const setPushNotificationState = async (state: boolean) => {
-		const authenticatedUserId = userDataContext.userId as Id
+		const authenticatedUserId = userDataContext.userId
 
 		try {
 			setPushNotificationEnabled(state)
@@ -134,7 +134,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const removeChatListeners = () => {
 		unsubscribeUserChatsListener(chatIdList)
-		unsubscribeUserChatIdsListener(userDataContext.userId as Id)
+		unsubscribeUserChatIdsListener(userDataContext.userId)
 		setPushNotificationState(false)
 		setChatIdList([])
 		setChatsOnContext([])

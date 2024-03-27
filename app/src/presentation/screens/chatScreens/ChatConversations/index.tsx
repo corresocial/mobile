@@ -3,7 +3,6 @@ import { ListRenderItem, ListRenderItemInfo, ScrollView, TextInput } from 'react
 
 import { MessageObjects, ChatUserIdentification, Chat } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { Id } from '@domain/globalTypes'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
@@ -63,7 +62,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const horizontalScrollViewRef = useRef<InstanceType<typeof ScrollView>>(null)
 	const searchInputRef = useRef<TextInput>()
 
-	const authenticatedUserId = userDataContext.userId as Id
+	const authenticatedUserId = userDataContext.userId
 
 	useEffect(() => {
 		showAlertNotificationModal()

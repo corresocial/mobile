@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 import { differenceInMinutes } from 'date-fns'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { Id, PostCollection } from '@domain/post/entity/types'
+import { PostCollection } from '@domain/post/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -77,7 +77,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			setIsLoading(true)
 
 			await removeAllUserData( // REFACTOR Não importar direto
-				userDataContext.userId as Id,
+				userDataContext.userId,
 				userDataContext.profilePictureUrl || [],
 				userDataContext.posts as PostCollection[]
 			).then(() => toggleSuccessModalVisibility())
@@ -103,7 +103,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				usePostRepository,
 				useChatDomain,
 				removeChatListeners,
-				userDataContext.userId as string
+				userDataContext.userId
 			)
 
 			navigateToInitialScreen()

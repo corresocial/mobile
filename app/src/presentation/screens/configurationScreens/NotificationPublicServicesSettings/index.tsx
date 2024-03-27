@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { Id } from '@domain/globalTypes'
 import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
@@ -73,7 +72,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 	}
 
 	const checkGovernmentNotificationState = async () => {
-		const privateUserLocation = await remoteStorage.getPrivateLocation(userDataContext.userId as string)
+		const privateUserLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
 		setGovernmentNotificationIsEnabled(!!(privateUserLocation && privateUserLocation.visibleToGovernment))
 	}
 
@@ -85,11 +84,11 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 
 			if (newState) {
 				if (!inputedNis || (inputedNis && inputedNis.trim().length !== 11)) throw new Error('NIS inválido!')
-				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, useSmasRepository)
+				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId, useSmasRepository)
 				setUserNis(inputedNis)
 				await setNisOnLocalRepository(inputedNis, useSmasRepository)
 			} else {
-				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, useSmasRepository)
+				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId, useSmasRepository)
 				setUserNis('')
 				await setNisOnLocalRepository('', useSmasRepository)
 			}
@@ -108,7 +107,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 			const newNotificationState = !governmentNotificationIsEnabled
 
 			await remoteStorage.updatePrivateLocation(
-				userDataContext.userId as Id,
+				userDataContext.userId,
 				{ visibleToGovernment: newNotificationState }
 			)
 

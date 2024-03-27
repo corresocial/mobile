@@ -3,14 +3,13 @@ import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Id, PostCollection, PostCollectionCommonFields, PostRange } from '@domain/post/entity/types'
-import { SocialMedia, UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
+import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
-import { LocalUserData } from '@contexts/AuthContext/types'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
@@ -87,7 +86,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const [filteredPosts, setFilteredPosts] = useState<PostCollection[]>([])
 	const [hasPostFilter, setHasPostFilter] = useState(false)
 
-	const [user, setUser] = useState<LocalUserData>({})
+	const [user, setUser] = useState<UserEntityOptional>({})
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
@@ -113,7 +112,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const userData = await remoteStorage.getUserData(userId)
-		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as LocalUserData
+		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
 
@@ -159,7 +158,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile', { user })
+		navigation.navigate('EditProfile', { user: user as UserEntity })
 	}
 
 	const navigationToBack = () => navigation.goBack()
@@ -220,7 +219,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const getUserDataOnly = () => {
-		let currentUser = {} as LocalUserData
+		let currentUser = {} as UserEntityOptional
 		if (route.params && route.params.userId) {
 			currentUser = { ...user }
 		} else {

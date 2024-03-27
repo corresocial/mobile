@@ -8,7 +8,6 @@ import _ from 'lodash'
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { Id } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
@@ -92,9 +91,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		loadChatMessages()
-		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
+		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
 		return () => {
-			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
+			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
 		}
 	}, [])
 
@@ -148,7 +147,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			// startChatMessagesListener(currentChat.chatId, messagesListenerCallback)	// abordagem listener
 		}
 
-		const authenticatedUserId = userDataContext.userId as Id
+		const authenticatedUserId = userDataContext.userId
 
 		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
 		const newMessageValue = Object.values(newMessageObject)[0]
@@ -169,7 +168,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const blockUser = async () => {
 		const targetUserId = getRecipientUserId()
-		await blockUserById(targetUserId, userDataContext.userId as Id)
+		await blockUserById(targetUserId, userDataContext.userId)
 
 		setChatOptionsIsOpen(false)
 		setBlockedByOwner(true)
@@ -178,7 +177,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const unblockUser = async () => {
 		const blockedUserId = getRecipientUserId()
-		await unblockUserById(blockedUserId, userDataContext.userId as Id)
+		await unblockUserById(blockedUserId, userDataContext.userId)
 
 		setChatOptionsIsOpen(false)
 		setIsBlockedUser(false)
@@ -206,17 +205,17 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const getRecipientUserName = () => {
 		const { user1, user2 } = currentChat
-		return getConversationUserName(userDataContext.userId as Id, user1, user2)
+		return getConversationUserName(userDataContext.userId, user1, user2)
 	}
 
 	const getRecipientUserId = () => {
 		const { user1, user2 } = currentChat
-		return getConversationUserId(userDataContext.userId as Id, user1, user2)
+		return getConversationUserId(userDataContext.userId, user1, user2)
 	}
 
 	const getProfilePictureUrl = () => {
 		const { user1, user2 } = currentChat
-		return getConversationProfilePicture(userDataContext.userId as Id, user1, user2)
+		return getConversationProfilePicture(userDataContext.userId, user1, user2)
 	}
 
 	const getFilteredMessages = () => {

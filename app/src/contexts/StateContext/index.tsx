@@ -3,8 +3,6 @@ import { Alert } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 
-import { Id } from '@domain/post/entity/types'
-
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
@@ -83,7 +81,7 @@ function StateProvider({ children }: StateProviderProps) {
 	const closeShareModal = () => setStateDataOnContext({ showShareModal: false })
 
 	const setUserTourPerformed = async () => {
-		await remoteStorage.updateUserData(userDataContext.userId as Id, { tourPerformed: true })
+		await remoteStorage.updateUserData(userDataContext.userId, { tourPerformed: true })
 		setUserDataOnContext({ tourPerformed: true })
 	}
 

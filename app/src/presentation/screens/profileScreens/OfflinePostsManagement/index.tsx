@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
 import { PostType, PostCollection, PostCollectionRemote } from '@domain/post/entity/types'
+import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -12,7 +13,6 @@ import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocFie
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { LocalUserData } from '@contexts/AuthContext/types'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
@@ -168,7 +168,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const updateUserPost = async (
-		localUser: LocalUserData,
+		localUser: UserEntityOptional,
 		postId: string,
 		postData: PostCollectionRemote,
 	) => {
@@ -208,7 +208,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 						...localUserPosts,
 						{ ...postDataToSave } as PostCollection
 					],
-				})
+				} as UserEntity)
 
 				setIsLoading(false)
 				return postDataToSave
@@ -258,7 +258,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const naigateToReviewPost = (post: PostCollection) => {
-		switch (post.postType) {
+		switch (post.postType as any) { // REFACTOR Remover any e Verificar funcionamento
 			case 'service': return navigation.navigate('EditServicePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
 			case 'sale': return navigation.navigate('EditSalePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			case 'vacancy': return navigation.navigate('EditVacancyPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
