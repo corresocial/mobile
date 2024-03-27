@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
-import { ReportContext } from '@domain/impactReport/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@domain/post/entity/types'
 
+import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -90,7 +90,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		return postData.owner.profilePictureUrl[0]
 	}
 
-	const markAsCompleted = async (hadImpact: boolean, impactValue: string) => {
+	const markAsCompleted = async (impactValue: string) => {
 		try {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
@@ -102,7 +102,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 			setPostOptionsIsOpen(false)
 
-			!isCompleted && saveImpactReport(hadImpact, impactValue)
+			!isCompleted && saveImpactReport(impactValue)
 
 			setIsCompleted(!isCompleted)
 		} catch (err) {
@@ -110,10 +110,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		}
 	}
 
-	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
+	const saveImpactReport = async (impactValue: string) => {
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		const usersIdInvolved = [userDataContext.userId]
-		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
+		await sendImpactReport(useImpactReportRepository, usersIdInvolved, numericImpactValue, postData.postType)
 
 		toggleImpactReportSuccessModalVisibility()
 	}
@@ -243,7 +243,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
 				closeModal={toggleImpactReportModalVisibility}
-				onPressButton={(impactValue?: string) => markAsCompleted(true, impactValue as string)}
+				onPressButton={(impactValue?: string) => markAsCompleted(impactValue as string)}
 			/>
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}

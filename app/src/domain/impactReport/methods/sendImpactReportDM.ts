@@ -1,11 +1,11 @@
 import { Id } from '@domain/globalTypes'
 import { ReportContext } from '@domain/impactReport/entity/types'
 
-import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
+import { ImpactReportRepositoryInterface } from '@data/impactReport/ImpactReportRepositoryInterface'
 
 async function sendImpactReportDM(
+	useImpactReportRepository: () => ImpactReportRepositoryInterface,
 	usersIdInvolved: Id[],
-	hadImpact: boolean,
 	impactValue: number,
 	reportContext?: ReportContext
 ) {
@@ -14,7 +14,7 @@ async function sendImpactReportDM(
 	return remoteStorage.createNewReport({
 		dateTime: new Date(),
 		reportContext: reportContext || 'chat',
-		hadImpact, // REFACTOR essa propriedade é necessária?
+		hadImpact: true,
 		impactValue,
 		usersIdInvolved: usersIdInvolved || []
 	})

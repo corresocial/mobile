@@ -9,6 +9,8 @@ import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 
+import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
@@ -189,12 +191,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setChatOptionsIsOpen(false)
 	}
 
-	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
+	const saveImpactReport = async (impactValue: string) => {
 		await updateChatCompletedState(currentChat.chatId, true, getRecipientUserId(), userDataContext.name)
 
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		const usersIdInvolved = [currentChat.user1.userId, currentChat.user2.userId]
-		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue)
+		await sendImpactReport(useImpactReportRepository, usersIdInvolved, numericImpactValue, 'chat')
 
 		toggleImpactReportSuccessModalVisibility()
 	}
@@ -298,7 +300,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
 				closeModal={toggleImpactReportModalVisibility}
-				onPressButton={(impactValue?: string) => saveImpactReport(true, impactValue as string)}
+				onPressButton={(impactValue?: string) => saveImpactReport(impactValue as string)}
 			/>
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}
