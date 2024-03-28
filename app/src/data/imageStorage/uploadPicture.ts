@@ -1,10 +1,12 @@
 import { ref, uploadBytesResumable } from 'firebase/storage'
 
+import { POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
+
 import { storage } from '@infrastructure/firebase/index'
 
-type CollectionUpload = 'users' | 'posts'
+type CollectionUpload = typeof USER_COLLECTION | typeof POST_COLLECTION
 
-// REFACTOR Definir um nome melhor para o encapsulamento
+// Definir um nome melhor para o encapsulamento
 async function uploadImage( // REFACTOR Colocar em uma interface
 	localPath: string,
 	collection: CollectionUpload,

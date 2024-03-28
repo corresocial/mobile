@@ -2,6 +2,8 @@ import { doc, setDoc } from 'firebase/firestore'
 
 import { PostEntityOptional } from '@domain/post/entity/types'
 
+import { POST_COLLECTION } from '@data/remoteStorageKeys'
+
 import { firestore } from '@infrastructure/firebase/index'
 
 async function updateOwnerDataOnPosts(ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) {
@@ -17,7 +19,7 @@ async function updateOwnerDataOnPosts(ownerPost: Partial<PostEntityOptional['own
 		}
 
 		userPostIds.map(async (postId) => {
-			const ref = doc(firestore, 'posts', postId)
+			const ref = doc(firestore, POST_COLLECTION, postId)
 
 			await setDoc(
 				ref,

@@ -7,9 +7,7 @@ async function updateProfilePictureOnConversationsDM(userId: Id, profilePictureU
 
 	try {
 		const userChatIds = await getUserChatIds(userId)
-		console.log(userChatIds)
 		const chatIdsList = convertChatIdsToArray(userChatIds as any)
-		console.log(chatIdsList)
 
 		return chatIdsList.forEach(async (chatId) => {
 			const chatData = await getRemoteChatData(chatId)

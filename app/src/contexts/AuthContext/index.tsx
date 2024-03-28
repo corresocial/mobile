@@ -51,7 +51,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			if (!userPosts || (userPosts && !userPosts.length)) return {} as PostEntity
 
-			const lastUserPost = userPosts[0]
+			const lastUserPost = userPosts[userPosts.length - 1]
 			return lastUserPost
 		} catch (err) {
 			return {} as PostEntity

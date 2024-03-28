@@ -1,5 +1,6 @@
 import { PostEntityOptional } from '@domain/post/entity/types'
 
+import { USER_COLLECTION } from '@data/remoteStorageKeys'
 import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 
 import { updatePostData } from './updatePostData' // from data/post
@@ -7,7 +8,7 @@ import { updatePostData } from './updatePostData' // from data/post
 const markPostAsComplete = async (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => { // REFACTOR Precisa mesmo de todos so posts?
 	try { // REFACTOR Deve virar um domain method
 		await updatePostData(postId, currentPost)
-		await updateDocField('users', userId, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
+		await updateDocField(USER_COLLECTION, userId, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
 
 		return true
 	} catch (error) {

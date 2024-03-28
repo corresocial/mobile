@@ -2,6 +2,8 @@ import { doc, setDoc } from 'firebase/firestore'
 
 import { PostEntity, PostEntityOptional, PostType } from '@domain/post/entity/types'
 
+import { POST_COLLECTION } from '@data/remoteStorageKeys'
+
 import { firestore } from '@infrastructure/firebase/index'
 
 async function createPostWithCustomId(
@@ -11,7 +13,7 @@ async function createPostWithCustomId(
 	customId: string
 ) {
 	try {
-		const docRef = doc(firestore, 'posts', customId)
+		const docRef = doc(firestore, POST_COLLECTION, customId)
 		await setDoc(docRef, {
 			...postData,
 			postType,

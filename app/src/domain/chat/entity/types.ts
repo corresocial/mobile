@@ -1,22 +1,5 @@
 import { Id } from '../../globalTypes'
 
-export type Conversation = {
-	chatId: string
-	user1: {
-		userId: string
-		name: string
-		profilePictureUrl: string
-		privateMessages?: MessageObjects
-	}
-	user2: {
-		userId: string
-		name: string
-		profilePictureUrl: string
-		privateMessages?: MessageObjects
-	}
-	messages: MessageObjects
-}
-
 export type Chat = {
 	chatId: string
 	completed?: boolean
@@ -73,3 +56,5 @@ export type ChatUserIdentification = {
 	name: string
 	profilePictureUrl: string
 }
+
+export type CheckBlockedUsersResponse = { hasUserBlocked: boolean, userBlockOwnerId: Id }

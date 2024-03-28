@@ -1,7 +1,8 @@
-import { CheckBlockedUsersResponse } from '@domain/chat/entity'
 import { Id } from '@domain/globalTypes'
 
 import { useChatRepository } from '@data/chat/useChatRepository'
+
+import { CheckBlockedUsersResponse } from '../entity/types'
 
 async function hasBlockedUserOnConversationDM(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse> {
 	const { getRemoteUserData } = useChatRepository()
