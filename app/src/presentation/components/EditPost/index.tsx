@@ -3,8 +3,10 @@ import { Alert, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { postLocationChangedDM } from '@domain/post/core/postLocationChangedDM'
 import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
+import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { uploadImage } from '@data/imageStorage/uploadPicture'
@@ -39,6 +41,7 @@ import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
 const { updateUserRepository } = useUserDomain()
+const { updatePostData } = usePostDomain()
 
 const { localStorage } = useUserRepository()
 const { localStorage: localPostStorage, remoteStorage } = usePostRepository()
@@ -47,7 +50,7 @@ const { notifyUsersOnLocation } = useCloudFunctionService()
 
 type UserContextFragment = {
 	userDataContext: UserEntity;
-	setUserDataOnContext: (data: UserEntity) => void;
+	setUserDataOnContext: (data: UserEntityOptional) => void;
 }
 
 type EditContextFragment = {
@@ -66,14 +69,14 @@ interface EditPostProps {
 	unsavedPost?: boolean
 	offlinePost?: boolean
 	children: React.ReactNode | React.ReactNode[]
+	userContext: UserContextFragment
+	editContext: EditContextFragment
 	navigateBackwards: () => void
 	navigateToProfile?: () => void
 	navigateToPostView: (postData: PostEntity) => void
 	navigateToSubscriptionContext: () => void
 	showShareModal: (visibility: boolean, postTitle?: string, postId?: string) => void
 	getPostField: <K extends keyof PostEntity>(fieldName: K, allowNull?: boolean) => PostEntity[K]
-	userContext: UserContextFragment
-	editContext: EditContextFragment
 }
 
 function EditPost({
@@ -118,36 +121,6 @@ function EditPost({
 		return userPosts.filter((post) => post.postId !== initialPostData.postId) || []
 	}
 
-	const locationRangeChanged = () => { // REFACTOR Refatorar função
-		// Se near location foi editada && location.latitute ou latitude foi editada
-		// Se city location foi editada && location city unsaved ou initialData city foi editada
-
-		if (userDataContext.subscription?.subscriptionRange === 'near') {
-			return Object.keys(editDataContext.unsaved).includes('location')
-				&& editDataContext.unsaved
-				&& editDataContext.unsaved.location
-				&& editDataContext.unsaved.location.coordinates
-				&& initialPostData.location?.coordinates
-				&& (
-					editDataContext.unsaved.location.coordinates.latitude !== initialPostData.location?.coordinates.latitude
-					|| editDataContext.unsaved.location.coordinates.longitude !== initialPostData.location?.coordinates.longitude
-				)
-		}
-
-		if (userDataContext.subscription?.subscriptionRange === 'city') {
-			return Object.keys(editDataContext.unsaved).includes('location')
-				&& editDataContext.unsaved
-				&& editDataContext.unsaved.location
-				&& editDataContext.unsaved.location.coordinates
-				&& initialPostData.location?.coordinates
-				&& (
-					editDataContext.unsaved.location.city !== initialPostData.location?.city
-				)
-		}
-
-		return false
-	}
-
 	const editPost = async () => {
 		if (!editDataContext.unsaved) return
 
@@ -155,56 +128,30 @@ function EditPost({
 
 		try {
 			setIsLoading(true)
-			let userPostsUpdated: PostEntityOptional[] = []
-			if (locationRangeChanged()) {
-				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-					owner,
-					getUserPostsWithoutEdited(),
-					{
-						range: getPostField('range'),
-						location: getPostField('location')
-					}
-				) as PostEntityOptional[]
-			}
 
-			userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
-
-			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
-				console.log('Fotos modificadas')
-				await performPicturesUpload(userPostsUpdated)
-				return
-			}
-			console.log('Fotos não modificadas')
-
-			delete postDataToSave.owner
-
-			const registredPicturesUrl = initialPostData.picturesUrl || []
-			const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
-			if (picturesAlreadyUploadedToRemove.length) {
-				await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
-			}
-
-			await remoteStorage.updatePostData(initialPostData.postId, postDataToSave)
-
-			if (postDataToSave.location) {
-				delete postDataToSave.location.geohashNearby
-				delete postDataToSave.location.geohashCity
-			}
+			const updatedUserPosts = await updatePostData(
+				usePostRepository,
+				userDataContext.subscription?.subscriptionRange,
+				userDataContext.posts || [],
+				initialPostData,
+				postDataToSave
+			)
 
 			await updateUserRepository(
 				useUserRepository,
 				userDataContext,
-				{ posts: [...userPostsUpdated, postDataToSave] }
+				{ posts: updatedUserPosts || [] }
 			)
 
-			updateUserContext(postDataToSave, userPostsUpdated as PostEntity[])
+			updateUserContext(updatedUserPosts)
 			changeStateOfEditedFields()
+
 			setIsLoading(false)
 			navigateBackwards()
-		} catch (err) {
-			console.log(err)
+		} catch (error: any) {
+			console.log(error)
 			setIsLoading(false)
-			throw new Error('Erro ao editar post')
+			throw new Error(error)
 		}
 	}
 
@@ -244,8 +191,16 @@ function EditPost({
 
 		try {
 			let userPostsUpdated: PostEntity[] = []
-			if (locationRangeChanged()) {
-				console.log(`localização ou range mudaram: ${locationRangeChanged()}`)
+
+			// REFACTOR Não deve ficar aqui
+			const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
+				userDataContext.subscription?.subscriptionRange,
+				initialPostData,
+				editDataContext.unsaved
+			)
+
+			if (postLocationIsOutsideSubscriptionRange) {
+				console.log(`localização ou range mudaram: ${postLocationIsOutsideSubscriptionRange}`)
 				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 					owner,
 					getUserPostsWithoutEdited(),
@@ -416,9 +371,9 @@ function EditPost({
 		editContext.setEditDataOnContext(newEditState)
 	}
 
-	const allPicturesAlreadyUploaded = () => {
+	/* 	const allPicturesAlreadyUploaded = () => {
 		return editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')).length === editDataContext.unsaved.picturesUrl.length
-	}
+	} */
 
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
@@ -472,7 +427,7 @@ function EditPost({
 											)
 
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
-											updateUserContext(postDataToSave, postsUpdated as PostEntity[])
+											updateUserContext([postDataToSave, postsUpdated])
 											setIsLoading(false)
 											navigateBackwards()
 										}
@@ -492,7 +447,11 @@ function EditPost({
 		return picturePostsUrls
 	}
 
-	const updateUserContext = (postAfterEdit: PostEntity | false, updatedLocationPosts?: PostEntity[] | []) => {
+	const updateUserContext = (updatedUserPosts?: PostEntity[]) => {
+		userContext.setUserDataOnContext({ posts: updatedUserPosts })
+	}
+
+	/* const updateUserContext = (postAfterEdit: PostEntity | false, updatedLocationPosts?: PostEntity[] | []) => {
 		const allPosts = updatedLocationPosts && updatedLocationPosts.length ? [...updatedLocationPosts] : [...getUserPostsWithoutEdited()]
 
 		userContext.setUserDataOnContext({
@@ -503,7 +462,7 @@ function EditPost({
 				]
 				: [...allPosts]
 		} as UserEntity)
-	}
+	} */
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
@@ -549,35 +508,20 @@ function EditPost({
 	}
 
 	const getHeaderButtonLabel = () => {
-		if (!networkConnectionIsValid) {
-			return 'salvar post offline'
-		}
-
-		if (!userSubscribeIsValid()) {
-			return 'ir para pagamento'
-		}
+		if (!networkConnectionIsValid) return 'salvar post offline'
+		if (!userSubscribeIsValid()) return 'ir para pagamento'
 		return unsavedPost ? 'publicar post' : 'salvar alterações'
 	}
 
 	const getHeaderButtonLabelHighlightedWords = () => {
-		if (!networkConnectionIsValid) {
-			return ['offline']
-		}
-
-		if (!userSubscribeIsValid()) {
-			return ['pagamento']
-		}
+		if (!networkConnectionIsValid) return ['offline']
+		if (!userSubscribeIsValid()) return ['pagamento']
 		return unsavedPost ? ['publicar'] : ['salvar']
 	}
 
 	const getHeaderButtonIcon = () => {
-		if (!networkConnectionIsValid) {
-			return WirelessOffWhiteIcon
-		}
-
-		if (!userSubscribeIsValid()) {
-			return HandOnMoneyWhiteIcon
-		}
+		if (!networkConnectionIsValid) return WirelessOffWhiteIcon
+		if (!userSubscribeIsValid()) return HandOnMoneyWhiteIcon
 		return unsavedPost ? PlusWhiteIcon : CheckWhiteIcon
 	}
 

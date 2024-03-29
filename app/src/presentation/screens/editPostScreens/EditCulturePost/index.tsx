@@ -59,7 +59,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => { // REFACTOR Retornar tipo relativo <T> generics
 		const currentPostData = { ...postData, postType: 'culture' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -72,14 +72,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		return picturesUrl
 	}
 
-	const formatCategoryAndTags = () => {
+	const formatCategoryAndTags = () => { // REFACTOR useUiUtils internalizar no componente?
 		const category: CultureCategories = getPostField('category')
 		const tags = getPostField('tags')
 
 		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
-	const renderCultureRepeat = () => {
+	const renderCultureRepeat = () => { // REFACTOR useUiUtils
 		const repeat = getPostField('repeat') as EventRepeatType
 		switch (repeat) {
 			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
@@ -175,16 +175,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
-	const userContext = {
-		userDataContext,
-		setUserDataOnContext
-	}
-
-	const editContext = {
-		editDataContext,
-		setEditDataOnContext,
-		clearUnsavedEditContext
-	}
+	const userContext = { userDataContext, setUserDataOnContext }
+	const editContext = { editDataContext, setEditDataOnContext, clearUnsavedEditContext }
 
 	return (
 		<>

@@ -9,7 +9,7 @@ export type PostRangeLocation = {
 	location: PostEntity['location']
 }
 
-// THIS is DOMAIN
+// REFACTOR THIS is DOMAIN
 
 const { remoteStorage } = useUserRepository()
 
