@@ -10,8 +10,9 @@ interface PostDomainInterface {
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
 		userPosts: PostEntity[],
 		storedPostData: PostEntity,
-		newPostData: PostEntity
-	) => Promise<PostEntity[]>;
+		newPostData: PostEntity,
+		newPostPicturesUri: string[]
+	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 }
 
 export { PostDomainInterface }

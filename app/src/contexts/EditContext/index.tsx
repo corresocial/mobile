@@ -58,7 +58,7 @@ function EditProvider({ children }: EditProviderProps) {
 			unsaved: {},
 			saved: {}
 		})
-	}, [])
+	}, [editDataContext])
 
 	const editProviderData = useMemo(() => ({
 		editDataContext,

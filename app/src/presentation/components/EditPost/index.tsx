@@ -4,7 +4,7 @@ import { Alert, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
 import { postLocationChangedDM } from '@domain/post/core/postLocationChangedDM'
-import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
+import { PostType, PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
@@ -124,17 +124,18 @@ function EditPost({
 	const editPost = async () => {
 		if (!editDataContext.unsaved) return
 
-		const postDataToSave = { ...initialPostData, ...editDataContext.unsaved }
+		const postDataToSave: PostEntity = { ...initialPostData, ...editDataContext.unsaved }
 
 		try {
 			setIsLoading(true)
 
-			const updatedUserPosts = await updatePostData(
+			const { updatedUserPosts, picturesUrlUploaded } = await updatePostData(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
-				postDataToSave
+				postDataToSave,
+				editDataContext.unsaved.picturesUrl || []
 			)
 
 			await updateUserRepository(
@@ -144,7 +145,7 @@ function EditPost({
 			)
 
 			updateUserContext(updatedUserPosts)
-			changeStateOfEditedFields()
+			changeStateOfEditedFields([...picturesUrlUploaded])
 
 			setIsLoading(false)
 			navigateBackwards()
@@ -247,7 +248,7 @@ function EditPost({
 
 			const picturePostsUrls: string[] = []
 			postPictures.forEach(async (postPicture, index) => {
-				uploadImage(postPicture, 'posts', index).then(
+				uploadImage(postPicture, 'posts').then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -378,73 +379,6 @@ function EditPost({
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
-	}
-
-	const performPicturesUpload = async (postsUpdated: PostEntityOptional[]) => {
-		const picturesNotUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => !url.includes('https://')) || []
-		const picturesAlreadyUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')) || []
-
-		const picturePostsUrls: string[] = []
-		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'posts', index).then(
-				({ uploadTask, blob }: any) => {
-					uploadTask.on(
-						'state_change',
-						() => { },
-						(err: any) => {
-							throw new Error(err)
-						},
-						async () => {
-							return getDownloadURL(uploadTask.snapshot.ref)
-								.then(
-									async (downloadURL) => {
-										blob.close()
-										picturePostsUrls.push(downloadURL)
-										if (picturePostsUrls.length === picturesNotUploaded.length) {
-											const postDataToSave = {
-												...initialPostData,
-												...editDataContext.unsaved,
-												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
-											}
-
-											const registredPicturesUrl = initialPostData.picturesUrl || []
-											const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
-											if (picturesAlreadyUploadedToRemove.length) {
-												await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
-											}
-
-											await remoteStorage.updatePostData(initialPostData.postId, postDataToSave)
-
-											if (postDataToSave.location) {
-												delete postDataToSave.location.geohashNearby
-												delete postDataToSave.location.geohashCity
-											}
-
-											await updateUserRepository(
-												useUserRepository,
-												userDataContext,
-												{ posts: [...postsUpdated, postDataToSave] }
-											)
-
-											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
-											updateUserContext([postDataToSave, postsUpdated])
-											setIsLoading(false)
-											navigateBackwards()
-										}
-									},
-								)
-								.catch((err) => {
-									console.log(err)
-									Alert.alert('Error', 'Picture went wrong')
-									setIsLoading(false)
-								})
-						},
-					)
-				},
-			)
-		})
-
-		return picturePostsUrls
 	}
 
 	const updateUserContext = (updatedUserPosts?: PostEntity[]) => {

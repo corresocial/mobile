@@ -9,8 +9,7 @@ type CollectionUpload = typeof USER_COLLECTION | typeof POST_COLLECTION
 // Definir um nome melhor para o encapsulamento
 async function uploadImage( // REFACTOR Colocar em uma interface
 	localPath: string,
-	collection: CollectionUpload,
-	index?: number
+	collection: CollectionUpload
 ) {
 	try {
 		const response = await fetch(localPath)
@@ -18,7 +17,7 @@ async function uploadImage( // REFACTOR Colocar em uma interface
 
 		const fileRef = ref(
 			storage,
-			`pictures/${collection}/${Date.now()}-${index || ''}.jpg`,
+			`pictures/${collection}/${Date.now()}}.jpg`,
 		)
 
 		const uploadTask = uploadBytesResumable(fileRef, blob)

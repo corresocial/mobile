@@ -1,9 +1,12 @@
 import { UserSubscription } from '@domain/user/entity/types'
 
+import { uploadPostPictures } from '@data/post/bucketStorage/uploadPostPictures'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
-import { PostEntity, PostEntityOptional } from '../entity/types'
+import { PostEntity } from '../entity/types'
 
+import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormalizedPostDM'
+import { picturesUrlUpdatedDM } from '../core/editPostValidationDM'
 import { getUneditedPostsDM } from '../core/getUneditedPostsDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
 
@@ -12,14 +15,9 @@ async function updatePostDataDM(
 	userSubscriptionRange: UserSubscription['subscriptionRange'],
 	userPosts: PostEntity[],
 	storedPostData: PostEntity,
-	newPostData: PostEntity
+	newPostData: PostEntity,
+	unsavedPostPictures: string[]
 ) {
-	const allPicturesAlreadyUploaded = () => {
-		const postPictures = newPostData.picturesUrl || []
-		// editDataContext.unsaved foi substituido por newPostData
-		return postPictures.filter((url: string) => url.includes('https://')).length === postPictures.length
-	}
-
 	const { remoteStorage } = usePostRepository()
 
 	const owner = { ...storedPostData.owner }
@@ -39,49 +37,39 @@ async function updatePostDataDM(
 		)
 	}
 
-	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostData)
+	// Tratamento de imagens ///////////////////////////////////////////////
 
-	if ((newPostData.picturesUrl && newPostData.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
-		console.log('Fotos atualizadas')
-		// await performPicturesUpload(userPostsUpdated)
-		return [...userPostsUpdated, newPostData]
+	console.log(picturesUrlUpdatedDM(unsavedPostPictures) ? 'Fotos atualizadas' : 'Fotos não atualizadas')
+
+	let newPostPicturesUrl: string[] = unsavedPostPictures || []
+	if (picturesUrlUpdatedDM(unsavedPostPictures)) {
+		const picturesNotUploaded = (unsavedPostPictures || []).filter((url: string) => !url.includes('https://')) || []
+		const picturesAlreadyUploaded = (unsavedPostPictures || []).filter((url: string) => url.includes('https://')) || []
+
+		const uploadedPicturesUrl = await uploadPostPictures(picturesNotUploaded) // REFACTOR puxar da interface postRepository
+		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
 	}
 
-	console.log('Fotos não atualizadas')
-
-	const registredPicturesUrl = storedPostData.picturesUrl || []
-	const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => newPostData.picturesUrl && !newPostData.picturesUrl.includes(pictureUrl))
-
+	const storedPicturesUrl = storedPostData.picturesUrl || []
+	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
 	if (picturesAlreadyUploadedToRemove.length) {
 		await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
 	}
 
-	await remoteStorage.updatePostData(storedPostData.postId, newPostData)
+	// Tratamento de imagens ^ ///////////////////////////////////////////////
 
-	// PROCESSOS QUE DEVEM SER FEITOS ANTES DE RETORNAR PARA SALVAR NA COLLECTION DE USUÁRIOS
+	const newPostWithUploadedPictures = { ...newPostData, picturesUrl: newPostPicturesUrl }
 
-	const newPostDesnormalized = convertPostToDesnormalizedPost(newPostData)
+	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostWithUploadedPictures)
 
-	/* delete newPostData.owner // REFACTOR
-	if (newPostData.location) {
-		delete newPostData.location.geohashNearby
-		delete newPostData.location.geohashCity
-	} */
+	await remoteStorage.updatePostData(storedPostData.postId, newPostWithUploadedPictures)
 
-	return [...userPostsUpdated, newPostDesnormalized] // Array de post to userREpository
-}
+	const newPostDesnormalized = convertPostToDesnormalizedPostDM(newPostWithUploadedPictures) // PROCESSOS QUE DEVEM SER FEITOS ANTES DE RETORNAR PARA SALVAR NA COLLECTION DE USUÁRIOS
 
-// Tipagem de geohash temporária. Utilizada somente para remover a propriedade geohashNearby da base de dados
-function convertPostToDesnormalizedPost(newPostData: PostEntityOptional | any): PostEntityOptional {
-	const filteredPostData = { ...newPostData }
-
-	delete filteredPostData.owner
-	if (filteredPostData.location) {
-		delete filteredPostData.location.geohashNearby
-		delete filteredPostData.location.geohashCity
+	return {
+		updatedUserPosts: [...userPostsUpdated, newPostDesnormalized as PostEntity],
+		picturesUrlUploaded: newPostPicturesUrl
 	}
-
-	return newPostData
 }
 
 export { updatePostDataDM }
