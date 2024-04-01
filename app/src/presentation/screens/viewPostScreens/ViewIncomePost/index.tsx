@@ -394,6 +394,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 									picturesUrl={getPostField('picturesUrl') || []}
 									indicatorColor={theme.green1}
 									square
+									showFullscreenIcon
 								/>
 							</TouchableOpacity>
 						</>

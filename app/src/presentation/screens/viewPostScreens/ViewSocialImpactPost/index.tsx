@@ -365,6 +365,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 										picturesUrl={getPostField('picturesUrl') || []}
 										indicatorColor={theme.pink1}
 										square
+										showFullscreenIcon
 									/>
 								</TouchableOpacity>
 							</>

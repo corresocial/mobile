@@ -63,6 +63,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	}, [showGallery])
 
 	useEffect(() => {
+		setCurrentIndex(0)
+		goToIndex(0, true)
 		if (isLandscapeMode) {
 			setScreenSizes({
 				width: relativeScreenHeight(100),
@@ -74,17 +76,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				height: relativeScreenHeight(100)
 			})
 		}
-
-		setTimeout(() => {
-			if (picturesUrl && currentIndex === picturesUrl.length - 1) {
-				goToIndex(currentIndex)
-				if (carouselRef.current) {
-					isLandscapeMode ? carouselRef.current.next() : carouselRef.current.prev()
-				}
-				return
-			}
-			goToIndex(currentIndex)
-		}, 500)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
@@ -96,6 +87,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		}
 	}, [currentIndex])
 
+	const hideArrows = picturesUrl.length < 2 
+
 	const goToNext = (direction: number) => {
 		const { length } = picturesUrl
 		const nextIndex = (currentIndex + direction + length) % length
@@ -103,8 +96,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		goToIndex(nextIndex)
 	}
 
-	const goToIndex = (index: number, animate?: boolean) => {
-		carouselRef.current?.scrollTo({ index, animated: true })
+	const goToIndex = (index: number, noAnimation?: boolean) => {
+		carouselRef.current?.scrollTo({ index, animated: !noAnimation })
 	}
 
 	const imagePressHandler = () => {
@@ -168,13 +161,19 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 							/>
 						</CloseButtonArea>
 
-						<LeftButton onPress={() => goToNext(-1)}>
-							<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
-						</LeftButton>
+						{
+							!hideArrows && (
+								<>
+									<LeftButton onPress={() => goToNext(-1)}>
+										<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
+									</LeftButton>
 
-						<RightButton onPress={() => goToNext(1)}>
-							<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)} />
-						</RightButton>
+									<RightButton onPress={() => goToNext(1)}>
+										<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+									</RightButton>
+								</>
+							)
+						}
 					</>
 				)
 			}
