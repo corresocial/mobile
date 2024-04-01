@@ -5,7 +5,7 @@ import { theme } from '@common/theme'
 
 import { PublicServicesAdButton } from '@components/_buttons/PublicServicesAdButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
-import { UserLocationAdButton } from '@components/_buttons/UserLocationAdButton'
+// import { UserLocationAdButton } from '@components/_buttons/UserLocationAdButton'
 import { CustomCarousel } from '@components/CustomCarousel'
 
 interface AdsCarouselProps {
@@ -18,9 +18,9 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.white3}>
-				<SubscriptionAdContainer>
+				{/* <SubscriptionAdContainer> // SMAS
 					<UserLocationAdButton onPress={() => onPressUserLocationAd && onPressUserLocationAd()} />
-				</SubscriptionAdContainer>
+				</SubscriptionAdContainer> */}
 				<SubscriptionAdContainer>
 					<PublicServicesAdButton onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()} />
 				</SubscriptionAdContainer>

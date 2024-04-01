@@ -265,14 +265,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
 					</EditCard>
 					<VerticalSpacing />
-					<EditCard
+					{/* <EditCard // SMAS
 						title={'região de moradia'}
 						highlightedWords={['moradia']}
 						pressionable
 						value={getUserAddress() || 'localização utilizada para envio de notificações da prefeitura'}
 						onEdit={() => goToEditScreen('EditUserLocation')}
 					/>
-					<VerticalSpacing />
+					<VerticalSpacing /> */}
 					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}

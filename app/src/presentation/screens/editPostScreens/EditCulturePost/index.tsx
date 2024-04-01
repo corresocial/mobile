@@ -223,6 +223,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

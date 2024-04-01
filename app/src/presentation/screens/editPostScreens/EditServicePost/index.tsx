@@ -219,6 +219,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

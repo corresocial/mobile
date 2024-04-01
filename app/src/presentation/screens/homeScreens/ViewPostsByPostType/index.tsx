@@ -180,7 +180,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 				/>
 			)
 			case 'socialImpact': return (
-				<CatalogPostTypeButtons
+				<CatalogPostTypeButtons // SMAS
 					buttonLabels={['informativos', 'iniciativas', 'doações']}
 					buttonValues={['informative', 'iniciative', 'donation']}
 					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}

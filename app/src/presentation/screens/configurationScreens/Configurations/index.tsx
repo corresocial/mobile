@@ -24,7 +24,7 @@ import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import EyeDashedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
-import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
+// import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
@@ -76,14 +76,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performUserSubscription = () => {
-		/* navigation.push('UserStack', {
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		}) */
-
 		navigateToScreen('SelectSubscriptionRange')
 	}
 
@@ -159,7 +151,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					onPress={() => navigateToScreen('NotificationSettings')}
 				/>
 				<VerticalSpacing />
-				<OptionButton
+				{/* <OptionButton // SMAS
 					label={'serviços públicos'}
 					highlightedWords={['serviços', 'públicos']}
 					labelSize={18}
@@ -170,7 +162,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
 				/>
-				<VerticalSpacing />
+				<VerticalSpacing /> */}
 				<OptionButton
 					label={'métodos de login'}
 					highlightedWords={['métodos', 'de', 'login']}

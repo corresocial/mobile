@@ -227,6 +227,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

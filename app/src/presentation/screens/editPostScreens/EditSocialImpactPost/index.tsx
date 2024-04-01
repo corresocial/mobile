@@ -231,6 +231,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.pink1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
