@@ -2,6 +2,7 @@ import * as Updates from 'expo-updates'
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -68,12 +69,12 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		}
 	}
 
-	const navigateToInitialScreen = (userIdentification: { userId?: string, name?: string }) => {
+	const navigateToInitialScreen = (userIdentification: UserEntity | null) => {
 		navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'SelectAuthRegister',
-				params: { userId: userIdentification.userId, userName: userIdentification.name }
+				params: { userId: userIdentification?.userId || '', userName: userIdentification?.name || '' }
 			}],
 		})
 	}
@@ -138,22 +139,22 @@ function Splash({ route, navigation }: SplashScreenProps) {
 					}
 				}
 
-				/* navigation.reset({
+				console.log('navigation.reset()')
+
+				navigation.reset({
 					index: 0,
 					routes: [{
 						name: 'UserStack',
 						params: { tourPerformed: localUser.tourPerformed }
 					}],
-				}) */
+				})
 			} else {
 				const storedUser = await getLocalUserData(useUserRepository)
-				if (!storedUser) return
 				navigateToInitialScreen(storedUser)
 			}
 		} catch (error) {
 			console.log(error)
 			const storedUser = await getLocalUserData(useUserRepository)
-			if (!storedUser) return
 			navigateToInitialScreen(storedUser)
 		}
 	}

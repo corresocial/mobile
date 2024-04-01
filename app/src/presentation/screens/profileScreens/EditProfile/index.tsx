@@ -63,7 +63,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		setPrivateUserLocation(userLocation)
 	}
 
-	const getUserAddress = () => {
+	/* const getUserAddress = () => {
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
 			const userLocation = editDataContext.unsaved.location
 			return `${userLocation.city} - ${userLocation.district}`
@@ -74,7 +74,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		}
 
 		return null
-	}
+	} */
 
 	const goToEditScreen = (screenName: keyof ProfileStackParamList) => {
 		switch (screenName) {

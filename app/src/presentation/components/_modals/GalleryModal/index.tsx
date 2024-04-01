@@ -87,10 +87,10 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		}
 	}, [currentIndex])
 
-	const hideArrows = picturesUrl.length < 2 
+	const hideArrows = picturesUrl && picturesUrl.length < 2
 
 	const goToNext = (direction: number) => {
-		const { length } = picturesUrl
+		const length = picturesUrl ? picturesUrl.length : 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)

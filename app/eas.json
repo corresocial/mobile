@@ -13,7 +13,7 @@
 			"android": {
 				"buildType": "apk"
 			},
-			"channel": "development"
+			"channel": "v0.6.3"
 		},
 		"staging": {
 			"ios": {
