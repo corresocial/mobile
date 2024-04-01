@@ -6,6 +6,7 @@ import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { Container, LogoContainer } from './styles'
@@ -16,7 +17,7 @@ import { theme } from '@common/theme'
 
 import { CustomModal } from '@components/_modals/CustomModal'
 
-function Splash({ navigation }: SplashScreenProps) {
+function Splash({ route, navigation }: SplashScreenProps) {
 	const { checkCacheImageValidation } = CacheRepositoryAdapter()
 
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -73,6 +74,44 @@ function Splash({ navigation }: SplashScreenProps) {
 		})
 	}
 
+	const navigateToProfile = (id: string) => {
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'UserStack' as any,
+			}],
+		})
+		navigation.navigate('UserStack', { // TODO userStack
+			screen: 'HomeTab',
+			params: {
+				screen: 'HomeStack',
+			}
+		} as any)
+		navigation.navigate('ProfileHome' as any, { userId: id }) // TODO type
+	}
+
+	const navigateToPost = (id: string, postType: PostKey) => {
+		const postPages = {
+			income: 'ViewIncomePostHome',
+			culture: 'ViewCulturePostHome',
+			socialimpact: 'ViewSocialImpactPostHome',
+			vacancy: 'ViewVacancyPostHome',
+		}
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'UserStack' as any,
+			}],
+		})
+		navigation.navigate('UserStack', {
+			screen: 'HomeTab',
+			params: {
+				screen: 'HomeStack',
+			}
+		} as any)
+		navigation.navigate(postPages[postType] as any, { redirectedPostId: id }) // TODO type
+	}
+
 	const redirectToApp = async () => {
 		try {
 			const hasLocalUser = await hasValidLocalUser()
@@ -82,6 +121,18 @@ function Splash({ navigation }: SplashScreenProps) {
 				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
+
+				if (route.params?.screen) {
+					switch (route.params.screen) {
+						case 'profile': {
+							return navigateToProfile(route.params.id)
+						}
+						case 'post': {
+							return navigateToPost(route.params.id, route.params.postType as PostKey)
+						}
+					}
+				}
+
 				navigation.reset({
 					index: 0,
 					routes: [{

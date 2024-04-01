@@ -140,6 +140,8 @@ function Home({ navigation }: HomeScreenProps) {
 				refresh
 			)
 
+			console.log(remoteFeedPosts)
+
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)

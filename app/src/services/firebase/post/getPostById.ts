@@ -1,12 +1,12 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import { PostCollection, PostCollectionType } from '../types'
+import { PostCollection } from '../types'
 
 import { firestore } from '@services/firebase'
 
-async function getPostById(postId: string, postCollection: PostCollectionType) {
+async function getPostById(postId: string) {
 	try {
-		const postRef = doc(firestore, postCollection, postId)
+		const postRef = doc(firestore, 'posts', postId)
 		const postSnap = await getDoc(postRef)
 		if (postSnap.exists()) {
 			return {

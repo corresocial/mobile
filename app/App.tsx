@@ -6,6 +6,7 @@ import {
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo'
 import { NavigationContainer } from '@react-navigation/native'
+import { createURL } from 'expo-linking'
 import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
@@ -51,11 +52,22 @@ function App() {
 		)
 	}
 
+	const linking = {
+		prefixes: [createURL('/com.corresocial.corresocial')],
+		config: {
+			screens: {
+				Splash: {
+					path: 'redirect/:screen/:id/:postType?'
+				}
+			},
+		},
+	}
+
 	const { defaultCachePersistence } = CacheRepositoryAdapter()
 	const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: defaultCachePersistence, gcTime: defaultCachePersistence } } })
 
 	return (
-		<NavigationContainer>
+		<NavigationContainer linking={linking}>
 			<ThemeProvider theme={theme}>
 				<AlertProvider>
 					<LoaderProvider>
