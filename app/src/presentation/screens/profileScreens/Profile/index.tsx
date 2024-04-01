@@ -582,7 +582,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								? (
 									<WithoutPostsMessage
 										title={'faça uma postagem!'}
-										message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
+										message={'você precisa fazer um post para que outras pessoas possam te encontrar\ncaso veio aqui apenas para procurar, não se preocupe.'}
 										highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
 										backgroundColor={theme.yellow1}
 									/>
