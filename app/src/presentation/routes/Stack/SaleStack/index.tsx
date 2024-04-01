@@ -7,6 +7,7 @@ import { SaleProvider } from '@contexts/SaleContext'
 import { SaleStackParamList } from './types'
 
 import { EditSalePost } from '@screens/editPostScreens/EditSalePost'
+import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { InsertExchangeValue } from '@screens/saleRegisterScreens/InsertExchangeValue'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertSaleDescription } from '@screens/saleRegisterScreens/InsertSaleDescription'
@@ -62,6 +63,8 @@ export function SaleStack() {
 				<Stack.Screen name={'InsertSaleStartHour'} component={InsertSaleStartHour} />
 				<Stack.Screen name={'InsertSaleEndHour'} component={InsertSaleEndHour} />
 				<Stack.Screen name={'EditSalePostReview'} component={EditSalePost} />
+
+				<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 			</Stack.Navigator>
 		</SaleProvider>
 	)

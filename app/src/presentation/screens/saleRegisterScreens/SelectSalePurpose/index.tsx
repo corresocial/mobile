@@ -17,12 +17,6 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveSalePurpose = (lookingFor: boolean) => {
-		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemStatus })
-			navigation.goBack()
-			return
-		} */
-
 		setSaleDataOnContext({ lookingFor })
 		navigation.navigate('SelectSaleCategory')
 	}

@@ -118,7 +118,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			}
 		}
 
-		navigation.navigate(customStack || 'VacancyStack' as any, { // TODO Type
+		navigation.push(customStack || 'VacancyStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,

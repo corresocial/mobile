@@ -110,7 +110,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			}
 		}
 
-		navigation.navigate(customStack || 'ServiceStack' as any, { // TODO Type
+		navigation.push(customStack || 'ServiceStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,

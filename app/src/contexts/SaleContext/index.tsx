@@ -22,7 +22,8 @@ function SaleProvider({ children }: SaleProviderProps) {
 	const [saleDataContext, setSaleDataContext] = useState(initialValue.saleDataContext)
 
 	const setSaleDataOnContext = async (data: IncomeEntityOptional) => {
-		setSaleDataContext({ ...saleDataContext, ...data })
+		const customData: IncomeEntityOptional = { macroCategory: 'sale', ...data } // Solução temporária para o problema de definir macro categorias de vendas, serviços e vagas
+		setSaleDataContext({ ...saleDataContext, ...customData })
 	}
 
 	const getAditionalDataFromLastPost = () => {
