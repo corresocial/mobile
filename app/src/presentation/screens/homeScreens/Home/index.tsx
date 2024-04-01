@@ -1,8 +1,11 @@
-/* eslint-disable no-unused-vars */
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
+
+import { useQueryClient } from '@tanstack/react-query'
+
+import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -10,13 +13,13 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
+import { FeedPosts, PostCollection, PostRange, PostType } from '@services/firebase/types'
 import {
-	SearchParams,
 	LatLong,
 	AddressSearchResult,
 	SelectedAddressRender,
 	GeocodeAddress,
+	SearchParams,
 } from '@services/maps/types'
 
 import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
@@ -60,6 +63,9 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+
+	const queryClient = useQueryClient()
+	const { executeCachedRequest } = CacheRepositoryAdapter()
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -111,7 +117,6 @@ function Home({ navigation }: HomeScreenProps) {
 		refresh?: boolean,
 		firstLoad?: boolean
 	) => {
-		if (!hasLocationPermission) return
 		locationIsEnable()
 
 		try {
@@ -126,9 +131,13 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const remoteFeedPosts = await getPostsByLocationCloud(
-				searchParams,
-				userDataContext.userId as Id
+			const userId = userDataContext.userId as string
+			const queryKey = ['home.feed', searchParams, userId]
+			const remoteFeedPosts = await executeCachedRequest(
+				queryClient,
+				queryKey,
+				() => getPostsByLocationCloud(searchParams, userId),
+				refresh
 			)
 
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
@@ -217,10 +226,8 @@ function Home({ navigation }: HomeScreenProps) {
 		})
 
 		return {
-			range: 'nearby',
 			city: structuredAddress.city,
 			country: structuredAddress.country,
-			postType: 'service',
 			coordinates,
 			geohashes: geohashObject.geohashNearby,
 		} as SearchParams
@@ -292,7 +299,12 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const hasAnyPost = () => {
-		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
+		return feedPosts
+			&& (
+				(feedPosts.nearby && feedPosts.nearby.length > 0)
+				|| (feedPosts.city && feedPosts.city.length > 0)
+				|| (feedPosts.country && feedPosts.country.length > 0)
+			)
 	}
 
 	const navigateToSelectSubscriptionRange = () => {
@@ -304,13 +316,9 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('EditUserLocation', { initialCoordinates: null })
 	}
 
-	const navigateToPublicServices = () => {
+	/* const navigateToPublicServices = () => {
 		navigation.navigate('PublicServicesStack')
-	}
-
-	const userHasPaidSubscription = () => {
-		return (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
-	}
+	} */
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
@@ -351,7 +359,7 @@ function Home({ navigation }: HomeScreenProps) {
 				)}
 			>
 				<AdsCarousel
-					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
+					onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 					onPressUserLocationAd={navigateToEditUserLocation}
 				/>
 				{!hasLocationEnable && !hasAnyPost() && searchEnded && (

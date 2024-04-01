@@ -83,6 +83,17 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 		onPress()
 	}
 
+	const getRelativeBlurhash = () => {
+		switch (post.postType) {
+			case 'income': return 'U0Fui[%|fQ%|?^fjfQfjfQfQfQfQ?^fjfQfj'
+			case 'socialImpact': return 'U1R]RW-WfQ-W}ujtfQjtfQfQfQfQ}ujtfQjt'
+			case 'culture': return 'U1HW.vx^fQx^%%fRfQfRfQfQfQfQ%%fRfQfR'
+			default: return 'U1T7N2={fQ={~AjtfQjtfQfQfQfQ~AjtfQjt'
+		}
+	}
+
+	const blurhash = getRelativeBlurhash()
+
 	return (
 		<Container
 			activeOpacity={1}
@@ -101,6 +112,11 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 						<SidePicture
 							hasPicture={!arrayIsEmpty(post.picturesUrl)}
 							source={!arrayIsEmpty(post.picturesUrl) ? { uri: post.picturesUrl[0] } : {}}
+							recyclingKey={!arrayIsEmpty(post.picturesUrl) ? post.picturesUrl[0] : ''}
+							placeholder={blurhash}
+							placeholderContentFit={'contain'}
+							cachePolicy={'memory-disk'}
+							transition={300}
 						>
 							{
 								(post.saleValue || post.exchangeValue) && (

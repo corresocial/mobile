@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
@@ -37,6 +39,9 @@ const ChatContext = createContext<ChatContextType>(initialValue)
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
 
+	const queryClient = useQueryClient()
+	const chatConversationsKCacheKey = ['chatConversations']
+
 	const [pushNotificationEnabled, setPushNotificationEnabled] = useState(false)
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
@@ -47,9 +52,18 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatDataContextRef = useRef(chatDataContext)
 
 	useEffect(() => {
+		loadChatFromCache()
 		initUserInstance(userDataContext.userId as Id)
 		initPushNotificationService()
 	}, [])
+
+	const loadChatFromCache = async () => {
+		const cachedChat = await queryClient.getQueryData(chatConversationsKCacheKey) as Chat[]
+		if (cachedChat) {
+			console.log('Has CACHED CHAT')
+			setChatsOnContext(cachedChat)
+		}
+	}
 
 	useEffect(() => {
 		chatDataContextRef.current = chatDataContext
@@ -74,6 +88,9 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const updateChatsOnContext = (chatId: Id, updatedChat: Chat) => {
 		const chatsOnContext = chatDataContextRef.current
 		const chats = mergeChatOnContext(chatId, updatedChat, chatsOnContext)
+
+		queryClient.setQueryData(chatConversationsKCacheKey, chats)
+
 		setChatsOnContext(chats as Chat[])
 	}
 

@@ -92,11 +92,11 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const viewPostDetails = (post: PostCollection) => {
-		navigateToPostView(post, navigation)
+		navigateToPostView(post, navigation) // TODO Implementar nas outras telas de revisão
 	}
 
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
-		let value = getPostField(initialValue)
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()

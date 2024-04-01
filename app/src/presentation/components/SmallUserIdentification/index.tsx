@@ -12,6 +12,7 @@ import {
 	PostDateTime,
 	UserPictureAreaInner
 } from './styles'
+import UserShadow from '@assets/imgs/userShadow.jpg'
 
 interface SmallUserIdentificationProps {
 	width?: string | number
@@ -52,12 +53,7 @@ function SmallUserIdentification({
 	}
 
 	return (
-		<Container
-			style={{
-				width,
-				height,
-			}}
-		>
+		<Container style={{ width, height }}>
 			<UserPictureArea
 				style={{
 					width: RFValue(pictureDimensions),
@@ -72,9 +68,12 @@ function SmallUserIdentification({
 					onPress={releaseButton}
 				>
 					<MiniaturePortrait
-						source={{
-							uri: profilePictureUrl || defaultUserProfilePicture,
-						}}
+						source={{ uri: profilePictureUrl || defaultUserProfilePicture }}
+						recyclingKey={profilePictureUrl || defaultUserProfilePicture}
+						placeholder={UserShadow}
+						placeholderContentFit={'contain'}
+						cachePolicy={'memory-disk'}
+						transition={300}
 					/>
 				</UserPictureAreaInner>
 			</UserPictureArea>
