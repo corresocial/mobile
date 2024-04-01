@@ -1,3 +1,4 @@
+import { Image, ImageProps } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -21,12 +22,12 @@ export const UserPictureAreaInner = styled.TouchableOpacity`
 	height: 100%;
 	border-radius: ${RFValue(7)}px;
 	position: absolute;
-	background-color: ${({ theme }) => theme.white3}
+	background-color: ${({ theme }) => theme.white3};
 	overflow: hidden;
 	left: ${RFValue(-5)}px;
 `
 
-export const MiniaturePortrait = styled.Image`
+export const MiniaturePortrait = styled(Image) <ImageProps>`
 	width: 100%;
 	height: 100%;
 	resize-mode: cover;

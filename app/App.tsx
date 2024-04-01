@@ -11,7 +11,10 @@ import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import * as Sentry from 'sentry-expo'
+
+import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
 
 import { LoaderContainer } from './App.styles'
 import { ignoredLogs } from './ignoredLogs'
@@ -19,7 +22,6 @@ import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { getEnvVars } from './src/infrastructure/environment'
 import { theme } from './src/presentation/common/theme'
-import { ErrorBoundaryContainer } from './src/presentation/components/_containers/ErrorBoundaryContainer'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
 import { sentryConfig } from './src/services/sentry'
 
@@ -61,18 +63,21 @@ function App() {
 		},
 	}
 
+	const { defaultCachePersistence } = CacheRepositoryAdapter()
+	const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: defaultCachePersistence, gcTime: defaultCachePersistence } } })
+
 	return (
-		<ErrorBoundaryContainer>
-			<NavigationContainer linking={linking}>
-				<ThemeProvider theme={theme}>
-					<AlertProvider>
-						<LoaderProvider>
+		<NavigationContainer linking={linking}>
+			<ThemeProvider theme={theme}>
+				<AlertProvider>
+					<LoaderProvider>
+						<QueryClientProvider client={queryClient}>
 							<AuthRegisterStack />
-						</LoaderProvider>
-					</AlertProvider>
-				</ThemeProvider>
-			</NavigationContainer>
-		</ErrorBoundaryContainer>
+						</QueryClientProvider>
+					</LoaderProvider>
+				</AlertProvider>
+			</ThemeProvider>
+		</NavigationContainer>
 	)
 }
 

@@ -267,6 +267,11 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
+			<GalleryModal
+				picturesUrl={getPostField('picturesUrl')}
+				showGallery={galeryIsVisible}
+				onClose={closeGalery}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -372,11 +377,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
-								<GalleryModal
-									picturesUrl={getPostField('picturesUrl')}
-									showGallery={galeryIsVisible}
-									onClose={closeGalery}
-								/>
 								<TouchableOpacity
 									activeOpacity={1}
 									onPress={openGallery}
@@ -385,6 +385,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 										picturesUrl={getPostField('picturesUrl') || []}
 										indicatorColor={theme.pink1}
 										square
+										showFullscreenIcon
 									/>
 								</TouchableOpacity>
 							</>

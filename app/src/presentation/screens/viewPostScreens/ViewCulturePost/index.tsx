@@ -391,6 +391,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 										picturesUrl={getPostField('picturesUrl') || []}
 										indicatorColor={theme.blue1}
 										square
+										showFullscreenIcon
 									/>
 								</TouchableOpacity>
 

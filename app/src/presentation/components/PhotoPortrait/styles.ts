@@ -1,3 +1,4 @@
+import { Image, ImageProps } from 'expo-image'
 import { ImageResizeMode } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
@@ -14,8 +15,8 @@ interface ContainerProps {
 }
 
 export const Container = styled.View<ContainerProps>`
-	height: ${({ height }) => (typeof (height) === 'number' ? `${height}px` : height || '100%')}};
-	width: ${({ width }) => (typeof (width) === 'number' ? `${width}px` : width || '100%')}};
+	height: ${({ height }) => (typeof (height) === 'number' ? `${height}px` : height || '100%')};
+	width: ${({ width }) => (typeof (width) === 'number' ? `${width}px` : width || '100%')};
 	max-width: ${({ maxWidth }) => maxWidth}px;
 	border-width: ${({ borderWidth }) => (borderWidth ? RFValue(borderWidth) : 0)}px;
 	border-right-width: ${({ borderRightWidth }) => (borderRightWidth ? RFValue(borderRightWidth) : 0)}px;
@@ -28,12 +29,12 @@ export const Container = styled.View<ContainerProps>`
 	overflow: hidden;
 `
 
-interface PortraitImageProps {
+interface PortraitImageProps extends ImageProps {
 	resizeMode?: ImageResizeMode
 	circle?: boolean
 }
 
-export const PortraitImage = styled.Image<PortraitImageProps>`
+export const PortraitImage = styled(Image) <PortraitImageProps>`
 	width: 100%;
 	height: 100%;
 	resize-mode: ${({ resizeMode }) => resizeMode || 'cover'};

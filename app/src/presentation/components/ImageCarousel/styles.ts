@@ -35,3 +35,10 @@ export const CarouselInactiveIndicatorItem = styled.View<CarouseIndicatorItemPro
 	background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
     margin: 0px 2px;
 `
+
+export const FullScreenIconContainer = styled.View`
+    position: absolute;
+    top: 4%;
+    right: 5%;
+    z-index: 1;
+`

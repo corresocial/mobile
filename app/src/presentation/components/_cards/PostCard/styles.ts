@@ -1,3 +1,4 @@
+import { ImageBackground, ImageBackgroundProps } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -37,11 +38,11 @@ export const LeftArea = styled.View<SideAreaProps>`
 	overflow: hidden;
 `
 
-interface SidePictureProps {
+interface SidePictureProps extends ImageBackgroundProps {
 	hasPicture: boolean
 }
 
-export const SidePicture = styled.ImageBackground<SidePictureProps>`
+export const SidePicture = styled(ImageBackground) <SidePictureProps>`
 	width: 100%;
 	height: 100%;
 	resize-mode: contain;
@@ -64,7 +65,7 @@ export const SaleValueContainer = styled.View`
 export const SaleValueContainerInner = styled.View`
 	border-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(5)}px;
-	padding: ${RFValue(1)}px ${RFValue(4)}px; 
+	padding: ${RFValue(1)}px ${RFValue(4)}px;
 	background-color: ${({ theme }) => theme.white3};
 `
 
