@@ -1,6 +1,6 @@
 import { UserSubscription } from '@domain/user/entity/types'
 
-import { uploadPostPictures } from '@data/post/bucketStorage/uploadPostPictures'
+import { uploadPostPictures } from '@data/post/bucketStorage/uploadPostPictures' // REFACTOR puxar da interface postRepository
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from '../entity/types'
@@ -46,7 +46,7 @@ async function updatePostDataDM(
 		const picturesNotUploaded = (unsavedPostPictures || []).filter((url: string) => !url.includes('https://')) || []
 		const picturesAlreadyUploaded = (unsavedPostPictures || []).filter((url: string) => url.includes('https://')) || []
 
-		const uploadedPicturesUrl = await uploadPostPictures(picturesNotUploaded) // REFACTOR puxar da interface postRepository
+		const uploadedPicturesUrl = await uploadPostPictures(picturesNotUploaded)
 		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
 	}
 
