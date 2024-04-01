@@ -7,8 +7,10 @@ import uuid from 'react-uuid'
 import {
 	CarouselActiveIndicatorItem,
 	CarouselInactiveIndicatorItem,
-	CarouselIndicatorContainer
+	CarouselIndicatorContainer,
+	FullScreenIconContainer
 } from './styles'
+import FullscreenIcon from '@assets/icons/fullscreen-white.svg'
 import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 
 import { PhotoPortrait } from '../PhotoPortrait'
@@ -19,6 +21,7 @@ interface ImageCarouselProps {
 	withoutBorder?: boolean
 	relativeWidth?: number
 	square?: boolean
+	showFullscreenIcon?: boolean
 	picturesUrl: string[] | undefined
 }
 
@@ -28,6 +31,7 @@ function ImageCarousel({
 	withoutBorder,
 	relativeWidth = relativeScreenWidth(94),
 	square,
+	showFullscreenIcon,
 	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
@@ -66,7 +70,15 @@ function ImageCarousel({
 				height: square ? relativeWidth : relativeScreenHeight(28),
 				marginVertical: RFValue(marginVertical)
 			}}
-		>
+		>	
+			{
+				showFullscreenIcon && (
+					<FullScreenIconContainer>
+						<FullscreenIcon/>
+					</FullScreenIconContainer>
+				) 
+			}
+			
 			<Carousel
 				data={getCarouselPicture()}
 				autoPlay={picturesUrl.length > 1}

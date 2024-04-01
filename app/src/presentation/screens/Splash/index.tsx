@@ -9,6 +9,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
@@ -24,7 +25,7 @@ import { CustomModal } from '@components/_modals/CustomModal'
 const { getLocalUserData, getLocalUserDataWithDeviceAuth } = useUserDomain()
 const { localStorage } = useUserRepository()
 
-function Splash({ navigation }: SplashScreenProps) {
+function Splash({ route, navigation }: SplashScreenProps) {
 	const { checkCacheImageValidation } = useCacheRepository()
 
 	const { setRemoteUserOnLocal } = useContext(AuthContext)
@@ -77,6 +78,44 @@ function Splash({ navigation }: SplashScreenProps) {
 		})
 	}
 
+	const navigateToProfile = (id: string) => {
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'UserStack' as any,
+			}],
+		})
+		navigation.navigate('UserStack', { // TODO userStack
+			screen: 'HomeTab',
+			params: {
+				screen: 'HomeStack',
+			}
+		} as any)
+		navigation.navigate('ProfileHome' as any, { userId: id }) // TODO type
+	}
+
+	const navigateToPost = (id: string, postType: PostKey) => {
+		const postPages = {
+			income: 'ViewIncomePostHome',
+			culture: 'ViewCulturePostHome',
+			socialimpact: 'ViewSocialImpactPostHome',
+			vacancy: 'ViewVacancyPostHome',
+		}
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'UserStack' as any,
+			}],
+		})
+		navigation.navigate('UserStack', {
+			screen: 'HomeTab',
+			params: {
+				screen: 'HomeStack',
+			}
+		} as any)
+		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
+	}
+
 	const redirectToApp = async () => {
 		try {
 			const hasLocalUser = await localStorage.hasValidLocalUser()
@@ -86,13 +125,26 @@ function Splash({ navigation }: SplashScreenProps) {
 				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
-				navigation.reset({
+
+				if (route.params?.screen) {
+					console.log(route.params.screen)
+					switch (route.params.screen) {
+						case 'profile': {
+							return navigateToProfile(route.params.id)
+						}
+						case 'post': {
+							return navigateToPost(route.params.id, route.params.postType as PostKey)
+						}
+					}
+				}
+
+				/* navigation.reset({
 					index: 0,
 					routes: [{
 						name: 'UserStack',
 						params: { tourPerformed: localUser.tourPerformed }
 					}],
-				})
+				}) */
 			} else {
 				const storedUser = await getLocalUserData(useUserRepository)
 				if (!storedUser) return

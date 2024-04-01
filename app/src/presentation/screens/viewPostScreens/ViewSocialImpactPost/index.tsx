@@ -42,6 +42,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
+import { Loader } from '@components/Loader'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
@@ -58,29 +59,41 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
-	const [isCompleted, setIsCompleted] = useState(route.params.postData.completed || false)
+	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
+	const [postLoaded, setPostLoaded] = useState(false)
+	const [postData, setPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
+
 	useEffect(() => {
+		getPost()
 		return () => {
 			clearEditContext()
 		}
 	}, [])
 
+	const getPost = (async () => {
+		if (route.params.redirectedPostId) {
+			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
+			setPostData(post as SocialImpactEntity)
+			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+		}
+		setPostLoaded(true)
+	})
+
 	const loggedUserIsOwner = () => {
-		if (!route.params.postData || !route.params.postData.owner) return false
-		return userDataContext.userId === route.params.postData.owner.userId
+		if (!postData || !postData.owner) return false
+		return userDataContext.userId === postData.owner.userId
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: SocialImpactEntity }
 
 	const renderFormatedPostDateTime = () => {
-		const formatedDate = formatRelativeDate(postData.createdAt)
+		const formatedDate = formatRelativeDate(postData.createdAt || '')
 		return formatedDate
 	}
 
@@ -122,6 +135,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
 		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
+
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()
@@ -187,7 +201,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const navigateToProfile = () => {
-		if (userDataContext.userId === postData.owner.userId) {
+		if (userDataContext.userId === postData.owner.userId && !route.params.redirectedPostId) {
 			return navigation.navigate('Profile')
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })
@@ -228,6 +242,12 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
+
+	if (!postLoaded) {
+		return (
+			<Loader flex />
+		)
+	}
 
 	return (
 		<Container>
@@ -367,6 +387,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 										picturesUrl={getPostField('picturesUrl') || []}
 										indicatorColor={theme.pink1}
 										square
+										showFullscreenIcon
 									/>
 								</TouchableOpacity>
 							</>
