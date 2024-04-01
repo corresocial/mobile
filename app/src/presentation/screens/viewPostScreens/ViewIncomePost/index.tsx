@@ -82,7 +82,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		if (route.params.redirectedPostId) {
 			const post = await getPostById(route.params.redirectedPostId)
 			setPostData(post as IncomeCollection)
-			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+			setIsCompleted(!!(post && post.completed))
 		}
 		setPostLoaded(true)
 	})

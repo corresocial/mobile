@@ -109,7 +109,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate(postPages[postType] as any, { redirectedPostId: id }) // TODO type
+		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
 	}
 
 	const redirectToApp = async () => {
@@ -123,6 +123,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				await setRemoteUserOnLocal(localUser.userId, localUser)
 
 				if (route.params?.screen) {
+					console.log(route.params.screen)
 					switch (route.params.screen) {
 						case 'profile': {
 							return navigateToProfile(route.params.id)
@@ -133,13 +134,13 @@ function Splash({ route, navigation }: SplashScreenProps) {
 					}
 				}
 
-				navigation.reset({
+				/* navigation.reset({
 					index: 0,
 					routes: [{
 						name: 'UserStack',
 						params: { tourPerformed: localUser.tourPerformed }
 					}],
-				})
+				}) */
 			} else {
 				const storedUser = await getUserDataFromSecureStore(false, true)
 				navigateToInitialScreen(storedUser.userId, storedUser.name)
