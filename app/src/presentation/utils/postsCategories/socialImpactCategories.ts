@@ -1,4 +1,4 @@
-import { SocialImpactCategories } from '@services/firebase/types'
+import { SocialImpactCategories } from '@domain/post/entity/types'
 
 import AssociationsIcon from '@assets/icons/categories/associations.svg'
 import CharityBazaarsIcon from '@assets/icons/categories/charityBazaars.svg'

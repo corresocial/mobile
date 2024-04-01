@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Platform, StatusBar, } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -21,7 +21,7 @@ interface PostDateProps {
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
-	initialValue?: Date 
+	initialValue?: Date
 	navigateBackwards: () => void
 	skipScreen?: () => void
 	saveDate: (date: Date) => void

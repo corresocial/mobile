@@ -1,10 +1,6 @@
 /* eslint-disable no-undef */
 import 'react-native-gesture-handler'
-import {
-	useFonts,
-	Arvo_400Regular,
-	Arvo_700Bold,
-} from '@expo-google-fonts/arvo'
+import { useFonts, Arvo_400Regular, Arvo_700Bold } from '@expo-google-fonts/arvo'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
 import React from 'react'
@@ -14,16 +10,16 @@ import { ThemeProvider } from 'styled-components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import * as Sentry from 'sentry-expo'
 
-import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { LoaderContainer } from './App.styles'
 import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { getEnvVars } from './src/infrastructure/environment'
+import { sentryConfig } from './src/infrastructure/sentry'
 import { theme } from './src/presentation/common/theme'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
-import { sentryConfig } from './src/services/sentry'
 
 const { ENVIRONMENT } = getEnvVars()
 
@@ -52,6 +48,7 @@ function App() {
 		)
 	}
 
+	const { defaultCachePersistence } = useCacheRepository()
 	const linking = {
 		prefixes: [createURL('/com.corresocial.corresocial')],
 		config: {
@@ -63,7 +60,6 @@ function App() {
 		},
 	}
 
-	const { defaultCachePersistence } = CacheRepositoryAdapter()
 	const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: defaultCachePersistence, gcTime: defaultCachePersistence } } })
 
 	return (

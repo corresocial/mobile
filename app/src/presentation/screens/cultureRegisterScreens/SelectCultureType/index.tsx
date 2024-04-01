@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 
+import { CultureType } from '@domain/post/entity/types'
+
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-import { CultureType } from '@services/firebase/types'
+import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import BooksWhiteIcon from '@assets/icons/books-white.svg'
 import CalendarEverydayWhiteIcon from '@assets/icons/calendarSomeday-white.svg'

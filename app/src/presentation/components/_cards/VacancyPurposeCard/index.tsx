@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { VacancyPurpose } from '@services/firebase/types'
+import { VacancyPurpose } from '@domain/post/entity/types'
 
 import PersonWithSuitCaseWhiteIcon from '@assets/icons/personWithSuitCase-white.svg'
 import SuitCaseWhiteIcon from '@assets/icons/suitCase-white.svg'

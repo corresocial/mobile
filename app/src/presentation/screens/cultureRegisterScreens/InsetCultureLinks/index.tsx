@@ -3,7 +3,7 @@ import { Keyboard, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureLinksScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { InsertCultureLinksScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

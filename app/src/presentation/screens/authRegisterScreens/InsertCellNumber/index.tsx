@@ -1,12 +1,13 @@
-import React, { useContext, useRef, useState } from 'react'
-import { Animated, StatusBar, Platform, TextInput } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { StatusBar, Platform, TextInput } from 'react-native'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/checkUserPhoneAlreadyRegistred'
-import Firebase from '@services/firebase'
+import Firebase from '@infrastructure/firebase/index'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -22,6 +23,10 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
+
+const { requestPhoneVerificationCode } = useUserDomain()
+
+const { checkUserPhoneAlreadyRegistredCloud } = useCloudFunctionService()
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 
@@ -45,8 +50,6 @@ const headerMessages = {
 }
 
 export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
-	const { sendSMS } = useContext(AuthContext)
-
 	const recaptchaVerifier = React.useRef(null)
 
 	const [DDD, setDDD] = useState<string>('')
@@ -140,7 +143,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
 
-		await sendSMS(currentCellNumber, recaptchaVerifier.current)
+		await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
 			.then((verificationCodeId) => {
 				navigation.navigate('InsertConfirmationCode', {
 					cellNumber: currentCellNumber, verificationCodeId
@@ -168,22 +171,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 		setLoginAlertModalIsVisible((previousValue) => !previousValue)
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted() || hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [newUser ? theme.purple2 : theme.green2, theme.red2],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : newUser ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
@@ -202,7 +189,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : newUser ? theme.purple2 : theme.green2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

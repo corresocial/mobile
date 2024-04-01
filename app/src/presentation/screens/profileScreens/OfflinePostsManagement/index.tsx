@@ -4,17 +4,19 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
+import { PostType, PostEntityOptional, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
+import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
+
+import { uploadImage } from '@data/imageStorage/uploadPicture'
+import { usePostRepository } from '@data/post/usePostRepository'
+import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
-import { LocalUserData } from '@contexts/types'
 
-import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
+import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
-import { updateDocField } from '@services/firebase/common/updateDocField'
-import { uploadImage } from '@services/firebase/common/uploadPicture'
-import { createPost } from '@services/firebase/post/createPost'
 import { getNetworkStatus } from '@utils/deviceNetwork'
-import { deletePostByDescription, getOfflinePosts } from '@utils/offlinePost'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
@@ -29,11 +31,14 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
+const { localStorage } = useUserRepository()
+const { localStorage: localPostsStorage, remoteStorage } = usePostRepository()
+
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
-	const [offlinePosts, setOfflinePosts] = useState([])
+	const [offlinePosts, setOfflinePosts] = useState<PostEntityOptional[]>([])
 
 	const [hasError, setHasError] = useState(false)
 
@@ -43,7 +48,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}, [navigation])
 
 	const loadOfflinePosts = async () => {
-		const storedOfflinePosts = await getOfflinePosts()
+		const storedOfflinePosts = await localPostsStorage.getOfflinePosts()
 
 		if (!storedOfflinePosts || !storedOfflinePosts.length) {
 			navigation.goBack()
@@ -52,7 +57,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		setOfflinePosts(storedOfflinePosts)
 	}
 
-	const extractPostPictures = (postData: PostCollectionRemote) => postData.picturesUrl as string[] || []
+	const extractPostPictures = (postData: PostEntity) => postData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -72,9 +77,9 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		const savedPosts = []
 
 		try {
-			for await (const post of offlinePosts as PostCollectionRemote[]) {
+			for await (const post of offlinePosts as PostEntity[]) {
 				const currentPost = await saveAndReturnPost(post, savedPosts)
-				await deletePostByDescription(post.description)
+				await localPostsStorage.deleteOfflinePostByDescription(post.description)
 				savedPosts.push(currentPost)
 			}
 
@@ -89,7 +94,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		return currentPost
 	}
 
-	const savePost = async (postData: PostCollectionRemote, currentBatchPosts: PostCollectionRemote[] = []) => {
+	const savePost = async (postData: PostEntity, currentBatchPosts: PostEntity[] = []) => {
 		const postPictures = extractPostPictures(postData)
 
 		setHasError(false)
@@ -103,7 +108,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			const storedUserPosts = [...localUserPosts, ...currentBatchPosts]
 
 			if (!postPictures.length) {
-				const postId = await createPost(postData, localUser, 'posts', postData.postType)
+				const postId = await remoteStorage.createPost(postData, localUser, postData.postType as PostType) // REFACTOR remover as
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				const savedPostData = await updateUserPost(
@@ -135,7 +140,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 											if (picturePostsUrls.length === postPictures.length) {
 												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(postDataWithPicturesUrl, localUser, 'posts', postData.postType)
+												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType as PostType) // REFACTOR remover as
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												return updateUserPost(
@@ -163,9 +168,9 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const updateUserPost = async (
-		localUser: LocalUserData,
+		localUser: UserEntityOptional,
 		postId: string,
-		postData: PostCollectionRemote,
+		postData: PostEntity,
 	) => {
 		const postDataToSave = {
 			...postData,
@@ -187,16 +192,8 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			!!userDataContext.posts,
 		)
 			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts as any] as PostCollectionRemote[] : [] // TODO Type
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostEntity[] : []
 				setUserDataOnContext({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{ ...postDataToSave } as PostCollectionRemote
-					],
-				})
-				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
@@ -204,6 +201,14 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 						{ ...postDataToSave }
 					],
 				})
+				localStorage.saveLocalUserData({
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{ ...postDataToSave } as PostEntityOptional
+					],
+				} as UserEntity)
 
 				setIsLoading(false)
 				return postDataToSave
@@ -216,7 +221,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const allOfflinePostsOnRange = () => {
-		const posts = offlinePosts.map((post: PostCollection) => {
+		const posts = offlinePosts.map((post: PostEntityOptional) => {
 			if (post.range === 'city' && userDataContext.subscription?.subscriptionRange === 'near') return false
 			if (post.range === 'country' && userDataContext.subscription?.subscriptionRange === 'near') return false
 			if (post.range === 'country' && userDataContext.subscription?.subscriptionRange === 'city') return false
@@ -227,17 +232,17 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	const getMajorOfflinePostRange = () => {
-		const postsRange = offlinePosts.map((post: PostCollection) => post.range)
+		const postsRange = offlinePosts.map((post: PostEntityOptional) => post.range)
 
 		if (postsRange.includes('country')) return 'country'
 		if (postsRange.includes('city')) return 'city'
 		return 'near'
 	}
 
-	const renderPostItem = (item: PostCollection) => (
+	const renderPostItem = (item: PostEntityOptional) => (
 		<PostCard
 			post={{ ...item, createdAt: new Date() }}
-			owner={item.owner}
+			owner={item.owner as PostEntityCommonFields['owner']}
 			onPress={() => naigateToReviewPost(item)}
 		/>
 	)
@@ -252,13 +257,13 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		return allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']
 	}
 
-	const naigateToReviewPost = (post: PostCollection) => {
-		switch (post.postType) {
-			case 'service': return navigation.navigate('EditServicePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'sale': return navigation.navigate('EditSalePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'vacancy': return navigation.navigate('EditVacancyPost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'culture': return navigation.navigate('EditCulturePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'socialImpact': return navigation.navigate('EditSocialImpactPost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+	const naigateToReviewPost = (post: PostEntityOptional) => {
+		switch (post.postType as any) { // REFACTOR Remover any e Verificar funcionamento
+			case 'service': return navigation.navigate('EditServicePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
+			case 'sale': return navigation.navigate('EditSalePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'vacancy': return navigation.navigate('EditVacancyPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'culture': return navigation.navigate('EditCulturePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'socialImpact': return navigation.navigate('EditSocialImpactPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			default: return null
 		}
 	}
@@ -294,7 +299,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 				}
 
 			</Header>
-			<Body backgroundColor={hasError && theme.red2}>
+			<Body backgroundColor={hasError ? theme.red2 : theme.orange2}>
 				{
 					<FlatListPosts
 						data={offlinePosts}

@@ -1,14 +1,16 @@
-import React from 'react'
+import { ReactNode } from 'react'
 
-import { SmasRecoveryNISData } from '@domain/entities/smas/types'
+import { SmasRecoveryNISData } from '@domain/smas/entity/types'
 
 export interface SmasProviderProps {
-	children: React.ReactNode
+	children: ReactNode
 }
 
+export type SmasDataContext = Partial<SmasRecoveryNISData>
+
 export type SmasContextType = {
-	smasDataContext: SmasRecoveryNISData
+	smasDataContext: SmasDataContext
 	clearSmasDataContext: () => void
 	getNumberOfMissingInfo: () => number
-	setSmasDataOnContext: (data: Partial<SmasRecoveryNISData>) => void
+	setSmasDataOnContext: (data: SmasDataContext) => void
 }

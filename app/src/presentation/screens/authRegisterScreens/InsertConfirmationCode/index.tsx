@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Platform, StatusBar, TextInput } from 'react-native'
+import { Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { UserCredential } from 'firebase/auth'
 
-import { AuthContext } from '@contexts/AuthContext'
-import { UserIdentification } from '@contexts/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { AuthContext } from '@contexts/AuthContext'
+
+import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
+import { UserIdentification } from '@services/authentication/types'
+
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -23,8 +27,10 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
+const { phoneVerificationCodeIsValid } = useUserDomain()
+
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -134,28 +140,27 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				const { cellNumber } = route.params
 				const verificationCodeId = route.params.verificationCodeId as string
 
-				await validateVerificationCode(verificationCodeId, completeCode)
-					.then(async (userCredential: UserCredential) => {
-						const userIdentification = await extractUserIdentification(userCredential)
-						const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
+				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId, completeCode)
 
-						setIsLoading(false)
-						if (!userHasAccount) {
-							navigation.navigate('InsertName', {
-								cellNumber,
-								userIdentification,
-							})
-							return
-						}
+				const userIdentification = await extractUserIdentification(userCredential)
+				const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
 
-						navigation.reset({
-							index: 0,
-							routes: [{
-								name: 'UserStack',
-								params: { tourPerformed: true }
-							}],
-						})
+				setIsLoading(false)
+				if (!userHasAccount) {
+					navigation.navigate('InsertName', {
+						cellNumber,
+						userIdentification,
 					})
+					return
+				}
+
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'UserStack',
+						params: { tourPerformed: true }
+					}],
+				})
 			} else {
 				!completeCodeIsValid && setInvalidCodeAfterSubmit(true)
 			}
@@ -171,10 +176,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		if (errorCode === 'auth/code-expired') {
 			return setExpiredCodeAfterSubmit(true)
 		}
-		if (errorCode === 'auth/invalid-verification-code') {
-			return setInvalidCodeAfterSubmit(true)
-		}
-		if (errorCode === 'auth/invalid-verification-id') {
+		if (errorCode === 'auth/invalid-verification-code' || errorCode === 'auth/invalid-verification-code') {
 			return setInvalidCodeAfterSubmit(true)
 		}
 		setHasServerSideError(true)
@@ -235,22 +237,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted() || hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.blue2, getRelativeHeaderErrorStyle()],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
@@ -258,7 +244,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				flexDirection={'column'}
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.blue2}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
@@ -331,20 +317,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 								/>
 							)
 					}
-					{/* <View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit || invalidCodeAfterSubmit ? 'flex' : 'none' }}>
-						<PrimaryButton
-							disabled
-							timer
-							color={theme.yellow3}
-							flexDirection={'row-reverse'}
-							justifyContent={'space-around'}
-							labelColor={theme.black4}
-							label={'reenviar código'}
-							highlightedWords={['reenviar', 'código']}
-							startsHidden={false}
-							onPress={resendConfirmationCode}
-						/>
-					</View> */}
 				</ButtonContainer>
 			</FormContainer>
 		</Container >

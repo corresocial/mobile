@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { PostCollection, PostCollectionCommonFields } from '@services/firebase/types'
+import { PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -29,8 +29,8 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 interface PostCardProps {
-	post: PostCollection | any
-	owner: PostCollectionCommonFields['owner']
+	post: PostEntityOptional | any
+	owner: PostEntityCommonFields['owner']
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }

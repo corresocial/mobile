@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { InsertSaleLocationScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { Coordinates, PostCollection } from '@services/firebase/types'
+import { InsertSaleLocationScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'
@@ -17,6 +18,7 @@ import { theme } from '@common/theme'
 import { LocationChangeConfirmationModal } from '@components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
+const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
@@ -41,7 +43,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 	}
 
 	const getLastPostCity = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 		return lastUserPost && lastUserPost.location ? lastUserPost.location?.city || '' : ''
 	}
 
@@ -86,7 +88,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 				location: {
 					...completeAddress,
 					...geohashObject
-				}
+				} as PostEntityCommonFields['location']
 			})
 		}
 

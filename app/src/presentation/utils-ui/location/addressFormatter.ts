@@ -1,7 +1,8 @@
 import * as Location from 'expo-location'
 
-import { PostCollectionCommonFields } from '@services/firebase/types'
-import { GeocodeAddress } from '@services/maps/types'
+import { PostEntityCommonFields } from '@domain/post/entity/types'
+
+import { GeocodeAddress } from '@services/googleMaps/types/maps'
 
 const structureAddress = (geocodeAddress: GeocodeAddress, latitude?: number, longitude?: number) => ({
 	country: geocodeAddress.country || '',
@@ -31,7 +32,7 @@ const structureExpoLocationAddress = (geocodeAddress: Location.LocationGeocodedA
 	}
 })
 
-const getTextualAddress = (address: PostCollectionCommonFields['location']) => {
+const getTextualAddress = (address: PostEntityCommonFields['location']) => {
 	return `${address?.street || ''}, ${address?.number || ''}, ${address?.district || ''} - ${address?.city || ''}`
 }
 

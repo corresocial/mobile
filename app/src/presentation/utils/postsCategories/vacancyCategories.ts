@@ -1,4 +1,4 @@
-import { VacancyCategories } from '@services/firebase/types'
+import { VacancyCategories } from '@domain/post/entity/types'
 
 import AudiovisualIcon from '@assets/icons/categories/audiovisual.svg'
 import BeaksIcon from '@assets/icons/categories/beaks.svg'

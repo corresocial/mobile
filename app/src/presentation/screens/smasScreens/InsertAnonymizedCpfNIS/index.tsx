@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
+import { SmasRecoveryNISData } from '@domain/smas/entity/types'
+
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertAnonymizedCpfNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertAnonymizedCpfNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
-import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -23,7 +25,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 import { ProgressBar } from '@components/ProgressBar'
 
-const { getNisByUserData } = CloudFunctionService()
+const { getNisByUserData } = useCloudFunctionService()
 
 function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProps) {
 	const { smasDataContext, getNumberOfMissingInfo, setSmasDataOnContext } = useContext(SmasContext)
@@ -73,7 +75,7 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 
 			if (getNumberOfMissingInfo() === 2) {
 				setIsLoading(true)
-				const res = await getNisByUserData({ ...smasDataContext, anonymizedCpf }, 'ANONIMIZADO')
+				const res = await getNisByUserData({ ...smasDataContext, anonymizedCpf } as SmasRecoveryNISData, 'ANONIMIZADO')
 				setIsLoading(false)
 
 				return navigation.push('QueryNISResult', res)

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import { SaleContext } from '@contexts/SaleContext'
 
-import { SelectSalePurposeScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { SelectSalePurposeScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import GiftWhiteIcon from '@assets/icons/megaphone-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'

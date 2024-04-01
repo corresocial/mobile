@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SaleValueType } from '@services/firebase/types'
+import { SaleValueType } from '@domain/post/entity/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'

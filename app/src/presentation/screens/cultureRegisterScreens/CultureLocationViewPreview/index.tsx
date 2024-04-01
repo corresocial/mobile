@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { CultureLocationViewPreviewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { CultureLocationViewPreviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { theme } from '@common/theme'
 

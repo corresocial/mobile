@@ -1,9 +1,12 @@
 // eslint-disable-next-line import/no-unresolved
-import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
+
+import { useNotionService } from '@services/notion/useNotionService'
 
 import { getEnvVars } from '../../infrastructure/environment'
 
 const { ERROS_WEBHOOK } = getEnvVars()
+
+const { sendMessageToNotionContactUs } = useNotionService()
 
 // infra/service
 export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
@@ -16,9 +19,9 @@ export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
 	}
 
 	const errorLocationRegexResult = stackTrace.match(/in (([a-zA-Z]+\s+)+)\(created by (([a-zA-Z]+)+)\)/i) || []
-	const errorLocation = errorLocationRegexResult.length ? errorLocationRegexResult[0] : 'undefined'
+	const errorLocation = errorLocationRegexResult.length ? errorLocationRegexResult[0] : 'não definido'
 
-	const { reportId } = await sendContactUsMessageToNotion({
+	const { reportId } = await sendMessageToNotionContactUs({
 		userId: 'anonymous',
 		type: 'erro',
 		title: error.message,

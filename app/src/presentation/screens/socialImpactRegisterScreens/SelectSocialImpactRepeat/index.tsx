@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EventRepeatType } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SelectSocialImpactRepeatScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
-import { EventRepeatType } from '@services/firebase/types'
+import { SelectSocialImpactRepeatScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { theme } from '@common/theme'
 

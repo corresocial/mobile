@@ -1,21 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { SmasRecoveryNISData } from '@domain/smas/entity/types'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertMotherNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertMotherNameNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
-import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateName } = SmasAdapter()
+const { validateName } = useSmasDomain()
 
-const { getNisByUserData } = CloudFunctionService()
+const { getNisByUserData } = useCloudFunctionService()
 
 function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 	const { smasDataContext, setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
@@ -42,7 +43,7 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 
 			if (getNumberOfMissingInfo() === 2) {
 				setIsLoading(true)
-				const res = await getNisByUserData({ ...smasDataContext, motherName }, 'ANONIMIZADO')
+				const res = await getNisByUserData({ ...smasDataContext, motherName } as SmasRecoveryNISData, 'ANONIMIZADO')
 				setIsLoading(false)
 
 				return navigation.push('QueryNISResult', res)

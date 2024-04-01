@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PostRange } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { PostCollection, PostRange } from '@services/firebase/types'
+import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
@@ -83,8 +84,8 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const renderSelectedRangeCard = () => {

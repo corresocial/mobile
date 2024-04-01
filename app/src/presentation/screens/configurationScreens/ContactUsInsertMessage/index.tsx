@@ -3,11 +3,10 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { ContactUsInsertMessageScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { NotionPage } from '@services/notion/types'
+import { ContactUsInsertMessageScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { sendContactUsMessageToDiscord } from '@services/discord/contactUs'
-import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
+import { useDiscordService } from '@services/discord/useDiscordService'
+import { useNotionService } from '@services/notion/useNotionService'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -22,6 +21,9 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
+
+const { sendMessageToNotionContactUs } = useNotionService()
+const { sendMessageToDiscordContactUs } = useDiscordService()
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -58,19 +60,19 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	const sendMessage = async () => {
-		try {
+		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
-			const notionPage: NotionPage = await sendContactUsMessageToNotion({
-				userId: userDataContext.userId as string,
+			const notionPage = await sendMessageToNotionContactUs({
+				userId: userDataContext.userId,
 				type: route.params.contactUsType,
 				message,
 				reportTarged: route.params.reportedType,
 				reportedId: route.params.reportedId
 			})
 
-			await sendContactUsMessageToDiscord({
-				userId: userDataContext.userId as string,
-				userName: userDataContext.name as string,
+			await sendMessageToDiscordContactUs({
+				userId: userDataContext.userId,
+				userName: userDataContext.name,
 				type: route.params.contactUsType,
 				message,
 				reportId: notionPage.reportId,
@@ -122,7 +124,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					onChangeText={(text: string) => setItemDescription(text)}
 				/>
 				{
-					messageIsValid && !keyboardOpened && (
+					messageIsValid && !keyboardOpened ? (
 						isLoading
 							? <Loader />
 							: (
@@ -137,7 +139,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 									onPress={sendMessage}
 								/>
 							)
-					)
+					) : <></>
 				}
 			</FormContainer>
 		</Container >

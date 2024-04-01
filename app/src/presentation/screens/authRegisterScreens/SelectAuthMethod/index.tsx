@@ -3,13 +3,13 @@ import * as WebBrowser from 'expo-web-browser'
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
-import { signinByCredential } from '@services/firebase/user/signingByCredential'
-import { userExists } from '@services/firebase/user/userExists'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { Container } from './styles'
 import GoogleWhiteIcon from '@assets/icons/google-white.svg'
@@ -27,6 +27,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
+
+const { generateGoogleAuthCredential, signInByGoogleCredential } = useAuthenticationService()
+
+const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -76,11 +80,11 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			setHasError(false)
 			if (tokenGoogle) {
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const { userId, email } = await signinByCredential(googleCredential)
+				const { userId, email } = await signInByGoogleCredential(googleCredential)
 
 				if (userId && email) {
 					setAuthenticatedUser({ userId, email })
-					const userAlreadyExists = await userExists(userId)
+					const userAlreadyExists = await remoteStorage.userExists(userId)
 
 					if (!newUser && !userAlreadyExists) {
 						console.log('Usuário não está cadastrado, quer cadastrar?')

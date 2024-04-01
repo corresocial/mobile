@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertVacancyStartHourScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyStartHourScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { theme } from '@common/theme'
 
@@ -11,7 +11,7 @@ import { PostTime } from '@components/_onboarding/PostTime'
 
 function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-	
+
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const skipScreen = () => {

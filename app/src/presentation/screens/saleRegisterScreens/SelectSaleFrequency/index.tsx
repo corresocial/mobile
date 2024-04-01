@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { DaysOfWeek, WeekdaysFrequency } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectSaleFrequencyScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
+import { SelectSaleFrequencyScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { theme } from '@common/theme'
 

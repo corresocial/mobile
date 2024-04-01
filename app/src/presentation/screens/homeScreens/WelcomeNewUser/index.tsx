@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
-import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id } from '@services/firebase/types'
-
-import { updateUser } from '@services/firebase/user/updateUser'
+import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { Container, ContainerButtons } from './styles'
 import LoupWhiteIcon from '@assets/icons/loup-white.svg'
@@ -18,6 +19,8 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+
+const { updateUserRepository } = useUserDomain()
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -43,31 +46,31 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const getUserNameFromLocal = async () => {
 		if (!userDataContext.userId) {
-			navigation.navigate('InsertCellNumber' as any) // TODO Type
+			navigation.navigate('InsertCellNumber' as any) // TODO Type todas as navegações entre stacks que estão no mesmo nível
 		}
 		setUserName(userDataContext.name || 'amigo')
 	}
 
 	const goToHome = () => {
-		setStateDataOnContext({
-			showTourModal: false
-		})
+		setStateDataOnContext({ showTourModal: false })
 		setUserTourPerformed()
 		navigation.navigate('HomeTab', { showsInFirstTab: true })
 	}
 
 	const setUserTourPerformed = async () => {
 		console.log(userDataContext.userId)
-		await updateUser(userDataContext.userId as Id, {
-			tourPerformed: true
-		})
+
+		await updateUserRepository(
+			useUserRepository,
+			userDataContext,
+			{ tourPerformed: true }
+		)
+
 		setUserDataOnContext({ tourPerformed: true })
 	}
 
 	const goToProfile = () => {
-		setStateDataOnContext({
-			showTourModal: true
-		})
+		setStateDataOnContext({ showTourModal: false })
 		navigation.navigate('HomeTab')
 	}
 

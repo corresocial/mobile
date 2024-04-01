@@ -3,14 +3,14 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureStartHourScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { InsertCultureStartHourScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
 
 function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScreenProps) {
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)	
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

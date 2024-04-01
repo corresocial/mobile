@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import { FlatList, StatusBar } from 'react-native'
 
+import { PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
-import { ViewCompletedPostsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { PostCollection, PostCollectionCommonFields } from '@services/firebase/types'
+import { ViewCompletedPostsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { FlatListItem } from 'src/presentation/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -20,9 +21,9 @@ import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const viewPostDetails = (post: PostCollection) => {
+	const viewPostDetails = (post: PostEntityOptional) => {
 		const postData = { ...post, owner: getUserDataOnly() }
-		navigateToPostView(postData as PostCollection, navigation as any, 'User') // TODO Type
+		navigateToPostView(postData as PostEntityOptional, navigation)
 	}
 
 	const getUserDataOnly = () => {
@@ -50,11 +51,11 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 			<Body>
 				<FlatList
 					data={getCompletedPosts()}
-					renderItem={({ item }: FlatListItem<PostCollection>) => (
+					renderItem={({ item }: FlatListItem<PostEntityOptional>) => (
 						<PostPadding>
 							<PostCard
 								post={item}
-								owner={getUserDataOnly() as PostCollectionCommonFields['owner']}
+								owner={getUserDataOnly() as PostEntityCommonFields['owner']}
 								onPress={() => viewPostDetails(item)}
 							/>
 						</PostPadding>

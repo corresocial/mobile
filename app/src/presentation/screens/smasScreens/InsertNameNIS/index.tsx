@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateName } = SmasAdapter()
+const { validateName } = useSmasDomain()
 
 function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 	const { setSmasDataOnContext, clearSmasDataContext } = useContext(SmasContext)

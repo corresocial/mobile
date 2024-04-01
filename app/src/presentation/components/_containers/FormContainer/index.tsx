@@ -4,7 +4,7 @@ import { ViewStyle } from 'react-native'
 import { Container } from './styles'
 
 interface FormContainerProps {
-	children: ReactElement | ReactElement[] | React.ReactElement<any>[] | any // TODO Type
+	children: ReactElement | ReactElement[] | React.ReactElement[]
 	backgroundColor?: string,
 	justifyContent?: ViewStyle['justifyContent']
 }

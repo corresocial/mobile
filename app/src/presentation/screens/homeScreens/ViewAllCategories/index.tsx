@@ -3,11 +3,12 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
+import { MacroCategory, PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
+
 import { LocationContext } from '@contexts/LocationContext'
 
-import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
-import { MacroCategories } from '@utils/postMacroCategories/types'
+import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -35,7 +36,7 @@ const { sortPostCategories } = UiPostUtils()
 function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote>()
+	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>()
 	const [searchText, setSearchText] = useState('')
 
 	const { inactiveColor } = locationDataContext.currentCategory
@@ -43,13 +44,13 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 
 	useEffect(() => {
 		const posts = filterPostsByTypeAndMacroCategory()
-		setFilteredPosts(posts as any) // TODO Type
+		setFilteredPosts(posts)
 	}, [])
 
 	const filterPostsByTypeAndMacroCategory = () => {
 		const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
 
-		return feedPosts.filter((post: any) => { // TODO Type
+		return feedPosts.filter((post) => {
 			if (
 				post.macroCategory === macroCategory
 				&& post.postType === postType
@@ -77,9 +78,9 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	}
 
 	const getHeaderTextPath = () => {
-		const customPostType = postType as NewHomePostType
-		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory]
+		const customPostType = postType as PostType
+		const currentPostType: any = postMacroCategories[customPostType] as MacroCategories
+		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.label
 	}
 
@@ -116,7 +117,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	}
 
 	const hasPostsOnCategory = (category: string) => {
-		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostCollection) => post.category === category))
+		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostEntityOptional) => post.category === category))
 		return postsOnCategory ? !!postsOnCategory.length : false
 	}
 

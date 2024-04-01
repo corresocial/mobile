@@ -1,4 +1,4 @@
-import { SaleCategories } from '@services/firebase/types'
+import { SaleCategories } from '@domain/post/entity/types'
 
 import AnimalsIcon from '@assets/icons/categories/animals.svg'
 import ArtIcon from '@assets/icons/categories/art.svg'

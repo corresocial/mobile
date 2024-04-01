@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { ServicePicturePreviewScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { ServicePicturePreviewScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
 import { theme } from '@common/theme'
 

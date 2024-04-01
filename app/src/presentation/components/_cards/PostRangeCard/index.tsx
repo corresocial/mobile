@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ExhibitionPlaceType } from '@services/firebase/types'
+import { ExhibitionPlaceType } from '@domain/post/entity/types'
 
 import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'

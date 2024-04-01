@@ -3,7 +3,8 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { PostRange, VerifiedLabelName } from '@services/firebase/types'
+import { PostRange } from '@domain/post/entity/types'
+import { VerifiedLabelName } from '@domain/user/entity/types'
 
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
@@ -72,7 +73,7 @@ function PopOver({
 	const selectPlan = async (plan: PostRange) => {
 		toggleSelectSubscriptionPlanModal()
 		closePopover()
-		await setFreeTrialToProfile(plan) // TODO Resolve
+		setFreeTrialToProfile(plan)
 	}
 
 	const toggleSelectSubscriptionPlanModal = () => {

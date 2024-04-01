@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SocialImpactLocationViewPreviewScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { SocialImpactLocationViewPreviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { theme } from '@common/theme'
 
@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLocationViewPreviewScreenProps) {
-	const { socialImpactDataContext, } = useContext(SocialImpactContext)
+	const { socialImpactDataContext } = useContext(SocialImpactContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params

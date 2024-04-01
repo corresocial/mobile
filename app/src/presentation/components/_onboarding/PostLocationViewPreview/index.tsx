@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { LatLong, LocationViewType, PostRange } from '@services/firebase/types'
+import { LatLong, LocationViewType, PostRange } from '@domain/post/entity/types'
 
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 

@@ -2,13 +2,12 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { Chat } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { Id } from '@domain/globalTypes'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { MutableObjectReference } from '@services/pushNotification/types'
-
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { AuthContext } from '../AuthContext'
 
@@ -24,7 +23,7 @@ const {
 	registerPushNotification,
 	addNotificationListener,
 	removeNotificationListener
-} = ChatAdapter()
+} = useChatDomain()
 
 const initialValue = {
 	chatDataContext: [],
@@ -53,7 +52,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	useEffect(() => {
 		loadChatFromCache()
-		initUserInstance(userDataContext.userId as Id)
+		initUserInstance(userDataContext.userId)
 		initPushNotificationService()
 	}, [])
 
@@ -109,12 +108,12 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const chatUserHasTokenNotification = async () => {
-		const remoteUser = await getRemoteUserData(userDataContext.userId as Id)
+		const remoteUser = await getRemoteUserData(userDataContext.userId)
 		return !!(remoteUser && remoteUser.tokenNotification)
 	}
 
 	const setPushNotificationState = async (state: boolean) => {
-		const authenticatedUserId = userDataContext.userId as Id
+		const authenticatedUserId = userDataContext.userId
 
 		try {
 			setPushNotificationEnabled(state)
@@ -135,7 +134,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const removeChatListeners = () => {
 		unsubscribeUserChatsListener(chatIdList)
-		unsubscribeUserChatIdsListener(userDataContext.userId as Id)
+		unsubscribeUserChatIdsListener(userDataContext.userId)
 		setPushNotificationState(false)
 		setChatIdList([])
 		setChatsOnContext([])

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { ViewStyle, View } from 'react-native'
+import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
-import { 
+import {
 	ButtonLabel,
-	ContainerBottom, 
-	ContainerSurface, 
+	ContainerBottom,
+	ContainerSurface,
 	TouchableContainer,
 } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'

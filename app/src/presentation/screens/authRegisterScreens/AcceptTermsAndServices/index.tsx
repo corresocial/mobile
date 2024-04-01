@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BackHandler, Platform, StatusBar } from 'react-native'
 
-import { AcceptTermsAndConditionsScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { AcceptTermsAndConditionsScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import {
 	Container,

@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PostRange as PostRangeType } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { SelectSaleRangeScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { PostRange as PostRangeType } from '@services/firebase/types'
+import { SelectSaleRangeScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { theme } from '@common/theme'
 

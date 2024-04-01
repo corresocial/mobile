@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { CultureCategories, CultureEntityOptional, CultureEntity, EventRepeatType, PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -38,14 +39,14 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const owner: any = { // TODO Type
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -58,7 +59,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => { // REFACTOR Retornar tipo relativo <T> generics
 		const currentPostData = { ...postData, postType: 'culture' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -71,14 +72,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		return picturesUrl
 	}
 
-	const formatCategoryAndTags = () => {
+	const formatCategoryAndTags = () => { // REFACTOR useUiUtils internalizar no componente?
 		const category: CultureCategories = getPostField('category')
 		const tags = getPostField('tags')
 
 		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
-	const renderCultureRepeat = () => {
+	const renderCultureRepeat = () => { // REFACTOR useUiUtils
 		const repeat = getPostField('repeat') as EventRepeatType
 		switch (repeat) {
 			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
@@ -103,14 +104,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any) // TODO Type todas as navegações entre stacks que estão no mesmo nível
 	}
 
-	const navigateToPostView = (culturePostData: PostCollection) => {
+	const navigateToPostView = (culturePostData: PostEntityOptional) => {
 		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureEntity) => {
 		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
@@ -136,8 +137,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectCultureLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {
@@ -160,33 +161,22 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const navigateToSubscriptionContext = () => {
-		setSubscriptionDataOnContext({
-			currentPost: {
-				...postData,
-				...editDataContext.unsaved,
-				postType: 'culture',
-				createdAt: new Date(),
-				owner: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl
-				}
+		setCurrentPostDataOnContext({
+			...postData,
+			...editDataContext.unsaved,
+			postType: 'culture',
+			createdAt: new Date(),
+			owner: {
+				userId: userDataContext.userId,
+				name: userDataContext.name,
+				profilePictureUrl: userDataContext.profilePictureUrl
 			}
 		})
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
-	const userContext = {
-		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
-	}
-
-	const editContext = {
-		editDataContext,
-		setEditDataOnContext,
-		clearUnsavedEditContext
-	}
+	const userContext = { userDataContext, setUserDataOnContext }
+	const editContext = { editDataContext, setEditDataOnContext, clearUnsavedEditContext }
 
 	return (
 		<>

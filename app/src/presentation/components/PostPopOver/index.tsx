@@ -28,7 +28,7 @@ interface PostPopOverProps {
 	goToComplaint?: () => void
 	editPost?: () => void
 	deletePost?: () => void
-	markAsCompleted?: () => void
+	markAsCompleted?: any // TODO Type
 	closePopover: () => void
 }
 
@@ -52,7 +52,7 @@ function PostPopOver({
 			animationConfig={{ delay: 0, duration: 200 }}
 			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
-			from={(sourceRef, showPopover) => (
+			from={(sourceRef: any, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >
 						{children}

@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Platform, StatusBar, TextInput } from 'react-native'
+import { Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id } from '@services/firebase/types'
+import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { getPhoneAuthCredential } from '@services/firebase/user/getPhoneAuthCredential'
-import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -24,6 +23,10 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
+
+const { generatePhoneAuthCredential, linkAuthProvider } = useAuthenticationService()
+
+const { remoteStorage } = useUserRepository()
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -136,11 +139,14 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				const { cellNumber } = route.params
 				const verificationCodeId = route.params.verificationCodeId as string
 
-				const phoneAuthCredential = await getPhoneAuthCredential(verificationCodeId, completeCode)
+				const phoneAuthCredential = await generatePhoneAuthCredential(verificationCodeId, completeCode)
 
 				const linkedUser = await linkAuthProvider(phoneAuthCredential)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
-				await updateUserPrivateData({ cellNumber: cellNumber || '' }, userDataContext.userId as Id, 'contacts')
+				await remoteStorage.updatePrivateContacts(
+					userDataContext.userId,
+					{ cellNumber: cellNumber || '' }
+				)
 
 				navigateToLinkResultScreen(true, cellNumber)
 			} else {
@@ -215,22 +221,6 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted() || hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.orange2, getRelativeHeaderErrorStyle()],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
@@ -238,7 +228,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				flexDirection={'column'}
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.orange2}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />

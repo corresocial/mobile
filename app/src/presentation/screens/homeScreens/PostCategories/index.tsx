@@ -3,13 +3,14 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
+import { FeedPosts, MacroCategory, PostType, PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
-import { MacroCategories } from '@utils/postMacroCategories/types'
+import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -40,22 +41,22 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [filteredPosts, setFilteredPosts] = useState<PostCollectionRemote>()
+	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>()
 
 	const [feedPostsByTypeAndMacroCategory, setFeedPostsByTypeAndMacroCategory] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 
 	const { postType, macroCategory } = locationDataContext.searchParams
-	const { backgroundColor, inactiveColor } = locationDataContext.currentCategory
+	const { inactiveColor, backgroundColor } = locationDataContext.currentCategory
 
 	useEffect(() => {
 		const posts = filterPostsByPostType()
-		setFeedPostsByTypeAndMacroCategory(posts as any) // TODO Type
+		setFeedPostsByTypeAndMacroCategory(posts)
 	}, [])
 
 	useEffect(() => {
 		const posts = filterPostsByTypeAndMacroCategory()
-		setFilteredPosts(posts as any) // TODO Type
+		setFilteredPosts(posts)
 	}, [feedPostsByTypeAndMacroCategory])
 
 	useEffect(() => {
@@ -67,15 +68,15 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const filterPostsByPostType = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || []
+			nearby: locationDataContext.feedPosts?.nearby.filter((post) => postBelongContextPostType(post)) || [],
+			city: locationDataContext.feedPosts?.city.filter((post) => postBelongContextPostType(post)) || [],
+			country: locationDataContext.feedPosts?.country.filter((post) => postBelongContextPostType(post)) || []
 		}
 	}
 
-	const postBelongContextPostType = (post: any) => { // TODO type
+	const postBelongContextPostType = (post: PostEntityOptional) => {
 		if (!post) return false
-		return (post.postType === locationDataContext.searchParams.postType
+		return (post.postType === locationDataContext.searchParams?.postType
 			&& post.macroCategory === macroCategory)
 	}
 
@@ -86,7 +87,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 			...feedPostsByTypeAndMacroCategory.country
 		] || []
 
-		return feedPosts.filter((post: any) => { // TODO Type
+		return feedPosts.filter((post) => {
 			if (
 				post.macroCategory === macroCategory
 				&& post.postType === postType
@@ -99,13 +100,13 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const filterPostsByText = () => {
 		return {
-			nearby: feedPostsByTypeAndMacroCategory.nearby.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
-			city: feedPostsByTypeAndMacroCategory.city.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
-			country: feedPostsByTypeAndMacroCategory.country.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || []
+			nearby: feedPostsByTypeAndMacroCategory.nearby.filter((post) => hasPostDescriptionMatch(post)) || [],
+			city: feedPostsByTypeAndMacroCategory.city.filter((post) => hasPostDescriptionMatch(post)) || [],
+			country: feedPostsByTypeAndMacroCategory.country.filter((post) => hasPostDescriptionMatch(post)) || []
 		}
 	}
 
-	const hasPostDescriptionMatch = (post: PostCollectionRemote) => {
+	const hasPostDescriptionMatch = (post: PostEntity) => {
 		if (!post) return false
 		return !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
@@ -125,16 +126,16 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const getRelativeTitle = () => {
-		const customPostType = postType as NewHomePostType
-		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory]
+		const customPostType = postType as PostType
+		const currentPostType: any = postMacroCategories[customPostType]
+		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.label
 	}
 
 	const getRelativeHeaderIcon = () => {
-		const customPostType = postType as NewHomePostType
-		const currentPostType = postMacroCategories[customPostType] as MacroCategories
-		const currentMacroCategory = currentPostType[macroCategory]
+		const customPostType = postType as PostType
+		const currentPostType: any = postMacroCategories[customPostType]
+		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.SvgIcon
 	}
 
@@ -179,7 +180,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const hasPostsOnCategory = (category: string) => {
-		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostCollection) => post.category === category))
+		const postsOnCategory = ((filteredPosts || [] as any).filter((post: PostEntityOptional) => post.category === category))
 		return postsOnCategory ? !!postsOnCategory.length : false
 	}
 
@@ -199,7 +200,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
@@ -207,7 +208,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		const postsByRange = getPostsByRange(postRange)
-		const { postType: postTypeFromRoute } = locationDataContext.searchParams
+		const postTypeFromRoute = locationDataContext.searchParams?.postType
 
 		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType: postTypeFromRoute })
 	}
@@ -220,8 +221,8 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
-		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
+	const viewPostDetails = (postData: PostEntityOptional) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {

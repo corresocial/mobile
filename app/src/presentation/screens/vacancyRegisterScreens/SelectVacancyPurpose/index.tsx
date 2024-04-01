@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectVacancyPurposeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { SelectVacancyPurposeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import PersonWithSuitCaseIcon from '@assets/icons/personWithSuitCase-white.svg'
 import SuitCaseIcon from '@assets/icons/suitCase-white.svg'

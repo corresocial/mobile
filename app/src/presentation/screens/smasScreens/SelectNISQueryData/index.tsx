@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { SelectNISQueryDataScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { SelectNISQueryDataScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 import { PublicServiceStackParamList } from '@routes/Stack/PublicServicesStack/types'
 
 import { Container, InstructionButtonContainer } from './styles'

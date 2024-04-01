@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertSaleEndHourScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { InsertSaleEndHourScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { theme } from '@common/theme'
 

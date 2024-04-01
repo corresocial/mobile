@@ -2,17 +2,19 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { CacheRepositoryAdapter } from '@data/cache/CacheRepositoryAdapter'
+import { FeedPosts, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
+
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { SearchResultScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
+import { SearchResultScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
-import { searchPostsCloud } from '@services/cloudFunctions/searchPostsCloud'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, Header, InputContainer } from './styles'
 import { theme } from '@common/theme'
@@ -21,6 +23,8 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+
+const { searchPostsCloud } = useCloudFunctionService()
 
 const initialFeedPosts = {
 	nearby: [],
@@ -34,13 +38,13 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const queryClient = useQueryClient()
-	const { executeCachedRequest } = CacheRepositoryAdapter()
+	const { executeCachedRequest } = useCacheRepository()
 
 	const [searchText, setSearchText] = useState('')
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
 
 	const { searchByRange } = route.params
-	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory.backgroundColor
+	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory?.backgroundColor
 
 	const searchParamsFromRoute = { ...route.params.searchParams }
 	const algoliaSearchText = searchText || searchParamsFromRoute.searchText
@@ -64,7 +68,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 			setResultPosts(postsFromAlgolia)
 
-			if (!searchText) setSearchText(searchParamsFromRoute.searchText)
+			if (!searchText) setSearchText(searchParamsFromRoute.searchText || '')
 			setLoaderIsVisible(false)
 		} catch (error) {
 			setLoaderIsVisible(false)
@@ -73,7 +77,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	}
 
 	const searchPostsByAlgolia = async () => {
-		return searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
+		return searchPostsCloud(algoliaSearchText || '', searchParamsFromRoute as FeedSearchParams, searchByRange || false, userDataContext.userId)
 			.then((posts) => {
 				if (!posts) {
 					return initialFeedPosts
@@ -89,7 +93,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const getRelativePath = () => {
 		if (route.params.searchParams.tag) return route.params.searchParams.tag
 		if (route.params.searchParams.category) return route.params.categoryLabel
-		return getRelativeTitle(locationDataContext.searchParams.postType as PostType)
+		return getRelativeTitle(locationDataContext.searchParams?.postType as PostType)
 	}
 
 	const getRelativeTitle = (postType: PostType) => {
@@ -101,13 +105,13 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId })
@@ -116,7 +120,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const viewPostsByRange = (postRange: PostRange) => {
 		const postRangeValue = searchByRange ? '' : postRange
 		const postsByRange = getPostsByRange(postRange)
-		const { postType } = locationDataContext.searchParams
+		const postType = locationDataContext.searchParams?.postType
 
 		navigation.navigate('ViewPostsByRange', { postsByRange, postRange: postRangeValue, postType })
 	}

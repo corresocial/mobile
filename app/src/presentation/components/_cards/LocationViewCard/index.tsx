@@ -2,7 +2,7 @@ import React from 'react'
 import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Location, LocationViewType } from '@services/firebase/types'
+import { LocationViewType, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
 import GoogleMapsIcon from '@assets/icons/googleMaps.svg'
@@ -23,7 +23,7 @@ interface LocationViewCardProps {
 	locationView?: LocationViewType
 	textFontSize?: number
 	withoutMapView?: boolean
-	location: Location
+	location: PostEntityCommonFields['location']
 	onEdit?: () => void
 }
 

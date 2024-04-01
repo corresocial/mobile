@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ItemStatus } from '@services/firebase/types'
+import { ItemStatus } from '@domain/post/entity/types'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'
 import TruckWhiteIcon from '@assets/icons/truck-white.svg'

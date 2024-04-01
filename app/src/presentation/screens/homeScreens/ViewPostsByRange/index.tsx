@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
-import { SearchParams } from '@services/maps/types'
+import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -32,7 +33,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		const { postsByRange } = route.params
 
 		if (searchText) {
-			return postsByRange.filter((post: PostCollectionRemote) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length)
+			return postsByRange.filter((post) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
 		return postsByRange
 	}
@@ -41,7 +42,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
@@ -51,21 +52,21 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		const customSearchParams = searchByRange
 			? {
 				range: postRange,
-				geohashes: locationDataContext.searchParams.geohashes,
-				city: locationDataContext.searchParams.city,
-				country: locationDataContext.searchParams.country,
+				geohashes: locationDataContext.searchParams?.geohashes,
+				city: locationDataContext.searchParams?.city,
+				country: locationDataContext.searchParams?.country,
 				searchText,
 				category: '',
 			}
 			: {
 				...locationDataContext.searchParams,
 				searchText,
-				category: locationDataContext.currentCategory.categoryName,
+				category: locationDataContext.currentCategory?.categoryName,
 			}
 
-		const categoryLabel = searchByRange ? getRelativeTitle() : locationDataContext.currentCategory.categoryTitle
+		const categoryLabel = searchByRange ? getRelativeTitle() : locationDataContext.currentCategory?.categoryTitle
 
-		navigation.navigate('SearchResult', { searchParams: customSearchParams as SearchParams, categoryLabel, searchByRange })
+		navigation.navigate('SearchResult', { searchParams: customSearchParams as FeedSearchParams, categoryLabel, searchByRange })
 	}
 
 	const getRelativeTitle = () => {
@@ -86,15 +87,15 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
+	const viewPostDetails = (postData: PostEntityOptional) => {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
-	const renderPostItem = (item: PostCollection) => (
+	const renderPostItem = (item: PostEntityOptional) => (
 		<ContainerPadding>
 			<PostCard
 				post={item}
-				owner={item.owner}
+				owner={item.owner as PostEntityCommonFields['owner']}
 				navigateToProfile={navigateToProfile}
 				onPress={() => viewPostDetails(item)}
 			/>
@@ -102,7 +103,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	)
 
 	return (
-		<Container deviceIsIOS={Platform.OS === 'ios'}>
+		<Container >
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader

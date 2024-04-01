@@ -3,9 +3,11 @@ import { Animated, FlatList, Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
+import { LatLong } from '@domain/post/entity/types'
 
-import { setRecentAddressOnStorage } from '@utils/maps/recentAddresses'
+import { useLocationRepository } from '@data/application/location/useLocationRepository'
+
+import { AddressSearchResult, SelectedAddressRender } from '@services/googleMaps/types/maps'
 
 import {
 	Container,
@@ -25,6 +27,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 import { DropdownItem } from '../DropdownItem'
+
+const { localStorage } = useLocationRepository()
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender
@@ -73,10 +77,8 @@ function LocationNearDropdown({
 
 	const findNearPostsByAddress = async (address: AddressSearchResult) => {
 		setDropdownIsVisible(false)
-		if (!address.recent) {
-			await setRecentAddressOnStorage(address)
-			saveRecentAddresses(address)
-		}
+		await localStorage.saveAddressData(address)
+		saveRecentAddresses(address)
 
 		const greaterThanThree = address.formattedAddress.split(',').length > 3
 		selectAddress({
@@ -87,8 +89,8 @@ function LocationNearDropdown({
 			'',
 			false,
 			{
-				lat: address.lat,
-				lon: address.lon
+				latitude: address.lat,
+				longitude: address.lon
 			}
 		)
 	}
@@ -190,7 +192,7 @@ function LocationNearDropdown({
 							/>
 						)}
 						ItemSeparatorComponent={() => <VerticalSpacing height={RFValue(5)} />}
-						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(20)} />}
+						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(40)} />}
 					/>
 				</DropdownBody>
 				{

@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-import { Coordinates, PostCollection } from '@services/firebase/types'
+import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'
@@ -17,6 +18,7 @@ import { theme } from '@common/theme'
 import { LocationChangeConfirmationModal } from '@components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
+const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
@@ -41,7 +43,7 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 	}
 
 	const getLastPostCity = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 		return lastUserPost && lastUserPost.location ? lastUserPost.location?.city || '' : ''
 	}
 
@@ -85,8 +87,8 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 			setCultureDataOnContext({
 				location: {
 					...completeAddress,
-					...geohashObject
-				}
+					...geohashObject,
+				} as PostEntityCommonFields['location']
 			})
 		}
 

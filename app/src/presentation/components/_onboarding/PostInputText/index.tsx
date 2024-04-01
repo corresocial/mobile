@@ -79,7 +79,7 @@ function PostInputText({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'}/>
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(28)}
 				relativeHeight={height || relativeScreenHeight(28)}

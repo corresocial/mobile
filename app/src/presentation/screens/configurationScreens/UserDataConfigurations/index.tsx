@@ -2,15 +2,20 @@ import React, { useState, useContext } from 'react'
 
 import { differenceInMinutes } from 'date-fns'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { PostEntityOptional } from '@domain/post/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+import { removeAllUserData } from '@data/user/remoteRepository/sujeira/remoteAllUserData'
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { UserDataConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection } from '@services/firebase/types'
+import { UserDataConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { auth } from '@services/firebase'
-import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
-import { clearOfflinePosts } from '@utils/offlinePost'
+import { auth } from '@infrastructure/firebase/index'
 
 import { Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -25,8 +30,10 @@ import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenCon
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
+const { logoutUser } = useUserDomain()
+
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
-	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
@@ -69,10 +76,10 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			setHasError(false)
 			setIsLoading(true)
 
-			await removeAllUserData(
-				userDataContext.userId as Id,
+			await removeAllUserData( // REFACTOR Não importar direto
+				userDataContext.userId,
 				userDataContext.profilePictureUrl || [],
-				userDataContext.posts as PostCollection[]
+				userDataContext.posts as PostEntityOptional[]
 			).then(() => toggleSuccessModalVisibility())
 			setIsLoading(false)
 		} catch (error: any) {
@@ -91,14 +98,18 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const performLogout = async () => {
 		try {
-			removeChatListeners()
-			await deleteLocaluser()
-			await clearOfflinePosts()
-			await auth.signOut()
+			await logoutUser(
+				useUserRepository,
+				usePostRepository,
+				useChatDomain,
+				removeChatListeners,
+				userDataContext.userId
+			)
+
 			navigateToInitialScreen()
-		} catch (error) {
+		} catch (error: any) {
 			console.log('erro ao fazer logout')
-			console.log(error)
+			throw new Error(error)
 		}
 	}
 

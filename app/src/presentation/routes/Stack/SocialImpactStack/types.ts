@@ -1,5 +1,6 @@
+import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRange, SocialImpactEntity } from '@domain/post/entity/types'
+
 import { UserStackParamList } from '../UserStack/types'
-import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRange, SocialImpactCollectionRemote } from '@services/firebase/types'
 
 export type SocialImpactStackParamList = {
 	SelectSocialImpactType: { editMode: boolean } | undefined
@@ -21,5 +22,5 @@ export type SocialImpactStackParamList = {
 	InsertSocialImpactStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditSocialImpactPostReview: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditSocialImpactPostReview: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

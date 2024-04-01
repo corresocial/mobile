@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { LocationViewType } from '@services/firebase/types'
+import { LocationViewType } from '@domain/post/entity/types'
 
 import { ButtonsContainer, Container } from './styles'
 import EyeWhiteIcon from '@assets/icons/eye-white.svg'

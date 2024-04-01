@@ -1,16 +1,19 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PostCategoriesType, SocialImpactCategories } from '@domain/post/entity/types'
+
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SelectSocialImpactCategoryScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
-import { SocialImpactCategories } from '@services/firebase/types'
+import { SelectSocialImpactCategoryScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
+
+type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
@@ -31,9 +34,9 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 			<PostCategory
 				backgroundColor={theme.pink2}
 				categories={socialImpactCategories}
-				navigateBackwards={() => navigation.goBack()}
-				savePostCategory={onSelectCategory}
 				progress={[2, isSecondPost ? 5 : 6]}
+				navigateBackwards={() => navigation.goBack()}
+				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>
 	)

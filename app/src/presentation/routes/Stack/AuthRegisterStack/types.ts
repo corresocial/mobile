@@ -1,4 +1,4 @@
-import { UserIdentification } from '@contexts/types'
+import { UserIdentification } from '@services/authentication/types'
 
 export type AuthRegisterStackParamList = {
 	Splash: { id: string, screen: 'profile' | 'post' | '', postType: string}

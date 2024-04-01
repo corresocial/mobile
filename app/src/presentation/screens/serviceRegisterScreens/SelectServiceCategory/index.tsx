@@ -1,16 +1,19 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PostCategoriesType, ServiceCategories } from '@domain/post/entity/types'
+
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { SelectServiceCategoryScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
-import { ServiceCategories } from '@services/firebase/types'
+import { SelectServiceCategoryScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
+
+type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScreenProps) {
 	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
@@ -28,7 +31,7 @@ function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScree
 				categories={serviceCategories}
 				progress={[2, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
-				savePostCategory={onSelectCategory}
+				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>
 	)

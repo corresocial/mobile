@@ -1,22 +1,24 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, ScrollView, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { ScrollView, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { Id, PostEntityOptional } from '@domain/post/entity/types'
+import { PrivateUserEntity } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { uploadImage } from '@data/imageStorage/uploadPicture'
+import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id, Location, PostCollection } from '@services/firebase/types'
+import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 
-import { uploadImage } from '@services/firebase/common/uploadPicture'
-import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
-import { getPrivateLocation } from '@services/firebase/user/getPrivateLocation'
-import { updateUser } from '@services/firebase/user/updateUser'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
@@ -26,8 +28,6 @@ import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { EditCard } from '@components/_cards/EditCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -35,15 +35,20 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
 
+const { remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostStorage } = usePostRepository()
+
+const { updateUserRepository } = useUserDomain()
+const { updateProfilePictureOnConversations } = useChatDomain()
+
 const { arrayIsEmpty } = UiUtils()
-const { updateProfilePictureOnConversations } = ChatAdapter()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
-	const [privateUserLocation, setPrivateUserLocation] = useState<Location>()
+	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
@@ -54,7 +59,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		const userLocation = await getPrivateLocation(userDataContext.userId as string)
+		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
 		setPrivateUserLocation(userLocation)
 	}
 
@@ -71,7 +76,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		return null
 	}
 
-	const goToEditScreen = (screenName: keyof UserStackParamList) => {
+	const goToEditScreen = (screenName: keyof ProfileStackParamList) => {
 		switch (screenName) {
 			case 'EditUserName': {
 				navigation.navigate('EditUserName', {
@@ -88,7 +93,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				break
 			}
 			case 'EditUserLocation': {
-				navigation.navigate('EditUserLocation', { initialCoordinates: privateUserLocation?.coordinates || null })
+				navigation.navigate('EditUserLocation')
 				break
 			}
 			case 'SocialMediaManagement': {
@@ -121,7 +126,12 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const updateUserData = async () => {
 		try {
 			setIsLoading(true)
-			await updateRemoteUser()
+
+			if (!editDataContext.unsaved.profilePictureUrl) {
+				await updateUserWithoutUploadPicture()
+			} else {
+				await updateUserWithUploadPicture()
+			}
 		} catch (err) {
 			Sentry.Native.captureException(err)
 			console.log(err)
@@ -130,31 +140,31 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		}
 	}
 
-	const updateRemoteUser = async () => {
-		if (!editDataContext.unsaved.profilePictureUrl) {
-			await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved })
+	const updateUserWithoutUploadPicture = async () => {
+		await updateUserRepository(
+			useUserRepository,
+			userDataContext,
+			{ ...editDataContext.unsaved }
+		)
+		setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
 
-			await updateAllOwnerOnPosts(
-				{ ...editDataContext.unsaved },
-				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+		await remotePostStorage.updateOwnerDataOnPosts(
+			{ ...editDataContext.unsaved },
+			userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as string[]
+		)
+
+		if (editDataContext.unsaved && editDataContext.unsaved.location) {
+			await remoteStorage.updatePrivateLocation(
+				userDataContext.userId as Id,
+				editDataContext.unsaved.location
 			)
-
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, location: {} })
-			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, location: {} })
-
-			if (editDataContext.unsaved && editDataContext.unsaved.location) {
-				await updateUserPrivateData(
-					editDataContext.unsaved.location,
-					userDataContext.userId as Id,
-					'location',
-				)
-			}
-
-			setIsLoading(false)
-			navigation.goBack()
-			return
 		}
 
+		setIsLoading(false)
+		navigation.goBack()
+	}
+
+	const updateUserWithUploadPicture = async () => {
 		await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
 			.then(
 				({ uploadTask, blob }: any) => {
@@ -166,22 +176,24 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
 								.then(async (profilePictureUrl) => {
-									await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-
-									await updateAllOwnerOnPosts(
-										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
-										userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+									await updateUserRepository(
+										useUserRepository,
+										userDataContext,
+										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] }
 									)
 
-									if (!arrayIsEmpty(userDataContext)) {
-										await deleteUserPicture(userDataContext.profilePictureUrl || [])
+									await remotePostStorage.updateOwnerDataOnPosts(
+										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
+										userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as Id[]
+									)
+
+									if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
+										await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
 									}
 
 									await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl)
 
 									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await deleteUserPicture(userDataContext.profilePictureUrl || [])
 
 									setIsLoading(false)
 									navigation.goBack()
@@ -190,22 +202,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					)
 				},
 			)
-	}
-
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = hasUpdateError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.orange2, theme.red2],
-		})
 	}
 
 	return (
@@ -241,7 +237,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					)
 				}
 			</Header>
-			<Body style={{ backgroundColor: animateDefaultHeaderBackgound() }}	>
+			<Body style={{ backgroundColor: hasUpdateError ? theme.red2 : theme.orange2 }}	>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<VerticalSpacing />
 					<EditCard
@@ -281,7 +277,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						title={'sua foto'}
 						highlightedWords={['foto']}
 						profilePicturesUrl={[getProfilePictureUrl()] || []}
-						pressionable
+						pressionable={false}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
 					<VerticalSpacing height={relativeScreenHeight(5)} />

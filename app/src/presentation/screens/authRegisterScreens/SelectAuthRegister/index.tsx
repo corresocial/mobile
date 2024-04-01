@@ -1,9 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, Platform, StatusBar } from 'react-native'
 
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
+
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
 import { Container, CarouselItemContainer, Slogan } from './styles'
 import Logo from '@assets/icons/logo.svg'
@@ -20,6 +26,8 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { TermsOfServiceModal } from '@components/_modals/TermsOfServiceModal'
 import { CustomCarousel } from '@components/CustomCarousel'
 
+const { getLocalUserDataWithDeviceAuth } = useUserDomain()
+
 const presentationTexts = [
 	'rede social, de verdade',
 	'aqui você pode postar e encontrar de tudo, seu trabalho, comércio, cultura e iniciativa social  no seu bairro, cidade e país!',
@@ -27,7 +35,7 @@ const presentationTexts = [
 ]
 
 function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps) {
-	const { getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
@@ -67,8 +75,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	const redirectToApp = async () => {
 		try {
-			const localUser = await getUserDataFromSecureStore(true, true)
-
+			const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
 			if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
 			await setRemoteUserOnLocal(localUser.userId, localUser)
@@ -112,7 +119,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 			</DefaultHeaderContainer>
 			<FormContainer >
 				{
-					hasStoredUser && (
+					hasStoredUser ? (
 						<OptionButton
 							label={userName || ''}
 							highlightedWords={userName.split(' ') || ['']}
@@ -127,6 +134,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 							onPress={redirectToApp}
 						/>
 					)
+						: <></>
 				}
 				<OptionButton
 					label={`entrar em ${hasStoredUser ? 'outra' : 'uma'} conta`}

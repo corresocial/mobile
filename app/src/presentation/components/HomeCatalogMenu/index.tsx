@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PostType } from '@services/firebase/types'
+import { PostType } from '@domain/post/entity/types'
 
 import { Container, HorizontalPostTypes } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'

@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { SaleValueType } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectSaleValueTypeScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { SaleValueType } from '@services/firebase/types'
+import { SelectSaleValueTypeScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { theme } from '@common/theme'
 

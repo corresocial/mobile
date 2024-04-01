@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IncomeType } from '@services/firebase/types'
+import { IncomeType } from '@domain/post/entity/types'
 
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'

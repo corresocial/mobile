@@ -1,4 +1,4 @@
-import { Id } from '@domain/entities/globalTypes'
+import { Id } from '@domain/globalTypes'
 
 function getNotificationConfig(tokenNotification: Id, title: string, textMessage: string) {
 	return {

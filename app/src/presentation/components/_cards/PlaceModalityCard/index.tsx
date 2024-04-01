@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PlaceModalityType, WorkplaceType } from '@services/firebase/types'
+import { PlaceModalityType, WorkplaceType } from '@domain/post/entity/types'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'
 import HandOnPersonWhiteIcon from '@assets/icons/handOnPerson-white.svg'

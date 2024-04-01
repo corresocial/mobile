@@ -1,16 +1,18 @@
-import React, { useContext, useRef, useState } from 'react'
-import { Animated, StatusBar } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
+
+import { Id, PostEntityOptional } from '@domain/post/entity/types'
+import { UserEntity } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { RegisterUserData } from '@contexts/types'
+import { RegisterUserData } from '@contexts/AuthContext/types'
 
-import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id, PostCollection, UserCollection } from '@services/firebase/types'
+import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
-import { updateUser } from '@services/firebase/user/updateUser'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container } from './styles'
@@ -27,10 +29,15 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
+const { getLocalUserData, updateUserRepository } = useUserDomain()
+
+const { remoteStorage } = useUserRepository()
+const { remoteStorage: remotePostStorage } = usePostRepository()
+
 const { arrayIsEmpty } = UiUtils()
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-	const { userDataContext, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { userDataContext, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -58,18 +65,20 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const saveUserData = async () => {
-		const userData = getRouteParams()
-		const localUser = await getUserDataFromSecureStore()
-
 		try {
+			const userData = getRouteParams()
+			const localUser = await getLocalUserData(useUserRepository)
+
+			if (!localUser || (localUser && !localUser.createdAt)) throw new Error('Usuário')
+
 			setIsLoading(true)
-			await saveInFirebase(userData, true, localUser.createdAt)
+			await saveInFirebase(userData as RegisterUserData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-				await deleteUserPicture(userDataContext.profilePictureUrl || [])
-				await updateAllOwnerOnPosts(
+				await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+				await remotePostStorage.updateOwnerDataOnPosts(
 					{ profilePictureUrl: [] },
-					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+					userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as Id[]
 				)
 			}
 
@@ -84,7 +93,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt?: Date) => { // TODO Type
-		const userObject: Partial<UserCollection> = {
+		const userObject: Partial<UserEntity> = {
 			name: userData.userName,
 			profilePictureUrl: [],
 			tourPerformed: !!tourPerformed
@@ -94,12 +103,16 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			userObject.createdAt = new Date()
 		}
 
-		await updateUser(userData.userIdentification.uid, userObject)
+		await updateUserRepository(
+			useUserRepository,
+			userDataContext,
+			userObject
+		)
+		// await remoteStorage.updateUserData(userData.userIdentification.uid, userObject)
 
-		await updateUserPrivateData(
-			{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+		await remoteStorage.updatePrivateContacts(
 			userData.userIdentification.uid,
-			'contacts',
+			{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
 		)
 	}
 
@@ -119,29 +132,13 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = hasServerSideError
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.green2, theme.red2],
-		})
-	}
-
 	return (
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={hasServerSideError ? theme.red2 : theme.green2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

@@ -5,14 +5,17 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
 
-import { Chat, Message, MessageObjects } from '@domain/entities/chat/types'
+import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
+
+import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
-import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id } from '@services/firebase/types'
+import { ChatMessagesScreenProps } from '@routes/Stack/ChatStack/screenProps'
+import { FlatListItem } from 'src/presentation/types'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -22,9 +25,6 @@ import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -43,7 +43,7 @@ import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
 const { convertTextToNumber } = UiUtils()
 
-const { sendImpactReport } = ImpactReportAdapter()
+const { sendImpactReport } = useImpactReportDomain()
 
 const {
 	existsOnDatabase,
@@ -58,7 +58,7 @@ const {
 	blockUserById,
 	unblockUserById,
 	hasBlockedUserOnConversation,
-} = ChatAdapter()
+} = useChatDomain()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -93,9 +93,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		loadChatMessages()
-		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
+		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
 		return () => {
-			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
+			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
 		}
 	}, [])
 
@@ -149,7 +149,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			// startChatMessagesListener(currentChat.chatId, messagesListenerCallback)	// abordagem listener
 		}
 
-		const authenticatedUserId = userDataContext.userId as Id
+		const authenticatedUserId = userDataContext.userId
 
 		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
 		const newMessageValue = Object.values(newMessageObject)[0]
@@ -170,7 +170,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const blockUser = async () => {
 		const targetUserId = getRecipientUserId()
-		await blockUserById(targetUserId, userDataContext.userId as Id)
+		await blockUserById(targetUserId, userDataContext.userId)
 
 		setChatOptionsIsOpen(false)
 		setBlockedByOwner(true)
@@ -179,7 +179,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const unblockUser = async () => {
 		const blockedUserId = getRecipientUserId()
-		await unblockUserById(blockedUserId, userDataContext.userId as Id)
+		await unblockUserById(blockedUserId, userDataContext.userId)
 
 		setChatOptionsIsOpen(false)
 		setIsBlockedUser(false)
@@ -191,12 +191,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setChatOptionsIsOpen(false)
 	}
 
-	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
+	const saveImpactReport = async (impactValue: string) => {
 		await updateChatCompletedState(currentChat.chatId, true, getRecipientUserId(), userDataContext.name)
 
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		const usersIdInvolved = [currentChat.user1.userId, currentChat.user2.userId]
-		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue)
+		await sendImpactReport(useImpactReportRepository, usersIdInvolved, numericImpactValue, 'chat')
 
 		toggleImpactReportSuccessModalVisibility()
 	}
@@ -207,17 +207,17 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const getRecipientUserName = () => {
 		const { user1, user2 } = currentChat
-		return getConversationUserName(userDataContext.userId as Id, user1, user2)
+		return getConversationUserName(userDataContext.userId, user1, user2)
 	}
 
 	const getRecipientUserId = () => {
 		const { user1, user2 } = currentChat
-		return getConversationUserId(userDataContext.userId as Id, user1, user2)
+		return getConversationUserId(userDataContext.userId, user1, user2)
 	}
 
 	const getProfilePictureUrl = () => {
 		const { user1, user2 } = currentChat
-		return getConversationProfilePicture(userDataContext.userId as Id, user1, user2)
+		return getConversationProfilePicture(userDataContext.userId, user1, user2)
 	}
 
 	const getFilteredMessages = () => {
@@ -300,7 +300,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
 				closeModal={toggleImpactReportModalVisibility}
-				onPressButton={(impactValue?: string) => saveImpactReport(true, impactValue as string)}
+				onPressButton={(impactValue?: string) => saveImpactReport(impactValue as string)}
 			/>
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}

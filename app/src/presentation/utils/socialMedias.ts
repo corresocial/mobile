@@ -1,6 +1,6 @@
 import { Linking } from 'react-native'
 
-import { SocialMedia } from '@services/firebase/types'
+import { SocialMedia } from '@domain/user/entity/types'
 
 import FacebookIcon from '@assets/icons/facebook.svg'
 import InstagramIcon from '@assets/icons/instagram.svg'
@@ -13,26 +13,6 @@ import TwiterIcon from '@assets/icons/twiter.svg'
 import WhatsAppIcon from '@assets/icons/whatsapp.svg'
 import YoutubeIcon from '@assets/icons/youtube.svg'
 
-/*
-src/
-|-- domain/
-|   |-- entities/
-|   |   |-- SocialMediaEntity.ts
-|
-|-- usecases/
-|   |-- SocialMediaUseCase.ts
-|
-|-- infrastructure/
-|   |-- services/
-|   |   |-- LinkingService.ts
-|
-|-- adapters/
-|   |-- SocialMediaAdapter.ts
-|
-|-- app.tsx
- */
-
-//
 const defaultSocialMedias = [
 	{
 		title: 'instagram',

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { ContactUsSuccessScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { ContactUsSuccessScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, Body } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SocialImpactType } from '@services/firebase/types'
+import { SocialImpactType } from '@domain/post/entity/types'
 
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'

@@ -2,31 +2,25 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
+import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
-import { LocalUserData } from '@contexts/types'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
-import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
-import {
-	Id,
-	PostCollection,
-	PostCollectionCommonFields,
-	PostRange,
-	SocialMedia,
-	UserCollection,
-	VerifiedLabelName,
-} from '@services/firebase/types'
+import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { FlatListItem } from 'src/presentation/types'
 
-import { getUser } from '@services/firebase/user/getUser'
-import { updateUser } from '@services/firebase/user/updateUser'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 import {
 	Body,
@@ -76,10 +70,15 @@ import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
+const { updateUserRepository } = useUserDomain()
+
+const { remoteStorage } = useUserRepository()
+const { localStorage } = usePostRepository()
+
 const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
 
-function Profile({ route, navigation }: HomeTabScreenProps) {
+function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
@@ -87,10 +86,10 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
-	const [filteredPosts, setFilteredPosts] = useState<PostCollection[]>([])
+	const [filteredPosts, setFilteredPosts] = useState<PostEntityOptional[]>([])
 	const [hasPostFilter, setHasPostFilter] = useState(false)
 
-	const [user, setUser] = useState<LocalUserData>({})
+	const [user, setUser] = useState<UserEntityOptional>({})
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
@@ -115,13 +114,13 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [navigation])
 
 	const getProfileDataFromRemote = async (userId: string) => {
-		const remoteUser = await getUser(userId)
-		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = remoteUser as LocalUserData
+		const userData = await remoteStorage.getUserData(userId)
+		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
 
 	const checkHasOfflinePosts = async () => {
-		const numberOfOfflinePosts = await getNumberOfStoredOfflinePosts()
+		const numberOfOfflinePosts = await localStorage.getNumberOfOfflinePosts()
 		setNumberOfOfflinePostsStored(numberOfOfflinePosts)
 	}
 
@@ -138,9 +137,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getFilteredUserPosts = () => filteredPosts || []
 
-	const viewPostDetails = (post: PostCollection) => {
-		const customStackLabel = route.params?.userId ? 'Home' : route.params?.stackLabel
-		const postData = { ...post, owner: getUserDataOnly() } as PostCollection
+	const viewPostDetails = (post: PostEntityOptional) => {
+		const customStackLabel = route.params?.userId && !route.params?.stackLabel ? 'Home' : route.params?.stackLabel
+		const postData = { ...post, owner: getUserDataOnly() } as PostEntityOptional
 
 		navigateToPostView(postData, navigation, customStackLabel)
 	}
@@ -162,7 +161,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile' as any, { user })
+		navigation.navigate('EditProfile', { user: user as UserEntity })
 	}
 
 	const navigationToBack = () => navigation.goBack()
@@ -186,7 +185,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const openChat = async () => {
-		navigation.navigate('ChatMessages', {
+		navigation.navigate('ChatMessages' as any, {
 			chat: {
 				chatId: '',
 				user1: {
@@ -212,7 +211,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		})
 	}
 
-	type UserDataFields = keyof UserCollection;
+	type UserDataFields = keyof UserEntity
 	const getUserField = (fieldName?: UserDataFields) => {
 		if (route.params && route.params.userId) {
 			if (!fieldName) return user
@@ -223,7 +222,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const getUserDataOnly = () => {
-		let currentUser = {} as LocalUserData
+		let currentUser = {} as UserEntityOptional
 		if (route.params && route.params.userId) {
 			currentUser = { ...user }
 		} else {
@@ -247,7 +246,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			return user.posts
 				? user.posts
 					.filter((post) => !post.completed)
-					.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number)
+					.sort(sortPostsByCreatedData as (a: PostEntityOptional, b: PostEntityOptional) => number)
 				: []
 		}
 
@@ -260,21 +259,17 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
 		setProfileOptionsIsOpen(false)
-		console.log({
-			type: label,
-			by: userDataContext.userId,
-			at: new Date(),
-			name: userDataContext.name || ''
-		})
 		if (user.userId && userDataContext.userId) {
-			await updateUser(user.userId, {
+			const verifiedObject = {
 				verified: {
 					type: label,
 					by: userDataContext.userId,
 					at: new Date(),
 					name: userDataContext.name || ''
-				},
-			})
+				}
+			}
+
+			await updateUserRepository(useUserRepository, userDataContext, verifiedObject)
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
 	}
@@ -571,11 +566,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								</>
 							)}
 							data={getFlatlistPosts()}
-							renderItem={({ item }: FlatListItem<PostCollection>) => (
+							renderItem={({ item }: FlatListItem<PostEntityOptional>) => (
 								<PostPadding>
 									<PostCard
 										post={item}
-										owner={getUserField() as PostCollectionCommonFields['owner']}
+										owner={getUserField() as PostEntityCommonFields['owner']}
 										onPress={() => viewPostDetails(item)}
 									/>
 								</PostPadding>

@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SelectSocialImpactTagsScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { SelectSocialImpactTagsScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { socialImpactCategories, updateSocialImpactTags } from '@utils/postsCategories/socialImpactCategories'
 

@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { LocationViewType } from '@domain/post/entity/types'
+
 import { SaleContext } from '@contexts/SaleContext'
 
-import { SelectLocationViewScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { LocationViewType } from '@services/firebase/types'
+import { SelectLocationViewScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { theme } from '@common/theme'
 

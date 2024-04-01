@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { WhoWeAreIncomeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { WhoWeAreIncomeScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Body, Container, Header, Title, ButtonContainer, Description, ContainerContent } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'

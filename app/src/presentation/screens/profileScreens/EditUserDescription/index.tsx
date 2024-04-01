@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { EditUserDescriptionScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { EditUserDescriptionScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { theme } from '@common/theme'
 

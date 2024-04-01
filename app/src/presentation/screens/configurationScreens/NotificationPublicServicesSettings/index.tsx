@@ -1,18 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { Id } from '@domain/entities/globalTypes'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
-import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
+import { useSmasRepository } from '@data/smas/useSmasRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { NotificationPublicServicesSettingsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
-import { getPrivateLocation } from '@services/firebase/user/getPrivateLocation'
-import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+import { NotificationPublicServicesSettingsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, HeaderLinkCardContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'
@@ -20,8 +18,6 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { OptionButton } from '@components/_buttons/OptionButton'
@@ -31,7 +27,9 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { InsertNisModal } from '@components/_modals/InsertNisModal'
 import { Loader } from '@components/Loader'
 
-const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = SmasAdapter()
+const { remoteStorage } = useUserRepository()
+
+const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = useSmasDomain()
 
 function NotificationPublicServicesSettings({ navigation }: NotificationPublicServicesSettingsScreenProps) {
 	const { pushNotificationEnabled, chatUserHasTokenNotification } = useContext(ChatContext)
@@ -66,16 +64,16 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 	}
 
 	const checkSmasMessagesState = async (nis?: string) => {
-		const currentNis = nis || await getNisFromLocalRepository(SmasRepositoryAdapter)
-		const smasMessagesState = await smasNisHasLinkedWithUser(currentNis, SmasRepositoryAdapter)
+		const currentNis = nis || await getNisFromLocalRepository(useSmasRepository)
+		const smasMessagesState = await smasNisHasLinkedWithUser(currentNis, useSmasRepository)
 
 		setSmasMessagesIsEnabled(smasMessagesState)
 		setUserNis(currentNis)
 	}
 
 	const checkGovernmentNotificationState = async () => {
-		const privateUserLocation = await getPrivateLocation(userDataContext.userId as string)
-		setGovernmentNotificationIsEnabled(privateUserLocation && privateUserLocation.visibleToGovernment)
+		const privateUserLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
+		setGovernmentNotificationIsEnabled(!!(privateUserLocation && privateUserLocation.visibleToGovernment))
 	}
 
 	const toggleMessagesSmasState = async (inputedNis?: string) => {
@@ -86,13 +84,13 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 
 			if (newState) {
 				if (!inputedNis || (inputedNis && inputedNis.trim().length !== 11)) throw new Error('NIS inválido!')
-				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, SmasRepositoryAdapter)
+				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId, useSmasRepository)
 				setUserNis(inputedNis)
-				await setNisOnLocalRepository(inputedNis, SmasRepositoryAdapter)
+				await setNisOnLocalRepository(inputedNis, useSmasRepository)
 			} else {
-				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId as Id, SmasRepositoryAdapter)
+				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId, useSmasRepository)
 				setUserNis('')
-				await setNisOnLocalRepository('', SmasRepositoryAdapter)
+				await setNisOnLocalRepository('', useSmasRepository)
 			}
 
 			setSmasMessagesIsEnabled(newState)
@@ -108,10 +106,9 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 			setIsLoading(true)
 			const newNotificationState = !governmentNotificationIsEnabled
 
-			await updateUserPrivateData(
-				{ visibleToGovernment: newNotificationState },
-				userDataContext.userId as Id,
-				'location'
+			await remoteStorage.updatePrivateLocation(
+				userDataContext.userId,
+				{ visibleToGovernment: newNotificationState }
 			)
 
 			setGovernmentNotificationIsEnabled(newNotificationState)

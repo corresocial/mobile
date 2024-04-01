@@ -1,16 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { ConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id } from '@services/firebase/types'
-
-import { auth } from '@services/firebase'
-import { clearOfflinePosts } from '@utils/offlinePost'
+import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
@@ -30,8 +32,6 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
@@ -39,11 +39,11 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-const { updateUserTokenNotification } = ChatAdapter()
+const { logoutUser } = useUserDomain()
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
-	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -53,11 +53,13 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performLogout = async () => {
-		removeChatListeners()
-		await updateUserTokenNotification(userDataContext.userId as Id, '')
-		await deleteLocaluser()
-		await clearOfflinePosts()
-		await auth.signOut()
+		await logoutUser(
+			useUserRepository,
+			usePostRepository,
+			useChatDomain,
+			removeChatListeners,
+			userDataContext.userId
+		)
 		navigateToInitialScreen()
 	}
 
@@ -74,6 +76,14 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performUserSubscription = () => {
+		/* navigation.push('UserStack', {
+			screen: screenName,
+			params: {
+				editMode: true,
+				initialValue: value
+			}
+		}) */
+
 		navigateToScreen('SelectSubscriptionRange')
 	}
 
@@ -90,7 +100,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 		}
 	}
 
-	const navigateToScreen = (screenName: keyof UserStackParamList, alertPropForUpdate?: string) => {
+	const navigateToScreen = (screenName: keyof ProfileStackParamList, alertPropForUpdate?: string) => {
 		if (alertPropForUpdate) {
 			updateNotificationState({ [alertPropForUpdate]: false })
 		}

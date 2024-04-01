@@ -1,17 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
-import { ReportContext } from '@domain/entities/impactReport/types'
+import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
+import { VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
+
+import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
+import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
-import { Id, PostCollection, VacancyCategories, VacancyCollection } from '@services/firebase/types'
+import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { deletePost } from '@services/firebase/post/deletePost'
-import { getPostById } from '@services/firebase/post/getPostById'
-import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
@@ -31,8 +32,6 @@ import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
-
-import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DateTimeCard } from '@components/_cards/DateTimeCard'
@@ -56,12 +55,16 @@ import { Loader } from '@components/Loader'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
+const { localStorage } = useUserRepository()
+const { remoteStorage } = usePostRepository()
+
+const { sendImpactReport } = useImpactReportDomain()
+
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
-const { sendImpactReport } = ImpactReportAdapter()
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
-	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
@@ -74,7 +77,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	const [postLoaded, setPostLoaded] = useState(false)
-	const [postData, setPostData] = useState<VacancyCollection>(route.params?.postData || null)
+	const [postData, setPostData] = useState<VacancyEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -85,8 +88,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const getPost = (async () => {
 		if (route.params.redirectedPostId) {
-			const post = await getPostById(route.params.redirectedPostId)
-			setPostData(post as VacancyCollection)
+			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
+			setPostData(post as VacancyEntity)
 			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
 		}
 		setPostLoaded(true)
@@ -109,19 +112,19 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		return postData.owner.profilePictureUrl[0]
 	}
 
-	const markAsCompleted = async (hadImpact: boolean, impactValue: string) => {
+	const markAsCompleted = async (impactValue: string) => {
 		try {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			markPostAsComplete(userDataContext, postData.postId as string, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
-			setDataOnSecureStore('corre.user', { posts: mergedPosts })
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
 
 			setPostOptionsIsOpen(false)
 
-			!isCompleted && saveImpactReport(hadImpact, impactValue)
+			!isCompleted && saveImpactReport(impactValue)
 
 			setIsCompleted(!isCompleted)
 		} catch (err) {
@@ -129,17 +132,17 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		}
 	}
 
-	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
+	const saveImpactReport = async (impactValue: string) => {
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
-		const usersIdInvolved = [userDataContext.userId as Id]
-		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
+		const usersIdInvolved = [userDataContext.userId]
+		await sendImpactReport(useImpactReportRepository, usersIdInvolved, numericImpactValue, postData.postType)
 
 		toggleImpactReportSuccessModalVisibility()
 	}
 
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
-		await deletePost(postData.postId as string, postData.owner.userId)
+		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()
@@ -147,7 +150,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
+		const postsWithoutDeletedPost = currentUserPosts.filter((post) => post.postId !== postData.postId)
 		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 
@@ -176,7 +179,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
 
-		navigation.navigate('ChatMessages', {
+		navigation.navigate('ChatMessages' as any, {
 			chat: {
 				chatId: '',
 				user1: {
@@ -224,7 +227,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		}
 	}
 
-	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof VacancyEntityOptional, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -249,7 +252,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	if (!postLoaded) {
 		return (
-			<Loader flex/>
+			<Loader flex />
 		)
 	}
 
@@ -267,7 +270,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
 				closeModal={toggleImpactReportModalVisibility}
-				onPressButton={(impactValue?: string) => markAsCompleted(true, impactValue as string)}
+				onPressButton={(impactValue?: string) => markAsCompleted(impactValue as string)}
 			/>
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}
@@ -335,7 +338,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
-						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted as any} // TODO Type
+						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
 						editPost={goToEditPost}
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
@@ -357,7 +360,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				<Body>
 					<VerticalSpacing />
 					<VacancyPurposeCard
-						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
+						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')} // TODO Vacancy purpose não existe mais
 					/>
 					<VerticalSpacing />
 					<DescriptionCard
