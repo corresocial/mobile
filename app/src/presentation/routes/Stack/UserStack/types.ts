@@ -13,12 +13,14 @@ export type UserStackParamList = {
 
 	// Cadastro de posts
 	SelectPostType: undefined
+	SelectLeaderPostType: undefined
 	SelectIncomeType: { editMode: boolean } | undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	VacancyStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	CultureStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SocialImpactStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
+	PollStack: undefined
 
 	// Assinatura
 	SelectSubscriptionRange: { postReview: boolean } | undefined
