@@ -3,14 +3,14 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { PollRegisterContext } from '@contexts/PollRegisterContext'
 
-import { InsertPollDescriptionScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { InsertPollTitleScreenProps } from '@routes/Stack/PollStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-function InsertPollDescription({ route, navigation }: InsertPollDescriptionScreenProps) {
+function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 	const { setPollDataOnContext } = useContext(PollRegisterContext)
 	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -27,7 +27,7 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const validatePollDescription = (text: string) => {
+	const validatePollTitle = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -35,14 +35,14 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 		return false
 	}
 
-	const savePollDescription = (inputText: string) => {
+	const savePollTitle = (inputText: string) => {
 		/* if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		} */
 
-		setPollDataOnContext({ title: inputText })
+		setPollDataOnContext({ description: inputText })
 		navigation.navigate('InsertPollDescription')
 	}
 
@@ -53,18 +53,18 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 				multiline
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				customTitle={'fale sobre a sua enquete'}
-				customHighlight={['fale', 'sobre', 'enquete']}
-				inputPlaceholder={'descreva sua enquete...'}
+				customTitle={'qual o título da sua enquete?'}
+				customHighlight={['título', 'enquete']}
+				inputPlaceholder={'ex: serviços da prefeitura...'}
 				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 3]}
+				progress={[1, 3]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validatePollDescription}
+				validateInputText={validatePollTitle}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={savePollDescription}
+				saveTextData={savePollTitle}
 			/>
 		</>
 	)
 }
 
-export { InsertPollDescription }
+export { InsertPollTitle }
