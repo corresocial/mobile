@@ -1,0 +1,5 @@
+interface PollDomainInterface {
+
+}
+
+export { PollDomainInterface }
