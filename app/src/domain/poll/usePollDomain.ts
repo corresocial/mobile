@@ -1,9 +1,10 @@
 import { createNewPollDM } from './methods/createNewPollDM'
+import { getPollDataDM } from './methods/getPollDataDM'
 import { PollDomainInterface } from './PollDomainInterface'
 
 function usePollDomain(): PollDomainInterface { // PollDomainInterface
 	return {
-		// getPollQuestions
+		getPollData: getPollDataDM,
 		// getPollResponses
 
 		createNewPoll: createNewPollDM
