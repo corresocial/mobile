@@ -7,6 +7,7 @@ import {
 	TextInputProps,
 } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput } from './styles'
 import MinusWhiteIcon from '@assets/icons/minus-white.svg'
@@ -25,6 +26,7 @@ interface DefaultInputProps extends TextInputProps {
 	defaultBackgroundColor: string
 	validBackgroundColor: string
 	invalidBackgroundColor?: string
+	CustonLeftIcon?: React.FC<SvgProps>
 	secureTextEntry?: boolean
 	invalidTextAfterSubmit?: boolean
 	fontSize?: number
@@ -60,6 +62,7 @@ function DefaultInput({
 	defaultBackgroundColor,
 	validBackgroundColor,
 	invalidBackgroundColor,
+	CustonLeftIcon,
 	maxLength,
 	secureTextEntry,
 	invalidTextAfterSubmit = false,
@@ -196,12 +199,20 @@ function DefaultInput({
 						</SideButtonContainer>
 					)
 				}
+				{
+					CustonLeftIcon && (
+						<SideButtonContainer >
+							<CustonLeftIcon width={RFValue(30)} height={RFValue(30)} />
+						</SideButtonContainer>
+					)
+				}
 				<TextInput
 					showsVerticalScrollIndicator={false}
 					{...propsRest}
 					fontSize={fontSize}
 					textAlign={textAlign}
 					hasIcon={!!onIconPress}
+					hasDoubleIcon={!!CustonLeftIcon}
 					height={fixedHeight}
 					style={[getTextInputStyle()]}
 					ref={textInputRef}

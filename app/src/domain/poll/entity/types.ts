@@ -1,17 +1,18 @@
 export type PollEntityOptional = Partial<PollEntity>
 export type PollEntity = {
-	id: string
+	pollId: string
 	title: string
 	description: string
-	questions: [
-		{
-			questionId: string
-			question: string
-			questionType: PollQuestionType
-		}
-	]
-	idUsersResponded: string[]
+	questions: PollQuestion[]
+	idUsersResponded?: string[]
 	userResponses?: PrivatePollResponse
+}
+
+export type PollQuestionOptional = Partial<PollQuestion>
+export type PollQuestion = {
+	questionId: string
+	question: string
+	questionType: PollQuestionType
 }
 
 export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction'
