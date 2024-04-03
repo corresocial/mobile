@@ -1,7 +1,7 @@
-import { PollEntity } from '@domain/poll/entity/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 
 interface PollRepositoryInterface {
-	createPoll: (pollData: PollEntity) => Promise<void>
+	createPoll: (pollData: PostEntityOptional) => Promise<void>
 }
 
 export { PollRepositoryInterface }
