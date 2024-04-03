@@ -134,8 +134,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	}
 
 	const savePollQuestions = () => {
-		console.log(pollDataContext)
-		// Implementar métodos de domain
+		// naviate
 	}
 
 	return (

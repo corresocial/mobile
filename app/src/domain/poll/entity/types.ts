@@ -3,6 +3,7 @@ export type PollEntity = {
 	pollId: string
 	title: string
 	description: string
+	createdAt: Date
 	questions: PollQuestion[]
 	idUsersResponded?: string[]
 	userResponses?: PrivatePollResponse

@@ -10,6 +10,7 @@ const initialValue: PollRegisterContextType = {
 		pollId: '',
 		title: '',
 		description: '',
+		createdAt: new Date(),
 		questions: []
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
