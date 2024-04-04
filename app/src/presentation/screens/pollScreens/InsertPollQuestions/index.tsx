@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
-import uuid from 'react-uuid'
 
 import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
 
@@ -25,6 +24,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { ProgressBar } from '@components/ProgressBar'
 
 function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
 	const { pollDataContext, setCurrentPollQuestionDataOnContext, removeQuestionFromRegisterContext } = useContext(PollRegisterContext)
@@ -68,7 +68,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 		return questionsList.map((currentQuestion, index) => (
 			<>
 				<DefaultInput
-					key={uuid()}
+					key={index as number}
 					value={currentQuestion.question || ''}
 					relativeWidth={'100%'}
 					textInputRef={inputRefs.inputCards[index]}
@@ -134,7 +134,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	}
 
 	const savePollQuestions = () => {
-		// naviate
+		navigation.navigate('SelectPollRange')
 	}
 
 	return (
@@ -151,7 +151,9 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					fontSize={16}
 					message={'adicione suas perguntas'}
 					highlightedWords={['perguntas']}
-				/>
+				>
+					<ProgressBar range={3} value={3} />
+				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
 				withoutPaddingTop
@@ -165,7 +167,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 						questionsLength() < 10
 						&& (
 							<DefaultInput
-								key={11}
+								key={12}
 								value={questionText}
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.questionTextInput}

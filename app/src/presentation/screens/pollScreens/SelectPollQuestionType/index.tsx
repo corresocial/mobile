@@ -28,8 +28,8 @@ function SelectPollQuestionType({ navigation }: SelectPollQuestionTypeScreenProp
 
 	return (
 		<PostSelectButton
-			title={'você quer criar uma enquete ou abaixo assinado?'}
-			highlightedWords={['enquete', 'abaixo', 'assinado']}
+			title={'que tipo de resposta você quer?'}
+			highlightedWords={['tipo', 'resposta']}
 			headerBackgroundColor={theme.purple2}
 			progress={[3, 3]}
 			backgroundColor={theme.white3}

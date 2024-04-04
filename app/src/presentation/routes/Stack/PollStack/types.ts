@@ -5,4 +5,6 @@ export type PollStackParamList = {
 	InsertPollDescription: { editMode: boolean } | undefined
 	InsertPollQuestions: undefined
 	SelectPollQuestionType: undefined
+	SelectPollRange: undefined
+	InsertPollLocation: undefined
 } & UserStackParamList

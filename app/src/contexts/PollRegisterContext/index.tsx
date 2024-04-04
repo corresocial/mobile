@@ -7,11 +7,19 @@ import { PollRegisterContextType, PollRegisterProviderProps } from './types'
 
 const initialValue: PollRegisterContextType = {
 	pollDataContext: {
+		range: 'near',
 		pollId: '',
 		title: '',
 		description: '',
 		createdAt: new Date(),
-		questions: []
+		questions: [],
+		location: {
+			coordinates: {
+				latitude: 0,
+				longitude: 0
+			},
+			geohashNearby: []
+		}
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
 	setCurrentPollQuestionDataOnContext: (data: PollQuestionOptional) => { },

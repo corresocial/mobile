@@ -23,16 +23,19 @@ interface PostRangeProps {
 	backgroundColor: string
 	itemsColor: string
 	isVacancy?: boolean
+	hiddenValues?: boolean
 	cityPlanIsFree?: boolean
-	plansAvailable: StripeProducts
+	plansAvailable?: StripeProducts
 	userSubscriptionRange: PostRangeType
 	progress: [value: number, range: number]
 	savePostRange: (postRange: PostRangeType) => void
 	navigateBackwards: () => void
 }
 
-function PostRange({ backgroundColor, itemsColor, isVacancy, cityPlanIsFree, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityPlanIsFree, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
 	const getRelativeFooterValue = (range: PostRangeType) => {
+		if (hiddenValues || !plansAvailable) return ''
+
 		switch (range) {
 			case 'near': {
 				if (userSubscriptionRange !== 'near') return 'incluso \nno plano'
@@ -102,7 +105,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, cityPlanIsFree, pla
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('city')}
 						leftSideTextColor={isVacancy && theme.black4}
-						onPress={() => plansAvailable.cityMonthly.price && savePostRange('city')}
+						onPress={() => ((plansAvailable && plansAvailable.cityMonthly.price) || hiddenValues) && savePostRange('city')}
 					/>
 					<OptionButton
 						label={'brasil'}
@@ -117,7 +120,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, cityPlanIsFree, pla
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('country')}
 						leftSideTextColor={isVacancy && theme.black4}
-						onPress={() => plansAvailable.countryMonthly.price && savePostRange('country')}
+						onPress={() => ((plansAvailable && plansAvailable.countryMonthly.price) || hiddenValues) && savePostRange('country')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

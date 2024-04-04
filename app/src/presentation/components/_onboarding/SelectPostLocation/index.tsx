@@ -46,6 +46,8 @@ const defaultDeltaCoordinates = {
 interface SelectPostLocationProps {
 	backgroundColor: string
 	validationColor: string
+	customTitle?: string
+	customTitleHighligh?: string[]
 	initialValue?: LatLong
 	isLoading?: boolean
 	headerDescription?: string
@@ -57,6 +59,8 @@ interface SelectPostLocationProps {
 function SelectPostLocation({
 	backgroundColor,
 	validationColor,
+	customTitle,
+	customTitleHighligh,
 	initialValue,
 	headerDescription,
 	headerDescriptionHighlightedWords,
@@ -184,8 +188,8 @@ function SelectPostLocation({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					message={'qual é o endereço?'}
-					highlightedWords={['endereço']}
+					message={customTitle || 'qual é o endereço?'}
+					highlightedWords={customTitleHighligh || ['endereço']}
 					fontSize={16}
 				>
 					{
