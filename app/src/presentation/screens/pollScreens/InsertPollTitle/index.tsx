@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
 import { PollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollTitleScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -12,7 +13,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 	const { setPollDataOnContext } = useContext(PollRegisterContext)
-	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -25,7 +26,7 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const validatePollTitle = (text: string) => {
 		const isValid = (text).trim().length >= 1
@@ -36,11 +37,11 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 	}
 
 	const savePollTitle = (inputText: string) => {
-		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ description: inputText })
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ title: inputText })
 			navigation.goBack()
 			return
-		} */
+		}
 
 		setPollDataOnContext({ description: inputText })
 		navigation.navigate('InsertPollDescription')
@@ -56,7 +57,7 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 				customTitle={'qual o título da sua enquete?'}
 				customHighlight={['título', 'enquete']}
 				inputPlaceholder={'ex: serviços da prefeitura...'}
-				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[1, 3]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validatePollTitle}

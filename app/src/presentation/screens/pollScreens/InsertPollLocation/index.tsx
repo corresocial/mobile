@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native'
 import { PollEntity } from '@domain/poll/entity/types'
 import { Coordinates } from '@domain/post/entity/types'
 
+import { EditContext } from '@contexts/EditContext'
 import { PollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollLocationScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -19,8 +20,11 @@ import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
-function InsertPollLocation({ navigation }: InsertPollLocationScreenProps) {
+function InsertPollLocation({ route, navigation }: InsertPollLocationScreenProps) {
 	const { pollDataContext, setPollDataOnContext } = useContext(PollRegisterContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveLocation = async (markerCoordinate: Coordinates) => {
 		const coordinates = {
@@ -34,15 +38,30 @@ function InsertPollLocation({ navigation }: InsertPollLocationScreenProps) {
 
 		const pollLocation: PollEntity['location'] = { ...completeAddress, ...geohashObject }
 
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ location: pollLocation })
+			navigation.goBack()
+			return
+		}
+
 		setPollDataOnContext({ location: pollLocation })
-		// navigation.navigate('EditPoll', { pollData: { ...pollDataContext, location: pollLocation }, unsavedPoll: true })
 		navigation.reset({
 			index: 0,
 			routes: [{
-				name: 'EditPoll',
+				name: 'PollReview',
 				params: { pollData: { ...pollDataContext, location: pollLocation }, unsavedPoll: true }
 			}],
 		})
+	}
+
+	const getInitialCoordinateValue = () => {
+		if (route.params && route.params.initialValue) {
+			return {
+				latitude: route.params?.initialValue?.coordinates.latitude,
+				longitude: route.params?.initialValue?.coordinates.longitude
+			}
+		}
+		return { latitude: 0, longitude: 0 }
 	}
 
 	return (
@@ -52,6 +71,7 @@ function InsertPollLocation({ navigation }: InsertPollLocationScreenProps) {
 				customTitle={'onde você quer publicar essa enquete?'}
 				customTitleHighligh={['onde', 'enquete']}
 				backgroundColor={theme.purple2}
+				initialValue={getInitialCoordinateValue()}
 				validationColor={theme.purple1}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

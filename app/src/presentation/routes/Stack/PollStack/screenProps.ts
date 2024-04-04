@@ -9,4 +9,4 @@ export type SelectPollQuestionTypeScreenProps = NativeStackScreenProps<PollStack
 export type SelectPollRangeScreenProps = NativeStackScreenProps<PollStackParamList, 'SelectPollRange'>
 export type InsertPollLocationScreenProps = NativeStackScreenProps<PollStackParamList, 'InsertPollLocation'>
 
-export type EditPollScreenProps = NativeStackScreenProps<PollStackParamList, 'EditPoll'>
+export type PollReviewScreenProps = NativeStackScreenProps<PollStackParamList, 'PollReview'>
