@@ -46,11 +46,12 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
-	const { pollData, unsavedPoll } = route.params
-
 	useEffect(() => {
 		setHasUnsavedData(checkHasAnyFieldUpdate())
 	}, [editDataContext.unsaved])
+
+	const { pollData, unsavedPoll } = route.params
+	const newPollDataState = { ...pollData, ...editDataContext.unsaved }
 
 	const checkHasAnyFieldUpdate = () => {
 		return objectValuesAreEquals(pollData, editDataContext.unsaved)
@@ -173,7 +174,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 							<PostCardContainer backgroundColor={backgroundColor}>
 								<PollCard
 									owner={pollOwner}
-									pollData={pollData}
+									pollData={newPollDataState}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>

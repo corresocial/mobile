@@ -2,6 +2,8 @@ import { Image, ImageProps } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 export const Container = styled.View`
 	width: 100%;
 	align-items: center;
@@ -38,12 +40,20 @@ export const UserInfo = styled.View`
 	width: 85%;
 `
 
-export const TouchableArea = styled.TouchableOpacity`
-
+export const HorizontalUserInfo = styled.View`
+	flex-direction: row;
+	align-items: center;
 `
 
-export const UserName = styled.Text`
-	font-size: ${RFValue(12)}px;
+export const UsernameTimeContainer = styled.View`
+`
+
+interface UserNameProps {
+	userNameFontSize: number
+}
+
+export const UserName = styled.Text<UserNameProps>`
+	font-size: ${({ userNameFontSize }) => relativeScreenDensity(userNameFontSize)}px;
 	font-family: Arvo_700Bold;
 `
 

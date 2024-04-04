@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTheme } from 'styled-components'
 
 import { PollEntity } from '@domain/poll/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
@@ -6,8 +7,10 @@ import { UserOwner } from '@domain/user/entity/types'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, ContainerInner, Content, Title, TitleContainer } from './styles'
+import DocumentPencilWhiteIcon from '@assets/icons/documentPencil-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
+import { SmallButton } from '@components/_buttons/SmallButton'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { SmallUserIdentification } from '../../SmallUserIdentification'
@@ -23,6 +26,8 @@ interface PollCardProps {
 
 function PollCard({ pollData, owner, navigateToProfile, onPress }: PollCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+
+	const theme = useTheme()
 
 	const renderShortName = () => {
 		try {
@@ -73,8 +78,8 @@ function PollCard({ pollData, owner, navigateToProfile, onPress }: PollCardProps
 			>
 				<Content>
 					<TitleContainer>
-						<Title numberOfLines={pollData.description ? 3 : 2}>
-							{pollData.description}
+						<Title numberOfLines={2}>
+							{pollData.title}
 						</Title>
 					</TitleContainer>
 					<VerticalSpacing />
@@ -82,7 +87,16 @@ function PollCard({ pollData, owner, navigateToProfile, onPress }: PollCardProps
 						userName={renderShortName()}
 						postDate={renderFormatedPostDateTime()}
 						profilePictureUrl={getProfilePictureUrl()}
+						showLeaderSeal
 						navigateToProfile={() => navigateToProfile && navigateToProfile(owner.userId)}
+					/>
+					<VerticalSpacing />
+					<SmallButton
+						color={theme.green3}
+						label={'responder enquete'}
+						height={relativeScreenWidth(12)}
+						SvgIcon={DocumentPencilWhiteIcon}
+						onPress={onPress}
 					/>
 				</Content>
 			</ContainerInner>

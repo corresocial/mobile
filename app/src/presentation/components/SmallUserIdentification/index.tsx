@@ -10,9 +10,15 @@ import {
 	UserName,
 	UserPictureArea,
 	PostDateTime,
-	UserPictureAreaInner
+	UserPictureAreaInner,
+	HorizontalUserInfo,
+	UsernameTimeContainer
 } from './styles'
+import LeaderSealWhiteIcon from '@assets/icons/leaderLabel.svg'
 import UserShadow from '@assets/imgs/userShadow.jpg'
+import { relativeScreenDensity } from '@common/screenDimensions'
+
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface SmallUserIdentificationProps {
 	width?: string | number
@@ -20,6 +26,7 @@ interface SmallUserIdentificationProps {
 	userName: string | undefined
 	postDate?: string
 	profilePictureUrl?: string | null
+	showLeaderSeal?: boolean
 	pictureDimensions?: number
 	userNameFontSize?: number
 	postDateFontSize?: number
@@ -32,6 +39,7 @@ function SmallUserIdentification({
 	userName = 'usuário do corre.',
 	postDate,
 	profilePictureUrl,
+	showLeaderSeal,
 	pictureDimensions = 35,
 	userNameFontSize = 12,
 	postDateFontSize = 12,
@@ -53,7 +61,7 @@ function SmallUserIdentification({
 	}
 
 	return (
-		<Container style={{ width, height }}>
+		<Container style={{ width: width as number, height: height as number }}>
 			<UserPictureArea
 				style={{
 					width: RFValue(pictureDimensions),
@@ -78,19 +86,28 @@ function SmallUserIdentification({
 				</UserPictureAreaInner>
 			</UserPictureArea>
 			<UserInfo>
-				<UserName
-					style={{ fontSize: RFValue(userNameFontSize) }}
-					numberOfLines={2}
-				>
-					{userName}
-				</UserName>
-				{
-					postDate && (
-						<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
-							{postDate}
-						</PostDateTime >
-					)
-				}
+				<HorizontalUserInfo>
+					{
+						showLeaderSeal && (
+							<>
+								<LeaderSealWhiteIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+								<HorizontalSpacing />
+							</>
+						)
+					}
+					<UsernameTimeContainer>
+						<UserName userNameFontSize={userNameFontSize} numberOfLines={2}>
+							{userName}
+						</UserName>
+						{
+							postDate && (
+								<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
+									{postDate}
+								</PostDateTime >
+							)
+						}
+					</UsernameTimeContainer>
+				</HorizontalUserInfo>
 			</UserInfo>
 		</Container>
 	)

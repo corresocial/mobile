@@ -5,7 +5,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 
 export const Container = styled.TouchableOpacity`
 	width: 98%;
-	height: ${relativeScreenHeight(16)}px;
+	height: ${relativeScreenHeight(24)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(23)}px;
     position: relative;
@@ -23,13 +23,12 @@ export const ContainerInner = styled.View`
 	overflow: hidden;
 	left: ${-relativeScreenWidth(2)}px;
 
-	padding: ${RFValue(10)}px ${RFValue(10)}px;
+	padding: ${RFValue(15)}px ${RFValue(15)}px;
 `
 
 export const Content = styled.View`
 	flex: 1;
-	justify-content: center; // space-around?
-	overflow: hidden;
+	justify-content: space-around;
 `
 
 export const TitleContainer = styled.View`
