@@ -1,3 +1,5 @@
+import { PollEntity } from '@domain/poll/entity/types'
+
 import { UserStackParamList } from '../UserStack/types'
 
 export type PollStackParamList = {
@@ -7,4 +9,5 @@ export type PollStackParamList = {
 	SelectPollQuestionType: undefined
 	SelectPollRange: undefined
 	InsertPollLocation: undefined
+	EditPoll: { pollData: PollEntity, unsavedPoll: boolean }
 } & UserStackParamList

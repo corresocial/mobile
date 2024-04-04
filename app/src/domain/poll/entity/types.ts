@@ -5,16 +5,11 @@ export type PollEntity = {
 	description: string
 	createdAt: Date
 	range: PollRange
-	location: {
-		coordinates: Coordinates
-		geohashNearby: string[]
-	}
+	location: PollLocation
 	questions: PollQuestion[]
 	idUsersResponded?: string[]
 	userResponses?: PrivatePollResponse
 }
-
-type PollRange = 'near' | 'city' | 'country'
 
 export type PollQuestionOptional = Partial<PollQuestion>
 export type PollQuestion = {
@@ -24,6 +19,20 @@ export type PollQuestion = {
 }
 
 export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction'
+
+type PollRange = 'near' | 'city' | 'country'
+type PollLocation = {
+	country: string
+	state: string
+	city: string
+	district: string
+	street: string
+	postalCode: string
+	number: string
+	coordinates: Coordinates
+	geohashNearby: string[]
+}
+
 type PrivatePollResponse = {
 	userId: string
 	coordinates: Coordinates
