@@ -7,6 +7,7 @@ export type PollEntity = {
 	range: PollRange
 	location: PollLocation
 	questions: PollQuestion[]
+	ownerId: string
 	idUsersResponded?: string[]
 	userResponses?: PrivatePollResponse
 }

@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { useUtils } from '@newutils/useUtils'
-
 import { PollEntity } from '@domain/poll/entity/types'
+import { usePollDomain } from '@domain/poll/usePollDomain'
 import { UserOwner } from '@domain/user/entity/types'
+
+import { usePollRepository } from '@data/poll/usePollRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -30,14 +31,13 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { Loader } from '@components/Loader'
 
-const { objectValuesAreEquals } = useUtils()
+const { createNewPoll } = usePollDomain()
 
 function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR Mudar nome para postReview
-	const { editDataContext } = useContext(EditContext)
+	const { editDataContext, setEditDataOnContext } = useContext(EditContext)
 	const { userDataContext } = useContext(AuthContext)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
-	const [hasUnsavedData, setHasUnsavedData] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
 	const pollOwner: UserOwner = {
@@ -46,16 +46,8 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
-	useEffect(() => {
-		setHasUnsavedData(checkHasAnyFieldUpdate())
-	}, [editDataContext.unsaved])
-
 	const { pollData, unsavedPoll } = route.params
 	const newPollDataState = { ...pollData, ...editDataContext.unsaved }
-
-	const checkHasAnyFieldUpdate = () => {
-		return objectValuesAreEquals(pollData, editDataContext.unsaved)
-	}
 
 	const getPollField = (fieldName: keyof PollEntity, allowNull?: boolean) => {
 		const currentPostData: PollEntity = { ...pollData }
@@ -64,32 +56,32 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 		return editDataContext.unsaved[fieldName] || currentPostData[fieldName]
 	}
 
-	const editPoll = async () => {
-		try {
-			console.log('editar post')
-		} catch (error) {
-			console.log(error)
-		}
-	}
-
 	const savePoll = async () => {
 		try {
-			console.log('salvar post')
+			setIsLoading(true)
+
+			const ownerId = userDataContext.userId
+			await createNewPoll(usePollRepository, { ...newPollDataState, ownerId })
+
+			changeStateOfEditedFields()
+
+			navigateToSelectPostTypeScreen()
+			setIsLoading(false)
 		} catch (error) {
 			console.log(error)
+			setIsLoading(false)
 		}
 	}
 
-	/* const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
-		let newEditState
-		if (uploadedPictures) {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
-		} else {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
-		}
+	const navigateToSelectPostTypeScreen = () => {
+		navigation.goBack()
+		navigation.goBack()
+	}
 
-		editContext.setEditDataOnContext(newEditState)
-	} */
+	const changeStateOfEditedFields = () => {
+		const newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+		setEditDataOnContext(newEditState)
+	}
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !unsavedPoll) {
@@ -156,7 +148,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 										svgIconScale={['50%', '30%']}
 										minHeight={relativeScreenHeight(4)}
 										relativeHeight={relativeScreenHeight(6)}
-										onPress={unsavedPoll ? savePoll : editPoll}
+										onPress={savePoll}
 									/>
 								</SaveButtonContainer>
 							)

@@ -372,10 +372,6 @@ function EditPost({
 		editContext.setEditDataOnContext(newEditState)
 	}
 
-	/* 	const allPicturesAlreadyUploaded = () => {
-		return editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')).length === editDataContext.unsaved.picturesUrl.length
-	} */
-
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
@@ -384,19 +380,6 @@ function EditPost({
 	const updateUserContext = (updatedUserPosts?: PostEntity[]) => {
 		userContext.setUserDataOnContext({ posts: updatedUserPosts })
 	}
-
-	/* const updateUserContext = (postAfterEdit: PostEntity | false, updatedLocationPosts?: PostEntity[] | []) => {
-		const allPosts = updatedLocationPosts && updatedLocationPosts.length ? [...updatedLocationPosts] : [...getUserPostsWithoutEdited()]
-
-		userContext.setUserDataOnContext({
-			posts: postAfterEdit
-				? [
-					...allPosts,
-					postAfterEdit
-				]
-				: [...allPosts]
-		} as UserEntity)
-	} */
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
