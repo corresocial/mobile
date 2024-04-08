@@ -113,6 +113,17 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
+	const viewPoll = () => {
+		const pollData = {
+
+		}
+
+		navigation.navigate('PollStack' as any, {
+			screen: 'ViewPoll',
+			params: { pollData }
+		})
+	}
+
 	const getProfileDataFromRemote = async (userId: string) => {
 		const userData = await remoteStorage.getUserData(userId)
 		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
@@ -525,6 +536,16 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 													/>
 												</PopOver>
 											</OptionsArea>
+											<SmallButton
+												color={theme.orange3}
+												label={'compartilhar'}
+												labelColor={theme.black4}
+												fontSize={12}
+												SvgIcon={ShareIcon}
+												relativeWidth={isLoggedUser ? '50%' : '45%'}
+												height={relativeScreenWidth(12)}
+												onPress={viewPoll}
+											/>
 										</ProfileHeader>
 									</DefaultHeaderContainer>
 									{

@@ -13,6 +13,7 @@ import { InsertPollTitle } from '@screens/pollScreens/InsertPollTitle'
 import { PollReview } from '@screens/pollScreens/PollReview'
 import { SelectPollQuestionType } from '@screens/pollScreens/SelectPollQuestionType'
 import { SelectPollRange } from '@screens/pollScreens/SelectPollRange'
+import { ViewPoll } from '@screens/pollScreens/ViewPoll'
 
 const Stack = createStackNavigator<PollStackParamList>()
 
@@ -34,6 +35,7 @@ export function PollStack() {
 				<Stack.Screen name={'SelectPollRange'} component={SelectPollRange} />
 				<Stack.Screen name={'InsertPollLocation'} component={InsertPollLocation} />
 				<Stack.Screen name={'PollReview'} component={PollReview} />
+				<Stack.Screen name={'ViewPoll'} component={ViewPoll} />
 			</Stack.Navigator>
 		</PollRegisterProvider>
 	)

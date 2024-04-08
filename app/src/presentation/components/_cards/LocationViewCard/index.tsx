@@ -72,6 +72,7 @@ function LocationViewCard({
 		}
 
 		if (locationView === 'approximate') return
+		if (!location.city) return
 
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>

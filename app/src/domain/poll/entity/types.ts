@@ -1,3 +1,5 @@
+import { UserOwner } from '@domain/user/entity/types'
+
 export type PollEntityOptional = Partial<PollEntity>
 export type PollEntity = {
 	pollId: string
@@ -7,7 +9,7 @@ export type PollEntity = {
 	range: PollRange
 	location: PollLocation
 	questions: PollQuestion[]
-	ownerId: string
+	owner: UserOwner
 	idUsersResponded?: string[]
 	userResponses?: PrivatePollResponse
 }

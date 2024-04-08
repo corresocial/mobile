@@ -10,3 +10,4 @@ export type SelectPollRangeScreenProps = NativeStackScreenProps<PollStackParamLi
 export type InsertPollLocationScreenProps = NativeStackScreenProps<PollStackParamList, 'InsertPollLocation'>
 
 export type PollReviewScreenProps = NativeStackScreenProps<PollStackParamList, 'PollReview'>
+export type ViewPollScreenProps = NativeStackScreenProps<PollStackParamList, 'ViewPoll'>
