@@ -60,11 +60,9 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 		try {
 			setIsLoading(true)
 
-			const ownerId = userDataContext.userId
-			await createNewPoll(usePollRepository, { ...newPollDataState, ownerId })
+			await createNewPoll(usePollRepository, { ...newPollDataState, owner: pollOwner })
 
 			changeStateOfEditedFields()
-
 			navigateToSelectPostTypeScreen()
 			setIsLoading(false)
 		} catch (error) {

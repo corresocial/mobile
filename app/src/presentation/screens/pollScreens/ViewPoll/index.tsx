@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
 import { PollEntity } from '@domain/poll/entity/types'
@@ -113,10 +114,6 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		console.log('marca como completa')
 	}
 
-	const goToEditPost = () => {
-		console.log('editar postagem')
-	}
-
 	const toggleDefaultConfirmationModalVisibility = () => {
 		console.log('deletar enquete')
 	}
@@ -124,7 +121,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	const renderQuestions = () => {
 		return pollData.questions.map((question, index) => {
 			return (
-				<>
+				<React.Fragment key={uuid()}>
 					<VerticalSpacing />
 					<DescriptionCard
 						title={`pergunta ${index + 1}`}
@@ -132,7 +129,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 						text={question.question}
 						CustomHeaderIcon={QuestionWhiteIcon}
 					/>
-				</>
+				</ React.Fragment >
 			)
 		})
 	}
@@ -170,7 +167,6 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 					isCompleted={isCompleted}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}
-					editPost={goToEditPost}
 					deletePost={toggleDefaultConfirmationModalVisibility}
 				>
 					<SmallButton

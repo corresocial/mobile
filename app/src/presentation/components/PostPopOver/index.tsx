@@ -67,18 +67,24 @@ function PostPopOver({
 					{
 						isAuthor ? (
 							<>
-								<PrimaryButton
-									color={theme.green3}
-									label={'editar post'}
-									highlightedWords={['editar']}
-									labelColor={theme.white3}
-									SecondSvgIcon={EditWhiteIcon}
-									fontSize={14}
-									minHeight={20}
-									relativeHeight={relativeScreenHeight(8)}
-									onPress={editPost && editPost}
-								/>
-								<VerticalSpacing />
+								{
+									editPost && (
+										<>
+											<PrimaryButton
+												color={theme.green3}
+												label={'editar post'}
+												highlightedWords={['editar']}
+												labelColor={theme.white3}
+												SecondSvgIcon={EditWhiteIcon}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={editPost}
+											/>
+											<VerticalSpacing />
+										</>
+									)
+								}
 								<PrimaryButton
 									color={theme.yellow3}
 									label={isCompleted ? 'não concluído' : 'marcar concluído'}
