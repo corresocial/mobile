@@ -67,6 +67,7 @@
     "expo-network": "~5.4.0",
     "expo-notifications": "~0.20.1",
     "expo-permissions": "~14.2.1",
+    "expo-print": "~12.4.2",
     "expo-random": "~13.2.0",
     "expo-screen-orientation": "~6.0.6",
     "expo-sharing": "~11.5.0",

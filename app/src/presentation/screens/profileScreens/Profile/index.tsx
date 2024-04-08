@@ -316,16 +316,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		)
 	}
 
-	/* const userIsVerified = () => {
-		return (
-			!isLoggedUser
-			&& userDataContext.verified
-			&& (userDataContext.verified.type === 'leader' || userDataContext.verified.admin)
-			&& user
-			&& !user.verified
-		)
-	} */
-
 	const userIsAdmin = () => {
 		return (
 			userDataContext.verified && userDataContext.verified.admin && (
