@@ -163,7 +163,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				)}
 			>
 				<PostPopOver
-					postTitle={'publicação no corre.'} /* getShortText(getPostField('description'), 45) || */
+					postTitle={pollData.title}
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPostOptionsIsOpen(false)}
 					isAuthor={isAuthor}

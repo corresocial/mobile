@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { JSXElementConstructor, ReactElement } from 'react'
 import { SvgProps } from 'react-native-svg'
 import { useTheme } from 'styled-components'
 
@@ -27,13 +27,13 @@ interface PostHeaderProps {
 	isAuthor: boolean
 	isCompleted: boolean
 	owner: UserOwner
-	highlightedButtonText: string
-	highlightedButtonIcon: React.FC<SvgProps>
+	highlightedButtonText?: string
+	highlightedButtonIcon?: React.FC<SvgProps>
 	children?: React.ReactNode
-	HeaderFooter: any, // TODO TYpe
+	HeaderFooter?: ReactElement<any, string | JSXElementConstructor<any>> | undefined | false,
 	navigateToProfile: () => void
 	sharePost: () => void
-	highlightedButtonAction: () => void
+	highlightedButtonAction?: () => void
 }
 
 function PostHeader({
@@ -48,7 +48,7 @@ function PostHeader({
 	HeaderFooter,
 	navigateToProfile,
 	sharePost,
-	highlightedButtonAction,
+	highlightedButtonAction = () => { },
 }: PostHeaderProps) {
 	const navigation = useNavigation()
 	const theme = useTheme()
@@ -64,7 +64,7 @@ function PostHeader({
 		return formatedDate
 	}
 
-	const hasCustomHighlightedButton = !!highlightedButtonAction
+	const hasCustomHighlightedButton = !!highlightedButtonAction && highlightedButtonText
 
 	return (
 		<Header>
@@ -75,7 +75,7 @@ function PostHeader({
 			<VerticalSpacing />
 			<UserAndValueContainer>
 				<SmallUserIdentification
-					userName={'usuário do corre.'}
+					userName={owner.name || 'usuário do corre.'}
 					postDate={renderFormatedPostDateTime()}
 					userNameFontSize={14}
 					profilePictureUrl={getProfilePictureUrl()}
@@ -104,7 +104,7 @@ function PostHeader({
 								label={'post foi concluído'}
 								labelColor={theme.black4}
 								SvgIcon={DeniedWhiteIcon}
-								relativeWidth={'80%'}
+								relativeWidth={hasCustomHighlightedButton ? '65%' : '80%'}
 								height={relativeScreenWidth(12)}
 								onPress={() => { }}
 							/>
