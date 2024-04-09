@@ -75,7 +75,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
-	const isAuthor = userDataContext.userId === pollData.owner.userId
+	const isAuthor = userDataContext.userId !== pollData.owner.userId // TODO Remover comparação
 	const isCompleted = false
 
 	const navigateToProfile = () => {
@@ -89,6 +89,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	const answerPoll = () => {
 		console.log('responder enquete')
+		navigation.navigate('PollStack' as any, { screen: 'AnswerSatisfactionQuestion' }) // TODO Type
 	}
 
 	const downloadPollResults = () => {
@@ -144,7 +145,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				createdAt={pollData.createdAt}
 				navigateToProfile={navigateToProfile}
 				sharePost={sharePost}
-				highlightedButtonText={'baixar resultados'}
+				highlightedButtonText={isAuthor ? 'baixar resultados' : 'responder'}
 				highlightedButtonIcon={DocumentWhiteIcon}
 				highlightedButtonAction={isAuthor ? downloadPollResults : answerPoll}
 				HeaderFooter={isAuthor && (

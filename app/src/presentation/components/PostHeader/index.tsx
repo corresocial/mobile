@@ -64,7 +64,7 @@ function PostHeader({
 		return formatedDate
 	}
 
-	const hasCustomHighlightedButton = !!highlightedButtonAction && highlightedButtonText
+	const hasCustomHighlightedButton = highlightedButtonText
 
 	return (
 		<Header>
@@ -112,8 +112,8 @@ function PostHeader({
 						: (
 							<SmallButton
 								color={theme.green3}
-								label={isAuthor ? highlightedButtonText || 'compartilhar' : 'conversar'}
-								SvgIcon={isAuthor ? highlightedButtonIcon || ShareWhiteIcon : ChatWhiteIcon}
+								label={highlightedButtonText || (isAuthor ? 'compartilhar' : 'conversar')}
+								SvgIcon={highlightedButtonIcon || (isAuthor ? ShareWhiteIcon : ChatWhiteIcon)}
 								relativeWidth={isAuthor ? hasCustomHighlightedButton ? '65%' : '80%' : '63%'}
 								height={relativeScreenWidth(12)}
 								onPress={highlightedButtonAction || (isAuthor ? sharePost : highlightedButtonAction)} // Substituir highlightedButtonAction por openChat para posts

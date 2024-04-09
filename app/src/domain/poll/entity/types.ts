@@ -42,10 +42,12 @@ type PrivatePollResponse = {
 	responses: [
 		{
 			questionId: string
-			response: string | number | boolean | number // Melhorar nomenclaturas
+			response: string | number | boolean | SatisfactionType // Melhorar nomenclaturas
 		}
 	]
 }
+
+export type SatisfactionType = 1 | 2 | 3 | 4 | 5
 
 export type Coordinates = {
 	latitude: number

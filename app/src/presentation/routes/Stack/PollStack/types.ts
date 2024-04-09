@@ -9,6 +9,9 @@ export type PollStackParamList = {
 	SelectPollQuestionType: undefined
 	SelectPollRange: { editMode: boolean, initialValue: PollEntity['range'] } | undefined
 	InsertPollLocation: { editMode: boolean, initialValue: PollEntity['location'] } | undefined
+
 	PollReview: { pollData: PollEntity, unsavedPoll: boolean }
 	ViewPoll: { pollData: PollEntity }
+
+	AnswerSatisfactionQuestion: undefined
 } & UserStackParamList

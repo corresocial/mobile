@@ -6,6 +6,7 @@ import { PollRegisterProvider } from '@contexts/PollRegisterContext'
 
 import { PollStackParamList } from './types'
 
+import { AnswerSatisfactionQuestion } from '@screens/pollScreens/AnswerSatisfactionQuestion'
 import { InsertPollDescription } from '@screens/pollScreens/InsertPollDescription'
 import { InsertPollLocation } from '@screens/pollScreens/InsertPollLocation'
 import { InsertPollQuestions } from '@screens/pollScreens/InsertPollQuestions'
@@ -34,8 +35,11 @@ export function PollStack() {
 				<Stack.Screen name={'SelectPollQuestionType'} component={SelectPollQuestionType} />
 				<Stack.Screen name={'SelectPollRange'} component={SelectPollRange} />
 				<Stack.Screen name={'InsertPollLocation'} component={InsertPollLocation} />
+
 				<Stack.Screen name={'PollReview'} component={PollReview} />
 				<Stack.Screen name={'ViewPoll'} component={ViewPoll} />
+
+				<Stack.Screen name={'AnswerSatisfactionQuestion'} component={AnswerSatisfactionQuestion} />
 			</Stack.Navigator>
 		</PollRegisterProvider>
 	)
