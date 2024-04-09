@@ -8,6 +8,7 @@ import { PollStackParamList } from './types'
 
 import { AnswerBinaryQuestion } from '@screens/pollScreens/AnswerBinaryQuestion'
 import { AnswerSatisfactionQuestion } from '@screens/pollScreens/AnswerSatisfactionQuestion'
+import { AnswerTextualQuestion } from '@screens/pollScreens/AnswerTextualQuestion'
 import { InsertPollDescription } from '@screens/pollScreens/InsertPollDescription'
 import { InsertPollLocation } from '@screens/pollScreens/InsertPollLocation'
 import { InsertPollQuestions } from '@screens/pollScreens/InsertPollQuestions'
@@ -42,6 +43,7 @@ export function PollStack() {
 
 				<Stack.Screen name={'AnswerSatisfactionQuestion'} component={AnswerSatisfactionQuestion} />
 				<Stack.Screen name={'AnswerBinaryQuestion'} component={AnswerBinaryQuestion} />
+				<Stack.Screen name={'AnswerTextualQuestion'} component={AnswerTextualQuestion} />
 			</Stack.Navigator>
 		</PollRegisterProvider>
 	)

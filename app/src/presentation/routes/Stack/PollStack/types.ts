@@ -15,4 +15,5 @@ export type PollStackParamList = {
 
 	AnswerSatisfactionQuestion: undefined
 	AnswerBinaryQuestion: undefined
+	AnswerTextualQuestion: undefined
 } & UserStackParamList

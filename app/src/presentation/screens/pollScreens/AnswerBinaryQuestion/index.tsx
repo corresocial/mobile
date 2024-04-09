@@ -21,10 +21,11 @@ function AnswerBinaryQuestion({ navigation }: AnswerBinaryQuestionScreenProps) {
 	const theme = useTheme()
 
 	const question = 'Quem veio primeiro, o ovo ou a galinha?'
+	const responseProgress = [1, 3]
 
-	const selectSatisfaction = (value: boolean) => {
+	const selectBinaryOption = (value: boolean) => {
 		console.log(value)
-		// navigation.navigate()
+		navigation.navigate('AnswerTextualQuestion')
 	}
 
 	return (
@@ -42,7 +43,7 @@ function AnswerBinaryQuestion({ navigation }: AnswerBinaryQuestionScreenProps) {
 						message={question}
 						highlightedWords={question ? question.split(' ') : []}
 					>
-						<ProgressBar value={1} range={5} />
+						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
@@ -53,14 +54,14 @@ function AnswerBinaryQuestion({ navigation }: AnswerBinaryQuestionScreenProps) {
 						label={'sim'}
 						labelColor={theme.white3}
 						SecondSvgIcon={CheckWhiteIcon}
-						onPress={() => selectSatisfaction(true)}
+						onPress={() => selectBinaryOption(true)}
 					/>
 					<PrimaryButton
 						color={theme.red3}
 						label={'não'}
 						labelColor={theme.white3}
 						SvgIcon={XWhiteIcon}
-						onPress={() => selectSatisfaction(false)}
+						onPress={() => selectBinaryOption(false)}
 					/>
 				</ButtonOptionsContainer>
 			</FormContainer>

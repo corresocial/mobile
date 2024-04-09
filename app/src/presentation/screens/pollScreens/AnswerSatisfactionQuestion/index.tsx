@@ -26,8 +26,9 @@ function AnswerSatisfactionQuestion({ navigation }: AnswerSatisfactionQuestionSc
 	const theme = useTheme()
 
 	const question = 'Quem veio primeiro, o ovo ou a galinha?'
+	const responseProgress = [1, 3]
 
-	const selectSatisfaction = (value: SatisfactionType) => {
+	const selectSatisfactionOption = (value: SatisfactionType) => {
 		console.log(value)
 		navigation.navigate('AnswerBinaryQuestion')
 	}
@@ -47,7 +48,7 @@ function AnswerSatisfactionQuestion({ navigation }: AnswerSatisfactionQuestionSc
 						message={question}
 						highlightedWords={question ? question.split(' ') : []}
 					>
-						<ProgressBar value={1} range={5} />
+						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
@@ -58,35 +59,35 @@ function AnswerSatisfactionQuestion({ navigation }: AnswerSatisfactionQuestionSc
 						relativeWidth={relativeScreenWidth(14)}
 						color={theme.red3}
 						SvgIcon={SatisfactionEmoji1WhiteIcon}
-						onPress={() => selectSatisfaction(1)}
+						onPress={() => selectSatisfactionOption(1)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
 						color={theme.red2}
 						SvgIcon={SatisfactionEmoji2WhiteIcon}
-						onPress={() => selectSatisfaction(2)}
+						onPress={() => selectSatisfactionOption(2)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
 						color={theme.yellow3}
 						SvgIcon={SatisfactionEmoji3WhiteIcon}
-						onPress={() => selectSatisfaction(3)}
+						onPress={() => selectSatisfactionOption(3)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
 						color={theme.green2}
 						SvgIcon={SatisfactionEmoji4WhiteIcon}
-						onPress={() => selectSatisfaction(4)}
+						onPress={() => selectSatisfactionOption(4)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
 						color={theme.green3}
 						SvgIcon={SatisfactionEmoji5WhiteIcon}
-						onPress={() => selectSatisfaction(5)}
+						onPress={() => selectSatisfactionOption(5)}
 					/>
 				</ButtonOptionsContainer>
 			</FormContainer>
