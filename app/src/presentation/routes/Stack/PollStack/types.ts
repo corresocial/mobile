@@ -14,4 +14,5 @@ export type PollStackParamList = {
 	ViewPoll: { pollData: PollEntity }
 
 	AnswerSatisfactionQuestion: undefined
+	AnswerBinaryQuestion: undefined
 } & UserStackParamList

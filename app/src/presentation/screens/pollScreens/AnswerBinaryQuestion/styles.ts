@@ -17,8 +17,8 @@ export const InstructionButtonContainer = styled.View<InstructionButtonContainer
 `
 
 export const ButtonOptionsContainer = styled.View`
+	gap: 30%;
 	width: 100%;
-	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 `

@@ -13,3 +13,4 @@ export type PollReviewScreenProps = NativeStackScreenProps<PollStackParamList, '
 export type ViewPollScreenProps = NativeStackScreenProps<PollStackParamList, 'ViewPoll'>
 
 export type AnswerSatisfactionQuestionScreenProps = NativeStackScreenProps<PollStackParamList, 'AnswerSatisfactionQuestion'>
+export type AnswerBinaryQuestionScreenProps = NativeStackScreenProps<PollStackParamList, 'AnswerBinaryQuestion'>

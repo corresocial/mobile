@@ -5,7 +5,7 @@ import { SatisfactionType } from '@domain/poll/entity/types'
 
 import { AnswerSatisfactionQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
-import { Body, ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
+import { ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
 import SatisfactionEmoji1WhiteIcon from '@assets/icons/satisfactionEmoji-1-white.svg'
 import SatisfactionEmoji2WhiteIcon from '@assets/icons/satisfactionEmoji-2-white.svg'
 import SatisfactionEmoji3WhiteIcon from '@assets/icons/satisfactionEmoji-3-white.svg'
@@ -17,9 +17,10 @@ import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
-function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQuestionScreenProps) {
+function AnswerSatisfactionQuestion({ navigation }: AnswerSatisfactionQuestionScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	const theme = useTheme()
@@ -28,6 +29,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 
 	const selectSatisfaction = (value: SatisfactionType) => {
 		console.log(value)
+		navigation.navigate('AnswerBinaryQuestion')
 	}
 
 	return (
@@ -49,7 +51,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
-			<Body>
+			<FormContainer>
 				<ButtonOptionsContainer>
 					<SmallButton
 						height={relativeScreenWidth(14)}
@@ -87,7 +89,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 						onPress={() => selectSatisfaction(5)}
 					/>
 				</ButtonOptionsContainer>
-			</Body>
+			</FormContainer>
 		</Container>
 	)
 }
