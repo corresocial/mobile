@@ -18,11 +18,11 @@ import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 function SelectPollQuestionType({ navigation }: SelectPollQuestionTypeScreenProps) {
 	const theme = useTheme()
 
-	const { setCurrentQuestionOnPollDataContext } = useContext(PollRegisterContext)
+	const { setRegisteredQuestionOnPollDataContext } = useContext(PollRegisterContext)
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
 		console.log(questionType)
-		setCurrentQuestionOnPollDataContext(questionType)
+		setRegisteredQuestionOnPollDataContext(questionType)
 		navigation.push('InsertPollQuestions')
 	}
 

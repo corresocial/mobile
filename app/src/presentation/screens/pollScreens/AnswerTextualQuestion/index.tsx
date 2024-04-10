@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { Platform } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { PollQuestionType } from '@domain/poll/entity/types'
+import { PollQuestion } from '@domain/poll/entity/types'
+
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { AnswerTextualQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -19,27 +21,41 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { ProgressBar } from '@components/ProgressBar'
 
-function AnswerTextualQuestion({ navigation }: AnswerTextualQuestionScreenProps) {
-	const navigateBackwards = () => navigation.goBack()
+function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScreenProps) {
+	const { getNextQuestion, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const [inputText, setInputText] = useState('')
 
-	const question = 'Quem veio primeiro, o ovo ou a galinha?'
-	const questionType: PollQuestionType = 'textual'
+	const { questionData } = route.params
 	const responseProgress = [1, 3]
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const changeInputField = (text: string) => {
-		if (questionType === 'textual') return setInputText(text)
+		if (questionData.questionType === 'textual') return setInputText(text)
 
 		const filteredText = filterLeavingOnlyNumbers(text)
 		setInputText(filteredText)
 	}
 
 	const selectInputedText = () => {
-		console.log(inputText)
-		navigation.navigate('FinishedPollResponse')
+		console.log(`reponse: ${inputText}`)
+		saveResponseData(questionData, inputText)
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
+	const navigateToNextReponseScreen = (nextQuestion: PollQuestion | null) => {
+		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
+
+		switch (nextQuestion?.questionType) {
+			case 'binary': return navigation.push('AnswerBinaryQuestion', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
+			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+		}
 	}
 
 	return (
@@ -54,8 +70,8 @@ function AnswerTextualQuestion({ navigation }: AnswerTextualQuestionScreenProps)
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={16}
-						message={question}
-						highlightedWords={question ? question.split(' ') : []}
+						message={questionData.question}
+						highlightedWords={questionData ? questionData.question.split(' ') : []}
 					>
 						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>
@@ -69,9 +85,9 @@ function AnswerTextualQuestion({ navigation }: AnswerTextualQuestionScreenProps)
 						validBackgroundColor={theme.purple3}
 						lastInput
 						fontSize={16}
-						multiline={questionType === 'textual'}
+						multiline={questionData.questionType === 'textual'}
 						placeholder={'descreva seu post...'}
-						keyboardType={questionType === 'textual' ? 'default' : 'numeric'}
+						keyboardType={questionData.questionType === 'textual' ? 'default' : 'numeric'}
 						onChangeText={changeInputField}
 					/>
 					<PrimaryButton

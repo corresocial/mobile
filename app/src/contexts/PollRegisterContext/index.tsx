@@ -1,12 +1,12 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useContext, useMemo, useState } from 'react'
 import uuid from 'react-uuid'
 
-import { PollEntity, PollEntityOptional, PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
+import { PollEntity, PollEntityOptional, PollQuestion, PollQuestionOptional, PollResponse } from '@domain/poll/entity/types'
 
 import { PollRegisterContextType, PollRegisterProviderProps } from './types'
 
 const initialValue: PollRegisterContextType = {
-	pollDataContext: {
+	pollRegisterDataContext: {
 		range: 'near',
 		pollId: '',
 		title: '',
@@ -19,59 +19,127 @@ const initialValue: PollRegisterContextType = {
 				longitude: 0
 			},
 			geohashNearby: []
+		} as any,
+		owner: {
+			name: '',
+			userId: ''
 		}
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
-	setCurrentPollQuestionDataOnContext: (data: PollQuestionOptional) => { },
-	setCurrentQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => { },
-	removeQuestionFromRegisterContext: (questionId: string) => { }
+	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => { },
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => { },
+	removeQuestionFromRegisterContext: (questionId: string) => { },
+
+	saveUnrespondedQuestions: (questions: PollQuestion[] | null) => { },
+	getNextQuestion: (lastQuestion: PollQuestion) => ({} as PollQuestion),
+	pollResponseData: [{
+		questionId: '',
+		response: '' as string | number | boolean,
+		questionType: 'textual' as PollQuestion['questionType']
+	}],
+	saveResponseData: (question: PollQuestion, response: string | number | boolean) => { }
 }
 
 const PollRegisterContext = createContext<PollRegisterContextType>(initialValue)
 
 function PollRegisterProvider({ children }: PollRegisterProviderProps) {
-	const [pollDataContext, setPollDataContext] = useState(initialValue.pollDataContext)
-	const [currentPollQuestionDataContext, setCurrentPollQuestionDataContext] = useState<PollQuestion>({} as PollQuestion)
+	const [pollRegisterDataContext, setPollRegisterDataContext] = useState(initialValue.pollRegisterDataContext)
+	const [pollQuestionRegisterDataContext, setPollQuestionRegisterDataContext] = useState<PollQuestion>({} as PollQuestion)
+
+	const [questionsToRespond, setQuestionsToRespond] = useState<PollQuestion[]>([])
+	const [pollResponseData, setPollResponseData] = useState<PollResponse[]>([])
 
 	const setPollDataOnContext = async (data: PollEntityOptional) => {
-		console.log({ ...pollDataContext, ...data })
-		setPollDataContext({ ...pollDataContext, ...data })
+		console.log({ ...pollRegisterDataContext, ...data })
+		setPollRegisterDataContext({ ...pollRegisterDataContext, ...data })
 	}
 
-	const setCurrentPollQuestionDataOnContext = async (data: PollQuestionOptional) => {
-		console.log({ ...currentPollQuestionDataContext, ...data })
-		setCurrentPollQuestionDataContext({ ...currentPollQuestionDataContext, ...data })
+	const setPollQuestionRegisterDataOnContext = async (data: PollQuestionOptional) => {
+		console.log({ ...pollQuestionRegisterDataContext, ...data })
+		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
-	const setCurrentQuestionOnPollDataContext = (questionType: PollQuestion['questionType']) => {
+	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType']) => {
 		const newQuestion: PollQuestion = {
 			questionId: uuid(),
-			question: currentPollQuestionDataContext.question,
+			question: pollQuestionRegisterDataContext.question,
 			questionType
 		}
-		console.log(pollDataContext)
-		console.log(currentPollQuestionDataContext)
 
-		setPollDataOnContext({ questions: [...pollDataContext.questions, newQuestion] })
-		clearCurrentPollQuestionData()
+		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
+		clearPollRegisterQuestionData()
 	}
 
-	const clearCurrentPollQuestionData = () => {
-		setCurrentPollQuestionDataContext({} as PollQuestion)
+	const clearPollRegisterQuestionData = () => {
+		setPollQuestionRegisterDataContext({} as PollQuestion)
 	}
 
 	const removeQuestionFromRegisterContext = (questionId: string) => {
-		const pollDataContextQuestions = pollDataContext.questions.filter((question) => question.questionId !== questionId)
-		setPollDataContext({ ...pollDataContext, questions: pollDataContextQuestions })
+		const pollRegisterDataContextQuestions = pollRegisterDataContext.questions.filter((question) => question.questionId !== questionId)
+		setPollRegisterDataContext({ ...pollRegisterDataContext, questions: pollRegisterDataContextQuestions })
+	}
+
+	const saveUnrespondedQuestions = (questions: PollQuestion[]) => {
+		console.log(questions)
+		setQuestionsToRespond(questions)
+		setPollResponseData([])
+	}
+
+	// Está recebendo como parâmetro porque chamar os 2 métodos não estava dando tempo de atualizar o state
+	const getNextQuestion = (lastQuestion: PollQuestion) => {
+		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : []
+
+		const respondedQuestions = [...pollResponseData.map((poll) => poll.questionId), ...lastQuestionId]
+		console.log('------------------- Questões RESPONDIDAS -------------------')
+		console.log(respondedQuestions)
+		console.log('-------------------')
+
+		const unrespondedQuestions = questionsToRespond.filter((question) => !respondedQuestions.includes(question.questionId))
+
+		console.log('------------------- Questões não respondidadas -------------------')
+		console.log(unrespondedQuestions)
+		console.log('-------------------')
+		console.log('Próxima questão')
+		console.log(unrespondedQuestions[0])
+		console.log('-------------------')
+
+		if (unrespondedQuestions.length === 0) return null
+		return unrespondedQuestions[0]
+	}
+
+	const saveResponseData = (question: PollQuestion, response: string | number | boolean) => {
+		const pollData: PollResponse = {
+			questionId: question.questionId,
+			response,
+			questionType: question.questionType
+		}
+
+		if (pollResponseData.find((poll) => poll.questionId === question.questionId)) {
+			return setPollResponseData(pollResponseData.map((poll) => (poll.questionId === question.questionId ? pollData : poll)))
+		}
+
+		setPollResponseData([...pollResponseData, pollData])
 	}
 
 	const pollProviderData = useMemo(() => ({
-		pollDataContext,
+		pollRegisterDataContext,
+
 		setPollDataOnContext,
-		setCurrentPollQuestionDataOnContext,
-		setCurrentQuestionOnPollDataContext,
-		removeQuestionFromRegisterContext
-	}), [pollDataContext, currentPollQuestionDataContext])
+		setPollQuestionRegisterDataOnContext,
+		setRegisteredQuestionOnPollDataContext,
+
+		saveUnrespondedQuestions,
+		getNextQuestion,
+		pollResponseData,
+		saveResponseData,
+
+		removeQuestionFromRegisterContext,
+	}), [
+		pollRegisterDataContext,
+		pollQuestionRegisterDataContext,
+		questionsToRespond,
+		pollResponseData
+	])
 
 	return (
 		<PollRegisterContext.Provider value={pollProviderData}>
@@ -79,5 +147,8 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		</PollRegisterContext.Provider>
 	)
 }
+
+const usePollRegisterContext = () => useContext(PollRegisterContext)
+export { usePollRegisterContext }
 
 export { PollRegisterProvider, PollRegisterContext }

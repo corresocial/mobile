@@ -21,7 +21,7 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertPollLocation({ route, navigation }: InsertPollLocationScreenProps) {
-	const { pollDataContext, setPollDataOnContext } = useContext(PollRegisterContext)
+	const { pollRegisterDataContext, setPollDataOnContext } = useContext(PollRegisterContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -49,7 +49,7 @@ function InsertPollLocation({ route, navigation }: InsertPollLocationScreenProps
 			index: 0,
 			routes: [{
 				name: 'PollReview',
-				params: { pollData: { ...pollDataContext, location: pollLocation }, unsavedPoll: true }
+				params: { pollData: { ...pollRegisterDataContext, location: pollLocation }, unsavedPoll: true }
 			}],
 		})
 	}

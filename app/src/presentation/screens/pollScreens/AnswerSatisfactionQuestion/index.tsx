@@ -1,7 +1,9 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
-import { SatisfactionType } from '@domain/poll/entity/types'
+import { PollQuestion, SatisfactionType } from '@domain/poll/entity/types'
+
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { AnswerSatisfactionQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -20,17 +22,32 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
-function AnswerSatisfactionQuestion({ navigation }: AnswerSatisfactionQuestionScreenProps) {
-	const navigateBackwards = () => navigation.goBack()
+function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQuestionScreenProps) {
+	const { getNextQuestion, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
-	const question = 'Quem veio primeiro, o ovo ou a galinha?'
+	const { questionData } = route.params
 	const responseProgress = [1, 3]
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const selectSatisfactionOption = (value: SatisfactionType) => {
-		console.log(value)
-		navigation.navigate('AnswerBinaryQuestion')
+		console.log(`reponse: ${value}`)
+		saveResponseData(questionData, value)
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
+	const navigateToNextReponseScreen = (nextQuestion: PollQuestion | null) => {
+		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
+
+		switch (nextQuestion?.questionType) {
+			case 'binary': return navigation.push('AnswerBinaryQuestion', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
+			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+		}
 	}
 
 	return (
@@ -45,8 +62,8 @@ function AnswerSatisfactionQuestion({ navigation }: AnswerSatisfactionQuestionSc
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={16}
-						message={question}
-						highlightedWords={question ? question.split(' ') : []}
+						message={questionData.question || ''}
+						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
 					>
 						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>

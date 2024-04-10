@@ -39,12 +39,13 @@ type PollLocation = {
 type PrivatePollResponse = {
 	userId: string
 	coordinates: Coordinates
-	responses: [
-		{
-			questionId: string
-			response: string | number | boolean | SatisfactionType // Melhorar nomenclaturas
-		}
-	]
+	responses: PollResponse[]
+}
+
+export type PollResponse = {
+	questionId: string
+	questionType: PollQuestionType
+	response: string | number | boolean | SatisfactionType // Melhorar nomenclaturas
 }
 
 export type SatisfactionType = 1 | 2 | 3 | 4 | 5

@@ -2,11 +2,13 @@ import React, { useContext, useState } from 'react'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
-import { PollEntity } from '@domain/poll/entity/types'
+import { PollEntity, PollQuestion } from '@domain/poll/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { ViewPollScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { PollStackParamList } from '@routes/Stack/PollStack/types'
 
 import { Body } from './styles'
 import DocumentWhiteIcon from '@assets/icons/document-white.svg'
@@ -25,6 +27,7 @@ import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
 function ViewPoll({ route, navigation }: ViewPollScreenProps) {
+	const { saveUnrespondedQuestions } = usePollRegisterContext()
 	const { userDataContext } = useContext(AuthContext)
 
 	const theme = useTheme()
@@ -36,18 +39,23 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		questions: [
 			{
 				questionId: '1',
-				question: 'pergunta  asd asd asd sad sad asd asd asd asdas sa das asd asd asd asd 1?',
+				question: 'pergunta 1?',
 				questionType: 'binary',
 			},
 			{
 				questionId: '2',
 				question: 'pergunta 2?',
-				questionType: 'binary',
+				questionType: 'satisfaction',
 			},
 			{
 				questionId: '3',
 				question: 'pergunta 3?',
-				questionType: 'binary',
+				questionType: 'textual',
+			},
+			{
+				questionId: '4',
+				question: 'pergunta 4?',
+				questionType: 'numerical',
 			},
 		],
 		location: {
@@ -87,9 +95,31 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${pollData.pollId}`)
 	}
 
-	const answerPoll = () => {
-		console.log('responder enquete')
-		navigation.navigate('PollStack' as any, { screen: 'AnswerSatisfactionQuestion' }) // TODO Type
+	const respondPoll = () => {
+		console.log('------------------ responder enquete ------------------------')
+		saveUnrespondedQuestions(pollData.questions)
+		navigateToNextReponseScreen(pollData.questions[0])
+	}
+
+	const navigateToNextReponseScreen = (nextQuestion: PollQuestion) => {
+		switch (nextQuestion.questionType) {
+			case 'binary': return navigation.navigate('PollStack' as any, { // TODO Type
+				screen: 'AnswerBinaryQuestion' as keyof PollStackParamList,
+				params: { questionData: nextQuestion }
+			})
+			case 'satisfaction': return navigation.navigate('PollStack' as any, {
+				screen: 'AnswerSatisfactionQuestion' as keyof PollStackParamList,
+				params: { questionData: nextQuestion }
+			})
+			case 'textual': return navigation.navigate('PollStack' as any, {
+				screen: 'AnswerTextualQuestion' as keyof PollStackParamList,
+				params: { questionData: nextQuestion }
+			})
+			case 'numerical': return navigation.navigate('PollStack' as any, {
+				screen: 'AnswerTextualQuestion' as keyof PollStackParamList,
+				params: { questionData: nextQuestion }
+			})
+		}
 	}
 
 	const downloadPollResults = () => {
@@ -147,7 +177,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				sharePost={sharePost}
 				highlightedButtonText={isAuthor ? 'baixar resultados' : 'responder'}
 				highlightedButtonIcon={DocumentWhiteIcon}
-				highlightedButtonAction={isAuthor ? downloadPollResults : answerPoll}
+				highlightedButtonAction={isAuthor ? downloadPollResults : respondPoll}
 				HeaderFooter={isAuthor && (
 					<SmallButton
 						label={'baixar respostas individuais'}

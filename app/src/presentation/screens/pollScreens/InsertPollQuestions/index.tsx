@@ -27,10 +27,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
 function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
-	const { pollDataContext, setCurrentPollQuestionDataOnContext, removeQuestionFromRegisterContext } = useContext(PollRegisterContext)
+	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, removeQuestionFromRegisterContext } = useContext(PollRegisterContext)
 
 	const [questionText, setQuestionText] = useState('')
-	const [questionsList, setQuestionsList] = useState<PollQuestionOptional[]>(pollDataContext.questions || [])
+	const [questionsList, setQuestionsList] = useState<PollQuestionOptional[]>(pollRegisterDataContext.questions || [])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -116,7 +116,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 
 		setQuestionsList([...questionsList, { question: questionText }])
 		setQuestionText('')
-		setCurrentPollQuestionDataOnContext({ question: questionText })
+		setPollQuestionRegisterDataOnContext({ question: questionText })
 
 		navigation.push('SelectPollQuestionType')
 	}

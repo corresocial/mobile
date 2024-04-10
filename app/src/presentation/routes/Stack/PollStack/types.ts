@@ -1,4 +1,4 @@
-import { PollEntity } from '@domain/poll/entity/types'
+import { PollEntity, PollQuestion } from '@domain/poll/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -13,8 +13,8 @@ export type PollStackParamList = {
 	PollReview: { pollData: PollEntity, unsavedPoll: boolean }
 	ViewPoll: { pollData: PollEntity }
 
-	AnswerSatisfactionQuestion: undefined
-	AnswerBinaryQuestion: undefined
-	AnswerTextualQuestion: undefined
+	AnswerSatisfactionQuestion: { questionData: PollQuestion }
+	AnswerBinaryQuestion: { questionData: PollQuestion }
+	AnswerTextualQuestion: { questionData: PollQuestion }
 	FinishedPollResponse: undefined
 } & UserStackParamList

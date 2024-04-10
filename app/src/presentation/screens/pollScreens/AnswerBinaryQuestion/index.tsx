@@ -1,6 +1,10 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
+import { PollQuestion } from '@domain/poll/entity/types'
+
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
+
 import { AnswerBinaryQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
 import { ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
@@ -15,17 +19,32 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
-function AnswerBinaryQuestion({ navigation }: AnswerBinaryQuestionScreenProps) {
-	const navigateBackwards = () => navigation.goBack()
+function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenProps) {
+	const { getNextQuestion, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
-	const question = 'Quem veio primeiro, o ovo ou a galinha?'
+	const { questionData } = route.params
 	const responseProgress = [1, 3]
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const selectBinaryOption = (value: boolean) => {
-		console.log(value)
-		navigation.navigate('AnswerTextualQuestion')
+		console.log(`reponse: ${value}`)
+		saveResponseData(questionData, value)
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
+	const navigateToNextReponseScreen = (nextQuestion: PollQuestion | null) => {
+		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
+
+		switch (nextQuestion.questionType) {
+			case 'binary': return navigation.push('AnswerBinaryQuestion', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
+			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+		}
 	}
 
 	return (
@@ -40,8 +59,8 @@ function AnswerBinaryQuestion({ navigation }: AnswerBinaryQuestionScreenProps) {
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={16}
-						message={question}
-						highlightedWords={question ? question.split(' ') : []}
+						message={questionData.question}
+						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
 					>
 						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>

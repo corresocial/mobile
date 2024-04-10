@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
+
 import { FinishedPollResponseScreenProps } from '@routes/Stack/PollStack/screenProps'
 
 import { ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
@@ -16,6 +18,7 @@ import { ProgressBar } from '@components/ProgressBar'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
+	const { pollResponseData } = usePollRegisterContext()
 	const theme = useTheme()
 
 	const owner = {
@@ -25,9 +28,9 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 	const responseProgress = [3, 3]
 
 	const sendPollResponses = () => {
-		console.log('Send poll responses')
-		navigation.navigate('ViewPoll', {} as any)
-		navigation.goBack()
+		console.log(pollResponseData)
+		// navigation.navigate('ViewPoll', {} as any)
+		// navigation.goBack()
 		// Call domain
 	}
 
