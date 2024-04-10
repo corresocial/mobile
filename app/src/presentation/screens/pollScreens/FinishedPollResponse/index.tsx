@@ -1,5 +1,5 @@
 import * as Location from 'expo-location' // REFACTOR Centralizar request permissions
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTheme } from 'styled-components'
 
 import { PollEntity } from '@domain/poll/entity/types'

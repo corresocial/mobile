@@ -3,6 +3,9 @@ import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
 import { PollEntity, PollQuestion } from '@domain/poll/entity/types'
+import { usePollDomain } from '@domain/poll/usePollDomain'
+
+import { usePollRepository } from '@data/poll/usePollRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
@@ -25,6 +28,8 @@ import { PostRangeCard } from '@components/_cards/PostRangeCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
+
+const { getPollResponses } = usePollDomain()
 
 function ViewPoll({ navigation }: ViewPollScreenProps) {
 	const { savePollToRespondOnContext } = usePollRegisterContext()
@@ -83,7 +88,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
-	const isAuthor = userDataContext.userId !== pollData.owner.userId // TODO Remover comparação
+	const isAuthor = userDataContext.userId === pollData.owner.userId // TODO Remover comparação
 	const isCompleted = false
 
 	const navigateToProfile = () => {
@@ -121,8 +126,10 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 		}
 	}
 
-	const downloadPollResults = () => {
+	const downloadPollResults = async () => {
 		console.log('baixar resultados')
+		const pollResponses = await getPollResponses(usePollRepository, pollData.pollId)
+		console.log(pollResponses)
 	}
 
 	const downloadIndividualAnswers = () => {
