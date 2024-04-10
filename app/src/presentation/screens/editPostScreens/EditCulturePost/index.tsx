@@ -125,13 +125,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 			}
 		}
 
-		navigation.navigate('CultureStack', {
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectCultureLocationView', 'location')

@@ -2,17 +2,17 @@ import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
 import { UserEntity } from '../entity/types'
 
-async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInterface, uid?: string, localUserData?: UserEntity) {
+async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInterface, userId?: string, localUserData?: UserEntity) {
 	const { localStorage, remoteStorage } = useUserRepository()
 
-	if (uid) {
-		const currentUser = await remoteStorage.getUserData(uid)
+	if (userId) {
+		const currentUser = await remoteStorage.getUserData(userId)
 		if (currentUser && currentUser.userId) {
-			await localStorage.saveLocalUserData({ ...currentUser, userId: uid })
-			return { ...currentUser, userId: uid }
+			await localStorage.saveLocalUserData({ ...currentUser, userId })
+			return { ...currentUser, userId }
 		}
 
-		return { ...localUserData, userId: uid } as UserEntity
+		return { ...localUserData, userId } as UserEntity
 	}
 
 	if (localUserData?.userId) {

@@ -93,13 +93,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 	const navigateToEditScreen = (screenName: keyof PollStackParamList, initialValue: keyof PollEntity, customStack?: string) => {
 		const value = getPollField(initialValue, true)
 
-		navigation.push('PollStack' as any, { // TODO Type
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const toggleDefaultConfirmationModalVisibility = () => {

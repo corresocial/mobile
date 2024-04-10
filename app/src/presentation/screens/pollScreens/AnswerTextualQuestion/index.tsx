@@ -8,6 +8,7 @@ import { AnswerTextualQuestionScreenProps } from '@routes/Stack/PollStack/screen
 
 import { FormContent, Container, InstructionContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -38,7 +39,7 @@ function AnswerTextualQuestion({ navigation }: AnswerTextualQuestionScreenProps)
 
 	const selectInputedText = () => {
 		console.log(inputText)
-		// navigation.navigate()
+		navigation.navigate('FinishedPollResponse')
 	}
 
 	return (
@@ -74,10 +75,10 @@ function AnswerTextualQuestion({ navigation }: AnswerTextualQuestionScreenProps)
 						onChangeText={changeInputField}
 					/>
 					<PrimaryButton
-						color={theme.green3}
-						label={'continuar'}
-						labelColor={theme.white3}
-						SecondSvgIcon={CheckWhiteIcon}
+						color={inputText ? theme.green3 : theme.yellow3}
+						label={inputText ? 'continuar' : 'pular'}
+						labelColor={inputText ? theme.white3 : theme.black4}
+						SecondSvgIcon={inputText ? CheckWhiteIcon : DeniedWhiteIcon}
 						onPress={selectInputedText}
 					/>
 				</FormContent>
