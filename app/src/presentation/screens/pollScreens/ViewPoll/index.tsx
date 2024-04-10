@@ -96,7 +96,6 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	}
 
 	const respondPoll = () => {
-		console.log('------------------ responder enquete ------------------------')
 		saveUnrespondedQuestions(pollData.questions)
 		navigateToNextReponseScreen(pollData.questions[0])
 	}

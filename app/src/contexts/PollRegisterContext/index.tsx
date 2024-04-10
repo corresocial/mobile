@@ -80,7 +80,6 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	}
 
 	const saveUnrespondedQuestions = (questions: PollQuestion[]) => {
-		console.log(questions)
 		setQuestionsToRespond(questions)
 		setPollResponseData([])
 	}
@@ -90,18 +89,8 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : []
 
 		const respondedQuestions = [...pollResponseData.map((poll) => poll.questionId), ...lastQuestionId]
-		console.log('------------------- Questões RESPONDIDAS -------------------')
-		console.log(respondedQuestions)
-		console.log('-------------------')
 
 		const unrespondedQuestions = questionsToRespond.filter((question) => !respondedQuestions.includes(question.questionId))
-
-		console.log('------------------- Questões não respondidadas -------------------')
-		console.log(unrespondedQuestions)
-		console.log('-------------------')
-		console.log('Próxima questão')
-		console.log(unrespondedQuestions[0])
-		console.log('-------------------')
 
 		if (unrespondedQuestions.length === 0) return null
 		return unrespondedQuestions[0]
@@ -127,13 +116,13 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setPollDataOnContext,
 		setPollQuestionRegisterDataOnContext,
 		setRegisteredQuestionOnPollDataContext,
+		removeQuestionFromRegisterContext,
 
 		saveUnrespondedQuestions,
 		getNextQuestion,
 		pollResponseData,
 		saveResponseData,
 
-		removeQuestionFromRegisterContext,
 	}), [
 		pollRegisterDataContext,
 		pollQuestionRegisterDataContext,
