@@ -1,5 +1,6 @@
 import { PollRepositoryInterface } from './PollRepositoryInterface'
 import { createPoll } from './remoteRepository/createPoll'
+import { createPollResponse } from './remoteRepository/createPollResponse'
 import { getPollDataById } from './remoteRepository/getPollById'
 
 function usePollRepository(): PollRepositoryInterface {
@@ -7,8 +8,8 @@ function usePollRepository(): PollRepositoryInterface {
 		getPollDataById: getPollDataById,
 		// getPollResponsesData
 
-		createPoll: createPoll
-		// savePollResponse
+		createPoll: createPoll,
+		createPollResponse: createPollResponse,
 
 		// updatePoll
 

@@ -14,8 +14,9 @@ export type PollRegisterContextType = {
 	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => void
 	removeQuestionFromRegisterContext: (questionId: string) => void
 
-	saveUnrespondedQuestions: (questions: PollQuestion[]) => void
-	getNextQuestion: (lastQuestion: PollQuestion) => PollQuestion | null
+	pollToRespond: PollEntity,
 	pollResponseData: PollResponse[]
+	savePollToRespondOnContext: (currentPoll: PollEntity) => void
+	getNextQuestion: (lastQuestion: PollQuestion) => PollQuestion | null
 	saveResponseData: (question: PollQuestion, response: string | number | boolean) => void
 }

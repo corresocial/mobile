@@ -48,8 +48,6 @@ async function getReverseGeocodeByMapsApi(latitude: number, longitude: number) {
 					postalCode
 				}
 
-				console.log(completeAddress)
-
 				return completeAddress
 			})
 

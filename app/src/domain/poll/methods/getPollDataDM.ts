@@ -7,7 +7,7 @@ function getPollDataDM(usePollRepository: () => PollRepositoryInterface, pollId:
 		return getPollDataById(pollId)
 	} catch (error: any) {
 		console.log(error)
-		// throw new Error(error)
+		throw new Error(error)
 	}
 }
 

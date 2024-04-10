@@ -1,5 +1,6 @@
 import { createNewPollDM } from './methods/createNewPollDM'
 import { getPollDataDM } from './methods/getPollDataDM'
+import { sendPollResponseDM } from './methods/sendPollResponseDM'
 import { PollDomainInterface } from './PollDomainInterface'
 
 function usePollDomain(): PollDomainInterface { // PollDomainInterface
@@ -7,8 +8,8 @@ function usePollDomain(): PollDomainInterface { // PollDomainInterface
 		getPollData: getPollDataDM,
 		// getPollResponses
 
-		createNewPoll: createNewPollDM
-		// sendPollResponse
+		createNewPoll: createNewPollDM,
+		sendPollResponse: sendPollResponseDM
 		// registerUserOnPollResponseList
 
 		// deletePoll

@@ -11,9 +11,9 @@ function createNewPollDM(usePollRepository: () => PollRepositoryInterface, pollD
 		const structuredPollData = structurePollDataDM(pollData)
 
 		return createPoll(structuredPollData)
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error)
-		// throw new Error(error)
+		throw new Error(error)
 	}
 }
 

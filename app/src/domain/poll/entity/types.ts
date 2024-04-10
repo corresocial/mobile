@@ -11,7 +11,7 @@ export type PollEntity = {
 	questions: PollQuestion[]
 	owner: UserOwner
 	idUsersResponded?: string[]
-	userResponses?: PrivatePollResponse
+	privateResponses?: PrivatePollResponse
 }
 
 export type PollQuestionOptional = Partial<PollQuestion>
@@ -38,7 +38,7 @@ type PollLocation = {
 
 type PrivatePollResponse = {
 	userId: string
-	coordinates: Coordinates
+	location: PollLocation // REFACTOR Centralizar todos os endereços
 	responses: PollResponse[]
 }
 

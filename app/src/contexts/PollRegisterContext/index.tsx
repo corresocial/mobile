@@ -30,8 +30,9 @@ const initialValue: PollRegisterContextType = {
 	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => { },
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
-	saveUnrespondedQuestions: (questions: PollQuestion[] | null) => { },
+	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
 	getNextQuestion: (lastQuestion: PollQuestion) => ({} as PollQuestion),
+	pollToRespond: { questions: [] as PollQuestion[] } as PollEntity,
 	pollResponseData: [{
 		questionId: '',
 		response: '' as string | number | boolean,
@@ -46,7 +47,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	const [pollRegisterDataContext, setPollRegisterDataContext] = useState(initialValue.pollRegisterDataContext)
 	const [pollQuestionRegisterDataContext, setPollQuestionRegisterDataContext] = useState<PollQuestion>({} as PollQuestion)
 
-	const [questionsToRespond, setQuestionsToRespond] = useState<PollQuestion[]>([])
+	const [pollToRespond, setPollToRespond] = useState<PollEntity>(initialValue.pollToRespond)
 	const [pollResponseData, setPollResponseData] = useState<PollResponse[]>([])
 
 	const setPollDataOnContext = async (data: PollEntityOptional) => {
@@ -79,8 +80,8 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setPollRegisterDataContext({ ...pollRegisterDataContext, questions: pollRegisterDataContextQuestions })
 	}
 
-	const saveUnrespondedQuestions = (questions: PollQuestion[]) => {
-		setQuestionsToRespond(questions)
+	const savePollToRespondOnContext = (currentPoll: PollEntity) => {
+		setPollToRespond(currentPoll)
 		setPollResponseData([])
 	}
 
@@ -90,7 +91,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 
 		const respondedQuestions = [...pollResponseData.map((poll) => poll.questionId), ...lastQuestionId]
 
-		const unrespondedQuestions = questionsToRespond.filter((question) => !respondedQuestions.includes(question.questionId))
+		const unrespondedQuestions = pollToRespond.questions.filter((question) => !respondedQuestions.includes(question.questionId))
 
 		if (unrespondedQuestions.length === 0) return null
 		return unrespondedQuestions[0]
@@ -118,15 +119,15 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setRegisteredQuestionOnPollDataContext,
 		removeQuestionFromRegisterContext,
 
-		saveUnrespondedQuestions,
-		getNextQuestion,
+		pollToRespond,
 		pollResponseData,
-		saveResponseData,
-
+		savePollToRespondOnContext,
+		getNextQuestion,
+		saveResponseData
 	}), [
 		pollRegisterDataContext,
 		pollQuestionRegisterDataContext,
-		questionsToRespond,
+		pollToRespond,
 		pollResponseData
 	])
 

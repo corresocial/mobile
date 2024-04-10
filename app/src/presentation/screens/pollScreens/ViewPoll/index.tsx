@@ -26,14 +26,14 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
-function ViewPoll({ route, navigation }: ViewPollScreenProps) {
-	const { saveUnrespondedQuestions } = usePollRegisterContext()
+function ViewPoll({ navigation }: ViewPollScreenProps) {
+	const { savePollToRespondOnContext } = usePollRegisterContext()
 	const { userDataContext } = useContext(AuthContext)
 
 	const theme = useTheme()
 
 	const pollData: PollEntity = {
-		pollId: '',
+		pollId: 'idDeTeste',
 		title: 'enquete sobre o bairro dalapa',
 		description: 'lorem enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa',
 		questions: [
@@ -96,7 +96,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	}
 
 	const respondPoll = () => {
-		saveUnrespondedQuestions(pollData.questions)
+		savePollToRespondOnContext(pollData)
 		navigateToNextReponseScreen(pollData.questions[0])
 	}
 

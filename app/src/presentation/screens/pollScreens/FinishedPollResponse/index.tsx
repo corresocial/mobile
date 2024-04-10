@@ -1,41 +1,116 @@
-import React from 'react'
+import * as Location from 'expo-location' // REFACTOR Centralizar request permissions
+import React, { useContext, useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
+import { PollEntity } from '@domain/poll/entity/types'
+import { usePollDomain } from '@domain/poll/usePollDomain'
+
+import { usePollRepository } from '@data/poll/usePollRepository'
+
+import { AuthContext } from '@contexts/AuthContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { FinishedPollResponseScreenProps } from '@routes/Stack/PollStack/screenProps'
 
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
+import { useLocationService } from '@services/location/useLocationService'
+import { structureAddress } from '@utils-ui/location/addressFormatter'
+
 import { ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
+import MapPointerWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import SendFileWhiteIcon from '@assets/icons/sendFile-white.svg'
+import { generateGeohashes } from '@common/generateGeohashes'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+import { CustomModal } from '@components/_modals/CustomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
+const { sendPollResponse } = usePollDomain()
+
+const { getCurrentLocation } = useLocationService()
+const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
+
 function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
-	const { pollResponseData } = usePollRegisterContext()
+	const { pollToRespond, pollResponseData } = usePollRegisterContext()
+	const { userDataContext } = useContext(AuthContext)
+
+	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
+	const [locationPermissionModalModalIsVisible, setLocationPermissionModalIsVisible] = useState(false)
+
 	const theme = useTheme()
 
-	const owner = {
-		name: 'change',
-		profilePictureUrl: ['https://cc-prod.scene7.com/is/image/CCProdAuthor/FF-SEO-text-to-image-marquee-mobile-2x?$pjpeg$&jpegSize=100&wid=600']
-	}
-	const responseProgress = [3, 3]
+	const owner = { ...pollToRespond.owner }
+	const responseProgress = [2, 3]
 
-	const sendPollResponses = () => {
-		console.log(pollResponseData)
-		// navigation.navigate('ViewPoll', {} as any)
-		// navigation.goBack()
-		// Call domain
+	const checkLocationPermissions = async () => {
+		const { granted } = await Location.getForegroundPermissionsAsync()
+		setHasLocationPermissions(granted)
+		if (granted) return true
+
+		setLocationPermissionModalIsVisible(true)
+	}
+
+	const requestLocationPermissions = async () => {
+		const locationPermission = await Location.requestForegroundPermissionsAsync()
+		setHasLocationPermissions(locationPermission.granted)
+	}
+
+	const submitResponses = async () => {
+		if (!hasLocationPermissions) {
+			const hasPermission = await checkLocationPermissions()
+			console.log(`has location permission: ${hasPermission}`)
+			if (!hasPermission) return
+		}
+
+		const currentCoordinates = await getCurrentLocation()
+		const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
+		const completeAddress = structureAddress(currentLocation)
+		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
+
+		sendPollResponse(usePollRepository, pollToRespond.pollId, {
+			userId: userDataContext.userId,
+			location: {
+				...currentLocation,
+				...geohashObject
+			} as PollEntity['location'],
+			responses: pollResponseData
+		})
+
+		navigation.navigate('ViewPoll', {} as any)
+		navigation.goBack()
+	}
+
+	const getProfilePictureUrl = () => {
+		if (!owner || !owner.profilePictureUrl) return null
+		return owner.profilePictureUrl[0]
 	}
 
 	return (
 		<Container>
+			<CustomModal
+				visibility={locationPermissionModalModalIsVisible}
+				title={'precisamos da sua localização'}
+				TitleIcon={MapPointerWhiteIcon}
+				firstParagraph={{
+					text: 'precisamos da sua localização para poder saber de onde você está respondendo',
+					textAlign: 'center',
+					highlightedWords: ['de', 'onde', 'você', 'está', 'respondendo']
+				}}
+				affirmativeButton={{
+					label: 'entendi',
+					onPress: async () => {
+						await requestLocationPermissions()
+						await submitResponses()
+					}
+				}}
+				closeModal={() => setLocationPermissionModalIsVisible(false)}
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				centralized
@@ -51,7 +126,7 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 						<VerticalSpacing />
 						<SmallUserIdentification
 							userName={owner.name}
-							profilePictureUrl={owner.profilePictureUrl[0] || ''}
+							profilePictureUrl={getProfilePictureUrl()}
 							showLeaderSeal
 						/>
 						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
@@ -65,7 +140,7 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 						label={'enviar responsas'}
 						labelColor={theme.white3}
 						SecondSvgIcon={SendFileWhiteIcon}
-						onPress={sendPollResponses}
+						onPress={submitResponses}
 					/>
 				</ButtonOptionsContainer>
 			</FormContainer>
