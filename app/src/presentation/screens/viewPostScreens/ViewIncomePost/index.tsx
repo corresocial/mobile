@@ -12,6 +12,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { SaleStackParamList } from '@routes/Stack/SaleStack/types'
+import { ServiceStackParamList } from '@routes/Stack/ServiceStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -60,7 +62,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -107,11 +108,18 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
+
 		if (postData.macroCategory === 'sale') {
-			return navigation.navigate('EditSalePost', { postData: { ...postData, ...editDataContext.saved } })
+			return navigation.navigate('SaleStack' as any, {
+				screen: 'EditSalePostReview' as keyof SaleStackParamList,
+				params: { postData: { ...postData, ...editDataContext.saved } }
+			})
 		}
 
-		navigation.navigate('EditServicePost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('ServiceStack' as any, {
+			screen: 'EditServicePost' as keyof ServiceStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved } }
+		})
 	}
 
 	const markAsCompleted = async (impactValue: string) => {
@@ -143,12 +151,10 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
 		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
 
 		await removePostOnContext()
-		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
@@ -345,7 +351,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}

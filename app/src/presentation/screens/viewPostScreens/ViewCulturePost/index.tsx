@@ -12,6 +12,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 
+import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -146,7 +147,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditCulturePost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('CultureStack' as any, {
+			screen: 'EditCulturePostReview' as keyof CultureStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved } }
+		})
 	}
 
 	const backToPreviousScreen = () => {

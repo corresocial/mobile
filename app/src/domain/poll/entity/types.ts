@@ -11,7 +11,7 @@ export type PollEntity = {
 	questions: PollQuestion[]
 	owner: UserOwner
 	idUsersResponded?: string[]
-	privateResponses?: PrivatePollResponse
+	privateResponses?: PrivatePollResponse[]
 }
 
 export type PollQuestionOptional = Partial<PollQuestion>
