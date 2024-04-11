@@ -4,15 +4,16 @@ import { POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
 
 import { storage } from '@infrastructure/firebase'
 
-// REFACTOR Colocar em uma interface
-async function uploadPostPictures(postPictures: string[]) {
-	const postPicturesUrl = postPictures.map((pictureUrl, index) => processUpload(pictureUrl))
+type UploadPath = typeof USER_COLLECTION | typeof POST_COLLECTION
+
+async function uploadMedia(postPictures: string[], uploadPath: UploadPath, folder: string) {
+	const postPicturesUrl = postPictures.map((pictureUrl, index) => processUpload(pictureUrl, uploadPath, folder))
 	return Promise.all(postPicturesUrl)
 }
 
-async function processUpload(pictureUrl: string, index?: number) {
+async function processUpload(pictureUrl: string, uploadPath: UploadPath, folder: string) {
 	try {
-		const { uploadTask, blob }: any = await configUploadObjects(pictureUrl || '', 'posts')
+		const { uploadTask, blob }: any = await configUploadObjects(pictureUrl || '', uploadPath, folder)
 		return new Promise<string>((resolve, reject) => {
 			uploadTask.on(
 				'state_change',
@@ -37,16 +38,14 @@ async function processUpload(pictureUrl: string, index?: number) {
 	}
 }
 
-type UploadPath = typeof USER_COLLECTION | typeof POST_COLLECTION
-
-async function configUploadObjects(localPath: string, path: UploadPath) {
+export async function configUploadObjects(localPath: string, path: UploadPath, folder: string) {
 	try {
 		const response = await fetch(localPath)
 		const blob = await response.blob()
 
 		const fileRef = ref(
 			storage,
-			`pictures/${path}/${Date.now()}.jpg`,
+			`${folder}/${path}/${Date.now()}.jpg`,
 		)
 
 		const uploadTask = uploadBytesResumable(fileRef, blob)
@@ -57,4 +56,4 @@ async function configUploadObjects(localPath: string, path: UploadPath) {
 	}
 }
 
-export { uploadPostPictures }
+export { uploadMedia }
