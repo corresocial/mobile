@@ -115,6 +115,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const userData = await remoteStorage.getUserData(userId)
+		if (!userData) return
 		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
 		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
