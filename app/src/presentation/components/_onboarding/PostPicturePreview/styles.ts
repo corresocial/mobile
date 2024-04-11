@@ -24,3 +24,11 @@ export const HorizontalListPicturesContainer = styled.View`
 	flex-direction: row;
 	justify-content: center;
 `
+
+export const ButtonsContainer = styled.View`
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	padding: ${RFValue(10)}px ${RFValue(20)}px;
+`
