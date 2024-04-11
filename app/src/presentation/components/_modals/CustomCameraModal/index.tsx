@@ -8,7 +8,6 @@ import {
 	CameraContainer,
 	CameraControlsContainer,
 	Container,
-	FlashButtonContainer,
 	Footer,
 	NotPermissionContainer,
 	NotPermissionText,
@@ -16,7 +15,6 @@ import {
 	ContainerIcon,
 
 } from './styles'
-import AddPictureOutlined from '@assets/icons/addPicture-outlined.svg'
 import CameraFlashOutlined from '@assets/icons/cameraFlash-outlined.svg'
 import CameraFlashOnOutlined from '@assets/icons/cameraFlashOn-outlined.svg'
 import CameraToggleOutlined from '@assets/icons/cameraToggle-outlined.svg'
@@ -79,31 +77,31 @@ function CustomCameraModal({
 		)
 	}
 
-	const openGalery = async () => {
-		if (!mediaLibrayHasPermission) {
-			await getMediaLibraryPermissions()
-			return
-		}
+	// const openGalery = async () => {
+	// 	if (!mediaLibrayHasPermission) {
+	// 		await getMediaLibraryPermissions()
+	// 		return
+	// 	}
 
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [1, 1]
-		})
+	// 	const result = await ImagePicker.launchImageLibraryAsync({
+	// 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
+	// 		allowsEditing: true,
+	// 		aspect: [1, 1]
+	// 	})
 
-		if (!result.canceled) {
-			const imageUri = result.assets[0].uri
+	// 	if (!result.canceled) {
+	// 		const imageUri = result.assets[0].uri
 
-			const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
-				imageUri,
-				[{ resize: { height: 1080, width: 1080 } }],
-				{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-			)
+	// 		const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
+	// 			imageUri,
+	// 			[{ resize: { height: 1080, width: 1080 } }],
+	// 			{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+	// 		)
 
-			setPictureUri(compressedUri)
-			onClose()
-		}
-	}
+	// 		setPictureUri(compressedUri)
+	// 		onClose()
+	// 	}
+	// }
 
 	const takePicture = async () => {
 		if (cameraRef.current !== null) {
@@ -165,25 +163,16 @@ function CustomCameraModal({
 						/>
 					</CameraContainer>
 					<View style={{ width: '100%' }}>
-						<FlashButtonContainer>
-							<ContainerIcon onPress={toggleFlashMode}>
-								{
-									flashMode === FlashMode.torch
-										? <CameraFlashOnOutlined height={'100%'} width={'100%'} />
-										: <CameraFlashOutlined height={'100%'} width={'100%'} />
-								}
-
-							</ContainerIcon>
-						</FlashButtonContainer>
 						<Body>
 							<CameraControlsContainer>
-								<ContainerIcon
-									opacity={mediaLibrayHasPermission ? 1 : 0.4}
-									onPress={openGalery}
-								>
-									<AddPictureOutlined height={'100%'} width={'100%'} />
-								</ContainerIcon>
+								<ContainerIcon onPress={toggleFlashMode}>
+									{
+										flashMode === FlashMode.torch
+											? <CameraFlashOnOutlined height={'100%'} width={'100%'} />
+											: <CameraFlashOutlined height={'100%'} width={'100%'} />
+									}
 
+								</ContainerIcon>
 								<TakePictureCameraButton onPress={takePicture} />
 
 								<ContainerIcon onPress={toggleCameraType}>

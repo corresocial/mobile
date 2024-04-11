@@ -25,7 +25,7 @@ export const FlashButtonContainer = styled.View`
 `
 
 interface ContainerIconProps {
-    opacity: number
+    opacity?: number
 }
 
 export const ContainerIcon = styled.TouchableOpacity<ContainerIconProps>`
