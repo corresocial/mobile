@@ -4,13 +4,13 @@ import { PollEntity } from './entity/types'
 
 interface PollDomainInterface {
 	getPollData: (usePollRepository: () => PollRepositoryInterface, pollId: string) => Promise<PollEntity | undefined>
-	getPollResponses: (usePollRepository: () => PollRepositoryInterface, pollId: string) => Promise<PollEntity['privateResponses'][] | undefined>
 
 	createNewPoll: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<void> | undefined
 	sendPollResponse: (
 		usePollRepository: () => PollRepositoryInterface,
 		pollId: string,
 		responseData: PollEntity['privateResponses']) => Promise<void>
+	generatePollResultsReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
 }
 
 export { PollDomainInterface }

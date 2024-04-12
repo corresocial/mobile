@@ -19,7 +19,7 @@ import DownloadWhiteIcon from '@assets/icons/download-white.svg'
 import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-import { share } from '@common/share'
+import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
@@ -29,7 +29,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
-const { getPollResponses } = usePollDomain()
+const { generatePollResultsReport } = usePollDomain()
 
 function ViewPoll({ navigation }: ViewPollScreenProps) {
 	const { savePollToRespondOnContext } = usePollRegisterContext()
@@ -83,7 +83,8 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 			name: 'dev que deve',
 			profilePictureUrl: userDataContext.profilePictureUrl
 		},
-		createdAt: new Date()
+		createdAt: new Date(),
+		privateResponses: []
 	}
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
@@ -128,8 +129,9 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	const downloadPollResults = async () => {
 		console.log('baixar resultados')
-		const pollResponses = await getPollResponses(usePollRepository, pollData.pollId)
-		console.log(pollResponses)
+		const reportHtmlContent = await generatePollResultsReport(usePollRepository, pollData)
+		// console.log(reportHtmlContent)
+		shareFile(reportHtmlContent)
 	}
 
 	const downloadIndividualAnswers = () => {

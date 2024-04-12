@@ -108,7 +108,8 @@
     "sentry-expo": "~7.1.0",
     "stripe": "^12.9.0",
     "styled-components": "^5.3.5",
-    "uri-scheme": "^1.2.0"
+    "uri-scheme": "^1.2.0",
+    "expo-file-system": "~15.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
