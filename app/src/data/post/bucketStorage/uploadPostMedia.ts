@@ -1,6 +1,8 @@
 import { uploadMedia } from './common'
 
-async function uploadPostMedia(mediaUri: string[], folder: string) { // TODO Tipar folder
+type FolderType = 'pictures' | 'videos'
+
+async function uploadPostMedia(mediaUri: string[], folder: FolderType) { // TODO Tipar folder
 	return uploadMedia(mediaUri, 'posts', folder)
 }
 

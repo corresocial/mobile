@@ -43,9 +43,11 @@ export async function configUploadObjects(localPath: string, path: UploadPath, f
 		const response = await fetch(localPath)
 		const blob = await response.blob()
 
+		const fileExtention = localPath.split('.')[localPath.split('.').length - 1]
+
 		const fileRef = ref(
 			storage,
-			`${folder}/${path}/${Date.now()}.jpg`,
+			`${folder}/${path}/${Date.now()}.${fileExtention}`,
 		)
 
 		const uploadTask = uploadBytesResumable(fileRef, blob)

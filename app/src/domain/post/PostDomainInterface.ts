@@ -11,8 +11,9 @@ interface PostDomainInterface {
 		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
-		newPostPicturesUri: string[]
-	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+		newPostPicturesUri: string[],
+		unsavedPostVideos: string[]
+	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[], videosUrlUploaded: string[] }>
 }
 
 export { PostDomainInterface }
