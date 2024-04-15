@@ -192,7 +192,7 @@ function CustomCameraModal({
 							</CameraControlsContainer>
 						</Body>
 						<Footer>
-							<ContainerIcon onPress={onClose}>
+							<ContainerIcon onPress={onClose} >
 								<XButtonOutlined height={'100%'} width={'100%'} />
 							</ContainerIcon>
 						</Footer>

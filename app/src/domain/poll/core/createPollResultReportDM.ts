@@ -1,13 +1,19 @@
-import { PollEntity, PollQuestion, PollQuestionType, PollResponse } from '../entity/types'
+import { PollEntity, PollQuestion, PollQuestionType, PollResponse, SatisfactionType } from '../entity/types'
 
 async function createPollResultReportDM(pollData: PollEntity) {
 	try {
+		const binaryResponses = groupQuestionsByQuestionType(pollData, 'binary')
+		const numericalResponses = groupQuestionsByQuestionType(pollData, 'numerical')
+		const satisfactionResponses = groupQuestionsByQuestionType(pollData, 'satisfaction')
+
 		return `
 			<html lang={'pt-br'}>
 				${renderHtmlHeader()}
 				<div class='body'>
 					${renderPollHeader(pollData)}
-					${renderBinaryGraph(pollData)}
+					${renderBinaryGraph(binaryResponses)}
+					${renderNumericalGraph(numericalResponses)}
+					${renderSatisfactionGraph(satisfactionResponses)}
 				</div>
 			</html>
 		`
@@ -36,11 +42,18 @@ function renderPollHeader(pollData: PollEntity) {
 	return `
 		<h2 class='poll-title'>${pollData.title}</h2>
 		<p class='poll-description'>${pollData.description}</p>
-		<p class='responses-number'>
-			Total de respostas: <b>${numberOfResponses}</b>
+		<p class='poll-info'>Autor: <b>${pollData.owner.name}</b></p>
+		<p class='poll-info'>Local da enquete: <b>Bairro ${pollData.location.district}, ${pollData.location.city} - ${pollData.location.state}</b></p>
+		<p class='poll-info'>Alcance: <b>Cidade</b></p>
+		<p class='poll-info'>Data e publicação: <b>${pollData.createdAt.toLocaleDateString()}</b></p>
+		<p class={'responses-number'}>
+			{'Total de respostas:'}
+			<b>${numberOfResponses}</b>
 		</p>
 	`
 }
+
+type PollQuestionWithResponses = (PollQuestion & { responses: PollResponse[] })[]
 
 function groupQuestionsByQuestionType(pollData: PollEntity, questionType: PollQuestionType) {
 	const allResponses = pollData.privateResponses.map((poll) => poll.responses)
@@ -66,15 +79,13 @@ function groupQuestionsByQuestionType(pollData: PollEntity, questionType: PollQu
 		)
 	}, [])
 
-	type PollQuestionWithResponses = (PollQuestion & { responses: PollResponse[] })[]
 	return allResponsesByQuestion as PollQuestionWithResponses
 }
 
-type BinaryGraphIterator = [BinaryLabelOptions, number, string][]
-type BinaryLabelOptions = 'Sim' | 'Não'
+function renderBinaryGraph(allResponsesByQuestion: PollQuestionWithResponses) {
+	type BinaryGraphIterator = [BinaryLabelOptions, number, string][]
+	type BinaryLabelOptions = 'Sim' | 'Não'
 
-function renderBinaryGraph(pollData: PollEntity) {
-	const allResponsesByQuestion = groupQuestionsByQuestionType(pollData, 'binary')
 	const binaryLabels = ['Sim', 'Não']
 
 	return allResponsesByQuestion.map((questionWithResponses, index) => {
@@ -100,15 +111,15 @@ function renderBinaryGraph(pollData: PollEntity) {
 
 				return (
 					`
-							<div class="bar" >
-								<div class="bar-label">${binaryValue[0]}</div>
-								<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
-								<div class="bar-progress">
-									<div class='bar-progress-inner ${getBinaryValueStyle(binaryValue[0])}' style="width: ${binaryValue[2]};"></div>
-								</div>
-								<div class="bar-progress-text">${binaryValue[1]}</div>
-								<div class="bar-progress-text">${binaryValue[2]}</div>
+						<div class="bar" >
+							<div class="bar-label">${binaryValue[0]}</div>
+							<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
+							<div class="bar-progress">
+								<div class='bar-progress-inner ${getBinaryValueStyle(binaryValue[0])}' style="width: ${binaryValue[2]};"></div>
 							</div>
+							<div class="bar-progress-text">${binaryValue[1]}</div>
+							<div class="bar-progress-text">${binaryValue[2]}</div>
+						</div>
 					`
 				)
 			}).join('')
@@ -122,6 +133,167 @@ function renderBinaryGraph(pollData: PollEntity) {
 				</div>
 			</div>
 		`
+	}).join('')
+}
+
+function renderNumericalGraph(allResponsesByQuestion: PollQuestionWithResponses) {
+	type NumericalGraphIterator = [string | number, number, string][]
+
+	return allResponsesByQuestion.map((questionWithResponses, index) => {
+		const ordenedResponses = questionWithResponses.responses.sort((a, b) => (a.response as number) - (b.response as number))
+
+		const numericalValues = ordenedResponses.reduce((acc: NumericalGraphIterator, response: PollResponse) => {
+			const responses = questionWithResponses.responses.filter((currentResponse) => currentResponse.response === response.response)
+			const percentage = (responses.length / questionWithResponses.responses.length) * 100
+
+			if (acc.find((item) => item[0] === response.response)) {
+				return [...acc]
+			}
+
+			return [...acc, [response.response, responses.length as number, `${percentage.toFixed(2)}%`]] as NumericalGraphIterator
+		}, [] as NumericalGraphIterator)
+
+		const renderNumericalBars = () => {
+			return numericalValues.map((number, i, values) => {
+				const isFirstItem = i === 0
+				const isLastItem = i === values.length - 1
+
+				return (
+					`
+						<div class="bar">
+							<div class="bar-label">${number[0]}</div>
+							<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
+							<div class="bar-progress">
+								<div class="bar-progress-inner orange3" style="width: ${number[2]}"></div>
+							</div>
+							<div class="bar-progress-text">${number[1]}</div>
+							<div class="bar-progress-text">${number[2]}</div>
+						</div>
+					`
+				)
+			}).join('')
+		}
+
+		return (
+			`
+				<div class="card" >
+					<div class="card-content">
+					<h3 class="card-title">${questionWithResponses.question}</h3>
+					${renderNumericalBars()}
+					</div>
+				</div>
+			`
+		)
+	}).join('')
+}
+
+const renderSatisfactionGraph = (allResponsesByQuestion: PollQuestionWithResponses) => {
+	type SatisfactionValue = SatisfactionType
+	type SatisfactionLabel = 'Muito satisfeito' | 'Satisfeito' | 'Mais ou menos' | 'Insatisfeito' | 'Muito insatisfeito'
+	type SatisfactionGraphIterator = [SatisfactionLabel, number, string][]
+
+	const satisfactionLabels: SatisfactionLabel[] = ['Muito satisfeito', 'Satisfeito', 'Mais ou menos', 'Insatisfeito', 'Muito insatisfeito']
+
+	const getSatisfactionBarColor = (satisactionLabel: SatisfactionLabel) => {
+		if (satisactionLabel === 'Muito satisfeito') return ' green3'
+		if (satisactionLabel === 'Satisfeito') return ' green1'
+		if (satisactionLabel === 'Mais ou menos') return ' yellow3'
+		if (satisactionLabel === 'Insatisfeito') return ' red1'
+		if (satisactionLabel === 'Muito insatisfeito') return ' red3'
+		return ' orange3'
+	}
+
+	const getSatisfactionLabel = (satisfactionValue: SatisfactionValue) => {
+		if (satisfactionValue === 1) return 'Muito insatisfeito'
+		if (satisfactionValue === 2) return 'Insatisfeito'
+		if (satisfactionValue === 3) return 'Mais ou menos'
+		if (satisfactionValue === 4) return 'Satisfeito'
+		if (satisfactionValue === 5) return 'Muito satisfeito'
+		return 'Não avaliado'
+	}
+
+	const renderSatisfactionIcon = (satisactionLabel: SatisfactionLabel) => {
+		if (satisactionLabel === 'Muito satisfeito') {
+			return (`
+				<svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M14.25 22.5C14.3755 22.5 14.5005 22.4979 14.625 22.4939C14.7495 22.4979 14.8745 22.5 15 22.5C21.2132 22.5 26.2499 17.4632 26.2499 11.25C26.2499 5.0368 21.2132 0 15 0C14.8745 0 14.7495 0.00205469 14.625 0.00613228C14.5005 0.00205469 14.3755 0 14.25 0C14.1245 0 13.9995 0.00205469 13.875 0.00613228C13.7505 0.0020547 13.6255 0 13.5 0C13.3745 0 13.2495 0.00205467 13.125 0.00613225C13.0005 0.00205468 12.8755 0 12.75 0C12.6245 0 12.4995 0.0020547 12.375 0.00613229C12.2505 0.0020547 12.1255 0 12 0C11.8745 0 11.7495 0.00205469 11.625 0.00613227C11.5005 0.00205469 11.3755 0 11.25 0C5.03678 0 0 5.0368 0 11.25C0 17.4632 5.03678 22.5 11.25 22.5C11.3755 22.5 11.5005 22.4979 11.625 22.4939C11.7495 22.4979 11.8745 22.5 12 22.5C12.1255 22.5 12.2505 22.4979 12.375 22.4939C12.4995 22.4979 12.6245 22.5 12.75 22.5C12.8755 22.5 13.0005 22.4979 13.125 22.4939C13.2495 22.4979 13.3745 22.5 13.5 22.5C13.6255 22.5 13.7505 22.4979 13.875 22.4939C13.9995 22.4979 14.1245 22.5 14.25 22.5Z" fill="black"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M11.25 21C16.6347 21 21 16.6348 21 11.25C21 5.86522 16.6347 1.5 11.25 1.5C5.86521 1.5 1.5 5.86522 1.5 11.25C1.5 16.6348 5.86521 21 11.25 21ZM8.43766 9.75C8.95543 9.75 9.37516 9.33027 9.37516 8.8125C9.37516 8.29473 8.95543 7.875 8.43766 7.875C7.9199 7.875 7.50017 8.29473 7.50017 8.8125C7.50017 9.33027 7.9199 9.75 8.43766 9.75ZM15.7541 13.1156C15.8711 12.8331 15.961 12.5409 16.0229 12.243C16.1354 11.7023 15.6774 11.25 15.1251 11.25H7.37517C6.82288 11.25 6.36488 11.7023 6.47738 12.243C6.53936 12.5409 6.62925 12.8331 6.74626 13.1156C6.99125 13.707 7.35034 14.2445 7.80302 14.6971C8.2557 15.1498 8.79312 15.5089 9.38458 15.7539C9.97604 15.9989 10.61 16.125 11.2502 16.125C11.8904 16.125 12.5243 15.9989 13.1157 15.7539C13.7072 15.5089 14.2446 15.1498 14.6973 14.6971C15.15 14.2445 15.5091 13.707 15.7541 13.1156ZM15.0001 8.8125C15.0001 9.33027 14.5804 9.75 14.0627 9.75C13.5449 9.75 13.1252 9.33027 13.1252 8.8125C13.1252 8.29473 13.5449 7.875 14.0627 7.875C14.5804 7.875 15.0001 8.29473 15.0001 8.8125Z" fill="white"/>
+				</svg>
+	`)
+		}
+		if (satisactionLabel === 'Satisfeito') {
+			return (`
+				<svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M14.25 22.875C14.3755 22.875 14.5005 22.8729 14.625 22.8689C14.7495 22.8729 14.8745 22.875 15 22.875C21.2132 22.875 26.2499 17.8382 26.2499 11.625C26.2499 5.4118 21.2132 0.375 15 0.375C14.8745 0.375 14.7495 0.377055 14.625 0.381132C14.5005 0.377055 14.3755 0.375 14.25 0.375C14.1245 0.375 13.9995 0.377055 13.875 0.381132C13.7505 0.377055 13.6255 0.375 13.5 0.375C13.3745 0.375 13.2495 0.377055 13.125 0.381132C13.0005 0.377055 12.8755 0.375 12.75 0.375C12.6245 0.375 12.4995 0.377055 12.375 0.381132C12.2505 0.377055 12.1255 0.375 12 0.375C11.8745 0.375 11.7495 0.377055 11.625 0.381132C11.5005 0.377055 11.3755 0.375 11.25 0.375C5.03678 0.375 0 5.4118 0 11.625C0 17.8382 5.03678 22.875 11.25 22.875C11.3755 22.875 11.5005 22.8729 11.625 22.8689C11.7495 22.8729 11.8745 22.875 12 22.875C12.1255 22.875 12.2505 22.8729 12.375 22.8689C12.4995 22.8729 12.6245 22.875 12.75 22.875C12.8755 22.875 13.0005 22.8729 13.125 22.8689C13.2495 22.8729 13.3745 22.875 13.5 22.875C13.6255 22.875 13.7505 22.8729 13.875 22.8689C13.9995 22.8729 14.1245 22.875 14.25 22.875Z" fill="black"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M11.25 21.375C16.6347 21.375 20.9999 17.0098 20.9999 11.625C20.9999 6.24022 16.6347 1.875 11.25 1.875C5.86521 1.875 1.5 6.24022 1.5 11.625C1.5 17.0098 5.86521 21.375 11.25 21.375ZM8.43767 10.125C8.95543 10.125 9.37516 9.70527 9.37516 9.1875C9.37516 8.66973 8.95543 8.25 8.43767 8.25C7.9199 8.25 7.50017 8.66973 7.50017 9.1875C7.50017 9.70527 7.9199 10.125 8.43767 10.125ZM11.2502 16.5C12.2913 16.5 13.2982 16.1669 14.1282 15.5598C14.4626 15.3152 14.4598 14.8347 14.1669 14.5417C13.8739 14.2488 13.402 14.2575 13.0516 14.4787C12.5166 14.8164 11.8929 14.9997 11.2502 14.9997C10.6075 14.9997 9.98367 14.8164 9.4487 14.4787C9.09836 14.2575 8.62641 14.2488 8.33346 14.5417C8.04051 14.8347 8.03772 15.3152 8.37211 15.5598C9.20216 16.1669 10.209 16.5 11.2502 16.5ZM15.0001 9.1875C15.0001 9.70527 14.5804 10.125 14.0627 10.125C13.5449 10.125 13.1252 9.70527 13.1252 9.1875C13.1252 8.66973 13.5449 8.25 14.0627 8.25C14.5804 8.25 15.0001 8.66973 15.0001 9.1875Z" fill="white"/>
+				</svg>
+			`)
+		}
+		if (satisactionLabel === 'Mais ou menos') {
+			return (`
+				<svg width="27" height="24" viewBox="0 0 27 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M14.25 23.25C14.3755 23.25 14.5005 23.2479 14.625 23.2439C14.7495 23.2479 14.8745 23.25 15 23.25C21.2132 23.25 26.2499 18.2132 26.2499 12C26.2499 5.7868 21.2132 0.75 15 0.75C14.8745 0.75 14.7495 0.752055 14.625 0.756132C14.5005 0.752055 14.3755 0.75 14.25 0.75C14.1245 0.75 13.9995 0.752055 13.875 0.756132C13.7505 0.752055 13.6255 0.75 13.5 0.75C13.3745 0.75 13.2495 0.752055 13.125 0.756132C13.0005 0.752055 12.8755 0.75 12.75 0.75C12.6245 0.75 12.4995 0.752055 12.375 0.756132C12.2505 0.752055 12.1255 0.75 12 0.75C11.8745 0.75 11.7495 0.752055 11.625 0.756132C11.5005 0.752055 11.3755 0.75 11.25 0.75C5.03678 0.75 0 5.7868 0 12C0 18.2132 5.03678 23.25 11.25 23.25C11.3755 23.25 11.5005 23.2479 11.625 23.2439C11.7495 23.2479 11.8745 23.25 12 23.25C12.1255 23.25 12.2505 23.2479 12.375 23.2439C12.4995 23.2479 12.6245 23.25 12.75 23.25C12.8755 23.25 13.0005 23.2479 13.125 23.2439C13.2495 23.2479 13.3745 23.25 13.5 23.25C13.6255 23.25 13.7505 23.2479 13.875 23.2439C13.9995 23.2479 14.1245 23.25 14.25 23.25Z" fill="black"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M11.25 21.75C16.6347 21.75 21 17.3848 21 12C21 6.61522 16.6347 2.25 11.25 2.25C5.86521 2.25 1.5 6.61522 1.5 12C1.5 17.3848 5.86521 21.75 11.25 21.75ZM8.4384 10.5C8.95616 10.5 9.37589 10.0803 9.37589 9.5625C9.37589 9.04473 8.95616 8.625 8.4384 8.625C7.92063 8.625 7.5009 9.04473 7.5009 9.5625C7.5009 10.0803 7.92063 10.5 8.4384 10.5ZM14.0634 10.5C14.5811 10.5 15.0009 10.0803 15.0009 9.5625C15.0009 9.04473 14.5811 8.625 14.0634 8.625C13.5456 8.625 13.1259 9.04473 13.1259 9.5625C13.1259 10.0803 13.5456 10.5 14.0634 10.5ZM6.37517 14.625C6.37517 14.2108 6.71096 13.875 7.12517 13.875H15.3751C15.7894 13.875 16.1251 14.2108 16.1251 14.625C16.1251 15.0392 15.7894 15.375 15.3751 15.375H7.12517C6.71096 15.375 6.37517 15.0392 6.37517 14.625Z" fill="white"/>
+				</svg>
+			`
+			)
+		}
+		if (satisactionLabel === 'Insatisfeito') {
+			return (`
+				<svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M14.25 22.625C14.3755 22.625 14.5005 22.6229 14.625 22.6189C14.7495 22.6229 14.8745 22.625 15 22.625C21.2132 22.625 26.2499 17.5882 26.2499 11.375C26.2499 5.1618 21.2132 0.125 15 0.125C14.8745 0.125 14.7495 0.127055 14.625 0.131132C14.5005 0.127055 14.3755 0.125 14.25 0.125C14.1245 0.125 13.9995 0.127055 13.875 0.131132C13.7505 0.127055 13.6255 0.125 13.5 0.125C13.3745 0.125 13.2495 0.127055 13.125 0.131132C13.0005 0.127055 12.8755 0.125 12.75 0.125C12.6245 0.125 12.4995 0.127055 12.375 0.131132C12.2505 0.127055 12.1255 0.125 12 0.125C11.8745 0.125 11.7495 0.127055 11.625 0.131132C11.5005 0.127055 11.3755 0.125 11.25 0.125C5.03678 0.125 0 5.1618 0 11.375C0 17.5882 5.03678 22.625 11.25 22.625C11.3755 22.625 11.5005 22.6229 11.625 22.6189C11.7495 22.6229 11.8745 22.625 12 22.625C12.1255 22.625 12.2505 22.6229 12.375 22.6189C12.4995 22.6229 12.6245 22.625 12.75 22.625C12.8755 22.625 13.0005 22.6229 13.125 22.6189C13.2495 22.6229 13.3745 22.625 13.5 22.625C13.6255 22.625 13.7505 22.6229 13.875 22.6189C13.9995 22.6229 14.1245 22.625 14.25 22.625Z" fill="black"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M11.25 21.125C16.6347 21.125 21 16.7598 21 11.375C21 5.99022 16.6347 1.625 11.25 1.625C5.86521 1.625 1.5 5.99022 1.5 11.375C1.5 16.7598 5.86521 21.125 11.25 21.125ZM8.43766 10.2498C8.95543 10.2498 9.37516 9.83008 9.37516 9.31232C9.37516 8.79455 8.95543 8.37482 8.43766 8.37482C7.9199 8.37482 7.50017 8.79455 7.50017 9.31232C7.50017 9.83008 7.9199 10.2498 8.43766 10.2498ZM11.2502 11.7498C10.209 11.7498 9.20215 12.0829 8.37211 12.69C8.03772 12.9346 8.04051 13.4152 8.33346 13.7081C8.62641 14.0011 9.09836 13.9923 9.4487 13.7712C9.98367 13.4335 10.6075 13.2501 11.2502 13.2501C11.8929 13.2501 12.5166 13.4335 13.0516 13.7712C13.402 13.9923 13.8739 14.0011 14.1669 13.7081C14.4598 13.4152 14.4626 12.9346 14.1282 12.69C13.2982 12.0829 12.2913 11.7498 11.2502 11.7498ZM15.0001 9.31232C15.0001 9.83008 14.5804 10.2498 14.0627 10.2498C13.5449 10.2498 13.1252 9.83008 13.1252 9.31232C13.1252 8.79455 13.5449 8.37482 14.0627 8.37482C14.5804 8.37482 15.0001 8.79455 15.0001 9.31232Z" fill="white"/>
+				</svg>
+			`)
+		}
+		if (satisactionLabel === 'Muito insatisfeito') {
+			return (`
+				<svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M14.25 23C14.3755 23 14.5005 22.9979 14.625 22.9939C14.7495 22.9979 14.8745 23 15 23C21.2132 23 26.2499 17.9632 26.2499 11.75C26.2499 5.5368 21.2132 0.5 15 0.5C14.8745 0.5 14.7495 0.502055 14.625 0.506132C14.5005 0.502055 14.3755 0.5 14.25 0.5C14.1245 0.5 13.9995 0.502055 13.875 0.506132C13.7505 0.502055 13.6255 0.5 13.5 0.5C13.3745 0.5 13.2495 0.502055 13.125 0.506132C13.0005 0.502055 12.8755 0.5 12.75 0.5C12.6245 0.5 12.4995 0.502055 12.375 0.506132C12.2505 0.502055 12.1255 0.5 12 0.5C11.8745 0.5 11.7495 0.502055 11.625 0.506132C11.5005 0.502055 11.3755 0.5 11.25 0.5C5.03678 0.5 0 5.5368 0 11.75C0 17.9632 5.03678 23 11.25 23C11.3755 23 11.5005 22.9979 11.625 22.9939C11.7495 22.9979 11.8745 23 12 23C12.1255 23 12.2505 22.9979 12.375 22.9939C12.4995 22.9979 12.6245 23 12.75 23C12.8755 23 13.0005 22.9979 13.125 22.9939C13.2495 22.9979 13.3745 23 13.5 23C13.6255 23 13.7505 22.9979 13.875 22.9939C13.9995 22.9979 14.1245 23 14.25 23Z" fill="black"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M11.25 21.5C16.6347 21.5 21 17.1348 21 11.75C21 6.36522 16.6347 2 11.25 2C5.86521 2 1.5 6.36522 1.5 11.75C1.5 17.1348 5.86521 21.5 11.25 21.5ZM8.4384 10.25C8.95616 10.25 9.37589 9.83027 9.37589 9.3125C9.37589 8.79473 8.95616 8.375 8.4384 8.375C7.92063 8.375 7.5009 8.79473 7.5009 9.3125C7.5009 9.83027 7.92063 10.25 8.4384 10.25ZM6.74626 14.7587C6.62925 15.0412 6.53936 15.3333 6.47737 15.6313C6.36488 16.172 6.82288 16.6243 7.37517 16.6243H15.1251C15.6774 16.6243 16.1354 16.172 16.0229 15.6313C15.961 15.3333 15.8711 15.0412 15.7541 14.7587C15.5091 14.1672 15.15 13.6298 14.6973 13.1771C14.2446 12.7244 13.7072 12.3653 13.1157 12.1204C12.5243 11.8754 11.8903 11.7493 11.2502 11.7493C10.61 11.7493 9.97604 11.8754 9.38458 12.1204C8.79312 12.3653 8.2557 12.7244 7.80302 13.1771C7.35034 13.6298 6.99125 14.1672 6.74626 14.7587ZM15.0009 9.3125C15.0009 9.83027 14.5811 10.25 14.0634 10.25C13.5456 10.25 13.1259 9.83027 13.1259 9.3125C13.1259 8.79473 13.5456 8.375 14.0634 8.375C14.5811 8.375 15.0009 8.79473 15.0009 9.3125Z" fill="white"/>
+				</svg>
+			`)
+		}
+	}
+
+	return allResponsesByQuestion.map((questionWithResponses, index) => {
+		const satisfactionValues: SatisfactionGraphIterator = satisfactionLabels.map((label) => {
+			const responses = questionWithResponses.responses.filter((response) => getSatisfactionLabel(response.response as SatisfactionValue) === label)
+			const percentage = (responses.length / questionWithResponses.responses.length) * 100
+			return [label, responses.length as number, `${percentage.toFixed(2)}%`]
+		})
+
+		const renderSatisfactionBars = () => {
+			return satisfactionValues.map((satisfaction, i, values) => {
+				const isFirstItem = i === 0
+				const isLastItem = i === values.length - 1
+				return (
+					`
+						<div class="bar">
+							<div class="bar-label bar-label-spaced">
+								${satisfaction[0]}
+								${renderSatisfactionIcon(satisfaction[0])}
+							</div>
+							<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
+							<div class="bar-progress">
+								<div class="bar-progress-inner ${getSatisfactionBarColor(satisfaction[0])}" style="width: ${satisfaction[2]}"></div>
+							</div>
+							<div class="bar-progress-text">${satisfaction[1]}</div>
+							<div class="bar-progress-text">${satisfaction[2]}</div>
+						</div>
+					`
+				)
+			}).join('')
+		}
+
+		return (`
+			<div class="card">
+				<div class="card-content">
+					<h3 class="card-title">${questionWithResponses.question}</h3>
+					${renderSatisfactionBars()}
+				</div>
+			</div >
+		`)
 	}).join('')
 }
 
@@ -277,6 +449,11 @@ function getReportStyles() {
 			.poll-description {
 				align-self: flex-start;
 				margin-bottom: 30px;
+			}
+
+			.poll-info {
+				margin: 5px;
+				align-self: flex-start;
 			}
 
 			.responses-number {
