@@ -6,16 +6,16 @@ import { POLL_COLLECTION } from '@data/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-async function getPrivateResponses(pollId: string): Promise<PollEntity['privateResponses'][]> {
+async function getPrivateResponses(pollId: string) {
 	const collectionRef = collection(firestore, POLL_COLLECTION, pollId, 'responses')
 	const docsSnap = await getDocs(collectionRef)
 
 	if (docsSnap) {
 		const responses = docsSnap.docs.map((doc) => doc.data())
-		return responses as PollEntity['privateResponses'][]
+		return responses as PollEntity['privateResponses']
 	}
 
-	return [] as PollEntity['privateResponses'][]
+	return [] as PollEntity['privateResponses']
 }
 
 export { getPrivateResponses }

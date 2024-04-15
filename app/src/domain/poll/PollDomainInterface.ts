@@ -11,6 +11,7 @@ interface PollDomainInterface {
 		pollId: string,
 		responseData: PollEntity['privateResponses']) => Promise<void>
 	generatePollResultsReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
+	generateIndividualPollResponsesReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
 }
 
 export { PollDomainInterface }

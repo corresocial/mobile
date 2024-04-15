@@ -29,7 +29,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
-const { generatePollResultsReport } = usePollDomain()
+const { generatePollResultsReport, generateIndividualPollResponsesReport } = usePollDomain()
 
 function ViewPoll({ navigation }: ViewPollScreenProps) {
 	const { savePollToRespondOnContext } = usePollRegisterContext()
@@ -130,12 +130,13 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 	const downloadPollResults = async () => {
 		console.log('baixar resultados')
 		const reportHtmlContent = await generatePollResultsReport(usePollRepository, pollData)
-		// console.log(reportHtmlContent)
 		shareFile(reportHtmlContent)
 	}
 
-	const downloadIndividualAnswers = () => {
+	const downloadIndividualAnswers = async () => {
 		console.log('baixar respostas individuais')
+		const reportHtmlContent = await generateIndividualPollResponsesReport(usePollRepository, pollData)
+		shareFile(reportHtmlContent)
 	}
 
 	const reportPost = () => {

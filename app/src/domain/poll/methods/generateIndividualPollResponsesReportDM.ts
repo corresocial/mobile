@@ -2,7 +2,7 @@ import { PollRepositoryInterface } from '@data/poll/PollRepositoryInterface'
 
 import { PollEntity } from '../entity/types'
 
-import { createPollResultReportDM } from '../core/createPollResultReportDM'
+import { createIndividualPollResponsesReportDM } from '../core/createIndividualPollResponsesReportDM'
 
 /* const pollDataMock: PollEntity = {
 	title: 'Praça da lapa',
@@ -214,9 +214,9 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 	]
 } */
 
-async function generatePollResultsReportDM(usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) {
+async function generateIndividualPollResponsesReportDM(usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) {
 	try {
-		const { getPrivateResponses } = usePollRepository()
+		const { getPrivateResponses } = usePollRepository() // TODO Descomentar
 		const privateResponses = await getPrivateResponses(pollData.pollId)
 
 		const pollWithResponses: PollEntity = {
@@ -224,11 +224,11 @@ async function generatePollResultsReportDM(usePollRepository: () => PollReposito
 			privateResponses
 		}
 
-		return createPollResultReportDM(pollWithResponses)
+		return createIndividualPollResponsesReportDM(pollWithResponses)
 	} catch (error: any) {
 		console.log(error)
 		throw new Error(error)
 	}
 }
 
-export { generatePollResultsReportDM }
+export { generateIndividualPollResponsesReportDM }
