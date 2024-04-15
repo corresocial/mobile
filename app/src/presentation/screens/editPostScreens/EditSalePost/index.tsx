@@ -70,6 +70,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		return picturesUrl
 	}
 
+	const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	}
+
 	const formatCategoryAndTags = () => {
 		const category: SaleCategories = getPostField('category')
 		const tags = getPostField('tags')

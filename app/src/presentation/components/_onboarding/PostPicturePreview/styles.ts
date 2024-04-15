@@ -10,6 +10,8 @@ export const PicturePreviewContainer = styled.View`
     padding: 0px ${RFValue(15)}px;
     justify-content: flex-end;
     align-items: center;
+	width: 100%;
+	height: 1005;
 `
 
 export const TopArea = styled.View`

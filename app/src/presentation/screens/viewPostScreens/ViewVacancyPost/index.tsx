@@ -391,6 +391,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
+									videosUrl={getPostField('videosUrl') || []}
 									indicatorColor={theme.green1}
 									square
 									showFullscreenIcon

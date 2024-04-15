@@ -14,14 +14,14 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const savePictures = (picturesUri: string[]) => {
+	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl: picturesUri })
+			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ picturesUrl: picturesUri })
+		setSaleDataOnContext({ picturesUrl, videosUrl })
 		navigation.navigate('SelectPaymentType')
 	}
 
@@ -32,10 +32,9 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.green2}
-				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
-				savePictures={savePictures}
+				saveMedia={saveMedia}
 			/>
 		</>
 	)
