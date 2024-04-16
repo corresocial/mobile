@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { Alert } from 'react-native'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
@@ -12,6 +13,7 @@ import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { ViewPollScreenProps } from '@routes/Stack/PollStack/screenProps'
 import { PollStackParamList } from '@routes/Stack/PollStack/types'
+import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
 
 import { Body } from './styles'
 import DocumentWhiteIcon from '@assets/icons/document-white.svg'
@@ -19,7 +21,7 @@ import DownloadWhiteIcon from '@assets/icons/download-white.svg'
 import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-import { share, shareFile } from '@common/share'
+import { shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
@@ -89,7 +91,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
-	const isAuthor = userDataContext.userId === pollData.owner.userId // TODO Remover comparação
+	const isAuthor = userDataContext.userId !== pollData.owner.userId // TODO Remover comparação
 	const isCompleted = false
 
 	const navigateToProfile = () => {
@@ -98,7 +100,8 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${pollData.pollId}`)
+		Alert.alert('Método de compartilhamento ainda não foi implementado!')
+		// share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${pollData.pollId}`)
 	}
 
 	const respondPoll = () => {
@@ -141,13 +144,14 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		/* const params = {
+		const params = {
 			title: 'denunciar',
-			contactUsType: 'denúncia',
-			reportedType: 'poll',
+			contactUsType: 'denúncia' as DiscordContactUsType,
+			reportedType: 'poll' as ReportedTarget,
 			reportedId: pollData.pollId
-		} */
-		console.log('denúnciar enquete')
+		}
+
+		navigation.push('ContactUsInsertMessageUserStack', params)
 	}
 
 	const markAsCompleted = () => {

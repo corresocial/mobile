@@ -17,6 +17,10 @@ export type CultureStackScreenProps = NativeStackScreenProps<UserStackParamList,
 export type SocialImpactStackScreenProps = NativeStackScreenProps<UserStackParamList, 'SocialImpactStack'>
 export type PollStackScreenProps = NativeStackScreenProps<UserStackParamList, 'PollStack'>
 
+export type ContactUsScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsUserStack'>
+export type ContactUsInsertMessageScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsInsertMessageUserStack'>
+export type ContactUsSuccessScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsSuccessUserStack'>
+
 export type SelectSubscriptionRangeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionRange'>
 export type SelectSubscriptionPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionPlan'>
 export type SelectSubsciptionPaymentMethodScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubsciptionPaymentMethod'>

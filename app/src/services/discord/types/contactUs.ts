@@ -1,5 +1,5 @@
 export type DiscordContactUsType = 'erro' | 'denúncia' | 'melhoria' | 'outro'
-export type ReportedTarget = 'none' | 'income' | 'culture' | 'socialImpact' | 'user'
+export type ReportedTarget = 'none' | 'income' | 'culture' | 'socialImpact' | 'user' | 'poll'
 
 export type DiscordContactUsOptions = {
 	userId: string

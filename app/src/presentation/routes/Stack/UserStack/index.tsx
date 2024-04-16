@@ -11,6 +11,9 @@ import { SubscriptionProvider } from '@contexts/SubscriptionContext'
 
 import { UserStackParamList } from './types'
 
+import { ContactUs } from '@screens/configurationScreens/ContactUs'
+import { ContactUsInsertMessage } from '@screens/configurationScreens/ContactUsInsertMessage'
+import { ContactUsSuccess } from '@screens/configurationScreens/ContactUsSuccess'
 import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { WelcomeNewUser } from '@screens/homeScreens/WelcomeNewUser'
 import { EditCurrentSubscription } from '@screens/paymentSystemScreens/EditCurrentSubscription'
@@ -67,6 +70,11 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'PollStack'} component={PollStack} />
 
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
+
+									{/* TODO Type */}
+									<Stack.Screen name={'ContactUsUserStack'} component={ContactUs as any} />
+									<Stack.Screen name={'ContactUsInsertMessageUserStack'} component={ContactUsInsertMessage as any} />
+									<Stack.Screen name={'ContactUsSuccessUserStack'} component={ContactUsSuccess as any} />
 
 									<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
 									<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
