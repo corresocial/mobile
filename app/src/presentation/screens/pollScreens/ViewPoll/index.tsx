@@ -9,6 +9,7 @@ import { usePollDomain } from '@domain/poll/usePollDomain'
 import { usePollRepository } from '@data/poll/usePollRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
+import { LoaderContext } from '@contexts/LoaderContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { ViewPollScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -27,13 +28,15 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
 import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { PostRangeCard } from '@components/_cards/PostRangeCard'
+import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
-const { generatePollResultsReport, generateIndividualPollResponsesReport } = usePollDomain()
+const { generatePollResultsReport, generateIndividualPollResponsesReport, deletePollData } = usePollDomain()
 
 function ViewPoll({ navigation }: ViewPollScreenProps) {
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { savePollToRespondOnContext } = usePollRegisterContext()
 	const { userDataContext } = useContext(AuthContext)
 
@@ -89,7 +92,8 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 		privateResponses: []
 	}
 
-	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
+	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
 	const isAuthor = userDataContext.userId === pollData.owner.userId // TODO Remover comparação
 	const isCompleted = false
@@ -141,7 +145,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 	}
 
 	const reportPost = () => {
-		setPostOptionsIsOpen(false)
+		setPollOptionsIsOpen(false)
 		const params = {
 			title: 'denunciar',
 			contactUsType: 'denúncia' as DiscordContactUsType,
@@ -156,8 +160,17 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 		console.log('marca como completa')
 	}
 
-	const toggleDefaultConfirmationModalVisibility = () => {
-		console.log('deletar enquete')
+	const deletePoll = async () => {
+		setPollOptionsIsOpen(false)
+		setLoaderIsVisible(true)
+		await deletePollData(usePollRepository, pollData.pollId)
+		setLoaderIsVisible(false)
+		navigation.goBack()
+	}
+
+	const toggleDefaultConfirmationModalVisibility = async () => {
+		setPollOptionsIsOpen(false)
+		setTimeout(() => setDeleteConfirmationModalIsVisible(!deleteConfirmationModalIsVisible), 400)
 	}
 
 	const renderQuestions = () => {
@@ -178,6 +191,15 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	return (
 		<>
+			<DefaultConfirmationModal
+				visibility={deleteConfirmationModalIsVisible}
+				title={'apagar enquete'}
+				text={`você tem certeza que deseja apagar a enquete ${pollData.title}`}
+				highlightedWords={(pollData.title || '').split(' ')}
+				buttonKeyword={'apagar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={deletePoll}
+			/>
 			<PostHeader
 				title={pollData.title}
 				isAuthor={isAuthor}
@@ -204,7 +226,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 				<PostPopOver
 					postTitle={pollData.title}
 					popoverVisibility={postOptionsIsOpen}
-					closePopover={() => setPostOptionsIsOpen(false)}
+					closePopover={() => setPollOptionsIsOpen(false)}
 					isAuthor={isAuthor}
 					isCompleted={isCompleted}
 					goToComplaint={reportPost}
@@ -215,7 +237,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 						SvgIcon={ThreeDotsWhiteIcon}
 						relativeWidth={relativeScreenWidth(12)}
 						height={relativeScreenWidth(12)}
-						onPress={() => setPostOptionsIsOpen(true)}
+						onPress={() => setPollOptionsIsOpen(true)}
 					/>
 				</PostPopOver>
 			</PostHeader>

@@ -1,4 +1,5 @@
 import { createNewPollDM } from './methods/createNewPollDM'
+import { deletePollDataDM } from './methods/deletePollDataDM'
 import { generateIndividualPollResponsesReportDM } from './methods/generateIndividualPollResponsesReportDM'
 import { generatePollResultsReportDM } from './methods/generatePollResultsReportDM'
 import { getPollDataDM } from './methods/getPollDataDM'
@@ -15,7 +16,7 @@ function usePollDomain(): PollDomainInterface { // PollDomainInterface
 		generateIndividualPollResponsesReport: generateIndividualPollResponsesReportDM,
 		// registerUserOnPollResponseList
 
-		// deletePoll
+		deletePollData: deletePollDataDM
 	}
 }
 

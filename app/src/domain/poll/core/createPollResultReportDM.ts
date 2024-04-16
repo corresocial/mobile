@@ -38,7 +38,7 @@ function renderHtmlHeader() {
 }
 
 function renderPollHeader(pollData: PollEntity) {
-	const numberOfResponses = ` ${pollData.privateResponses.length}`
+	const numberOfResponses = ` ${pollData.privateResponses!.length}`
 
 	return `
 		<svg width="138" height="36" viewBox="0 0 138 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@ function renderPollHeader(pollData: PollEntity) {
 type PollQuestionWithResponses = (PollQuestion & { responses: PollResponse[] })[]
 
 function groupQuestionsByQuestionType(pollData: PollEntity, questionType: PollQuestionType) {
-	const allResponses = pollData.privateResponses.map((poll) => poll.responses)
+	const allResponses = pollData.privateResponses!.map((poll) => poll.responses)
 	const emptyArray: PollResponse[] = []
 	const listOfResponses = emptyArray.concat(...allResponses)
 

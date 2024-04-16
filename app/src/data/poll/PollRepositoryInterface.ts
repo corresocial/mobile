@@ -6,6 +6,8 @@ interface PollRepositoryInterface {
 
 	createPoll: (pollData: PollEntityOptional) => Promise<void>
 	createPollResponse: (pollId: string, data: PollEntity['privateResponses']) => Promise<void>
+
+	deletePoll: (pollId: string) => Promise<void>
 }
 
 export { PollRepositoryInterface }

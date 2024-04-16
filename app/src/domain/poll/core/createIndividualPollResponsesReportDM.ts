@@ -32,7 +32,7 @@ function renderHtmlHeader() {
 }
 
 function renderPollHeader(pollData: PollEntity) {
-	const numberOfResponses = ` ${pollData.privateResponses.length}`
+	const numberOfResponses = ` ${pollData.privateResponses!.length}`
 
 	return `
 		<svg width="138" height="36" viewBox="0 0 138 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +114,7 @@ function renderSatisfactionIcon(satisactionLabel: SatisfactionLabel) {
 }
 
 function groupQuestionsResponsesByUser(pollData: PollEntity) {
-	const groupedByUser = pollData.privateResponses.map((pollResponse) => {
+	const groupedByUser = pollData.privateResponses!.map((pollResponse) => {
 		const responsesWithQuestion = pollResponse.responses.map((response) => {
 			const { questionId, ...rest } = response
 			const questionText = pollData.questions.find((question) => question.questionId === questionId) || ''
