@@ -91,7 +91,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
-	const isAuthor = userDataContext.userId !== pollData.owner.userId // TODO Remover comparação
+	const isAuthor = userDataContext.userId === pollData.owner.userId // TODO Remover comparação
 	const isCompleted = false
 
 	const navigateToProfile = () => {
@@ -131,13 +131,11 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 	}
 
 	const downloadPollResults = async () => {
-		console.log('baixar resultados')
 		const reportHtmlContent = await generatePollResultsReport(usePollRepository, pollData)
 		shareFile(reportHtmlContent)
 	}
 
 	const downloadIndividualAnswers = async () => {
-		console.log('baixar respostas individuais')
 		const reportHtmlContent = await generateIndividualPollResponsesReport(usePollRepository, pollData)
 		shareFile(reportHtmlContent)
 	}

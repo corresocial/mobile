@@ -3,6 +3,7 @@ import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-nati
 
 import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
 
+import { EditContext } from '@contexts/EditContext'
 import { PollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollQuestionsScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -28,9 +29,20 @@ import { ProgressBar } from '@components/ProgressBar'
 
 function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
 	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, removeQuestionFromRegisterContext } = useContext(PollRegisterContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const getQuestionList = (): PollQuestion[] => {
+		if (editDataContext.unsaved && editDataContext.unsaved.questions) {
+			return (editDataContext.unsaved.questions || [])
+		}
+
+		return route.params?.initialValue || pollRegisterDataContext.questions as PollQuestion[]
+	}
+
+	const initialPollQuestions = getQuestionList()
 
 	const [questionText, setQuestionText] = useState('')
-	const [questionsList, setQuestionsList] = useState<PollQuestionOptional[]>(pollRegisterDataContext.questions || [])
+	const [questionsList, setQuestionsList] = useState<PollQuestionOptional[]>(initialPollQuestions || [])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -64,8 +76,10 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	}
 
 	const renderQuestionsSaved = () => {
-		if (!questionsLength() || keyboardOpened) return null
-		return questionsList.map((currentQuestion, index) => (
+		const allQuestions = getQuestionList()
+
+		if (!questionsLength() || keyboardOpened) return <></>
+		return allQuestions.map((currentQuestion, index) => (
 			<>
 				<DefaultInput
 					key={index as number}
@@ -85,7 +99,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					fontSize={16}
 					keyboardType={'default'}
 					textIsValid
-					onIconPress={() => removeQuestion(index)}
+					onIconPress={() => removeQuestion(currentQuestion.questionId)}
 					validateText={(text: string) => validatePollQuestions(text)}
 					onChangeText={(text: string) => { }}
 				/>
@@ -118,22 +132,31 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 		setQuestionText('')
 		setPollQuestionRegisterDataOnContext({ question: questionText })
 
-		navigation.push('SelectPollQuestionType')
+		navigation.push('SelectPollQuestionType', { editMode: !!route.params?.editMode, questionText })
 	}
 
-	const removeQuestion = (index: number) => {
-		const questions = [...questionsList]
-		const questionToRemove = questions[index] && questions[index].questionId
+	const removeQuestion = (questionId: string) => {
+		const questions = getQuestionList()
 
-		delete questions[index]
-		setQuestionsList(questions.filter((point) => point.question))
-		console.log(questionToRemove)
-		if (questionToRemove) {
-			removeQuestionFromRegisterContext(questionToRemove)
+		const newQuestionsList = questions.filter((question: any) => question.questionId !== questionId)
+
+		setQuestionsList(newQuestionsList)
+
+		if (route.params?.editMode) {
+			return addNewUnsavedFieldToEditContext({ questions: newQuestionsList })
+		}
+
+		if (questionId) {
+			removeQuestionFromRegisterContext(questionId)
 		}
 	}
 
 	const savePollQuestions = () => {
+		if (route.params?.editMode) {
+			navigation.popToTop()
+			return
+		}
+
 		navigation.navigate('SelectPollRange')
 	}
 

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
+import uuid from 'react-uuid'
 
-import { PollEntity } from '@domain/poll/entity/types'
+import { PollEntity, PollQuestion } from '@domain/poll/entity/types'
 import { usePollDomain } from '@domain/poll/usePollDomain'
 import { UserOwner } from '@domain/user/entity/types'
 
@@ -15,6 +16,7 @@ import { PollStackParamList } from '@routes/Stack/PollStack/types'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -56,6 +58,14 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 		return editDataContext.unsaved[fieldName] || currentPostData[fieldName]
 	}
 
+	const getQuestionList = (): PollQuestion[] => {
+		if (editDataContext.unsaved && editDataContext.unsaved.questions) {
+			return (editDataContext.unsaved.questions || [])
+		}
+
+		return pollData.questions as PollQuestion[]
+	}
+
 	const savePoll = async () => {
 		try {
 			setIsLoading(true)
@@ -90,8 +100,13 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 		toggleDefaultConfirmationModalVisibility()
 	}
 
-	const navigateToEditScreen = (screenName: keyof PollStackParamList, initialValue: keyof PollEntity, customStack?: string) => {
+	const navigateToEditScreen = (screenName: keyof PollStackParamList, initialValue: keyof PollEntity) => {
 		const value = getPollField(initialValue, true)
+
+		if (initialValue === 'questions') {
+			const questions = getQuestionList()
+			return navigation.push(screenName as any, { editMode: true, initialValue: questions as PollQuestion[] })
+		}
 
 		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
@@ -101,6 +116,25 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 	}
 
 	const navigateBackwards = () => navigation.goBack()
+
+	const renderQuestions = () => {
+		const pollQuestions: PollEntity['questions'] = getQuestionList()
+
+		return pollQuestions.map((question, index) => {
+			return (
+				<React.Fragment key={uuid()}>
+					<VerticalSpacing />
+					<DescriptionCard
+						title={`pergunta ${index + 1}`}
+						hightligtedWords={['pergunta']}
+						text={question.question}
+						CustomHeaderIcon={QuestionWhiteIcon}
+						onEdit={() => navigateToEditScreen('InsertPollQuestions', 'questions')}
+					/>
+				</ React.Fragment >
+			)
+		})
+	}
 
 	const backgroundColor = theme.purple2
 
@@ -196,6 +230,8 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 						location={getPollField('location')}
 						onEdit={() => navigateToEditScreen('InsertPollLocation', 'location')}
 					/>
+					<VerticalSpacing />
+					{renderQuestions()}
 					<VerticalSpacing height={relativeScreenHeight(1.5)} />
 				</BodyPadding >
 			</Body>

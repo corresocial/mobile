@@ -23,7 +23,7 @@ const initialValue: PollRegisterContextType = {
 		owner: {
 			name: '',
 			userId: ''
-		}
+		},
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => { },

@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
+import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
 
+import { EditContext } from '@contexts/EditContext'
 import { PollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { SelectPollQuestionTypeScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -15,15 +17,26 @@ import VerifiedLabelWhiteIcon from '@assets/icons/verifiedLabel.svg'
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
-function SelectPollQuestionType({ navigation }: SelectPollQuestionTypeScreenProps) {
+function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScreenProps) {
 	const theme = useTheme()
 
 	const { setRegisteredQuestionOnPollDataContext } = useContext(PollRegisterContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
-		console.log(questionType)
-		setRegisteredQuestionOnPollDataContext(questionType)
-		navigation.push('InsertPollQuestions')
+		if (route.params?.editMode) {
+			addNewUnsavedFieldToEditContext({
+				questions: [...(editDataContext.unsaved.questions || []), {
+					questionId: uuid(),
+					questionType,
+					question: route.params.questionText,
+				} as PollQuestion]
+			})
+		} else {
+			setRegisteredQuestionOnPollDataContext(questionType)
+		}
+
+		navigation.push('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
 	}
 
 	return (

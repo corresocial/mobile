@@ -13,9 +13,13 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 	const { setPollDataOnContext } = useContext(PollRegisterContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext, clearEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		clearEditContext()
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
