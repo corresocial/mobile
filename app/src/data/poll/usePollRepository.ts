@@ -4,6 +4,7 @@ import { createPollResponse } from './remoteRepository/createPollResponse'
 import { deletePoll } from './remoteRepository/deletePoll'
 import { getPollDataById } from './remoteRepository/getPollById'
 import { getPrivateResponses } from './remoteRepository/getPrivateResponses'
+import { updatePoll } from './remoteRepository/updatePoll'
 
 function usePollRepository(): PollRepositoryInterface {
 	return {
@@ -13,7 +14,7 @@ function usePollRepository(): PollRepositoryInterface {
 		createPoll: createPoll,
 		createPollResponse: createPollResponse,
 
-		// updatePoll
+		updatePoll: updatePoll,
 
 		deletePoll: deletePoll
 	}

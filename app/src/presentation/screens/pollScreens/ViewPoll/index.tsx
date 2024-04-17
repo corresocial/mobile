@@ -33,7 +33,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
-const { generatePollResultsReport, generateIndividualPollResponsesReport, deletePollData } = usePollDomain()
+const { generatePollResultsReport, generateIndividualPollResponsesReport, markPollAsCompleted, deletePollData } = usePollDomain()
 
 function ViewPoll({ navigation }: ViewPollScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
@@ -156,8 +156,9 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 		navigation.push('ContactUsInsertMessageUserStack', params)
 	}
 
-	const markAsCompleted = () => {
-		console.log('marca como completa')
+	const markAsCompleted = async () => {
+		setPollOptionsIsOpen(false)
+		await markPollAsCompleted(usePollRepository, pollData.pollId)
 	}
 
 	const deletePoll = async () => {
