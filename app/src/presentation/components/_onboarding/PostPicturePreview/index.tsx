@@ -97,8 +97,8 @@ function PostPicturePreview({
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={18}
-						message={'e aí. gostou?'}
-						highlightedWords={['gostou']}
+						message={'adicione ou remova fotos e vídeos'}
+						highlightedWords={['gostou', 'fotos', 'vídeos']}
 					/>
 				</TopArea>
 				<PicturePreviewContainer>

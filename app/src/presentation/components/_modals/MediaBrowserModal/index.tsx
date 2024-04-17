@@ -2,10 +2,12 @@ import * as MediaLibrary from 'expo-media-library'
 import { Asset, AssetRef } from 'expo-media-library'
 import * as VideoThumbnails from 'expo-video-thumbnails'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, StatusBar } from 'react-native'
+import { ActivityIndicator, Platform, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { AlbumInfo, AlbumType } from './types'
+
+import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
 
 import { 
 	MediaBrowserModalContainer,
@@ -16,7 +18,9 @@ import {
 	ConfirmSelectionButton, 
 	MediaBrowserHeader,  
 	MediaBrowserHeaderText,
-	NotPermissionText, 
+	NotPermissionText,
+	ActivityIndicatorContainer,
+	ActivityIndicatorBg, 
 
 } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -29,14 +33,14 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { AlbumThumbnail } from '@components/AlbumThumbnail'
 import { MediaThumbnail } from '@components/MediaThumbnail'
 
-interface MediaBroswerProps{
+interface MediaBrowserProps{
 	showMediaBrowser: boolean,
 	maxImages?: number,
 	onClose: () => void,
 	onSelectionConfirmed: (mediaSelected: Asset[]) => void,
 }
 
-function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelectionConfirmed }: MediaBroswerProps) {
+function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelectionConfirmed }: MediaBrowserProps) {
 	const [albums, setAlbums] = useState<AlbumType[]>([])
 	const [media, setMedia] = useState<Asset[]>([])
 	const [cursor, setCursor] = useState<AssetRef>('0')
@@ -214,15 +218,23 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 						)}
 						numColumns={3}
 						onEndReached={() => loadAlbumMedia()}
-						ListFooterComponent={() => isContentLoading && (
-							<ActivityIndicator
-								color={theme.orange4} 
-								size={'large'}
-							/>
-						)}
 					/>
 				
 				</MediaFlatListContainer>
+				{
+					
+					isContentLoading && (
+						
+						<ActivityIndicatorContainer isLoadingMore={arrayIsEmpty(media)}>
+							<ActivityIndicatorBg>
+								<ActivityIndicator
+									size={'large'}
+									color={theme.orange4}
+								/>
+							</ActivityIndicatorBg>
+						</ActivityIndicatorContainer>
+					)
+				}
 				{
 					(mediaSelected.length > 0) && (
 						<ConfirmSelectionButton>
@@ -247,7 +259,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 	return (
 		<MediaBrowserModalContainer animationType={'slide'} visible={showMediaBrowser}>
 			<StatusBar backgroundColor={theme.white3} />
-			<MediaBrowserHeader>
+			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
 				{
 					albumSelected ? (
 						<BackButton onPress={unselectAlbum}/>

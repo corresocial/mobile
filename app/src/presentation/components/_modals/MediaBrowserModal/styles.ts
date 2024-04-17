@@ -1,18 +1,23 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const MediaBrowserModalContainer = styled.Modal`
     flex: 1;
 `
 
-export const MediaBrowserHeader = styled.View`
+interface MediaBrowserHeaderProps{
+    isIos: boolean
+}
+
+export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 ${relativeScreenWidth(8)}px;
-    height: 12%;
+    padding-left: ${relativeScreenWidth(8)}px;
+    padding-top: ${({ isIos }) => (isIos ? relativeScreenHeight(2) : 0)}px;
+    height: ${({ isIos }) => (isIos ? relativeScreenHeight(18) : relativeScreenHeight(12))}px;
 `
 
 export const MediaBrowserHeaderText = styled.Text`
@@ -60,4 +65,24 @@ export const NotPermissionText = styled.Text`
    text-align: center;
    margin-top: 20px;
    margin-bottom: 20px;
+`
+
+interface IndicatorContainerProps{
+    isLoadingMore: boolean
+}
+
+export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: ${({ isLoadingMore }) => (isLoadingMore ? relativeScreenHeight(45) : relativeScreenHeight(5))}px;
+    align-items: center;
+    justify-content: center;
+`
+
+export const ActivityIndicatorBg = styled.View`
+    background-color: ${({ theme }) => theme.white3};
+    padding: 2px;
+    border-radius: 100px;
 `
