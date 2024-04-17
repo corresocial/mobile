@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { PostEntityOptional, SaleCategories, IncomeEntity } from '@domain/post/entity/types'
 
@@ -12,6 +13,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -183,22 +185,27 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
 
-		navigation.navigate('ChatMessages' as any, {
-			chat: {
-				chatId: '',
-				user1: {
-					userId: userId1 || '',
-					name: userDataContext.name || '',
-					profilePictureUrl: getUserProfilePictureFromContext()
-				},
-				user2: {
-					userId: userId2,
-					name: postData.owner.name,
-					profilePictureUrl: getProfilePictureUrl() || ''
-				},
-				messages: {}
-			}
+		navigation.navigate('HomeTab' as any, {
+			screen: 'ChatStack' as keyof HomeTabParamList
 		})
+		setTimeout(() => {
+			navigation.navigate('ChatMessages' as any, {
+				chat: {
+					chatId: '',
+					user1: {
+						userId: userId1 || '',
+						name: userDataContext.name || '',
+						profilePictureUrl: getUserProfilePictureFromContext()
+					},
+					user2: {
+						userId: userId2,
+						name: postData.owner.name,
+						profilePictureUrl: getProfilePictureUrl() || ''
+					},
+					messages: {}
+				} as Chat
+			})
+		}, 50)
 	}
 
 	const reportPost = () => {

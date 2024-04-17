@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
@@ -15,6 +16,7 @@ import { StripeContext } from '@contexts/StripeContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 import { FlatListItem } from 'src/presentation/types'
 
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
@@ -186,22 +188,27 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const openChat = async () => {
-		navigation.navigate('ChatMessages' as any, {
-			chat: {
-				chatId: '',
-				user1: {
-					userId: userDataContext.userId || '',
-					name: userDataContext.name || '',
-					profilePictureUrl: getUserProfilePictureFromContext(),
-				},
-				user2: {
-					userId: getUserField('userId') as Id,
-					name: getUserField('name') as string,
-					profilePictureUrl: getProfilePicture() || '',
-				},
-				messages: {},
-			},
+		navigation.navigate('HomeTab' as any, {
+			screen: 'ChatStack' as keyof HomeTabParamList
 		})
+		setTimeout(() => {
+			navigation.navigate('ChatMessages' as any, {
+				chat: {
+					chatId: '',
+					user1: {
+						userId: userDataContext.userId || '',
+						name: userDataContext.name || '',
+						profilePictureUrl: getUserProfilePictureFromContext(),
+					},
+					user2: {
+						userId: getUserField('userId') as Id,
+						name: getUserField('name') as string,
+						profilePictureUrl: getProfilePicture() || '',
+					},
+					messages: {},
+				} as Chat
+			})
+		}, 50)
 	}
 
 	const openSocialMediaManagement = () => {
