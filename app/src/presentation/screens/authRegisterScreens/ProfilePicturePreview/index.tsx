@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { Id } from '@domain/post/entity/types'
+import { Id, PostEntity } from '@domain/post/entity/types'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -168,8 +168,15 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 											await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+
+											const owner: PostEntity['owner'] = {
+												userId: userData.userIdentification.uid,
+												name: userData.userName,
+												profilePictureUrl: [profilePictureUrl]
+											}
+
 											await remotePostStorage.updateOwnerDataOnPosts(
-												{ ...currentUser },
+												{ ...owner },
 												userDataContext.posts?.map((post) => post.postId) as Id[]
 											)
 										}
