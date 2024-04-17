@@ -11,6 +11,9 @@ import { SubscriptionProvider } from '@contexts/SubscriptionContext'
 
 import { UserStackParamList } from './types'
 
+import { ContactUs } from '@screens/configurationScreens/ContactUs'
+import { ContactUsInsertMessage } from '@screens/configurationScreens/ContactUsInsertMessage'
+import { ContactUsSuccess } from '@screens/configurationScreens/ContactUsSuccess'
 import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { WelcomeNewUser } from '@screens/homeScreens/WelcomeNewUser'
 import { EditCurrentSubscription } from '@screens/paymentSystemScreens/EditCurrentSubscription'
@@ -20,11 +23,13 @@ import { SelectSubsciptionPaymentMethod } from '@screens/paymentSystemScreens/Se
 import { SelectSubscriptionPlan } from '@screens/paymentSystemScreens/SelectSubscriptionPlan'
 import { SelectSubscriptionRange } from '@screens/paymentSystemScreens/SelectSubscriptionRange'
 import { SubscriptionPaymentResult } from '@screens/paymentSystemScreens/SubscriptionPaymentResult'
+import { SelectLeaderPostType } from '@screens/postScreens/SelectLeaderPostType'
 import { SelectPostType } from '@screens/postScreens/SelectPostType'
 import { OfflinePostsManagement } from '@screens/profileScreens/OfflinePostsManagement'
 
 import { HomeTab } from '../../Tabs/HomeTab'
 import { CultureStack } from '../CultureStack'
+import { PollStack } from '../PollStack'
 import { SaleStack } from '../SaleStack'
 import { ServiceStack } from '../ServiceStack'
 import { SocialImpactStack } from '../SocialImpactStack'
@@ -55,14 +60,21 @@ export function UserStack({ route }: any) {
 
 									{/* Rever a possibilidade de migrar para postStack se o custo de acesso não for grande */}
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
+									<Stack.Screen name={'SelectLeaderPostType'} component={SelectLeaderPostType} />
 									<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
 									<Stack.Screen name={'SaleStack'} component={SaleStack} />
 									<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
 									<Stack.Screen name={'CultureStack'} component={CultureStack} />
 									<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
+									<Stack.Screen name={'PollStack'} component={PollStack} />
 
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
+
+									{/* TODO Type */}
+									<Stack.Screen name={'ContactUsUserStack'} component={ContactUs as any} />
+									<Stack.Screen name={'ContactUsInsertMessageUserStack'} component={ContactUsInsertMessage as any} />
+									<Stack.Screen name={'ContactUsSuccessUserStack'} component={ContactUsSuccess as any} />
 
 									<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
 									<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />

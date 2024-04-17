@@ -70,15 +70,15 @@ function ImageCarousel({
 				height: square ? relativeWidth : relativeScreenHeight(28),
 				marginVertical: RFValue(marginVertical)
 			}}
-		>	
+		>
 			{
 				showFullscreenIcon && (
 					<FullScreenIconContainer>
-						<FullscreenIcon/>
+						<FullscreenIcon />
 					</FullScreenIconContainer>
-				) 
+				)
 			}
-			
+
 			<Carousel
 				data={getCarouselPicture()}
 				autoPlay={picturesUrl.length > 1}

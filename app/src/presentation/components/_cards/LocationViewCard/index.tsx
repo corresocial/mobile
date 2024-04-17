@@ -72,6 +72,7 @@ function LocationViewCard({
 		}
 
 		if (locationView === 'approximate') return
+		if (!location.city) return
 
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
@@ -83,11 +84,11 @@ function LocationViewCard({
 	const formatAddress = () => {
 		const {
 			street,
-			number,
+			district,
 			city,
 			state,
 		} = location
-		return `${street && `${street},`}${number && `${number},`}${city && `${city},`}${state}`
+		return `${street && `${street}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
 	}
 
 	const getAddressCoordinates = () => {

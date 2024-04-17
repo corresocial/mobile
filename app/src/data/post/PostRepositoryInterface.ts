@@ -15,7 +15,7 @@ interface PostRepositoryInterface {
 	},
 
 	remoteStorage: {
-		getPostById: (postId: string) => Promise<PostEntity | null>
+		getPostById: (postId: string) => Promise<PostEntityOptional | null>
 
 		createPost: (post: PostEntityOptional, user: UserEntity, postType: PostType) => Promise<string | null>
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>

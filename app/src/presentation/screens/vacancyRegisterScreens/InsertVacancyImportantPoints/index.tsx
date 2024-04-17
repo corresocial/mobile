@@ -168,7 +168,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 			>
 				<>
 					{
-						/* !keyboardOpened && */ renderVacanciesImportantPointsSaved()
+						renderVacanciesImportantPointsSaved()
 					}
 					{
 						importantPointsLength() < 3

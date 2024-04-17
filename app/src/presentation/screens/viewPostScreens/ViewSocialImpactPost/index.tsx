@@ -12,6 +12,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -58,7 +59,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -132,12 +132,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
 		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
 
 		await removePostOnContext()
-		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
@@ -154,7 +152,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSocialImpactPost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('SocialImpactStack' as any, {
+			screen: 'EditSocialImpactPost' as keyof SocialImpactStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved } }
+		})
 	}
 
 	const sharePost = () => {
@@ -333,7 +334,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { View, BackHandler } from 'react-native'
 
-import { HomeTabScreenProps } from '@routes/Stack/UserStack/screenProps'
+import { HomeTabScreenProps } from '@routes/Tabs/HomeTab/screenProps'
 
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'

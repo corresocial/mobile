@@ -10,17 +10,16 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
+import { LoaderContext } from '@contexts/LoaderContext'
 
+import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
-import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
-import ChatWhiteIcon from '@assets/icons/chat-white.svg'
-import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
-import ShareWhiteIcon from '@assets/icons/share-white.svg'
+import { Body, Container } from './styles'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -40,26 +39,25 @@ import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
 import { Loader } from '@components/Loader'
+import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
-import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 const { localStorage } = useUserRepository()
 const { remoteStorage } = usePostRepository()
 const { sendImpactReport } = useImpactReportDomain()
 
-const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { convertTextToNumber, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -91,11 +89,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		return userDataContext.userId === postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-
-	const renderFormatedPostDateTime = () => {
-		const formatedDate = formatRelativeDate(postData.createdAt || '')
-		return formatedDate
-	}
 
 	const getProfilePictureUrl = () => {
 		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
@@ -132,12 +125,18 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true)
-		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
-		await removePostOnContext()
-		setIsLoading(false)
-		backToPreviousScreen()
+		try {
+			setLoaderIsVisible(true)
+
+			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+			await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
+			await removePostOnContext()
+
+			setLoaderIsVisible(false)
+			backToPreviousScreen()
+		} catch (error) {
+			setLoaderIsVisible(false)
+		}
 	}
 
 	const removePostOnContext = async () => {
@@ -148,7 +147,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditCulturePost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('CultureStack' as any, {
+			screen: 'EditCulturePostReview' as keyof CultureStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved } }
+		})
 	}
 
 	const backToPreviousScreen = () => {
@@ -269,80 +271,36 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<Header>
-				<DefaultPostViewHeader
-					onBackPress={() => navigation.goBack()}
-					text={getPostField('description')}
-				/>
-				<VerticalSpacing />
-				<UserAndValueContainer>
-					<SmallUserIdentification
-						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
-						postDate={renderFormatedPostDateTime()}
-						userNameFontSize={14}
-						profilePictureUrl={getProfilePictureUrl()}
-						pictureDimensions={45}
-						width={'60%'}
-						navigateToProfile={navigateToProfile}
+			<PostHeader
+				title={postData.description}
+				isAuthor={isAuthor}
+				isCompleted={isCompleted}
+				owner={postData.owner}
+				createdAt={postData.createdAt}
+				navigateToProfile={navigateToProfile}
+				highlightedButtonAction={openChat}
+				sharePost={sharePost}
+			>
+				<PostPopOver
+					postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
+					popoverVisibility={postOptionsIsOpen}
+					closePopover={() => setPostOptionsIsOpen(false)}
+					isAuthor={isAuthor || false}
+					isCompleted={isCompleted}
+					goToComplaint={reportPost}
+					markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
+					editPost={goToEditPost}
+					deletePost={toggleDefaultConfirmationModalVisibility}
+				>
+					<SmallButton
+						SvgIcon={ThreeDotsWhiteIcon}
+						relativeWidth={relativeScreenWidth(12)}
+						height={relativeScreenWidth(12)}
+						onPress={() => setPostOptionsIsOpen(true)}
 					/>
-				</UserAndValueContainer>
-				<VerticalSpacing />
-				<OptionsArea>
-					{
-						!isAuthor && (
-							<SmallButton
-								color={theme.white3}
-								SvgIcon={ShareWhiteIcon}
-								relativeWidth={relativeScreenWidth(11)}
-								height={relativeScreenWidth(11)}
-								onPress={sharePost}
-							/>
-						)
-					}
-					{
-						isCompleted
-							? (
-								<SmallButton
-									label={'post foi concluído'}
-									labelColor={theme.black4}
-									SvgIcon={DeniedWhiteIcon}
-									relativeWidth={'80%'}
-									height={relativeScreenWidth(12)}
-									onPress={() => { }}
-								/>
-							)
-							: (
-								<SmallButton
-									color={theme.green3}
-									label={isAuthor ? 'compartilhar' : 'conversar'}
-									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
-									relativeWidth={isAuthor ? '80%' : '63%'}
-									height={relativeScreenWidth(12)}
-									onPress={isAuthor ? sharePost : openChat}
-								/>
-							)
-					}
-					<PostPopOver
-						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
-						popoverVisibility={postOptionsIsOpen}
-						closePopover={() => setPostOptionsIsOpen(false)}
-						isAuthor={isAuthor || false}
-						isLoading={isLoading}
-						isCompleted={isCompleted}
-						goToComplaint={reportPost}
-						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
-						editPost={goToEditPost}
-						deletePost={toggleDefaultConfirmationModalVisibility}
-					>
-						<SmallButton
-							SvgIcon={ThreeDotsWhiteIcon}
-							relativeWidth={relativeScreenWidth(12)}
-							height={relativeScreenWidth(12)}
-							onPress={() => setPostOptionsIsOpen(true)}
-						/>
-					</PostPopOver>
-				</OptionsArea>
-			</Header>
+				</PostPopOver>
+			</PostHeader>
+
 			<ScrollView showsVerticalScrollIndicator={false} >
 				<VerticalSpacing />
 				<HorizontalTagList

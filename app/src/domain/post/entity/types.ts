@@ -83,8 +83,8 @@ export type CompleteAddress = {
 	street: string
 	number: string
 	coordinates: {
-		latitude?: number
-		longitude?: number
+		latitude: number
+		longitude: number
 	}
 }
 

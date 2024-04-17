@@ -16,12 +16,10 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
-import { Loader } from '../Loader'
 
 interface PostPopOverProps {
 	postTitle?: string
 	isAuthor?: boolean
-	isLoading?: boolean
 	isCompleted?: boolean
 	popoverVisibility: boolean
 	children: React.ReactChild
@@ -35,7 +33,6 @@ interface PostPopOverProps {
 function PostPopOver({
 	postTitle,
 	isAuthor = false,
-	isLoading = false,
 	isCompleted = false,
 	popoverVisibility,
 	children,
@@ -68,53 +65,56 @@ function PostPopOver({
 					</CloseIcon>
 					<PostTitle>{postTitle}</PostTitle>
 					{
-						isAuthor
-							? isLoading
-								? <Loader />
-								: (
-									<>
-										<PrimaryButton
-											color={theme.green3}
-											label={'editar post'}
-											highlightedWords={['editar']}
-											labelColor={theme.white3}
-											SecondSvgIcon={EditWhiteIcon}
-											fontSize={14}
-											minHeight={20}
-											relativeHeight={relativeScreenHeight(8)}
-											onPress={editPost && editPost}
-										/>
-										<VerticalSpacing />
-										<PrimaryButton
-											color={theme.yellow3}
-											label={isCompleted ? 'não concluído' : 'marcar concluído'}
-											highlightedWords={['concluído']}
-											SecondSvgIcon={isCompleted ? XWhiteIcon : CheckWhiteIcon}
-											fontSize={14}
-											minHeight={20}
-											relativeHeight={relativeScreenHeight(8)}
-											onPress={markAsCompleted && markAsCompleted}
-										/>
-										{
-											deletePost && (
-												<>
-													<VerticalSpacing />
-													<PrimaryButton
-														color={theme.red3}
-														onPress={deletePost}
-														label={'apagar post'}
-														highlightedWords={['apagar']}
-														labelColor={theme.white3}
-														SvgIcon={TrashWhiteIcon}
-														fontSize={14}
-														minHeight={20}
-														relativeHeight={relativeScreenHeight(8)}
-													/>
-												</>
-											)
-										}
-									</>
-								)
+						isAuthor ? (
+							<>
+								{
+									editPost && (
+										<>
+											<PrimaryButton
+												color={theme.green3}
+												label={'editar post'}
+												highlightedWords={['editar']}
+												labelColor={theme.white3}
+												SecondSvgIcon={EditWhiteIcon}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={editPost}
+											/>
+											<VerticalSpacing />
+										</>
+									)
+								}
+								<PrimaryButton
+									color={theme.yellow3}
+									label={isCompleted ? 'não concluído' : 'marcar concluído'}
+									highlightedWords={['concluído']}
+									SecondSvgIcon={isCompleted ? XWhiteIcon : CheckWhiteIcon}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={markAsCompleted && markAsCompleted}
+								/>
+								{
+									deletePost && (
+										<>
+											<VerticalSpacing />
+											<PrimaryButton
+												color={theme.red3}
+												onPress={deletePost}
+												label={'apagar post'}
+												highlightedWords={['apagar']}
+												labelColor={theme.white3}
+												SvgIcon={TrashWhiteIcon}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+											/>
+										</>
+									)
+								}
+							</>
+						)
 							: (
 								<PrimaryButton
 									color={theme.red3}

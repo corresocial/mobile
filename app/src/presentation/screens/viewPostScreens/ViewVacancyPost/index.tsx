@@ -12,6 +12,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -68,7 +69,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -141,10 +141,9 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
 		await removePostOnContext()
-		setIsLoading(false)
+
 		backToPreviousScreen()
 	}
 
@@ -156,7 +155,10 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditVacancyPost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('VacancyStack' as any, {
+			screen: 'EditVacancyPost' as keyof VacancyStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved } }
+		})
 	}
 
 	const backToPreviousScreen = () => {
@@ -335,7 +337,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}

@@ -67,6 +67,7 @@
     "expo-network": "~5.4.0",
     "expo-notifications": "~0.20.1",
     "expo-permissions": "~14.2.1",
+    "expo-print": "~12.4.2",
     "expo-random": "~13.2.0",
     "expo-screen-orientation": "~6.0.6",
     "expo-sharing": "~11.5.0",
@@ -107,7 +108,8 @@
     "sentry-expo": "~7.1.0",
     "stripe": "^12.9.0",
     "styled-components": "^5.3.5",
-    "uri-scheme": "^1.2.0"
+    "uri-scheme": "^1.2.0",
+    "expo-file-system": "~15.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

@@ -63,6 +63,7 @@ interface TextInputProps {
 	height?: number
 	hasMultiline?: boolean
 	hasIcon?: boolean
+	hasDoubleIcon?: boolean
 	textAlignVertical?: TextStyle['textAlignVertical']
 }
 
@@ -71,7 +72,7 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	font-size: ${({ fontSize }) => RFValue(fontSize)}px;
 	text-align: ${({ textAlign }) => textAlign};
 	text-align-vertical: ${({ hasMultiline }) => (hasMultiline ? 'top' : 'center')};
-	width: ${({ hasIcon }) => (hasIcon ? '85%' : '100%')};
+	width: ${({ hasIcon, hasDoubleIcon }) => (hasDoubleIcon ? '70%' : hasIcon ? '85%' : '100%')};
 
     font-family: Arvo_400Regular;
 

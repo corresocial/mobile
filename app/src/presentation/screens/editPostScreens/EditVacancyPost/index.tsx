@@ -118,13 +118,17 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			}
 		}
 
-		navigation.push(customStack || 'VacancyStack' as any, { // TODO Type
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		if (customStack) {
+			return navigation.push(customStack || 'VacancyStack' as any, { // TODO Type
+				screen: screenName,
+				params: {
+					editMode: true,
+					initialValue: value
+				}
+			})
+		}
+
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectVacancyLocationView', 'location')

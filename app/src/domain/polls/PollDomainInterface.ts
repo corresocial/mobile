@@ -1,5 +1,0 @@
-interface PollDomainInterface {
-
-}
-
-export { PollDomainInterface }
