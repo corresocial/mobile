@@ -1,6 +1,6 @@
 import { PollRepositoryInterface } from '@data/poll/PollRepositoryInterface'
 
-import { PollEntity } from './entity/types'
+import { PollEntity, PrivatePollResponse } from './entity/types'
 
 interface PollDomainInterface {
 	getPollData: (usePollRepository: () => PollRepositoryInterface, pollId: string) => Promise<PollEntity | undefined>
@@ -9,7 +9,7 @@ interface PollDomainInterface {
 	sendPollResponse: (
 		usePollRepository: () => PollRepositoryInterface,
 		pollId: string,
-		responseData: PollEntity['privateResponses']) => Promise<void>
+		responseData: PrivatePollResponse) => Promise<void>
 	generatePollResultsReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
 	generateIndividualPollResponsesReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
 	markPollAsCompleted: (usePollRepository: () => PollRepositoryInterface, pollId: string) => Promise<void>

@@ -7,7 +7,7 @@ import { markPollAsCompletedDM } from './methods/markPollAsCompletedDM'
 import { sendPollResponseDM } from './methods/sendPollResponseDM'
 import { PollDomainInterface } from './PollDomainInterface'
 
-function usePollDomain(): PollDomainInterface { // PollDomainInterface
+function usePollDomain(): PollDomainInterface {
 	return {
 		getPollData: getPollDataDM,
 

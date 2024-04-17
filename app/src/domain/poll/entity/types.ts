@@ -37,7 +37,7 @@ type PollLocation = {
 	geohashNearby: string[]
 }
 
-type PrivatePollResponse = {
+export type PrivatePollResponse = {
 	userId: string
 	location: PollLocation // REFACTOR Centralizar todos os endereços
 	responses: PollResponse[]
