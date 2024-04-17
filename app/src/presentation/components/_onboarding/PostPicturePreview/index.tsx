@@ -1,6 +1,5 @@
-import { Video, ResizeMode } from 'expo-av'
 import { Asset } from 'expo-media-library'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { ButtonsContainer, Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
@@ -23,7 +22,7 @@ import { PhotoPortrait } from '../../PhotoPortrait'
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
-	initialValue?: string[]
+	initialValue?: { picturesUrl: string[], videosUrl: string[] }
 	navigateBackwards: () => void
 	saveMedia: (picturesUrl: string[], videosUrl: string[]) => void
 }
@@ -34,14 +33,12 @@ function PostPicturePreview({
 	navigateBackwards,
 	saveMedia
 }: PostPicturePreviewProps) {
-	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue || [])
-	const [videosPack, setVideosPack] = useState<string[]>([])
+	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue?.picturesUrl || [])
+	const [videosPack, setVideosPack] = useState<string[]>(initialValue?.videosUrl || [])
 	const [mediaIndexSelected, setmediaIndexSelected] = useState<number>(0)
 	const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
-
-	useEffect(() => { console.log(videosPack[0]) }, [videosPack])
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
@@ -103,7 +100,7 @@ function PostPicturePreview({
 				</TopArea>
 				<PicturePreviewContainer>
 					{
-						!isVideoSelected 
+						!isVideoSelected
 							? (
 								<PhotoPortrait
 									resizeMode={'cover'}
@@ -111,7 +108,7 @@ function PostPicturePreview({
 									width={relativeScreenWidth(90)}
 									height={relativeScreenWidth(89)}
 									deleteCurrentPicture={deleteCurrentPicture}
-								/> 
+								/>
 							) : (
 								<VideoPortrait
 									videoUrl={videosPack[mediaIndexSelected]}
@@ -121,7 +118,7 @@ function PostPicturePreview({
 								/>
 							)
 					}
-					
+
 					<VerticalSpacing height={relativeScreenWidth(7)} />
 				</PicturePreviewContainer>
 				<HorizontalListPicturesContainer>

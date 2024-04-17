@@ -9,18 +9,18 @@ import { AlbumInfo, AlbumType } from './types'
 
 import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
 
-import { 
+import {
 	MediaBrowserModalContainer,
-	MediaBrowserScrollView, 
+	MediaBrowserScrollView,
 	AlbumContainer,
-	MediaFlatListContainer,  
+	MediaFlatListContainer,
 	MediaFlatList,
-	ConfirmSelectionButton, 
-	MediaBrowserHeader,  
+	ConfirmSelectionButton,
+	MediaBrowserHeader,
 	MediaBrowserHeaderText,
 	NotPermissionText,
 	ActivityIndicatorContainer,
-	ActivityIndicatorBg, 
+	ActivityIndicatorBg,
 
 } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -33,7 +33,7 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { AlbumThumbnail } from '@components/AlbumThumbnail'
 import { MediaThumbnail } from '@components/MediaThumbnail'
 
-interface MediaBrowserProps{
+interface MediaBrowserProps {
 	showMediaBrowser: boolean,
 	maxImages?: number,
 	onClose: () => void,
@@ -59,10 +59,10 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			console.log('oi')
 			await requestPermission()
 		}
-		
+
 		const fetchedAlbums = await MediaLibrary.getAlbumsAsync({ includeSmartAlbums: true })
 		const manipulatedAlbums = await manipulateAlbums(fetchedAlbums as AlbumType[])
-		
+
 		setAlbums(manipulatedAlbums as AlbumType[])
 	}
 
@@ -81,7 +81,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 						const { uri } = await VideoThumbnails.getThumbnailAsync(firstAsset.uri, { time: 1000 })
 						return { ...album, thumbnail: uri }
 					}
-					
+
 					return { ...album, thumbnail: firstAsset.uri }
 				}
 				return false
@@ -100,7 +100,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		})
 	}
 
-	const firstAssetIsPhotoType = async (albumId: string) => { 
+	const firstAssetIsPhotoType = async (albumId: string) => {
 		const firstAsset = await getFirstAssetInAlbum(albumId)
 		return !!firstAsset.length
 	}
@@ -142,7 +142,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 	}
 
 	const generateThumbnailOnVideoAssets = async (assets: Asset[]) => {
-		return Promise.all( 
+		return Promise.all(
 			assets.map(async (asset) => {
 				if (asset.mediaType === 'photo') return { ...asset }
 				const { uri } = await VideoThumbnails.getThumbnailAsync(asset.uri, { time: 1000 })
@@ -161,13 +161,13 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		setCursor('0')
 		setMedia([])
 		setMediaSelected([])
-	} 
+	}
 
 	const assetSelectionHandler = (item: any) => {
 		const isItemSelected = mediaSelected.includes(item)
 		let itemsSelected = []
 		if (isItemSelected) {
-			itemsSelected = mediaSelected.filter((asset) => asset !== item) 
+			itemsSelected = mediaSelected.filter((asset) => asset !== item)
 		} else {
 			itemsSelected = [...mediaSelected, item]
 		}
@@ -193,8 +193,8 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 							<AlbumThumbnail
 								key={uuid()}
 								album={album}
-								onSelectAlbum={selectAlbumHandler} 
-							/>	
+								onSelectAlbum={selectAlbumHandler}
+							/>
 						))
 					}
 				</AlbumContainer>
@@ -213,18 +213,18 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 							<MediaThumbnail
 								active={mediaSelected.includes(item)}
 								mediaAsset={item}
-								onSelection={assetSelectionHandler} 
+								onSelection={assetSelectionHandler}
 							/>
 						)}
 						numColumns={3}
 						onEndReached={() => loadAlbumMedia()}
 					/>
-				
+
 				</MediaFlatListContainer>
 				{
-					
+
 					isContentLoading && (
-						
+
 						<ActivityIndicatorContainer isLoadingMore={arrayIsEmpty(media)}>
 							<ActivityIndicatorBg>
 								<ActivityIndicator
@@ -252,7 +252,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 					)
 				}
 			</>
-			
+
 		)
 	}
 
@@ -262,7 +262,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
 				{
 					albumSelected ? (
-						<BackButton onPress={unselectAlbum}/>
+						<BackButton onPress={unselectAlbum} />
 					) : (
 						<SmallButton
 							color={theme.red3}
@@ -273,12 +273,12 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 						/>
 					)
 				}
-				
+
 				<MediaBrowserHeaderText>
-					{ albumSelected ? albumSelected.albumName : 'Álbums' }
+					{albumSelected ? albumSelected.albumName : 'Álbums'}
 				</MediaBrowserHeaderText>
 			</MediaBrowserHeader>
-			{ albumSelected ? renderAlbumPhotos() : renderAlbums() }
+			{albumSelected ? renderAlbumPhotos() : renderAlbums()}
 
 			{
 				!permissionResponse?.granted && (
@@ -287,7 +287,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 					</NotPermissionText>
 				)
 			}
-			
+
 		</MediaBrowserModalContainer>
 	)
 }

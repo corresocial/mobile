@@ -134,7 +134,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
+		await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
 
 		await removePostOnContext()
 		setIsLoading(false)

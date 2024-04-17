@@ -145,7 +145,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
+		await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
 
 		await removePostOnContext()
 		setIsLoading(false)
@@ -413,6 +413,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 							>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
+									videosUrl={getPostField('videosUrl') || []}
 									indicatorColor={theme.green1}
 									square
 									showFullscreenIcon

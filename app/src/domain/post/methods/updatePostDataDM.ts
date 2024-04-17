@@ -54,7 +54,7 @@ async function updatePostDataDM(
 	const storedPicturesUrl = storedPostData.picturesUrl || []
 	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
 	if (picturesAlreadyUploadedToRemove.length) {
-		await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
+		await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
 	}
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
@@ -73,15 +73,15 @@ async function updatePostDataDM(
 	}
 
 	const storedVideosUrl = storedPostData.videosUrl || []
-	const AlreadyUploadedToRemove = storedVideosUrl.filter((videoUrl) => unsavedPostVideos && !unsavedPostVideos.includes(videoUrl))
-	if (AlreadyUploadedToRemove.length) {
-		await remoteStorage.deletePostPictures(AlreadyUploadedToRemove)
+	const videosAlreadyUploadedToRemove = storedVideosUrl.filter((videoUrl) => unsavedPostVideos && !unsavedPostVideos.includes(videoUrl))
+	if (videosAlreadyUploadedToRemove.length) {
+		await remoteStorage.deletePostMedias(videosAlreadyUploadedToRemove, 'videos')
 	}
 
 	// Tratamento de videos ^ ///////////////////////////////////////////////
 
-	const newPostWithUploadedMedia = { 
-		...newPostData, 
+	const newPostWithUploadedMedia = {
+		...newPostData,
 		picturesUrl: newPostPicturesUrl,
 		videosUrl: newPostVideosUrl
 	}

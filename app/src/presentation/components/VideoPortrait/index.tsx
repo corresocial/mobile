@@ -1,11 +1,9 @@
 import { ResizeMode } from 'expo-av'
 import React from 'react'
-import { ImageResizeMode } from 'react-native'
 
 import { Container, DeleteItemArea, NoPhotoContainer, PortraitVideo } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
-import UserShadow from '@assets/imgs/userShadow.jpg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -48,8 +46,9 @@ function VideoPortrait({
 					? (
 						<PortraitVideo
 							source={{ uri: videoUrl }}
-							useNativeControls
+							useNativeControls={false}
 							isLooping
+							volume={0}
 							resizeMode={ResizeMode.CONTAIN}
 						/>
 					)

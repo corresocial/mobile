@@ -31,7 +31,7 @@ interface PostRepositoryInterface {
 		) => Promise<PostEntity[]>
 
 		deletePost: (postId: string, userId: string) => Promise<boolean>
-		deletePostPictures: (postPictures: string[]) => Promise<boolean>
+		deletePostMedias: (postMedias: string[], storagePath: 'pictures' | 'videos') => Promise<boolean>
 	}
 }
 

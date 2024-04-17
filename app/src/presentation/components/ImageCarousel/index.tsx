@@ -43,9 +43,7 @@ function ImageCarousel({
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-	console.log('SASODKASDKSAOD AS', videosUrl)
-
-	const renderCarouselIndicators = () => picturesUrl.map((_, index) => (
+	const renderCarouselIndicators = () => [...videosUrl, ...picturesUrl].map((_, index) => (
 		index === currentCarouselIndex
 			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
@@ -111,15 +109,15 @@ function ImageCarousel({
 				height: square ? relativeWidth : relativeScreenHeight(28),
 				marginVertical: RFValue(marginVertical)
 			}}
-		>	
+		>
 			{
 				showFullscreenIcon && (
 					<FullScreenIconContainer>
-						<FullscreenIcon/>
+						<FullscreenIcon />
 					</FullScreenIconContainer>
-				) 
+				)
 			}
-			
+
 			<Carousel
 				data={getCarouselMedia()}
 				autoPlay={picturesUrl.length > 1}

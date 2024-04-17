@@ -27,12 +27,22 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
+	const getInitialMedias = () => {
+		if (editModeIsTrue()) {
+			return {
+				picturesUrl: [...(route.params?.initialValue.picturesUrl || [])],
+				videosUrl: [...(route.params?.initialValue.videosUrl || [])]
+			}
+		}
+		return { picturesUrl: [], videosUrl: [] }
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.green2}
-				initialValue={route.params?.initialValue || []}
+				initialValue={getInitialMedias()}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}
 			/>

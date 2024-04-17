@@ -106,8 +106,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
+		if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
 		}
 
 		if (initialValue === 'location') {

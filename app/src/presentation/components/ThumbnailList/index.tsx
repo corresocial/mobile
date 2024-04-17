@@ -7,10 +7,10 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { Thumbnail } from '@components/Thumbnail'
 
 interface ThumbnailProps {
-    thumbnailListRef: Ref<FlatList>,
-    picturesUrl: string[]
-    currentIndex: number
-    onThumbnailPressed: (id: number) => void
+	thumbnailListRef: Ref<FlatList>,
+	picturesUrl: string[]
+	currentIndex: number
+	onThumbnailPressed: (id: number) => void
 }
 
 function ThumbnailList({ thumbnailListRef, picturesUrl, currentIndex, onThumbnailPressed }: ThumbnailProps) {
@@ -31,7 +31,7 @@ function ThumbnailList({ thumbnailListRef, picturesUrl, currentIndex, onThumbnai
 			horizontal
 			showsHorizontalScrollIndicator={false}
 			data={picturesUrl}
-			ListHeaderComponent={<HorizontalSpacing/>}
+			ListHeaderComponent={<HorizontalSpacing />}
 			renderItem={renderThumbnailItem as ListRenderItem<unknown>}
 		/>
 	)

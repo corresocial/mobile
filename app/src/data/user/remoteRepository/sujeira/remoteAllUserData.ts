@@ -4,7 +4,7 @@ import { Id } from '@domain/globalTypes'
 import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { deletePost } from '@data/post/remoteStorage/deletePost' // from data/post
-import { deletePostPictures } from '@data/post/remoteStorage/deletePostPictures' // from data/post
+import { deletePostMedias } from '@data/post/remoteStorage/deletePostMedias' // from data/post
 
 import { auth } from '@infrastructure/firebase/index'
 
@@ -18,7 +18,7 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 
 	posts.map(async (post) => {
 		await deletePost(post.postId as Id, userId)
-		await deletePostPictures(post.picturesUrl || [])
+		await deletePostMedias(post.picturesUrl || [], 'pictures')
 		return true
 	})
 

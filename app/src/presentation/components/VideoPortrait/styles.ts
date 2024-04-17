@@ -1,8 +1,8 @@
+import { Video } from 'expo-av'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenWidth } from '@common/screenDimensions'
-import { Video } from 'expo-av'
 
 interface ContainerProps {
 	circle?: boolean
