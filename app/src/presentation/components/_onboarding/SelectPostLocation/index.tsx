@@ -33,9 +33,9 @@ const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
 	latitude: -13.890303625634541,
-	latitudeDelta: 55.54596047458735,
+	latitudeDelta: 3.54596047458735,
 	longitude: -51.92523987963795,
-	longitudeDelta: 49.99996047466992,
+	longitudeDelta: 3.99996047466992,
 }
 
 const defaultDeltaCoordinates = {
@@ -69,13 +69,13 @@ function SelectPostLocation({
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(initialRegion)
 	const [address, setAddress] = useState('')
+	const { getCoordinatesByIpAddress } = useLocationService()
 
 	const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({
 		width: 0, height: 0, x: 0, y: 0
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
-
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -87,8 +87,22 @@ function SelectPostLocation({
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {
 			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...initialValue })
+		} else {
+			getIpAddressCoodinates()
 		}
 	}, [])
+
+	const getIpAddressCoodinates = async () => {
+		const coordinates = await getCoordinatesByIpAddress()
+
+		console.log('coordinates from IP')
+		console.log(coordinates)
+
+		if (coordinates) {
+			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
+		}
+		return setMarkerCoordinate(initialRegion)
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()

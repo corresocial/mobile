@@ -76,6 +76,7 @@
     "expo-web-browser": "~12.3.2",
     "firebase": "^9.17.1",
     "firebase-functions": "^4.4.1",
+    "fs": "^0.0.1-security",
     "lottie-react-native": "5.1.6",
     "moment": "^2.29.4",
     "ngeohash": "^0.6.3",
