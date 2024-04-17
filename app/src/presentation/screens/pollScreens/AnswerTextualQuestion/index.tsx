@@ -29,7 +29,7 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 	const [inputText, setInputText] = useState('')
 
 	const { questionData } = route.params
-	const responseProgress = [1, 3]
+	// const responseProgress = [1, 3]
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -73,7 +73,7 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 						message={questionData.question}
 						highlightedWords={questionData ? questionData.question.split(' ') : []}
 					>
-						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
+						{/* <ProgressBar value={responseProgress[0]} range={responseProgress[1]} /> */}
 					</InstructionCard>
 				</InstructionContainer>
 			</DefaultHeaderContainer>

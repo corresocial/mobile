@@ -25,7 +25,7 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 	const theme = useTheme()
 
 	const { questionData } = route.params
-	const responseProgress = [1, 3]
+	// const responseProgress = [1, 3]
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -62,7 +62,7 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 						message={questionData.question}
 						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
 					>
-						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
+						{/* <ProgressBar value={responseProgress[0]} range={responseProgress[1]} /> */}
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
