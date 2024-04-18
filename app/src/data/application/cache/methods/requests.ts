@@ -8,11 +8,14 @@ async function executeCachedRequest(cacheClient: QueryClient, cacheKey: any[], f
 	if (!refresh) {
 		const cachedData = cacheClient.getQueryData(cacheKey)
 		if (cachedData) {
+			// Alert.alert('CACHED DATA', JSON.stringify(cachedData))
+			// Alert.alert('CACHED KEY', JSON.stringify(cacheKey))
 			console.log('CACHED')
 			return cachedData
 		}
 	}
 
+	// Alert.alert('FETCHED KEY', JSON.stringify(cacheKey))
 	console.log('FETCHED')
 	const data = await fetchMethod()
 	cacheClient.setQueryData(cacheKey, data)

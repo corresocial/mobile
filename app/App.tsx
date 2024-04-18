@@ -1,13 +1,16 @@
 /* eslint-disable no-undef */
 import 'react-native-gesture-handler'
 import { useFonts, Arvo_400Regular, Arvo_700Bold } from '@expo-google-fonts/arvo'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
 import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
+import { QueryClient } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import * as Sentry from 'sentry-expo'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -60,16 +63,28 @@ function App() {
 		},
 	}
 
-	const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: defaultCachePersistence, gcTime: defaultCachePersistence } } })
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				staleTime: defaultCachePersistence,
+				gcTime: defaultCachePersistence,
+			},
+		}
+	})
+
+	const asyncStoragePersister = createAsyncStoragePersister({ storage: AsyncStorage })
 
 	return (
 		<NavigationContainer linking={linking}>
 			<ThemeProvider theme={theme}>
 				<AlertProvider>
 					<LoaderProvider>
-						<QueryClientProvider client={queryClient}>
+						<PersistQueryClientProvider
+							client={queryClient}
+							persistOptions={{ persister: asyncStoragePersister }}
+						>
 							<AuthRegisterStack />
-						</QueryClientProvider>
+						</PersistQueryClientProvider>
 					</LoaderProvider>
 				</AlertProvider>
 			</ThemeProvider>
