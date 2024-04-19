@@ -279,11 +279,11 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostHeader
-				title={postData.description}
+				title={getPostField('description')}
 				isAuthor={isAuthor}
 				isCompleted={isCompleted}
 				owner={postData.owner}
-				createdAt={postData.createdAt}
+				createdAt={getPostField('createdAt')}
 				navigateToProfile={navigateToProfile}
 				highlightedButtonAction={openChat}
 				sharePost={sharePost}

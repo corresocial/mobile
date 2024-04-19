@@ -4,23 +4,29 @@ import { uploadPostPictures } from '@data/post/bucketStorage/uploadPostPictures'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from '../entity/types'
+import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
+
+import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
 import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormalizedPostDM'
 import { picturesUrlUpdatedDM } from '../core/editPostValidationDM'
 import { getUneditedPostsDM } from '../core/getUneditedPostsDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
 
-async function updatePostDataDM(
+async function savePostDM(
 	usePostRepository: () => PostRepositoryInterface,
+	useCloudFunctionService: () => CloudFunctionServiceInterface,
 	userSubscriptionRange: UserSubscription['subscriptionRange'],
 	userPosts: PostEntity[],
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
-	unsavedPostPictures: string[]
+	unsavedPostPictures: string[],
+	notifyUsersByLocation?: boolean
 ) {
+	const { notifyUsersOnLocation } = useCloudFunctionService()
 	const { remoteStorage } = usePostRepository()
 
-	const owner = { ...storedPostData.owner }
+	const owner = { ...newPostData.owner }
 
 	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
 		userSubscriptionRange,
@@ -62,14 +68,28 @@ async function updatePostDataDM(
 
 	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostWithUploadedPictures)
 
-	await remoteStorage.updatePostData(storedPostData.postId, newPostWithUploadedPictures)
+	const newStoredPost = await remoteStorage.createPost(newPostWithUploadedPictures)
 
-	const newPostDesnormalized = convertPostToDesnormalizedPostDM(newPostWithUploadedPictures) // PROCESSOS QUE DEVEM SER FEITOS ANTES DE RETORNAR PARA SALVAR NA COLLECTION DE USUÁRIOS
+	if (notifyUsersByLocation) {
+		await notifyUsersOnLocation({
+			state: newPostData.location.state as string,
+			city: newPostData.location.city as string,
+			district: newPostData.location.district as string,
+			postRange: newPostData.range as NotifyUsersByLocationParams['postRange']
+		}, {
+			postDescription: newPostData.description,
+			userId: owner.userId,
+			userName: owner.name
+		})
+	}
+
+	const newPostDesnormalized = convertPostToDesnormalizedPostDM(newStoredPost) // PROCESSOS QUE DEVEM SER FEITOS ANTES DE RETORNAR PARA SALVAR NA COLLECTION DE USUÁRIOS
 
 	return {
-		updatedUserPosts: [...userPostsUpdated, newPostDesnormalized as PostEntity],
+		newPost: { ...newPostDesnormalized } as PostEntity,
+		updatedUserPosts: [...userPostsUpdated, { ...newPostDesnormalized } as PostEntity],
 		picturesUrlUploaded: newPostPicturesUrl
 	}
 }
 
-export { updatePostDataDM }
+export { savePostDM }

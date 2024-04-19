@@ -1,5 +1,4 @@
 import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
 
 import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
 
@@ -17,7 +16,7 @@ interface PostRepositoryInterface {
 	remoteStorage: {
 		getPostById: (postId: string) => Promise<PostEntityOptional | null>
 
-		createPost: (post: PostEntityOptional, user: UserEntity, postType: PostType) => Promise<string | null>
+		createPost: (post: PostEntityOptional) => Promise<PostEntity | null>
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
 
 		updatePostData: (postId: string, data: PostEntityOptional) => Promise<boolean>
