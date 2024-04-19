@@ -59,7 +59,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const loadChatFromCache = async () => {
 		const cachedChat = await queryClient.getQueryData(chatConversationsKCacheKey) as Chat[]
 		if (cachedChat) {
-			console.log('Has CACHED CHAT')
 			setChatsOnContext(cachedChat)
 		}
 	}

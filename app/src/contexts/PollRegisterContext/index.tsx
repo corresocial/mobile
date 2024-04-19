@@ -51,12 +51,12 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	const [pollResponseData, setPollResponseData] = useState<PollResponse[]>([])
 
 	const setPollDataOnContext = async (data: PollEntityOptional) => {
-		console.log({ ...pollRegisterDataContext, ...data })
+		// console.log({ ...pollRegisterDataContext, ...data })
 		setPollRegisterDataContext({ ...pollRegisterDataContext, ...data })
 	}
 
 	const setPollQuestionRegisterDataOnContext = async (data: PollQuestionOptional) => {
-		console.log({ ...pollQuestionRegisterDataContext, ...data })
+		// console.log({ ...pollQuestionRegisterDataContext, ...data })
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
