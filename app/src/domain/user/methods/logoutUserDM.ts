@@ -17,14 +17,14 @@ async function logoutUserDM(
 		const { localStorage: localPostsStorage } = usePostRepository()
 		const { updateUserTokenNotification } = useChatDomain()
 
-		await updateUserTokenNotification(userId, '')
 		await localStorage.clearLocalUserData()
 		await localPostsStorage.clearOfflinePosts()
-		await auth.signOut()
+		await updateUserTokenNotification(userId, '')
 		removeChatListeners()
+		await auth.signOut()
 	} catch (error: any) {
 		console.log(error)
-		throw new Error(error)
+		// throw new Error(error)
 	}
 }
 

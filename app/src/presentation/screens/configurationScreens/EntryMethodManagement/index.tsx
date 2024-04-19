@@ -215,7 +215,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
-				accountIdentifier={userPrivateContacts.email}
+				accountIdentifier={userPrivateContacts.email || ''}
 				registerMethod
 				linking
 				hasError={hasError}
@@ -261,11 +261,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									Platform.OS === 'android' && (
 										<EditCard
 											title={'conta google'}
-											RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+											RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
 											SecondSvgIcon={GoogleWhiteIcon}
-											value={userPrivateContacts.email}
+											value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
 											pressionable
-											onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
+											onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
 										/>
 									)
 								}

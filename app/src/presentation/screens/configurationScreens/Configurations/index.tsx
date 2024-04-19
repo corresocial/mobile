@@ -53,14 +53,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performLogout = async () => {
-		await logoutUser(
-			useUserRepository,
-			usePostRepository,
-			useChatDomain,
-			removeChatListeners,
-			userDataContext.userId
-		)
-		navigateToInitialScreen()
+		try {
+			await logoutUser(
+				useUserRepository,
+				usePostRepository,
+				useChatDomain,
+				removeChatListeners,
+				userDataContext.userId
+			)
+			navigateToInitialScreen()
+		} catch (err) {
+			// Alert.alert(JSON.stringify(err))
+		}
 	}
 
 	const navigateToInitialScreen = () => {
