@@ -29,13 +29,14 @@ import { Loader } from '@components/Loader'
 import { CustomMapView } from '../../CustomMapView'
 
 const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
+const { getCoordinatesByIpAddress } = useLocationService()
 const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
 	latitude: -13.890303625634541,
-	latitudeDelta: 55.54596047458735,
+	latitudeDelta: 3.54596047458735,
 	longitude: -51.92523987963795,
-	longitudeDelta: 49.99996047466992,
+	longitudeDelta: 3.99996047466992
 }
 
 const defaultDeltaCoordinates = {
@@ -91,8 +92,19 @@ function SelectPostLocation({
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {
 			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...initialValue })
+		} else {
+			getIpAddressCoodinates()
 		}
 	}, [])
+
+	const getIpAddressCoodinates = async () => {
+		const coordinates = await getCoordinatesByIpAddress()
+
+		if (coordinates) {
+			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
+		}
+		return setMarkerCoordinate(initialRegion)
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()

@@ -1,5 +1,5 @@
+import { ImageContentFit } from 'expo-image'
 import React from 'react'
-import { ImageResizeMode } from 'react-native'
 
 import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
@@ -16,7 +16,7 @@ interface PhotoPortraitProps {
 	circle?: boolean
 	borderWidth?: number
 	borderRightWidth?: number
-	resizeMode?: ImageResizeMode | undefined
+	resizeMode?: ImageContentFit | undefined
 	pictureUri: string
 	maxWidth?: number
 	deleteCurrentPicture?: () => void
@@ -50,7 +50,7 @@ function PhotoPortrait({
 							recyclingKey={pictureUri}
 							placeholder={UserShadow}
 							placeholderContentFit={'contain'}
-							resizeMode={resizeMode}
+							contentFit={resizeMode}
 							cachePolicy={'memory-disk'}
 							circle={circle}
 							transition={300}

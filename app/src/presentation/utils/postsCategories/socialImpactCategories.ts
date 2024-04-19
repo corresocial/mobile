@@ -28,7 +28,7 @@ const commonTags = [
 	'água',
 	'mudança climática',
 	'biodiversidade',
-	'polução',
+	'poluição',
 	'preservação ',
 ]
 
