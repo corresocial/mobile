@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PostRange } from '@services/firebase/types'
+import { PostRange } from '@domain/post/entity/types'
 
 import { CustomModal } from '../CustomModal'
 

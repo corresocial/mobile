@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 
+import { ItemStatus } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { ItemStatus } from '@services/firebase/types'
+import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'
 import UsedLabelWhiteIcon from '@assets/icons/usedLabel-white.svg'
@@ -27,7 +28,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 
 	const saveItemStatus = (itemStatus: ItemStatus) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemStatus, macroCategory: 'sale' })
+			addNewUnsavedFieldToEditContext({ itemStatus })
 			navigation.goBack()
 			return
 		}

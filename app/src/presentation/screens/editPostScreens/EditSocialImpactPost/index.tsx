@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { EventRepeatType, PostEntityOptional, PostEntityCommonFields, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
-import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -37,15 +38,15 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: any = { // TODO Type
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -56,7 +57,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof SocialImpactEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'socialImpact' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -101,15 +102,15 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
-	const navigateToPostView = (socialImpactPostData: PostCollection) => {
+	const navigateToPostView = (socialImpactPostData: PostEntityOptional) => {
 		navigation.navigate('ViewSocialImpactPost' as any, { postData: socialImpactPostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote) => {
-		let value = getPostField(initialValue)
+	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactEntity) => {
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
@@ -134,8 +135,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {
@@ -158,26 +159,24 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const navigateToSubscriptionContext = () => {
-		setSubscriptionDataOnContext({
-			currentPost: {
-				...postData,
-				...editDataContext.unsaved,
-				postType: 'socialImpact',
-				createdAt: new Date(),
-				owner: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl
-				}
+		setCurrentPostDataOnContext({
+			...postData,
+			...editDataContext.unsaved,
+			postType: 'socialImpact',
+			createdAt: new Date(),
+			owner: {
+				userId: userDataContext.userId,
+				name: userDataContext.name,
+				profilePictureUrl: userDataContext.profilePictureUrl
 			}
+
 		})
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {
@@ -232,6 +231,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.pink1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
@@ -309,6 +309,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				/>
 				<VerticalSpacing />
 				<EditCard
+					pressionable
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}

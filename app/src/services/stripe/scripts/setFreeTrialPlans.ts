@@ -12,10 +12,13 @@
 	)
 */
 
-import { Id, PostRange, SubscriptionPlan, UserCollection, UserSubscription } from '../../firebase/types'
+import { SubscriptionPlan, UserSubscription } from '@domain/user/entity/types'
 
-import { getUser } from '../../firebase/user/getUser'
-import { updateUser } from '../../firebase/user/updateUser'
+import { useUserRepository } from '@data/user/useUserRepository'
+
+import { Id, PostRange } from '../../../domain/post/entity/types'
+
+const { remoteStorage } = useUserRepository()
 
 async function setFreeTrialPlans(
 	userIds: Id[],
@@ -38,7 +41,7 @@ async function setFreeTrialPlans(
 		}
 
 		userIds.map(async (userId) => {
-			const currentUser: UserCollection = await getUser(userId) || {}
+			const currentUser = await remoteStorage.getUserData(userId) || {}
 			console.log(`Current User: ${currentUser.userId}`)
 
 			if (!currentUser || (currentUser.subscription && currentUser.subscription?.subscriptionRange !== 'near')) return
@@ -62,7 +65,7 @@ async function setFreeTrialPlans(
 
 			console.log(userSubscription)
 
-			await updateUser(userId, { subscription: userSubscription })
+			await remoteStorage.updateUserData(userId, { subscription: userSubscription })
 
 			callback && await callback()
 

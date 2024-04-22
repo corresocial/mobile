@@ -2,20 +2,22 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { EditUserLocationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { PostCollectionCommonFields } from '@services/firebase/types'
+import { EditUserLocationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'
 
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // NOTE This is a service
+const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
+const { structureAddress } = UiLocationUtils() // REFACTOR This is domain
 
 function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 	const theme = useTheme()
@@ -24,12 +26,17 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const saveUserLocation = async (coordinates:PostCollectionCommonFields['location']['coordinates']) => {
+	const saveUserLocation = async (coordinates: PostEntityCommonFields['location']['coordinates']) => {
 		try {
 			setIsLoading(true)
 
 			const geocodeAddress = await getReverseGeocodeByMapsApi(coordinates?.latitude as number, coordinates?.longitude as number)
-			console.log(geocodeAddress)
+
+			if (!geocodeAddress) {
+				console.log('Não foi possível converter o geocode')
+				return
+			}
+
 			const addressObject = structureAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
 			const { geohashNearby } = generateGeohashes(coordinates.latitude, coordinates.longitude)
 
@@ -49,6 +56,7 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 		if (route.params && route.params.initialCoordinates) {
 			return route.params.initialCoordinates
 		}
+		return { latitude: 0, longitude: 0 }
 	}
 
 	const navigateBackwards = () => navigation.goBack()

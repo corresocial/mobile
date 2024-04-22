@@ -1,19 +1,25 @@
+import { PostEntity, PostRange, PostType, CultureEntity, VacancyEntity, SocialImpactEntity, IncomeEntity } from '@domain/post/entity/types'
+
 import { UserStackParamList } from '../UserStack/types'
-import { PostCollection, PostType } from '@services/firebase/types'
-import { SearchParams } from '@services/maps/types'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
-	ViewIncomePostHome: { postData: PostCollection }
-	ViewVacancyPostHome: { postData: PostCollection }
-	ViewSocialImpactPostHome: { postData: PostCollection }
-	ViewCulturePostHome: { postData: PostCollection }
+
+	ViewIncomePostHome: { postData: IncomeEntity, redirectedPostId: string }
+	ViewVacancyPostHome: { postData: VacancyEntity, redirectedPostId: string }
+	ViewSocialImpactPostHome: { postData: SocialImpactEntity, redirectedPostId: string }
+	ViewCulturePostHome: { postData: CultureEntity, redirectedPostId: string }
+
 	PostCategories: undefined
 	ViewPostsByPostType: { postType: PostType }
 	PostCategoryDetails: undefined
 	ViewAllCategories: undefined
 	ViewAllTags: undefined
 	ViewPostsByTag: { currentTagSelected: string }
-	SearchResult: { searchParams: SearchParams, categoryLabel?: string, searchByRange?: boolean }
+	ViewPostsByRange: { postsByRange: PostEntity[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
+	SearchResult: { searchParams: Partial<FeedSearchParams>, categoryLabel?: string, searchByRange?: boolean }
 	ProfileHome: { userId: string, stackLabel?: string }
+
+	PublicServicesStack: undefined
 } & UserStackParamList

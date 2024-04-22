@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
+import { ListRenderItem } from 'react-native'
+
+import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
-import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
+import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -44,13 +45,13 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 
 	const filterPostsByCategory = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
+			nearby: locationDataContext.feedPosts.nearby.filter((post) => filterPostsByRange(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post) => filterPostsByRange(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post) => filterPostsByRange(post)) || []
 		}
 	}
 
-	const filterPostsByRange = (post: PostCollectionRemote) => {
+	const filterPostsByRange = (post: PostEntity) => {
 		return post.macroCategory === locationDataContext.searchParams.macroCategory
 			&& post.postType === locationDataContext.searchParams.postType
 			&& post.category === categoryName
@@ -60,7 +61,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const filteredFeedPosts = filterPostsByCategory()
 
 	const getFeedPostsTags = () => {
-		const userPostTags = feedPosts.reduce((acc: any[], current: PostCollection) => {
+		const userPostTags = feedPosts.reduce((acc: any[], current: PostEntityOptional) => {
 			if (!current.tags || current.category !== categoryName) return [...acc]
 			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
 			return [...acc, ...filtredCurrentTags as string[]]
@@ -70,7 +71,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const getFiltredCategoryTags = () => {
-		const allTags = [...categoryTags]
+		const allTags = [...categoryTags as string[]]
 
 		if (!searchText) {
 			return allTags
@@ -85,7 +86,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const hasAnyFilteredCategory = () => {
-		const allTags = [...categoryTags, ...getFeedPostsTags()]
+		const allTags = [...categoryTags as string[], ...getFeedPostsTags()]
 		const filtredTags = allTags
 			.filter((tag, index, array) => filterTag(tag, searchText) && array.indexOf(tag) === index)
 		return filtredTags.length
@@ -118,8 +119,8 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		}
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
-		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
+	const viewPostDetails = (postData: PostEntityOptional) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToResultScreen = () => {
@@ -129,16 +130,26 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 			category: locationDataContext.currentCategory.categoryName,
 		}
 
-		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle })
 	}
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
+
+	const renderCategoryCard: ListRenderItem<string> = ({ item }) => (
+		<CategoryCard
+			hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
+			inactiveColor={inactiveColor}
+			title={item}
+			withoutMargin
+			onPress={() => viewPostsByTag(item)}
+		/>
+	)
 
 	return (
 		<Container>
@@ -190,15 +201,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 										ItemSeparatorComponent={() => <HorizontalSpacing />}
 										ListFooterComponentStyle={{ height: 0 }}
 										ListFooterComponent={<HorizontalSpacing />}
-										renderItem={({ item }: FlatListItem<string>) => (
-											<CategoryCard
-												hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
-												inactiveColor={inactiveColor}
-												title={item}
-												withoutMargin
-												onPress={() => viewPostsByTag(item)}
-											/>
-										)}
+										renderItem={renderCategoryCard as ListRenderItem<unknown>}
 									/>
 								</TagsContainer>
 							</>

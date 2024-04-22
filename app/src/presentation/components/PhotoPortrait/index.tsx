@@ -1,9 +1,10 @@
+import { ImageContentFit } from 'expo-image'
 import React from 'react'
-import { ImageResizeMode } from 'react-native'
 
 import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
+import UserShadow from '@assets/imgs/userShadow.jpg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -15,7 +16,7 @@ interface PhotoPortraitProps {
 	circle?: boolean
 	borderWidth?: number
 	borderRightWidth?: number
-	resizeMode?: ImageResizeMode | undefined
+	resizeMode?: ImageContentFit | undefined
 	pictureUri: string
 	maxWidth?: number
 	deleteCurrentPicture?: () => void
@@ -46,10 +47,13 @@ function PhotoPortrait({
 					? (
 						<PortraitImage
 							source={{ uri: pictureUri }}
-							width={0} // TODO fix, why is running?
-							height={0}
-							resizeMode={resizeMode}
+							recyclingKey={pictureUri}
+							placeholder={UserShadow}
+							placeholderContentFit={'contain'}
+							contentFit={resizeMode}
+							cachePolicy={'memory-disk'}
 							circle={circle}
+							transition={300}
 						/>
 					)
 					: (

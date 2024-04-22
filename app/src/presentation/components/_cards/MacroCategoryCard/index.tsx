@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { NewHomePostType } from '@services/firebase/types'
+import { PostType } from '@domain/post/entity/types'
+
 import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { postMacroCategories } from '@utils/postMacroCategories'
@@ -16,7 +17,7 @@ import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface MacroCategoryCardProps {
 	title?: string
-	postType: NewHomePostType
+	postType: PostType
 	macroCategory: MacroCategoriesType
 	hightligtedWords?: string[]
 	onEdit?: () => void
@@ -27,8 +28,8 @@ interface MacroCategoryCardProps {
 function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, onEdit }: MacroCategoryCardProps) {
 	const getRelativeMacroCategoryCard = () => {
 		try {
-			const currentPostType = postMacroCategories[postType] as MacroCategories
-			const currentMacroCategory = currentPostType[macroCategory]
+			const currentPostType: any = postMacroCategories[postType] as MacroCategories
+			const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 			return currentMacroCategory.label
 		} catch (err) {
 			console.log(err)
@@ -38,8 +39,8 @@ function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, o
 
 	const getRelativeValueIcon = () => {
 		try {
-			const currentPostType = postMacroCategories[postType] as MacroCategories
-			const currentMacroCategory = currentPostType[macroCategory]
+			const currentPostType: any = postMacroCategories[postType] as MacroCategories
+			const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 			return currentMacroCategory.SvgIcon
 		} catch (err) {
 			console.log(err)

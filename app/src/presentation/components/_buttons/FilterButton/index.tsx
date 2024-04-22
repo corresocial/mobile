@@ -49,7 +49,7 @@ function FilterButton({
 		>
 			<ContainerBottom
 				style={{
-					height,
+					height: height as number,
 					marginRight: RFValue(10),
 				}}
 			>

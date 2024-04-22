@@ -1,12 +1,12 @@
 import * as Location from 'expo-location'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+
+import { Coordinates, LatLong } from '@domain/post/entity/types'
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
-import { Coordinates, LatLong } from '@services/firebase/types'
-
-import { LocationService } from '@services/location/LocationService'
+import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { ButtonContainerBottom, Container, HeaderDescription, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
@@ -28,14 +28,14 @@ import { Loader } from '@components/Loader'
 
 import { CustomMapView } from '../../CustomMapView'
 
-const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
+const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
 const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
 	latitude: -13.890303625634541,
-	latitudeDelta: 55.54596047458735,
+	latitudeDelta: 3.54596047458735,
 	longitude: -51.92523987963795,
-	longitudeDelta: 49.99996047466992,
+	longitudeDelta: 3.99996047466992,
 }
 
 const defaultDeltaCoordinates = {
@@ -69,13 +69,13 @@ function SelectPostLocation({
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(initialRegion)
 	const [address, setAddress] = useState('')
+	const { getCoordinatesByIpAddress } = useLocationService()
 
 	const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({
 		width: 0, height: 0, x: 0, y: 0
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
-
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -87,8 +87,22 @@ function SelectPostLocation({
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {
 			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...initialValue })
+		} else {
+			getIpAddressCoodinates()
 		}
 	}, [])
+
+	const getIpAddressCoodinates = async () => {
+		const coordinates = await getCoordinatesByIpAddress()
+
+		console.log('coordinates from IP')
+		console.log(coordinates)
+
+		if (coordinates) {
+			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
+		}
+		return setMarkerCoordinate(initialRegion)
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
@@ -172,22 +186,6 @@ function SelectPostLocation({
 		markerCoordinate && setInvalidAddressAfterSubmit(false)
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted()
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [backgroundColor, theme.red2],
-		})
-	}
-
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
@@ -195,7 +193,7 @@ function SelectPostLocation({
 				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={navigateBackwards} />
@@ -207,7 +205,7 @@ function SelectPostLocation({
 					{
 						headerDescription ? (
 							<>
-								<VerticalSpacing/>
+								<VerticalSpacing />
 								<HeaderDescription>{showMessageWithHighlight(headerDescription, headerDescriptionHighlightedWords)}</HeaderDescription>
 							</>
 						) : <></>
@@ -266,7 +264,7 @@ function SelectPostLocation({
 					<ButtonContainerBottom>
 						{
 							isLoading
-								? <Loader/>
+								? <Loader />
 								: (
 									<PrimaryButton
 										flexDirection={'row-reverse'}

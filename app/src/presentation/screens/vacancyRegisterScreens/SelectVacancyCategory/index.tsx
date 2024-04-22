@@ -1,16 +1,19 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PostCategoriesType, VacancyCategories } from '@domain/post/entity/types'
+
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectVacancyCategoryScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyCategories } from '@services/firebase/types'
+import { SelectVacancyCategoryScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
+
+type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
@@ -28,7 +31,7 @@ function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScree
 				categories={vacancyCategories}
 				progress={[2, isSecondPost ? 6 : 7]}
 				navigateBackwards={() => navigation.goBack()}
-				savePostCategory={onSelectCategory}
+				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>
 	)

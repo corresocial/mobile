@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { DeliveryMethod } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { SelectDeliveryMethodScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-import { DeliveryMethod } from '@services/firebase/types'
+import { SelectDeliveryMethodScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { theme } from '@common/theme'
 

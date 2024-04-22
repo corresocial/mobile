@@ -1,4 +1,4 @@
-import { MacroCategory, PostCollectionRemote } from '@services/firebase/types'
+import { MacroCategory, PostEntity } from '@domain/post/entity/types'
 
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
 
@@ -8,7 +8,7 @@ const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
 	return 0
 }
 
-const sortPostsByCreatedData = (a: PostCollectionRemote, b: PostCollectionRemote) => {
+const sortPostsByCreatedData = (a: PostEntity, b: PostEntity) => {
 	const createdAtA = getNewDate(a.createdAt)
 	const createdAtB = getNewDate(b.createdAt)
 

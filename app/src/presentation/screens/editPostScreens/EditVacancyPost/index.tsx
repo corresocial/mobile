@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { PostEntityOptional, PostEntityCommonFields, VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditVacancyPostReviewScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { EditVacancyPostReviewScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -38,15 +39,15 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: any = { // TODO Type
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -57,7 +58,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof VacancyEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'income' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -96,28 +97,28 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
-	const navigateToPostView = (vacancyPostData: PostCollection) => {
+	const navigateToPostView = (vacancyPostData: PostEntityOptional) => {
 		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, customStack?: string) => {
-		let value = getPostField(initialValue)
+	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyEntity, customStack?: string) => {
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
-		if (initialValue === 'location' && value) {
+		if (initialValue === 'location') {
 			value = {
 				coordinates: value.coordinates,
 				postRange: getPostField('range')
 			}
 		}
 
-		navigation.navigate(customStack || 'VacancyStack' as any, { // TODO Type
+		navigation.push(customStack || 'VacancyStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -129,8 +130,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectVacancyLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {
@@ -153,18 +154,16 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const navigateToSubscriptionContext = () => {
-		setSubscriptionDataOnContext({
-			currentPost: {
-				...postData,
-				...editDataContext.unsaved,
-				postType: 'income',
-				macroCategory: 'vacancy',
-				createdAt: new Date(),
-				owner: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl
-				}
+		setCurrentPostDataOnContext({
+			...postData,
+			...editDataContext.unsaved,
+			postType: 'income',
+			macroCategory: 'vacancy',
+			createdAt: new Date(),
+			owner: {
+				userId: userDataContext.userId,
+				name: userDataContext.name,
+				profilePictureUrl: userDataContext.profilePictureUrl
 			}
 		})
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
@@ -172,8 +171,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {
@@ -211,7 +209,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				userContext={userContext}
 				editContext={editContext}
 			>
-
 				<IncomeTypeCard
 					title={'tipo de renda'}
 					hightligtedWords={['tipo', 'renda']}
@@ -230,6 +227,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
@@ -247,7 +245,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				<VerticalSpacing />
 				<VacancyPurposeCard
 					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
-					onEdit={() => {
+					onEdit={() => { // TODO Refatorar: Temporário tudante a transição de estrutura de dados
 						getPostField('vacancyPurpose' as any)
 							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
 							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')

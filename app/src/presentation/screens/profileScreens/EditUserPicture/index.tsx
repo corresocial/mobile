@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { EditUserPictureScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { EditUserPictureScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, InstructionCardContainer } from './styles'
 import ImagePlusIcon from '@assets/icons/addPicture-white.svg'

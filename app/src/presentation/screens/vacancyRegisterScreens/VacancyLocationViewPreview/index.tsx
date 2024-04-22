@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { VacancyLocationViewPreviewScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { VacancyLocationViewPreviewScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { theme } from '@common/theme'
 

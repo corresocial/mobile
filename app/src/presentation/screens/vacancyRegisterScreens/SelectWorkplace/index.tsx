@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 
+import { WorkplaceType } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectWorkplaceScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-import { WorkplaceType } from '@services/firebase/types'
+import { SelectWorkplaceScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'
 import ShopWhiteIcon from '@assets/icons/shop-white.svg'

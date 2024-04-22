@@ -4,16 +4,19 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardForm } from '@stripe/stripe-react-native'
 
+import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
+import { UserSubscription } from '@domain/user/entity/types'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { FinishSubscriptionPaymentByCardScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '@services/firebase/types'
+import { FinishSubscriptionPaymentByCardScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 
-import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
@@ -32,6 +35,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
+
+const { remoteStorage } = usePostRepository()
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
@@ -120,29 +125,29 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
-		const lastUserPost: PostCollection = getLastUserPost()
+		const lastUserPost = getLastUserPost()
 
-		const owner: PostCollection['owner'] = {
-			userId: userDataContext.userId as Id,
-			name: userDataContext.name as string,
+		const owner: PostEntityOptional['owner'] = {
+			userId: userDataContext.userId,
+			name: userDataContext.name,
 			profilePictureUrl: userDataContext.profilePictureUrl
 		}
 
 		if (!lastUserPost) return
-		const userPostsUpdated = await updateAllRangeAndLocation(
-			owner as any, // TODO Type
+		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
+			owner,
 			userDataContext.posts || [],
 			{
 				range: 'near',
 				location: lastUserPost.location
 			},
 			true
-		)
+		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+		updateUserContext(userSubscription, userPostsUpdated as PostEntity[])
 	}
 
-	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostEntity[] | []) => {
 		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
 	}
 

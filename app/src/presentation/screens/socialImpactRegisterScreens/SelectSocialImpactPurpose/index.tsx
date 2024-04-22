@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SelectSocialImpactPurposeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { SelectSocialImpactPurposeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import GiftWhiteIcon from '@assets/icons/megaphone-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'

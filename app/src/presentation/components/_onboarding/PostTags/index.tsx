@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { MacroCategory } from '@services/firebase/types'
+import { MacroCategory } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 

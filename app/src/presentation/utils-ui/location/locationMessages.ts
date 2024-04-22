@@ -1,4 +1,4 @@
-import { LocationViewType, PostRange } from '@services/firebase/types'
+import { LocationViewType, PostRange } from '@domain/post/entity/types'
 
 import EyeTracedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
 import MapPointOrange from '@assets/icons/mapPoint-orange.svg'

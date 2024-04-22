@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react'
 
-import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/entities/smas/types'
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/smas/entity/types'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
-import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
-import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
-import { getUserDataSmasByNis } from '@services/cloudFunctions/getUserDataSmasByNis'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
 
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
-
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = SmasAdapter()
+const { getBenefitDataSmasByNis } = useCloudFunctionService()
+const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = useSmasDomain()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const [isLoading, setIsLoading] = React.useState(false)
@@ -32,7 +32,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	}, [navigation])
 
 	const loadStoragedNis = async () => {
-		const nis = await getNisFromLocalRepository(SmasRepositoryAdapter)
+		const nis = await getNisFromLocalRepository(useSmasRepository)
 		if (nis) {
 			storagedNis !== nis && setStoragedNis('')
 			setStoragedNis(nis)
@@ -42,7 +42,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const saveNIS = async (NISValue: string) => {
 		try {
 			setIsLoading(true)
-			const response = await getUserDataSmasByNis(NISValue.trim(), smasService)
+			const response = await getBenefitDataSmasByNis(NISValue.trim(), smasService)
 
 			const queryResult = treatSmasApiResponse(response, smasService)
 

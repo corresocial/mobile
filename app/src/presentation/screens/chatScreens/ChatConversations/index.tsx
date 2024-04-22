@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { ScrollView, TextInput } from 'react-native'
+import { ListRenderItem, ListRenderItemInfo, ScrollView, TextInput } from 'react-native'
 
-import { MessageObjects, ChatUserIdentification, Chat } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { MessageObjects, ChatUserIdentification, Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { FlatListItem } from '@globalTypes/global/types'
-import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/stackScreenProps'
+import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/screenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -32,8 +31,6 @@ import LoupIcon from '@assets/icons/loup-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ConversationCard } from '@components/_cards/ConversationCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
@@ -52,7 +49,7 @@ const {
 	getConversationProfilePicture
 } = UiChatUtils()
 
-const { filterInvalidMessages, conversationsIsValidToSort } = ChatAdapter()
+const { filterInvalidMessages, conversationsIsValidToSort } = useChatDomain()
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -62,10 +59,10 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const [searchText, setSearchText] = useState('')
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 
-	const horizontalScrollViewRef = useRef<ScrollView>()
+	const horizontalScrollViewRef = useRef<InstanceType<typeof ScrollView>>(null)
 	const searchInputRef = useRef<TextInput>()
 
-	const authenticatedUserId = userDataContext.userId as Id
+	const authenticatedUserId = userDataContext.userId
 
 	useEffect(() => {
 		showAlertNotificationModal()
@@ -173,7 +170,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		})
 	}
 
-	const renderConversationListItem = (conversation: Chat) => {
+	const renderConversationListItem = ({ item: conversation }: ListRenderItemInfo<Chat>) => {
 		const { user1, user2, chatId, messages } = conversation
 
 		return (
@@ -198,11 +195,11 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 			<Header>
 				<SearchInputContainer>
 					<HorizontalHeaderScroll
+						ref={horizontalScrollViewRef}
 						horizontal
 						showsHorizontalScrollIndicator={false}
 						pagingEnabled
-						ref={horizontalScrollViewRef}
-						contentContainerStyle={{ justifyContent: 'center', }}
+						contentContainerStyle={{ justifyContent: 'center' }}
 					>
 						<SelectPeriodButtonContainer>
 							<SearchInputContainer>
@@ -268,9 +265,9 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 												/>
 												<ConversationList
 													data={!searchText ? getOpenConversations() : getOpenConversations(filteredChats)}
-													renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
+													renderItem={renderConversationListItem as ListRenderItem<unknown>}
 													showsVerticalScrollIndicator={false}
-													ItemSeparatorComponent={<VerticalSpacing />}
+													ItemSeparatorComponent={() => <VerticalSpacing />}
 													ListHeaderComponent={<VerticalSpacing />}
 													ListFooterComponent={<VerticalSpacing />}
 												/>
@@ -286,9 +283,9 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 												/>
 												<ConversationList
 													data={!searchText ? getCompletedConversations() : getCompletedConversations(filteredChats)}
-													renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
+													renderItem={renderConversationListItem as ListRenderItem<unknown>}
 													showsVerticalScrollIndicator={false}
-													ItemSeparatorComponent={<VerticalSpacing />}
+													ItemSeparatorComponent={() => <VerticalSpacing />}
 													ListHeaderComponent={<VerticalSpacing />}
 													ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
 												/>

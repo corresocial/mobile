@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ItemStatus } from '@services/firebase/types'
+import { ItemStatus } from '@domain/post/entity/types'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'
 import TruckWhiteIcon from '@assets/icons/truck-white.svg'
@@ -11,7 +11,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface ItemStatusCardProps {
 	title?: string
@@ -37,7 +38,10 @@ function ItemStatusCard({ title, itemStatus, onEdit }: ItemStatusCardProps) {
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'estado do produto'}
@@ -49,7 +53,7 @@ function ItemStatusCard({ title, itemStatus, onEdit }: ItemStatusCardProps) {
 				text={getRelativeItemStatus()}
 				SvgIcon={getRelativeItemStatusIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
+import { SocialMedia } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 
-import { InsertLinkValueScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { SocialMedia } from '@services/firebase/types'
+import { InsertLinkValueScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { updateUser } from '@services/firebase/user/updateUser'
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '@utils/socialMedias'
 
 import { ButtonContainer, Container, HeaderLinkCardContainer, InputsContainer } from './styles'
@@ -20,6 +23,8 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
+
+const { updateUserRepository } = useUserDomain()
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -71,8 +76,14 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
-			await updateUser(userDataContext.userId as string, socialMediaData)
+
+			await updateUserRepository(
+				useUserRepository,
+				userDataContext,
+				socialMediaData
+			)
 			setUserDataOnContext(socialMediaData)
+
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {
 			console.log(err)

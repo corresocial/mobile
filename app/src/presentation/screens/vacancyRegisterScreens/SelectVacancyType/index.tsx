@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 
+import { VacancyType } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyType } from '@services/firebase/types'
+import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'

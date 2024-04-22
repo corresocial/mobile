@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SocialImpactType } from '@services/firebase/types'
+import { SocialImpactType } from '@domain/post/entity/types'
 
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
@@ -12,7 +12,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface SocialImpactTypeCardProps {
 	title?: string
@@ -41,7 +42,10 @@ function SocialImpactTypeCard({ title, macroCategory, hightligtedWords, onEdit }
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'tipo de post'}
@@ -53,7 +57,7 @@ function SocialImpactTypeCard({ title, macroCategory, hightligtedWords, onEdit }
 				text={getRelativeSocialImpactType()}
 				SvgIcon={getRelativeValueIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ExhibitionPlaceType } from '@services/firebase/types'
+import { ExhibitionPlaceType } from '@domain/post/entity/types'
 
 import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
@@ -12,7 +12,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface ExhibitionPlaceCardProps {
 	title?: string
@@ -40,7 +41,11 @@ function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlace
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
+
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'local de atuação'}
@@ -52,7 +57,7 @@ function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlace
 				text={getExhibitionPlace()}
 				SvgIcon={getExhibitionPlaceIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

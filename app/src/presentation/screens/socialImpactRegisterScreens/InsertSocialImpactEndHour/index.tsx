@@ -1,28 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertSocialImpactEndHourScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactEndHourScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
 
 function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -33,13 +21,9 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		}
 	}
 
-	const saveEndTime = (hour: string, minutes: string) => {
-		const endHour = new Date()
-		endHour.setHours(parseInt(hour), parseInt(minutes))
-		const ISOStringDateTime = new Date(endHour.getTime())
-
+	const saveEndTime = (dateTime: Date) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endHour: ISOStringDateTime })
+			addNewUnsavedFieldToEditContext({ endHour: dateTime })
 			navigation.goBack()
 		}
 	}
@@ -52,8 +36,7 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 				validationColor={theme.pink1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				keyboardOpened={keyboardOpened}
+				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				saveTime={saveEndTime}

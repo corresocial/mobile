@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { PostEntityOptional, ServiceCategories, IncomeEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { EditServicePostReviewScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { EditServicePostReviewScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 import { ServiceStackParamList } from '@routes/Stack/ServiceStack/types'
-import { PostCollection, ServiceCategories, IncomeCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -35,16 +36,16 @@ const { formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
-	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
-	const owner: any = { // TODO Type
+	const owner: PostEntityCommonFields['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -55,7 +56,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'income' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -88,15 +89,15 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
-	const viewPostDetails = (post: PostCollection) => {
-		navigateToPostView(post, navigation)
+	const viewPostDetails = (post: PostEntityOptional) => {
+		navigateToPostView(post, navigation) // TODO Implementar nas outras telas de revisão
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
-		let value = getPostField(initialValue)
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
@@ -109,7 +110,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			}
 		}
 
-		navigation.navigate(customStack || 'ServiceStack' as any, { // TODO Type
+		navigation.push(customStack || 'ServiceStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -121,8 +122,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {
@@ -145,18 +146,16 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const navigateToSubscriptionContext = () => {
-		setSubscriptionDataOnContext({
-			currentPost: {
-				...postData,
-				...editDataContext.unsaved,
-				postType: 'income',
-				macroCategory: 'service',
-				createdAt: new Date(),
-				owner: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl
-				}
+		setCurrentPostDataOnContext({
+			...postData,
+			...editDataContext.unsaved,
+			postType: 'income',
+			macroCategory: 'service',
+			createdAt: new Date(),
+			owner: {
+				userId: userDataContext.userId,
+				name: userDataContext.name,
+				profilePictureUrl: userDataContext.profilePictureUrl
 			}
 		})
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
@@ -164,8 +163,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {
@@ -221,6 +219,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

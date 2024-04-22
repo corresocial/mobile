@@ -2,7 +2,7 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { LinkingAccountResultScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { LinkingAccountResultScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

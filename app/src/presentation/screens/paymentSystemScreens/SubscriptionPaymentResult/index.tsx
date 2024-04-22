@@ -1,12 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { Alert, BackHandler } from 'react-native'
 
+import { PostEntityCommonFields } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { SubscriptionPaymentResultScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { SubscriptionPaymentResultScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
@@ -30,12 +32,12 @@ import { SmallInstructionCard } from '@components/SmallInstructionCard'
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentResultScreenProps) {
-	const { subscriptionDataContext } = useContext(SubscriptionContext)
+	const { subscriptionDataContext, currentPostOnSubscription } = useContext(SubscriptionContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { getRangePlanPrice } = useContext(StripeContext)
 
-	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
+	const { subscriptionRange, subscriptionPlan } = subscriptionDataContext
 
 	const { successfulPayment, postReview, editPaymentMethod } = route.params
 
@@ -130,10 +132,10 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 						? (
 							<>
 								{
-									(currentPost && postReview) && (
+									(currentPostOnSubscription && postReview) && (
 										<PostCard
-											owner={currentPost && currentPost.owner}
-											post={currentPost}
+											owner={currentPostOnSubscription && currentPostOnSubscription.owner as PostEntityCommonFields['owner']}
+											post={currentPostOnSubscription}
 											onPress={() => { }}
 										/>
 									)

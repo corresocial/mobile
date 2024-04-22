@@ -1,6 +1,6 @@
-import { PostCollection } from '@services/firebase/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 
-function mergeArrayPosts(posts: PostCollection[], postDataToMerge: PostCollection) {
+function mergeArrayPosts(posts: PostEntityOptional[], postDataToMerge: PostEntityOptional) {
 	if (!posts) return posts
 
 	return posts.map((post) => {

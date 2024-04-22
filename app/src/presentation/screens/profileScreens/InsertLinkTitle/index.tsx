@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
-import { InsertLinkTitleScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { SocialMedia } from '@services/firebase/types'
+import { SocialMedia } from '@domain/user/entity/types'
+
+import { InsertLinkTitleScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { ButtonContainer, Container, InputsContainer, HeaderLinkCardContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

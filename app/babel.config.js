@@ -24,6 +24,7 @@ module.exports = function (api) {
 						'@routes': './src/presentation/routes',
 						'@screens': './src/presentation/screens',
 						'@utils': './src/presentation/utils',
+						'@newutils': './src/newutils',
 						'@utils-ui': './src/presentation/utils-ui',
 						'@adapters': './src/presentation/adapters'
 					}

@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react'
 import MapView, { Circle, Marker, Polygon } from 'react-native-maps'
 import { SvgProps } from 'react-native-svg'
 
-import { Coordinates, LatLong, LocationViewType, PostRange } from '@services/firebase/types'
+import { Coordinates, LatLong, LocationViewType, PostRange } from '@domain/post/entity/types'
 
-import { getPlaceLimits } from '@services/maps/getPlaceLimits'
+import { PlaceLimits } from '@services/googleMaps/types/maps'
+
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-type PlaceLimits = {
-	northeast: { lat: number, lng: number },
-	southwest: { lat: number, lng: number }
-}
+const { getPlaceLimits } = useGoogleMapsService()
 
 interface CustomMapViewProops {
 	regionCoordinate: Coordinates | any
@@ -63,7 +62,7 @@ function CustomMapView({
 			}
 
 			const limits = await getPlaceLimits(placeName)
-			if (!limits) return false
+			if (typeof limits === 'boolean') return false
 
 			setRangeCoordinates(ordenateCoordinates(limits))
 		}

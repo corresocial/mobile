@@ -9,7 +9,8 @@ import { theme } from '@common/theme'
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DescriptionCardProps {
 	title?: string
@@ -37,7 +38,10 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer
 				onPress={onEdit}
 			>
@@ -59,7 +63,7 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
 			</LongText>
 			{children}
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

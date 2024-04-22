@@ -2,18 +2,18 @@ import React, { JSXElementConstructor, ReactElement } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { PostCollection } from '@services/firebase/types'
+import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface FlatListPostsProps {
-	data: PostCollection[]
+	data: PostEntityOptional[]
 	headerComponent?: JSXElementConstructor<any>
 	flatListIsLoading?: boolean
 	withoutFooter?: boolean
-	renderItem: (post: PostCollection) => ReactElement<any, string | JSXElementConstructor<any>> | null
+	renderItem: (post: PostEntityOptional) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
 	onRefresh?: () => void
 }

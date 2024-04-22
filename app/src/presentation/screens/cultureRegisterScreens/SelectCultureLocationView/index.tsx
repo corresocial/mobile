@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { LocationViewType } from '@domain/post/entity/types'
+
 import { CultureContext } from '@contexts/CultureContext'
 
-import { SelectCultureLocationViewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-import { LocationViewType } from '@services/firebase/types'
+import { SelectCultureLocationViewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { theme } from '@common/theme'
 

@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { SelectSaleTagsScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { SelectSaleTagsScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { saleCategories, updateSaleTags } from '@utils/postsCategories/saleCategories'
 

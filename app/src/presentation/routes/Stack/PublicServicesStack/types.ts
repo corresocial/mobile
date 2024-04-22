@@ -1,6 +1,6 @@
-import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/entities/smas/types'
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/smas/entity/types'
 
-import { HomeTabParamList } from '../../Tabs/HomeTab/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type PublicServiceStackParamList = {
 	SelectPublicService: undefined
@@ -14,4 +14,4 @@ export type PublicServiceStackParamList = {
 	QueryBeeByNISResult: QueryBeeResult
 	QueryPbfByNISResult: QueryPbfResult
 	QueryCadunicoByNISResult: QueryCadunicoResult
-} & HomeTabParamList
+} & UserStackParamList

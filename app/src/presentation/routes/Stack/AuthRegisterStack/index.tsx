@@ -8,7 +8,7 @@ import { AuthProvider } from '@contexts/AuthContext'
 
 import { AuthRegisterStackParamList } from './types'
 
-import { errorHandler } from '@utils/errorHandler'
+import { errorBoundaryHandler } from '@utils/errorBoundaryHandler'
 
 import { AcceptTermsAndConditions } from '@screens/authRegisterScreens/AcceptTermsAndServices'
 import { InsertCellNumber } from '@screens/authRegisterScreens/InsertCellNumber'
@@ -29,7 +29,7 @@ export function AuthRegisterStack() {
 	return (
 		<Sentry.ErrorBoundary
 			fallback={ErrorBoundaryFallback}
-			onError={errorHandler}
+			onError={errorBoundaryHandler}
 		>
 			<AuthProvider>
 				<Stack.Navigator
@@ -65,6 +65,6 @@ export function AuthRegisterStack() {
 					/>
 				</Stack.Navigator>
 			</AuthProvider>
-		</Sentry.ErrorBoundary>
+		</Sentry.ErrorBoundary >
 	)
 }

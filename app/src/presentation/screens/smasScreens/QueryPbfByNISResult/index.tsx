@@ -3,7 +3,7 @@ import { Platform, StatusBar } from 'react-native'
 
 import { ChatContext } from '@contexts/ChatContext'
 
-import { QueryPbfByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { QueryPbfByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -63,7 +63,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={status === 'Liberado' ? theme.pink2 : theme.red2}/>
+			<StatusBar backgroundColor={status === 'Liberado' ? theme.pink2 : theme.red2} />
 			<AlertNotificationModal
 				visibility={notificationModalIsVisible}
 				affirmativeConfigButton

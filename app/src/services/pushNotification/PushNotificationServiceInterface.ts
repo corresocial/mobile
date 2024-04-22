@@ -1,4 +1,4 @@
-import { Id } from '@domain/entities/globalTypes'
+import { Id } from '@domain/globalTypes'
 
 import { MutableObjectReference, NotificationMessageConfig } from '@services/pushNotification/types'
 

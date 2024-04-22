@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { VerifiedLabelName } from '@services/firebase/types'
+import { VerifiedLabelName } from '@domain/user/entity/types'
 
 import { CustomModal } from '../CustomModal'
 

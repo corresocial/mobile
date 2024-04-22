@@ -1,6 +1,7 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
 
-import { PostRange, SubscriptionPlan } from '@services/firebase/types'
+import { PostRange } from '@domain/post/entity/types'
+import { SubscriptionPlan } from '@domain/user/entity/types'
 
 export interface UiSubscriptionUtilsInterface {
 	getPostRangeLabel(range: PostRange): string

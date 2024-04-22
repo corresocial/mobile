@@ -1,36 +1,31 @@
-/* eslint-disable no-unused-vars */
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
+
+import { useQueryClient } from '@tanstack/react-query'
+
+import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
+
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
+import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
-import {
-	SearchParams,
-	LatLong,
-	AddressSearchResult,
-	SelectedAddressRender,
-	GeocodeAddress,
-} from '@services/maps/types'
+import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
+import { FeedSearchParams } from '@services/cloudFunctions/types/types'
+import { AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
 
-import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
-import { LocationService } from '@services/location/LocationService'
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
-import { searchAddressByText } from '@services/maps/searchAddressByText'
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
+import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
-import { getLastRecentAddress, getRecentAdressesFromStorage } from '@utils/maps/recentAddresses'
+import { getMostRecentAddress } from '@utils/maps/recentAddresses'
 
-import {
-	Container,
-	DropdownContainer,
-	RecentPostsContainer
-} from './styles'
+import { Container, DropdownContainer, RecentPostsContainer } from './styles'
 import { generateGeohashes } from '@common/generateGeohashes'
 import { theme } from '@common/theme'
 
@@ -42,7 +37,10 @@ import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
 
-const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
+const { getPostsByLocationCloud } = useCloudFunctionService()
+const { localStorage } = useLocationRepository()
+const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
+const { searchAddressByText, getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
 const initialSelectedAddress = {
@@ -60,6 +58,9 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+
+	const queryClient = useQueryClient()
+	const { executeCachedRequest } = useCacheRepository()
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -100,7 +101,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const loadRecentAddresses = async () => {
-		const addresses = await getRecentAdressesFromStorage()
+		const addresses = await localStorage.getRecentAddresses()
 		setRecentAddresses(addresses)
 	}
 
@@ -111,13 +112,12 @@ function Home({ navigation }: HomeScreenProps) {
 		refresh?: boolean,
 		firstLoad?: boolean
 	) => {
-		if (!hasLocationPermission) return
 		locationIsEnable()
 
 		try {
 			refresh ? setFeedIsUpdating(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
-			let searchParams = {} as SearchParams
+			let searchParams = {}
 			if (currentPosition || !hasLocationPermission) {
 				const coordinates = await getCurrentPositionCoordinates(firstLoad)
 				searchParams = await getSearchParams(coordinates as LatLong)
@@ -126,9 +126,13 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const remoteFeedPosts = await getPostsByLocationCloud(
-				searchParams,
-				userDataContext.userId as Id
+			const { userId } = userDataContext
+			const queryKey = ['home.feed', searchParams, userId]
+			const remoteFeedPosts = await executeCachedRequest(
+				queryClient,
+				queryKey,
+				() => getPostsByLocationCloud(searchParams as FeedSearchParams, userId),
+				refresh
 			)
 
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
@@ -136,7 +140,7 @@ function Home({ navigation }: HomeScreenProps) {
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext({
-				searchParams,
+				searchParams: searchParams as FeedSearchParams,
 				feedPosts: remoteFeedPosts,
 				lastRefreshInMilliseconds: Date.now(),
 			})
@@ -149,39 +153,39 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const refreshFeedPosts = async () => {
 		console.log('refreshing feed...')
-		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
+		await findFeedPosts('', false, locationDataContext.searchParams?.coordinates || null as any, true)
 	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
 			if (firstLoad) {
-				const recentPosition = getLastRecentAddress(recentAddresses)
+				const recentPosition = getMostRecentAddress(recentAddresses)
 
 				if (recentPosition) {
 					return {
-						lat: recentPosition.lat,
-						lon: recentPosition.lon,
-					} as LatLong
+						latitude: recentPosition.lat,
+						longitude: recentPosition.lon,
+					}
 				}
 			}
 
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
 			return {
-				lat: currentPosition.coords.latitude,
-				lon: currentPosition.coords.longitude
-			} as LatLong
+				latitude: currentPosition.coords.latitude,
+				longitude: currentPosition.coords.longitude
+			}
 		} catch (error) {
 			console.log(error)
 
-			const recentPosition = getLastRecentAddress(recentAddresses)
+			const recentPosition = getMostRecentAddress(recentAddresses)
 			if (!recentPosition) {
 				return null
 			}
 
 			return {
-				lat: recentPosition.lat,
-				lon: recentPosition.lon,
-			} as LatLong
+				latitude: recentPosition.lat,
+				longitude: recentPosition.lon,
+			}
 		}
 	}
 
@@ -192,24 +196,21 @@ function Home({ navigation }: HomeScreenProps) {
 			return false
 		}
 		return {
-			lat: addressGeolocation[0].latitude,
-			lon: addressGeolocation[0].longitude,
+			latitude: addressGeolocation[0].latitude,
+			longitude: addressGeolocation[0].longitude,
 		} as LatLong
 	}
 
 	const getSearchParams = async (coordinates: LatLong) => {
-		const geocodeAddress = await checkLanguageAndConvertGeocodeToAddress(coordinates.lat, coordinates.lon)
+		const geocodeAddress = await checkLanguageAndConvertGeocodeToAddress(coordinates.latitude, coordinates.longitude)
 
 		const deviceLanguage = getLocales()[0].languageCode
 
 		const structuredAddress = deviceLanguage === 'pt'
-			? structureExpoLocationAddress(geocodeAddress as Location.LocationGeocodedAddress[], coordinates.lat, coordinates.lon)
-			: structureAddress(geocodeAddress as GeocodeAddress, coordinates.lat, coordinates.lon)
+			? structureExpoLocationAddress(geocodeAddress as Location.LocationGeocodedAddress[], coordinates.latitude, coordinates.longitude)
+			: structureAddress(geocodeAddress as GeocodeAddress, coordinates.latitude, coordinates.longitude)
 
-		const geohashObject = generateGeohashes(
-			coordinates.lat,
-			coordinates.lon
-		)
+		const geohashObject = generateGeohashes(coordinates.latitude, coordinates.longitude)
 
 		setSelectedAddress({
 			addressHighlighted: `${structuredAddress.street}, ${structuredAddress.number} - ${structuredAddress.district}`,
@@ -217,13 +218,11 @@ function Home({ navigation }: HomeScreenProps) {
 		})
 
 		return {
-			range: 'nearby',
 			city: structuredAddress.city,
 			country: structuredAddress.country,
-			postType: 'service',
 			coordinates,
 			geohashes: geohashObject.geohashNearby,
-		} as SearchParams
+		}
 	}
 
 	const checkLanguageAndConvertGeocodeToAddress = async (latitude: number, longitude: number) => {
@@ -261,14 +260,14 @@ function Home({ navigation }: HomeScreenProps) {
 		])
 	}
 
-	const viewPostDetails = (postData: PostCollection) => {
-		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
+	const viewPostDetails = (postData: PostEntityOptional) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToPostCategories = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
-			searchParams: { ...locationDataContext.searchParams, postType }
+			searchParams: { ...locationDataContext.searchParams, postType } as any // TODO Type
 		})
 
 		navigation.navigate('ViewPostsByPostType', { postType })
@@ -276,7 +275,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any) // TODO Type
+			navigation.navigate('Profile' as any)
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
@@ -292,25 +291,26 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const hasAnyPost = () => {
-		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
+		return feedPosts
+			&& (
+				(feedPosts.nearby && feedPosts.nearby.length > 0)
+				|| (feedPosts.city && feedPosts.city.length > 0)
+				|| (feedPosts.country && feedPosts.country.length > 0)
+			)
 	}
 
 	const navigateToSelectSubscriptionRange = () => {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
-	const navigateToEditUserLocation = () => {
-		navigation.navigate('EditProfile', { user: userDataContext })
-		navigation.navigate('EditUserLocation', { initialCoordinates: null })
-	}
+	/* const navigateToEditUserLocation = () => { // SMAS
+		navigation.navigate('EditProfile' as any, { user: userDataContext })
+		navigation.navigate('EditUserLocation' as any, { initialCoordinates: null })
+	} */
 
-	const navigateToPublicServices = () => {
+	/* const navigateToPublicServices = () => { // SMAS
 		navigation.navigate('PublicServicesStack')
-	}
-
-	const userHasPaidSubscription = () => {
-		return (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
-	}
+	} */
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
@@ -352,7 +352,7 @@ function Home({ navigation }: HomeScreenProps) {
 			>
 				<AdsCarousel
 					onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
-					onPressPublicServicesAd={() => { }}
+				// onPressUserLocationAd={navigateToEditUserLocation} // SMAS
 				/>
 				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 					<RequestLocation

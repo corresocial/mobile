@@ -1,7 +1,7 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { VerifiedLabelName } from '@services/firebase/types'
+import { VerifiedLabelName } from '@domain/user/entity/types'
 
 import { BadgeLabel } from './styles'
 import ImpactBadge from '@assets/icons/impactLabel.svg'

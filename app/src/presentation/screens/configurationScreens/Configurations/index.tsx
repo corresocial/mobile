@@ -1,16 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { useUserDomain } from '@domain/user/useUserDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { ConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id } from '@services/firebase/types'
-
-import { auth } from '@services/firebase'
-import { clearOfflinePosts } from '@utils/offlinePost'
+import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
@@ -22,15 +24,13 @@ import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import EyeDashedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
-import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
+// import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
-
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -39,11 +39,11 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-const { updateUserTokenNotification } = ChatAdapter()
+const { logoutUser } = useUserDomain()
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
-	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -53,12 +53,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performLogout = async () => {
-		removeChatListeners()
-		await updateUserTokenNotification(userDataContext.userId as Id, '')
-		await deleteLocaluser()
-		await clearOfflinePosts()
-		await auth.signOut()
-		navigateToInitialScreen()
+		try {
+			await logoutUser(
+				useUserRepository,
+				usePostRepository,
+				useChatDomain,
+				removeChatListeners,
+				userDataContext.userId
+			)
+			navigateToInitialScreen()
+		} catch (err) {
+			// Alert.alert(JSON.stringify(err))
+		}
 	}
 
 	const navigateToInitialScreen = () => {
@@ -90,7 +96,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 		}
 	}
 
-	const navigateToScreen = (screenName: keyof UserStackParamList, alertPropForUpdate?: string) => {
+	const navigateToScreen = (screenName: keyof ProfileStackParamList, alertPropForUpdate?: string) => {
 		if (alertPropForUpdate) {
 			updateNotificationState({ [alertPropForUpdate]: false })
 		}
@@ -149,6 +155,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					onPress={() => navigateToScreen('NotificationSettings')}
 				/>
 				<VerticalSpacing />
+				{/* <OptionButton // SMAS
+					label={'serviços públicos'}
+					highlightedWords={['serviços', 'públicos']}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={PublicServicesWhiteIcon}
+					svgIconScale={['50%', '50%']}
+					leftSideColor={theme.orange3}
+					leftSideWidth={'22%'}
+					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
+				/>
+				<VerticalSpacing /> */}
 				<OptionButton
 					label={'métodos de login'}
 					highlightedWords={['métodos', 'de', 'login']}

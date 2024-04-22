@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { DeliveryMethod } from '@services/firebase/types'
+import { DeliveryMethod } from '@domain/post/entity/types'
 
 import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
@@ -13,7 +13,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface DeliveryMethodCardProps {
 	title?: string
@@ -43,7 +44,10 @@ function DeliveryMethodCard({ title, deliveryMethod, onEdit }: DeliveryMethodCar
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'entrega do post'}
@@ -55,7 +59,7 @@ function DeliveryMethodCard({ title, deliveryMethod, onEdit }: DeliveryMethodCar
 				text={getDeliveryMethod()}
 				SvgIcon={getDeliveryMethodIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

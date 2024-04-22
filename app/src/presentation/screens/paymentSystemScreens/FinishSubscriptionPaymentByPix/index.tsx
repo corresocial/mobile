@@ -3,7 +3,7 @@ import { Clipboard } from 'react-native'
 
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { FinishSubscriptionPaymentByPixScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { FinishSubscriptionPaymentByPixScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 

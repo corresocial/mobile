@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { SelectServiceTagsScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { SelectServiceTagsScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
 import { serviceCategories, updateServiceTags } from '@utils/postsCategories/serviceCategories'
 

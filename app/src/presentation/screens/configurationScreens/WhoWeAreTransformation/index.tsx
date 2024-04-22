@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { WhoWeAreTransformationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { WhoWeAreTransformationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'

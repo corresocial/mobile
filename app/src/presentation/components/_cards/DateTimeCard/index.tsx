@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
-import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@services/firebase/types'
+import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -18,7 +18,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 const { formatDate, formatHour } = UiUtils()
 
@@ -173,7 +174,10 @@ function DateTimeCard({
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit} RightIcon={getCardHeaderIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'dias e horários'}
@@ -232,7 +236,7 @@ function DateTimeCard({
 					)
 				}
 			</DateTimeContainer>
-		</DefaultCardContainer >
+		</DefaultTouchableCardContainer >
 	)
 }
 

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 
+import { SocialImpactType } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SelectSocialImpactTypeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
-import { SocialImpactType } from '@services/firebase/types'
+import { SelectSocialImpactTypeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'

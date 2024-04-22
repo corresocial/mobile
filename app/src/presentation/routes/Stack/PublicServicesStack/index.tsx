@@ -20,7 +20,7 @@ import { SelectPublicService } from '@screens/smasScreens/SelectPublicService'
 
 const Stack = createStackNavigator<PublicServiceStackParamList>()
 
-export function PublicServicesStack({ route }: any) {
+export function PublicServicesStack() {
 	return (
 		<SmasProvider>
 			<Stack.Navigator

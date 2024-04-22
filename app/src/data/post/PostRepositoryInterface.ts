@@ -1,0 +1,38 @@
+import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
+import { UserEntity } from '@domain/user/entity/types'
+
+import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
+
+interface PostRepositoryInterface {
+	localStorage: {
+		getNumberOfOfflinePosts: () => Promise<number>
+		getOfflinePosts: () => Promise<PostEntityOptional[]>
+
+		saveOfflinePost: (post: PostEntityOptional) => Promise<boolean>
+
+		deleteOfflinePostByDescription: (description: string) => Promise<boolean>
+		clearOfflinePosts: () => Promise<boolean>
+	},
+
+	remoteStorage: {
+		getPostById: (postId: string) => Promise<PostEntity | null>
+
+		createPost: (post: PostEntityOptional, user: UserEntity, postType: PostType) => Promise<string | null>
+		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
+
+		updatePostData: (postId: string, data: PostEntityOptional) => Promise<boolean>
+		markPostAsComplete: (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => Promise<boolean>
+		updateOwnerDataOnPosts: (ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
+		updateRangeAndLocationOnPosts: (
+			userOwner: PostEntity['owner'],
+			userPosts: PostEntity[],
+			newPostRangeLocation: PostRangeLocation,
+			subscriptionChange?: boolean
+		) => Promise<PostEntity[]>
+
+		deletePost: (postId: string, userId: string) => Promise<boolean>
+		deletePostPictures: (postPictures: string[]) => Promise<boolean>
+	}
+}
+
+export { PostRepositoryInterface }

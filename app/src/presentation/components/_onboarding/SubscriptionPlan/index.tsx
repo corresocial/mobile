@@ -1,6 +1,8 @@
 import React, { JSXElementConstructor, ReactElement, useState } from 'react'
 
-import { PostRange, SubscriptionPlan as SubscriptionPlantype } from '@services/firebase/types'
+import { PostRange } from '@domain/post/entity/types'
+import { SubscriptionPlan as SubscriptionPlanType } from '@domain/user/entity/types'
+
 import { StripeProducts } from '@services/stripe/types'
 
 import { ButtonsContainer, Container } from './styles'
@@ -20,12 +22,12 @@ interface SubscriptionPlanProps {
 	plansAvailable: StripeProducts
 	postRange: PostRange
 	headerFooterText: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
-	saveSubscriptionPlan: (subscriptionPlan: SubscriptionPlantype) => void
+	saveSubscriptionPlan: (subscriptionPlan: SubscriptionPlanType) => void
 	navigateBackwards: () => void
 }
 
 function SubscriptionPlan({ backgroundColor, plansAvailable, postRange, headerFooterText, saveSubscriptionPlan, navigateBackwards }: SubscriptionPlanProps) {
-	const [planSelected, setPlanSelected] = useState<SubscriptionPlantype>()
+	const [planSelected, setPlanSelected] = useState<SubscriptionPlanType>()
 
 	const getRelativeMonthlyPrice = () => {
 		if (postRange === 'city') return plansAvailable.cityMonthly.price

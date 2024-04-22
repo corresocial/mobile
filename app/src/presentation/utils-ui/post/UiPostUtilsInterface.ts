@@ -1,7 +1,7 @@
-import { MacroCategory, PostCollection } from '@services/firebase/types'
+import { MacroCategory, PostEntity } from '@domain/post/entity/types'
 
 export interface UiPostUtilsInterface {
 	sortPostCategories(a: MacroCategory, b: MacroCategory): number
-	sortPostsByCreatedData(a: PostCollection, b: PostCollection): number
-	mergeArrayPosts(posts: PostCollection[] | undefined, postDataToMerge: PostCollection): PostCollection[]
+	sortPostsByCreatedData(a: PostEntity, b: PostEntity): number
+	mergeArrayPosts(posts: PostEntity[] | undefined, postDataToMerge: PostEntity): PostEntity[]
 }

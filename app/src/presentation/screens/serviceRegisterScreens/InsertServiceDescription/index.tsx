@@ -4,7 +4,7 @@ import { Keyboard, StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
-import { InsertServiceDescriptionScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServiceDescriptionScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

@@ -2,7 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
-import { SocialMedia } from '@services/firebase/types'
+import { SocialMedia } from '@domain/user/entity/types'
 
 import { socialMediaUrl } from '@utils/socialMedias'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { PrivacyAndSecurityScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { PrivacyAndSecurityScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container } from './styles'
 import { theme } from '@common/theme'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { WhoWeAreScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { WhoWeAreScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Body, Container, ContainerContent, Header, BoldPhrase, ButtonContainer, Description } from './styles'
 import Logo from '@assets/icons/logoBuilding.svg'

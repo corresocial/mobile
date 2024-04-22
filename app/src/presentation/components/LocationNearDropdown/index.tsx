@@ -3,9 +3,11 @@ import { Animated, FlatList, Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
+import { LatLong } from '@domain/post/entity/types'
 
-import { setRecentAddressOnStorage } from '@utils/maps/recentAddresses'
+import { useLocationRepository } from '@data/application/location/useLocationRepository'
+
+import { AddressSearchResult, SelectedAddressRender } from '@services/googleMaps/types/maps'
 
 import {
 	Container,
@@ -26,6 +28,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 import { DropdownItem } from '../DropdownItem'
 
+const { localStorage } = useLocationRepository()
+
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender
 	recentAddresses: AddressSearchResult[]
@@ -34,7 +38,13 @@ interface LocationNearDropdownProps {
 	clearAddressSuggestions: () => void
 	selectAddress: (address: SelectedAddressRender) => void
 	findAddressSuggestions: (text: string) => void
-	findNearPosts: (text: string, currentPosition: boolean, searchOptions?: LatLong) => void
+	findNearPosts: (
+		searchText: string,
+		currentPosition?: boolean,
+		alternativeCoordinates?: LatLong,
+		refresh?: boolean,
+		firstLoad?: boolean
+	) => void
 }
 
 function LocationNearDropdown({
@@ -67,20 +77,22 @@ function LocationNearDropdown({
 
 	const findNearPostsByAddress = async (address: AddressSearchResult) => {
 		setDropdownIsVisible(false)
-		if (!address.recent) {
-			await setRecentAddressOnStorage(address)
-			saveRecentAddresses(address)
-		}
+		await localStorage.saveAddressData(address)
+		saveRecentAddresses(address)
 
 		const greaterThanThree = address.formattedAddress.split(',').length > 3
 		selectAddress({
 			addressHighlighted: `${address.formattedAddress.split(',')[0].trim()}${greaterThanThree ? `, ${address.formattedAddress.split(',')[1].trim()}` : ''}`,
 			addressThin: `${greaterThanThree ? address.formattedAddress.split(',')[2].trim() : address.formattedAddress.split(',')[1].trim()}${greaterThanThree ? ` - ${address.formattedAddress.split(',')[3].trim()}` : ''}`,
 		})
-		findNearPosts('', false, {
-			lat: address.lat,
-			lon: address.lon
-		})
+		findNearPosts(
+			'',
+			false,
+			{
+				latitude: address.lat,
+				longitude: address.lon
+			}
+		)
 	}
 
 	const toggleDropdownVisibility = () => {
@@ -180,7 +192,7 @@ function LocationNearDropdown({
 							/>
 						)}
 						ItemSeparatorComponent={() => <VerticalSpacing height={RFValue(5)} />}
-						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(20)} />}
+						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(40)} />}
 					/>
 				</DropdownBody>
 				{

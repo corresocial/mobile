@@ -4,7 +4,7 @@ import { Keyboard, StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { InsertSaleDescriptionScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { InsertSaleDescriptionScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

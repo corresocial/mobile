@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IncomeType } from '@services/firebase/types'
+import { IncomeType } from '@domain/post/entity/types'
 
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
@@ -12,7 +12,8 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+// import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface IncomeTypeCardProps {
 	title?: string
@@ -41,7 +42,10 @@ function IncomeTypeCard({ title, macroCategory, hightligtedWords, onEdit }: Inco
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer
+			pressionable={!!onEdit}
+			onPress={onEdit}
+		>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
 					title={title || 'tipo de post'}
@@ -53,7 +57,7 @@ function IncomeTypeCard({ title, macroCategory, hightligtedWords, onEdit }: Inco
 				text={getRelativeCultureType()}
 				SvgIcon={getRelativeValueIcon()}
 			/>
-		</DefaultCardContainer>
+		</DefaultTouchableCardContainer>
 	)
 }
 

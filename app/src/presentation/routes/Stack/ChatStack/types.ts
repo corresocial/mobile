@@ -1,15 +1,13 @@
-import { Chat } from '@domain/entities/chat/types'
-
-import { UserStackParamList } from '../UserStack/types'
-import { Id, PostCollection } from '@services/firebase/types'
+import { Chat } from '@domain/chat/entity/types'
+import { CultureEntity, Id, IncomeEntity, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
 
 export type ChatStackParamList = {
 	ChatConversations: undefined
-	ProfileChat: { userId: Id, stackLabel?: string }
 	ChatMessages: { chat: Chat }
 
-	ViewIncomePostChat: { postData: PostCollection }
-	ViewVacancyPostChat: { postData: PostCollection }
-	ViewSocialImpactPostChat: { postData: PostCollection }
-	ViewCulturePostChat: { postData: PostCollection }
-} & UserStackParamList
+	ProfileChat: { userId: Id, stackLabel?: string }
+	ViewIncomePostChat: { postData: IncomeEntity }
+	ViewVacancyPostChat: { postData: VacancyEntity }
+	ViewSocialImpactPostChat: { postData: SocialImpactEntity }
+	ViewCulturePostChat: { postData: CultureEntity }
+}

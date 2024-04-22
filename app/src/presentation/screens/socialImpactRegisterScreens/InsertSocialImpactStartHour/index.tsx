@@ -1,28 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertSocialImpactStartHourScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactStartHourScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
 
 function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactStartHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -33,13 +21,9 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 		}
 	}
 
-	const saveEndTime = (hour: string, minutes: string) => {
-		const startHour = new Date()
-		startHour.setHours(parseInt(hour), parseInt(minutes))
-		const ISOStringDateTime = new Date(startHour.getTime())
-
+	const saveEndTime = (dateTime: Date) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startHour: ISOStringDateTime })
+			addNewUnsavedFieldToEditContext({ startHour: dateTime })
 			navigation.goBack()
 		}
 	}
@@ -50,8 +34,7 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 			<PostTime
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				keyboardOpened={keyboardOpened}
+				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				saveTime={saveEndTime}

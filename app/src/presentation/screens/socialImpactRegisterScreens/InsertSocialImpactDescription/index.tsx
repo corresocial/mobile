@@ -4,7 +4,7 @@ import { Keyboard, StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { InsertSocialImpactDescriptionScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactDescriptionScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

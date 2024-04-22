@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { PaymentType } from '@domain/post/entity/types'
+
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectPaymentTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-import { PaymentType } from '@services/firebase/types'
+import { SelectPaymentTypeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
 
 import { theme } from '@common/theme'
 

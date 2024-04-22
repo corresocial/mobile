@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 
+import { PlaceModalityType } from '@domain/post/entity/types'
+
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-import { PlaceModalityType } from '@services/firebase/types'
+import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'
 import ShopWhiteIcon from '@assets/icons/shop-white.svg'

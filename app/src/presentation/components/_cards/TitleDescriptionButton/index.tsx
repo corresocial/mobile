@@ -118,6 +118,7 @@ function TitleDescriptionButton({
 			style={{ height }}
 		>
 			<ContainerInner
+				activeOpacity={1}
 				style={{
 					backgroundColor: !selected ? color : activeColor,
 					marginLeft: buttonPressed || selected ? RFValue(5) : 0

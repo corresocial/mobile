@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { usePostRepository } from '@data/post/usePostRepository'
+
 import { AuthContext } from '@contexts/AuthContext'
 
-import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 import { Container, SubscriptionButtonContainer } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
@@ -25,6 +26,8 @@ import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionP
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
+const { localStorage } = usePostRepository()
+
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
@@ -42,7 +45,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	}, [navigation])
 
 	const checkHasOfflinePosts = async () => {
-		const numberOfOfflinePosts = await getNumberOfStoredOfflinePosts()
+		const numberOfOfflinePosts = await localStorage.getNumberOfOfflinePosts()
 		setNumberOfOfflinePostsStored(numberOfOfflinePosts)
 	}
 
@@ -115,7 +118,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						onPress={() => navigation.navigate('CultureStack')}
 					/>
 					{
-						!!numberOfOfflinePostsStored && (
+						numberOfOfflinePostsStored ? (
 							<OptionButton
 								label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
 								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
@@ -128,7 +131,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 								svgIconScale={['70%', '70%']}
 								onPress={() => navigation.navigate('OfflinePostsManagement')}
 							/>
-						)
+						) : <></>
 					}
 				</FormContainer>
 				<SubtitleCard

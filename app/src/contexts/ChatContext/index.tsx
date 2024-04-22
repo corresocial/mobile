@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-import { Chat } from '@domain/entities/chat/types'
-import { Id } from '@domain/entities/globalTypes'
+import { useQueryClient } from '@tanstack/react-query'
+
+import { Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { Id } from '@domain/globalTypes'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { MutableObjectReference } from '@services/pushNotification/types'
-
-import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { AuthContext } from '../AuthContext'
 
@@ -22,7 +23,7 @@ const {
 	registerPushNotification,
 	addNotificationListener,
 	removeNotificationListener
-} = ChatAdapter()
+} = useChatDomain()
 
 const initialValue = {
 	chatDataContext: [],
@@ -37,6 +38,9 @@ const ChatContext = createContext<ChatContextType>(initialValue)
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
 
+	const queryClient = useQueryClient()
+	const chatConversationsKCacheKey = ['chatConversations']
+
 	const [pushNotificationEnabled, setPushNotificationEnabled] = useState(false)
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
@@ -47,9 +51,18 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatDataContextRef = useRef(chatDataContext)
 
 	useEffect(() => {
-		initUserInstance(userDataContext.userId as Id)
+		loadChatFromCache()
+		initUserInstance(userDataContext.userId)
 		initPushNotificationService()
 	}, [])
+
+	const loadChatFromCache = async () => {
+		const cachedChat = await queryClient.getQueryData(chatConversationsKCacheKey) as Chat[]
+		if (cachedChat) {
+			console.log('Has CACHED CHAT')
+			setChatsOnContext(cachedChat)
+		}
+	}
 
 	useEffect(() => {
 		chatDataContextRef.current = chatDataContext
@@ -74,6 +87,9 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const updateChatsOnContext = (chatId: Id, updatedChat: Chat) => {
 		const chatsOnContext = chatDataContextRef.current
 		const chats = mergeChatOnContext(chatId, updatedChat, chatsOnContext)
+
+		queryClient.setQueryData(chatConversationsKCacheKey, chats)
+
 		setChatsOnContext(chats as Chat[])
 	}
 
@@ -92,12 +108,12 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const chatUserHasTokenNotification = async () => {
-		const remoteUser = await getRemoteUserData(userDataContext.userId as Id)
+		const remoteUser = await getRemoteUserData(userDataContext.userId)
 		return !!(remoteUser && remoteUser.tokenNotification)
 	}
 
 	const setPushNotificationState = async (state: boolean) => {
-		const authenticatedUserId = userDataContext.userId as Id
+		const authenticatedUserId = userDataContext.userId
 
 		try {
 			setPushNotificationEnabled(state)
@@ -118,7 +134,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const removeChatListeners = () => {
 		unsubscribeUserChatsListener(chatIdList)
-		unsubscribeUserChatIdsListener(userDataContext.userId as Id)
+		unsubscribeUserChatIdsListener(userDataContext.userId)
 		setPushNotificationState(false)
 		setChatIdList([])
 		setChatsOnContext([])

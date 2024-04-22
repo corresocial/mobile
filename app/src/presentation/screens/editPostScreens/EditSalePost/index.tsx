@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { PostEntityOptional, SaleCategories, IncomeEntityOptional } from '@domain/post/entity/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
-import { EditSalePostReviewScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+import { EditSalePostReviewScreenProps } from '@routes/Stack/SaleStack/screenProps'
 import { SaleStackParamList } from '@routes/Stack/SaleStack/types'
-import { PostCollection, SaleCategories, IncomeCollection } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -36,9 +37,9 @@ const { formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
-	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setDataOnSecureStore, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
@@ -56,7 +57,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeEntityOptional, allowNull?: boolean) => {
 		const currentPostData = { ...postData, postType: 'income' }
 
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
@@ -89,15 +90,15 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type
+		navigation.navigate('Profile' as any)
 	}
 
-	const viewPostDetails = (post: PostCollection) => {
+	const viewPostDetails = (post: PostEntityOptional) => {
 		navigateToPostView(post, navigation)
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
-		let value = getPostField(initialValue)
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
+		let value = getPostField(initialValue, true)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
@@ -122,8 +123,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
 
 	const getLastPostAddress = () => {
-		const lastUserPost: PostCollection = getLastUserPost()
-		return getTextualAddress(lastUserPost?.location)
+		const lastUserPost = getLastUserPost()
+		return getTextualAddress(lastUserPost.location)
 	}
 
 	const toggleRangeChangeModalVisibility = () => {
@@ -146,18 +147,16 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const navigateToSubscriptionContext = () => {
-		setSubscriptionDataOnContext({
-			currentPost: {
-				...postData,
-				...editDataContext.unsaved,
-				postType: 'income',
-				macroCategory: 'sale',
-				createdAt: new Date(),
-				owner: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl
-				}
+		setCurrentPostDataOnContext({
+			...postData,
+			...editDataContext.unsaved,
+			postType: 'income',
+			macroCategory: 'sale',
+			createdAt: new Date(),
+			owner: {
+				userId: userDataContext.userId,
+				name: userDataContext.name,
+				profilePictureUrl: userDataContext.profilePictureUrl
 			}
 		})
 		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
@@ -165,8 +164,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 
 	const userContext = {
 		userDataContext,
-		setUserDataOnContext,
-		setDataOnSecureStore
+		setUserDataOnContext
 	}
 
 	const editContext = {
@@ -223,6 +221,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					profilePicturesUrl={getPicturesUrl()}
 					indicatorColor={theme.green1}
 					carousel
+					pressionable={arrayIsEmpty(getPicturesUrl())}
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

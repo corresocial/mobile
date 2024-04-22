@@ -1,6 +1,6 @@
-import { ChatUserIdentification } from '@domain/entities/chat/types'
+import { ChatUserIdentification } from '@domain/chat/entity/types'
 
-import { Id } from '@globalTypes/global/types'
+import { Id } from 'src/presentation/types'
 
 function getConversationUserName(currentUserId: Id, user1: ChatUserIdentification, user2: ChatUserIdentification) {
 	return currentUserId === user1.userId ? user2.name : user1.name
