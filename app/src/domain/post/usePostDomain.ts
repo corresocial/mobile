@@ -1,9 +1,11 @@
-import { updatePostDataDM } from './methods/updatePostDataDM'
+import { savePostDM } from './methods/savePostDM'
+import { updatePostDM } from './methods/updatePostDM'
 import { PostDomainInterface } from './PostDomainInterface'
 
 function usePostDomain(): PostDomainInterface {
 	return {
-		updatePostData: updatePostDataDM
+		updatePost: updatePostDM,
+		savePost: savePostDM
 	}
 }
 

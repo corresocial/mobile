@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
-import { getDownloadURL } from 'firebase/storage'
-
-import { postLocationChangedDM } from '@domain/post/core/postLocationChangedDM'
-import { PostType, PostEntity } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
-
-import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -41,12 +35,9 @@ import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
 const { updateUserRepository } = useUserDomain()
-const { updatePostData } = usePostDomain()
+const { updatePost, savePost } = usePostDomain()
 
-const { localStorage } = useUserRepository()
-const { localStorage: localPostStorage, remoteStorage } = usePostRepository()
-
-const { notifyUsersOnLocation } = useCloudFunctionService()
+const { localStorage: localPostStorage } = usePostRepository()
 
 type UserContextFragment = {
 	userDataContext: UserEntity;
@@ -116,12 +107,7 @@ function EditPost({
 		return !!networkStatus.isConnected && !!networkStatus.isInternetReachable
 	}
 
-	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostEntity[]) => {
-		const userPosts = updatedLocationPosts || userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== initialPostData.postId) || []
-	}
-
-	const editPost = async () => {
+	const editPostData = async () => {
 		if (!editDataContext.unsaved) return
 
 		const postDataToSave: PostEntity = { ...initialPostData, ...editDataContext.unsaved }
@@ -129,7 +115,7 @@ function EditPost({
 		try {
 			setIsLoading(true)
 
-			const { updatedUserPosts, picturesUrlUploaded } = await updatePostData(
+			const { updatedUserPosts, picturesUrlUploaded } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
@@ -144,7 +130,7 @@ function EditPost({
 				{ posts: updatedUserPosts || [] }
 			)
 
-			updateUserContext(updatedUserPosts)
+			updateUserContext({ ...userDataContext, tourPerformed: true }, updatedUserPosts)
 			changeStateOfEditedFields([...picturesUrlUploaded])
 
 			setIsLoading(false)
@@ -156,202 +142,65 @@ function EditPost({
 		}
 	}
 
-	const extractPostPictures = (postData: PostEntity) => postData.picturesUrl as string[] || []
-
-	const getLocalUser = () => userDataContext
-
-	const savePost = async () => {
-		const hasValidConnection = await checkNetworkStatus()
-
-		const postData = { ...initialPostData, completed: false, ...editDataContext.unsaved } as PostEntity
-
-		if (offlinePost && !hasValidConnection) return
-
-		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
-			await localPostStorage.saveOfflinePost({ ...postData, owner })
-			navigateToProfile && navigateToProfile()
-			return
-		}
-
-		await localPostStorage.saveOfflinePost({ ...postData, owner })
-
-		const postPictures = extractPostPictures(postData)
-
-		setHasError(false)
-		setIsLoading(true)
-
-		let timeoutId: any
-		if (!offlinePost) {
-			timeoutId = setTimeout(() => {
-				setIsLoading(false)
-				setHasError(false)
-				toggleOfflinePostAlertModal()
-				setNetworkConnectionIsValid(false)
-			}, 30000)
-		}
-
+	const savePostData = async () => {
 		try {
-			let userPostsUpdated: PostEntity[] = []
+			const hasValidConnection = await checkNetworkStatus()
 
-			// REFACTOR Não deve ficar aqui
-			const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
-				userDataContext.subscription?.subscriptionRange,
-				initialPostData,
-				editDataContext.unsaved
-			)
+			const postDataToSave = {
+				...initialPostData,
+				...editDataContext.unsaved,
+				completed: false,
+			} as PostEntity
 
-			if (postLocationIsOutsideSubscriptionRange) {
-				console.log(`localização ou range mudaram: ${postLocationIsOutsideSubscriptionRange}`)
-				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-					owner,
-					getUserPostsWithoutEdited(),
-					{
-						range: getPostField('range'),
-						location: getPostField('location')
-					}
-				)
-			}
+			if (offlinePost && !hasValidConnection) return
 
-			const localUser = { ...getLocalUser() }
-			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
-
-			if (!postPictures.length) {
-				const postId = await remoteStorage.createPost(postData, localUser, postData.postType as PostType) // REFACTOR remote as
-				if (!postId) throw new Error('Não foi possível identificar o post')
-
-				userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
-
-				await updateUserPost(
-					localUser,
-					postId,
-					postData,
-					userPostsUpdated
-				)
-
-				clearTimeout(timeoutId)
-				deleteOfflinePostByDescription(postData.description)
-				if (notifyUsersEnabled) {
-					await notifyUsersOnLocation({
-						state: postData.location.state as string,
-						city: postData.location.city as string,
-						district: postData.location.district as string,
-						postRange: postData.range as NotifyUsersByLocationParams['postRange']
-					}, {
-						postDescription: postData.description,
-						userId: localUser.userId,
-						userName: localUser.name
-					})
-				}
-
+			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+				await localPostStorage.saveOfflinePost({ ...postDataToSave, owner })
+				navigateToProfile && navigateToProfile()
 				return
 			}
 
-			const picturePostsUrls: string[] = []
-			postPictures.forEach(async (postPicture, index) => {
-				uploadImage(postPicture, 'posts').then(
-					({ uploadTask, blob }: any) => {
-						uploadTask.on(
-							'state_change',
-							() => { },
-							(err: any) => {
-								throw new Error(err)
-							},
-							() => {
-								getDownloadURL(uploadTask.snapshot.ref)
-									.then(
-										async (downloadURL) => {
-											blob.close()
-											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === postPictures.length) {
-												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
+			setHasError(false)
+			setIsLoading(true)
 
-												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType)
-												if (!postId) throw new Error('Não foi possível identificar o post')
-
-												await updateUserPost(
-													localUser,
-													postId,
-													postDataWithPicturesUrl,
-													userPostsUpdated
-												)
-
-												clearTimeout(timeoutId)
-												deleteOfflinePostByDescription(postData.description)
-
-												if (notifyUsersEnabled) {
-													await notifyUsersOnLocation({
-														state: postData.location.state as string,
-														city: postData.location.city as string,
-														district: postData.location.district as string,
-														postRange: postData.range as NotifyUsersByLocationParams['postRange']
-													}, {
-														postDescription: postData.description,
-														userId: localUser.userId,
-														userName: localUser.name
-													})
-												}
-
-												setIsLoading(false)
-											}
-										},
-									)
-							},
-						)
-					},
-				)
-			})
-		} catch (err) {
-			console.log(err)
-			Alert.alert('Error', 'First went wrong')
-			setIsLoading(false)
-			setHasError(true)
-		}
-	}
-
-	const updateUserPost = async (
-		localUser: UserEntity,
-		postId: string,
-		postData: PostEntity,
-		postsUpdated: PostEntity[] = []
-	) => {
-		try {
-			const postDataToSave = {
-				...postData,
-				postId,
-				postType: postData.postType,
-				createdAt: new Date()
+			let timeoutId: any
+			if (!offlinePost) {
+				timeoutId = setTimeout(() => {
+					setIsLoading(false)
+					setHasError(false)
+					toggleOfflinePostAlertModal()
+					setNetworkConnectionIsValid(false)
+				}, 30000)
 			}
+
+			const { newPost, updatedUserPosts } = await savePost(
+				usePostRepository,
+				useCloudFunctionService,
+				userDataContext.subscription?.subscriptionRange,
+				userDataContext.posts || [],
+				initialPostData,
+				{ ...postDataToSave, owner },
+				editDataContext.unsaved.picturesUrl || [],
+				notifyUsersEnabled
+			)
 
 			await updateUserRepository(
 				useUserRepository,
-				userDataContext,
-				{ posts: [...postsUpdated, postDataToSave] }
+				{ ...userDataContext, tourPerformed: true },
+				{ posts: updatedUserPosts || [] }
 			)
 
-			const localUserPosts = localUser.posts ? [...localUser.posts] as PostEntity[] : []
-			userContext.setUserDataOnContext({
-				...localUser,
-				tourPerformed: true,
-				posts: [
-					...localUserPosts,
-					{ ...postDataToSave, owner } as PostEntity
-				],
-			})
-			localStorage.saveLocalUserData({
-				...localUser,
-				tourPerformed: true,
-				posts: [
-					...localUserPosts,
-					{ ...postDataToSave, owner }
-				],
-			})
+			updateUserContext({ ...userDataContext, tourPerformed: true }, updatedUserPosts)
+
+			clearTimeout(timeoutId)
+			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
+
+			showShareModal(true, getShortText(newPost.description, 70), newPost.postId)
+			navigateToPostView(newPost)
 
 			setIsLoading(false)
-			showShareModal(true, getShortText(postDataToSave.description, 70), postDataToSave.postId)
-			navigateToPostView({ ...postDataToSave, owner })
-		} catch (err: any) {
+		} catch (err) {
 			console.log(err)
-			Alert.alert('Error', 'Second went wrong')
 			setIsLoading(false)
 			setHasError(true)
 		}
@@ -377,8 +226,8 @@ function EditPost({
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
 	}
 
-	const updateUserContext = (updatedUserPosts?: PostEntity[]) => {
-		userContext.setUserDataOnContext({ posts: updatedUserPosts })
+	const updateUserContext = (user: UserEntity, updatedUserPosts?: PostEntity[]) => {
+		userContext.setUserDataOnContext({ ...user, posts: updatedUserPosts })
 	}
 
 	const cancelAllChangesAndGoBack = () => {
@@ -402,7 +251,7 @@ function EditPost({
 		setNotifyUsersEnabled(!notifyUsersEnabled)
 	}
 
-	const userSubscribeIsValid = () => {
+	const userSubscribeIsValid = () => { // REFACTOR domain
 		if (getPostField('range') === 'city' && getPostField('postType') === 'socialImpact') return true
 
 		if (!userDataContext.subscription) {
@@ -446,7 +295,7 @@ function EditPost({
 		if (!userSubscribeIsValid()) {
 			return navigateToSubscriptionContext
 		}
-		return unsavedPost ? savePost : editPost
+		return unsavedPost ? savePostData : editPostData
 	}
 
 	const presentationPostCardData = {
