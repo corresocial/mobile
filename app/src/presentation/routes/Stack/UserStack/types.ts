@@ -24,6 +24,7 @@ export type UserStackParamList = {
 	CultureStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SocialImpactStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	PollStack: undefined
+	PetitionStack: undefined
 
 	ContactUsUserStack: undefined
 	ContactUsInsertMessageUserStack: { title: string, contactUsType: DiscordContactUsType, reportedType?: ReportedTarget, reportedId?: string }
