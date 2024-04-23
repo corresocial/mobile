@@ -7,6 +7,7 @@ import { PetitionProvider } from '@contexts/PetitionContext'
 import { PetitionStackParamList } from './types'
 
 import { InsertPetitionDescription } from '@screens/petitionScreens/InsertPetitionDescription'
+import { InsertPetitionLocation } from '@screens/petitionScreens/InsertPetitionLocation'
 import { SelectPetitionRange } from '@screens/petitionScreens/InsertPetitionRange'
 import { InsertPetitionTitle } from '@screens/petitionScreens/InsetPetitionTitle'
 import { SelectIdentificationRequest } from '@screens/petitionScreens/SelectIdentificationRequest'
@@ -30,6 +31,7 @@ export function PetitionStack() {
 				<Stack.Screen name={'SelectIdentificationRequest'} component={SelectIdentificationRequest} />
 				<Stack.Screen name={'SelectPetitionMedia'} component={SelectPetitionMedia} />
 				<Stack.Screen name={'SelectPetitionRange'} component={SelectPetitionRange} />
+				<Stack.Screen name={'InsertPetitionLocation'} component={InsertPetitionLocation} />
 			</Stack.Navigator>
 		</PetitionProvider>
 	)

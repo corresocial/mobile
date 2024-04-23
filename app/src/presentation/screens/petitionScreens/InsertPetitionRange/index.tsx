@@ -28,7 +28,7 @@ function SelectPetitionRange({ route, navigation }: SelectPetitionRangeScreenPro
 		}
 
 		setPetitionDataOnContext({ range: pollRange })
-		// navigation.navigate('InsertPetitionLocation')
+		navigation.navigate('InsertPetitionLocation')
 	}
 
 	return (

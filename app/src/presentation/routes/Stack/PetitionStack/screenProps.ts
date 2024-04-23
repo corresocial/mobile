@@ -7,4 +7,5 @@ export type InsertPetitionDescriptionScreenProps = NativeStackScreenProps<Petiti
 export type SelectIdentificationRequestScreenProps = NativeStackScreenProps<PetitionStackParamList, 'SelectIdentificationRequest'>
 export type SelectPetitionMediaScreenProps = NativeStackScreenProps<PetitionStackParamList, 'SelectPetitionMedia'>
 export type SelectPetitionRangeScreenProps = NativeStackScreenProps<PetitionStackParamList, 'SelectPetitionRange'>
+export type InsertPetitionLocationScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionLocation'>
 export type PetitionReviewScreenProps = NativeStackScreenProps<PetitionStackParamList, 'PetitionReview'>
