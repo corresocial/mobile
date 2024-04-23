@@ -105,7 +105,7 @@ function OptionButton({
 				>
 					<LeftArea
 						style={{
-							backgroundColor: (selected ? selectedSideColor : leftSideTextColor) as string,
+							backgroundColor: (selected ? selectedSideColor : leftSideColor) as string,
 							width: leftSideWidth as DimensionValue
 						}}
 					>

@@ -9,6 +9,7 @@ import { PetitionStackParamList } from './types'
 import { InsertPetitionDescription } from '@screens/petitionScreens/InsertPetitionDescription'
 import { InsertPetitionTitle } from '@screens/petitionScreens/InsetPetitionTitle'
 import { SelectIdentificationRequest } from '@screens/petitionScreens/SelectIdentificationRequest'
+import { SelectPetitionMedia } from '@screens/petitionScreens/SelectPetitionMedia'
 
 const Stack = createStackNavigator<PetitionStackParamList>()
 
@@ -26,6 +27,7 @@ export function PetitionStack() {
 				<Stack.Screen name={'InsertPetitionTitle'} component={InsertPetitionTitle} />
 				<Stack.Screen name={'InsertPetitionDescription'} component={InsertPetitionDescription} />
 				<Stack.Screen name={'SelectIdentificationRequest'} component={SelectIdentificationRequest} />
+				<Stack.Screen name={'SelectPetitionMedia'} component={SelectPetitionMedia} />
 			</Stack.Navigator>
 		</PetitionProvider>
 	)

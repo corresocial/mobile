@@ -39,7 +39,7 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 		setPetitionDataOnContext({ extraIdentificationRequest: selectedOptions })
 		// }
 
-		// navigation.push('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
+		navigation.push('SelectPetitionMedia')
 	}
 
 	return (
@@ -83,6 +83,7 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 				relativeHeight={'18%'}
 				SvgIcon={PhoneDeviceWhiteIcon}
 				svgIconScale={['80%', '80%']}
+				leftSideColor={theme.white3}
 				selectedSideColor={theme.purple3}
 				leftSideWidth={'25%'}
 				selected={selectedOptions.includes('cellNumber')}
