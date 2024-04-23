@@ -24,7 +24,7 @@ function SelectPetitionMedia({ route, navigation }: SelectPetitionMediaScreenPro
 		}
 
 		setPetitionDataOnContext({ picturesUrl: picturesUri })
-		// navigation.navigate('')
+		navigation.navigate('SelectPetitionRange')
 	}
 
 	return (

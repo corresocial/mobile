@@ -7,5 +7,6 @@ export type PetitionStackParamList = {
 	InsertPetitionDescription: { editMode: boolean, initialValue: string } | undefined
 	SelectIdentificationRequest: { editMode: boolean } | undefined
 	SelectPetitionMedia: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
+	SelectPetitionRange: { editMode: boolean } | undefined
 	PetitionReview: { petitionData: PetitionEntity } | undefined
 } & UserStackParamList
