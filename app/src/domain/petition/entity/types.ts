@@ -11,7 +11,7 @@ export type PetitionEntity = {
 	completed?: boolean
 	picturesUrl: string[]
 	videosUrl: string[]
-	extraIdentificationRequest: ('cpf' | 'rg')[]
+	extraIdentificationRequest: ExtraIdentificationRequest[]
 	privateResponses?: PrivatePetitionResponse[]
 }
 
@@ -38,6 +38,8 @@ export type Coordinates = {
 	latitude: number
 	longitude: number
 }
+
+export type ExtraIdentificationRequest = 'cpf' | 'rg' | 'cellNumber'
 
 type PrivatePetitionResponse = {
 	userId: string

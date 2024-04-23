@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextStyle } from 'react-native'
+import { DimensionValue, TextStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
@@ -21,16 +21,18 @@ import { theme } from '@common/theme'
 interface OptionButtonProps {
 	color?: string
 	label: string
+	selected?: boolean
 	labelColor?: string
 	labelSize?: number
-	relativeHeight?: string | number
+	relativeHeight?: DimensionValue
 	labelAlign?: TextStyle['textAlign']
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
 	secondSvgIconScale?: [height: string, width: string]
 	leftSideColor?: string
-	leftSideWidth?: string | number
+	selectedSideColor?: string
+	leftSideWidth?: DimensionValue
 	leftSideText?: string
 	leftSideTextColor?: string | boolean
 	highlightedWords?: string[]
@@ -44,6 +46,7 @@ interface OptionButtonProps {
 function OptionButton({
 	color,
 	label,
+	selected,
 	labelColor,
 	labelSize = 22,
 	relativeHeight,
@@ -54,6 +57,7 @@ function OptionButton({
 	svgIconScale,
 	secondSvgIconScale,
 	leftSideColor = theme.orange2,
+	selectedSideColor,
 	leftSideWidth,
 	leftSideText,
 	leftSideTextColor,
@@ -96,20 +100,20 @@ function OptionButton({
 				<ContainerSurface
 					style={{
 						backgroundColor: color || theme.white3,
-						marginLeft: buttonPressed ? RFValue(7) : 0
+						marginLeft: buttonPressed || selected ? RFValue(7) : 0
 					}}
 				>
 					<LeftArea
 						style={{
-							backgroundColor: leftSideColor,
-							width: leftSideWidth
+							backgroundColor: (selected ? selectedSideColor : leftSideTextColor) as string,
+							width: leftSideWidth as DimensionValue
 						}}
 					>
 						{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
 						{SecondSvgIcon && <SecondSvgIcon height={secondSvgIconScale?.[0] || svgIconScale?.[0]} width={secondSvgIconScale?.[1] || svgIconScale?.[1]} />}
 						{
 							leftSideText && (
-								<LeftSideText leftSideTextColor={leftSideTextColor}>
+								<LeftSideText leftSideTextColor={leftSideTextColor as string}>
 									{showMessageWithHighlight(leftSideText, ['incluso', '\ngrátis', 'seu', '35,00', '60,00'])}
 								</LeftSideText>
 							)
