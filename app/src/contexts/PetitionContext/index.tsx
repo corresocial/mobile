@@ -5,26 +5,7 @@ import { PetitionEntity, PetitionEntityOptional } from '@domain/petition/entity/
 import { PetitionContextType, PetitionProviderProps } from './types'
 
 const initialValue: PetitionContextType = {
-	petitionDataContext: {
-		range: 'near',
-		petitionId: '',
-		title: '',
-		description: '',
-		createdAt: new Date(),
-		questions: [],
-		location: {
-			coordinates: {
-				latitude: 0,
-				longitude: 0
-			},
-			geohashNearby: []
-		} as any,
-		owner: {
-			name: '',
-			userId: ''
-		},
-
-	} as PetitionEntity,
+	petitionDataContext: {} as PetitionEntity,
 	setPetitionDataOnContext: (data: PetitionEntityOptional) => { }
 }
 

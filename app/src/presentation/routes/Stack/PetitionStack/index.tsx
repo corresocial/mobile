@@ -6,7 +6,9 @@ import { PetitionProvider } from '@contexts/PetitionContext'
 
 import { PetitionStackParamList } from './types'
 
-import { InsertPetitionTitle } from '@screens/petitionScreens/InsertPetitionTitle'
+import { InsertPetitionDescription } from '@screens/petitionScreens/InsertPetitionDescription'
+import { InsertPetitionTitle } from '@screens/petitionScreens/InsetPetitionTitle'
+import { SelectIdentificationRequest } from '@screens/petitionScreens/SelectIdentificationRequest'
 
 const Stack = createStackNavigator<PetitionStackParamList>()
 
@@ -22,6 +24,8 @@ export function PetitionStack() {
 				}}
 			>
 				<Stack.Screen name={'InsertPetitionTitle'} component={InsertPetitionTitle} />
+				<Stack.Screen name={'InsertPetitionDescription'} component={InsertPetitionDescription} />
+				<Stack.Screen name={'SelectIdentificationRequest'} component={SelectIdentificationRequest} />
 			</Stack.Navigator>
 		</PetitionProvider>
 	)

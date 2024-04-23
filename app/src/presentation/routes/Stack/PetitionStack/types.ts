@@ -1,5 +1,11 @@
+import { PetitionEntity } from '@domain/petition/entity/types'
+
 import { UserStackParamList } from '../UserStack/types'
 
 export type PetitionStackParamList = {
 	InsertPetitionTitle: { editMode: boolean, initialValue: string } | undefined
+	InsertPetitionDescription: { editMode: boolean, initialValue: string } | undefined
+	SelectIdentificationRequest: { editMode: boolean } | undefined
+	SelectPetitionMedia: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
+	PetitionReview: { petitionData: PetitionEntity } | undefined
 } & UserStackParamList

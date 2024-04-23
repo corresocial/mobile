@@ -1,25 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePetitionContext } from '@contexts/PetitionContext'
 
-import { InsertPollTitleScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { InsertPetitionDescriptionScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
-	const { setPollDataOnContext } = useContext(PollRegisterContext)
-	const { addNewUnsavedFieldToEditContext, clearEditContext } = useContext(EditContext)
+function InsertPetitionDescription({ route, navigation }: InsertPetitionDescriptionScreenProps) {
+	const { setPetitionDataOnContext } = usePetitionContext()
+	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	useEffect(() => {
-		clearEditContext()
-	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -32,7 +27,7 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const validatePollTitle = (text: string) => {
+	const validatePetitionDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -40,15 +35,15 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 		return false
 	}
 
-	const savePollTitle = (inputText: string) => {
+	const savePetitionDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: inputText })
-			navigation.goBack()
-			return
+			// addNewUnsavedFieldToEditContext({ description: inputText })
+			// navigation.goBack()
+			// return
 		}
 
-		setPollDataOnContext({ title: inputText })
-		navigation.navigate('InsertPollDescription')
+		setPetitionDataOnContext({ description: inputText })
+		navigation.navigate('SelectIdentificationRequest')
 	}
 
 	return (
@@ -58,18 +53,17 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 				multiline
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				customTitle={'qual o título da sua enquete?'}
-				customHighlight={['título', 'enquete']}
-				inputPlaceholder={'ex: serviços da prefeitura...'}
+				customTitle={'adicione uma descrição sobre o seu abaixo assinado'}
+				customHighlight={['descrição', 'abaixo', 'enquete']}
+				inputPlaceholder={'descreva sua enquete...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				// progress={[1, 3]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validatePollTitle}
+				validateInputText={validatePetitionDescription}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={savePollTitle}
+				saveTextData={savePetitionDescription}
 			/>
 		</>
 	)
 }
 
-export { InsertPollTitle }
+export { InsertPetitionDescription }

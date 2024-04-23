@@ -47,8 +47,8 @@ function InsertPetitionTitle({ route, navigation }: InsertPetitionTitleScreenPro
 			return
 		}
 
-		setPetitionDataOnContext({ description: inputText })
-		// navigation.navigate('InsertPetitionDescription')
+		setPetitionDataOnContext({ title: inputText })
+		navigation.navigate('InsertPetitionDescription')
 	}
 
 	return (
@@ -62,7 +62,6 @@ function InsertPetitionTitle({ route, navigation }: InsertPetitionTitleScreenPro
 				customHighlight={['título', 'abaixo', 'assinado?']}
 				inputPlaceholder={'ex: reconstrução da praça...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[1, 3]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validatePetitionTitle}
 				navigateBackwards={() => navigation.goBack()}
