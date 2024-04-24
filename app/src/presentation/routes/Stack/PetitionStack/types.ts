@@ -10,5 +10,5 @@ export type PetitionStackParamList = {
 	SelectPetitionRange: { editMode: boolean } | undefined
 	InsertPetitionLocation: { editMode: boolean, initialValue: PetitionEntity['location'] } | undefined
 
-	PetitionReview: { petitionData: PetitionEntity } | undefined
+	PetitionReview: { petitionData: PetitionEntity, unsavedPetition: boolean }
 } & UserStackParamList

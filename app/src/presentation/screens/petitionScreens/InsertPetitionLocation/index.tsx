@@ -45,13 +45,13 @@ function InsertPetitionLocation({ route, navigation }: InsertPetitionLocationScr
 		}
 
 		setPetitionDataOnContext({ location: petitionLocation })
-		/* navigation.reset({
+		navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'PetitionReview',
 				params: { petitionData: { ...petitionDataContext, location: petitionLocation }, unsavedPetition: true }
 			}],
-		}) */
+		})
 	}
 
 	const getInitialCoordinateValue = () => {
