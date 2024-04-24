@@ -3,6 +3,7 @@ import { useTheme } from 'styled-components'
 
 import { ExtraIdentificationRequest } from '@domain/petition/entity/types'
 
+import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { SelectIdentificationRequestScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -19,6 +20,7 @@ import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 function SelectIdentificationRequest({ route, navigation }: SelectIdentificationRequestScreenProps) {
 	const theme = useTheme()
 	const { setPetitionDataOnContext } = usePetitionContext()
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const [selectedOptions, setSelectedOptions] = useState<ExtraIdentificationRequest[]>([])
 
@@ -32,12 +34,13 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 	}
 
 	const saveIdentificationRequest = () => {
-		console.log(selectedOptions)
-		// if (route.params?.editMode) {
+		if (route.params?.editMode) {
+			addNewUnsavedFieldToEditContext({ extraIdentificationRequest: selectedOptions })
+			navigation.goBack()
+			return
+		}
 
-		// } else {
 		setPetitionDataOnContext({ extraIdentificationRequest: selectedOptions })
-		// }
 
 		navigation.push('SelectPetitionMedia')
 	}
@@ -86,8 +89,8 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 				leftSideColor={theme.white3}
 				selectedSideColor={theme.purple3}
 				leftSideWidth={'25%'}
-				selected={selectedOptions.includes('cellNumber')}
-				onPress={() => selectIdentificationOption('cellNumber')}
+				selected={selectedOptions.includes('telefone')}
+				onPress={() => selectIdentificationOption('telefone')}
 			/>
 			<PrimaryButton
 				flexDirection={'row-reverse'}

@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { EditContext } from '@contexts/EditContext'
+import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { SelectPetitionMediaScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -12,7 +12,7 @@ import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 
 function SelectPetitionMedia({ route, navigation }: SelectPetitionMediaScreenProps) {
 	const { setPetitionDataOnContext } = usePetitionContext()
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

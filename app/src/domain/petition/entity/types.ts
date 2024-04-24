@@ -39,7 +39,7 @@ export type Coordinates = {
 	longitude: number
 }
 
-export type ExtraIdentificationRequest = 'cpf' | 'rg' | 'cellNumber'
+export type ExtraIdentificationRequest = 'cpf' | 'rg' | 'telefone'
 
 type PrivatePetitionResponse = {
 	userId: string

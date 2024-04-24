@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionDescriptionScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -12,7 +13,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPetitionDescription({ route, navigation }: InsertPetitionDescriptionScreenProps) {
 	const { setPetitionDataOnContext } = usePetitionContext()
-	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -37,9 +38,9 @@ function InsertPetitionDescription({ route, navigation }: InsertPetitionDescript
 
 	const savePetitionDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			// addNewUnsavedFieldToEditContext({ description: inputText })
-			// navigation.goBack()
-			// return
+			addNewUnsavedFieldToEditContext({ description: inputText })
+			navigation.goBack()
+			return
 		}
 
 		setPetitionDataOnContext({ description: inputText })

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { EditContext } from '@contexts/EditContext'
+import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionTitleScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -13,7 +13,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPetitionTitle({ route, navigation }: InsertPetitionTitleScreenProps) {
 	const { setPetitionDataOnContext } = usePetitionContext()
-	const { addNewUnsavedFieldToEditContext, clearEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext, clearEditContext } = useEditContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 

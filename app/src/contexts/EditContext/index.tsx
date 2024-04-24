@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
 import { useUtils } from '@newutils/useUtils'
 
@@ -76,4 +76,6 @@ function EditProvider({ children }: EditProviderProps) {
 	)
 }
 
-export { EditProvider, EditContext }
+const useEditContext = () => useContext(EditContext)
+
+export { EditProvider, useEditContext }

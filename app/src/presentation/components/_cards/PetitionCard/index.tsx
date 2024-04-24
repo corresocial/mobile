@@ -68,6 +68,7 @@ function PetitionCard({ petitionData, owner, navigateToProfile, onPress }: Petit
 
 	return (
 		<Container
+			hasPicture={!!(petitionData.picturesUrl && petitionData.picturesUrl.length)}
 			activeOpacity={1}
 			onPressIn={pressingButton}
 			onPressOut={notPressingButton}
@@ -92,20 +93,41 @@ function PetitionCard({ petitionData, owner, navigateToProfile, onPress }: Petit
 					/>
 					<VerticalSpacing />
 				</Content>
-				<ImageArea
-					source={{ uri: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' }}
-					resizeMode={'cover'}
-				>
-					<ButtonContainer>
-						<SmallButton
-							color={theme.green3}
-							label={'assinar'}
-							height={relativeScreenWidth(12)}
-							SvgIcon={DocumentPencilWhiteIcon}
-							onPress={onPress}
-						/>
-					</ButtonContainer>
-				</ImageArea>
+				{
+					(petitionData.picturesUrl && petitionData.picturesUrl.length)
+						? (
+							<ImageArea
+								source={{ uri: petitionData.picturesUrl[0] }}
+								contentFit={'cover'}
+								recyclingKey={!arrayIsEmpty(petitionData.picturesUrl) ? petitionData.picturesUrl[0] : ''}
+								placeholder={'L1Nb%B%4fQ%4?KfRfQfRfQfQfQfQ'}
+								placeholderContentFit={'contain'}
+								cachePolicy={'memory-disk'}
+								transition={300}
+							>
+								<ButtonContainer>
+									<SmallButton
+										color={theme.green3}
+										label={'assinar'}
+										height={relativeScreenWidth(12)}
+										SvgIcon={DocumentPencilWhiteIcon}
+										onPress={onPress}
+									/>
+								</ButtonContainer>
+							</ImageArea>
+						)
+						: (
+							<ButtonContainer>
+								<SmallButton
+									color={theme.green3}
+									label={'assinar'}
+									height={relativeScreenWidth(12)}
+									SvgIcon={DocumentPencilWhiteIcon}
+									onPress={onPress}
+								/>
+							</ButtonContainer>
+						)
+				}
 			</ContainerInner>
 		</Container >
 	)

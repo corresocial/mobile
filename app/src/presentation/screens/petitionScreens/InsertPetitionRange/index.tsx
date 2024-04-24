@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { PetitionEntity } from '@domain/petition/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { EditContext } from '@contexts/EditContext'
+import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { SelectPetitionRangeScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -16,7 +16,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 function SelectPetitionRange({ route, navigation }: SelectPetitionRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setPetitionDataOnContext } = usePetitionContext()
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { Coordinates } from '@domain/post/entity/types'
 
-import { EditContext } from '@contexts/EditContext'
+import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionLocationScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -22,7 +22,7 @@ const { structureAddress } = UiLocationUtils()
 
 function InsertPetitionLocation({ route, navigation }: InsertPetitionLocationScreenProps) {
 	const { petitionDataContext, setPetitionDataOnContext } = usePetitionContext()
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

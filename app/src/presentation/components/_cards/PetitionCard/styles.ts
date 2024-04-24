@@ -1,10 +1,15 @@
+import { ImageBackground } from 'expo-image'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-export const Container = styled.TouchableOpacity`
+interface ContainerProps {
+	hasPicture: boolean
+}
+
+export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	height: ${relativeScreenDensity(225)}px;
+	height: ${({ hasPicture }) => (hasPicture ? relativeScreenDensity(225) : relativeScreenDensity(180))}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
@@ -30,7 +35,7 @@ export const Content = styled.View`
 	padding: ${relativeScreenDensity(15)}px ${relativeScreenDensity(15)}px 0px ${relativeScreenDensity(15)}px;
 `
 
-export const ImageArea = styled.ImageBackground`
+export const ImageArea = styled(ImageBackground)`
 	flex: 1;
 	justify-content: flex-end;
 	border-color: ${({ theme }) => theme.black4};
@@ -38,7 +43,8 @@ export const ImageArea = styled.ImageBackground`
 `
 
 export const ButtonContainer = styled.View`
-	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(20)}px;
+	padding: ${relativeScreenDensity(15)}px;
+	padding-top: 0px;
 `
 
 export const TitleContainer = styled.View`
@@ -47,6 +53,7 @@ export const TitleContainer = styled.View`
 `
 
 export const Title = styled.Text`
+	text-align: center;
 	font-family: Arvo_700Bold;
 	font-size: ${relativeScreenDensity(15)}px;
 `

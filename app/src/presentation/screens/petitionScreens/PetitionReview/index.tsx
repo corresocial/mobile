@@ -5,7 +5,7 @@ import { PetitionEntity } from '@domain/petition/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { EditContext } from '@contexts/EditContext'
+import { useEditContext } from '@contexts/EditContext'
 
 import { PetitionReviewScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
@@ -15,7 +15,6 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
-import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -27,16 +26,14 @@ import { PetitionCard } from '@components/_cards/PetitionCard'
 import { PostRangeCard } from '@components/_cards/PostRangeCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
-import { GalleryModal } from '@components/_modals/GalleryModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { ImageCarousel } from '@components/ImageCarousel'
 import { Loader } from '@components/Loader'
 
 const { arrayIsEmpty } = UiUtils()
 
 function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // REFACTOR Mudar nome para postReview
-	const { editDataContext, setEditDataOnContext } = useContext(EditContext)
+	const { editDataContext, setEditDataOnContext } = useEditContext()
 	const { userDataContext } = useContext(AuthContext)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -65,6 +62,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	}
 
 	const savePetition = async () => {
+		console.log(newPetitionDataState)
 		try {
 			// setIsLoading(true)
 
@@ -99,18 +97,17 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	}
 
 	const navigateToEditScreen = (screenName: keyof PetitionStackParamList, initialValue: keyof PetitionEntity) => {
-		// const value = getPetitionField(initialValue, true)
-
-		// if (initialValue === 'questions') {
-		// 	const questions = getQuestionList()
-		// 	return navigation.push(screenName as any, { editMode: true, initialValue: questions as PetitionQuestion[] })
-		// }
-
-		// navigation.push(screenName, { editMode: true, initialValue: value })
+		const value = getPetitionField(initialValue, true)
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
+	}
+
+	const formatCategoryAndTags = () => {
+		const documentsRequired = getPetitionField('extraIdentificationRequest')
+		return documentsRequired.map((identification: string, i: number) => `${i === 0 ? '' : '\n   '}●   ${identification}`)
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -122,8 +119,8 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas na enquete ${getShortText(getPetitionField('description'), 70)}?`}
-				highlightedWords={[...getShortText(getPetitionField('description'), 70).split(' ')]}
+				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')}?`}
+				highlightedWords={[...getPetitionField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={navigateBackwards}
@@ -171,7 +168,12 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 							<PostCardContainer backgroundColor={backgroundColor}>
 								<PetitionCard
 									owner={petitionOwner}
-									petitionData={{ ...newPetitionDataState, createdAt: new Date(), title: 'Abaixo assinado para decidir os investimetos da praça da sé' }}
+									petitionData={{
+										...newPetitionDataState,
+										createdAt: new Date(),
+										title: 'Abaixo assinado para decidir os investimetos da praça da sé',
+										picturesUrl: ['https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg']
+									}}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>
@@ -195,6 +197,13 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 						hightligtedWords={['descrição']}
 						text={getPetitionField('description')}
 						onEdit={() => navigateToEditScreen('InsertPetitionDescription', 'description')}
+					/>
+					<VerticalSpacing />
+					<EditCard
+						title={'identificações requeridas'}
+						highlightedWords={['requeridas']}
+						value={formatCategoryAndTags()}
+						onEdit={() => navigateToEditScreen('SelectIdentificationRequest', 'extraIdentificationRequest')}
 					/>
 					<VerticalSpacing />
 					<EditCard
