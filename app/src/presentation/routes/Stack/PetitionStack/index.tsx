@@ -6,11 +6,13 @@ import { PetitionProvider } from '@contexts/PetitionContext'
 
 import { PetitionStackParamList } from './types'
 
+import { InsertPetitionCPF } from '@screens/petitionScreens/InsertPetitionCPF'
 import { InsertPetitionDescription } from '@screens/petitionScreens/InsertPetitionDescription'
 import { InsertPetitionEmail } from '@screens/petitionScreens/InsertPetitionEmail'
 import { InsertPetitionFullName } from '@screens/petitionScreens/InsertPetitionFullName'
 import { InsertPetitionLocation } from '@screens/petitionScreens/InsertPetitionLocation'
 import { SelectPetitionRange } from '@screens/petitionScreens/InsertPetitionRange'
+import { InsertPetitionRG } from '@screens/petitionScreens/InsertPetitionRg'
 import { InsertPetitionTitle } from '@screens/petitionScreens/InsetPetitionTitle'
 import { PetitionReview } from '@screens/petitionScreens/PetitionReview'
 import { SelectIdentificationRequest } from '@screens/petitionScreens/SelectIdentificationRequest'
@@ -42,6 +44,8 @@ export function PetitionStack() {
 
 				<Stack.Screen name={'InsertPetitionFullName'} component={InsertPetitionFullName} />
 				<Stack.Screen name={'InsertPetitionEmail'} component={InsertPetitionEmail} />
+				<Stack.Screen name={'InsertPetitionRG'} component={InsertPetitionRG} />
+				<Stack.Screen name={'InsertPetitionCPF'} component={InsertPetitionCPF} />
 			</Stack.Navigator>
 		</PetitionProvider>
 	)

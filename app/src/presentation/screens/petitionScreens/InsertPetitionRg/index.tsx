@@ -2,25 +2,23 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
-import { InsertPetitionEmailScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+import { InsertPetitionRGScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
+const { validateRG } = UiUtils()
+
+function InsertPetitionRG({ navigation }: InsertPetitionRGScreenProps) {
 	const { setPetitionSignatureOnContext } = usePetitionContext()
-	const { clearEditContext } = useEditContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	useEffect(() => {
-		clearEditContext()
-	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -31,14 +29,14 @@ function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const validatePetitionEmail = (text: string) => {
-		const isValid = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/.test(text)
+	const validatePetitionRG = (text: string) => {
+		const isValid = validateRG(text)
 		return (isValid && !keyboardOpened)
 	}
 
-	const savePetitionEmail = (inputText: string) => {
-		setPetitionSignatureOnContext({ email: inputText })
-		navigation.navigate('InsertPetitionRG')
+	const savePetitionRG = (inputText: string) => {
+		setPetitionSignatureOnContext({ rg: inputText })
+		navigation.navigate('InsertPetitionCPF')
 	}
 
 	return (
@@ -48,16 +46,17 @@ function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
 				multiline
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				customTitle={'qual é o seu email?'}
-				customHighlight={['email?']}
-				inputPlaceholder={'escreva seu email aqui...'}
+				customTitle={'qual é o seu RG?'}
+				customHighlight={['RG?']}
+				inputPlaceholder={'escreva seu RG aqui...'}
+				keyboardType={'numeric'}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validatePetitionEmail}
+				validateInputText={validatePetitionRG}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={savePetitionEmail}
+				saveTextData={savePetitionRG}
 			/>
 		</>
 	)
 }
 
-export { InsertPetitionEmail }
+export { InsertPetitionRG }
