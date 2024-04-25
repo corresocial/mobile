@@ -54,9 +54,9 @@ export const DeleteItemArea = styled.TouchableOpacity`
     justify-content: center;
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
-    padding:  ${relativeScreenWidth(2.5)}px;
-    bottom:  ${relativeScreenWidth(2)}px;;
-    right:  ${relativeScreenWidth(2)}px;;
+    padding: ${relativeScreenWidth(2.5)}px;
+    bottom: ${relativeScreenWidth(2)}px;
+    right: ${relativeScreenWidth(2)}px;
 `
 
 export const VideoIndicatorContainer = styled.View`

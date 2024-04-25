@@ -76,6 +76,7 @@ function PostPicturePreview({
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
+				maxImages={10 - picturesPack.length}
 				showMediaBrowser={mediaBrowserOpened}
 			/>
 			<CustomCameraModal
@@ -94,20 +95,18 @@ function PostPicturePreview({
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={18}
-						message={'adicione ou remova fotos e vídeos'}
-						highlightedWords={['gostou', 'fotos', 'vídeos']}
+						message={'e aí, gostou?'}
+						highlightedWords={['gostou?']}
 					/>
 				</TopArea>
 				<PicturePreviewContainer>
-					{
-						<PhotoPortrait
-							resizeMode={'cover'}
-							pictureUri={picturesPack[mediaIndexSelected]}
-							width={relativeScreenWidth(90)}
-							height={relativeScreenWidth(89)}
-							deleteCurrentPicture={deleteCurrentPicture}
-						/>
-					}
+					<PhotoPortrait
+						resizeMode={'cover'}
+						pictureUri={picturesPack[mediaIndexSelected]}
+						width={relativeScreenWidth(90)}
+						height={relativeScreenWidth(89)}
+						deleteCurrentPicture={deleteCurrentPicture}
+					/>
 					<VerticalSpacing height={relativeScreenWidth(7)} />
 				</PicturePreviewContainer>
 				<HorizontalListPicturesContainer>

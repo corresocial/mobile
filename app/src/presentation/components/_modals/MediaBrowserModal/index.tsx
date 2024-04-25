@@ -21,6 +21,7 @@ import {
 	NotPermissionText,
 	ActivityIndicatorContainer,
 	ActivityIndicatorBg,
+	HeaderTextContent,
 
 } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -167,8 +168,10 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		if (isItemSelected) {
 			itemsSelected = mediaSelected.filter((asset) => asset !== item)
 		} else {
+			if (mediaSelected.length > maxImages) return
 			itemsSelected = [...mediaSelected, item]
 		}
+
 		setMediaSelected(itemsSelected)
 	}
 
@@ -271,10 +274,19 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 						/>
 					)
 				}
-
-				<MediaBrowserHeaderText>
-					{albumSelected ? albumSelected.albumName : 'Álbums'}
-				</MediaBrowserHeaderText>
+				<HeaderTextContent >
+					<MediaBrowserHeaderText
+						flex={0.7}
+						numberOfLines={2}
+					>
+						{albumSelected ? albumSelected.albumName : 'Álbums'}
+					</MediaBrowserHeaderText>
+					<MediaBrowserHeaderText
+						flex={0.4}
+					>
+						{albumSelected ? `${mediaSelected.length}/${maxImages}` : ''}
+					</MediaBrowserHeaderText>
+				</HeaderTextContent>
 			</MediaBrowserHeader>
 			{albumSelected ? renderAlbumPhotos() : renderAlbums()}
 

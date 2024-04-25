@@ -7,23 +7,34 @@ export const MediaBrowserModalContainer = styled.Modal`
     flex: 1;
 `
 
-interface MediaBrowserHeaderProps{
-    isIos: boolean
+interface MediaBrowserHeaderProps {
+	isIos: boolean
 }
 
 export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
     display: flex;
     flex-direction: row;
     align-items: center;
+	justify-content: space-between;
     padding-left: ${relativeScreenWidth(8)}px;
     padding-top: ${({ isIos }) => (isIos ? relativeScreenHeight(2) : 0)}px;
     height: ${({ isIos }) => (isIos ? relativeScreenHeight(18) : relativeScreenHeight(12))}px;
 `
 
-export const MediaBrowserHeaderText = styled.Text`
+export const HeaderTextContent = styled.View`
+	flex-direction: row;
+    align-items: center;
+	justify-content: space-between;
+`
+interface HeaderTextContentProps {
+	flex?: number
+}
+
+export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
+	flex: ${({ flex }) => flex};
     padding-left: ${relativeScreenWidth(3)}px;
     font-size: ${RFValue(20)}px;
-    text-align: center;
+    text-align: start;
 	font-family: Arvo_700Bold;
 `
 
@@ -67,8 +78,8 @@ export const NotPermissionText = styled.Text`
    margin-bottom: 20px;
 `
 
-interface IndicatorContainerProps{
-    isLoadingMore: boolean
+interface IndicatorContainerProps {
+	isLoadingMore: boolean
 }
 
 export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`

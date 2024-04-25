@@ -34,6 +34,14 @@ function HorizontalListPictures({ picturesUri, videosUri = [], pictureUriSelecte
 						width={100}
 						height={100}
 					/>
+					{/* <PortraitImage
+						source={{ uri: pictureUri }}
+						recyclingKey={pictureUri}
+						placeholderContentFit={'contain'}
+						resizeMode={'cover'}
+						cachePolicy={'memory-disk'}
+						transition={300}
+					/> */}
 				</PicturePortrait>
 			</PictureItemButtom>
 		)
