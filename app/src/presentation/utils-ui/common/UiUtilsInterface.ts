@@ -6,4 +6,6 @@ export interface UiUtilsInterface {
 	formatRelativeDate(date: Date | number | string): string
 	arrayIsEmpty(array: any): boolean
 	sortArray(a: string, b: string): number
+
+	generateVideoThumbnails(videosUrl: string[]): Promise<string[]>
 }

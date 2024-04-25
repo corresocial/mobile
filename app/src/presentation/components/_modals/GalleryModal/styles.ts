@@ -1,7 +1,7 @@
+import { Video } from 'expo-av'
 import styled from 'styled-components/native'
 
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-import { Video } from 'expo-av'
 
 export const GalleryModalContainer = styled.Modal`
     flex: 1;

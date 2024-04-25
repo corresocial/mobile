@@ -58,3 +58,9 @@ export const DeleteItemArea = styled.TouchableOpacity`
     bottom:  ${relativeScreenWidth(2)}px;;
     right:  ${relativeScreenWidth(2)}px;;
 `
+
+export const VideoIndicatorContainer = styled.View`
+	position: absolute;
+	bottom: ${RFValue(15)}px;
+	left: ${RFValue(15)}px;
+`

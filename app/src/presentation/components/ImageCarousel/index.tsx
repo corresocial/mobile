@@ -1,11 +1,8 @@
-import { ResizeMode } from 'expo-av'
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
-
-import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
 
 import {
 	CarouselActiveIndicatorItem,
@@ -15,8 +12,6 @@ import {
 } from './styles'
 import FullscreenIcon from '@assets/icons/fullscreen-white.svg'
 import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
-
-import { VideoPortrait } from '@components/VideoPortrait'
 
 import { PhotoPortrait } from '../PhotoPortrait'
 
@@ -28,7 +23,7 @@ interface ImageCarouselProps {
 	square?: boolean
 	showFullscreenIcon?: boolean
 	picturesUrl: string[] | undefined
-	videosUrl?: string[] | undefined
+	videosThumbnails?: string[]
 }
 
 function ImageCarousel({
@@ -39,38 +34,17 @@ function ImageCarousel({
 	square,
 	showFullscreenIcon,
 	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'],
-	videosUrl = []
+	videosThumbnails = []
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-	const renderCarouselIndicators = () => [...videosUrl, ...picturesUrl].map((_, index) => (
+	const renderCarouselIndicators = () => [...videosThumbnails, ...picturesUrl].map((_, index) => (
 		index === currentCarouselIndex
 			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
-	const getCarouselVideo = () => videosUrl.map((url) => (
-		<View
-			style={{
-				width: '100%',
-				height: square ? relativeWidth : relativeScreenHeight(28),
-				overflow: 'hidden',
-				borderWidth: 0,
-			}}
-		>
-			<VideoPortrait
-				borderWidth={withoutBorder ? 0 : 2.5}
-				borderRightWidth={withoutBorder ? 0 : 10}
-				height={'100%'}
-				width={'100%'}
-				videoUrl={url}
-				maxWidth={relativeWidth}
-				resizeMode={ResizeMode.CONTAIN}
-			/>
-		</View>
-	))
-
-	const getCarouselPicture = () => picturesUrl.map((url) => (
+	const getCarouselPictures = () => [...videosThumbnails, ...picturesUrl].map((url) => (
 		<View
 			style={{
 				width: '100%',
@@ -87,20 +61,10 @@ function ImageCarousel({
 				pictureUri={url}
 				maxWidth={relativeWidth}
 				resizeMode={'cover'}
+				videoIndicator={url.includes('videosThumbnails')}
 			/>
 		</View>
 	))
-
-	const getCarouselMedia = () => {
-		const renderData = []
-		if (!arrayIsEmpty(videosUrl)) {
-			const videoElements = getCarouselVideo()
-			renderData.push(...videoElements)
-		}
-		const pictureElements = getCarouselPicture()
-		renderData.push(...pictureElements)
-		return renderData
-	}
 
 	return (
 		<View
@@ -119,8 +83,8 @@ function ImageCarousel({
 			}
 
 			<Carousel
-				data={getCarouselMedia()}
-				autoPlay={(picturesUrl.length + videosUrl.length) > 1}
+				data={getCarouselPictures()}
+				autoPlay={(picturesUrl.length + videosThumbnails.length) > 1}
 				width={screenWidth}
 				height={relativeScreenHeight(28)}
 				autoPlayInterval={3000}
@@ -129,7 +93,7 @@ function ImageCarousel({
 					height: '100%'
 				}}
 				loop
-				enabled={(picturesUrl.length + videosUrl.length) !== 1}
+				enabled={(picturesUrl.length + videosThumbnails.length) !== 1}
 				renderItem={({ item, index }) => item}
 				onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
 			/>

@@ -1,6 +1,5 @@
-import { ResizeMode, Video } from 'expo-av'
+import { ResizeMode } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
-import * as VideoThumbnails from 'expo-video-thumbnails'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
@@ -31,17 +30,17 @@ import { ThumbnailList } from '@components/ThumbnailList'
 interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
+	videoThumbnails?: string[]
 	showGallery: boolean,
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl, videosUrl = [], showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showGallery, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
 	const [carouselEnabled, setCarouselEnabled] = useState(true)
-	const [videosThumbnails, setVideosThumbnails] = useState<string[]>(videosUrl)
 
 	const [screenSizes, setScreenSizes] = useState({
 		width: relativeScreenWidth(100),
@@ -53,25 +52,11 @@ function GalleryModal({ picturesUrl, videosUrl = [], showGallery, onClose }: Gal
 
 	useEffect(() => {
 		if (showGallery) {
-			const generateThumbnailOnVideoAssets = async () => {
-				return Promise.all(
-					videosUrl.map(async (videoUrl) => {
-						const { uri } = await VideoThumbnails.getThumbnailAsync(videoUrl, { time: 1000 })
-						return uri
-					})
-				)
-			}
-			const initVideoSetting = async () => {
-				if (!videosUrl) return
-				const thumbnails = await generateThumbnailOnVideoAssets() // Await for thumbnails to be generated
-				setVideosThumbnails(thumbnails) 
-			}
 			const enableRotation = async () => {
 				await ScreenOrientation.unlockAsync()
 			}
 			setCurrentIndex(0)
 			enableRotation()
-			initVideoSetting()
 			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
 				setIsLandscapeMode((orientationInfo.orientation !== 1))
 			})
@@ -109,10 +94,10 @@ function GalleryModal({ picturesUrl, videosUrl = [], showGallery, onClose }: Gal
 	}, [currentIndex])
 
 	const mediaUrls = [...videosUrl, ...picturesUrl]
-	const hideArrows = picturesUrl && picturesUrl.length < 2
+	const hideArrows = (picturesUrl && videosUrl) && ((picturesUrl.length + videosUrl.length) < 2)
 
 	const goToNext = (direction: number) => {
-		const length = picturesUrl ? picturesUrl.length : 0
+		const length = (picturesUrl.length + videosUrl.length) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -137,7 +122,7 @@ function GalleryModal({ picturesUrl, videosUrl = [], showGallery, onClose }: Gal
 		setHideElements(isZooming)
 		setCarouselEnabled(!isZooming)
 	}
-	
+
 	const renderPicture = (uri: string) => (
 		<ImageContainer
 			activeOpacity={1}
@@ -158,6 +143,7 @@ function GalleryModal({ picturesUrl, videosUrl = [], showGallery, onClose }: Gal
 			<VideoView
 				source={{ uri: uri }}
 				resizeMode={ResizeMode.CONTAIN}
+				isLooping
 				useNativeControls
 			/>
 
@@ -226,7 +212,7 @@ function GalleryModal({ picturesUrl, videosUrl = [], showGallery, onClose }: Gal
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
 					onThumbnailPressed={handleThumbnailPressed}
-					picturesUrl={(videosThumbnails ? [...videosThumbnails, ...picturesUrl] : [...picturesUrl])}
+					picturesUrl={(videoThumbnails ? [...videoThumbnails, ...picturesUrl] : [...picturesUrl])}
 				/>
 			</ThumbnailListContainer>
 

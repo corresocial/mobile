@@ -1,8 +1,10 @@
 import React from 'react'
 import { ImageResizeMode } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage } from './styles'
+import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
+import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 import UserShadow from '@assets/imgs/userShadow.jpg'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -19,6 +21,7 @@ interface PhotoPortraitProps {
 	resizeMode?: ImageResizeMode | undefined
 	pictureUri: string
 	maxWidth?: number
+	videoIndicator?: boolean
 	deleteCurrentPicture?: () => void
 }
 
@@ -30,6 +33,7 @@ function PhotoPortrait({
 	borderRightWidth = 10,
 	pictureUri,
 	resizeMode = 'contain',
+	videoIndicator,
 	maxWidth = relativeScreenWidth(90),
 	deleteCurrentPicture
 }: PhotoPortraitProps) {
@@ -77,6 +81,13 @@ function PhotoPortrait({
 						</DeleteItemArea>
 					)
 					: null
+			}
+			{
+				videoIndicator && (
+					<VideoIndicatorContainer>
+						<VideoCameraIcon width={RFValue(40)} height={RFValue(40)} />
+					</VideoIndicatorContainer>
+				)
 			}
 		</Container >
 	)

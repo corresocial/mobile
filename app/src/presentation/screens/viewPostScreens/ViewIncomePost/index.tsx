@@ -52,7 +52,7 @@ const { localStorage } = useUserRepository()
 const { remoteStorage } = usePostRepository()
 const { sendImpactReport } = useImpactReportDomain()
 
-const { textHasOnlyNumbers, convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { textHasOnlyNumbers, convertTextToNumber, formatRelativeDate, arrayIsEmpty, generateVideoThumbnails } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
 
 function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
@@ -70,13 +70,29 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<IncomeEntity>(route.params?.postData || null)
+	const [videosThumbnails, setVideosThumbnails] = useState<string[]>([])
 
 	useEffect(() => {
 		getPost()
+		if (postData) {
+			setVideoThumbnails()
+		}
 		return () => {
 			clearEditContext()
 		}
 	}, [])
+
+	useEffect(() => {
+		setVideoThumbnails()
+	}, [postData])
+
+	const setVideoThumbnails = async () => {
+		if (!postData.videosUrl) return
+		const thumbnails = await generateVideoThumbnails(postData.videosUrl) // Await for thumbnails to be generated
+		console.log(`length => ${thumbnails.length}`)
+
+		setVideosThumbnails(thumbnails)
+	}
 
 	const getPost = (async () => {
 		if (route.params.redirectedPostId) {
@@ -406,6 +422,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 								picturesUrl={getPostField('picturesUrl')}
 								videosUrl={getPostField('videosUrl')}
 								showGallery={galeryIsVisible}
+								videoThumbnails={videosThumbnails}
 								onClose={closeGalery}
 							/>
 							<TouchableOpacity
@@ -414,7 +431,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 							>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
-									videosUrl={getPostField('videosUrl') || []}
+									videosThumbnails={videosThumbnails || []}
 									indicatorColor={theme.green1}
 									square
 									showFullscreenIcon
