@@ -7,5 +7,6 @@ export interface UiUtilsInterface {
 	arrayIsEmpty(array: any): boolean
 	sortArray(a: string, b: string): number
 
-	generateVideoThumbnails(videosUrl: string[]): Promise<string[]>
+	// generateVideoThumbnails(videosUrl: string[]): Promise<string[]>
+	compressImage(imageUri: string): Promise<string>
 }

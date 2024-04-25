@@ -44,7 +44,7 @@ interface MediaBrowserProps {
 function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelectionConfirmed }: MediaBrowserProps) {
 	const [albums, setAlbums] = useState<AlbumType[]>([])
 	const [media, setMedia] = useState<Asset[]>([])
-	const [cursor, setCursor] = useState<AssetRef>('0')
+	const [cursor, setCursor] = useState<AssetRef | undefined>(undefined)
 	const [albumSelected, setAlbumSelected] = useState<AlbumInfo>()
 	const [mediaSelected, setMediaSelected] = useState<Asset[]>([])
 
@@ -109,7 +109,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		const firstAsset = await MediaLibrary.getAssetsAsync({
 			first: 1,
 			sortBy: 'creationTime',
-			mediaType: ['photo', 'video'], // Tipo de mídia
+			mediaType: ['photo'], // Tipo de mídia
 			album: albumId
 		})
 
@@ -117,7 +117,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 	}
 
 	const loadAlbumMedia = async (id?: string) => {
-		if (!cursor) {
+		if (cursor === '') {
 			return
 		}
 
@@ -126,17 +126,17 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		setIsContentLoading(true)
 
 		const albumMedia = await MediaLibrary.getAssetsAsync({
-			first: 50,
+			first: 30,
 			album: albumId,
 			sortBy: 'creationTime',
 			mediaType: ['photo'],
 			after: cursor
 		})
-
 		setCursor(albumMedia.hasNextPage ? albumMedia.endCursor : '')
 
+		setMedia([...media, ...albumMedia.assets])
 		//	const albumMediaWithThumbnail = await generateThumbnailOnVideoAssets(albumMedia.assets)
-		setMedia([...media/* , ...albumMediaWithThumbnail */])
+		// setMedia([...media, ...albumMediaWithThumbnail])
 		setIsContentLoading(false)
 	}
 
@@ -157,7 +157,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	const unselectAlbum = () => {
 		setAlbumSelected(null as any)
-		setCursor('0')
+		setCursor(undefined)
 		setMedia([])
 		setMediaSelected([])
 	}
@@ -168,7 +168,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		if (isItemSelected) {
 			itemsSelected = mediaSelected.filter((asset) => asset !== item)
 		} else {
-			if (mediaSelected.length > maxImages) return
+			if (mediaSelected.length >= maxImages) return
 			itemsSelected = [...mediaSelected, item]
 		}
 
@@ -177,6 +177,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	const confirmSelectionHandler = () => {
 		onSelectionConfirmed(mediaSelected)
+		unselectAlbum()
 		setMediaSelected([])
 		closeMediaBrowser()
 	}
@@ -297,7 +298,6 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 					</NotPermissionText>
 				)
 			}
-
 		</MediaBrowserModalContainer>
 	)
 }

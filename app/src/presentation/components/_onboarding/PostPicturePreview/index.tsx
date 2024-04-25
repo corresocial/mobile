@@ -1,6 +1,8 @@
 import { Asset } from 'expo-media-library'
 import React, { useState } from 'react'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { ButtonsContainer, Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import NewPhotoWhiteIcon from '@assets/icons/camera-white.svg'
@@ -18,6 +20,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
+
+const { compressImage } = UiUtils()
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
@@ -63,6 +67,15 @@ function PostPicturePreview({
 
 		setPicturesPack(currentPictures)
 		// setVideosPack(currentVideos)
+	}
+
+	const savePictures = async (picturesUri: string[]) => {
+		const compressedUris = await compressPicturesUris(picturesUri)
+		saveMedia(compressedUris)
+	}
+
+	const compressPicturesUris = async (picturesUri: string[]) => {
+		return Promise.all(picturesUri.map(async (uri) => compressImage(uri)))
 	}
 
 	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
@@ -140,7 +153,7 @@ function PostPicturePreview({
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					onPress={() => saveMedia(picturesPack)}
+					onPress={async () => savePictures(picturesPack)}
 				/>
 			</ButtonsContainer>
 		</Container>

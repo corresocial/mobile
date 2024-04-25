@@ -1,8 +1,9 @@
 import { Camera, CameraType, FlashMode } from 'expo-camera'
-import * as ImageManipulator from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState, useRef } from 'react'
 import { ActivityIndicator, Modal, StatusBar, View } from 'react-native'
+
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
 	CameraContainer,
@@ -23,6 +24,8 @@ import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { TakePictureCameraButton } from '@components/_buttons/TakePictureCameraButton'
+
+const { compressImage } = UiUtils()
 
 interface CustomCameraModalProps {
 	cameraOpened: boolean;
@@ -77,41 +80,10 @@ function CustomCameraModal({
 		)
 	}
 
-	// const openGalery = async () => {
-	// 	if (!mediaLibrayHasPermission) {
-	// 		await getMediaLibraryPermissions()
-	// 		return
-	// 	}
-
-	// 	const result = await ImagePicker.launchImageLibraryAsync({
-	// 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
-	// 		allowsEditing: true,
-	// 		aspect: [1, 1]
-	// 	})
-
-	// 	if (!result.canceled) {
-	// 		const imageUri = result.assets[0].uri
-
-	// 		const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
-	// 			imageUri,
-	// 			[{ resize: { height: 1080, width: 1080 } }],
-	// 			{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-	// 		)
-
-	// 		setPictureUri(compressedUri)
-	// 		onClose()
-	// 	}
-	// }
-
 	const takePicture = async () => {
 		if (cameraRef.current !== null) {
 			const { uri: imageUri } = await cameraRef.current.takePictureAsync()
-
-			const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
-				imageUri,
-				[{ resize: { height: 1080, width: 1080 } }],
-				{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-			)
+			const compressedUri = await compressImage(imageUri)
 
 			setPictureUri(compressedUri)
 			onClose()
