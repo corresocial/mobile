@@ -18,6 +18,7 @@ interface VideoPortraitProps {
 	resizeMode?: ResizeMode
 	videoUrl: string
 	maxWidth?: number
+	showVideoPlayer?: boolean
 	deleteCurrentVideo?: () => void
 }
 
@@ -30,6 +31,7 @@ function VideoPortrait({
 	videoUrl,
 	resizeMode = ResizeMode.CONTAIN,
 	maxWidth = relativeScreenWidth(90),
+	showVideoPlayer = false,
 	deleteCurrentVideo
 }: VideoPortraitProps) {
 	return (
@@ -46,10 +48,10 @@ function VideoPortrait({
 					? (
 						<PortraitVideo
 							source={{ uri: videoUrl }}
-							useNativeControls={false}
+							useNativeControls={showVideoPlayer}
 							isLooping
 							volume={0}
-							resizeMode={ResizeMode.CONTAIN}
+							resizeMode={resizeMode}
 						/>
 					)
 					: (

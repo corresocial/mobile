@@ -114,7 +114,7 @@ function PostPicturePreview({
 									videoUrl={videosPack[mediaIndexSelected]}
 									width={relativeScreenWidth(90)}
 									height={relativeScreenWidth(89)}
-
+									showVideoPlayer
 								/>
 							)
 					}
@@ -124,7 +124,6 @@ function PostPicturePreview({
 				<HorizontalListPicturesContainer>
 					<HorizontalListPictures
 						picturesUri={picturesPack}
-						isVideoSelected={isVideoSelected}
 						videosUri={videosPack}
 						pictureUriSelected={mediaIndexSelected}
 						onSelectMedia={mediaSelectionHandler}
