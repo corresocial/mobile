@@ -271,6 +271,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			/>
 			<GalleryModal
 				picturesUrl={getPostField('picturesUrl')}
+				videosUrl={getPostField('videosUrl')}
 				showGallery={galeryIsVisible}
 				onClose={closeGalery}
 			/>

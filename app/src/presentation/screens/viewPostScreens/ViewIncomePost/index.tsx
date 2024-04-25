@@ -404,6 +404,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={getPostField('picturesUrl')}
+								videosUrl={getPostField('videosUrl')}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>

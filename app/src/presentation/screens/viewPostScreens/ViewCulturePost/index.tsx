@@ -375,6 +375,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 							<>
 								<GalleryModal
 									picturesUrl={getPostField('picturesUrl')}
+									videosUrl={getPostField('videosUrl')}
 									showGallery={galeryIsVisible}
 									onClose={closeGalery}
 								/>

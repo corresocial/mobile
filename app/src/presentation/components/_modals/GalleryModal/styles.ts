@@ -1,6 +1,7 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { Video } from 'expo-av'
 
 export const GalleryModalContainer = styled.Modal`
     flex: 1;
@@ -13,6 +14,24 @@ export const ImageContainer = styled.TouchableOpacity`
     flex: 1;
     border-width: 0;
     justify-content: 'center';
+`
+
+export const VideoContainer = styled.View`
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    border-width: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: 'white';
+`
+
+export const VideoView = styled(Video)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+	height: ${relativeScreenHeight(70)}px;
 `
 
 export const GalleryContainer = styled.View`
