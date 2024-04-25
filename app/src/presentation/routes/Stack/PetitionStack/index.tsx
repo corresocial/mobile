@@ -7,12 +7,14 @@ import { PetitionProvider } from '@contexts/PetitionContext'
 import { PetitionStackParamList } from './types'
 
 import { InsertPetitionDescription } from '@screens/petitionScreens/InsertPetitionDescription'
+import { InsertPetitionFullName } from '@screens/petitionScreens/InsertPetitionFullName'
 import { InsertPetitionLocation } from '@screens/petitionScreens/InsertPetitionLocation'
 import { SelectPetitionRange } from '@screens/petitionScreens/InsertPetitionRange'
 import { InsertPetitionTitle } from '@screens/petitionScreens/InsetPetitionTitle'
 import { PetitionReview } from '@screens/petitionScreens/PetitionReview'
 import { SelectIdentificationRequest } from '@screens/petitionScreens/SelectIdentificationRequest'
 import { SelectPetitionMedia } from '@screens/petitionScreens/SelectPetitionMedia'
+import { ViewPetition } from '@screens/petitionScreens/ViewPetition'
 
 const Stack = createStackNavigator<PetitionStackParamList>()
 
@@ -35,6 +37,9 @@ export function PetitionStack() {
 				<Stack.Screen name={'InsertPetitionLocation'} component={InsertPetitionLocation} />
 
 				<Stack.Screen name={'PetitionReview'} component={PetitionReview} />
+				<Stack.Screen name={'ViewPetition'} component={ViewPetition} />
+
+				<Stack.Screen name={'InsertPetitionFullName'} component={InsertPetitionFullName} />
 			</Stack.Navigator>
 		</PetitionProvider>
 	)

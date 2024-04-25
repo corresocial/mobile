@@ -9,8 +9,8 @@ export type PetitionEntity = {
 	owner: UserOwner
 	idUsersResponded?: string[]
 	completed?: boolean
-	picturesUrl: string[]
-	videosUrl: string[]
+	picturesUrl?: string[]
+	videosUrl?: string[]
 	extraIdentificationRequest: ExtraIdentificationRequest[]
 	privateResponses?: PrivatePetitionResponse[]
 }
@@ -41,7 +41,7 @@ export type Coordinates = {
 
 export type ExtraIdentificationRequest = 'cpf' | 'rg' | 'telefone'
 
-type PrivatePetitionResponse = {
+export type PrivatePetitionResponse = {
 	userId: string
 	userName: string
 	email: string

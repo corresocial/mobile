@@ -40,6 +40,15 @@ function renderHtmlHeader() {
 function renderPollHeader(pollData: PollEntity) {
 	const numberOfResponses = ` ${pollData.privateResponses!.length}`
 
+	const getRangeLabel = () => {
+		switch (pollData.range) {
+			case 'near': return 'Bairro'
+			case 'city': return 'Cidade'
+			case 'country': return 'País'
+			default: return 'Indisponível'
+		}
+	}
+
 	return `
 		<svg width="138" height="36" viewBox="0 0 138 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd" clip-rule="evenodd"
@@ -55,7 +64,7 @@ function renderPollHeader(pollData: PollEntity) {
 		<p class='poll-description'>${pollData.description}</p>
 		<p class='poll-info'>Autor: <b>${pollData.owner.name}</b></p>
 		<p class='poll-info'>Local da enquete: <b>Bairro ${pollData.location.district}, ${pollData.location.city} - ${pollData.location.state}</b></p>
-		<p class='poll-info'>Alcance: <b>Cidade</b></p>
+		<p class='poll-info'>Alcance: <b>${getRangeLabel()}</b></p>
 		<p class='poll-info'>Data e publicação: <b>${pollData.createdAt.toLocaleDateString()}</b></p>
 		<p class='responses-number'>
 			Total de respostas: <b>${numberOfResponses}</b>

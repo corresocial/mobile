@@ -10,3 +10,11 @@ export type SelectPetitionRangeScreenProps = NativeStackScreenProps<PetitionStac
 export type InsertPetitionLocationScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionLocation'>
 
 export type PetitionReviewScreenProps = NativeStackScreenProps<PetitionStackParamList, 'PetitionReview'>
+export type ViewPetitionScreenProps = NativeStackScreenProps<PetitionStackParamList, 'ViewPetition'>
+
+export type InsertPetitionFullNameScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionFullName'>
+export type InsertPetitionEmailScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionEmail'>
+export type InsertPetitionPhoneScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionPhone'>
+export type InsertPetitionRGScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionRG'>
+export type InsertPetitionCPFScreenProps = NativeStackScreenProps<PetitionStackParamList, 'InsertPetitionCPF'>
+export type FinishPetitionSignatureScreenProps = NativeStackScreenProps<PetitionStackParamList, 'FinishPetitionSignature'>

@@ -78,4 +78,4 @@ function EditProvider({ children }: EditProviderProps) {
 
 const useEditContext = () => useContext(EditContext)
 
-export { EditProvider, useEditContext }
+export { EditProvider, EditContext, useEditContext }

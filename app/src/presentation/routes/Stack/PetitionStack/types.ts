@@ -11,4 +11,12 @@ export type PetitionStackParamList = {
 	InsertPetitionLocation: { editMode: boolean, initialValue: PetitionEntity['location'] } | undefined
 
 	PetitionReview: { petitionData: PetitionEntity, unsavedPetition: boolean }
+	ViewPetition: { petitionData: PetitionEntity }
+
+	InsertPetitionFullName: undefined
+	InsertPetitionEmail: undefined
+	InsertPetitionPhone: undefined
+	InsertPetitionRG: undefined
+	InsertPetitionCPF: undefined
+	FinishPetitionSignature: undefined
 } & UserStackParamList

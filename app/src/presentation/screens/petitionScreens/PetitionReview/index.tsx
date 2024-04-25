@@ -105,7 +105,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
 
-	const formatCategoryAndTags = () => {
+	const getFormattedIdentificationItems = () => {
 		const documentsRequired = getPetitionField('extraIdentificationRequest')
 		return documentsRequired.map((identification: string, i: number) => `${i === 0 ? '' : '\n   '}●   ${identification}`)
 	}
@@ -202,7 +202,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 					<EditCard
 						title={'identificações requeridas'}
 						highlightedWords={['requeridas']}
-						value={formatCategoryAndTags()}
+						value={getFormattedIdentificationItems()}
 						onEdit={() => navigateToEditScreen('SelectIdentificationRequest', 'extraIdentificationRequest')}
 					/>
 					<VerticalSpacing />
