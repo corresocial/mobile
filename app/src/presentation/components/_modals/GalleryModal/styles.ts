@@ -1,7 +1,6 @@
-import { Video } from 'expo-av'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
 export const GalleryModalContainer = styled.Modal`
     flex: 1;
@@ -16,23 +15,23 @@ export const ImageContainer = styled.TouchableOpacity`
     justify-content: 'center';
 `
 
-export const VideoContainer = styled.View`
-    flex: 1;
-    height: 100%;
-    width: 100%;
-    border-width: 0;
-    justify-content: center;
-    align-items: center;
-    background-color: 'white';
+/* export const VideoContainer = styled.View` // TODO Videos
+	flex: 1;
+	height: 100%;
+	width: 100%;
+	border-width: 0;
+	justify-content: center;
+	align-items: center;
+	background-color: 'white';
 `
 
 export const VideoView = styled(Video)`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
 	height: ${relativeScreenHeight(70)}px;
-`
+` */
 
 export const GalleryContainer = styled.View`
     justify-content: center;

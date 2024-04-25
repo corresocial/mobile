@@ -15,16 +15,15 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { VideoPortrait } from '@components/VideoPortrait'
 
 import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
-	initialValue?: { picturesUrl: string[], videosUrl: string[] }
+	initialValue?: string[] /* { picturesUrl: string[], videosUrl: string[] } */
 	navigateBackwards: () => void
-	saveMedia: (picturesUrl: string[], videosUrl: string[]) => void
+	saveMedia: (picturesUrl: string[]) => void
 }
 
 function PostPicturePreview({
@@ -33,43 +32,44 @@ function PostPicturePreview({
 	navigateBackwards,
 	saveMedia
 }: PostPicturePreviewProps) {
-	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue?.picturesUrl || [])
-	const [videosPack, setVideosPack] = useState<string[]>(initialValue?.videosUrl || [])
-	const [mediaIndexSelected, setmediaIndexSelected] = useState<number>(0)
-	const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false)
+	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue || [])
+	// const [videosPack, setVideosPack] = useState<string[]>(/* initialValue?.videosUrl || */[])
+	const [mediaIndexSelected, setMediaIndexSelected] = useState<number>(0)
+	// const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
 		currentPictures.push(uri)
-		setmediaIndexSelected(picturesPack.length)
+		setMediaIndexSelected(picturesPack.length)
 		setPicturesPack(currentPictures)
 	}
 
 	const deleteCurrentPicture = () => {
 		const picturesAfterDelete = picturesPack.filter((_, index) => index !== mediaIndexSelected)
-		setmediaIndexSelected(picturesPack.length - 2)
+		setMediaIndexSelected(picturesPack.length - 2)
 		setPicturesPack(picturesAfterDelete)
 	}
 
 	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
 		const currentPictures = [...picturesPack]
-		const currentVideos = [...videosPack]
+		// const currentVideos = [...videosPack]
 
 		mediaSelected.forEach((media: Asset) => {
-			media.mediaType === 'photo' ? currentPictures.push(media.uri) : currentVideos.push(media.uri)
+			currentPictures.push(media.uri)
+			// media.mediaType === 'photo' ? currentPictures.push(media.uri) : currentVideos.push(media.uri)
 		})
 
 		setPicturesPack(currentPictures)
-		setVideosPack(currentVideos)
+		// setVideosPack(currentVideos)
 	}
 
-	const mediaSelectionHandler = (index: number, isVideo: boolean) => {
-		console.log(index, isVideo)
-		setmediaIndexSelected(index)
-		setIsVideoSelected(isVideo)
-	}
+	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
+	// 	console.log(index, isVideo)
+	// 	setMediaIndexSelected(index)
+	//  setIsVideoSelected(isVideo)
+	// }
 
 	return (
 		<Container>
@@ -100,34 +100,22 @@ function PostPicturePreview({
 				</TopArea>
 				<PicturePreviewContainer>
 					{
-						!isVideoSelected
-							? (
-								<PhotoPortrait
-									resizeMode={'cover'}
-									pictureUri={picturesPack[mediaIndexSelected]}
-									width={relativeScreenWidth(90)}
-									height={relativeScreenWidth(89)}
-									deleteCurrentPicture={deleteCurrentPicture}
-								/>
-							) : (
-								<VideoPortrait
-									videoUrl={videosPack[mediaIndexSelected]}
-									width={relativeScreenWidth(90)}
-									height={relativeScreenWidth(89)}
-									showVideoPlayer
-								/>
-							)
+						<PhotoPortrait
+							resizeMode={'cover'}
+							pictureUri={picturesPack[mediaIndexSelected]}
+							width={relativeScreenWidth(90)}
+							height={relativeScreenWidth(89)}
+							deleteCurrentPicture={deleteCurrentPicture}
+						/>
 					}
-
 					<VerticalSpacing height={relativeScreenWidth(7)} />
 				</PicturePreviewContainer>
 				<HorizontalListPicturesContainer>
 					<HorizontalListPictures
 						picturesUri={picturesPack}
-						videosUri={videosPack}
+						// videosUri={videosPack}
 						pictureUriSelected={mediaIndexSelected}
-						onSelectMedia={mediaSelectionHandler}
-
+						onSelectMedia={setMediaIndexSelected}
 					/>
 				</HorizontalListPicturesContainer>
 			</DefaultHeaderContainer>
@@ -153,7 +141,7 @@ function PostPicturePreview({
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					onPress={() => saveMedia(picturesPack, videosPack)}
+					onPress={() => saveMedia(picturesPack)}
 				/>
 			</ButtonsContainer>
 		</Container>

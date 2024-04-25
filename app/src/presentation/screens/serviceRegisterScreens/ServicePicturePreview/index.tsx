@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { ServiceContext } from '@contexts/ServiceContext'
 
 import { ServicePicturePreviewScreenProps } from '@routes/Stack/ServiceStack/screenProps'
 
@@ -11,33 +10,25 @@ import { theme } from '@common/theme'
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 
 function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const savePictures = (picturesUri: string[]) => {
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl: picturesUri })
-			navigation.goBack()
-			return
-		}
-
-		setServiceDataOnContext({
-			picturesUrl: picturesUri
-		})
-		navigation.navigate('SelectPaymentType')
-	}
-
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const saveMedia = (picturesUrl: string[]/* , videosUrl: string[] */) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ picturesUrl/* , videosUrl  */ })
+			navigation.goBack()
+		}
+	}
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.green2}
-				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
-				savePictures={savePictures}
+				saveMedia={saveMedia}
 			/>
 		</>
 	)

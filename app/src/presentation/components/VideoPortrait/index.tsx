@@ -1,7 +1,9 @@
-import { ResizeMode } from 'expo-av'
+// import { ResizeMode } from 'expo-av'
 import React from 'react'
 
-import { Container, DeleteItemArea, NoPhotoContainer, PortraitVideo } from './styles'
+// TODO Videos
+
+import { Container, DeleteItemArea, NoPhotoContainer } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -15,7 +17,7 @@ interface VideoPortraitProps {
 	circle?: boolean
 	borderWidth?: number
 	borderRightWidth?: number
-	resizeMode?: ResizeMode
+	resizeMode?: /* ResizeMode */ any
 	videoUrl: string
 	maxWidth?: number
 	showVideoPlayer?: boolean
@@ -29,7 +31,7 @@ function VideoPortrait({
 	borderWidth = 5,
 	borderRightWidth = 10,
 	videoUrl,
-	resizeMode = ResizeMode.CONTAIN,
+	resizeMode = /* ResizeMode.CONTAIN */ 'cover',
 	maxWidth = relativeScreenWidth(90),
 	showVideoPlayer = false,
 	deleteCurrentVideo
@@ -46,13 +48,15 @@ function VideoPortrait({
 			{
 				videoUrl
 					? (
-						<PortraitVideo
+						<>
+							{ /* <PortraitVideo
 							source={{ uri: videoUrl }}
 							useNativeControls={showVideoPlayer}
 							isLooping
 							volume={0}
 							resizeMode={resizeMode}
-						/>
+						/> */}
+						</>
 					)
 					: (
 						<NoPhotoContainer>

@@ -1,4 +1,4 @@
-import { Video } from 'expo-av'
+// import { Video } from 'expo-av'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -13,10 +13,10 @@ interface ContainerProps {
 	borderRightWidth?: number
 }
 
-export const PortraitVideo = styled(Video)`
-    width: 100%;
+/* export const PortraitVideo = styled(Video)`
+	width: 100%;
 	height: 100%;
-`
+` */
 
 export const Container = styled.View<ContainerProps>`
 	height: ${({ height }) => (typeof (height) === 'number' ? `${height}px` : height || '100%')};

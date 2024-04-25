@@ -1,4 +1,3 @@
-import { ResizeMode } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
@@ -14,9 +13,7 @@ import {
 	LeftButton,
 	RightButton,
 	CloseButtonArea,
-	ThumbnailListContainer,
-	VideoContainer,
-	VideoView
+	ThumbnailListContainer
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
@@ -93,11 +90,11 @@ function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showG
 		}
 	}, [currentIndex])
 
-	const mediaUrls = [...videosUrl, ...picturesUrl]
-	const hideArrows = (picturesUrl && videosUrl) && ((picturesUrl.length + videosUrl.length) < 2)
+	const mediaUrls = [/* ...videosUrl,  */...picturesUrl]
+	const hideArrows = (picturesUrl /* && videosUrl */) && ((picturesUrl.length/*  + videosUrl.length */) < 2)
 
 	const goToNext = (direction: number) => {
-		const length = (picturesUrl.length + videosUrl.length) ?? 0
+		const length = (picturesUrl.length/*  + videosUrl.length */) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -138,7 +135,7 @@ function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showG
 		</ImageContainer>
 	)
 
-	const renderVideo = (uri: string) => (
+	/* const renderVideo = (uri: string) => (
 		<VideoContainer>
 			<VideoView
 				source={{ uri: uri }}
@@ -148,13 +145,13 @@ function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showG
 			/>
 
 		</VideoContainer>
-	)
+	) */
 
 	const renderMedia = (uri: string) => {
-		const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
-		if (extension.includes('mp4')) {
-			return renderVideo(uri)
-		}
+		// const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
+		// if (extension.includes('mp4')) {
+		// 	return renderVideo(uri)
+		// }
 		return renderPicture(uri)
 	}
 
@@ -221,3 +218,5 @@ function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showG
 }
 
 export { GalleryModal }
+
+// TODO Videos

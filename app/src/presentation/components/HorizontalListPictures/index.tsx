@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import uuid from 'react-uuid'
 
 import {
@@ -14,37 +14,32 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface HorizontalListPicturesProps {
 	picturesUri: string[]
-	videosUri: string[]
+	videosUri?: string[]
 	pictureUriSelected: number
-	onSelectMedia: (index: number, isVideo: boolean) => void
+	onSelectMedia: (index: number) => void
 }
 
-function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, onSelectMedia }: HorizontalListPicturesProps) {
-	const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false) 
+function HorizontalListPictures({ picturesUri, videosUri = [], pictureUriSelected, onSelectMedia }: HorizontalListPicturesProps) {
+	const renderPictures = () => picturesUri.map((pictureUri, index) => {
+		return (
+			<PictureItemButtom
+				activeOpacity={1}
+				pictureSelected={pictureUriSelected === index}
+				key={uuid()}
+				onPress={() => onSelectMedia(index)}
+			>
+				<PicturePortrait pictureSelected={pictureUriSelected === index}>
+					<Picture
+						source={{ uri: pictureUri }}
+						width={100}
+						height={100}
+					/>
+				</PicturePortrait>
+			</PictureItemButtom>
+		)
+	})
 
-	const pictureSelectionHandler = (id: number, isVideo: boolean) => {
-		setIsVideoSelected(isVideo)
-		onSelectMedia(id, isVideo)
-	} 
-
-	const renderPictures = () => picturesUri.map((pictureUri, index) => (
-		<PictureItemButtom
-			activeOpacity={1}
-			pictureSelected={pictureUriSelected === index && !isVideoSelected}
-			key={uuid()}
-			onPress={() => pictureSelectionHandler(index, false)}
-		>
-			<PicturePortrait pictureSelected={pictureUriSelected === index && !isVideoSelected}>
-				<Picture
-					source={{ uri: pictureUri }}
-					width={100}
-					height={100}
-				/>
-			</PicturePortrait>
-		</PictureItemButtom>
-	))
-
-	const renderVideosPictures = () => videosUri.map((videoUri, index) => (
+	/* const renderVideosPictures = () => videosUri.map((videoUri, index) => (
 		<PictureItemButtom
 			activeOpacity={1}
 			pictureSelected={pictureUriSelected === index && isVideoSelected}
@@ -60,16 +55,16 @@ function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, on
 				/>
 			</PicturePortrait>
 		</PictureItemButtom>
-	))
+	)) */
 
-	const renderMedias = () => {
-		const renderData = []
-		const videoElements = renderVideosPictures()
-		renderData.push(...videoElements)
-		const pictureElements = renderPictures()
-		renderData.push(...pictureElements)
-		return renderData
-	}
+	// const renderMedias = () => {
+	// 	const renderData = []
+	// 	/* const videoElements = renderVideosPictures()
+	// 	renderData.push(...videoElements) */
+	// 	const pictureElements = renderPictures()
+	// 	renderData.push(...pictureElements)
+	// 	return renderData
+	// }
 
 	return (
 		<Container >
@@ -77,7 +72,7 @@ function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, on
 				<HorizontalSpacing width={relativeScreenWidth(4)} />
 				<Container>
 					<HorizontalSpacing />
-					{renderMedias()}
+					{renderPictures()}
 				</Container>
 			</ScrollView>
 		</Container>
