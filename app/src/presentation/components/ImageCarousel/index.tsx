@@ -120,7 +120,7 @@ function ImageCarousel({
 
 			<Carousel
 				data={getCarouselMedia()}
-				autoPlay={picturesUrl.length > 1}
+				autoPlay={(picturesUrl.length + videosUrl.length) > 1}
 				width={screenWidth}
 				height={relativeScreenHeight(28)}
 				autoPlayInterval={3000}
@@ -129,7 +129,7 @@ function ImageCarousel({
 					height: '100%'
 				}}
 				loop
-				enabled={picturesUrl.length !== 1}
+				enabled={(picturesUrl.length + videosUrl.length) !== 1}
 				renderItem={({ item, index }) => item}
 				onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
 			/>

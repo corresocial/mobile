@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import uuid from 'react-uuid'
 
 import {
@@ -16,17 +16,23 @@ interface HorizontalListPicturesProps {
 	picturesUri: string[]
 	videosUri: string[]
 	pictureUriSelected: number
-	isVideoSelected: boolean
 	onSelectMedia: (index: number, isVideo: boolean) => void
 }
 
-function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, isVideoSelected, onSelectMedia }: HorizontalListPicturesProps) {
+function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, onSelectMedia }: HorizontalListPicturesProps) {
+	const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false) 
+
+	const pictureSelectionHandler = (id: number, isVideo: boolean) => {
+		setIsVideoSelected(isVideo)
+		onSelectMedia(id, isVideo)
+	} 
+
 	const renderPictures = () => picturesUri.map((pictureUri, index) => (
 		<PictureItemButtom
 			activeOpacity={1}
 			pictureSelected={pictureUriSelected === index && !isVideoSelected}
 			key={uuid()}
-			onPress={() => onSelectMedia(index, false)}
+			onPress={() => pictureSelectionHandler(index, false)}
 		>
 			<PicturePortrait pictureSelected={pictureUriSelected === index && !isVideoSelected}>
 				<Picture
@@ -43,7 +49,7 @@ function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, is
 			activeOpacity={1}
 			pictureSelected={pictureUriSelected === index && isVideoSelected}
 			key={uuid()}
-			onPress={() => onSelectMedia(index, true)}
+			onPress={() => pictureSelectionHandler(index, true)}
 		>
 			<PicturePortrait pictureSelected={pictureUriSelected === index && isVideoSelected}>
 				<Picture
@@ -56,14 +62,22 @@ function HorizontalListPictures({ picturesUri, videosUri, pictureUriSelected, is
 		</PictureItemButtom>
 	))
 
+	const renderMedias = () => {
+		const renderData = []
+		const videoElements = renderVideosPictures()
+		renderData.push(...videoElements)
+		const pictureElements = renderPictures()
+		renderData.push(...pictureElements)
+		return renderData
+	}
+
 	return (
 		<Container >
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<HorizontalSpacing width={relativeScreenWidth(4)} />
 				<Container>
 					<HorizontalSpacing />
-					{renderVideosPictures()}
-					{renderPictures()}
+					{renderMedias()}
 				</Container>
 			</ScrollView>
 		</Container>
