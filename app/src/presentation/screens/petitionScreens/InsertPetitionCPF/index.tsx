@@ -31,7 +31,7 @@ function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
 
 	const savePetitionCPF = (inputText: string) => {
 		setPetitionSignatureOnContext({ cpf: inputText })
-		navigation.navigate('InsertPetitionCPF')
+		navigation.navigate('InsertPetitionPhone')
 	}
 
 	return (

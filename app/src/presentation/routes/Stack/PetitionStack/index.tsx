@@ -6,11 +6,13 @@ import { PetitionProvider } from '@contexts/PetitionContext'
 
 import { PetitionStackParamList } from './types'
 
+import { FinishPetitionSignature } from '@screens/petitionScreens/FinishPetitionSignature'
 import { InsertPetitionCPF } from '@screens/petitionScreens/InsertPetitionCPF'
 import { InsertPetitionDescription } from '@screens/petitionScreens/InsertPetitionDescription'
 import { InsertPetitionEmail } from '@screens/petitionScreens/InsertPetitionEmail'
 import { InsertPetitionFullName } from '@screens/petitionScreens/InsertPetitionFullName'
 import { InsertPetitionLocation } from '@screens/petitionScreens/InsertPetitionLocation'
+import { InsertPetitionPhone } from '@screens/petitionScreens/InsertPetitionPhone'
 import { SelectPetitionRange } from '@screens/petitionScreens/InsertPetitionRange'
 import { InsertPetitionRG } from '@screens/petitionScreens/InsertPetitionRg'
 import { InsertPetitionTitle } from '@screens/petitionScreens/InsetPetitionTitle'
@@ -46,6 +48,8 @@ export function PetitionStack() {
 				<Stack.Screen name={'InsertPetitionEmail'} component={InsertPetitionEmail} />
 				<Stack.Screen name={'InsertPetitionRG'} component={InsertPetitionRG} />
 				<Stack.Screen name={'InsertPetitionCPF'} component={InsertPetitionCPF} />
+				<Stack.Screen name={'InsertPetitionPhone'} component={InsertPetitionPhone} />
+				<Stack.Screen name={'FinishPetitionSignature'} component={FinishPetitionSignature} />
 			</Stack.Navigator>
 		</PetitionProvider>
 	)
