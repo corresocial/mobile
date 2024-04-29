@@ -544,7 +544,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 													/>
 												</PopOver>
 											</OptionsArea>
-
+											{/*
 											<VerticalSpacing />
 											<SmallButton
 												color={theme.white3}
@@ -560,7 +560,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												labelColor={'black'}
 												height={relativeScreenWidth(12)}
 												onPress={viewPetition}
-											/>
+											/> */}
 
 										</ProfileHeader>
 									</DefaultHeaderContainer>
