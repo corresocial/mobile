@@ -11,7 +11,7 @@ export const PicturePreviewContainer = styled.View`
     justify-content: flex-end;
     align-items: center;
 	width: 100%;
-	height: 1005;
+	height: 100%;
 `
 
 export const TopArea = styled.View`

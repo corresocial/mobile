@@ -1,3 +1,4 @@
+import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
 import React, { useState } from 'react'
 
@@ -42,6 +43,7 @@ function PostPicturePreview({
 	// const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
+	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
@@ -54,6 +56,18 @@ function PostPicturePreview({
 		const picturesAfterDelete = picturesPack.filter((_, index) => index !== mediaIndexSelected)
 		setMediaIndexSelected(picturesPack.length - 2)
 		setPicturesPack(picturesAfterDelete)
+	}
+
+	const editCurrentPicture = () => {
+		setImageCropperOpened(true)
+	}
+
+	const saveCroppedImage = (image: any) => {
+		const newPicturesPack = [...picturesPack]
+		newPicturesPack[mediaIndexSelected] = image.uri
+		console.log(mediaIndexSelected)
+		setPicturesPack(newPicturesPack)
+		setImageCropperOpened(false)
 	}
 
 	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
@@ -97,6 +111,21 @@ function PostPicturePreview({
 				onClose={() => setCameraOpened(false)}
 				cameraOpened={cameraOpened}
 			/>
+			{
+				imageCropperOpened && (
+					<ImageEditor
+						imageUri={picturesPack[mediaIndexSelected]}
+						fixedAspectRatio={1 / 1}
+						minimumCropDimensions={{
+							width: 50,
+							height: 50,
+						}}
+						onEditingCancel={() => setImageCropperOpened(false)}
+						onEditingComplete={saveCroppedImage}
+					/>
+				)
+			}
+			
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
@@ -119,6 +148,7 @@ function PostPicturePreview({
 						width={relativeScreenWidth(90)}
 						height={relativeScreenWidth(89)}
 						deleteCurrentPicture={deleteCurrentPicture}
+						editCurrentPicture={editCurrentPicture}
 					/>
 					<VerticalSpacing height={relativeScreenWidth(7)} />
 				</PicturePreviewContainer>

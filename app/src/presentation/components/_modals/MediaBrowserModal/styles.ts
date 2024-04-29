@@ -34,7 +34,7 @@ export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
 	flex: ${({ flex }) => flex};
     padding-left: ${relativeScreenWidth(3)}px;
     font-size: ${RFValue(20)}px;
-    text-align: start;
+    text-align: left;
 	font-family: Arvo_700Bold;
 `
 
