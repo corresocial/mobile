@@ -2,8 +2,9 @@ import React from 'react'
 import { ImageResizeMode } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
-import ThashWhiteIcon from '@assets/icons/trash-white.svg'
+import { Container, DeleteItemArea, EditItemArea, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
+import EditWhiteIcon from '@assets/icons/edit-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 import UserShadow from '@assets/imgs/userShadow.jpg'
@@ -23,6 +24,7 @@ interface PhotoPortraitProps {
 	maxWidth?: number
 	videoIndicator?: boolean
 	deleteCurrentPicture?: () => void
+	editCurrentPicture?: () => void
 }
 
 function PhotoPortrait({
@@ -35,7 +37,8 @@ function PhotoPortrait({
 	resizeMode = 'contain',
 	videoIndicator,
 	maxWidth = relativeScreenWidth(90),
-	deleteCurrentPicture
+	deleteCurrentPicture,
+	editCurrentPicture
 }: PhotoPortraitProps) {
 	return (
 		<Container
@@ -74,11 +77,27 @@ function PhotoPortrait({
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								color={theme.red3}
-								SvgIcon={ThashWhiteIcon}
+								SvgIcon={TrashWhiteIcon}
 								svgScale={['55%', '55%']}
 								onPress={deleteCurrentPicture}
 							/>
 						</DeleteItemArea>
+					)
+					: null
+			}
+			{
+				editCurrentPicture && pictureUri
+					? (
+						<EditItemArea onPress={editCurrentPicture}>
+							<SmallButton
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
+								color={theme.white3}
+								SvgIcon={EditWhiteIcon}
+								svgScale={['55%', '55%']}
+								onPress={editCurrentPicture}
+							/>
+						</EditItemArea>
 					)
 					: null
 			}
