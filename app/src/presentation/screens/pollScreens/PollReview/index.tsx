@@ -18,7 +18,6 @@ import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonCont
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
-import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -143,8 +142,8 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas na enquete ${getShortText(getPollField('description'), 70)}?`}
-				highlightedWords={[...getShortText(getPollField('description'), 70).split(' ')]}
+				text={`você tem certeza que deseja descartar as alterações realizadas na enquete ${getPollField('title')}?`}
+				highlightedWords={[...getPollField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={navigateBackwards}

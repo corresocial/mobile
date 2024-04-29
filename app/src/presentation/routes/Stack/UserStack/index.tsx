@@ -29,6 +29,7 @@ import { OfflinePostsManagement } from '@screens/profileScreens/OfflinePostsMana
 
 import { HomeTab } from '../../Tabs/HomeTab'
 import { CultureStack } from '../CultureStack'
+import { PetitionStack } from '../PetitionStack'
 import { PollStack } from '../PollStack'
 import { SaleStack } from '../SaleStack'
 import { ServiceStack } from '../ServiceStack'
@@ -68,6 +69,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'CultureStack'} component={CultureStack} />
 									<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
 									<Stack.Screen name={'PollStack'} component={PollStack} />
+									<Stack.Screen name={'PetitionStack'} component={PetitionStack} />
 
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
 

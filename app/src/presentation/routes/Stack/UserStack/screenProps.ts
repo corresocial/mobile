@@ -16,6 +16,7 @@ export type VacancyStackScreenProps = NativeStackScreenProps<UserStackParamList,
 export type CultureStackScreenProps = NativeStackScreenProps<UserStackParamList, 'CultureStack'>
 export type SocialImpactStackScreenProps = NativeStackScreenProps<UserStackParamList, 'SocialImpactStack'>
 export type PollStackScreenProps = NativeStackScreenProps<UserStackParamList, 'PollStack'>
+export type PetitionStackScreenProps = NativeStackScreenProps<UserStackParamList, 'PetitionStack'>
 
 export type ContactUsScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsUserStack'>
 export type ContactUsInsertMessageScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsInsertMessageUserStack'>

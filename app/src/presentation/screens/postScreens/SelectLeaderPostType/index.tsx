@@ -17,7 +17,7 @@ function SelectLeaderPostType({ route, navigation }: SelectLeaderPostTypeScreenP
 	}
 
 	const navigateToUndersignedRegister = () => {
-		console.log('Abaixo assinado')
+		navigation.navigate('PetitionStack')
 	}
 
 	return (

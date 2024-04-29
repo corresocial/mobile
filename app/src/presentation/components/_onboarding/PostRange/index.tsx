@@ -27,7 +27,7 @@ interface PostRangeProps {
 	cityPlanIsFree?: boolean
 	plansAvailable?: StripeProducts
 	userSubscriptionRange: PostRangeType
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	savePostRange: (postRange: PostRangeType) => void
 	navigateBackwards: () => void
 }
@@ -67,10 +67,14 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 					message={'onde você quer que sua postagem seja divulgada?'}
 					highlightedWords={['onde', 'seja', 'divulgada']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{
+						progress && (
+							<ProgressBar
+								value={progress[0]}
+								range={progress[1]}
+							/>
+						)
+					}
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

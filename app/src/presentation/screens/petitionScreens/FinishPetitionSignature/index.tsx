@@ -2,15 +2,12 @@ import * as Location from 'expo-location' // REFACTOR Centralizar request permis
 import React, { useContext, useState } from 'react'
 import { useTheme } from 'styled-components'
 
-import { PollEntity } from '@domain/poll/entity/types'
-import { usePollDomain } from '@domain/poll/usePollDomain'
-
-import { usePollRepository } from '@data/poll/usePollRepository'
+import { PetitionEntity } from '@domain/petition/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { usePollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePetitionContext } from '@contexts/PetitionContext'
 
-import { FinishedPollResponseScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { FinishPetitionSignatureScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
@@ -30,13 +27,13 @@ import { CustomModal } from '@components/_modals/CustomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-const { sendPollResponse } = usePollDomain()
+// const { sendPetitionResponse } = usePetitionDomain()
 
 const { getCurrentLocation } = useLocationService()
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 
-function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
-	const { pollToRespond, pollResponseData } = usePollRegisterContext()
+function FinishPetitionSignature({ navigation }: FinishPetitionSignatureScreenProps) {
+	const { /* petitionToRespond, petitionResponseData */ petitionDataContext } = usePetitionContext()
 	const { userDataContext } = useContext(AuthContext)
 
 	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
@@ -44,7 +41,13 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 
 	const theme = useTheme()
 
-	const owner = { ...pollToRespond.owner }
+	const petitionToRespond = {
+		petitionId: 'aa'
+	}
+	const owner = {
+		name: 'usuário mockado'
+	}
+	// const owner = { ...petitionToRespond.owner }
 
 	const checkLocationPermissions = async () => {
 		const { granted } = await Location.getForegroundPermissionsAsync()
@@ -71,22 +74,23 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 		const completeAddress = structureAddress(currentLocation)
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-		sendPollResponse(usePollRepository, pollToRespond.pollId, {
+		/* sendPetitionResponse(usePetitionRepository, petitionToRespond.petitionId, {
 			userId: userDataContext.userId,
 			location: {
 				...currentLocation,
 				...geohashObject
-			} as PollEntity['location'],
-			responses: pollResponseData
-		})
+			} as PetitionEntity['location'],
+			responses: petitionResponseData
+		}) */
 
-		navigation.navigate('ViewPoll', {} as any)
-		navigation.goBack()
+		// navigation.navigate('ViewPetition', {} as any)
+		// navigation.goBack()
 	}
 
 	const getProfilePictureUrl = () => {
-		if (!owner || !owner.profilePictureUrl) return null
-		return owner.profilePictureUrl[0]
+		return ''
+		/* if (!owner || !owner.profilePictureUrl) return null
+		return owner.profilePictureUrl[0] */
 	}
 
 	return (
@@ -118,7 +122,7 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 				<InstructionButtonContainer >
 					<InstructionCard
 						fontSize={16}
-						message={'muito obrigado por responder a enquete!'}
+						message={'muito obrigado por assinar meu abaixo-assinado!'}
 						highlightedWords={['muito', 'obrigado', 'por', 'responder', 'a', 'enquete!']}
 					>
 						<VerticalSpacing />
@@ -145,4 +149,4 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 	)
 }
 
-export { FinishedPollResponse }
+export { FinishPetitionSignature }

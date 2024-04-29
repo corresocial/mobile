@@ -43,7 +43,7 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 			return
 		}
 
-		setPollDataOnContext({ title: inputText })
+		setPollDataOnContext({ description: inputText })
 		navigation.navigate('InsertPollQuestions')
 	}
 
