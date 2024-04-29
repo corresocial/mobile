@@ -65,7 +65,6 @@ function PostPicturePreview({
 	const saveCroppedImage = (image: any) => {
 		const newPicturesPack = [...picturesPack]
 		newPicturesPack[mediaIndexSelected] = image.uri
-		console.log(mediaIndexSelected)
 		setPicturesPack(newPicturesPack)
 		setImageCropperOpened(false)
 	}
@@ -93,7 +92,6 @@ function PostPicturePreview({
 	}
 
 	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
-	// 	console.log(index, isVideo)
 	// 	setMediaIndexSelected(index)
 	//  setIsVideoSelected(isVideo)
 	// }
