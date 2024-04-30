@@ -34,7 +34,7 @@ function PhotoPortrait({
 	borderWidth = 5,
 	borderRightWidth = 10,
 	pictureUri,
-	resizeMode = 'contain',
+	resizeMode = 'cover',
 	videoIndicator,
 	maxWidth = relativeScreenWidth(90),
 	deleteCurrentPicture,
