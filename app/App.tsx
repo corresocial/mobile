@@ -53,7 +53,7 @@ function App() {
 
 	const { defaultCachePersistence } = useCacheRepository()
 	const linking = {
-		prefixes: [createURL('/com.corresocial.corresocial')],
+		prefixes: [createURL('', { scheme: 'com.corresocial.corresocial' })],
 		config: {
 			screens: {
 				Splash: {
