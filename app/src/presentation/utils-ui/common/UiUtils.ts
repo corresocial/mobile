@@ -5,6 +5,8 @@ import { formatDate, formatHour, formatRelativeDate } from './date/dateFormat'
 import { sortArray } from './sort/list'
 import { UiUtilsInterface } from './UiUtilsInterface'
 import { arrayIsEmpty } from './validation/validateArray'
+import { validateCPF } from './validation/validateCPF'
+import { validateRG } from './validation/validateRG'
 import { textHasOnlyNumbers } from './validation/validateText'
 
 function UiUtils(): UiUtilsInterface {
@@ -17,8 +19,10 @@ function UiUtils(): UiUtilsInterface {
 		arrayIsEmpty,
 		sortArray,
 		// generateVideoThumbnails,
-		compressImage
+		compressImage,
 
+		validateRG,
+		validateCPF
 	}
 }
 

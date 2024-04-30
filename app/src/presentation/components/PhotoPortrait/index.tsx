@@ -1,5 +1,5 @@
+import { ImageContentFit } from 'expo-image'
 import React from 'react'
-import { ImageResizeMode } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, DeleteItemArea, EditItemArea, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
@@ -19,7 +19,7 @@ interface PhotoPortraitProps {
 	circle?: boolean
 	borderWidth?: number
 	borderRightWidth?: number
-	resizeMode?: ImageResizeMode | undefined
+	resizeMode?: ImageContentFit | undefined
 	pictureUri: string
 	maxWidth?: number
 	videoIndicator?: boolean
@@ -57,7 +57,7 @@ function PhotoPortrait({
 							recyclingKey={pictureUri}
 							placeholder={UserShadow}
 							placeholderContentFit={'contain'}
-							resizeMode={resizeMode}
+							contentFit={resizeMode}
 							cachePolicy={'memory-disk'}
 							circle={circle}
 							transition={300}

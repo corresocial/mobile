@@ -16,6 +16,12 @@ export type UserEntity = {
 	private?: PrivateUserEntity
 }
 
+export type UserOwner = { // REFACTOR Adicionar tipagem às postagens
+	userId: string
+	name: string
+	profilePictureUrl?: string[]
+}
+
 export type SocialMedia = {
 	title: string,
 	link: string

@@ -123,13 +123,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 			}
 		}
 
-		navigation.navigate('SocialImpactStack', {
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectSocialImpactLocationView', 'location')

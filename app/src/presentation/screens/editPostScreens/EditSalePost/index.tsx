@@ -103,7 +103,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigateToPostView(post, navigation)
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => { // TODO tipar com tipos de rotas
 		let value = getPostField(initialValue, true)
 
 		/* if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
@@ -117,13 +117,17 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			}
 		}
 
-		navigation.push(customStack || 'SaleStack' as any, { // TODO Type
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		if (customStack) {
+			return navigation.push(customStack || 'SaleStack' as any, { // TODO Type
+				screen: screenName,
+				params: {
+					editMode: true,
+					initialValue: value
+				}
+			})
+		}
+
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')

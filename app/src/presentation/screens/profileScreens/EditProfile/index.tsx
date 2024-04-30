@@ -5,7 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { Id, PostEntityOptional } from '@domain/post/entity/types'
+import { Id, PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 import { PrivateUserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -148,8 +148,13 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		)
 		setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
 
+		const owner: PostEntity['owner'] = {
+			userId: userDataContext.userId,
+			name: userDataContext.name
+		}
+
 		await remotePostStorage.updateOwnerDataOnPosts(
-			{ ...editDataContext.unsaved },
+			{ ...owner },
 			userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as string[]
 		)
 
@@ -182,8 +187,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] }
 									)
 
+									const owner: PostEntity['owner'] = {
+										userId: userDataContext.userId,
+										name: userDataContext.name,
+										profilePictureUrl: [profilePictureUrl]
+									}
+
 									await remotePostStorage.updateOwnerDataOnPosts(
-										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
+										{ ...owner },
 										userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as Id[]
 									)
 

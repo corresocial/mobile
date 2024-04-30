@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
@@ -18,10 +19,11 @@ interface DescriptionCardProps {
 	hightligtedWords?: string[]
 	textFontSize?: number
 	children?: React.ReactChild
+	CustomHeaderIcon?: React.FC<SvgProps>
 	onEdit?: () => void
 }
 
-function DescriptionCard({ title, text, hightligtedWords, children, textFontSize = 14, onEdit }: DescriptionCardProps) {
+function DescriptionCard({ title, text, hightligtedWords, children, CustomHeaderIcon, textFontSize = 14, onEdit }: DescriptionCardProps) {
 	const sumarizedSubscriptionSize = 200
 
 	const showResizeLabel = text.length >= sumarizedSubscriptionSize
@@ -48,8 +50,8 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 				<DefaultHeaderTitle
 					title={title || 'descrição do post'}
 					highlightedWords={hightligtedWords || ['descrição']}
-					SvgIcon={DescriptionWhiteIcon}
-					dimensions={28}
+					SvgIcon={CustomHeaderIcon || DescriptionWhiteIcon}
+					dimensions={25}
 				/>
 			</EditHeaderContainer>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>

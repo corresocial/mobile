@@ -18,6 +18,16 @@ async function updateUserRepositoryDM(
 		return newUserRepository
 	} catch (error) {
 		console.log(error)
+		/* Sentry.captureException(error, { // REFACTOR
+			extra: {
+				message: 'Error updating user repository',
+				userId: currentUserData.userId,
+				userData: newUserData,
+			},
+		});
+
+		// Re-throw the error to allow it to propagate
+		throw error */
 	}
 }
 

@@ -1,7 +1,7 @@
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { UserCredential } from 'firebase/auth'
 
@@ -95,7 +95,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [response, tokenGoogle])
 
 	const canRemoveEntryMethod = () => {
-		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email && Platform.OS === 'android'
 	}
 
 	const editPhoneProvider = () => {
@@ -215,7 +215,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
-				accountIdentifier={userPrivateContacts.email}
+				accountIdentifier={userPrivateContacts.email || ''}
 				registerMethod
 				linking
 				hasError={hasError}
@@ -234,7 +234,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
-					title={'métodos \nde entrada'}
+					title={'métodos \nde login'}
 					titleFontSize={18}
 					height={relativeScreenHeight(10)}
 					highlightedWords={['entrada']}
@@ -257,14 +257,18 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
-								<EditCard
-									title={'conta google'}
-									RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
-									SecondSvgIcon={GoogleWhiteIcon}
-									value={userPrivateContacts.email}
-									pressionable
-									onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
-								/>
+								{
+									Platform.OS === 'android' && (
+										<EditCard
+											title={'conta google'}
+											RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+											SecondSvgIcon={GoogleWhiteIcon}
+											value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
+											pressionable
+											onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
+										/>
+									)
+								}
 								<VerticalSpacing />
 							</>
 						)

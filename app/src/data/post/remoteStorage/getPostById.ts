@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import { PostEntityOptional } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 
 import { POST_COLLECTION } from '@data/remoteStorageKeys'
 
@@ -12,7 +12,7 @@ async function getPostById(postId: string) {
 		const postSnap = await getDoc(postRef)
 
 		if (postSnap.exists()) {
-			return { postId, ...postSnap.data() as PostEntityOptional }
+			return { postId, ...postSnap.data() } as PostEntity
 		}
 
 		return null

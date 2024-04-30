@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { PostEntityOptional, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
@@ -12,6 +13,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
+import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -58,7 +61,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -132,12 +134,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true)
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
 		await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
 
 		await removePostOnContext()
-		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
@@ -154,7 +154,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSocialImpactPost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('SocialImpactStack' as any, {
+			screen: 'EditSocialImpactPost' as keyof SocialImpactStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved } }
+		})
 	}
 
 	const sharePost = () => {
@@ -172,22 +175,27 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
 
-		navigation.navigate('ChatMessages' as any, {
-			chat: {
-				chatId: '',
-				user1: {
-					userId: userId1 || '',
-					name: userDataContext.name || '',
-					profilePictureUrl: getUserProfilePictureFromContext()
-				},
-				user2: {
-					userId: userId2,
-					name: postData.owner.name,
-					profilePictureUrl: getProfilePictureUrl() || ''
-				},
-				messages: {}
-			}
+		navigation.navigate('HomeTab' as any, {
+			screen: 'ChatStack' as keyof HomeTabParamList
 		})
+		setTimeout(() => {
+			navigation.navigate('ChatMessages' as any, {
+				chat: {
+					chatId: '',
+					user1: {
+						userId: userId1 || '',
+						name: userDataContext.name || '',
+						profilePictureUrl: getUserProfilePictureFromContext()
+					},
+					user2: {
+						userId: userId2,
+						name: postData.owner.name,
+						profilePictureUrl: getProfilePictureUrl() || ''
+					},
+					messages: {}
+				} as Chat
+			})
+		}, 50)
 	}
 
 	const reportPost = () => {
@@ -334,7 +342,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}

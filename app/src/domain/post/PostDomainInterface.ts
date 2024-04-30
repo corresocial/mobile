@@ -4,8 +4,10 @@ import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from './entity/types'
 
+import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
+
 interface PostDomainInterface {
-	updatePostData: (
+	updatePost: (
 		usePostRepository: () => PostRepositoryInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
 		userPosts: PostEntity[],
@@ -13,7 +15,17 @@ interface PostDomainInterface {
 		newPostData: PostEntity,
 		newPostPicturesUri: string[],
 		unsavedPostVideos: string[]
-	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[], videosUrlUploaded: string[] }>
+	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	savePost: (
+		usePostRepository: () => PostRepositoryInterface,
+		useCloudFunctionService: () => CloudFunctionServiceInterface,
+		userSubscriptionRange: UserSubscription['subscriptionRange'],
+		userPosts: PostEntity[],
+		storedPostData: PostEntity,
+		newPostData: PostEntity,
+		unsavedPostPictures: string[],
+		notifyUsersByLocation?: boolean
+	) => Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 }
 
 export { PostDomainInterface }
