@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 
-import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { Id, PostEntity, PostEntityOptional } from '@domain/post/entity/types'
-import { PrivateUserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
+import { uploadUserMedia } from '@data/user/remoteRepository/uploadUserMedia'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -48,7 +46,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
-	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
+	// const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
@@ -59,8 +57,8 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
-		setPrivateUserLocation(userLocation)
+		// const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
+		// setPrivateUserLocation(userLocation)
 	}
 
 	/* const getUserAddress = () => {
@@ -126,37 +124,47 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const updateUserData = async () => {
 		try {
 			setIsLoading(true)
-
-			if (!editDataContext.unsaved.profilePictureUrl) {
-				await updateUserWithoutUploadPicture()
-			} else {
-				await updateUserWithUploadPicture()
-			}
+			await updateUser()
+			setIsLoading(false)
 		} catch (err) {
 			Sentry.Native.captureException(err)
 			console.log(err)
 			setIsLoading(false)
 			setHasUpdateError(true)
+			setTimeout(() => {
+				setHasUpdateError(false)
+			}, 3000)
 		}
 	}
 
-	const updateUserWithoutUploadPicture = async () => {
+	const updateUser = async () => {
+		let profilePictureUrl = ['']
+		if (Object.keys(editDataContext.unsaved).includes('profilePictureUrl')) {
+			if (editDataContext.unsaved.profilePictureUrl) {
+				profilePictureUrl = await uploadUserMedia([editDataContext.unsaved.profilePictureUrl], 'pictures')
+			}
+		} else {
+			profilePictureUrl = userDataContext.profilePictureUrl || []
+		}
+
 		await updateUserRepository(
 			useUserRepository,
 			userDataContext,
-			{ ...editDataContext.unsaved }
+			{ ...editDataContext.unsaved, profilePictureUrl: profilePictureUrl }
 		)
-		setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
 
 		const owner: PostEntity['owner'] = {
 			userId: userDataContext.userId,
-			name: userDataContext.name
+			name: userDataContext.name,
+			profilePictureUrl: profilePictureUrl
 		}
 
 		await remotePostStorage.updateOwnerDataOnPosts(
 			{ ...owner },
 			userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as string[]
 		)
+
+		await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl[0])
 
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
 			await remoteStorage.updatePrivateLocation(
@@ -165,54 +173,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			)
 		}
 
+		if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
+			await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
+		}
+
+		setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: profilePictureUrl })
+
 		setIsLoading(false)
 		navigation.goBack()
-	}
-
-	const updateUserWithUploadPicture = async () => {
-		await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
-			.then(
-				({ uploadTask, blob }: any) => {
-					uploadTask.on(
-						'state_change',
-						() => { },
-						(err: any) => { setHasUpdateError(true) },
-						async () => {
-							blob.close()
-							getDownloadURL(uploadTask.snapshot.ref)
-								.then(async (profilePictureUrl) => {
-									await updateUserRepository(
-										useUserRepository,
-										userDataContext,
-										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] }
-									)
-
-									const owner: PostEntity['owner'] = {
-										userId: userDataContext.userId,
-										name: userDataContext.name,
-										profilePictureUrl: [profilePictureUrl]
-									}
-
-									await remotePostStorage.updateOwnerDataOnPosts(
-										{ ...owner },
-										userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as Id[]
-									)
-
-									if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-										await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
-									}
-
-									await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl)
-
-									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-
-									setIsLoading(false)
-									navigation.goBack()
-								})
-						},
-					)
-				},
-			)
 	}
 
 	return (

@@ -1,6 +1,8 @@
 import { uploadMedia } from '@data/bucketStorage/common'
 
-async function uploadUserMedia(mediaUri: string[], folder: string) { // TODO Tipar folder
+export type StorageFolder = 'pictures'
+
+async function uploadUserMedia(mediaUri: string[], folder: StorageFolder) { // TODO Tipar folder
 	return uploadMedia(mediaUri, 'users', folder)
 }
 

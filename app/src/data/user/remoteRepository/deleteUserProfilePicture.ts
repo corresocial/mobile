@@ -5,7 +5,6 @@ import { storage } from '@infrastructure/firebase/index'
 async function deleteUserProfilePicture(profilePictures: string[]) {
 	try {
 		profilePictures.map(async (pictureUrl: string) => {
-			console.log(pictureUrl)
 			const startIndex = pictureUrl.indexOf('users%2F') + 8 // REFACTOR Tratativas muito instáveis
 			const endIndex = pictureUrl.indexOf('?alt')
 			const picturePath = `pictures/users/${pictureUrl.substring(startIndex, endIndex)}`
