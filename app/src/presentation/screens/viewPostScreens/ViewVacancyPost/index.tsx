@@ -390,6 +390,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={getPostField('picturesUrl')}
+								videosUrl={getPostField('videosUrl')}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>
@@ -399,6 +400,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
+									videosUrl={getPostField('videosUrl') || []}
 									indicatorColor={theme.green1}
 									square
 									showFullscreenIcon

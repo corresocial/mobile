@@ -1,8 +1,11 @@
 import { ImageContentFit } from 'expo-image'
 import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage } from './styles'
-import ThashWhiteIcon from '@assets/icons/trash-white.svg'
+import { Container, DeleteItemArea, EditItemArea, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
+import EditWhiteIcon from '@assets/icons/edit-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
+import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 import UserShadow from '@assets/imgs/userShadow.jpg'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -19,7 +22,9 @@ interface PhotoPortraitProps {
 	resizeMode?: ImageContentFit | undefined
 	pictureUri: string
 	maxWidth?: number
+	videoIndicator?: boolean
 	deleteCurrentPicture?: () => void
+	editCurrentPicture?: () => void
 }
 
 function PhotoPortrait({
@@ -30,8 +35,10 @@ function PhotoPortrait({
 	borderRightWidth = 10,
 	pictureUri,
 	resizeMode = 'contain',
+	videoIndicator,
 	maxWidth = relativeScreenWidth(90),
-	deleteCurrentPicture
+	deleteCurrentPicture,
+	editCurrentPicture
 }: PhotoPortraitProps) {
 	return (
 		<Container
@@ -70,13 +77,36 @@ function PhotoPortrait({
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								color={theme.red3}
-								SvgIcon={ThashWhiteIcon}
+								SvgIcon={TrashWhiteIcon}
 								svgScale={['55%', '55%']}
 								onPress={deleteCurrentPicture}
 							/>
 						</DeleteItemArea>
 					)
 					: null
+			}
+			{
+				editCurrentPicture && pictureUri
+					? (
+						<EditItemArea onPress={editCurrentPicture}>
+							<SmallButton
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
+								color={theme.white3}
+								SvgIcon={EditWhiteIcon}
+								svgScale={['55%', '55%']}
+								onPress={editCurrentPicture}
+							/>
+						</EditItemArea>
+					)
+					: null
+			}
+			{
+				videoIndicator && (
+					<VideoIndicatorContainer>
+						<VideoCameraIcon width={RFValue(40)} height={RFValue(40)} />
+					</VideoIndicatorContainer>
+				)
 			}
 		</Container >
 	)

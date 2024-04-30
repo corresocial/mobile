@@ -131,7 +131,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			setLoaderIsVisible(true)
 
 			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-			await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
+			await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
 			await removePostOnContext()
 
 			setLoaderIsVisible(false)
@@ -340,6 +340,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 							<>
 								<GalleryModal
 									picturesUrl={getPostField('picturesUrl')}
+									videosUrl={getPostField('videosUrl')}
 									showGallery={galeryIsVisible}
 									onClose={closeGalery}
 								/>

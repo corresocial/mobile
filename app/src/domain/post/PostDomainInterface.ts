@@ -13,7 +13,8 @@ interface PostDomainInterface {
 		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
-		newPostPicturesUri: string[]
+		newPostPicturesUri: string[],
+		unsavedPostVideos: string[]
 	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 	savePost: (
 		usePostRepository: () => PostRepositoryInterface,

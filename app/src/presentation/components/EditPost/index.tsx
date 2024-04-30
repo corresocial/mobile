@@ -121,7 +121,8 @@ function EditPost({
 				userDataContext.posts || [],
 				initialPostData,
 				postDataToSave,
-				editDataContext.unsaved.picturesUrl || []
+				editDataContext.unsaved.picturesUrl || [],
+				editDataContext.unsaved.videosUrl || []
 			)
 
 			await updateUserRepository(
@@ -210,7 +211,7 @@ function EditPost({
 		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
-	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
+	const changeStateOfEditedFields = (uploadedPictures?: string[], uploadedVideos?: string[]) => {
 		let newEditState
 		if (uploadedPictures) {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }

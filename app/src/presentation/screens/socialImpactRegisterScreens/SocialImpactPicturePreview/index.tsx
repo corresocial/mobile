@@ -12,24 +12,23 @@ import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePreviewScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const savePictures = (picturesUri: string[]) => {
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const saveMedia = (picturesUrl: string[]/* , videosUrl: string[] */) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl: picturesUri })
+			addNewUnsavedFieldToEditContext({ picturesUrl/* , videosUrl  */ })
 			navigation.goBack()
 		}
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.pink2}
-				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
-				savePictures={savePictures}
+				saveMedia={saveMedia}
 			/>
 		</>
 	)

@@ -73,6 +73,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<IncomeEntity>(route.params?.postData || null)
+	// const [videosThumbnails, setVideosThumbnails] = useState<string[]>([])
 
 	useEffect(() => {
 		getPost()
@@ -80,6 +81,14 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 			clearEditContext()
 		}
 	}, [])
+
+	/* const setVideoThumbnails = async () => {
+		if (!postData.videosUrl) return
+		const thumbnails = await generateVideoThumbnails(postData.videosUrl) // Await for thumbnails to be generated
+		console.log(`length => ${thumbnails.length}`)
+
+		setVideosThumbnails(thumbnails)
+	} */
 
 	const getPost = (async () => {
 		if (route.params.redirectedPostId) {
@@ -154,7 +163,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const deleteRemotePost = async () => {
 		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
+		await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
 
 		await removePostOnContext()
 		backToPreviousScreen()
@@ -416,6 +425,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={getPostField('picturesUrl')}
+								videosUrl={getPostField('videosUrl')}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>

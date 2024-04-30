@@ -26,11 +26,13 @@ import { ThumbnailList } from '@components/ThumbnailList'
 
 interface GalleryProps {
 	picturesUrl: string[],
+	videosUrl: string[],
+	videoThumbnails?: string[]
 	showGallery: boolean,
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showGallery, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
@@ -50,6 +52,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			const enableRotation = async () => {
 				await ScreenOrientation.unlockAsync()
 			}
+			setCurrentIndex(0)
 			enableRotation()
 			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
 				setIsLandscapeMode((orientationInfo.orientation !== 1))
@@ -87,10 +90,11 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		}
 	}, [currentIndex])
 
-	const hideArrows = picturesUrl && picturesUrl.length < 2
+	const mediaUrls = [/* ...videosUrl,  */...picturesUrl]
+	const hideArrows = (picturesUrl /* && videosUrl */) && ((picturesUrl.length/*  + videosUrl.length */) < 2)
 
 	const goToNext = (direction: number) => {
-		const length = picturesUrl ? picturesUrl.length : 0
+		const length = (picturesUrl.length/*  + videosUrl.length */) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -100,7 +104,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		carouselRef.current?.scrollTo({ index, animated: !noAnimation })
 	}
 
-	const imagePressHandler = () => {
+	const mediaPressHandler = () => {
 		setHideElements(!hideElements)
 	}
 
@@ -116,6 +120,41 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		setCarouselEnabled(!isZooming)
 	}
 
+	const renderPicture = (uri: string) => (
+		<ImageContainer
+			activeOpacity={1}
+			onPress={mediaPressHandler}
+		>
+			<ImageZoom
+				height={relativeScreenHeight(100)}
+				onInteractionEnd={() => imageZoomHandler(false)}
+				onInteractionStart={() => imageZoomHandler(true)}
+				uri={uri}
+				resizeMode={'contain'}
+			/>
+		</ImageContainer>
+	)
+
+	/* const renderVideo = (uri: string) => (
+		<VideoContainer>
+			<VideoView
+				source={{ uri: uri }}
+				resizeMode={ResizeMode.CONTAIN}
+				isLooping
+				useNativeControls
+			/>
+
+		</VideoContainer>
+	) */
+
+	const renderMedia = (uri: string) => {
+		// const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
+		// if (extension.includes('mp4')) {
+		// 	return renderVideo(uri)
+		// }
+		return renderPicture(uri)
+	}
+
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
 			<StatusBar backgroundColor={theme.black4} />
@@ -126,22 +165,9 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 					loop={false}
 					width={screenSizes.width}
 					height={screenSizes.height}
-					data={picturesUrl}
+					data={mediaUrls}
 					onSnapToItem={(id) => setCurrentIndex(id)}
-					renderItem={({ item }) => (
-						<ImageContainer
-							activeOpacity={1}
-							onPress={imagePressHandler}
-						>
-							<ImageZoom
-								height={relativeScreenHeight(100)}
-								onInteractionEnd={() => imageZoomHandler(false)}
-								onInteractionStart={() => imageZoomHandler(true)}
-								uri={item}
-								resizeMode={'contain'}
-							/>
-						</ImageContainer>
-					)}
+					renderItem={({ item }) => renderMedia(item)}
 				>
 				</Carousel>
 			</GalleryContainer>
@@ -183,7 +209,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
 					onThumbnailPressed={handleThumbnailPressed}
-					picturesUrl={picturesUrl}
+					picturesUrl={(videoThumbnails ? [...videoThumbnails, ...picturesUrl] : [...picturesUrl])}
 				/>
 			</ThumbnailListContainer>
 
@@ -192,3 +218,5 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 }
 
 export { GalleryModal }
+
+// TODO Videos

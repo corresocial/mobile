@@ -70,6 +70,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		return picturesUrl
 	}
 
+	/* const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	} */
+
 	const formatCategoryAndTags = () => {
 		const category: SaleCategories = getPostField('category')
 		const tags = getPostField('tags')
@@ -100,9 +106,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => { // TODO tipar com tipos de rotas
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
-		}
+		/* if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
+		} */
 
 		if (initialValue === 'location') {
 			value = {

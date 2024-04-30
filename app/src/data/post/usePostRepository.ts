@@ -3,7 +3,7 @@ import { PostRepositoryInterface } from './PostRepositoryInterface'
 import { createPost } from './remoteStorage/createPost'
 import { createPostWithCustomId } from './remoteStorage/createPostWithCustomId'
 import { deletePost } from './remoteStorage/deletePost'
-import { deletePostPictures } from './remoteStorage/deletePostPictures'
+import { deletePostMedias } from './remoteStorage/deletePostMedias'
 import { getPostById } from './remoteStorage/getPostById'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
@@ -38,7 +38,7 @@ function usePostRepository(): PostRepositoryInterface {
 
 			// DELETE
 			deletePost: deletePost,
-			deletePostPictures: deletePostPictures
+			deletePostMedias: deletePostMedias
 		}
 	}
 }

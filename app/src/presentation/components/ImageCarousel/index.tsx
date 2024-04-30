@@ -23,6 +23,7 @@ interface ImageCarouselProps {
 	square?: boolean
 	showFullscreenIcon?: boolean
 	picturesUrl: string[] | undefined
+	videosThumbnails?: string[]
 }
 
 function ImageCarousel({
@@ -32,17 +33,18 @@ function ImageCarousel({
 	relativeWidth = relativeScreenWidth(94),
 	square,
 	showFullscreenIcon,
-	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
+	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'],
+	videosThumbnails = []
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-	const renderCarouselIndicators = () => picturesUrl.map((_, index) => (
+	const renderCarouselIndicators = () => [...picturesUrl].map((_, index) => (
 		index === currentCarouselIndex
 			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
-	const getCarouselPicture = () => picturesUrl.map((url) => (
+	const getCarouselPictures = () => [...picturesUrl].map((url) => (
 		<View
 			style={{
 				width: '100%',
@@ -59,6 +61,7 @@ function ImageCarousel({
 				pictureUri={url}
 				maxWidth={relativeWidth}
 				resizeMode={'cover'}
+				videoIndicator={url.includes('videosThumbnails')}
 			/>
 		</View>
 	))
@@ -80,8 +83,8 @@ function ImageCarousel({
 			}
 
 			<Carousel
-				data={getCarouselPicture()}
-				autoPlay={picturesUrl.length > 1}
+				data={getCarouselPictures()}
+				autoPlay={(picturesUrl.length + videosThumbnails.length) > 1}
 				width={screenWidth}
 				height={relativeScreenHeight(28)}
 				autoPlayInterval={3000}
@@ -90,7 +93,7 @@ function ImageCarousel({
 					height: '100%'
 				}}
 				loop
-				enabled={picturesUrl.length !== 1}
+				enabled={(picturesUrl.length + videosThumbnails.length) !== 1}
 				renderItem={({ item, index }) => item}
 				onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
 			/>

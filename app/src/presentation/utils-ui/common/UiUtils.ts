@@ -1,4 +1,6 @@
 import { convertTextToNumber } from './convertion'
+import { compressImage } from './convertion/compressImage'
+// import { generateVideoThumbnails } from './convertion/generateVideoThumbnail'
 import { formatDate, formatHour, formatRelativeDate } from './date/dateFormat'
 import { sortArray } from './sort/list'
 import { UiUtilsInterface } from './UiUtilsInterface'
@@ -16,6 +18,9 @@ function UiUtils(): UiUtilsInterface {
 		formatRelativeDate,
 		arrayIsEmpty,
 		sortArray,
+		// generateVideoThumbnails,
+		compressImage,
+
 		validateRG,
 		validateCPF
 	}

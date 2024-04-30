@@ -1,5 +1,4 @@
-import { Image, ImageProps } from 'expo-image'
-import { ImageResizeMode } from 'react-native'
+// import { Video } from 'expo-av'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -13,6 +12,11 @@ interface ContainerProps {
 	borderWidth?: number
 	borderRightWidth?: number
 }
+
+/* export const PortraitVideo = styled(Video)`
+	width: 100%;
+	height: 100%;
+` */
 
 export const Container = styled.View<ContainerProps>`
 	height: ${({ height }) => (typeof (height) === 'number' ? `${height}px` : height || '100%')};
@@ -29,18 +33,6 @@ export const Container = styled.View<ContainerProps>`
 	overflow: hidden;
 `
 
-interface PortraitImageProps extends ImageProps {
-	resizeMode?: ImageResizeMode
-	circle?: boolean
-}
-
-export const PortraitImage = styled(Image) <PortraitImageProps>`
-	width: 100%;
-	height: 100%;
-	resize-mode: ${({ resizeMode }) => resizeMode || 'cover'};
-	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(9))}px;
-`
-
 export const NoPhotoContainer = styled.View`
 	flex: 1;
     background-color: ${({ theme }) => theme.white3};
@@ -54,24 +46,7 @@ export const DeleteItemArea = styled.TouchableOpacity`
     justify-content: center;
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
-    padding: ${relativeScreenWidth(2.5)}px;
-    bottom: ${relativeScreenWidth(2)}px;
-    right: ${relativeScreenWidth(2)}px;
-`
-
-export const EditItemArea = styled.TouchableOpacity`
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    width: ${relativeScreenWidth(14)}px;
-    height: ${relativeScreenWidth(14)}px;
-    padding: ${relativeScreenWidth(2.5)}px;
-    bottom: ${relativeScreenWidth(2)}px;
-    right: ${relativeScreenWidth(16)}px;
-`
-
-export const VideoIndicatorContainer = styled.View`
-	position: absolute;
-	bottom: ${RFValue(15)}px;
-	left: ${RFValue(15)}px;
+    padding:  ${relativeScreenWidth(2.5)}px;
+    bottom:  ${relativeScreenWidth(2)}px;;
+    right:  ${relativeScreenWidth(2)}px;;
 `

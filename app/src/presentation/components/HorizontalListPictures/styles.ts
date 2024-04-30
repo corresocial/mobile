@@ -44,7 +44,6 @@ export const PicturePortrait = styled.View<PicturePortraitProps>`
 `
 
 export const Picture = styled.Image`
-    resize-mode: cover;
     width: 100%;
     height: 100%;
 `

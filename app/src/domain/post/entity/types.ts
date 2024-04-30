@@ -157,6 +157,7 @@ export interface PostEntityCommonFields {
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
+	videosUrl?: string[]
 	links?: string[]
 	createdAt: Date
 	location: {
