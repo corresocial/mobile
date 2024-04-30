@@ -129,7 +129,7 @@ function EditPost({
 		try {
 			setIsLoading(true)
 
-			const { updatedUserPosts, picturesUrlUploaded, videosUrlUploaded } = await updatePostData(
+			const { updatedUserPosts, picturesUrlUploaded/* , videosUrlUploaded */ } = await updatePostData(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
@@ -146,7 +146,7 @@ function EditPost({
 			)
 
 			updateUserContext(updatedUserPosts)
-			changeStateOfEditedFields([...picturesUrlUploaded], [...videosUrlUploaded])
+			changeStateOfEditedFields([...picturesUrlUploaded]/* , [...videosUrlUploaded] */)
 
 			setIsLoading(false)
 			navigateBackwards()
@@ -368,12 +368,6 @@ function EditPost({
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
 		} else {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
-		}
-
-		if (uploadedVideos) {
-			newEditState = { saved: { ...newEditState, videosUrl: [...uploadedVideos] }, unsaved: {} }
-		} else {
-			newEditState = { saved: { ...newEditState }, unsaved: {} }
 		}
 
 		editContext.setEditDataOnContext(newEditState)
