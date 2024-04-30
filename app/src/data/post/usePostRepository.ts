@@ -9,6 +9,7 @@ import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
 import { updatePostData } from './remoteStorage/updatePostData'
 import { updateRangeAndLocationOnPosts } from './remoteStorage/updateRangeAndLocationOnPosts'
+import { uploadPostMedias } from './remoteStorage/uploadPostMedias'
 
 function usePostRepository(): PostRepositoryInterface {
 	return {
@@ -38,7 +39,10 @@ function usePostRepository(): PostRepositoryInterface {
 
 			// DELETE
 			deletePost: deletePost,
-			deletePostMedias: deletePostMedias
+			deletePostMedias: deletePostMedias,
+
+			// UPLOAD
+			uploadPostMedias: uploadPostMedias
 		}
 	}
 }

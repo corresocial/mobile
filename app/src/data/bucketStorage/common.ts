@@ -6,14 +6,14 @@ import { storage } from '@infrastructure/firebase'
 
 type UploadPath = typeof USER_COLLECTION | typeof POST_COLLECTION
 
-async function uploadMedia(postPictures: string[], uploadPath: UploadPath, folder: string) {
-	const postPicturesUrl = postPictures.map((pictureUrl, index) => processUpload(pictureUrl, uploadPath, folder))
-	return Promise.all(postPicturesUrl)
+async function uploadMedia(mediaUri: string[], uploadPath: UploadPath, folder: string) {
+	const mediaUrl = mediaUri.map((url) => processUpload(url, uploadPath, folder))
+	return Promise.all(mediaUrl)
 }
 
-async function processUpload(pictureUrl: string, uploadPath: UploadPath, folder: string) {
+async function processUpload(mediaUrl: string, uploadPath: UploadPath, folder: string) {
 	try {
-		const { uploadTask, blob }: any = await configUploadObjects(pictureUrl || '', uploadPath, folder)
+		const { uploadTask, blob }: any = await configUploadObjects(mediaUrl || '', uploadPath, folder)
 		return new Promise<string>((resolve, reject) => {
 			uploadTask.on(
 				'state_change',
