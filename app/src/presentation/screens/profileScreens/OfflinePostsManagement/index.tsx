@@ -2,20 +2,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { getDownloadURL } from 'firebase/storage'
+import { PostEntityOptional, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { PostType, PostEntityOptional, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
-import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
-
-import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
-import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -31,8 +29,10 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
-const { localStorage } = useUserRepository()
-const { localStorage: localPostsStorage, remoteStorage } = usePostRepository()
+const { savePost } = usePostDomain()
+const { updateUserRepository } = useUserDomain()
+
+const { localStorage: localPostsStorage } = usePostRepository()
 
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -90,11 +90,11 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 	}
 
 	async function saveAndReturnPost(post: any, savedPosts: any) {
-		const currentPost = await savePost(post, savedPosts)
+		const currentPost = await savePostData(post, savedPosts)
 		return currentPost
 	}
 
-	const savePost = async (postData: PostEntity, currentBatchPosts: PostEntity[] = []) => {
+	const savePostData = async (postData: PostEntity, currentBatchPosts: PostEntity[] = []) => {
 		const postPictures = extractPostPictures(postData)
 
 		setHasError(false)
@@ -105,119 +105,33 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			const localUserPosts = localUser.posts ? localUser.posts : []
-			const storedUserPosts = [...localUserPosts, ...currentBatchPosts]
 
-			if (!postPictures.length) {
-				const postId = await remoteStorage.createPost(postData, localUser, postData.postType as PostType) // REFACTOR remover as
-				if (!postId) throw new Error('Não foi possível identificar o post')
+			const { newPost } = await savePost(
+				usePostRepository,
+				useCloudFunctionService,
+				userDataContext.subscription?.subscriptionRange,
+				localUser.posts || [],
+				postData,
+				postData,
+				postPictures
+			)
 
-				const savedPostData = await updateUserPost(
-					{ ...localUser, posts: storedUserPosts },
-					postId,
-					postData
-				)
+			const newUserPosts = [...localUserPosts, newPost]
 
-				setIsLoading(false)
-				return savedPostData
-			}
+			await updateUserRepository(
+				useUserRepository,
+				{ ...userDataContext, tourPerformed: true },
+				{ posts: newUserPosts }
+			)
 
-			const picturePostsUrls: string[] = []
-			postPictures.forEach(async (postPicture: string, index: number) => {
-				uploadImage(postPicture, 'posts', index).then(
-					({ uploadTask, blob }: any) => {
-						uploadTask.on(
-							'state_change',
-							() => { },
-							(err: any) => {
-								throw new Error(err)
-							},
-							() => {
-								getDownloadURL(uploadTask.snapshot.ref)
-									.then(
-										async (downloadURL) => {
-											blob.close()
-											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === postPictures.length) {
-												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
+			setUserDataOnContext({ ...userDataContext, posts: newUserPosts })
 
-												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType as PostType) // REFACTOR remover as
-												if (!postId) throw new Error('Não foi possível identificar o post')
-
-												return updateUserPost(
-													{ ...localUser, posts: storedUserPosts },
-													postId,
-													postDataWithPicturesUrl
-												)
-													.then((savedPostData) => {
-														setIsLoading(false)
-														return savedPostData
-													})
-											}
-										},
-									)
-							},
-						)
-					},
-				)
-			})
+			localPostsStorage.deleteOfflinePostByDescription(postData.description)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
 			setHasError(true)
 		}
-	}
-
-	const updateUserPost = async (
-		localUser: UserEntityOptional,
-		postId: string,
-		postData: PostEntity,
-	) => {
-		const postDataToSave = {
-			...postData,
-			postId,
-			postType: postData.postType,
-			createdAt: new Date(),
-			owner: {
-				userId: userDataContext.userId,
-				name: userDataContext.name,
-				profilePictureUrl: userDataContext.profilePictureUrl
-			}
-		}
-
-		return updateDocField(
-			'users',
-			localUser.userId as string,
-			'posts',
-			userDataContext.posts ? postDataToSave : [postDataToSave],
-			!!userDataContext.posts,
-		)
-			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostEntity[] : []
-				setUserDataOnContext({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{ ...postDataToSave }
-					],
-				})
-				localStorage.saveLocalUserData({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{ ...postDataToSave } as PostEntityOptional
-					],
-				} as UserEntity)
-
-				setIsLoading(false)
-				return postDataToSave
-			})
-			.catch((err: any) => {
-				console.log(err)
-				setIsLoading(false)
-				setHasError(true)
-			})
 	}
 
 	const allOfflinePostsOnRange = () => {
