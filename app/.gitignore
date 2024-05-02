@@ -1,6 +1,7 @@
 node_modules/
 .env
-google-services.json
+# google-services.json
+# GoogleService-Info.plist
 .expo/
 dist/
 android/

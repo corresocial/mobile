@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BackHandler, Platform, StatusBar } from 'react-native'
+import { BackHandler, StatusBar } from 'react-native'
 
 import { AcceptTermsAndConditionsScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
@@ -42,11 +42,6 @@ function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreen
 	}
 
 	const navigateToSelectRegisterMethod = () => {
-		if (Platform.OS === 'ios') {
-			navigation.navigate('InsertCellNumber', { newUser: true })
-			return
-		}
-
 		navigation.navigate('SelectAuthMethod', { newUser: true })
 	}
 
