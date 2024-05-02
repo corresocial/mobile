@@ -38,7 +38,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
 			duration: 1000,
-			useNativeDriver: true
+			useNativeDriver: false
 		}).start()
 
 		checkCacheImageValidation()
