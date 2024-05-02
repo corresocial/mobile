@@ -33,7 +33,7 @@ const { generateGoogleAuthCredential, signInByGoogleCredential } = useAuthentica
 const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
-const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
+const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const { setRemoteUserOnLocal } = useContext(AuthContext)
@@ -41,6 +41,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const { newUser } = route.params
 
 	const keys = {
+		clientId: AUTH_CLIENT_ID,
 		expoClientId: AUTH_EXPO_CLIENT_ID,
 		androidClientId: AUTH_ANDROID_CLIENT_ID,
 		iosClientId: AUTH_IOS_CLIENT_ID
@@ -53,9 +54,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
 	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
 	// eslint-disable-next-line no-unused-vars
-	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
-		projectNameForProxy: '@corresocial/corresocial'
-	})
+	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
 
 	React.useEffect(() => {
 		if (response?.type === 'success') {
@@ -105,7 +104,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 					await performLoginOnApp({ userId })
 				}
 			} else {
-				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+				await promptAsyncGoogle()
 			}
 		} catch (error) {
 			console.log(error)

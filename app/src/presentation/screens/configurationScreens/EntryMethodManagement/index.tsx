@@ -1,7 +1,7 @@
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { UserCredential } from 'firebase/auth'
 
@@ -42,12 +42,13 @@ const { generateGoogleAuthCredential, linkAuthProvider, unlinkAuthProvider } = u
 const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
-const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
+const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const keys = {
+		clientId: AUTH_CLIENT_ID,
 		expoClientId: AUTH_EXPO_CLIENT_ID,
 		androidClientId: AUTH_ANDROID_CLIENT_ID,
 		iosClientId: AUTH_IOS_CLIENT_ID
@@ -56,9 +57,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const [tokenGoogle, setTokenGoogle] = useState<string | undefined>()
 	const [userPrivateContacts, setUserPrivateContacts] = useState<PrivateUserEntity['contacts']>({ cellNumber: '', email: '' })
 	// eslint-disable-next-line no-unused-vars
-	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
-		projectNameForProxy: '@corresocial/corresocial'
-	})
+	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
@@ -95,7 +94,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [response, tokenGoogle])
 
 	const canRemoveEntryMethod = () => {
-		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email && Platform.OS === 'android'
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
 	}
 
 	const editPhoneProvider = () => {
@@ -137,13 +136,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const editGoogleProvider = async () => {
-		/* const registredGoogleEmail = userPrivateContacts.email
-
-		if (registredGoogleEmail) {
-			if (!canRemoveEntryMethod()) return
-			return toggleUnlinkGoogleConfirmationModalVisibility()
-		} */
-
 		await linkGoogleProvider()
 	}
 
@@ -153,7 +145,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			setHasError(false)
 
 			if (tokenGoogle) {
-				if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+				if (!tokenGoogle) return await promptAsyncGoogle()
 
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
 				const linkedUser: UserCredential['user'] = await linkAuthProvider(googleCredential)
@@ -168,7 +160,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
 				navigateToLinkResultScreen(true, linkedUser.email)
 			} else {
-				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+				await promptAsyncGoogle()
 			}
 		} catch (error: any) {
 			console.log(error)
@@ -257,18 +249,14 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
-								{
-									Platform.OS === 'android' && (
-										<EditCard
-											title={'conta google'}
-											RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
-											SecondSvgIcon={GoogleWhiteIcon}
-											value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
-											pressionable
-											onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
-										/>
-									)
-								}
+								<EditCard
+									title={'conta google'}
+									RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+									SecondSvgIcon={GoogleWhiteIcon}
+									value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
+									pressionable
+									onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
+								/>
 								<VerticalSpacing />
 							</>
 						)
