@@ -7,6 +7,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditUserPictureScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
+import { compressImage } from '@utils-ui/common/convertion/compressImage'
+
 import { ButtonsContainer, Container, InstructionCardContainer, TopArea } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import NewPhotoWhiteIcon from '@assets/icons/camera-white.svg'
@@ -44,7 +46,8 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const saveUserPicture = async () => {
 		const areEquals = userDataContext.profilePictureUrl && (userDataContext.profilePictureUrl[0] === profilePictureUrl)
 		if (!areEquals) {
-			addNewUnsavedFieldToEditContext({ profilePictureUrl })
+			const compressedUrl = await compressImage(profilePictureUrl)
+			addNewUnsavedFieldToEditContext({ compressedUrl })
 		}
 		navigation.goBack()
 	}
