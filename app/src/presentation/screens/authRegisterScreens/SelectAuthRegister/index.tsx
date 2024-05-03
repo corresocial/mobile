@@ -61,7 +61,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
-		navigation.navigate('SelectAuthMethod', { newUser: false })
+		navigation.navigate('SelectAuthMethod')
 	}
 
 	const navigateToRegisterFlow = () => {
@@ -78,7 +78,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 				index: 0,
 				routes: [{
 					name: 'UserStack',
-					params: { tourPerformed: !!localUser.tourPerformed }
+					params: { newUser: false }
 				}],
 			})
 		} catch (err) {

@@ -8,14 +8,14 @@ async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInter
 	if (userId) {
 		const currentUser = await remoteStorage.getUserData(userId)
 		if (currentUser && currentUser.userId) {
-			await localStorage.saveLocalUserData({ ...currentUser, userId })
-			return { ...currentUser, userId }
+			await localStorage.saveLocalUserData({ ...currentUser })
+			return { ...currentUser }
 		}
 
-		return { ...localUserData, userId } as UserEntity
+		return { ...localUserData } as UserEntity
 	}
 
-	if (localUserData?.userId) {
+	if (localUserData?.userId && localUserData?.userId === userId) {
 		const currentUser = { ...localUserData } as UserEntity
 		return currentUser
 	}

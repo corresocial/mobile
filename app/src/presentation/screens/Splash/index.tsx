@@ -69,12 +69,12 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		}
 	}
 
-	const navigateToInitialScreen = (userIdentification: UserEntity | null) => {
+	const navigateToInitialScreen = (userData: UserEntity | null) => {
 		navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'SelectAuthRegister',
-				params: { userId: userIdentification?.userId || '', userName: userIdentification?.name || '' }
+				params: { userId: userData?.userId || '', userName: userData?.name || '' }
 			}],
 		})
 	}
@@ -139,14 +139,9 @@ function Splash({ route, navigation }: SplashScreenProps) {
 					}
 				}
 
-				console.log('navigation.reset()')
-
 				navigation.reset({
 					index: 0,
-					routes: [{
-						name: 'UserStack',
-						params: { tourPerformed: localUser.tourPerformed }
-					}],
+					routes: [{ name: 'UserStack' }]
 				})
 			} else {
 				const storedUser = await getLocalUserData(useUserRepository)

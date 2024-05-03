@@ -1,21 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { getDownloadURL } from 'firebase/storage'
-
-import { Id, PostEntity } from '@domain/post/entity/types'
-import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
+import { UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { uploadImage } from '@data/imageStorage/uploadPicture'
-import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, InstructionCardContainer } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
@@ -32,25 +25,20 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
-const { getLocalUserData, updateUserRepository } = useUserDomain()
-
-const { remoteStorage } = useUserRepository()
-const { remoteStorage: remotePostStorage } = usePostRepository()
-
-const { arrayIsEmpty } = UiUtils()
+const { uploadUserMedia, createNewUser } = useUserDomain()
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { setRemoteUserOnLocal, userDataContext } = useContext(AuthContext)
+	const { userRegistrationData, setRemoteUserOnLocal } = useAuthContext()
 
-	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
+	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
 		instruction: {
-			text: 'está boa?',
-			highlightedWords: ['boa']
+			text: profilePicture.length ? 'está boa?' : 'adiciona a sua foto aí!',
+			highlightedWords: ['boa', 'foto']
 		},
 		serverSideError: {
 			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
@@ -58,19 +46,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		}
 	}
 
-	useEffect(() => {
-		const user = getRouteParams()
-		setProfilePicture(user.profilePictureUrl as string[] || [])
-	}, [])
-
 	const throwServerSideError = (err: any) => {
-		console.log(err)
 		setHasServerSideError(true)
-	}
-
-	const navigateToNextScreen = async (tourPerformed?: boolean) => {
-		setHasServerSideError(false)
-		return navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const backToCustomCamera = () => {
@@ -92,103 +69,23 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		setProfilePicture([pictureUri])
 	}
 
-	const getRouteParams = () => ({
-		...route.params
-	})
-
 	const saveUserData = async () => {
 		try {
-			const userData = getRouteParams()
-			const localUser = await getLocalUserData(useUserRepository)
-
-			if (!localUser || !profilePicture.length) return
+			const userData = userRegistrationData
+			console.log(userData)
 
 			setIsLoading(true)
 
-			if (localUser && localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-				const currentUser: Partial<UserEntity> = {
-					name: userData.userName,
-					profilePictureUrl: profilePicture,
-					tourPerformed: !!localUser.tourPerformed,
-				}
-
-				if (!localUser.createdAt) {
-					currentUser.createdAt = new Date()
-				}
-
-				await updateUserRepository(
-					useUserRepository,
-					userDataContext,
-					{ ...currentUser, userId: userData.userIdentification.uid }
-				)
-
-				await remoteStorage.updatePrivateContacts(
-					userData.userIdentification.uid,
-					{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
-				)
-
-				await setRemoteUserOnLocal(userData.userIdentification.uid)
-
-				setIsLoading(false)
-				navigateToNextScreen(localUser.tourPerformed)
-				return
+			let pictureUrl = [''] // REFACTOR Migrar para dentro do método de salvar
+			if (profilePicture.length) {
+				pictureUrl = await uploadUserMedia(useUserRepository, profilePicture, 'pictures')
 			}
 
-			await uploadImage(profilePicture[0], 'users')
-				.then(
-					({ uploadTask, blob }: any) => {
-						uploadTask.on(
-							'state_change',
-							() => { },
-							(err: any) => { throwServerSideError(err) },
-							async () => {
-								blob.close()
-								getDownloadURL(uploadTask.snapshot.ref)
-									.then(async (profilePictureUrl) => {
-										const currentUser: UserEntityOptional = {
-											name: userData.userName,
-											profilePictureUrl: [profilePictureUrl as string],
-											tourPerformed: !!localUser.tourPerformed,
-										}
+			await createNewUser(useUserRepository, { ...userData, profilePictureUrl: pictureUrl } as UserRegisterData)
+			await setRemoteUserOnLocal(userData.userId)
 
-										if (!localUser.createdAt) {
-											currentUser.createdAt = new Date()
-										}
-
-										await updateUserRepository(
-											useUserRepository,
-											userDataContext,
-											{ ...currentUser, userId: userData.userIdentification.uid }
-										)
-
-										await remoteStorage.updatePrivateContacts(
-											userData.userIdentification.uid,
-											{ cellNumber: userData.cellNumber || '', email: userData.email || '' }
-										)
-
-										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-											await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
-
-											const owner: PostEntity['owner'] = {
-												userId: userData.userIdentification.uid,
-												name: userData.userName,
-												profilePictureUrl: [profilePictureUrl]
-											}
-											await remotePostStorage.updateOwnerDataOnPosts(
-												{ ...owner },
-												userDataContext.posts?.map((post) => post.postId) as Id[]
-											)
-										}
-
-										await setRemoteUserOnLocal(userData.userIdentification.uid)
-
-										setIsLoading(false)
-										navigateToNextScreen(localUser.tourPerformed)
-									})
-							},
-						)
-					},
-				)
+			setIsLoading(false)
+			navigateToHome()
 		} catch (err) {
 			throwServerSideError(err)
 		} finally {
@@ -196,11 +93,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		}
 	}
 
-	const navigateBackwards = () => navigation.goBack()
-
-	if (!profilePicture.length && !cameraModalVisibility) {
-		navigateBackwards()
+	const navigateToHome = async () => {
+		setHasServerSideError(false)
+		return navigation.navigate('UserStack', { newUser: true })
 	}
+
+	const navigateBackwards = () => navigation.goBack()
 
 	return (
 		<Container >
@@ -222,6 +120,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						flex={1}
+						fontSize={16}
 						message={getHeaderMessage()}
 						highlightedWords={getHeaderHighlightedWords()}
 					/>

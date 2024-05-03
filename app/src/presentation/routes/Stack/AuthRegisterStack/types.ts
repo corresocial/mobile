@@ -1,34 +1,13 @@
-import { UserIdentification } from '@services/authentication/types'
-
 export type AuthRegisterStackParamList = {
-	Splash: { id: string, screen: 'profile' | 'post' | '', postType: string}
+	Splash: { id: string, screen: 'profile' | 'post' | '', postType: string }
 	SelectAuthRegister: { userId?: string, userName?: string }
 	AcceptTermsAndConditions: undefined
-	SelectAuthMethod: { newUser?: boolean }
-	InsertCellNumber: { newUser?: boolean }
-	InsertConfirmationCode: {
-		cellNumber: string,
-		verificationCodeId: string | void
-	}
-	InsertName: {
-		cellNumber: string
-		email?: string
-		userIdentification: UserIdentification
-	}
-	InsertProfilePicture: {
-		cellNumber: string,
-		email?: string
-		userName: string,
-		profilePictureUrl?: string[]
-		userIdentification: UserIdentification
-	}
-	ProfilePicturePreview: {
-		cellNumber: string,
-		email?: string
-		userName: string,
-		profilePictureUrl?: string[]
-		userIdentification: UserIdentification
-	}
+	SelectAuthMethod: { newUser?: boolean } | undefined
+	InsertCellNumber: { newUser?: boolean } | undefined
+	InsertConfirmationCode: undefined
+	InsertName: undefined
+	InsertProfilePicture: undefined
+	ProfilePicturePreview: undefined
 
-	UserStack: { tourPerformed?: boolean }
+	UserStack: { newUser: boolean } | undefined
 }

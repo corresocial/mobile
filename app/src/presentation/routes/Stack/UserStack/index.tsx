@@ -39,7 +39,7 @@ import { VacancyStack } from '../VacancyStack'
 const Stack = createStackNavigator<UserStackParamList>()
 
 export function UserStack({ route }: any) {
-	const tourPerformed = (route.params && route.params.tourPerformed) || false
+	const newUser = (route.params && route.params.newUser) || false
 
 	return (
 		<ChatProvider>
@@ -49,7 +49,7 @@ export function UserStack({ route }: any) {
 						<StripeProvider>
 							<LocationProvider>
 								<Stack.Navigator
-									initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
+									initialRouteName={newUser ? 'WelcomeNewUser' : 'HomeTab'}
 									screenOptions={{
 										headerShown: false,
 										gestureEnabled: true,

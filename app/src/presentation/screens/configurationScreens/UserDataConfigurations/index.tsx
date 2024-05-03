@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react'
 
+import { useQueryClient } from '@tanstack/react-query'
 import { differenceInMinutes } from 'date-fns'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { PostEntityOptional } from '@domain/post/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { removeAllUserData } from '@data/user/remoteRepository/sujeira/remoteAllUserData'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -31,10 +33,13 @@ import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
 const { logoutUser } = useUserDomain()
+const { clearCache } = useCacheRepository()
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
+
+	const queryClient = useQueryClient()
 
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
 	const [successModalIsVisible, setSuccessModalIsVisible] = useState(false)
@@ -44,10 +49,9 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const [hasError, setHasError] = useState(false)
 
 	const beForgotten = () => {
-		console.log(`userPerformRecentLogin: ${userPerformRecentLogin()}`)
 		if (!userPerformRecentLogin()) {
-			console.log('show logout modal')
 			showSessionExpiredAlertModal()
+			return
 		}
 
 		toggleBeForgottenConfirmationModalVisibility()
@@ -55,11 +59,9 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const userPerformRecentLogin = () => {
 		const { currentUser } = auth
-
 		const lastSignin: Date = new Date(currentUser?.metadata.lastSignInTime || Date.now() + 50000)
-
 		console.log(differenceInMinutes(new Date(), lastSignin))
-
+		console.log(differenceInMinutes(new Date(), lastSignin) < 5)
 		return differenceInMinutes(new Date(), lastSignin) < 5
 	}
 
@@ -76,19 +78,25 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			setHasError(false)
 			setIsLoading(true)
 
-			await removeAllUserData( // REFACTOR Não importar direto
+			await removeAllUserData( // REFACTOR Não importar direto de @data
 				userDataContext.userId,
 				userDataContext.profilePictureUrl || [],
 				userDataContext.posts as PostEntityOptional[]
-			).then(() => toggleSuccessModalVisibility())
+			).then(() => {
+				setIsLoading(false)
+				toggleSuccessModalVisibility()
+			})
+
+			clearCache(queryClient)
 			setIsLoading(false)
 		} catch (error: any) {
+			setIsLoading(false)
+
 			if (error.code === 'auth/requires-recent-login') {
 				showSessionExpiredAlertModal()
 			}
 			setHasError(true)
 			console.log(error)
-			setIsLoading(false)
 		}
 	}
 
@@ -105,7 +113,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				removeChatListeners,
 				userDataContext.userId
 			)
-
+			clearCache(queryClient)
 			navigateToInitialScreen()
 		} catch (error: any) {
 			console.log('erro ao fazer logout')

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -6,10 +6,9 @@ import { UserCredential } from 'firebase/auth'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-import { UserIdentification } from '@services/authentication/types'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 
@@ -30,7 +29,7 @@ import { Loader } from '@components/Loader'
 const { phoneVerificationCodeIsValid } = useUserDomain()
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { setRemoteUserOnLocal } = useContext(AuthContext)
+	const { userAuthData, setUserRegisterDataOnContext, setRemoteUserOnLocal } = useAuthContext()
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -137,29 +136,24 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 			const completeCodeIsValid = completeCode.length === 6
 
 			if (completeCodeIsValid) {
-				const { cellNumber } = route.params
-				const verificationCodeId = route.params.verificationCodeId as string
+				const { verificationCodeId } = userAuthData
+				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId!, completeCode)
 
-				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId, completeCode)
+				const userId = await extractUserIdentification(userCredential)
+				const userHasAccount = await setRemoteUserOnLocal(userId)
 
-				const userIdentification = await extractUserIdentification(userCredential)
-				const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
+				console.log(`userHasAccount: ${userHasAccount}`)
 
 				setIsLoading(false)
 				if (!userHasAccount) {
-					navigation.navigate('InsertName', {
-						cellNumber,
-						userIdentification,
-					})
+					setUserRegisterDataOnContext({ ...userAuthData, userId })
+					navigation.navigate('InsertName') // TODO Negar volta
 					return
 				}
 
 				navigation.reset({
 					index: 0,
-					routes: [{
-						name: 'UserStack',
-						params: { tourPerformed: true }
-					}],
+					routes: [{ name: 'UserStack' }]
 				})
 			} else {
 				!completeCodeIsValid && setInvalidCodeAfterSubmit(true)
@@ -182,17 +176,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		setHasServerSideError(true)
 	}
 
-	const extractUserIdentification = async ({ user }: UserCredential) => {
-		const userIdentification: UserIdentification = {
-			uid: user.uid,
-			authTime: (await user.getIdTokenResult()).authTime,
-			accessToken: (await user.getIdTokenResult()).token,
-			tokenExpirationTime: (await user.getIdTokenResult()).expirationTime,
-			refreshToken: user.refreshToken
-		}
-
-		return userIdentification
-	}
+	const extractUserIdentification = async ({ user }: UserCredential) => user.uid
 
 	const allInputCodesIsValid = () => {
 		const inputCodeLength = mergeAllInputCodes().length || 0
@@ -230,7 +214,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	const getFormatedCellNumber = () => {
-		const numbetWithoutCountryCode = route.params.cellNumber.slice(3)
+		const numbetWithoutCountryCode = userAuthData.cellNumber.slice(3)
 		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
 		return numberWithDDDSpace
 	}

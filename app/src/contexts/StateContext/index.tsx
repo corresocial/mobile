@@ -1,9 +1,7 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
-import { Alert } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
 
 import { useUtils } from '@newutils/useUtils'
-
-import { useUserRepository } from '@data/user/useUserRepository'
 
 import { ApplicationStateData, StateContextType, StateProviderProps } from './types'
 
@@ -11,9 +9,6 @@ import { ShareModal } from '@components/_modals/ShareModal'
 import { TourModal } from '@components/_modals/TourModal'
 
 import { share } from '../../presentation/common/share'
-import { AuthContext } from '../AuthContext'
-
-const { remoteStorage } = useUserRepository()
 
 const { objectValuesAreEquals } = useUtils()
 
@@ -31,15 +26,10 @@ const initialValue = {
 
 const StateContext = createContext<StateContextType>(initialValue)
 
-type Handler = {
-	navigation: any
-}
-
 function StateProvider({ children }: StateProviderProps) {
-	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
-
 	const [stateDataContext, setStateDataContext] = useState(initialValue.stateDataContext)
-	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
+
+	const navigation = useNavigation<any>() // UserStack
 
 	const setStateDataOnContext = async (data: ApplicationStateData) => {
 		if (objectValuesAreEquals(stateDataContext, data)) return // REFACTOR Transformar em utils e aplicar à todos os updates de contextos para eviar atualizações de contexto desnecessárias
@@ -54,7 +44,6 @@ function StateProvider({ children }: StateProviderProps) {
 	const toggleTourModalVisibility = useCallback((visibility: boolean, tourHandler?: any) => {
 		if (stateDataContext.showTourModal === visibility) return
 		setStateDataOnContext({ showTourModal: visibility })
-		setHandlerTourModalButton(tourHandler)
 	}, [stateDataContext])
 
 	const toggleShareModalVisibility = useCallback((visibility: boolean) => {
@@ -63,27 +52,16 @@ function StateProvider({ children }: StateProviderProps) {
 	}, [stateDataContext])
 
 	const navigateToTour = useCallback(() => {
-		if (handlerTourModalButton) {
-			handlerTourModalButton.navigation.navigate('SelectPostType')
-			setStateDataOnContext({ showTourModal: false })
-			setUserTourPerformed()
-		} else {
-			Alert.alert('ops!', 'não foi possível iniciar o tour')
-			setStateDataOnContext({ showTourModal: false })
-		}
+		navigation.navigate('SelectPostType' as any)
+		setStateDataOnContext({ showTourModal: false })
 	}, [])
 
 	const closeTourModal = () => {
 		setStateDataOnContext({ showTourModal: false })
-		setUserTourPerformed()
+		// setUserTourPerformed()
 	}
 
 	const closeShareModal = () => setStateDataOnContext({ showShareModal: false })
-
-	const setUserTourPerformed = async () => {
-		await remoteStorage.updateUserData(userDataContext.userId, { tourPerformed: true })
-		setUserDataOnContext({ tourPerformed: true })
-	}
 
 	const stateProviderData = useMemo(() => {
 		return ({

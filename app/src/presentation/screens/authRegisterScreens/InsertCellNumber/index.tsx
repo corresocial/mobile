@@ -3,6 +3,8 @@ import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { useAuthContext } from '@contexts/AuthContext'
+
 import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import Firebase from '@infrastructure/firebase/index'
@@ -50,7 +52,7 @@ const headerMessages = {
 }
 
 export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
-	const recaptchaVerifier = React.useRef(null)
+	const { setUserRegisterDataOnContext, setUserAuthDataOnContext } = useAuthContext()
 
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
@@ -64,12 +66,13 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const [isLoading, setIsLoading] = useState(false)
 
+	const recaptchaVerifier = React.useRef(null)
 	const inputRefs = {
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
 	}
 
-	const { newUser } = route.params
+	const newUser = route.params?.newUser
 
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
@@ -142,13 +145,12 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
+		const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
 
-		await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
-			.then((verificationCodeId) => {
-				navigation.navigate('InsertConfirmationCode', {
-					cellNumber: currentCellNumber, verificationCodeId
-				})
-			})
+		setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+		setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+
+		navigation.navigate('InsertConfirmationCode')
 	}
 
 	const getHeaderMessage = () => {

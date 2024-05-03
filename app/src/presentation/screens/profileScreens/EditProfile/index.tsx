@@ -206,13 +206,12 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 										fontSize={16}
 										SecondSvgIcon={CheckIcon}
 										svgIconScale={['35%', '18%']}
-										minHeight={relativeScreenHeight(6)}
-										relativeHeight={relativeScreenHeight(8)}
+										minHeight={relativeScreenHeight(5)}
+										relativeHeight={relativeScreenHeight(6)}
 										onPress={updateUserData}
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>
