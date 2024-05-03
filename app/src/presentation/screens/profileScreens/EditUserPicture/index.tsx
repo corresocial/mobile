@@ -24,7 +24,7 @@ import { PhotoPortrait } from '@components/PhotoPortrait'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { addNewUnsavedFieldToEditContext, clearUnsavedEditFieldContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
 	const [mediaBrowserModalVisibility, setMediaBrowserModalVisibility] = useState<boolean>(false)
@@ -97,8 +97,8 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				<TopArea>
 					<BackButton onPress={navigation.goBack} />
 					<InstructionCard
-						fontSize={18}
-						message={(hasSelectedNewPhoto ? 'eaí, gostou?' : 'selecione sua nova foto de perfil')}
+						fontSize={16}
+						message={(hasSelectedNewPhoto ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
 						highlightedWords={['gostou?', 'foto', 'perfil']}
 					/>
 				</TopArea>

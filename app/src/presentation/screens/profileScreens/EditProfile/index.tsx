@@ -212,7 +212,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>
