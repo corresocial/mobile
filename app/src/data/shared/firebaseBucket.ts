@@ -43,7 +43,7 @@ export async function configUploadObjects(localPath: string, path: UploadPath, f
 		const response = await fetch(localPath)
 		const blob = await response.blob()
 
-		const fileExtention = localPath.split('.')[localPath.split('.').length - 1]
+		const fileExtention = 'jpg' // localPath.split('.')[localPath.split('.').length - 1]
 
 		const fileRef = ref(
 			storage,
@@ -54,6 +54,7 @@ export async function configUploadObjects(localPath: string, path: UploadPath, f
 
 		return { uploadTask, blob }
 	} catch (error) {
+		console.log('Erro de path')
 		console.log(error)
 	}
 }

@@ -128,7 +128,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		}
 
 		navigation.navigate('ServiceStack' as any, {
-			screen: 'EditServicePost' as keyof ServiceStackParamList,
+			screen: 'EditServicePostReview' as keyof ServiceStackParamList,
 			params: { postData: { ...postData, ...editDataContext.saved } }
 		})
 	}

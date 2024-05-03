@@ -158,7 +158,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
 		navigation.navigate('VacancyStack' as any, {
-			screen: 'EditVacancyPost' as keyof VacancyStackParamList,
+			screen: 'EditVacancyPostReview' as keyof VacancyStackParamList,
 			params: { postData: { ...postData, ...editDataContext.saved } }
 		})
 	}

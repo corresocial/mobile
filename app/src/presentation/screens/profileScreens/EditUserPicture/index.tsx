@@ -36,9 +36,6 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const [hasSelectedNewPhoto, setHasSelectedNewPhoto] = useState(false)
 
 	const setPictureUri = (pictureUri: string) => {
-		if (userDataContext.profilePictureUrl && pictureUri !== userDataContext.profilePictureUrl[0]) {
-			addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
-		}
 		setProfilePictureUrl(pictureUri)
 		setHasSelectedNewPhoto(true)
 	}
@@ -47,7 +44,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 		const areEquals = userDataContext.profilePictureUrl && (userDataContext.profilePictureUrl[0] === profilePictureUrl)
 		if (!areEquals) {
 			const compressedUrl = await compressImage(profilePictureUrl)
-			addNewUnsavedFieldToEditContext({ compressedUrl })
+			addNewUnsavedFieldToEditContext({ profilePictureUrl: compressedUrl })
 		}
 		navigation.goBack()
 	}
@@ -123,18 +120,20 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 			</DefaultHeaderContainer>
 			<ButtonsContainer>
 				<SmallButton
-					onPress={() => { setMediaBrowserModalVisibility(true) }}
 					relativeWidth={relativeScreenWidth(20)}
 					height={relativeScreenWidth(20)}
 					SvgIcon={AddPictureWhiteIcon}
 					svgScale={['70%', '70%']}
+					halfRounded
+					onPress={() => { setMediaBrowserModalVisibility(true) }}
 				/>
 				<SmallButton
-					onPress={() => { setCameraModalVisibility(true) }}
 					relativeWidth={relativeScreenWidth(20)}
 					height={relativeScreenWidth(20)}
 					SvgIcon={NewPhotoWhiteIcon}
 					svgScale={['100%', '100%']}
+					halfRounded
+					onPress={() => { setCameraModalVisibility(true) }}
 				/>
 				<SmallButton
 					flexDirection={'row-reverse'}
@@ -143,6 +142,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
+					halfRounded
 					onPress={async () => saveUserPicture()}
 				/>
 			</ButtonsContainer>

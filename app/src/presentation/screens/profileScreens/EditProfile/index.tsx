@@ -61,7 +61,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		// setPrivateUserLocation(userLocation)
 	}
 
-	/* const getUserAddress = () => {
+	/* const getUserAddress = () => { SMAS
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
 			const userLocation = editDataContext.unsaved.location
 			return `${userLocation.city} - ${userLocation.district}`

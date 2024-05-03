@@ -155,7 +155,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
 		navigation.navigate('SocialImpactStack' as any, {
-			screen: 'EditSocialImpactPost' as keyof SocialImpactStackParamList,
+			screen: 'EditSocialImpactPostReview' as keyof SocialImpactStackParamList,
 			params: { postData: { ...postData, ...editDataContext.saved } }
 		})
 	}

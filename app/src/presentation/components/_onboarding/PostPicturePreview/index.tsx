@@ -127,7 +127,7 @@ function PostPicturePreview({
 					/>
 				)
 			}
-			
+
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
@@ -139,7 +139,7 @@ function PostPicturePreview({
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={18}
-						message={(hasSelectedMedia ? 'eaí, gostou?' : 'selecione novas fotos!')}
+						message={(hasSelectedMedia ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
 						highlightedWords={['gostou?', 'novas', 'fotos!']}
 					/>
 				</TopArea>
