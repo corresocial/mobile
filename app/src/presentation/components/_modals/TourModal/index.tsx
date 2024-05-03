@@ -15,11 +15,11 @@ function TourModal({ visibility, closeModal, onPressButton }: TourModalProps) {
 			title={'bem-vindo!'}
 			firstParagraph={{
 				text: 'para que as pessoas encontrem seu perfil, você precisa fazer sua  primeira postagem.',
-				highlightedWords: ['para', 'que', 'as', 'pessoas', 'encontrem', 'seu', 'perfil', 'primeira', 'postagem.']
+				highlightedWords: ['para', 'que', 'as', 'pessoas', 'encontrem', 'seu', 'perfil,', 'primeira', 'postagem']
 			}}
 			secondParagraph={{
 				text: 'em só 5 minutos, o seu bairro, cidade ou o país inteiro já consegue te encontrar, vamos começar?',
-				highlightedWords: ['só', '5', 'minutos', 'te', 'encontrar']
+				highlightedWords: ['só', '5', 'minutos,', 'te', 'encontrar,']
 			}}
 			closeButton
 			closeModal={closeModal}

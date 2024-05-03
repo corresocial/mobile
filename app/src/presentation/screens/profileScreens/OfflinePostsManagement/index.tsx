@@ -120,7 +120,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 
 			await updateUserRepository(
 				useUserRepository,
-				{ ...userDataContext, tourPerformed: true },
+				{ ...userDataContext },
 				{ posts: newUserPosts }
 			)
 

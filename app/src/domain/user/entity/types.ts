@@ -20,7 +20,6 @@ export type UserEntity = {
 	name: string
 	description?: string
 	profilePictureUrl?: string[]
-	tourPerformed?: boolean
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostEntity[]

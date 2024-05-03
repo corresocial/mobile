@@ -131,7 +131,7 @@ function EditPost({
 				{ posts: updatedUserPosts || [] }
 			)
 
-			updateUserContext({ ...userDataContext, tourPerformed: true }, updatedUserPosts)
+			updateUserContext({ ...userDataContext }, updatedUserPosts)
 			changeStateOfEditedFields([...picturesUrlUploaded])
 
 			setIsLoading(false)
@@ -187,11 +187,11 @@ function EditPost({
 
 			await updateUserRepository(
 				useUserRepository,
-				{ ...userDataContext, tourPerformed: true },
+				{ ...userDataContext },
 				{ posts: updatedUserPosts || [] }
 			)
 
-			updateUserContext({ ...userDataContext, tourPerformed: true }, updatedUserPosts)
+			updateUserContext({ ...userDataContext }, updatedUserPosts)
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
