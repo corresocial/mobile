@@ -129,40 +129,42 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					deleteCurrentPicture={() => setPictureUri('')}
 				/>
 			</DefaultHeaderContainer>
-			{
-				isLoading
-					? <Loader />
-					: (
-						<ButtonsContainer>
-							<SmallButton
-								relativeWidth={relativeScreenWidth(20)}
-								height={relativeScreenWidth(20)}
-								SvgIcon={AddPictureWhiteIcon}
-								svgScale={['70%', '70%']}
-								halfRounded
-								onPress={() => { setMediaBrowserModalVisibility(true) }}
-							/>
-							<SmallButton
-								relativeWidth={relativeScreenWidth(20)}
-								height={relativeScreenWidth(20)}
-								SvgIcon={NewPhotoWhiteIcon}
-								svgScale={['100%', '100%']}
-								halfRounded
-								onPress={() => { setCameraModalVisibility(true) }}
-							/>
-							<SmallButton
-								flexDirection={'row-reverse'}
-								relativeWidth={relativeScreenWidth(35)}
-								height={relativeScreenWidth(20)}
-								color={theme.green3}
-								labelColor={theme.white3}
-								SvgIcon={CheckIcon}
-								halfRounded
-								onPress={saveUserData}
-							/>
-						</ButtonsContainer>
-					)
-			}
+			<ButtonsContainer>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<>
+								<SmallButton
+									relativeWidth={relativeScreenWidth(20)}
+									height={relativeScreenWidth(20)}
+									SvgIcon={AddPictureWhiteIcon}
+									svgScale={['70%', '70%']}
+									halfRounded
+									onPress={() => { setMediaBrowserModalVisibility(true) }}
+								/>
+								<SmallButton
+									relativeWidth={relativeScreenWidth(20)}
+									height={relativeScreenWidth(20)}
+									SvgIcon={NewPhotoWhiteIcon}
+									svgScale={['100%', '100%']}
+									halfRounded
+									onPress={() => { setCameraModalVisibility(true) }}
+								/>
+								<SmallButton
+									flexDirection={'row-reverse'}
+									relativeWidth={relativeScreenWidth(35)}
+									height={relativeScreenWidth(20)}
+									color={theme.green3}
+									labelColor={theme.white3}
+									SvgIcon={CheckIcon}
+									halfRounded
+									onPress={saveUserData}
+								/>
+							</>
+						)
+				}
+			</ButtonsContainer>
 		</Container>
 	)
 }
