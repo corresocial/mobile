@@ -1,3 +1,4 @@
+import ImageEditor from 'expo-image-cropper'
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
@@ -10,75 +11,55 @@ import { useAuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { Container, InstructionCardContainer } from './styles'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
+import { ButtonsContainer, Container, InstructionCardContainer } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
-import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { screenWidth } from '@common/screenDimensions'
+import NewPhotoWhiteIcon from '@assets/icons/camera-white.svg'
+import CheckIcon from '@assets/icons/check-white.svg'
+import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
-import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '@components/_containers/FormContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
+import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
 const { uploadUserMedia, createNewUser } = useUserDomain()
 
+const { compressImage } = UiUtils()
+
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 	const { userRegistrationData, setRemoteUserOnLocal } = useAuthContext()
 
-	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
-	const [profilePicture, setProfilePicture] = useState<string[]>([])
+	const [profilePictureUrl, setProfilePictureUri] = useState<string>('')
+	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
-	const [hasServerSideError, setHasServerSideError] = useState(false)
+	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
+	const [mediaBrowserModalVisibility, setMediaBrowserModalVisibility] = useState<boolean>(false)
 
-	const headerMessages = {
-		instruction: {
-			text: profilePicture.length ? 'está boa?' : 'adiciona a sua foto aí!',
-			highlightedWords: ['boa', 'foto']
-		},
-		serverSideError: {
-			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-			highlightedWords: ['do', 'nosso', 'lado']
-		}
+	const saveCroppedImage = (image: any) => {
+		setProfilePictureUri(image.uri)
+		setImageCropperOpened(false)
 	}
-
-	const throwServerSideError = (err: any) => {
-		setHasServerSideError(true)
-	}
-
-	const backToCustomCamera = () => {
-		setCameraModalVisibility(true)
-		setProfilePicture([])
-	}
-
-	const getHeaderMessage = () => {
-		if (hasServerSideError) return headerMessages.serverSideError.text
-		return headerMessages.instruction.text
-	}
-
-	const getHeaderHighlightedWords = () => {
-		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
-		return headerMessages.instruction.highlightedWords
-	}
-
 	const setPictureUri = (pictureUri: string) => {
-		setProfilePicture([pictureUri])
+		setProfilePictureUri(pictureUri)
 	}
 
 	const saveUserData = async () => {
 		try {
 			const userData = userRegistrationData
-			console.log(userData)
 
 			setIsLoading(true)
 
 			let pictureUrl = [''] // REFACTOR Migrar para dentro do método de salvar
-			if (profilePicture.length) {
-				pictureUrl = await uploadUserMedia(useUserRepository, profilePicture, 'pictures')
+			if (profilePictureUrl.length) {
+				const compressedPictureUri = await compressImage(profilePictureUrl)
+				pictureUrl = await uploadUserMedia(useUserRepository, [compressedPictureUri], 'pictures')
 			}
 
 			await createNewUser(useUserRepository, { ...userData, profilePictureUrl: pictureUrl } as UserRegisterData)
@@ -87,14 +68,13 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			setIsLoading(false)
 			navigateToHome()
 		} catch (err) {
-			throwServerSideError(err)
+			console.log(err)
 		} finally {
 			setIsLoading(false)
 		}
 	}
 
 	const navigateToHome = async () => {
-		setHasServerSideError(false)
 		return navigation.navigate('UserStack', { newUser: true })
 	}
 
@@ -102,58 +82,87 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<MediaBrowserModal
+				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
+				onClose={() => setMediaBrowserModalVisibility(false)}
+				maxImages={1}
+				showMediaBrowser={mediaBrowserModalVisibility}
+			/>
 			<CustomCameraModal
-				cameraOpened={cameraModalVisibility && !profilePicture.length}
+				cameraOpened={cameraModalVisibility}
 				onClose={() => { setCameraModalVisibility(false) }}
 				setPictureUri={setPictureUri}
 			/>
+			{
+				imageCropperOpened && (
+					<ImageEditor
+						imageUri={profilePictureUrl}
+						fixedAspectRatio={1 / 1}
+						minimumCropDimensions={{ width: 50, height: 50 }}
+						onEditingCancel={() => setImageCropperOpened(false)}
+						onEditingComplete={saveCroppedImage}
+					/>
+				)
+			}
 			<DefaultHeaderContainer
-				relativeHeight={!hasServerSideError ? '70%' : '68%'}
+				relativeHeight={relativeScreenHeight(80)}
 				centralized
 				withoutPadding
 				flexDirection={'column'}
 				justifyContent={'space-around'}
-				backgroundColor={hasServerSideError ? theme.red2 : theme.green2}
+				backgroundColor={theme.orange2}
 			>
 				<InstructionCardContainer>
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
-						flex={1}
 						fontSize={16}
-						message={getHeaderMessage()}
-						highlightedWords={getHeaderHighlightedWords()}
+						message={profilePictureUrl.length ? 'está boa?' : 'adiciona a sua foto aí!'}
+						highlightedWords={['boa', 'foto']}
 					/>
 				</InstructionCardContainer>
-				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
+				<PhotoPortrait
+					pictureUri={profilePictureUrl}
+					width={screenWidth}
+					height={screenWidth}
+					editCurrentPicture={() => setImageCropperOpened(true)}
+					deleteCurrentPicture={() => setPictureUri('')}
+				/>
 			</DefaultHeaderContainer>
-			<FormContainer >
-				{
-					isLoading
-						? <Loader />
-						: (
-							<>
-								<PrimaryButton
-									color={theme.green3}
-									flexDirection={'row-reverse'}
-									SvgIcon={CheckWhiteIcon}
-									label={'tá ótima, bora'}
-									labelColor={theme.white3}
-									highlightedWords={['bora']}
-									onPress={saveUserData}
-								/>
-								<PrimaryButton
-									color={theme.yellow3}
-									SvgIcon={AddPictureWhiteIcon}
-									label={'nem, escolher outra'}
-									labelColor={theme.black4}
-									highlightedWords={['escolher', 'outra']}
-									onPress={backToCustomCamera}
-								/>
-							</>
-						)
-				}
-			</FormContainer>
+			{
+				isLoading
+					? <Loader />
+					: (
+						<ButtonsContainer>
+							<SmallButton
+								relativeWidth={relativeScreenWidth(20)}
+								height={relativeScreenWidth(20)}
+								SvgIcon={AddPictureWhiteIcon}
+								svgScale={['70%', '70%']}
+								halfRounded
+								onPress={() => { setMediaBrowserModalVisibility(true) }}
+							/>
+							<SmallButton
+								relativeWidth={relativeScreenWidth(20)}
+								height={relativeScreenWidth(20)}
+								SvgIcon={NewPhotoWhiteIcon}
+								svgScale={['100%', '100%']}
+								halfRounded
+								onPress={() => { setCameraModalVisibility(true) }}
+							/>
+							<SmallButton
+								flexDirection={'row-reverse'}
+								relativeWidth={relativeScreenWidth(35)}
+								height={relativeScreenWidth(20)}
+								color={theme.green3}
+								labelColor={theme.white3}
+								SvgIcon={CheckIcon}
+								halfRounded
+								onPress={saveUserData}
+							/>
+						</ButtonsContainer>
+					)
+			}
 		</Container>
 	)
 }

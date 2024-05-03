@@ -60,8 +60,6 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const userPerformRecentLogin = () => {
 		const { currentUser } = auth
 		const lastSignin: Date = new Date(currentUser?.metadata.lastSignInTime || Date.now() + 50000)
-		console.log(differenceInMinutes(new Date(), lastSignin))
-		console.log(differenceInMinutes(new Date(), lastSignin) < 5)
 		return differenceInMinutes(new Date(), lastSignin) < 5
 	}
 
@@ -116,8 +114,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			clearCache(queryClient)
 			navigateToInitialScreen()
 		} catch (error: any) {
-			console.log('erro ao fazer logout')
-			throw new Error(error)
+			console.log(error)
 		}
 	}
 

@@ -1,7 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const MediaBrowserModalContainer = styled.Modal`
     flex: 1;
@@ -66,8 +66,8 @@ export const MediaFlatList = styled.FlatList`
 
 export const ConfirmSelectionButton = styled.View`
     position: absolute;
-    bottom: ${relativeScreenWidth(5)}px;
-    right: ${relativeScreenWidth(5)}px;
+    bottom: ${relativeScreenDensity(40)}px;
+    right: ${relativeScreenDensity(20)}px;
 `
 
 export const NotPermissionText = styled.Text`

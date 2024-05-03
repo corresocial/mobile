@@ -7,7 +7,7 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditUserPictureScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { compressImage } from '@utils-ui/common/convertion/compressImage'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { ButtonsContainer, Container, InstructionCardContainer, TopArea } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
@@ -24,14 +24,16 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
+const { compressImage } = UiUtils()
+
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
-	const [mediaBrowserModalVisibility, setMediaBrowserModalVisibility] = useState<boolean>(false)
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 	const [profilePictureUrl, setProfilePictureUrl] = useState<string>(route.params.profilePictureUrl)
+	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
+	const [mediaBrowserModalVisibility, setMediaBrowserModalVisibility] = useState<boolean>(false)
 
 	const [hasSelectedNewPhoto, setHasSelectedNewPhoto] = useState(false)
 
@@ -59,17 +61,13 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<MediaBrowserModal
 				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
-				onClose={
-					() => setMediaBrowserModalVisibility(false)
-				}
+				onClose={() => setMediaBrowserModalVisibility(false)}
 				maxImages={1}
 				showMediaBrowser={mediaBrowserModalVisibility}
 			/>
 			<CustomCameraModal
 				cameraOpened={cameraModalVisibility}
-				onClose={() => {
-					setCameraModalVisibility(false)
-				}}
+				onClose={() => { setCameraModalVisibility(false) }}
 				setPictureUri={setPictureUri}
 			/>
 			{
@@ -106,14 +104,11 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					pictureUri={profilePictureUrl}
 					width={screenWidth}
 					height={screenWidth}
-					editCurrentPicture={() => {
-						setImageCropperOpened(true)
-					}}
+					editCurrentPicture={() => setImageCropperOpened(true)}
 					deleteCurrentPicture={() => {
 						setPictureUri('')
 						addNewUnsavedFieldToEditContext({ profilePictureUrl: '' })
 					}}
-
 				/>
 				<InstructionCardContainer>
 				</InstructionCardContainer>

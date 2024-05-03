@@ -3,7 +3,7 @@ import { ChatDomainInterface } from '@domain/chat/ChatDomainInterface'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { auth } from '@infrastructure/firebase' // Refactor
+import { auth } from '@infrastructure/firebase' // REFACTOR
 
 async function logoutUserDM(
 	useUserRepository: () => UserRepositoryInterface,
