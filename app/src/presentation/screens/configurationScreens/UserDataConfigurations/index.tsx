@@ -55,11 +55,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const userPerformRecentLogin = () => {
 		const { currentUser } = auth
-
 		const lastSignin: Date = new Date(currentUser?.metadata.lastSignInTime || Date.now() + 50000)
-
-		console.log(differenceInMinutes(new Date(), lastSignin))
-
 		return differenceInMinutes(new Date(), lastSignin) < 5
 	}
 

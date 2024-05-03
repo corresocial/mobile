@@ -1,4 +1,4 @@
-import { uploadMedia } from '@data/bucketStorage/common'
+import { uploadMedia } from '@data/shared/firebaseBucket'
 
 export type StorageFolder = 'pictures'
 

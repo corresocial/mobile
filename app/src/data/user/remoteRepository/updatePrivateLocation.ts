@@ -12,8 +12,6 @@ async function updatePrivateLocation(userId: string, data: PrivateUserEntity['lo
 			const docRef = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
 			await updateDoc(docRef, { ...data })
 		} catch (error) {
-			console.log(error)
-
 			const collectionRef = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
 			await setDoc(collectionRef, { ...data })
 		}

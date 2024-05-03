@@ -12,8 +12,6 @@ async function updatePrivateContacts(userId: string, data: PrivateUserEntity['co
 			const docRef = doc(firestore, USER_COLLECTION, userId, 'private', 'contacts')
 			await updateDoc(docRef, { ...data })
 		} catch (error) {
-			console.log(error)
-
 			const collectionRef = doc(firestore, USER_COLLECTION, userId, 'private', 'contacts')
 			await setDoc(collectionRef, { ...data })
 		}

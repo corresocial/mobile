@@ -1,25 +1,20 @@
 import { ReactNode } from 'react'
 
 import { PostEntity } from '@domain/post/entity/types'
-import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
-
-import { UserIdentification } from '@services/authentication/types'
+import { UserAuthData, UserEntity, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
 
 export interface AuthProviderProps {
 	children: ReactNode
 }
 
-export type RegisterUserData = {
-	cellNumber: string
-	email: string
-	userName: string
-	profilePictureUri?: string
-	userIdentification: UserIdentification
-}
-
 export type AuthContextType = {
 	userDataContext: UserEntity
 	setUserDataOnContext: (data: UserEntityOptional) => void
-	setRemoteUserOnLocal: (uid?: string, userData?: UserEntity) => Promise<boolean | undefined>
 	getLastUserPost: () => PostEntity
+	setRemoteUserOnLocal: (uid?: string, userData?: UserEntity) => Promise<boolean | undefined>
+
+	userAuthData: UserAuthData
+	setUserAuthDataOnContext: (data: Partial<UserAuthData>) => void
+	userRegistrationData: UserRegisterData
+	setUserRegisterDataOnContext: (data: Partial<UserRegisterData>) => void
 }

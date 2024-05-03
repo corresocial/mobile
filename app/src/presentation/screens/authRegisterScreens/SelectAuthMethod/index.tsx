@@ -1,11 +1,11 @@
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
@@ -36,9 +36,9 @@ WebBrowser.maybeCompleteAuthSession()
 const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
-	const { setRemoteUserOnLocal } = useContext(AuthContext)
+	const { setUserRegisterDataOnContext, setRemoteUserOnLocal } = useAuthContext()
 
-	const { newUser } = route.params
+	const newUser = route.params?.newUser
 
 	const keys = {
 		clientId: AUTH_CLIENT_ID,
@@ -116,25 +116,18 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const navigateToCreateNewAccount = async (user?: { userId: string, email: string }) => {
 		const { userId, email } = user || authenticatedUser
-		navigation.navigate('InsertName', {
-			userIdentification: { uid: userId },
-			email: email || '',
-			cellNumber: ''
-		})
+		setUserRegisterDataOnContext({ userId, email })
+		navigation.navigate('InsertName') // TODO Negar volta
 	}
 
 	const performLoginOnApp = async (user?: { userId: string }) => {
 		const { userId } = user || authenticatedUser
-
 		const userLoadedOnContext = await setRemoteUserOnLocal(userId)
 
 		if (userLoadedOnContext) {
 			navigation.reset({
 				index: 0,
-				routes: [{
-					name: 'UserStack',
-					params: { tourPerformed: true }
-				}],
+				routes: [{ name: 'UserStack' }],
 			})
 		}
 	}
