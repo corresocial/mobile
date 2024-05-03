@@ -1,4 +1,5 @@
 import { CacheRepositoryInterface } from './CacheRepositoryInterface'
+import { clearCache } from './methods/clearCache'
 import { checkCacheImageValidation } from './methods/images'
 import { defaultCachePersistence, executeCachedRequest } from './methods/requests'
 
@@ -7,7 +8,8 @@ function useCacheRepository(): CacheRepositoryInterface {
 		checkCacheImageValidation: checkCacheImageValidation,
 
 		defaultCachePersistence: defaultCachePersistence,
-		executeCachedRequest: executeCachedRequest
+		executeCachedRequest: executeCachedRequest,
+		clearCache: clearCache
 	}
 }
 

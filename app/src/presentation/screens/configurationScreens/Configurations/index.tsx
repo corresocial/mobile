@@ -1,9 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -41,10 +44,14 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const { logoutUser } = useUserDomain()
 
+const { clearCache } = useCacheRepository()
+
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
+
+	const queryClient = useQueryClient()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
@@ -61,6 +68,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				removeChatListeners,
 				userDataContext.userId
 			)
+			clearCache(queryClient)
 			navigateToInitialScreen()
 		} catch (err) {
 			console.log(err)

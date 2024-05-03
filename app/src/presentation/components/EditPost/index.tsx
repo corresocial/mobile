@@ -365,7 +365,7 @@ function EditPost({
 												fontSize={12}
 												SecondSvgIcon={BellWhiteIcon}
 												svgIconScale={['70%', '30%']}
-												minHeight={relativeScreenHeight(4)}
+												minHeight={relativeScreenHeight(5)}
 												relativeHeight={relativeScreenHeight(6)}
 												relativeWidth={'40%'}
 												onPress={toggleNotifyUsers}

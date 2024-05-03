@@ -74,8 +74,8 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const handlerAlertNotificationModal = useCallback(() => {
 		setAlertNotificationIsVisible(false)
 		updateNotificationState({ notificationAlertModal: false, configNotificationButton: false })
-		navigation.navigate('Configurations')
-		navigation.navigate('NotificationSettings')
+		navigation.navigate('Configurations' as any)
+		navigation.navigate('NotificationSettings' as any)
 	}, [])
 
 	const handleNewHomePresentationModal = useCallback(() => {
