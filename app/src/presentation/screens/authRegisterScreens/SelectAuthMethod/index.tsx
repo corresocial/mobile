@@ -116,7 +116,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const navigateToCreateNewAccount = async (user?: { userId: string, email: string }) => {
 		const { userId, email } = user || authenticatedUser
-		setUserRegisterDataOnContext({ userId, email })
+		setUserRegisterDataOnContext({ userId, email, cellNumber: '' })
 		navigation.navigate('InsertName') // TODO Negar volta
 	}
 
@@ -155,7 +155,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={`como você prefere ${newUser ? 'criar uma conta' : 'entrar'}?`}
-					highlightedWords={newUser ? ['criar', 'uma', 'conta'] : ['entrar']}
+					highlightedWords={newUser ? ['criar', 'uma', 'conta'] : ['entrar?']}
 					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
