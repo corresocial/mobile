@@ -96,7 +96,7 @@ export default {
 			'**/*'
 		],
 		ios: {
-			buildNumber: '57',
+			buildNumber: '58',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -119,7 +119,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 57,
+			versionCode: 58,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
