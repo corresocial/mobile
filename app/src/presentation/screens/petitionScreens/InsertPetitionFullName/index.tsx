@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionFullNameScreenProps } from '@routes/Stack/PetitionStack/screenProps'
@@ -13,13 +12,8 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPetitionFullName({ navigation }: InsertPetitionFullNameScreenProps) {
 	const { setPetitionSignatureOnContext } = usePetitionContext()
-	const { clearEditContext } = useEditContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	useEffect(() => {
-		clearEditContext()
-	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
