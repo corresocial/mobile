@@ -18,7 +18,7 @@
 			"developmentClient": false,
 			"distribution": "internal",
 			"ios": {
-				"resourceClass": "m1-medium"
+				"resourceClass": "m-medium"
 			},
 			"android": {
 				"buildType": "apk"
@@ -27,7 +27,7 @@
 		},
 		"staging": {
 			"ios": {
-				"resourceClass": "m1-medium"
+				"resourceClass": "m-medium"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
@@ -36,12 +36,12 @@
 		},
 		"production": {
 			"ios": {
-				"resourceClass": "m1-medium"
+				"resourceClass": "m-medium"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "production"
+			"channel": "v0.6.3"
 		}
 	},
 	"submit": {
