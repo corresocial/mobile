@@ -32,7 +32,7 @@ interface GalleryProps {
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl, videosUrl = [], videoThumbnails = [], showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], showGallery, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
