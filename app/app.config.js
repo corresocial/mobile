@@ -3,7 +3,7 @@ export default {
 	expo: {
 		name: 'corre',
 		owner: 'corresocial',
-		scheme: 'com.corresocial.corresocial',
+		scheme: 'com.corresocial.corresocial', // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
 		version: '0.6.3',
 		orientation: 'portrait',
