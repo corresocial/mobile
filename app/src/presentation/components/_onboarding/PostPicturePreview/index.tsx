@@ -1,7 +1,7 @@
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
 import React, { useState } from 'react'
-import { Image } from 'react-native-compressor'
+import { Video } from 'react-native-compressor'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -91,25 +91,15 @@ function PostPicturePreview({
 		// const compressedUris = await compressPicturesUris(picturesUri)
 		// saveMedia(compressedUris)
 
-		const result = await Image.compress(picturesUri[0], {
-			compressionMethod: 'manual',
-			maxWidth: 1000,
-			quality: 0.8,
-		})
+		const result = await Video.compress(
+			picturesUri[0],
+			{},
+			(progress) => {
+				console.log('Compression Progress: ', progress)
+			}
+		)
 
-		console.log(result)
-	}
-
-	const compressVideo = async () => {
-		// video URI: ph://94C0CEA8-8F36-4FE6-8D2D-261073F184F1
-		const uri = ''
-
-		const result = await Image.compress(uri, {
-			compressionMethod: 'manual',
-			maxWidth: 1000,
-			quality: 0.8,
-		})
-
+		console.log('vídeo comprimido')
 		console.log(result)
 	}
 
@@ -207,8 +197,7 @@ function PostPicturePreview({
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					onPress={compressVideo}
-				// onPress={async () => savePictures(picturesPack)}
+					onPress={async () => savePictures(picturesPack)}
 				/>
 			</ButtonsContainer>
 		</Container>
