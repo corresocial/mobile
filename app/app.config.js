@@ -107,7 +107,7 @@ export default {
 				]
 			},
 			supportsTablet: true,
-			bundleIdentifier: 'corre',
+			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
 			googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,
 			splash: {
 				image: './assets/splash-screen.png',
