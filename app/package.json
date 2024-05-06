@@ -56,6 +56,7 @@
     "expo-camera": "~13.4.4",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
+    "expo-dev-client": "~2.4.13",
     "expo-device": "~5.4.0",
     "expo-file-system": "~15.4.5",
     "expo-image": "~1.3.5",
@@ -89,6 +90,7 @@
     "react-native": "0.72.10",
     "react-native-animatable": "^1.3.3",
     "react-native-autolink": "^4.2.0",
+    "react-native-compressor": "^1.8.24",
     "react-native-dotenv": "^3.3.1",
     "react-native-error-boundary": "^1.2.1",
     "react-native-gesture-handler": "~2.12.0",
@@ -112,8 +114,7 @@
     "sentry-expo": "~7.1.0",
     "stripe": "^12.9.0",
     "styled-components": "^5.3.5",
-    "uri-scheme": "^1.2.0",
-    "expo-dev-client": "~2.4.13"
+    "uri-scheme": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

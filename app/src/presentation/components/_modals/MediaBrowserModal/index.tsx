@@ -109,7 +109,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		const firstAsset = await MediaLibrary.getAssetsAsync({
 			first: 1,
 			sortBy: 'creationTime',
-			mediaType: ['photo'], // Tipo de mídia
+			mediaType: ['photo', 'video'], // Tipo de mídia
 			album: albumId
 		})
 
@@ -129,7 +129,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			first: 30,
 			album: albumId,
 			sortBy: 'creationTime',
-			mediaType: ['photo'],
+			mediaType: ['photo', 'video'], // Tipo de mídia
 			after: cursor
 		})
 		setCursor(albumMedia.hasNextPage ? albumMedia.endCursor : '')
@@ -172,6 +172,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			itemsSelected = [...mediaSelected, item]
 		}
 
+		console.log(itemsSelected)
 		setMediaSelected(itemsSelected)
 	}
 
