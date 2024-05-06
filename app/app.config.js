@@ -107,7 +107,7 @@ export default {
 				]
 			},
 			supportsTablet: true,
-			bundleIdentifier: 'com.corresocial.corresocial',
+			bundleIdentifier: 'corre',
 			googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,
 			splash: {
 				image: './assets/splash-screen.png',
