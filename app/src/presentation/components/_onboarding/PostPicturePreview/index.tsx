@@ -88,18 +88,17 @@ function PostPicturePreview({
 	}
 
 	const savePictures = async (picturesUri: string[]) => {
-		const compressedUris = await compressPicturesUris(picturesUri)
-		saveMedia(compressedUris)
-	}
+		// const compressedUris = await compressPicturesUris(picturesUri)
+		// saveMedia(compressedUris)
 
-	const compressPicturesUris = async (picturesUri: string[]) => {
-		return Promise.all(picturesUri.map(async (uri) => compressImage(uri)))
-	}
+		const result = await Image.compress(picturesUri[0], {
+			compressionMethod: 'manual',
+			maxWidth: 1000,
+			quality: 0.8,
+		})
 
-	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
-	// 	setMediaIndexSelected(index)
-	//  setIsVideoSelected(isVideo)
-	// }
+		console.log(result)
+	}
 
 	const compressVideo = async () => {
 		// video URI: ph://94C0CEA8-8F36-4FE6-8D2D-261073F184F1
@@ -113,6 +112,15 @@ function PostPicturePreview({
 
 		console.log(result)
 	}
+
+	const compressPicturesUris = async (picturesUri: string[]) => {
+		return Promise.all(picturesUri.map(async (uri) => compressImage(uri)))
+	}
+
+	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
+	// 	setMediaIndexSelected(index)
+	//  setIsVideoSelected(isVideo)
+	// }
 
 	return (
 		<Container>
