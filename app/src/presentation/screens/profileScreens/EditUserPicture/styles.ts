@@ -7,6 +7,21 @@ export const Container = styled.View`
 
 export const InstructionCardContainer = styled.View`
     width: 85%;
-    margin-bottom: ${RFValue(20)}px;
-    margin-top: ${RFValue(10)}px;
+    margin-top: ${RFValue(50)}px;
+`
+
+export const TopArea = styled.View`
+	flex: 1;
+	padding: 0 ${RFValue(20)}px;
+	padding-right: ${RFValue(25)}px;
+	flex-direction: row;
+	align-items: center;
+`
+
+export const ButtonsContainer = styled.View`
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	padding: ${RFValue(10)}px ${RFValue(20)}px;
 `

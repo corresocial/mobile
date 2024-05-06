@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, Platform, StatusBar } from 'react-native'
+import { BackHandler, StatusBar } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -61,12 +61,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
-		if (Platform.OS === 'ios') {
-			navigation.navigate('InsertCellNumber', { newUser: false })
-			return
-		}
-
-		navigation.navigate('SelectAuthMethod', { newUser: false })
+		navigation.navigate('SelectAuthMethod')
 	}
 
 	const navigateToRegisterFlow = () => {
@@ -83,7 +78,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 				index: 0,
 				routes: [{
 					name: 'UserStack',
-					params: { tourPerformed: !!localUser.tourPerformed }
+					params: { newUser: false }
 				}],
 			})
 		} catch (err) {

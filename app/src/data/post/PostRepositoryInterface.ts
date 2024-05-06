@@ -1,6 +1,7 @@
 import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 
 import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
+import { StorageFolder } from './remoteStorage/uploadPostMedias'
 
 interface PostRepositoryInterface {
 	localStorage: {
@@ -30,7 +31,9 @@ interface PostRepositoryInterface {
 		) => Promise<PostEntity[]>
 
 		deletePost: (postId: string, userId: string) => Promise<boolean>
-		deletePostMedias: (postMedias: string[], storagePath: 'pictures' | 'videos') => Promise<boolean>
+		deletePostMedias: (postMedias: string[], storagePath: 'pictures') => Promise<boolean>
+
+		uploadPostMedias: (mediaUri: string[], folder: StorageFolder) => Promise<string[]>
 	}
 }
 

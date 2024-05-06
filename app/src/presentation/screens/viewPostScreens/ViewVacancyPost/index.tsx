@@ -158,7 +158,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
 		navigation.navigate('VacancyStack' as any, {
-			screen: 'EditVacancyPost' as keyof VacancyStackParamList,
+			screen: 'EditVacancyPostReview' as keyof VacancyStackParamList,
 			params: { postData: { ...postData, ...editDataContext.saved } }
 		})
 	}
@@ -400,7 +400,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
-									videosUrl={getPostField('videosUrl') || []}
 									indicatorColor={theme.green1}
 									square
 									showFullscreenIcon

@@ -25,6 +25,7 @@ interface SmallButtonProps {
 	relativeWidth?: string | number
 	height?: number
 	rounded?: boolean
+	halfRounded?: boolean
 	flexDirection?: ViewStyle['flexDirection']
 	onPress: () => void,
 	onPressStart?: () => void,
@@ -44,6 +45,7 @@ function SmallButton({
 	relativeWidth = '100%',
 	height = 30,
 	rounded = false,
+	halfRounded = false,
 	flexDirection = 'row',
 	onPress,
 	onPressStart,
@@ -76,12 +78,14 @@ function SmallButton({
 				relativeWidth={relativeWidth}
 				height={height}
 				rounded={rounded}
+				halfRounded={halfRounded}
 			>
 				<ContainerSurface
 					backgroundColor={color}
 					buttonPressed={buttonPressed}
 					flexDirection={flexDirection}
 					rounded={rounded}
+					halfRounded={halfRounded}
 				>
 					{
 						!!SvgIcon && (

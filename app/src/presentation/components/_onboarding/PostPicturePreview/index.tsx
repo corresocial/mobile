@@ -45,11 +45,14 @@ function PostPicturePreview({
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
+	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
+
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
 		currentPictures.push(uri)
 		setMediaIndexSelected(picturesPack.length)
 		setPicturesPack(currentPictures)
+		setHasSelectedMedia(true)
 	}
 
 	const deleteCurrentPicture = () => {
@@ -79,6 +82,7 @@ function PostPicturePreview({
 		})
 
 		setPicturesPack(currentPictures)
+		setHasSelectedMedia(true)
 		// setVideosPack(currentVideos)
 	}
 
@@ -123,7 +127,7 @@ function PostPicturePreview({
 					/>
 				)
 			}
-			
+
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
@@ -135,8 +139,8 @@ function PostPicturePreview({
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={18}
-						message={'e aí, gostou?'}
-						highlightedWords={['gostou?']}
+						message={(hasSelectedMedia ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
+						highlightedWords={['gostou?', 'novas', 'fotos!']}
 					/>
 				</TopArea>
 				<PicturePreviewContainer>

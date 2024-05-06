@@ -131,7 +131,7 @@ function EditPost({
 				{ posts: updatedUserPosts || [] }
 			)
 
-			updateUserContext({ ...userDataContext, tourPerformed: true }, updatedUserPosts)
+			updateUserContext({ ...userDataContext }, updatedUserPosts)
 			changeStateOfEditedFields([...picturesUrlUploaded])
 
 			setIsLoading(false)
@@ -187,11 +187,11 @@ function EditPost({
 
 			await updateUserRepository(
 				useUserRepository,
-				{ ...userDataContext, tourPerformed: true },
+				{ ...userDataContext },
 				{ posts: updatedUserPosts || [] }
 			)
 
-			updateUserContext({ ...userDataContext, tourPerformed: true }, updatedUserPosts)
+			updateUserContext({ ...userDataContext }, updatedUserPosts)
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
@@ -365,7 +365,7 @@ function EditPost({
 												fontSize={12}
 												SecondSvgIcon={BellWhiteIcon}
 												svgIconScale={['70%', '30%']}
-												minHeight={relativeScreenHeight(4)}
+												minHeight={relativeScreenHeight(5)}
 												relativeHeight={relativeScreenHeight(6)}
 												relativeWidth={'40%'}
 												onPress={toggleNotifyUsers}

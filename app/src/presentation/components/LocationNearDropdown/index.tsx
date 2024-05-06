@@ -108,13 +108,13 @@ function LocationNearDropdown({
 			Animated.timing(animatedHeight, {
 				toValue: relativeScreenHeight(91) - statusBarHeight - (Platform.OS === 'ios' ? 70 : 0), // Default ios paddingBottom
 				duration: 400,
-				useNativeDriver: false,
+				useNativeDriver: false
 			}).start()
 		} else {
 			Animated.timing(animatedHeight, {
 				toValue: relativeScreenHeight(10),
 				duration: 400,
-				useNativeDriver: false,
+				useNativeDriver: false
 			}).start()
 		}
 	}, [dropdownIsVisible])

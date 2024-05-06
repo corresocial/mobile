@@ -56,7 +56,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 		initPushNotificationService()
 	}, [])
 
-	const loadChatFromCache = async () => {
+	const loadChatFromCache = async () => { // REFACTOR Migrar para @data
 		const cachedChat = await queryClient.getQueryData(chatConversationsKCacheKey) as Chat[]
 		if (cachedChat) {
 			setChatsOnContext(cachedChat)

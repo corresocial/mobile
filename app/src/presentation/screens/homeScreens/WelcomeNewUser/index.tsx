@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
-import { useUserDomain } from '@domain/user/useUserDomain'
-
-import { useUserRepository } from '@data/user/useUserRepository'
-
 import { AuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
@@ -20,10 +16,8 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 
-const { updateUserRepository } = useUserDomain()
-
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [userName, setUserName] = useState('amigo')
@@ -53,24 +47,11 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const goToHome = () => {
 		setStateDataOnContext({ showTourModal: false })
-		setUserTourPerformed()
 		navigation.navigate('HomeTab', { showsInFirstTab: true })
 	}
 
-	const setUserTourPerformed = async () => {
-		console.log(userDataContext.userId)
-
-		await updateUserRepository(
-			useUserRepository,
-			userDataContext,
-			{ tourPerformed: true }
-		)
-
-		setUserDataOnContext({ tourPerformed: true })
-	}
-
 	const goToProfile = () => {
-		setStateDataOnContext({ showTourModal: false })
+		setStateDataOnContext({ showTourModal: true })
 		navigation.navigate('HomeTab')
 	}
 

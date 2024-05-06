@@ -1,6 +1,5 @@
 import { UserSubscription } from '@domain/user/entity/types'
 
-import { uploadPostPictures } from '@data/post/bucketStorage/uploadPostPictures' // REFACTOR puxar da interface postRepository
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from '../entity/types'
@@ -9,7 +8,7 @@ import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/type
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
 import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormalizedPostDM'
-import { picturesUrlUpdatedDM } from '../core/editPostValidationDM'
+import { mediaUrlUpdatedDM } from '../core/editPostValidationDM'
 import { getUneditedPostsDM } from '../core/getUneditedPostsDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
 
@@ -45,21 +44,21 @@ async function savePostDM(
 
 	// Tratamento de imagens ///////////////////////////////////////////////
 
-	console.log(picturesUrlUpdatedDM(unsavedPostPictures) ? 'Fotos atualizadas' : 'Fotos não atualizadas')
+	console.log(mediaUrlUpdatedDM(unsavedPostPictures) ? 'Fotos atualizadas' : 'Fotos não atualizadas')
 
 	let newPostPicturesUrl: string[] = unsavedPostPictures || []
-	if (picturesUrlUpdatedDM(unsavedPostPictures)) {
+	if (mediaUrlUpdatedDM(unsavedPostPictures)) {
 		const picturesNotUploaded = (unsavedPostPictures || []).filter((url: string) => !url.includes('https://')) || []
 		const picturesAlreadyUploaded = (unsavedPostPictures || []).filter((url: string) => url.includes('https://')) || []
 
-		const uploadedPicturesUrl = await uploadPostPictures(picturesNotUploaded)
+		const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'pictures')
 		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
 	}
 
 	const storedPicturesUrl = storedPostData.picturesUrl || []
 	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
 	if (picturesAlreadyUploadedToRemove.length) {
-		await remoteStorage.deletePostPictures(picturesAlreadyUploadedToRemove)
+		await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
 	}
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
