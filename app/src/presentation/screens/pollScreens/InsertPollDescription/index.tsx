@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollDescriptionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPollDescription({ route, navigation }: InsertPollDescriptionScreenProps) {
-	const { setPollDataOnContext } = useContext(PollRegisterContext)
+	const { setPollDataOnContext } = usePollRegisterContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)

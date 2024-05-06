@@ -5,7 +5,7 @@ import { PollEntity } from '@domain/poll/entity/types'
 import { Coordinates } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollLocationScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -21,7 +21,7 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertPollLocation({ route, navigation }: InsertPollLocationScreenProps) {
-	const { pollRegisterDataContext, setPollDataOnContext } = useContext(PollRegisterContext)
+	const { pollRegisterDataContext, setPollDataOnContext } = usePollRegisterContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

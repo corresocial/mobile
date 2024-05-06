@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components'
 import { PollQuestion } from '@domain/poll/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { SelectPollQuestionTypeScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -20,7 +20,7 @@ import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScreenProps) {
 	const theme = useTheme()
 
-	const { setRegisteredQuestionOnPollDataContext } = useContext(PollRegisterContext)
+	const { setRegisteredQuestionOnPollDataContext } = usePollRegisterContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {

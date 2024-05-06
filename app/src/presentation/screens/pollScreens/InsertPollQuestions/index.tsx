@@ -4,7 +4,7 @@ import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-nati
 import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollQuestionsScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -28,7 +28,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
 function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
-	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, removeQuestionFromRegisterContext } = useContext(PollRegisterContext)
+	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, removeQuestionFromRegisterContext } = usePollRegisterContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const getQuestionList = (): PollQuestion[] => {
