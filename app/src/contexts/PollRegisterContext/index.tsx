@@ -139,6 +139,5 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 }
 
 const usePollRegisterContext = () => useContext(PollRegisterContext)
-export { usePollRegisterContext }
 
-export { PollRegisterProvider, PollRegisterContext }
+export { PollRegisterProvider, usePollRegisterContext }
