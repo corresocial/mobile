@@ -41,8 +41,9 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 
 	const theme = useTheme()
 
-	const pollData: PollEntity = {
+	const data: PollEntity = {
 		pollId: 'idDeTeste',
+		completed: true,
 		title: 'enquete sobre o bairro dalapa',
 		description: 'lorem enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa',
 		questions: [
@@ -91,11 +92,11 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 		privateResponses: []
 	}
 
+	const [pollData, setPollData] = useState<PollEntity>(data)
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = userDataContext.userId !== pollData.owner.userId // TODO Remover comparação
-	const isCompleted = false
+	const isAuthor = userDataContext.userId === pollData.owner.userId // TODO Remover comparação
 
 	const navigateToProfile = () => {
 		if (isAuthor) return navigation.navigate('Profile' as any)
@@ -202,7 +203,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 			<PostHeader
 				title={pollData.title}
 				isAuthor={isAuthor}
-				isCompleted={isCompleted}
+				isCompleted={false}
 				owner={pollData.owner}
 				createdAt={pollData.createdAt}
 				navigateToProfile={navigateToProfile}
@@ -227,7 +228,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPollOptionsIsOpen(false)}
 					isAuthor={isAuthor}
-					isCompleted={isCompleted}
+					isCompleted={pollData.completed}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}
 					deletePost={toggleDefaultConfirmationModalVisibility}
