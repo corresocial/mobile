@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { Alert } from 'react-native'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
@@ -22,7 +21,7 @@ import DownloadWhiteIcon from '@assets/icons/download-white.svg'
 import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-import { shareFile } from '@common/share'
+import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
@@ -104,8 +103,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 	}
 
 	const sharePost = () => {
-		Alert.alert('Método de compartilhamento ainda não foi implementado!')
-		// share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${pollData.pollId}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPoll = () => {

@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { Alert, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
+import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
+
+import { usePetitionRepository } from '@data/petition/usePetitionRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -16,6 +19,7 @@ import { Body } from './styles'
 import DocumentPencilWhiteIcon from '@assets/icons/documentPencil-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
@@ -29,6 +33,8 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
+const { generatePetitionResultsReport, markPetitionAsCompleted, deletePetitionData } = usePetitionDomain()
+
 const { arrayIsEmpty } = UiUtils()
 
 function ViewPetition({ navigation }: ViewPetitionScreenProps) {
@@ -37,9 +43,8 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 
 	const theme = useTheme()
 
-	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
-
-	const petitionData: PetitionEntity = {
+	const data: PetitionEntity = {
+		completed: true,
 		petitionId: 'idDeTeste',
 		title: 'abaixo assinado sobre a assinatura de abaixo assinados',
 		description: 'petição sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa',
@@ -70,6 +75,9 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 		idUsersResponded: [],
 	}
 
+	const [petitionData, setPetitionData] = useState<PetitionEntity>(data)
+	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
+
 	const [postOptionsIsOpen, setPetitionOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
@@ -82,8 +90,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 	}
 
 	const sharePost = () => {
-		Alert.alert('Método de compartilhamento ainda não foi implementado!')
-		// share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${petitionData.petitionId}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPetition = () => {
@@ -116,8 +123,8 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 	} */
 
 	const downloadPetitionResults = async () => {
-		/* const reportHtmlContent = await generatePetitionResultsReport(usePetitionRepository, petitionData)
-		shareFile(reportHtmlContent) */
+		const reportHtmlContent = await generatePetitionResultsReport(usePetitionRepository, petitionData)
+		shareFile(reportHtmlContent)
 	}
 
 	const reportPost = () => {
@@ -133,16 +140,16 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 	}
 
 	const markAsCompleted = async () => {
-		/* setPetitionOptionsIsOpen(false)
-		await markPetitionAsCompleted(usePetitionRepository, petitionData.petitionId) */
+		setPetitionOptionsIsOpen(false)
+		await markPetitionAsCompleted(usePetitionRepository, petitionData.petitionId)
 	}
 
 	const deletePetition = async () => {
-		/* setPetitionOptionsIsOpen(false)
+		setPetitionOptionsIsOpen(false)
 		setLoaderIsVisible(true)
 		await deletePetitionData(usePetitionRepository, petitionData.petitionId)
 		setLoaderIsVisible(false)
-		navigation.goBack() */
+		navigation.goBack()
 	}
 
 	const toggleDefaultConfirmationModalVisibility = async () => {
@@ -186,7 +193,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPetitionOptionsIsOpen(false)}
 					isAuthor={isAuthor}
-					isCompleted={isCompleted}
+					isCompleted={petitionData.completed}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}
 					deletePost={toggleDefaultConfirmationModalVisibility}
@@ -211,6 +218,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={petitionData.picturesUrl || []}
+								videosUrl={[]}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>
