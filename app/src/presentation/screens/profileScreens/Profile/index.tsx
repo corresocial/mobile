@@ -117,13 +117,15 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const viewPoll = () => {
 		navigation.navigate('PollStack' as any, {
-			screen: 'ViewPoll'
+			screen: 'ViewPoll',
+			params: { pollId: 'n61L0d0XcnX6HQuuGrjn' }
 		})
 	}
 
 	const viewPetition = () => {
 		navigation.navigate('PetitionStack' as any, {
-			screen: 'ViewPetition'
+			screen: 'ViewPetition',
+			params: { petitionId: 'PWJ6XxVOo4VLOy98vgGq' }
 		})
 	}
 

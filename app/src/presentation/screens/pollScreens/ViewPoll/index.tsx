@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
@@ -29,82 +29,45 @@ import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { PostRangeCard } from '@components/_cards/PostRangeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
 const { generatePollResultsReport, generateIndividualPollResponsesReport, markPollAsCompleted, deletePollData } = usePollDomain()
 
-function ViewPoll({ navigation }: ViewPollScreenProps) {
+const { getPollData } = usePollDomain()
+
+function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { savePollToRespondOnContext } = usePollRegisterContext()
 	const { userDataContext } = useContext(AuthContext)
 
 	const theme = useTheme()
 
-	const data: PollEntity = {
-		pollId: 'idDeTeste',
-		completed: true,
-		title: 'enquete sobre o bairro dalapa',
-		description: 'lorem enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa',
-		questions: [
-			{
-				questionId: '1',
-				question: 'pergunta 1?',
-				questionType: 'binary',
-			},
-			{
-				questionId: '2',
-				question: 'pergunta 2?',
-				questionType: 'satisfaction',
-			},
-			{
-				questionId: '3',
-				question: 'pergunta 3?',
-				questionType: 'textual',
-			},
-			{
-				questionId: '4',
-				question: 'pergunta 4?',
-				questionType: 'numerical',
-			},
-		],
-		location: {
-			city: 'Londrina',
-			country: 'Brasil',
-			district: 'Centro',
-			number: '50',
-			geohashNearby: [''],
-			postalCode: '696969',
-			state: 'Parana',
-			street: 'Rua das flores',
-			coordinates: {
-				latitude: -34.923,
-				longitude: -53.923
-			},
-		},
-		range: 'near',
-		owner: {
-			userId: 'PusOCJGtL6cSrAhN8oePaUybLR42',
-			name: 'dev que deve',
-			profilePictureUrl: userDataContext.profilePictureUrl
-		},
-		createdAt: new Date(),
-		privateResponses: []
-	}
-
-	const [pollData, setPollData] = useState<PollEntity>(data)
+	const [pollData, setPollData] = useState<PollEntity>(route.params?.pollData || {} as PollEntity)
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = userDataContext.userId === pollData.owner.userId // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === 'pollData.owner.userId' // TODO Remover comparação
+
+	useEffect(() => {
+		getData()
+	}, [])
+
+	const getData = (async () => {
+		if (route.params.pollId && !route.params?.pollData) {
+			const poll = await getPollData(usePollRepository, route.params.pollId)
+			poll && setPollData(poll)
+		}
+	})
 
 	const navigateToProfile = () => {
-		if (isAuthor) return navigation.navigate('Profile' as any)
+		if (isAuthor()) return navigation.navigate('Profile' as any)
 		navigation.navigate('ProfileHome' as any, { userId: pollData.owner.userId })// TODO Type
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
+		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPoll = () => {
@@ -189,6 +152,14 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 		})
 	}
 
+	if (!pollData || !Object.keys(pollData).length) {
+		return (
+			<Loader flex />
+		)
+	}
+
+	const alreadyResponded = pollData.idUsersResponded?.includes(userDataContext.userId)
+
 	return (
 		<>
 			<DefaultConfirmationModal
@@ -202,16 +173,17 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 			/>
 			<PostHeader
 				title={pollData.title}
-				isAuthor={isAuthor}
+				isAuthor={isAuthor()}
 				isCompleted={false}
 				owner={pollData.owner}
 				createdAt={pollData.createdAt}
 				navigateToProfile={navigateToProfile}
 				sharePost={sharePost}
-				highlightedButtonText={isAuthor ? 'baixar resultados' : 'responder'}
+				highlightedButtonText={isAuthor() ? 'baixar resultados' : alreadyResponded ? 'enquete respondida' : 'responder'}
 				highlightedButtonIcon={DocumentWhiteIcon}
-				highlightedButtonAction={isAuthor ? downloadPollResults : respondPoll}
-				HeaderFooter={isAuthor && (
+				highlightedButtonAction={isAuthor() ? downloadPollResults : alreadyResponded ? () => { } : respondPoll}
+				inactiveHighlightedButton={alreadyResponded}
+				HeaderFooter={isAuthor() && (
 					<SmallButton
 						label={'baixar respostas individuais'}
 						labelColor={theme.white3}
@@ -227,7 +199,7 @@ function ViewPoll({ navigation }: ViewPollScreenProps) {
 					postTitle={pollData.title}
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPollOptionsIsOpen(false)}
-					isAuthor={isAuthor}
+					isAuthor={isAuthor()}
 					isCompleted={pollData.completed}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}

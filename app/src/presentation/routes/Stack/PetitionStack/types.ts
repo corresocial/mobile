@@ -11,7 +11,7 @@ export type PetitionStackParamList = {
 	InsertPetitionLocation: { editMode: boolean, initialValue: PetitionEntity['location'] } | undefined
 
 	PetitionReview: { petitionData: PetitionEntity, unsavedPetition: boolean }
-	ViewPetition: { petitionData: PetitionEntity }
+	ViewPetition: { petitionId: string, petitionData?: PetitionEntity }
 
 	InsertPetitionFullName: undefined
 	InsertPetitionEmail: undefined
