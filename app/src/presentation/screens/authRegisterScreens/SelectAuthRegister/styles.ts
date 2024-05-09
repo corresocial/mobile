@@ -18,3 +18,10 @@ export const Slogan = styled.Text`
     font-size: ${RFValue(20)}px;
     font-family: Arvo_400Regular;
 `
+
+export const EasterEgg = styled.TouchableOpacity`
+	padding: 10px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+`

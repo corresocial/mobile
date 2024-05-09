@@ -61,7 +61,7 @@ function renderPetitionHeader(petitionData: PetitionEntity) {
 		<p class='petition-info'>Autor: <b>${petitionData.owner.name}</b></p>
 		<p class='petition-info'>Local da enquete: <b>Bairro ${petitionData.location.district}, ${petitionData.location.city} - ${petitionData.location.state}</b></p>
 		<p class='petition-info'>Alcance: <b>${getRangeLabel()}</b></p>
-		<p class='petition-info'>Data e publicação: <b>${formatDate(petitionData.createdAt)}b></p>
+		<p class='petition-info'>Data e publicação: <b>${formatDate(petitionData.createdAt)}</p>
 		<p class='responses-number'>
 			Total de respostas: <b>${numberOfResponses}</b>
 		</p>
