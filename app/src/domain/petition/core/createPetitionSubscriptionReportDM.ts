@@ -63,10 +63,10 @@ function renderPetitionHeader(petitionData: PetitionEntity) {
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M103.044 103.867V148.641H84.6732V131.851H75.8723V148.641H58.2705V103.867H103.044ZM64.6732 112.664V121.458H73.4741V112.664H64.6732ZM70.2841 114.259H71.8678V119.856H70.2841V114.259ZM95.8497 112.664H87.0714V121.458H95.8497V112.664ZM94.266 114.259V119.856H92.6596V114.259H94.266ZM81.0986 139.182V140.781H77.9085V139.182H81.0986Z" fill="#FF8F68"/>
 		</svg>
 		<br/>
-		<h2 class='petition-title'>Enquete - ${petitionData.title}</h2>
+		<h2 class='petition-title'>Abaixo assinado - ${petitionData.title}</h2>
 		<p class='petition-description'>${petitionData.description}</p>
 		<p class='petition-info'>Autor: <b>${petitionData.owner.name}</b></p>
-		<p class='petition-info'>Local da enquete: <b>Bairro ${petitionData.location.district}, ${petitionData.location.city} - ${petitionData.location.state}</b></p>
+		<p class='petition-info'>Local do abaixo assinado: <b>Bairro ${petitionData.location.district}, ${petitionData.location.city} - ${petitionData.location.state}</b></p>
 		<p class='petition-info'>Alcance: <b>${getRangeLabel()}</b></p>
 		<p class='petition-info'>Data e publicação: <b>${formatDate(petitionData.createdAt)}</b></p>
 		<p class='responses-number'>
