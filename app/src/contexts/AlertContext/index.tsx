@@ -5,9 +5,10 @@ import React, { createContext, useMemo, useState, useCallback, useEffect } from 
 import { useUtils } from '@newutils/useUtils'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
-import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
+import { AlertContextProps, AlertModalContent, AlertProviderProps, InitialNotificationStateType } from './types'
 
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
+import { DefaultAlertModal } from '@components/_modals/DefaultAlertModal'
 import { NewHomePresentationModal } from '@components/_modals/NewHomePresentationModal'
 
 const { objectValuesAreEquals } = useUtils()
@@ -71,6 +72,14 @@ function AlertProvider({ children }: AlertProviderProps) {
 		if (notificationState.newHomePresentationModal) setNewHomePresentationIsVisible(true)
 	}, [notificationState])
 
+	const [defaultAlertModalContent, setDefaultAlertModalContent] = useState({} as AlertModalContent)
+
+	const showAlertModal = async (modalContent: AlertModalContent) => {
+		// TODO Definir métodos
+	}
+
+	const closeContextModal = () => setDefaultAlertModalContent({ ...defaultAlertModalContent, visibility: false })
+
 	const handlerAlertNotificationModal = useCallback(() => {
 		setAlertNotificationIsVisible(false)
 		updateNotificationState({ notificationAlertModal: false, configNotificationButton: false })
@@ -95,11 +104,16 @@ function AlertProvider({ children }: AlertProviderProps) {
 		notificationState,
 		updateNotificationState,
 		showAlertNotificationModal,
-		showNewHomePresentationModal
-	}), [notificationState])
+		showNewHomePresentationModal,
+		showAlertModal
+	}), [defaultAlertModalContent, notificationState])
 
 	return (
 		<AlertContext.Provider value={alertDataProvider}>
+			<DefaultAlertModal
+				data={defaultAlertModalContent}
+				closeModal={closeContextModal}
+			/>
 			<AlertNotificationModal
 				visibility={alertNotificationModalIsVisible}
 				closeModal={() => setAlertNotificationIsVisible(false)}

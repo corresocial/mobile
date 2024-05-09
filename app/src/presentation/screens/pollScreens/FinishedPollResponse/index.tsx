@@ -28,6 +28,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { CustomModal } from '@components/_modals/CustomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 const { sendPollResponse } = usePollDomain()
@@ -41,6 +42,7 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 
 	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
 	const [locationPermissionModalModalIsVisible, setLocationPermissionModalIsVisible] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const theme = useTheme()
 
@@ -60,28 +62,34 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 	}
 
 	const submitResponses = async () => {
-		if (!hasLocationPermissions) {
-			const hasPermission = await checkLocationPermissions()
-			console.log(`has location permission: ${hasPermission}`)
-			if (!hasPermission) return
+		try {
+			setIsLoading(true)
+			if (!hasLocationPermissions) {
+				const hasPermission = await checkLocationPermissions()
+				console.log(`has location permission: ${hasPermission}`)
+				if (!hasPermission) return
+			}
+
+			const currentCoordinates = await getCurrentLocation()
+			const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
+			const completeAddress = structureAddress(currentLocation)
+			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
+
+			sendPollResponse(usePollRepository, pollToRespond.pollId, {
+				userId: userDataContext.userId,
+				location: {
+					...currentLocation,
+					...geohashObject
+				} as PollEntity['location'],
+				responses: pollResponseData
+			})
+
+			setIsLoading(false)
+			navigation.navigate('ViewPoll', {} as any)
+			navigation.goBack()
+		} catch (error) {
+			setIsLoading(false)
 		}
-
-		const currentCoordinates = await getCurrentLocation()
-		const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
-		const completeAddress = structureAddress(currentLocation)
-		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
-
-		sendPollResponse(usePollRepository, pollToRespond.pollId, {
-			userId: userDataContext.userId,
-			location: {
-				...currentLocation,
-				...geohashObject
-			} as PollEntity['location'],
-			responses: pollResponseData
-		})
-
-		navigation.navigate('ViewPoll', {} as any)
-		navigation.goBack()
 	}
 
 	const getProfilePictureUrl = () => {
@@ -132,13 +140,20 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 			</DefaultHeaderContainer>
 			<FormContainer>
 				<ButtonOptionsContainer>
-					<PrimaryButton
-						color={theme.green3}
-						label={'enviar responsas'}
-						labelColor={theme.white3}
-						SecondSvgIcon={SendFileWhiteIcon}
-						onPress={submitResponses}
-					/>
+					{
+						isLoading
+							? (
+								<Loader />
+							) : (
+								<PrimaryButton
+									color={theme.green3}
+									label={'enviar respostas'}
+									labelColor={theme.white3}
+									SecondSvgIcon={SendFileWhiteIcon}
+									onPress={submitResponses}
+								/>
+							)
+					}
 				</ButtonOptionsContainer>
 			</FormContainer>
 		</Container>

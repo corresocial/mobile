@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { PetitionEntity, PetitionEntityOptional, PrivatePetitionResponse } from '@domain/petition/entity/types'
+import { ExtraIdentificationRequest, PetitionEntity, PetitionEntityOptional, PrivatePetitionResponse } from '@domain/petition/entity/types'
 
 import { PetitionContextType, PetitionProviderProps } from './types'
 
 const initialValue: PetitionContextType = {
 	petitionDataContext: {} as PetitionEntity,
 	petitionSignatureData: {} as PrivatePetitionResponse,
+	petitionToRespond: {} as PetitionEntity,
+	petitionSignatureDataWithoutResponse: () => [] as ExtraIdentificationRequest[] || null,
 	setPetitionDataOnContext: (data: PetitionEntityOptional) => { },
+	savePetitionToRespondOnContext: (petitionData: PetitionEntity) => { },
 	setPetitionSignatureOnContext: (data: Partial<PrivatePetitionResponse>) => { }
 }
 
@@ -15,6 +18,8 @@ const PetitionContext = createContext<PetitionContextType>(initialValue)
 
 function PetitionProvider({ children }: PetitionProviderProps) {
 	const [petitionDataContext, setPetitionDataContext] = useState(initialValue.petitionDataContext)
+
+	const [petitionToRespond, setPetitoinToRespond] = useState(initialValue.petitionDataContext)
 	const [petitionSignatureData, setPetitionSignatureData] = useState(initialValue.petitionSignatureData)
 
 	const setPetitionDataOnContext = async (data: PetitionEntityOptional) => {
@@ -27,11 +32,34 @@ function PetitionProvider({ children }: PetitionProviderProps) {
 		setPetitionSignatureData({ ...petitionSignatureData, ...data })
 	}
 
+	const savePetitionToRespondOnContext = (petitionData: PetitionEntity) => {
+		setPetitoinToRespond(petitionData)
+	}
+
+	const petitionSignatureDataWithoutResponse = () => {
+		const petitionAlreadyResonded: ExtraIdentificationRequest[] = []
+		petitionSignatureData.cpf ?? petitionAlreadyResonded.push('cpf')
+		petitionSignatureData.rg ?? petitionAlreadyResonded.push('rg')
+		petitionSignatureData.cellNumber ?? petitionAlreadyResonded.push('telefone')
+
+		const petitionWithoutResponse = petitionToRespond.extraIdentificationRequest
+			.filter((info) => petitionAlreadyResonded.includes(info as ExtraIdentificationRequest))
+
+		if (petitionWithoutResponse.length) {
+			return petitionWithoutResponse
+		}
+		return null
+	}
+
 	const petitionProviderData = useMemo(() => ({
 		petitionDataContext,
-		petitionSignatureData,
 		setPetitionDataOnContext,
-		setPetitionSignatureOnContext
+		petitionToRespond,
+		petitionSignatureData,
+		setPetitionSignatureOnContext,
+		petitionSignatureDataWithoutResponse,
+		savePetitionToRespondOnContext
+
 	}), [petitionDataContext, petitionSignatureData])
 
 	return (

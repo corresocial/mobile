@@ -9,6 +9,7 @@ import { usePetitionRepository } from '@data/petition/usePetitionRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
+import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { ViewPetitionScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
@@ -41,6 +42,7 @@ const { arrayIsEmpty } = UiUtils()
 function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { userDataContext } = useContext(AuthContext)
+	const { savePetitionToRespondOnContext } = usePetitionContext()
 
 	const theme = useTheme()
 
@@ -50,7 +52,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	const [postOptionsIsOpen, setPetitionOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId !== petitionData.owner.userId // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === petitionData.owner.userId // TODO Remover comparação
 	const isCompleted = false
 
 	useEffect(() => {
@@ -75,32 +77,8 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 
 	const respondPetition = () => {
 		navigation.navigate('InsertPetitionFullName')
-
-		console.log('assinar')
-		// savePetitionToRespondOnContext(petitionData)
-		// navigateToNextReponseScreen(petitionData.questions[0])
+		savePetitionToRespondOnContext(petitionData)
 	}
-
-	/* const navigateToNextReponseScreen = (nextQuestion: PetitionQuestion) => {
-		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.navigate('PetitionStack' as any, { // TODO Type
-				screen: 'AnswerBinaryQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-			case 'satisfaction': return navigation.navigate('PetitionStack' as any, {
-				screen: 'AnswerSatisfactionQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-			case 'textual': return navigation.navigate('PetitionStack' as any, {
-				screen: 'AnswerTextualQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-			case 'numerical': return navigation.navigate('PetitionStack' as any, {
-				screen: 'AnswerTextualQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-		}
-	} */
 
 	const downloadPetitionResults = async () => {
 		const reportHtmlContent = await generatePetitionResultsReport(usePetitionRepository, petitionData)

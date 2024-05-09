@@ -49,4 +49,5 @@ export type PrivatePetitionResponse = {
 	rg: string
 	cpf: string
 	location: PetitionLocation
+	idUsersResponded?: string[]
 }
