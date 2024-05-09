@@ -13,7 +13,7 @@ interface LoaderProps {
 function Loader({ flex, animationScale }: LoaderProps) {
 	const animation = useRef<any>(null)
 	return (
-		<Container style={{ flex: flex ? 1 : 0 }}>
+		<Container style={{ flex: flex ? 1 : 0 }} >
 			<AnimationContainer animationScale={animationScale}>
 				<LottieView
 					source={logoCorreFlow}

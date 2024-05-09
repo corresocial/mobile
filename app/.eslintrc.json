@@ -214,6 +214,7 @@
 			}
 		],
 		"react/self-closing-comp": "off",
+		"react/require-default-props": "off",
 		"default-case": "off",
 		"no-tabs": "off",
 		"no-console": "off",
@@ -226,7 +227,6 @@
 		"react/state-in-constructor": "off",
 		"consistent-return": "off",
 		"react/jsx-no-constructed-context-values": "off",
-		"react/require-default-props": "off",
 		"no-nested-ternary": "off", // Fix
 		"react/no-unstable-nested-components": "off", // Exclude this row
 		"react/jsx-props-no-spreading": "off" // Exclude this row

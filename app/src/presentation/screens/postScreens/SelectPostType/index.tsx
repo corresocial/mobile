@@ -12,7 +12,7 @@ import { Container, SubscriptionButtonContainer } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
 import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-// import FormWhiteIcon from '@assets/icons/formHearth-white.svg'
+import FormWhiteIcon from '@assets/icons/formHearth-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
 import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
@@ -61,7 +61,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	// const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
+	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
 
 	return (
 		<>
@@ -120,13 +120,13 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('CultureStack')}
 					/>
-					{/* {
+					{
 						currentUserIsLeader() ? (
 							<OptionButton
 								color={theme.white3}
-								label={'enquete'}
+								label={'enquete | abaixo assinados'}
 								highlightedWords={['enquete', 'abaixo', 'assinados']}
-								labelSize={18}
+								labelSize={14}
 								relativeHeight={'17%'}
 								shortDescription={'veja o que a galera pensa'}
 								SvgIcon={FormWhiteIcon}
@@ -136,7 +136,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 								onPress={() => navigation.navigate('SelectLeaderPostType')}
 							/>
 						) : <></>
-					} */}
+					}
 					{
 						numberOfOfflinePostsStored ? (
 							<OptionButton

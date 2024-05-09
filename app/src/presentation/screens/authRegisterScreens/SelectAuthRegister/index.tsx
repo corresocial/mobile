@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, StatusBar } from 'react-native'
+import { BackHandler, Platform, StatusBar } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -10,8 +10,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
+import { showBuildInfo } from '@utils/showBuildInfo'
 
-import { Container, CarouselItemContainer, Slogan } from './styles'
+import { Container, CarouselItemContainer, Slogan, EasterEgg } from './styles'
 import Logo from '@assets/icons/logo.svg'
 import PhoneDeviceWhiteIcon from '@assets/icons/phoneDevice-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -61,6 +62,10 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
+		if (Platform.OS === 'ios') {
+			navigation.navigate('InsertCellNumber', { newUser: false })
+			return
+		}
 		navigation.navigate('SelectAuthMethod')
 	}
 
@@ -153,6 +158,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 					leftSideWidth={'25%'}
 					onPress={navigateToRegisterFlow}
 				/>
+				<EasterEgg onPress={showBuildInfo} />
 			</FormContainer>
 		</Container>
 	)

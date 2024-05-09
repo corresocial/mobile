@@ -16,7 +16,7 @@ function SelectPetitionMedia({ route, navigation }: SelectPetitionMediaScreenPro
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const savePictures = (picturesUri: string[]) => {
+	const saveMedia = (picturesUri: string[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ picturesUrl: picturesUri })
 			navigation.goBack()
@@ -32,10 +32,9 @@ function SelectPetitionMedia({ route, navigation }: SelectPetitionMediaScreenPro
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.purple2}
-				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue.picturesUrl || []}
 				navigateBackwards={() => navigation.goBack()}
-				savePictures={savePictures}
+				saveMedia={saveMedia}
 			/>
 		</>
 	)

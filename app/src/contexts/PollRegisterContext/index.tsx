@@ -31,6 +31,7 @@ const initialValue: PollRegisterContextType = {
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
 	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
+	getResponseProgess: (currentQuestionId: string | number) => [0, 1],
 	getNextQuestion: (lastQuestion: PollQuestion) => ({} as PollQuestion),
 	pollToRespond: { questions: [] as PollQuestion[] } as PollEntity,
 	pollResponseData: [{
@@ -82,19 +83,31 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 
 	const savePollToRespondOnContext = (currentPoll: PollEntity) => {
 		setPollToRespond(currentPoll)
-		setPollResponseData([])
+
+		const pollResponseMapper = currentPoll.questions.map((question) => {
+			return {
+				questionId: question.questionId,
+				response: '',
+				questionType: question.questionType
+			}
+		})
+		setPollResponseData(pollResponseMapper)
 	}
 
-	// Está recebendo como parâmetro porque chamar os 2 métodos não estava dando tempo de atualizar o state
+	const getResponseProgess = (currentQuestionId: string | number) => {
+		const numberOfResponses = pollResponseData.length
+		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === currentQuestionId)
+		return [numberOfResponses - (numberOfResponses - currentQuestionIndex) + 1, numberOfResponses]
+	}
+
 	const getNextQuestion = (lastQuestion: PollQuestion) => {
-		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : []
+		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : ['']
+		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === lastQuestionId[0])
+		const nextIndex = currentQuestionIndex + 1
 
-		const respondedQuestions = [...pollResponseData.map((poll) => poll.questionId), ...lastQuestionId]
+		if (nextIndex >= pollResponseData.length) return null
 
-		const unrespondedQuestions = pollToRespond.questions.filter((question) => !respondedQuestions.includes(question.questionId))
-
-		if (unrespondedQuestions.length === 0) return null
-		return unrespondedQuestions[0]
+		return pollToRespond.questions[nextIndex]
 	}
 
 	const saveResponseData = (question: PollQuestion, response: string | number | boolean) => {
@@ -122,6 +135,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		pollToRespond,
 		pollResponseData,
 		savePollToRespondOnContext,
+		getResponseProgess,
 		getNextQuestion,
 		saveResponseData
 	}), [

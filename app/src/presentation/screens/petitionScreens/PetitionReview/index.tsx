@@ -2,7 +2,10 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
+import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
 import { UserOwner } from '@domain/user/entity/types'
+
+import { usePetitionRepository } from '@data/petition/usePetitionRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { useEditContext } from '@contexts/EditContext'
@@ -29,6 +32,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { Loader } from '@components/Loader'
+
+const { createNewPetition } = usePetitionDomain()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -64,28 +69,28 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	const savePetition = async () => {
 		console.log(newPetitionDataState)
 		try {
-			// setIsLoading(true)
+			setIsLoading(true)
 
-			// await createNewPetition(usePetitionRepository, { ...newPetitionDataState, owner: petitionOwner })
+			await createNewPetition(usePetitionRepository, { ...newPetitionDataState, owner: petitionOwner })
 
-			// changeStateOfEditedFields()
-			// navigateToSelectPostTypeScreen()
-			// setIsLoading(false)
+			changeStateOfEditedFields()
+			navigateToSelectPostTypeScreen()
+			setIsLoading(false)
 		} catch (error) {
 			console.log(error)
 			setIsLoading(false)
 		}
 	}
 
-	// const navigateToSelectPostTypeScreen = () => {
-	// 	navigation.goBack()
-	// 	navigation.goBack()
-	// }
+	const navigateToSelectPostTypeScreen = () => {
+		navigation.goBack()
+		navigation.goBack()
+	}
 
-	// const changeStateOfEditedFields = () => {
-	// 	const newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
-	// 	setEditDataOnContext(newEditState)
-	// }
+	const changeStateOfEditedFields = () => { // REFACTOR Centralizar no contexto
+		const newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+		setEditDataOnContext(newEditState)
+	}
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !unsavedPetition) {

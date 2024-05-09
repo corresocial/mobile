@@ -2,9 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { ExtraIdentificationRequest } from '@domain/petition/entity/types'
+
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionRGScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -16,7 +19,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 const { validateRG } = UiUtils()
 
 function InsertPetitionRG({ navigation }: InsertPetitionRGScreenProps) {
-	const { setPetitionSignatureOnContext } = usePetitionContext()
+	const { setPetitionSignatureOnContext, petitionSignatureDataWithoutResponse } = usePetitionContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -36,7 +39,17 @@ function InsertPetitionRG({ navigation }: InsertPetitionRGScreenProps) {
 
 	const savePetitionRG = (inputText: string) => {
 		setPetitionSignatureOnContext({ rg: inputText })
-		navigation.navigate('InsertPetitionCPF')
+		navigateToNextScreen('rg')
+	}
+
+	const navigateToNextScreen = (currentInfo: ExtraIdentificationRequest) => {
+		const nextQuestions = petitionSignatureDataWithoutResponse()
+		if (!nextQuestions) return navigation.navigate('FinishPetitionSignature')
+		switch (nextQuestions.filter((info) => info !== currentInfo)[0]) { 								// TODO Type
+			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
+			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
+			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })
+		}
 	}
 
 	return (

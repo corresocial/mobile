@@ -11,7 +11,7 @@ export type PollStackParamList = {
 	InsertPollLocation: { editMode: boolean, initialValue: PollEntity['location'] } | undefined
 
 	PollReview: { pollData: PollEntity, unsavedPoll: boolean }
-	ViewPoll: { pollData: PollEntity }
+	ViewPoll: { pollId: string, pollData?: PollEntity }
 
 	AnswerSatisfactionQuestion: { questionData: PollQuestion }
 	AnswerBinaryQuestion: { questionData: PollQuestion }

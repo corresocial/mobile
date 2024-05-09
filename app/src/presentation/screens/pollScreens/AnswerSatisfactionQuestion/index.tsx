@@ -23,17 +23,16 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQuestionScreenProps) {
-	const { getNextQuestion, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const { questionData } = route.params
-	// const responseProgress = [1, 3]
+	const responseProgress = getResponseProgess(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 
 	const selectSatisfactionOption = (value: SatisfactionType) => {
-		console.log(`reponse: ${value}`)
 		saveResponseData(questionData, value)
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
@@ -65,7 +64,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 						message={questionData.question || ''}
 						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
 					>
-						{/* <ProgressBar value={responseProgress[0]} range={responseProgress[1]} /> */}
+						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
