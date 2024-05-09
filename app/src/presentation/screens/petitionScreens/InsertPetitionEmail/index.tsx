@@ -51,7 +51,6 @@ function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				initialValue={'we@gmail.com'}
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
 				customTitle={'qual é o seu email?'}

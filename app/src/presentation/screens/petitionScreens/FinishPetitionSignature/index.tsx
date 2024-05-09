@@ -144,7 +144,7 @@ function FinishPetitionSignature({ navigation }: FinishPetitionSignatureScreenPr
 					{
 						isLoading
 							? (
-								<Loader />
+								<Loader flex />
 							) : (
 								<PrimaryButton
 									color={theme.green3}
