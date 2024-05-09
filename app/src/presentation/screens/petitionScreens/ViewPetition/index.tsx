@@ -135,7 +135,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 		<>
 			<DefaultConfirmationModal
 				visibility={deleteConfirmationModalIsVisible}
-				title={'apagar enquete'}
+				title={'apagar abaixo assinado'}
 				text={`você tem certeza que deseja apagar o abaixo assinado ${petitionData.title}`}
 				highlightedWords={(petitionData.title || '').split(' ')}
 				buttonKeyword={'apagar'}
@@ -210,7 +210,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 				/>
 				<VerticalSpacing />
 				<PostRangeCard
-					title={'alcance da enquete'}
+					title={'alcance do abaixo assinado'}
 					postRange={petitionData.range}
 				/>
 				<VerticalSpacing />
