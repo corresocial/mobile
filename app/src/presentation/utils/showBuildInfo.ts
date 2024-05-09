@@ -3,7 +3,11 @@ import Constants from 'expo-constants'
 import * as Device from 'expo-device'
 import { Alert, Platform } from 'react-native'
 
+import { getEnvVars } from '@infrastructure/environment'
+
 export async function showBuildInfo() {
+	const { ENVIRONMENT } = getEnvVars()
+
 	const appVersion = Constants.deviceName
 	const platformVersion = Platform.Version
 	const deviceOsVersion = Device.osVersion
@@ -22,6 +26,7 @@ export async function showBuildInfo() {
 	const supportedSdks = Constants.systemVersion
 
 	Alert.alert(`${appVersion} - ${platformVersion}`, `
+	ENVIRONMENT: ${ENVIRONMENT}
 
 	lastUpdateTime: ${lastUpdateTime}
 	androidId: ${androidId}
