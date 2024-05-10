@@ -15,10 +15,12 @@ import {
 	RightAreaLimits,
 	SaleValueContainer,
 	SaleValueContainerInner,
-	SidePicture,
+	SideMedia,
 	Title,
-	TitleContainer
+	TitleContainer,
+	VideoIconContainer
 } from './styles'
+import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -27,7 +29,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 
-const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { formatRelativeDate, arrayIsEmpty, checkMediaType } = UiUtils()
 
 interface PostCardProps {
 	post: PostEntityOptional | any
@@ -84,6 +86,22 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 		onPress()
 	}
 
+	function hasPictures(): boolean {
+		return !arrayIsEmpty(post.picturesUrl)
+	}
+	
+	function hasVideos(): boolean {
+		return !arrayIsEmpty(post.videosUrl)
+	}
+	
+	function hasMedia(): boolean {
+		return hasPictures() || hasVideos() 
+	}
+
+	function getMediaSource(): string {
+		return post.videosUrl[0] || post.picturesUrl[0]
+	}
+
 	const getRelativeBlurhash = () => {
 		switch (post.postType) {
 			case 'income': return 'U0Fui[%|fQ%|?^fjfQfjfQfQfQfQ?^fjfQfj'
@@ -106,19 +124,26 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
 				<LeftArea
-					hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}
+					hasMediaOrSaleValue={hasMedia() || post.saleValue || post.exchangeValue}
 					backgroundColor={defineLabelColor(true)}
 				>
 					{
-						<SidePicture
-							hasPicture={!arrayIsEmpty(post.picturesUrl)}
-							source={!arrayIsEmpty(post.picturesUrl) ? { uri: post.picturesUrl[0] } : {}}
-							recyclingKey={!arrayIsEmpty(post.picturesUrl) ? post.picturesUrl[0] : ''}
+						<SideMedia
+							hasMedia={hasMedia()}
+							source={hasMedia() ? { uri: getMediaSource() } : {}}
+							recyclingKey={hasMedia() ? getMediaSource() : ''}
 							placeholder={blurhash}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
 							transition={300}
 						>
+							{
+								checkMediaType(getMediaSource()) === 'video' && (
+									<VideoIconContainer>
+										<VideoCameraIcon/>
+									</VideoIconContainer>
+								)
+							}
 							{
 								(post.saleValue || post.exchangeValue) && (
 									<>
@@ -134,15 +159,15 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										{(!arrayIsEmpty(post.picturesUrl)) && <VerticalSpacing height={RFValue(8)} />}
+										{(hasMedia()) && <VerticalSpacing height={RFValue(8)} />}
 									</>
 								)
 							}
-						</SidePicture>
+						</SideMedia>
 					}
 				</LeftArea>
 				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
-				<RightArea hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}>
+				<RightArea hasMediaOrSaleValue={hasMedia() || post.saleValue || post.exchangeValue}>
 					<RightAreaLimits>
 						<TitleContainer>
 							<Title numberOfLines={post.description ? 3 : 2}>
