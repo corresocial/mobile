@@ -26,12 +26,16 @@ export const VideoContainer = styled.View` // TODO Videos
 	background-color: 'white';
 `
 
-export const VideoView = styled(Video)`
+interface VideoViewProps{
+    isLandScapeMode: boolean
+}
+
+export const VideoView = styled(Video)<VideoViewProps>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: ${relativeScreenHeight(70)}px;
+	height: ${({ isLandScapeMode }) => (isLandScapeMode ? relativeScreenHeight(40) : relativeScreenHeight(70))}px;
 `
 
 export const GalleryContainer = styled.View`
@@ -55,7 +59,7 @@ export const CloseButtonArea = styled.View<CloseButtonAreaProps>`
     top: 5%;
     right: 5%;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     padding: 2px;
     border-radius: 16px;
 
@@ -79,4 +83,14 @@ export const RightButton = styled.TouchableOpacity`
     top: 50%;
     transform: translateY(${-relativeScreenWidth(18)}px);
     right: 3%;
+`
+
+export const LoaderContainer = styled.View`
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    justify-content: center;
+    z-index: 3;
 `

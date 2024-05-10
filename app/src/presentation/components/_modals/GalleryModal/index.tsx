@@ -8,6 +8,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
+import { checkMediaType } from '@utils-ui/common/media/checkMediaType'
 import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
 
 import {
@@ -19,7 +20,8 @@ import {
 	CloseButtonArea,
 	ThumbnailListContainer,
 	VideoContainer,
-	VideoView
+	VideoView,
+	LoaderContainer
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
@@ -28,6 +30,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { Loader } from '@components/Loader'
 import { ThumbnailList } from '@components/ThumbnailList'
 
 interface GalleryProps {
@@ -44,6 +47,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
 	const [carouselEnabled, setCarouselEnabled] = useState(true)
 	const [videoThumbnails, setVideoThumbnails] = useState<string[]>([])
+	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	const [screenSizes, setScreenSizes] = useState({
 		width: relativeScreenWidth(100),
@@ -59,9 +63,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 				await ScreenOrientation.unlockAsync()
 			}
 			const generateThumbnails = async () => {
-				if (arrayIsEmpty(videosUrl)) return
-				const thumbnails = await generateVideoThumbnails(videosUrl)
-				setVideoThumbnails(thumbnails)
+				if (!arrayIsEmpty(videosUrl)) {
+					const thumbnails = await generateVideoThumbnails(videosUrl)
+					setVideoThumbnails(thumbnails as string[])
+				}
+				setIsLoading(false)
 			}
 			setCurrentIndex(0)
 			enableRotation()
@@ -74,6 +80,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
 			disableRotation()
+			setIsLoading(true)
 		}
 	}, [showGallery])
 
@@ -132,6 +139,14 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 		setCarouselEnabled(!isZooming)
 	}
 
+	const isShowingVideo = (): boolean => {
+		return (currentIndex > (videosUrl.length - 1))
+	}
+
+	const hideThumbnailList = (): boolean => {
+		return hideElements || (!isShowingVideo() && isLandscapeMode) 
+	}
+
 	const renderPicture = (uri: string) => (
 		<ImageContainer
 			activeOpacity={1}
@@ -150,6 +165,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 	const renderVideo = (uri: string) => (
 		<VideoContainer>
 			<VideoView
+				isLandScapeMode={isLandscapeMode}
 				source={{ uri: uri }}
 				resizeMode={ResizeMode.CONTAIN}
 				isLooping
@@ -160,8 +176,8 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 	)
 
 	const renderMedia = (uri: string) => {
-		const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
-		if (extension.includes('mp4')) {
+		const mediaType = checkMediaType(uri)
+		if (mediaType === 'video') {
 			return renderVideo(uri)
 		}
 		return renderPicture(uri)
@@ -169,6 +185,14 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
+			{
+				isLoading && (
+					<LoaderContainer>
+						<Loader/>
+					</LoaderContainer>
+				)
+			}
+			
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
@@ -200,7 +224,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 						</CloseButtonArea>
 
 						{
-							!hideArrows && (
+							!hideArrows && isShowingVideo() && (
 								<>
 									<LeftButton onPress={() => goToNext(-1)}>
 										<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
@@ -216,12 +240,19 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 				)
 			}
 
-			<ThumbnailListContainer key={isLandscapeMode ? 'landscape' : 'portrait'} style={{ opacity: hideElements ? 0 : 1 }}>
+			<ThumbnailListContainer 
+				key={isLandscapeMode ? 'landscape' : 'portrait'} 
+				style={{ 
+					opacity: hideThumbnailList() ? 0 : 1, 
+					zIndex: hideThumbnailList() ? -1 : 1 
+				}}
+			>
 				<ThumbnailList
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
 					onThumbnailPressed={handleThumbnailPressed}
 					picturesUrl={([...videoThumbnails, ...picturesUrl])}
+					videoQuantity={videoThumbnails.length}
 				/>
 			</ThumbnailListContainer>
 
