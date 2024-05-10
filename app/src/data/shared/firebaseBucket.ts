@@ -43,7 +43,7 @@ export async function configUploadObjects(localPath: string, path: UploadPath, f
 		const response = await fetch(localPath)
 		const blob = await response.blob()
 
-		const fileExtention = 'jpg' // localPath.split('.')[localPath.split('.').length - 1]
+		const fileExtention = folder === 'pictures' ? 'jpg' : 'mp4' // localPath.split('.')[localPath.split('.').length - 1]
 
 		const fileRef = ref(
 			storage,

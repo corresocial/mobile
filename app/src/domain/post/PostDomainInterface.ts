@@ -15,7 +15,7 @@ interface PostDomainInterface {
 		newPostData: PostEntity,
 		newPostPicturesUri: string[],
 		unsavedPostVideos: string[]
-	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[], videosUrlUploaded: string[] }>
 	savePost: (
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,

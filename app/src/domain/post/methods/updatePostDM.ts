@@ -16,7 +16,7 @@ async function updatePostDM(
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
 	unsavedPostPictures: string[],
-	// unsavedPostVideos: string[]
+	unsavedPostVideos: string[]
 ) {
 	const { remoteStorage } = usePostRepository()
 
@@ -60,29 +60,29 @@ async function updatePostDM(
 
 	// Tratamento de videos  v ///////////////////////////////////////////////
 
-	// console.log(mediaUrlUpdatedDM(unsavedPostVideos) ? 'Videos atualizadas' : 'Videos não atualizadas')
+	console.log(mediaUrlUpdatedDM(unsavedPostVideos) ? 'Videos atualizadas' : 'Videos não atualizadas')
 
-	// let newPostVideosUrl: string[] = unsavedPostVideos || []
-	// if (mediaUrlUpdatedDM(unsavedPostVideos)) {
-	// 	const picturesNotUploaded = (unsavedPostVideos || []).filter((url: string) => !url.includes('https://')) || []
-	// 	const picturesAlreadyUploaded = (unsavedPostVideos || []).filter((url: string) => url.includes('https://')) || []
+	let newPostVideosUrl: string[] = unsavedPostVideos || []
+	if (mediaUrlUpdatedDM(unsavedPostVideos)) {
+		const picturesNotUploaded = (unsavedPostVideos || []).filter((url: string) => !url.includes('https://')) || []
+		const picturesAlreadyUploaded = (unsavedPostVideos || []).filter((url: string) => url.includes('https://')) || []
 
-	// 	const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'videos')
-	// 	newPostVideosUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
-	// }
+		const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'videos')
+		newPostVideosUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
+	}
 
-	// const storedVideosUrl = storedPostData.videosUrl || []
-	// const videosAlreadyUploadedToRemove = storedVideosUrl.filter((videoUrl) => unsavedPostVideos && !unsavedPostVideos.includes(videoUrl))
-	// if (videosAlreadyUploadedToRemove.length) {
-	// 	await remoteStorage.deletePostMedias(videosAlreadyUploadedToRemove, 'videos')
-	// }
+	const storedVideosUrl = storedPostData.videosUrl || []
+	const videosAlreadyUploadedToRemove = storedVideosUrl.filter((videoUrl) => unsavedPostVideos && !unsavedPostVideos.includes(videoUrl))
+	if (videosAlreadyUploadedToRemove.length) {
+		await remoteStorage.deletePostMedias(videosAlreadyUploadedToRemove, 'videos')
+	}
 
 	// Tratamento de videos ^ ///////////////////////////////////////////////
 
 	const newPostWithUploadedMedia = {
 		...newPostData,
 		picturesUrl: newPostPicturesUrl,
-		// videosUrl: newPostVideosUrl
+		videosUrl: newPostVideosUrl
 	}
 
 	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostWithUploadedMedia)
@@ -94,7 +94,7 @@ async function updatePostDM(
 	return {
 		updatedUserPosts: [...userPostsUpdated, newPostDesnormalized as PostEntity],
 		picturesUrlUploaded: newPostPicturesUrl,
-		// videosUrlUploaded: newPostVideosUrl
+		videosUrlUploaded: newPostVideosUrl
 	}
 }
 
