@@ -336,7 +336,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					}
 					<VerticalSpacing />
 					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
 							<>
 								<GalleryModal
 									picturesUrl={getPostField('picturesUrl')}
