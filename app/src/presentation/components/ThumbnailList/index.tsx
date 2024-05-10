@@ -10,10 +10,11 @@ interface ThumbnailProps {
 	thumbnailListRef: Ref<FlatList>,
 	picturesUrl: string[]
 	currentIndex: number
+	videoQuantity: number
 	onThumbnailPressed: (id: number) => void
 }
 
-function ThumbnailList({ thumbnailListRef, picturesUrl, currentIndex, onThumbnailPressed }: ThumbnailProps) {
+function ThumbnailList({ thumbnailListRef, picturesUrl, currentIndex, videoQuantity, onThumbnailPressed }: ThumbnailProps) {
 	const handleImagePressed = (id: number) => onThumbnailPressed(id)
 
 	const renderThumbnailItem: ListRenderItem<string> = ({ item, index }) => (
@@ -22,6 +23,7 @@ function ThumbnailList({ thumbnailListRef, picturesUrl, currentIndex, onThumbnai
 			active={currentIndex === index}
 			imageId={index}
 			pictureUrl={item}
+			isVideo={index <= videoQuantity - 1}
 		/>
 	)
 
