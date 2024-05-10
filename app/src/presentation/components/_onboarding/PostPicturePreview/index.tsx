@@ -8,7 +8,7 @@ import { compressVideo } from '@utils-ui/common/convertion/compressVideo'
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
-import { ButtonsContainer, Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
+import { ButtonsContainer, Container, HorizontalListPicturesContainer, LoaderContainer, PicturePreviewContainer, TopArea } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import NewPhotoWhiteIcon from '@assets/icons/camera-white.svg'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -22,6 +22,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 import { VideoPortrait } from '@components/VideoPortrait'
 
 import { HorizontalListPictures } from '../../HorizontalListPictures'
@@ -49,6 +50,7 @@ function PostPicturePreview({
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
 	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
+	const [isLoading, setisLoading] = useState<boolean>(false)
 
 	useEffect(() => {
 		setThumbnailsOnVideos()
@@ -60,7 +62,7 @@ function PostPicturePreview({
 		console.log(hasVideos)
 		if (hasVideos) {
 			console.log('tem vídeos')
-			const newMediaPack = await generateThumb(initialValue || [])
+			const newMediaPack = await generateThumb()
 			setMediaPack(newMediaPack)
 		} else {
 			console.log('não tem vídeos')
@@ -68,7 +70,7 @@ function PostPicturePreview({
 		}
 	}
 
-	const generateThumb = async (videoAssets: MediaAsset[]) => {
+	const generateThumb = async () => {
 		return Promise.all(
 			mediaPack.map(async (media) => {
 				if (media.mediaType === 'video') {
@@ -124,6 +126,7 @@ function PostPicturePreview({
 	}
 
 	const savePictures = async (mediaAssets: MediaAsset[]) => {
+		setisLoading(true)
 		const picturesUri: string[] = []
 		const videosUri: string[] = []
 
@@ -135,6 +138,7 @@ function PostPicturePreview({
 		const compressedVideoUris = await compressVideosUris(videosUri)
 		const compressedPictureUris = await compressPicturesUris(picturesUri)
 		saveMedia(compressedPictureUris, compressedVideoUris)
+		setisLoading(false)
 	}
 
 	const compressPicturesUris = async (picturesUri: string[]) => {
@@ -147,10 +151,18 @@ function PostPicturePreview({
 
 	return (
 		<Container>
+			{
+				isLoading && (
+					<LoaderContainer>
+						<Loader/>
+					</LoaderContainer>
+				)
+			}
+			
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
-				maxImages={10 - mediaPack.length}
+				maxImages={10 - mediaPack.length ?? 0}
 				showMediaBrowser={mediaBrowserOpened}
 			/>
 			<CustomCameraModal
@@ -190,10 +202,10 @@ function PostPicturePreview({
 				</TopArea>
 				<PicturePreviewContainer>
 					{
-						mediaPack[mediaIndexSelected].mediaType === 'video' ? (
+						mediaPack[mediaIndexSelected]?.mediaType === 'video' ? (
 							<VideoPortrait
 								height={relativeScreenWidth(89)}
-								videoUrl={mediaPack[mediaIndexSelected].url}
+								videoUrl={mediaPack[mediaIndexSelected]?.url}
 								width={relativeScreenWidth(90)}
 								deleteCurrentVideo={deleteCurrentMedia}
 								showVideoPlayer
@@ -201,7 +213,7 @@ function PostPicturePreview({
 						) : (
 							<PhotoPortrait
 								resizeMode={'cover'}
-								pictureUri={mediaPack[mediaIndexSelected].url}
+								pictureUri={mediaPack[mediaIndexSelected]?.url}
 								width={relativeScreenWidth(90)}
 								height={relativeScreenWidth(89)}
 								deleteCurrentPicture={deleteCurrentMedia}
