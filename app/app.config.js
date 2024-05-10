@@ -28,6 +28,7 @@ export default {
 		},
 		plugins: [
 			'react-native-compressor',
+			'expo-av',
 			[
 				'expo-updates',
 				{
