@@ -1,6 +1,5 @@
 import * as MediaLibrary from 'expo-media-library'
 import { Asset, AssetRef } from 'expo-media-library'
-// import * as VideoThumbnails from 'expo-video-thumbnails'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
@@ -76,12 +75,6 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			currentAlbums.map(async (album: AlbumType) => {
 				if (await firstAssetIsPhotoType(album.id)) { // Essa função verifica se há imagens no album, o nome não está muito bom
 					const [firstAsset] = await getFirstAssetInAlbum(album.id)
-
-					// if (firstAsset.mediaType === 'video') {
-					// 	const { uri } = await VideoThumbnails.getThumbnailAsync(firstAsset.uri, { time: 1000 })
-					// 	return { ...album, thumbnail: uri }
-					// }
-
 					return { ...album, thumbnail: firstAsset.uri }
 				}
 				return false
@@ -135,20 +128,8 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		setCursor(albumMedia.hasNextPage ? albumMedia.endCursor : '')
 
 		setMedia([...media, ...albumMedia.assets])
-		//	const albumMediaWithThumbnail = await generateThumbnailOnVideoAssets(albumMedia.assets)
-		// setMedia([...media, ...albumMediaWithThumbnail])
 		setIsContentLoading(false)
 	}
-
-	// const generateThumbnailOnVideoAssets = async (assets: Asset[]) => {
-	// 	return Promise.all(
-	// 		assets.map(async (asset) => {
-	// 			if (asset.mediaType === 'photo') return { ...asset }
-	// 			const { uri } = await VideoThumbnails.getThumbnailAsync(asset.uri, { time: 1000 })
-	// 			return { ...asset, thumbnail: uri }
-	// 		})
-	// 	)
-	// }
 
 	const selectAlbumHandler = async (album: AlbumType) => {
 		setAlbumSelected({ id: album.id, albumName: album.title })
@@ -304,5 +285,3 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 }
 
 export { MediaBrowserModal }
-
-// TODO Video
