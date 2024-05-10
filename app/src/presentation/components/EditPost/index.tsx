@@ -115,7 +115,7 @@ function EditPost({
 		try {
 			setIsLoading(true)
 
-			const { updatedUserPosts, picturesUrlUploaded } = await updatePost(
+			const { updatedUserPosts, picturesUrlUploaded, videosUrlUploaded } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
@@ -132,7 +132,7 @@ function EditPost({
 			)
 
 			updateUserContext({ ...userDataContext }, updatedUserPosts)
-			changeStateOfEditedFields([...picturesUrlUploaded])
+			changeStateOfEditedFields([...picturesUrlUploaded], [...videosUrlUploaded])
 
 			setIsLoading(false)
 			navigateBackwards()
@@ -211,14 +211,16 @@ function EditPost({
 		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
-	const changeStateOfEditedFields = (uploadedPictures?: string[], uploadedVideos?: string[]) => {
-		let newEditState
-		if (uploadedPictures) {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
-		} else {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+	const changeStateOfEditedFields = (uploadedPictures: string[], uploadedVideos: string[]) => {
+		const newEditState = { 
+			saved: {
+				...editDataContext.saved, 
+				...editDataContext.unsaved, 
+				picturesUrl: [...uploadedPictures],
+				videosUrl: [...uploadedVideos]
+			}, unsaved: {} 
 		}
-
+		
 		editContext.setEditDataOnContext(newEditState)
 	}
 

@@ -72,6 +72,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		return picturesUrl
 	}
 
+	const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	}
+
 	const formatCategoryAndTags = () => { // REFACTOR useUiUtils internalizar no componente?
 		const category: CultureCategories = getPostField('category')
 		const tags = getPostField('tags')
@@ -114,8 +120,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureEntity) => {
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
+		if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
 		}
 
 		if (initialValue === 'location') {
@@ -215,9 +221,9 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={getPicturesUrl()}
+					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
 					carousel
-					pressionable={arrayIsEmpty(getPicturesUrl())}
+					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

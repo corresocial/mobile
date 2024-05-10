@@ -1,3 +1,4 @@
+import { ResizeMode } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
@@ -6,6 +7,9 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
+import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
+
 import {
 	GalleryModalContainer,
 	ImageContainer,
@@ -13,7 +17,9 @@ import {
 	LeftButton,
 	RightButton,
 	CloseButtonArea,
-	ThumbnailListContainer
+	ThumbnailListContainer,
+	VideoContainer,
+	VideoView
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
@@ -27,17 +33,17 @@ import { ThumbnailList } from '@components/ThumbnailList'
 interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
-	videoThumbnails?: string[]
 	showGallery: boolean,
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
 	const [carouselEnabled, setCarouselEnabled] = useState(true)
+	const [videoThumbnails, setVideoThumbnails] = useState<string[]>([])
 
 	const [screenSizes, setScreenSizes] = useState({
 		width: relativeScreenWidth(100),
@@ -52,11 +58,17 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 			const enableRotation = async () => {
 				await ScreenOrientation.unlockAsync()
 			}
+			const generateThumbnails = async () => {
+				if (arrayIsEmpty(videosUrl)) return
+				const thumbnails = await generateVideoThumbnails(videosUrl)
+				setVideoThumbnails(thumbnails)
+			}
 			setCurrentIndex(0)
 			enableRotation()
 			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
 				setIsLandscapeMode((orientationInfo.orientation !== 1))
 			})
+			generateThumbnails()
 		} else {
 			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
@@ -90,11 +102,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 		}
 	}, [currentIndex])
 
-	const mediaUrls = [/* ...videosUrl,  */...picturesUrl]
-	const hideArrows = (picturesUrl /* && videosUrl */) && ((picturesUrl.length/*  + videosUrl.length */) < 2)
+	const mediaUrls = [...videosUrl, ...picturesUrl]
+	const hideArrows = (picturesUrl && videosUrl) && ((picturesUrl.length + videosUrl.length) < 2)
 
 	const goToNext = (direction: number) => {
-		const length = (picturesUrl.length/*  + videosUrl.length */) ?? 0
+		const length = (picturesUrl.length + videosUrl.length) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -135,7 +147,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 		</ImageContainer>
 	)
 
-	/* const renderVideo = (uri: string) => (
+	const renderVideo = (uri: string) => (
 		<VideoContainer>
 			<VideoView
 				source={{ uri: uri }}
@@ -145,13 +157,13 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 			/>
 
 		</VideoContainer>
-	) */
+	)
 
 	const renderMedia = (uri: string) => {
-		// const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
-		// if (extension.includes('mp4')) {
-		// 	return renderVideo(uri)
-		// }
+		const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
+		if (extension.includes('mp4')) {
+			return renderVideo(uri)
+		}
 		return renderPicture(uri)
 	}
 
@@ -209,7 +221,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
 					onThumbnailPressed={handleThumbnailPressed}
-					picturesUrl={(videoThumbnails ? [...videoThumbnails, ...picturesUrl] : [...picturesUrl])}
+					picturesUrl={([...videoThumbnails, ...picturesUrl])}
 				/>
 			</ThumbnailListContainer>
 

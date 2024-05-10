@@ -1,8 +1,11 @@
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
-import React, { useState } from 'react'
-import { Video } from 'react-native-compressor'
+import React, { useEffect, useState } from 'react'
 
+import { MediaAsset } from 'src/presentation/types'
+
+import { compressVideo } from '@utils-ui/common/convertion/compressVideo'
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { ButtonsContainer, Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
@@ -19,6 +22,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { VideoPortrait } from '@components/VideoPortrait'
 
 import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
@@ -27,9 +31,9 @@ const { compressImage } = UiUtils()
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
-	initialValue?: string[] /* { picturesUrl: string[], videosUrl: string[] } */
+	initialValue?: MediaAsset[]
 	navigateBackwards: () => void
-	saveMedia: (picturesUrl: string[]) => void
+	saveMedia: (picturesUrl: string[], videosUrl: string[]) => void
 }
 
 function PostPicturePreview({
@@ -38,28 +42,59 @@ function PostPicturePreview({
 	navigateBackwards,
 	saveMedia
 }: PostPicturePreviewProps) {
-	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue || [])
-	// const [videosPack, setVideosPack] = useState<string[]>(/* initialValue?.videosUrl || */[])
+	const [mediaPack, setMediaPack] = useState<MediaAsset[]>(initialValue || [])
 	const [mediaIndexSelected, setMediaIndexSelected] = useState<number>(0)
-	// const [isVideoSelected, setIsVideoSelected] = useState<boolean>(false)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
 	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
 
+	useEffect(() => {
+		setThumbnailsOnVideos()
+	}, [])
+
+	const setThumbnailsOnVideos = async () => {
+		console.log(initialValue)
+		const hasVideos = (initialValue || []).find((media) => media && media.mediaType === 'video')
+		console.log(hasVideos)
+		if (hasVideos) {
+			console.log('tem vídeos')
+			const newMediaPack = await generateThumb(initialValue || [])
+			setMediaPack(newMediaPack)
+		} else {
+			console.log('não tem vídeos')
+			setMediaPack(initialValue || [])
+		}
+	}
+
+	const generateThumb = async (videoAssets: MediaAsset[]) => {
+		return Promise.all(
+			mediaPack.map(async (media) => {
+				if (media.mediaType === 'video') {
+					const videoThumbnail = await generateVideoThumbnails(media.url) as string
+					return { ...media, videoThumbnail: videoThumbnail }
+				}
+				return media
+			})
+		)
+	}
+
 	const setPictureUri = (uri: string) => {
-		const currentPictures = [...picturesPack]
-		currentPictures.push(uri)
-		setMediaIndexSelected(picturesPack.length)
-		setPicturesPack(currentPictures)
+		const currentMedia = [...mediaPack]
+		currentMedia.push({
+			url: uri,
+			mediaType: 'photo'
+		})
+		setMediaIndexSelected(mediaPack.length)
+		setMediaPack(currentMedia)
 		setHasSelectedMedia(true)
 	}
 
-	const deleteCurrentPicture = () => {
-		const picturesAfterDelete = picturesPack.filter((_, index) => index !== mediaIndexSelected)
-		setMediaIndexSelected(picturesPack.length - 2)
-		setPicturesPack(picturesAfterDelete)
+	const deleteCurrentMedia = () => {
+		const picturesAfterDelete = mediaPack.filter((_, index) => index !== mediaIndexSelected)
+		setMediaIndexSelected(mediaPack.length - 2)
+		setMediaPack(picturesAfterDelete)
 	}
 
 	const editCurrentPicture = () => {
@@ -67,57 +102,55 @@ function PostPicturePreview({
 	}
 
 	const saveCroppedImage = (image: any) => {
-		const newPicturesPack = [...picturesPack]
+		const newPicturesPack = [...mediaPack]
 		newPicturesPack[mediaIndexSelected] = image.uri
-		setPicturesPack(newPicturesPack)
+		setMediaPack(newPicturesPack)
 		setImageCropperOpened(false)
 	}
 
 	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
-		const currentPictures = [...picturesPack]
-		// const currentVideos = [...videosPack]
+		const currentMedia = mediaPack
 
 		mediaSelected.forEach((media: Asset) => {
-			currentPictures.push(media.uri)
-			// media.mediaType === 'photo' ? currentPictures.push(media.uri) : currentVideos.push(media.uri)
+			const asset: MediaAsset = {
+				url: media.uri,
+				mediaType: media.mediaType as any // TODO type
+			}
+			currentMedia.push(asset)
 		})
 
-		setPicturesPack(currentPictures)
+		setMediaPack(currentMedia)
 		setHasSelectedMedia(true)
-		// setVideosPack(currentVideos)
 	}
 
-	const savePictures = async (picturesUri: string[]) => {
-		// const compressedUris = await compressPicturesUris(picturesUri)
-		// saveMedia(compressedUris)
+	const savePictures = async (mediaAssets: MediaAsset[]) => {
+		const picturesUri: string[] = []
+		const videosUri: string[] = []
 
-		const result = await Video.compress(
-			picturesUri[0],
-			{},
-			(progress) => {
-				console.log('Compression Progress: ', progress)
-			}
-		)
+		mediaAssets.forEach((mediaAsset) => {
+			if (mediaAsset.mediaType === 'video') videosUri.push(mediaAsset.url)
+			else picturesUri.push(mediaAsset.url)
+		})
 
-		console.log('vídeo comprimido')
-		console.log(result)
+		const compressedVideoUris = await compressVideosUris(videosUri)
+		const compressedPictureUris = await compressPicturesUris(picturesUri)
+		saveMedia(compressedPictureUris, compressedVideoUris)
 	}
 
 	const compressPicturesUris = async (picturesUri: string[]) => {
 		return Promise.all(picturesUri.map(async (uri) => compressImage(uri)))
 	}
 
-	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
-	// 	setMediaIndexSelected(index)
-	//  setIsVideoSelected(isVideo)
-	// }
+	const compressVideosUris = async (videosUri: string[]) => {
+		return Promise.all(videosUri.map(async (uri) => compressVideo(uri)))
+	}
 
 	return (
 		<Container>
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
-				maxImages={10 - picturesPack.length}
+				maxImages={10 - mediaPack.length}
 				showMediaBrowser={mediaBrowserOpened}
 			/>
 			<CustomCameraModal
@@ -128,7 +161,7 @@ function PostPicturePreview({
 			{
 				imageCropperOpened && (
 					<ImageEditor
-						imageUri={picturesPack[mediaIndexSelected]}
+						imageUri={mediaPack[mediaIndexSelected]}
 						fixedAspectRatio={1 / 1}
 						minimumCropDimensions={{
 							width: 50,
@@ -156,21 +189,33 @@ function PostPicturePreview({
 					/>
 				</TopArea>
 				<PicturePreviewContainer>
-					<PhotoPortrait
-						resizeMode={'cover'}
-						pictureUri={picturesPack[mediaIndexSelected]}
-						width={relativeScreenWidth(90)}
-						height={relativeScreenWidth(89)}
-						deleteCurrentPicture={deleteCurrentPicture}
-						editCurrentPicture={editCurrentPicture}
-					/>
+					{
+						mediaPack[mediaIndexSelected].mediaType === 'video' ? (
+							<VideoPortrait
+								height={relativeScreenWidth(89)}
+								videoUrl={mediaPack[mediaIndexSelected].url}
+								width={relativeScreenWidth(90)}
+								deleteCurrentVideo={deleteCurrentMedia}
+								showVideoPlayer
+							/>
+						) : (
+							<PhotoPortrait
+								resizeMode={'cover'}
+								pictureUri={mediaPack[mediaIndexSelected].url}
+								width={relativeScreenWidth(90)}
+								height={relativeScreenWidth(89)}
+								deleteCurrentPicture={deleteCurrentMedia}
+								editCurrentPicture={editCurrentPicture}
+							/>
+						)
+					}
+
 					<VerticalSpacing height={relativeScreenWidth(7)} />
 				</PicturePreviewContainer>
 				<HorizontalListPicturesContainer>
 					<HorizontalListPictures
-						picturesUri={picturesPack}
-						// videosUri={videosPack}
-						pictureUriSelected={mediaIndexSelected}
+						mediaAssets={mediaPack}
+						mediaUriSelected={mediaIndexSelected}
 						onSelectMedia={setMediaIndexSelected}
 					/>
 				</HorizontalListPicturesContainer>
@@ -197,7 +242,7 @@ function PostPicturePreview({
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					onPress={async () => savePictures(picturesPack)}
+					onPress={async () => savePictures(mediaPack)}
 				/>
 			</ButtonsContainer>
 		</Container>

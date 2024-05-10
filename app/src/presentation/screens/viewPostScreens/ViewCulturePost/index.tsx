@@ -350,6 +350,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								>
 									<ImageCarousel
 										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
 										indicatorColor={theme.blue1}
 										square
 										showFullscreenIcon

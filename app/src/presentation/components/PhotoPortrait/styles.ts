@@ -55,7 +55,7 @@ export const DeleteItemArea = styled.TouchableOpacity`
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
     padding: ${relativeScreenWidth(2.5)}px;
-    bottom: ${relativeScreenWidth(2)}px;
+    top: ${relativeScreenWidth(2)}px;
     right: ${relativeScreenWidth(2)}px;
 `
 
@@ -66,12 +66,12 @@ export const EditItemArea = styled.TouchableOpacity`
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
     padding: ${relativeScreenWidth(2.5)}px;
-    bottom: ${relativeScreenWidth(2)}px;
+	top: ${relativeScreenWidth(2)}px;
     right: ${relativeScreenWidth(16)}px;
 `
 
 export const VideoIndicatorContainer = styled.View`
 	position: absolute;
-	bottom: ${RFValue(15)}px;
+	top: ${RFValue(5)}px;
 	left: ${RFValue(15)}px;
 `

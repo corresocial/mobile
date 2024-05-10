@@ -1,10 +1,11 @@
-// import { ResizeMode } from 'expo-av'
+import { ResizeMode } from 'expo-av'
 import React from 'react'
-
 // TODO Videos
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, DeleteItemArea, NoPhotoContainer } from './styles'
+import { Container, DeleteItemArea, NoPhotoContainer, PortraitVideo, VideoIndicatorContainer } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
+import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
@@ -49,13 +50,13 @@ function VideoPortrait({
 				videoUrl
 					? (
 						<>
-							{ /* <PortraitVideo
-							source={{ uri: videoUrl }}
-							useNativeControls={showVideoPlayer}
-							isLooping
-							volume={0}
-							resizeMode={resizeMode}
-						/> */}
+							<PortraitVideo
+								source={{ uri: videoUrl }}
+								useNativeControls={showVideoPlayer}
+								isLooping
+								volume={0}
+								resizeMode={ResizeMode.CONTAIN}
+							/>
 						</>
 					)
 					: (
@@ -80,6 +81,9 @@ function VideoPortrait({
 					)
 					: null
 			}
+			<VideoIndicatorContainer>
+				<VideoCameraIcon width={RFValue(40)} height={RFValue(40)} />
+			</VideoIndicatorContainer>
 		</Container >
 	)
 }

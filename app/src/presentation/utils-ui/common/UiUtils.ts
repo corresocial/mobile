@@ -1,7 +1,9 @@
 import { convertTextToNumber } from './convertion'
 import { compressImage } from './convertion/compressImage'
-// import { generateVideoThumbnails } from './convertion/generateVideoThumbnail'
+import { compressVideo } from './convertion/compressVideo'
+import { generateVideoThumbnails } from './convertion/generateVideoThumbnail'
 import { formatDate, formatHour, formatRelativeDate } from './date/dateFormat'
+import { checkMediaType } from './media/checkMediaType'
 import { sortArray } from './sort/list'
 import { UiUtilsInterface } from './UiUtilsInterface'
 import { arrayIsEmpty } from './validation/validateArray'
@@ -18,8 +20,10 @@ function UiUtils(): UiUtilsInterface {
 		formatRelativeDate,
 		arrayIsEmpty,
 		sortArray,
-		// generateVideoThumbnails,
+		generateVideoThumbnails,
+		checkMediaType,
 		compressImage,
+		compressVideo,
 
 		validateRG,
 		validateCPF

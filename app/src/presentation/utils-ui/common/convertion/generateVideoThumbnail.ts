@@ -1,11 +1,15 @@
-// import * as VideoThumbnails from 'expo-video-thumbnails'
+import { createVideoThumbnail } from 'react-native-compressor'
 
-async function generateVideoThumbnails(videosUrl: string[]) {
+async function generateVideoThumbnails(videosUrl: string | string[]) {
+	if(videosUrl && typeof videosUrl === 'string'){
+		const thumbnail = await createVideoThumbnail(videosUrl)
+		return  thumbnail.path
+	}
+	
 	return Promise.all(
 		videosUrl.map(async (videoUrl) => {
-			// const { uri } = await VideoThumbnails.getThumbnailAsync(videoUrl, { time: 1000 })
-			// return uri
-			return []
+			const thumbnail = await createVideoThumbnail(videoUrl)
+			return thumbnail.path
 		})
 	)
 }
