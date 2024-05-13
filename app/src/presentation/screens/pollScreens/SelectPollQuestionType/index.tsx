@@ -11,6 +11,7 @@ import { SelectPollQuestionTypeScreenProps } from '@routes/Stack/PollStack/scree
 
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import NumbersWhiteIcon from '@assets/icons/numbers-white.svg'
+import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import SatisfactionEmoji5WhiteIcon from '@assets/icons/satisfactionEmoji-5-white.svg'
 import VerifiedLabelWhiteIcon from '@assets/icons/verifiedLabel.svg'
 
@@ -24,6 +25,10 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
+		if (questionType === 'multiSelect') {
+			return navigation.push('InsertMultiSelectOptions', { ...route.params, multiSelectOptions: [], editMode: !!route.params?.editMode })
+		}
+
 		if (route.params?.editMode) {
 			addNewUnsavedFieldToEditContext({
 				questions: [...(editDataContext.unsaved.questions || []), {
@@ -44,7 +49,7 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 			title={'que tipo de resposta você quer?'}
 			highlightedWords={['tipo', 'resposta']}
 			headerBackgroundColor={theme.purple2}
-			progress={[3, 3]}
+			progress={[3, 4]}
 			backgroundColor={theme.white3}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -52,7 +57,7 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 				label={'campo de resposta'}
 				highlightedWords={['resposta']}
 				labelSize={15}
-				relativeHeight={'18%'}
+				relativeHeight={'17%'}
 				SvgIcon={DescriptionWhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.purple3}
@@ -63,7 +68,7 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 				label={'valor numérico'}
 				highlightedWords={['numérico']}
 				labelSize={15}
-				relativeHeight={'18%'}
+				relativeHeight={'17%'}
 				SvgIcon={NumbersWhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.purple3}
@@ -74,7 +79,7 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 				label={'sim / não'}
 				highlightedWords={['sim', 'não']}
 				labelSize={15}
-				relativeHeight={'18%'}
+				relativeHeight={'17%'}
 				SvgIcon={VerifiedLabelWhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.purple3}
@@ -85,12 +90,23 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 				label={'nível de felicidade'}
 				highlightedWords={['felicidade']}
 				labelSize={15}
-				relativeHeight={'18%'}
+				relativeHeight={'17%'}
 				SvgIcon={SatisfactionEmoji5WhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.purple3}
 				leftSideWidth={'25%'}
 				onPress={() => selectPollQuestionType('satisfaction')}
+			/>
+			<OptionButton
+				label={'múltipla escolha'}
+				highlightedWords={['múltipla']}
+				labelSize={15}
+				relativeHeight={'17%'}
+				SvgIcon={QuestionMarkWhiteIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.purple3}
+				leftSideWidth={'25%'}
+				onPress={() => selectPollQuestionType('multiSelect')}
 			/>
 		</PostSelectButton>
 	)

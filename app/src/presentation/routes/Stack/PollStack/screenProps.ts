@@ -6,6 +6,7 @@ export type InsertPollTitleScreenProps = NativeStackScreenProps<PollStackParamLi
 export type InsertPollDescriptionScreenProps = NativeStackScreenProps<PollStackParamList, 'InsertPollDescription'>
 export type InsertPollQuestionsScreenProps = NativeStackScreenProps<PollStackParamList, 'InsertPollQuestions'>
 export type SelectPollQuestionTypeScreenProps = NativeStackScreenProps<PollStackParamList, 'SelectPollQuestionType'>
+export type InsertMultiSelectOptionsScreenProps = NativeStackScreenProps<PollStackParamList, 'InsertMultiSelectOptions'>
 export type SelectPollRangeScreenProps = NativeStackScreenProps<PollStackParamList, 'SelectPollRange'>
 export type InsertPollLocationScreenProps = NativeStackScreenProps<PollStackParamList, 'InsertPollLocation'>
 

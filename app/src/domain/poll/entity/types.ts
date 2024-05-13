@@ -22,7 +22,7 @@ export type PollQuestion = {
 	questionType: PollQuestionType
 }
 
-export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction'
+export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'multiSelect'
 
 type PollRange = 'near' | 'city' | 'country'
 type PollLocation = {

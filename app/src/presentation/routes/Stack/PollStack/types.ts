@@ -7,6 +7,7 @@ export type PollStackParamList = {
 	InsertPollDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertPollQuestions: { editMode: boolean, initialValue: PollEntity['questions'] | null } | undefined
 	SelectPollQuestionType: { editMode: boolean, questionText: string } | undefined
+	InsertMultiSelectOptions: { editMode: boolean, multiSelectOptions: string[], questionText?: string } | undefined
 	SelectPollRange: { editMode: boolean, initialValue: PollEntity['range'] } | undefined
 	InsertPollLocation: { editMode: boolean, initialValue: PollEntity['location'] } | undefined
 

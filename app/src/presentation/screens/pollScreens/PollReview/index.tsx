@@ -68,7 +68,6 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 	const savePoll = async () => {
 		try {
 			setIsLoading(true)
-
 			await createNewPoll(usePollRepository, { ...newPollDataState, owner: pollOwner })
 
 			changeStateOfEditedFields()

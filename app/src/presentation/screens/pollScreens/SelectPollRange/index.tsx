@@ -41,7 +41,7 @@ function SelectPollRange({ route, navigation }: SelectPollRangeScreenProps) {
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePollRange}
-				progress={[3, 3]}
+				progress={[4, 4]}
 			/>
 		</>
 	)

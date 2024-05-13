@@ -1,20 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
+import uuid from 'react-uuid'
 
-import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
+import { PollQuestion } from '@domain/poll/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
-import { InsertPollQuestionsScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { InsertMultiSelectOptionsScreenProps } from '@routes/Stack/PollStack/screenProps'
 
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-import NumbersWhiteIcon from '@assets/icons/numbers-white.svg'
-import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
-import SatisfactionEmoji5WhiteIcon from '@assets/icons/satisfactionEmoji-5-white.svg'
-import VerifiedLabelWhiteIcon from '@assets/icons/verifiedLabel.svg'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
@@ -26,33 +22,27 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { ProgressBar } from '@components/ProgressBar'
 
-function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
-	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, removeQuestionFromRegisterContext } = usePollRegisterContext()
+function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOptionsScreenProps) {
+	const { setRegisteredQuestionOnPollDataContext } = usePollRegisterContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const getQuestionList = (): PollQuestion[] => {
-		if (editDataContext.unsaved && editDataContext.unsaved.questions) {
-			return (editDataContext.unsaved.questions || [])
-		}
-
-		return route.params?.initialValue || pollRegisterDataContext.questions as PollQuestion[]
-	}
-
-	const initialPollQuestions = getQuestionList()
-
-	const [questionText, setQuestionText] = useState('')
-	const [questionsList, setQuestionsList] = useState<PollQuestionOptional[]>(initialPollQuestions || [])
+	const [selectOptionText, setQuestionText] = useState('')
+	const [multiSelectOptions, setMultiSelectOptions] = useState<string[]>([])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
 		inputCards: [
 			useRef<TextInput>(null),
 			useRef<TextInput>(null),
+			useRef<TextInput>(null),
+			useRef<TextInput>(null),
+			useRef<TextInput>(null),
+			useRef<TextInput>(null),
+			useRef<TextInput>(null),
 			useRef<TextInput>(null)
 		],
-		questionTextInput: useRef<TextInput>(null),
+		selectOptionTextInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {
@@ -77,19 +67,16 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	}
 
 	const renderQuestionsSaved = () => {
-		const allQuestions = getQuestionList()
-
 		if (!questionsLength() || keyboardOpened) return <></>
-		return allQuestions.map((currentQuestion, index) => (
-			<>
+		return multiSelectOptions.map((currentQuestion, index) => (
+			<React.Fragment key={uuid()}>
 				<DefaultInput
 					key={index as number}
-					value={currentQuestion.question || ''}
+					value={currentQuestion}
 					relativeWidth={'100%'}
 					textInputRef={inputRefs.inputCards[index]}
 					defaultBackgroundColor={theme.white2}
 					validBackgroundColor={theme.purple1}
-					CustonLeftIcon={currentQuestion.questionType && getRelativeQuestionTypeIcon(currentQuestion.questionType)}
 					withoutBottomLine
 					multiline
 					lastInput
@@ -100,67 +87,44 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					fontSize={16}
 					keyboardType={'default'}
 					textIsValid
-					onIconPress={() => removeQuestion(currentQuestion.questionId)}
+					onIconPress={() => removeQuestion(currentQuestion)}
 					validateText={(text: string) => validatePollQuestions(text)}
 					onChangeText={(text: string) => { }}
 				/>
 				<VerticalSpacing />
-			</>
+			</React.Fragment>
 		))
 	}
 
-	const getRelativeQuestionTypeIcon = (questionType: PollQuestion['questionType']) => {
-		switch (questionType) {
-			case 'satisfaction':
-				return SatisfactionEmoji5WhiteIcon
-			case 'numerical':
-				return NumbersWhiteIcon
-			case 'textual':
-				return DescriptionWhiteIcon
-			case 'binary':
-				return VerifiedLabelWhiteIcon
-			case 'multiSelect':
-				return QuestionMarkWhiteIcon
-			default:
-				return undefined
-		}
-	}
-
-	const questionsLength = () => questionsList.length
+	const questionsLength = () => multiSelectOptions.length
 
 	const addNewQuestion = () => {
-		if (questionsLength() === 10 || questionText === '') return
+		if (questionsLength() === 5 || selectOptionText === '' || multiSelectOptions.includes(selectOptionText)) return
 
-		setQuestionsList([...questionsList, { question: questionText }])
+		setMultiSelectOptions([...multiSelectOptions, selectOptionText])
 		setQuestionText('')
-		setPollQuestionRegisterDataOnContext({ question: questionText })
-
-		navigation.push('SelectPollQuestionType', { editMode: !!route.params?.editMode, questionText })
 	}
 
-	const removeQuestion = (questionId: string) => {
-		const questions = getQuestionList()
-
-		const newQuestionsList = questions.filter((question: any) => question.questionId !== questionId)
-
-		setQuestionsList(newQuestionsList)
-
-		if (route.params?.editMode) {
-			return addNewUnsavedFieldToEditContext({ questions: newQuestionsList })
-		}
-
-		if (questionId) {
-			removeQuestionFromRegisterContext(questionId)
-		}
+	const removeQuestion = (optionText: string) => {
+		const newMultiSelectOptions = multiSelectOptions.filter((option: string) => option !== optionText)
+		setMultiSelectOptions(newMultiSelectOptions)
 	}
 
 	const savePollQuestions = () => {
 		if (route.params?.editMode) {
-			navigation.popToTop()
-			return
+			addNewUnsavedFieldToEditContext({
+				questions: [...(editDataContext.unsaved.questions || []), {
+					questionId: uuid(),
+					questionType: 'multiSelect',
+					options: multiSelectOptions,
+					question: route.params.questionText,
+				} as PollQuestion]
+			})
+		} else {
+			setRegisteredQuestionOnPollDataContext('multiSelect', multiSelectOptions)
 		}
 
-		navigation.navigate('SelectPollRange')
+		navigation.push('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
 	}
 
 	return (
@@ -175,11 +139,9 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					fontSize={16}
-					message={'adicione suas perguntas'}
-					highlightedWords={['perguntas']}
-				>
-					<ProgressBar value={3} range={4} />
-				</InstructionCard>
+					message={'adicione suas respostas para o campo de múltipla escolha'}
+					highlightedWords={['respostas', 'múltipla', 'escolha']}
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				withoutPaddingTop
@@ -190,13 +152,13 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					<VerticalSpacing height={relativeScreenHeight(3)} />
 					{!keyboardOpened && renderQuestionsSaved()}
 					{
-						questionsLength() < 10
+						questionsLength() < 5
 						&& (
 							<DefaultInput
 								key={12}
-								value={questionText}
+								value={selectOptionText}
 								relativeWidth={'100%'}
-								textInputRef={inputRefs.questionTextInput}
+								textInputRef={inputRefs.selectOptionTextInput}
 								defaultBackgroundColor={theme.white2}
 								validBackgroundColor={theme.purple1}
 								withoutBottomLine
@@ -207,7 +169,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 								iconPosition={'left'}
 								textAlignVertical={'center'}
 								textAlign={'center'}
-								placeholder={'pergunta'}
+								placeholder={`opção ${multiSelectOptions.length + 1}`}
 								keyboardType={'default'}
 								onPressKeyboardSubmit={addNewQuestion}
 								validateText={(text: string) => false}
@@ -237,4 +199,4 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	)
 }
 
-export { InsertPollQuestions }
+export { InsertMultiSelectOptions }

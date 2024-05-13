@@ -10,6 +10,7 @@ import { AnswerBinaryQuestion } from '@screens/pollScreens/AnswerBinaryQuestion'
 import { AnswerSatisfactionQuestion } from '@screens/pollScreens/AnswerSatisfactionQuestion'
 import { AnswerTextualQuestion } from '@screens/pollScreens/AnswerTextualQuestion'
 import { FinishedPollResponse } from '@screens/pollScreens/FinishedPollResponse'
+import { InsertMultiSelectOptions } from '@screens/pollScreens/InsertMultiSelectOptions'
 import { InsertPollDescription } from '@screens/pollScreens/InsertPollDescription'
 import { InsertPollLocation } from '@screens/pollScreens/InsertPollLocation'
 import { InsertPollQuestions } from '@screens/pollScreens/InsertPollQuestions'
@@ -36,6 +37,7 @@ export function PollStack() {
 				<Stack.Screen name={'InsertPollDescription'} component={InsertPollDescription} />
 				<Stack.Screen name={'InsertPollQuestions'} component={InsertPollQuestions} />
 				<Stack.Screen name={'SelectPollQuestionType'} component={SelectPollQuestionType} />
+				<Stack.Screen name={'InsertMultiSelectOptions'} component={InsertMultiSelectOptions} />
 				<Stack.Screen name={'SelectPollRange'} component={SelectPollRange} />
 				<Stack.Screen name={'InsertPollLocation'} component={InsertPollLocation} />
 

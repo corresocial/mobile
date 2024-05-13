@@ -27,7 +27,7 @@ const initialValue: PollRegisterContextType = {
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => { },
-	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => { },
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options: string[]) => { },
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
 	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
@@ -61,11 +61,13 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
-	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType']) => {
+	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType'], options: string[]) => {
+		const multiSelectOptions = options ? { options } : {}
 		const newQuestion: PollQuestion = {
 			questionId: uuid(),
 			question: pollQuestionRegisterDataContext.question,
-			questionType
+			questionType,
+			...multiSelectOptions
 		}
 
 		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
