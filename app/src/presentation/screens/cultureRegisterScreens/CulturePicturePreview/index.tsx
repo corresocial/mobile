@@ -23,12 +23,14 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 		}
 	}
 
+	const initialValue = convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.blue2}
-				initialValue={convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })}
+				initialValue={initialValue}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}
 			/>

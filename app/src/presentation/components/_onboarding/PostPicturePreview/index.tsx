@@ -54,13 +54,13 @@ function PostPicturePreview({
 	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
 
 	useEffect(() => {
+		console.log('initialValue')
+		console.log(initialValue)
 		setThumbnailsOnVideos()
 	}, [])
 
 	const setThumbnailsOnVideos = async () => {
-		console.log(initialValue)
 		const hasVideos = (initialValue || []).find((media) => media && media.mediaType === 'video')
-		console.log(hasVideos)
 		if (hasVideos) {
 			console.log('tem vídeos')
 			const newMediaPack = await generateThumb()
@@ -151,8 +151,17 @@ function PostPicturePreview({
 
 	const compressVideosUris = async (videosUri: string[]) => {
 		console.log('entrando')
+		console.log(initialValue)
 		return Promise.all(videosUri.map(async (uri) => {
-			if ((initialValue || [{ url: '' }]).find((media) => media.url === uri)) return uri
+			const alreadyCompressed = !!(initialValue || []).filter((media) => {
+				console.log('Already compressed')
+				console.log(media.url)
+				console.log(uri)
+				return media.url === uri
+			}).length
+
+			console.log(alreadyCompressed)
+			if (uri.startsWith('https') || alreadyCompressed) return uri
 			return compressVideo(uri)
 		}))
 	}

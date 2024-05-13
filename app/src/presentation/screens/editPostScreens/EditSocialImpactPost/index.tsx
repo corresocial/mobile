@@ -70,6 +70,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		return picturesUrl
 	}
 
+	const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	}
+
 	const formatCategoryAndTags = () => {
 		const category: SocialImpactCategories = getPostField('category')
 		const tags = getPostField('tags')
@@ -112,8 +118,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactEntity) => {
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
+		if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
 		}
 
 		if (initialValue === 'location') {
@@ -222,10 +228,10 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={getPicturesUrl()}
+					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
 					indicatorColor={theme.pink1}
 					carousel
-					pressionable={arrayIsEmpty(getPicturesUrl())}
+					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
