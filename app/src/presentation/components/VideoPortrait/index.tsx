@@ -1,6 +1,5 @@
 import { ResizeMode } from 'expo-av'
 import React from 'react'
-// TODO Videos
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, DeleteItemArea, NoPhotoContainer, PortraitVideo, VideoIndicatorContainer } from './styles'
@@ -32,7 +31,7 @@ function VideoPortrait({
 	borderWidth = 5,
 	borderRightWidth = 10,
 	videoUrl,
-	resizeMode = /* ResizeMode.CONTAIN */ 'cover',
+	resizeMode = 'cover',
 	maxWidth = relativeScreenWidth(90),
 	showVideoPlayer = false,
 	deleteCurrentVideo
@@ -56,6 +55,7 @@ function VideoPortrait({
 								isLooping
 								volume={0}
 								resizeMode={ResizeMode.CONTAIN}
+
 							/>
 						</>
 					)

@@ -89,17 +89,19 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	function hasPictures(): boolean {
 		return !arrayIsEmpty(post.picturesUrl)
 	}
-	
+
 	function hasVideos(): boolean {
 		return !arrayIsEmpty(post.videosUrl)
 	}
-	
+
 	function hasMedia(): boolean {
-		return hasPictures() || hasVideos() 
+		return hasPictures() || hasVideos()
 	}
 
 	function getMediaSource(): string {
-		return post.videosUrl[0] || post.picturesUrl[0]
+		return post && (
+			(post.videosUrl && post.videosUrl[0])
+			|| (post.picturesUrl && post.picturesUrl[0]))
 	}
 
 	const getRelativeBlurhash = () => {

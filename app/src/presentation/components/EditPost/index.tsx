@@ -212,15 +212,15 @@ function EditPost({
 	}
 
 	const changeStateOfEditedFields = (uploadedPictures: string[], uploadedVideos: string[]) => {
-		const newEditState = { 
+		const newEditState = {
 			saved: {
-				...editDataContext.saved, 
-				...editDataContext.unsaved, 
+				...editDataContext.saved,
+				...editDataContext.unsaved,
 				picturesUrl: [...uploadedPictures],
 				videosUrl: [...uploadedVideos]
-			}, unsaved: {} 
+			}, unsaved: {}
 		}
-		
+
 		editContext.setEditDataOnContext(newEditState)
 	}
 

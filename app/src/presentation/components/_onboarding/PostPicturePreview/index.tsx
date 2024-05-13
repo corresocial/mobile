@@ -164,7 +164,7 @@ function PostPicturePreview({
 					</LoaderContainer>
 				)
 			}
-			
+
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
