@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 
 import { MediaAsset } from 'src/presentation/types'
 
-import { compressVideo } from '@utils-ui/common/convertion/compressVideo'
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -28,7 +27,7 @@ import { VideoPortrait } from '@components/VideoPortrait'
 import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
 
-const { compressImage } = UiUtils()
+const { compressImage, compressVideo } = UiUtils()
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
@@ -142,11 +141,18 @@ function PostPicturePreview({
 	}
 
 	const compressPicturesUris = async (picturesUri: string[]) => {
-		return Promise.all(picturesUri.map(async (uri) => compressImage(uri)))
+		return Promise.all(picturesUri.map(async (uri) => {
+			if (uri.startsWith('https')) return uri
+			return compressImage(uri)
+		}))
 	}
 
 	const compressVideosUris = async (videosUri: string[]) => {
-		return Promise.all(videosUri.map(async (uri) => compressVideo(uri)))
+		console.log('entrando')
+		return Promise.all(videosUri.map(async (uri) => {
+			if (uri.startsWith('https')) return uri
+			return compressVideo(uri)
+		}))
 	}
 
 	return (
