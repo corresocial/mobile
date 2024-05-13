@@ -9,7 +9,7 @@ export type VacancyStackParamList = {
 	InsertVacancyDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertIncomeLinks: { editMode: boolean, initialValue: string[] } | undefined
 	InsertVacancyImportantPoints: { editMode: boolean, initialValue: string[] } | undefined
-	VacancyPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
+	VacancyPicturePreview: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean }

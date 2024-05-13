@@ -4,7 +4,8 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 
 import { CulturePicturePreviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
-import { MediaAsset } from 'src/presentation/types'
+
+import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
 
 import { theme } from '@common/theme'
 
@@ -22,26 +23,12 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 		}
 	}
 
-	const convertToMediaAsset = () => {
-		const medias = route.params?.initialValue
-		const videosAssets: MediaAsset[] = medias?.videosUrl?.map((url) => ({
-			url,
-			mediaType: 'video',
-		})) ?? []
-		const picturesAssets: MediaAsset[] = medias?.picturesUrl?.map((url) => ({
-			url,
-			mediaType: 'photo'
-		})) ?? []
-
-		return [...videosAssets ?? [], ...picturesAssets ?? []]
-	}
-
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.blue2}
-				initialValue={convertToMediaAsset()}
+				initialValue={convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}
 			/>
