@@ -386,27 +386,30 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						)
 					}
 					<VerticalSpacing />
-					{!arrayIsEmpty(getPostField('picturesUrl')) && (
-						<>
-							<GalleryModal
-								picturesUrl={getPostField('picturesUrl')}
-								videosUrl={getPostField('videosUrl')}
-								showGallery={galeryIsVisible}
-								onClose={closeGalery}
-							/>
-							<TouchableOpacity
-								activeOpacity={1}
-								onPress={openGallery}
-							>
-								<ImageCarousel
-									picturesUrl={getPostField('picturesUrl') || []}
-									indicatorColor={theme.green1}
-									square
-									showFullscreenIcon
+					{
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
+							<>
+								<GalleryModal
+									picturesUrl={getPostField('picturesUrl')}
+									videosUrl={getPostField('videosUrl')}
+									showGallery={galeryIsVisible}
+									onClose={closeGalery}
 								/>
-							</TouchableOpacity>
-						</>
-					)}
+								<TouchableOpacity
+									activeOpacity={1}
+									onPress={openGallery}
+								>
+									<ImageCarousel
+										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
+										indicatorColor={theme.green1}
+										square
+										showFullscreenIcon
+									/>
+								</TouchableOpacity>
+							</>
+						)
+					}
 					<PlaceModality
 						title={'local de trabalho'}
 						hightligtedWords={['local', 'trabalho']}

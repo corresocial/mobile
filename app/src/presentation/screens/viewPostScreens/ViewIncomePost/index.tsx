@@ -73,7 +73,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<IncomeEntity>(route.params?.postData || null)
-	// const [videosThumbnails, setVideosThumbnails] = useState<string[]>([])
 
 	useEffect(() => {
 		getPost()
@@ -81,14 +80,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 			clearEditContext()
 		}
 	}, [])
-
-	/* const setVideoThumbnails = async () => {
-		if (!postData.videosUrl) return
-		const thumbnails = await generateVideoThumbnails(postData.videosUrl) // Await for thumbnails to be generated
-		console.log(`length => ${thumbnails.length}`)
-
-		setVideosThumbnails(thumbnails)
-	} */
 
 	const getPost = (async () => {
 		if (route.params.redirectedPostId) {
@@ -421,27 +412,30 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						)
 					}
 					<VerticalSpacing />
-					{!arrayIsEmpty(getPostField('picturesUrl')) && (
-						<>
-							<GalleryModal
-								picturesUrl={getPostField('picturesUrl')}
-								videosUrl={getPostField('videosUrl')}
-								showGallery={galeryIsVisible}
-								onClose={closeGalery}
-							/>
-							<TouchableOpacity
-								activeOpacity={1}
-								onPress={openGallery}
-							>
-								<ImageCarousel
-									picturesUrl={getPostField('picturesUrl') || []}
-									indicatorColor={theme.green1}
-									square
-									showFullscreenIcon
+					{
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
+							<>
+								<GalleryModal
+									picturesUrl={getPostField('picturesUrl')}
+									videosUrl={getPostField('videosUrl')}
+									showGallery={galeryIsVisible}
+									onClose={closeGalery}
 								/>
-							</TouchableOpacity>
-						</>
-					)}
+								<TouchableOpacity
+									activeOpacity={1}
+									onPress={openGallery}
+								>
+									<ImageCarousel
+										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
+										indicatorColor={theme.green1}
+										square
+										showFullscreenIcon
+									/>
+								</TouchableOpacity>
+							</>
+						)
+					}
 
 					{
 						(getPostField('saleValue') || getPostField('exchangeValue')) && (

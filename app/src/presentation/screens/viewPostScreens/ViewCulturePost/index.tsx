@@ -356,7 +356,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 										showFullscreenIcon
 									/>
 								</TouchableOpacity>
-
 							</>
 						)
 					}
