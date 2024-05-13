@@ -1,13 +1,15 @@
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+
+import { LoaderContext } from '@contexts/LoaderContext'
 
 import { MediaAsset } from 'src/presentation/types'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
-import { ButtonsContainer, Container, HorizontalListPicturesContainer, LoaderContainer, PicturePreviewContainer, TopArea } from './styles'
+import { ButtonsContainer, Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import NewPhotoWhiteIcon from '@assets/icons/camera-white.svg'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -21,7 +23,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { Loader } from '@components/Loader'
 import { VideoPortrait } from '@components/VideoPortrait'
 
 import { HorizontalListPictures } from '../../HorizontalListPictures'
@@ -42,6 +43,8 @@ function PostPicturePreview({
 	navigateBackwards,
 	saveMedia
 }: PostPicturePreviewProps) {
+	const { setLoaderIsVisible } = useContext(LoaderContext)
+
 	const [mediaPack, setMediaPack] = useState<MediaAsset[]>(initialValue || [])
 	const [mediaIndexSelected, setMediaIndexSelected] = useState<number>(0)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
@@ -49,7 +52,6 @@ function PostPicturePreview({
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
 	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
-	const [isLoading, setisLoading] = useState<boolean>(false)
 
 	useEffect(() => {
 		setThumbnailsOnVideos()
@@ -125,7 +127,7 @@ function PostPicturePreview({
 	}
 
 	const savePictures = async (mediaAssets: MediaAsset[]) => {
-		setisLoading(true)
+		setLoaderIsVisible(true)
 		const picturesUri: string[] = []
 		const videosUri: string[] = []
 
@@ -137,7 +139,7 @@ function PostPicturePreview({
 		const compressedVideoUris = await compressVideosUris(videosUri)
 		const compressedPictureUris = await compressPicturesUris(picturesUri)
 		saveMedia(compressedPictureUris, compressedVideoUris)
-		setisLoading(false)
+		setLoaderIsVisible(false)
 	}
 
 	const compressPicturesUris = async (picturesUri: string[]) => {
@@ -157,14 +159,6 @@ function PostPicturePreview({
 
 	return (
 		<Container>
-			{
-				isLoading && (
-					<LoaderContainer>
-						<Loader/>
-					</LoaderContainer>
-				)
-			}
-
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
