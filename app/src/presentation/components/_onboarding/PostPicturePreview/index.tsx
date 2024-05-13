@@ -144,7 +144,7 @@ function PostPicturePreview({
 
 	const compressPicturesUris = async (picturesUri: string[]) => {
 		return Promise.all(picturesUri.map(async (uri) => {
-			if (uri.startsWith('https')) return uri
+			if ((initialValue || [{ url: '' }]).find((media) => media.url === uri)) return uri
 			return compressImage(uri)
 		}))
 	}
@@ -152,7 +152,7 @@ function PostPicturePreview({
 	const compressVideosUris = async (videosUri: string[]) => {
 		console.log('entrando')
 		return Promise.all(videosUri.map(async (uri) => {
-			if (uri.startsWith('https')) return uri
+			if ((initialValue || [{ url: '' }]).find((media) => media.url === uri)) return uri
 			return compressVideo(uri)
 		}))
 	}
