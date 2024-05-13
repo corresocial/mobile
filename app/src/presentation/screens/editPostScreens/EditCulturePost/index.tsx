@@ -222,6 +222,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
+					indicatorColor={theme.blue1}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}

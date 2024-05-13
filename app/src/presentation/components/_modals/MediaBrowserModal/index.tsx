@@ -51,8 +51,8 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 	const [isContentLoading, setIsContentLoading] = useState(false)
 
 	useEffect(() => {
-		loadAlbums()
-	}, [])
+		if (showMediaBrowser && albums.length === 0) loadAlbums()
+	}, [showMediaBrowser])
 
 	const loadAlbums = async () => {
 		if (permissionResponse?.status !== 'granted') {
