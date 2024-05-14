@@ -38,7 +38,7 @@ export function PollStack() {
 				<Stack.Screen name={'InsertPollDescription'} component={InsertPollDescription} />
 				<Stack.Screen name={'InsertPollQuestions'} component={InsertPollQuestions} />
 				<Stack.Screen name={'SelectPollQuestionType'} component={SelectPollQuestionType} />
-				<Stack.Screen name={'InsertSelectOptions'} component={InsertSelectOptions} />
+				<Stack.Screen name={'InsertPollSelectOptions'} component={InsertSelectOptions} />
 				<Stack.Screen name={'SelectPollRange'} component={SelectPollRange} />
 				<Stack.Screen name={'InsertPollLocation'} component={InsertPollLocation} />
 

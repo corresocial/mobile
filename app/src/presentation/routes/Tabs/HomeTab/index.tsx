@@ -10,10 +10,12 @@ import { AlertContext } from '@contexts/AlertContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { HomeTabParamList } from './types'
+import { LeaderAreaStack } from '@routes/Stack/LeaderAreaStack'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
+import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -62,6 +64,12 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		focused
 			? <ChatWhiteIcon height={'50%'} width={'100%'} />
 			: <ChatWhiteIcon height={'40%'} width={'100%'} />
+	)
+
+	const renderLeaderAreaIcon = (focused: boolean) => (
+		focused
+			? <LeaderSealIcon height={'50%'} width={'100%'} />
+			: <LeaderSealIcon height={'40%'} width={'100%'} />
 	)
 
 	const renderProfileIcon = (focused: boolean) => (
@@ -134,6 +142,13 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				options={{
 					tabBarIcon: ({ focused }) => renderChatIcon(focused),
 					tabBarBadge: getChatNotification()
+				}}
+			/>
+			<Tab.Screen
+				name={'LeaderAreaStack'}
+				component={LeaderAreaStack}
+				options={{
+					tabBarIcon: ({ focused }) => renderLeaderAreaIcon(focused)
 				}}
 			/>
 			<Tab.Screen
