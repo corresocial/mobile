@@ -58,8 +58,6 @@ function PostPicturePreview({
 	}, [])
 
 	useEffect(() => {
-		console.log('initialValue mudddooouuuU!!!!!!!!!!!!!!!!!!')
-		console.log(initialValue)
 	}, [initialValue])
 
 	const setThumbnailsOnVideos = async () => {
@@ -141,8 +139,6 @@ function PostPicturePreview({
 		const compressedVideoUris = await compressVideosUris(videosUri)
 		const compressedPictureUris = await compressPicturesUris(picturesUri)
 
-		console.log('compressedVideoUris')
-		console.log(compressedVideoUris)
 		saveMedia(compressedPictureUris, compressedVideoUris)
 		setLoaderIsVisible(false)
 	}
