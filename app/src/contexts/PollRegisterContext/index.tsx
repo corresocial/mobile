@@ -27,7 +27,7 @@ const initialValue: PollRegisterContextType = {
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => { },
-	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options: string[]) => { },
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options?: string[]) => { },
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
 	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
@@ -36,10 +36,10 @@ const initialValue: PollRegisterContextType = {
 	pollToRespond: { questions: [] as PollQuestion[] } as PollEntity,
 	pollResponseData: [{
 		questionId: '',
-		response: '' as string | number | boolean,
+		response: '' as string[] | string | number | boolean,
 		questionType: 'textual' as PollQuestion['questionType']
 	}],
-	saveResponseData: (question: PollQuestion, response: string | number | boolean) => { }
+	saveResponseData: (question: PollQuestion, response: string | string[] | number | boolean) => { }
 }
 
 const PollRegisterContext = createContext<PollRegisterContextType>(initialValue)
@@ -61,13 +61,13 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
-	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType'], options: string[]) => {
-		const multiSelectOptions = options ? { options } : {}
+	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType'], options?: string[]) => {
+		const selectOptions = options ? { options } : {}
 		const newQuestion: PollQuestion = {
 			questionId: uuid(),
 			question: pollQuestionRegisterDataContext.question,
 			questionType,
-			...multiSelectOptions
+			...selectOptions
 		}
 
 		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
@@ -112,7 +112,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		return pollToRespond.questions[nextIndex]
 	}
 
-	const saveResponseData = (question: PollQuestion, response: string | number | boolean) => {
+	const saveResponseData = (question: PollQuestion, response: string | string[] | number | boolean) => {
 		const pollData: PollResponse = {
 			questionId: question.questionId,
 			response,

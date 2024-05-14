@@ -118,7 +118,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const viewPoll = () => {
 		navigation.navigate('PollStack' as any, {
 			screen: 'ViewPoll',
-			params: { pollId: 'n61L0d0XcnX6HQuuGrjn' }
+			params: { pollId: 'HQfVYgjD6ksvDUQF3ZJg' }
 		})
 	}
 

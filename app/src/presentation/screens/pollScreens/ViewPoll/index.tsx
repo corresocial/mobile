@@ -48,7 +48,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId === 'pollData.owner.userId' // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId !== 'pollData.owner.userId' // TODO Remover comparação
 
 	useEffect(() => {
 		getData()
@@ -76,6 +76,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: PollQuestion) => {
+		console.log(nextQuestion)
 		switch (nextQuestion.questionType) {
 			case 'binary': return navigation.navigate('PollStack' as any, { // TODO Type
 				screen: 'AnswerBinaryQuestion' as keyof PollStackParamList,
@@ -91,6 +92,10 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 			})
 			case 'numerical': return navigation.navigate('PollStack' as any, {
 				screen: 'AnswerTextualQuestion' as keyof PollStackParamList,
+				params: { questionData: nextQuestion }
+			})
+			case 'select': return navigation.navigate('PollStack' as any, {
+				screen: 'AnswerSelectQuestion' as keyof PollStackParamList,
 				params: { questionData: nextQuestion }
 			})
 		}

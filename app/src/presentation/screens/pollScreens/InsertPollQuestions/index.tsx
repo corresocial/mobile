@@ -81,7 +81,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 
 		if (!questionsLength() || keyboardOpened) return <></>
 		return allQuestions.map((currentQuestion, index) => (
-			<>
+			<React.Fragment key={currentQuestion.questionId}>
 				<DefaultInput
 					key={index as number}
 					value={currentQuestion.question || ''}
@@ -105,7 +105,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					onChangeText={(text: string) => { }}
 				/>
 				<VerticalSpacing />
-			</>
+			</React.Fragment>
 		))
 	}
 
@@ -119,7 +119,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 				return DescriptionWhiteIcon
 			case 'binary':
 				return VerifiedLabelWhiteIcon
-			case 'multiSelect':
+			case 'select':
 				return QuestionMarkWhiteIcon
 			default:
 				return undefined

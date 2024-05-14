@@ -18,7 +18,6 @@ export const ContainerSurface = styled.View`
 	padding-bottom: 5px;
     align-items: center;
     justify-content: center;
-    height: 100%;
     width: 100%;
 	flex-direction: row;
 `
@@ -28,5 +27,4 @@ export const Label = styled.Text`
     font-family: Arvo_700Bold;
     padding: ${relativeScreenHeight(0.7)}px ${relativeScreenWidth(3)}px;
     text-align: center;
-    max-width: ${relativeScreenWidth(35)}px;
 `

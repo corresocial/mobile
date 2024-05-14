@@ -1,26 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
 
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
-import { AnswerBinaryQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { AnswerSelectQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
-import { ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
+import { ButtonOptionsContainer, Container, InstructionButtonContainer, OptionsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SelectButton } from '@components/_buttons/SelectButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
-function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenProps) {
+function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenProps) {
 	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
+
+	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
 	const theme = useTheme()
 
@@ -29,8 +30,8 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const selectBinaryOption = (value: boolean) => {
-		saveResponseData(questionData, value)
+	const saveQuestionResponse = () => {
+		saveResponseData(questionData, selectedOptions)
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
 	}
@@ -39,7 +40,7 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('AnswerBinaryQuestion', { questionData: nextQuestion })
+			case 'binary': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
 			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
 			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
 			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
@@ -47,10 +48,36 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 		}
 	}
 
+	const selectOption = (option: string) => {
+		if (selectedOptions.includes(option)) {
+			return setSelectedOptions(selectedOptions.filter((selectedOption) => selectedOption !== option))
+		}
+
+		setSelectedOptions([...selectedOptions, option])
+	}
+
+	const renderQuestionOptions = () => {
+		return (/* questionData.options ||  */['orem ipsum dolor sit amet consectetur. Hac quicdolor ', 'orem ipsum dolor sit amet consectetur. Hac quam urna dicdolor ', 'Lorem ipsum dolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dictumst nunc.']).map((question) => {
+			return (
+				<SelectButton
+					backgroundSelected={theme.purple3}
+					label={question}
+					labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
+					boldLabel
+					fontSize={12}
+					width={'100%'}
+					height={'auto'}
+					selected={selectedOptions.includes(question)}
+					onSelect={() => selectOption(question)}
+				/>
+			)
+		})
+	}
+
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(50)}
+				relativeHeight={relativeScreenHeight(30)}
 				centralized
 				backgroundColor={theme.purple2}
 				flexDirection={'column'}
@@ -66,26 +93,20 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
-			<FormContainer >
-				<ButtonOptionsContainer>
-					<PrimaryButton
-						color={theme.green3}
-						label={'sim'}
-						labelColor={theme.white3}
-						SecondSvgIcon={CheckWhiteIcon}
-						onPress={() => selectBinaryOption(true)}
-					/>
-					<PrimaryButton
-						color={theme.red3}
-						label={'não'}
-						labelColor={theme.white3}
-						SvgIcon={XWhiteIcon}
-						onPress={() => selectBinaryOption(false)}
-					/>
-				</ButtonOptionsContainer>
-			</FormContainer>
+			<OptionsContainer>
+				{renderQuestionOptions()}
+			</OptionsContainer>
+			<ButtonOptionsContainer>
+				<PrimaryButton
+					color={theme.green3}
+					label={'continuar'}
+					labelColor={theme.white3}
+					SvgIcon={CheckWhiteIcon}
+					onPress={saveQuestionResponse}
+				/>
+			</ButtonOptionsContainer>
 		</Container>
 	)
 }
 
-export { AnswerBinaryQuestion }
+export { AnswerSelectQuestion }

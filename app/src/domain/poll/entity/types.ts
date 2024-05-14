@@ -17,12 +17,13 @@ export type PollEntity = {
 
 export type PollQuestionOptional = Partial<PollQuestion>
 export type PollQuestion = {
+	options?: string[]
 	questionId: string
 	question: string
 	questionType: PollQuestionType
 }
 
-export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'multiSelect'
+export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'select'
 
 type PollRange = 'near' | 'city' | 'country'
 type PollLocation = {
@@ -46,7 +47,7 @@ export type PrivatePollResponse = {
 export type PollResponse = {
 	questionId: string
 	questionType: PollQuestionType
-	response: string | number | boolean | SatisfactionType // Melhorar nomenclaturas
+	response: string | string[] | number | boolean | SatisfactionType // Melhorar nomenclaturas
 }
 
 export type SatisfactionType = 1 | 2 | 3 | 4 | 5

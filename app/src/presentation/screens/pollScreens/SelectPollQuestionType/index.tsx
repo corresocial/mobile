@@ -25,8 +25,8 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
-		if (questionType === 'multiSelect') {
-			return navigation.push('InsertMultiSelectOptions', { ...route.params, multiSelectOptions: [], editMode: !!route.params?.editMode })
+		if (questionType === 'select') {
+			return navigation.push('InsertPollSelectOptions', { ...route.params, selectOptions: [], editMode: !!route.params?.editMode })
 		}
 
 		if (route.params?.editMode) {
@@ -106,7 +106,7 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.purple3}
 				leftSideWidth={'25%'}
-				onPress={() => selectPollQuestionType('multiSelect')}
+				onPress={() => selectPollQuestionType('select')}
 			/>
 		</PostSelectButton>
 	)

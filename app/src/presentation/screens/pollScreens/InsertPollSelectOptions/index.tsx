@@ -7,7 +7,7 @@ import { PollQuestion } from '@domain/poll/entity/types'
 import { EditContext } from '@contexts/EditContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
-import { InsertMultiSelectOptionsScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { InsertPollSelectOptionsScreenProps } from '@routes/Stack/PollStack/screenProps'
 
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -23,12 +23,12 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOptionsScreenProps) {
+function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScreenProps) {
 	const { setRegisteredQuestionOnPollDataContext } = usePollRegisterContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [selectOptionText, setQuestionText] = useState('')
-	const [multiSelectOptions, setMultiSelectOptions] = useState<string[]>([])
+	const [selectOptions, setSelectOptions] = useState<string[]>([])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -68,7 +68,7 @@ function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOption
 
 	const renderQuestionsSaved = () => {
 		if (!questionsLength() || keyboardOpened) return <></>
-		return multiSelectOptions.map((currentQuestion, index) => (
+		return selectOptions.map((currentQuestion, index) => (
 			<React.Fragment key={uuid()}>
 				<DefaultInput
 					key={index as number}
@@ -96,18 +96,18 @@ function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOption
 		))
 	}
 
-	const questionsLength = () => multiSelectOptions.length
+	const questionsLength = () => selectOptions.length
 
 	const addNewQuestion = () => {
-		if (questionsLength() === 5 || selectOptionText === '' || multiSelectOptions.includes(selectOptionText)) return
+		if (questionsLength() === 5 || selectOptionText === '' || selectOptions.includes(selectOptionText)) return
 
-		setMultiSelectOptions([...multiSelectOptions, selectOptionText])
+		setSelectOptions([...selectOptions, selectOptionText])
 		setQuestionText('')
 	}
 
 	const removeQuestion = (optionText: string) => {
-		const newMultiSelectOptions = multiSelectOptions.filter((option: string) => option !== optionText)
-		setMultiSelectOptions(newMultiSelectOptions)
+		const newSelectOptions = selectOptions.filter((option: string) => option !== optionText)
+		setSelectOptions(newSelectOptions)
 	}
 
 	const savePollQuestions = () => {
@@ -115,13 +115,13 @@ function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOption
 			addNewUnsavedFieldToEditContext({
 				questions: [...(editDataContext.unsaved.questions || []), {
 					questionId: uuid(),
-					questionType: 'multiSelect',
-					options: multiSelectOptions,
+					questionType: 'select',
+					options: selectOptions,
 					question: route.params.questionText,
 				} as PollQuestion]
 			})
 		} else {
-			setRegisteredQuestionOnPollDataContext('multiSelect', multiSelectOptions)
+			setRegisteredQuestionOnPollDataContext('select', selectOptions)
 		}
 
 		navigation.push('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
@@ -169,7 +169,7 @@ function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOption
 								iconPosition={'left'}
 								textAlignVertical={'center'}
 								textAlign={'center'}
-								placeholder={`opção ${multiSelectOptions.length + 1}`}
+								placeholder={`opção ${selectOptions.length + 1}`}
 								keyboardType={'default'}
 								onPressKeyboardSubmit={addNewQuestion}
 								validateText={(text: string) => false}
@@ -199,4 +199,4 @@ function InsertMultiSelectOptions({ route, navigation }: InsertMultiSelectOption
 	)
 }
 
-export { InsertMultiSelectOptions }
+export { InsertSelectOptions }
