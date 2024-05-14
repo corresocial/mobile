@@ -8,7 +8,11 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps } from './types'
 
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+
 const { syncWithRemoteUser } = useUserDomain()
+
+const { sortPostsByCreatedData } = UiPostUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -48,10 +52,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const getLastUserPost = () => {
 		try {
 			const { posts: userPosts } = userDataContext
-
 			if (!userPosts || (userPosts && !userPosts.length)) return {} as PostEntity
-
-			const lastUserPost = userPosts[userPosts.length - 1]
+			const ordenedUserPosts = userPosts.sort(sortPostsByCreatedData)
+			const lastUserPost = ordenedUserPosts[0]
 			return lastUserPost
 		} catch (err) {
 			return {} as PostEntity

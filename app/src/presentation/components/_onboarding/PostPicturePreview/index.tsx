@@ -1,6 +1,6 @@
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
@@ -53,11 +53,14 @@ function PostPicturePreview({
 
 	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
 
-	useEffect(() => {
-		console.log('initialValue')
-		console.log(initialValue)
+	useLayoutEffect(() => {
 		setThumbnailsOnVideos()
 	}, [])
+
+	useEffect(() => {
+		console.log('initialValue mudddooouuuU!!!!!!!!!!!!!!!!!!')
+		console.log(initialValue)
+	}, [initialValue])
 
 	const setThumbnailsOnVideos = async () => {
 		const hasVideos = (initialValue || []).find((media) => media && media.mediaType === 'video')
@@ -89,8 +92,8 @@ function PostPicturePreview({
 			url: uri,
 			mediaType: 'photo'
 		})
-		setMediaIndexSelected(mediaPack.length)
 		setMediaPack(currentMedia)
+		setMediaIndexSelected(mediaPack.length)
 		setHasSelectedMedia(true)
 	}
 
@@ -112,32 +115,34 @@ function PostPicturePreview({
 	}
 
 	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
-		const currentMedia = mediaPack
-
-		mediaSelected.forEach((media: Asset) => {
-			const asset: MediaAsset = {
+		const currentMedia = mediaSelected.map((media: Asset) => {
+			return {
 				url: media.uri,
-				mediaType: media.mediaType as any // TODO type
-			}
-			currentMedia.push(asset)
+				mediaType: media.mediaType
+			} as MediaAsset
 		})
 
 		setMediaPack(currentMedia)
 		setHasSelectedMedia(true)
 	}
 
-	const savePictures = async (mediaAssets: MediaAsset[]) => {
+	const savePictures = async () => {
+		console.log('savePictures')
+		console.log(initialValue)
 		setLoaderIsVisible(true)
 		const picturesUri: string[] = []
 		const videosUri: string[] = []
 
-		mediaAssets.forEach((mediaAsset) => {
+		mediaPack.forEach((mediaAsset) => {
 			if (mediaAsset.mediaType === 'video') videosUri.push(mediaAsset.url)
 			else picturesUri.push(mediaAsset.url)
 		})
 
 		const compressedVideoUris = await compressVideosUris(videosUri)
 		const compressedPictureUris = await compressPicturesUris(picturesUri)
+
+		console.log('compressedVideoUris')
+		console.log(compressedVideoUris)
 		saveMedia(compressedPictureUris, compressedVideoUris)
 		setLoaderIsVisible(false)
 	}
@@ -150,18 +155,8 @@ function PostPicturePreview({
 	}
 
 	const compressVideosUris = async (videosUri: string[]) => {
-		console.log('entrando')
-		console.log(initialValue)
 		return Promise.all(videosUri.map(async (uri) => {
-			const alreadyCompressed = !!(initialValue || []).filter((media) => {
-				console.log('Already compressed')
-				console.log(media.url)
-				console.log(uri)
-				return media.url === uri
-			}).length
-
-			console.log(alreadyCompressed)
-			if (uri.startsWith('https') || alreadyCompressed) return uri
+			if ((initialValue || [{ url: '' }]).find((media) => media.url === uri)) return uri
 			return compressVideo(uri)
 		}))
 	}
@@ -263,7 +258,7 @@ function PostPicturePreview({
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					onPress={async () => savePictures(mediaPack)}
+					onPress={savePictures}
 				/>
 			</ButtonsContainer>
 		</Container>
