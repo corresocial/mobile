@@ -37,10 +37,11 @@ interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
 	showGallery: boolean,
+	initialIndex?: number,
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIndex = 0, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
@@ -70,7 +71,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 				}
 				setIsLoading(false)
 			}
-			setCurrentIndex(0)
+			setCurrentIndex(initialIndex)
 			enableRotation()
 			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
 				setIsLandscapeMode((orientationInfo.orientation !== 1))
