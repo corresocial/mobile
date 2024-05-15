@@ -3,6 +3,7 @@ import { PollEntity, PollEntityOptional, PrivatePollResponse } from '@domain/pol
 interface PollRepositoryInterface {
 	getPollDataById: (pollId: string) => Promise<PollEntity | undefined>
 	getPrivateResponses: (pollId: string) => Promise<PollEntity['privateResponses']>
+	getPollsByUser: (userId: string, maxDocs?: number, lastDoc?: any) => Promise<PollEntity[]>
 
 	createPoll: (pollData: PollEntityOptional) => Promise<void>
 	createPollResponse: (pollId: string, data: PrivatePollResponse) => Promise<void>

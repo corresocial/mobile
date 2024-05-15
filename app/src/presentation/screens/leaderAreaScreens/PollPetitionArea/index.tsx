@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
+import { getPollsByUser } from '@data/poll/remoteRepository/getPollsByUser'
+
 import { PollPetitionAreaScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { Container, Header, HeaderButtonsContainer, HeaderSection } from './styles'
@@ -32,6 +34,12 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 		})
 	}
 	*/
+
+	const getPolls = async () => {
+		const poll = await getPollsByUser('gubzWyXdQFeC5xEaWlTtbaR64tT2')
+		console.log('saiu de data')
+		console.log(poll)
+	}
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.white3} >
@@ -78,7 +86,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 					text={'suas enquetes'}
 					highlightedText={['enquetes']}
 					SvgIcon={DescriptionWhiteIcon}
-					onPress={() => console.log('navigate')}
+					onPress={getPolls}
 					seeMoreText
 				/>
 				<SubtitleCard

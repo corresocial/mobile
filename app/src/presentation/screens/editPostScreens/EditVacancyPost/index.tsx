@@ -249,7 +249,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				<VerticalSpacing />
 				<VacancyPurposeCard
 					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
-					onEdit={() => { // TODO Refatorar: Temporário tudante a transição de estrutura de dados
+					onEdit={() => { // TODO Refatorar: Temporário durante a transição de estrutura de dados
 						getPostField('vacancyPurpose' as any)
 							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
 							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')

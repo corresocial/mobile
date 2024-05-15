@@ -3,6 +3,7 @@ import { PetitionEntity, PetitionEntityOptional, PrivatePetitionResponse } from 
 interface PetitionRepositoryInterface {
 	getPetitionDataById: (petitionId: string) => Promise<PetitionEntity | undefined>
 	getPrivateResponses: (petitionId: string) => Promise<PetitionEntity['privateResponses']>
+	getPetitionsByUser: (userId: string, maxDocs?: number, lastDoc?: any) => Promise<PetitionEntity[]>
 
 	createPetition: (petitionData: PetitionEntityOptional) => Promise<void>
 	createPetitionResponse: (petitionId: string, data: PrivatePetitionResponse) => Promise<void>
