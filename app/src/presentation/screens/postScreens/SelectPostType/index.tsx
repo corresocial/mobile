@@ -12,7 +12,6 @@ import { Container, SubscriptionButtonContainer } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
 import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-import FormWhiteIcon from '@assets/icons/formHearth-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
 import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
@@ -61,8 +60,6 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
-
 	return (
 		<>
 			<Container>
@@ -86,7 +83,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						label={'renda'}
 						highlightedWords={['renda']}
 						labelSize={18}
-						relativeHeight={'17%'}
+						relativeHeight={'20%'}
 						shortDescription={'compra e venda, serviços e vagas'}
 						SvgIcon={CashWhiteIcon}
 						svgIconScale={['80%', '80%']}
@@ -99,7 +96,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						label={'impacto social'}
 						highlightedWords={['impacto', 'social']}
 						labelSize={18}
-						relativeHeight={'17%'}
+						relativeHeight={'20%'}
 						shortDescription={'iniciativas, doações, etc'}
 						SvgIcon={SocialImpactWhiteIcon}
 						svgIconScale={['80%', '80%']}
@@ -112,7 +109,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						label={'cultura'}
 						highlightedWords={['cultura']}
 						labelSize={18}
-						relativeHeight={'17%'}
+						relativeHeight={'20%'}
 						shortDescription={'arte, eventos e educação'}
 						SvgIcon={CultureWhiteIcon}
 						svgIconScale={['80%', '80%']}
@@ -121,30 +118,13 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						onPress={() => navigation.navigate('CultureStack')}
 					/>
 					{
-						currentUserIsLeader() ? (
-							<OptionButton
-								color={theme.white3}
-								label={'enquete | abaixo assinados'}
-								highlightedWords={['enquete', 'abaixo', 'assinados']}
-								labelSize={14}
-								relativeHeight={'17%'}
-								shortDescription={'veja o que a galera pensa'}
-								SvgIcon={FormWhiteIcon}
-								svgIconScale={['80%', '80%']}
-								leftSideColor={theme.purple3}
-								leftSideWidth={'25%'}
-								onPress={() => navigation.navigate('SelectLeaderPostType')}
-							/>
-						) : <></>
-					}
-					{
 						numberOfOfflinePostsStored ? (
 							<OptionButton
 								label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
 								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
 								highlightedWords={['posts', 'post']}
 								labelSize={15}
-								relativeHeight={'17%'}
+								relativeHeight={'20%'}
 								leftSideWidth={'25%'}
 								leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
 								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
@@ -161,8 +141,8 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				/>
 				<SubscriptionButtonContainer>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
+					<VerticalSpacing />
 				</SubscriptionButtonContainer>
-				<VerticalSpacing />
 			</Container >
 		</>
 	)

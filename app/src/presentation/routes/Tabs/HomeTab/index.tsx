@@ -7,6 +7,7 @@ import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AlertContext } from '@contexts/AlertContext'
+import { useAuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { HomeTabParamList } from './types'
@@ -35,6 +36,7 @@ type HomeTabProps = {
 }
 
 export function HomeTab({ route, navigation }: HomeTabProps) {
+	const { userDataContext } = useAuthContext()
 	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
 	const { notificationState } = useContext(AlertContext)
 
@@ -47,6 +49,8 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		})
 		return unsubscribe
 	})
+
+	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
 
 	const renderHomeIcon = (focused: boolean) => (
 		focused
@@ -68,8 +72,8 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 	const renderLeaderAreaIcon = (focused: boolean) => (
 		focused
-			? <LeaderSealIcon height={'50%'} width={'100%'} />
-			: <LeaderSealIcon height={'40%'} width={'100%'} />
+			? <LeaderSealIcon height={'60%'} width={'100%'} />
+			: <LeaderSealIcon height={'50%'} width={'100%'} />
 	)
 
 	const renderProfileIcon = (focused: boolean) => (
@@ -144,13 +148,18 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					tabBarBadge: getChatNotification()
 				}}
 			/>
-			<Tab.Screen
-				name={'LeaderAreaStack'}
-				component={LeaderAreaStack}
-				options={{
-					tabBarIcon: ({ focused }) => renderLeaderAreaIcon(focused)
-				}}
-			/>
+			{
+				currentUserIsLeader() && (
+					<Tab.Screen
+						name={'LeaderAreaStack'}
+						component={LeaderAreaStack}
+						options={{
+							tabBarIcon: ({ focused }) => renderLeaderAreaIcon(focused)
+						}}
+					/>
+				)
+			}
+
 			<Tab.Screen
 				name={'ProfileStack'}
 				component={ProfileStack}

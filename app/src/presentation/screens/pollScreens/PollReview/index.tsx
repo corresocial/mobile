@@ -81,7 +81,6 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 
 	const navigateToSelectPostTypeScreen = () => {
 		navigation.goBack()
-		navigation.goBack()
 	}
 
 	const changeStateOfEditedFields = () => {

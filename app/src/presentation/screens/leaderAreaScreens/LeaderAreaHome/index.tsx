@@ -1,5 +1,8 @@
 import React from 'react'
+import { Alert } from 'react-native'
 import { useTheme } from 'styled-components'
+
+import { LeaderAreaHomeScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { Container, HeaderButtonsContainer, HeaderSection } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
@@ -11,7 +14,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 
-export function LeaderAreaHome() {
+export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
 	return (
@@ -28,7 +31,7 @@ export function LeaderAreaHome() {
 							leftSideColor={theme.purple3}
 							SvgIcon={FormHearthWhiteIcon}
 							svgIconScale={['80%', '120%']}
-							onPress={() => console.log('navigate')}
+							onPress={() => navigation.navigate('PollPetitionArea')}
 						/>
 					</HeaderSection>
 					<HeaderSection>
@@ -41,7 +44,7 @@ export function LeaderAreaHome() {
 							leftSideColor={theme.red3}
 							SvgIcon={DeniedWhiteIcon}
 							svgIconScale={['80%', '80%']}
-							onPress={() => console.log('navigate')}
+							onPress={() => Alert.alert('Aviso', 'Esta funcionalidade será implementada em breve!')}
 						/>
 					</HeaderSection>
 				</HeaderButtonsContainer>

@@ -115,20 +115,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const viewPoll = () => {
-		navigation.navigate('PollStack' as any, {
-			screen: 'ViewPoll',
-			params: { pollId: 'HQfVYgjD6ksvDUQF3ZJg' }
-		})
-	}
-
-	const viewPetition = () => {
-		navigation.navigate('PetitionStack' as any, {
-			screen: 'ViewPetition',
-			params: { petitionId: 'PWJ6XxVOo4VLOy98vgGq' }
-		})
-	}
-
 	const getProfileDataFromRemote = async (userId: string) => {
 		const userData = await remoteStorage.getUserData(userId)
 		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
@@ -546,24 +532,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 													/>
 												</PopOver>
 											</OptionsArea>
-
-											<VerticalSpacing />
-											<SmallButton
-												color={theme.white3}
-												label={'Visualizar enquete'}
-												labelColor={'black'}
-												height={relativeScreenWidth(12)}
-												onPress={viewPoll}
-											/>
-											<VerticalSpacing />
-											<SmallButton
-												color={theme.white3}
-												label={'Visualizar abaixo assinado'}
-												labelColor={'black'}
-												height={relativeScreenWidth(12)}
-												onPress={viewPetition}
-											/>
-
 										</ProfileHeader>
 									</DefaultHeaderContainer>
 									{

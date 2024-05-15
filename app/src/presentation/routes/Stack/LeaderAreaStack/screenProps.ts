@@ -2,4 +2,5 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { LeaderAreaStackParamList } from './types'
 
-export type InsertPollTitleScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'LeaderAreaHome'>
+export type LeaderAreaHomeScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'LeaderAreaHome'>
+export type PollPetitionAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'PollPetitionArea'>

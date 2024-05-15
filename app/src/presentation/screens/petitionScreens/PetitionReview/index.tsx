@@ -84,7 +84,6 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 
 	const navigateToSelectPostTypeScreen = () => {
 		navigation.goBack()
-		navigation.goBack()
 	}
 
 	const changeStateOfEditedFields = () => { // REFACTOR Centralizar no contexto
@@ -173,12 +172,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 							<PostCardContainer backgroundColor={backgroundColor}>
 								<PetitionCard
 									owner={petitionOwner}
-									petitionData={{
-										...newPetitionDataState,
-										createdAt: new Date(),
-										title: 'Abaixo assinado para decidir os investimetos da praça da sé',
-										picturesUrl: ['https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg']
-									}}
+									petitionData={{ ...newPetitionDataState, createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>

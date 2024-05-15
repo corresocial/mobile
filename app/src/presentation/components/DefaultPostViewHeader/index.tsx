@@ -19,6 +19,7 @@ interface DefaultPostViewHeaderProps {
 	showResults?: boolean
 	destructiveButton?: boolean
 	smallIconArea?: boolean
+	ignorePlatform?: boolean // TODO Implementado temporariamente após ser inserido gradativamente o componente "ScreenContainer" para lidar com status bar IOS
 	SvgIcon?: React.FC<SvgProps> | null
 	endButton?: boolean
 	endButtonColor?: string
@@ -35,6 +36,7 @@ function DefaultPostViewHeader({
 	path,
 	showResults,
 	destructiveButton,
+	ignorePlatform,
 	smallIconArea,
 	SvgIcon,
 	endButton,
@@ -67,7 +69,7 @@ function DefaultPostViewHeader({
 	}
 
 	return (
-		<Container>
+		<Container ignorePlatform={ignorePlatform}>
 			{
 				!destructiveButton
 					? <BackButton onPress={onBackPress} />

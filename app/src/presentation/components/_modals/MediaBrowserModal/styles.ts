@@ -71,11 +71,12 @@ export const ConfirmSelectionButton = styled.View`
 `
 
 export const NotPermissionText = styled.Text`
-   color:  ${({ theme }) => theme.black1};
-   font-size: 17px;
-   text-align: center;
-   margin-top: 20px;
-   margin-bottom: 20px;
+ 	color:  ${({ theme }) => theme.white1};
+	font-size: 17px;
+	text-align: center;
+   	align-self: center;
+ 	position: absolute;
+	top: ${relativeScreenHeight(50)}px;
 `
 
 interface IndicatorContainerProps {

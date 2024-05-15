@@ -7,6 +7,7 @@ import React from 'react'
 import { LeaderAreaStackParamList } from './types'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
+import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
 
 const Stack = createStackNavigator<LeaderAreaStackParamList>()
 
@@ -22,6 +23,7 @@ export function LeaderAreaStack() {
 			}}
 		>
 			<Stack.Screen name={'LeaderAreaHome'} component={LeaderAreaHome} />
+			<Stack.Screen name={'PollPetitionArea'} component={PollPetitionArea} />
 		</Stack.Navigator>
 		// </PollRegisterProvider>
 	)
