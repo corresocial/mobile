@@ -16,7 +16,7 @@ import { ViewPetitionListScreenProps } from '@routes/Stack/LeaderAreaStack/scree
 import { FlatListItem } from 'src/presentation/types'
 
 import { CardContainer, Container, Header, PetitionList } from './styles'
-import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
+import FormHearthWhiteIcon from '@assets/icons/formHearth-white.svg'
 import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
@@ -111,8 +111,8 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					<DefaultPostViewHeader
 						ignorePlatform
 						text={'abaixo assinados'}
-						highlightedWords={['abaixo assinados']}
-						SvgIcon={DescriptionWhiteIcon}
+						highlightedWords={['abaixo', 'assinados']}
+						SvgIcon={FormHearthWhiteIcon}
 						smallIconArea
 						onBackPress={() => navigation.goBack()}
 					/>
