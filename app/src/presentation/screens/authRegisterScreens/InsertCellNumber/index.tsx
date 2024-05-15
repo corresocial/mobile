@@ -242,8 +242,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						: (
 							<PrimaryButton
 								color={theme.green3}
-								flexDirection={'row-reverse'}
-								SvgIcon={CheckWhiteIcon}
+								SecondSvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
 								label={'continuar'}
 								highlightedWords={['continuar']}

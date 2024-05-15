@@ -242,14 +242,13 @@ function SelectPostLocation({
 					<PrimaryButton
 						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
-						flexDirection={'row-reverse'}
 						color={theme.white3}
 						label={'   usar minha localização'}
 						highlightedWords={['minha', 'localização']}
 						labelColor={theme.black4}
 						fontSize={16}
-						SvgIcon={MapPointWhiteIcon}
-						svgIconScale={['60%', '15%']}
+						SecondSvgIcon={MapPointWhiteIcon}
+						svgIconScale={['50%', '15%']}
 						onPress={getCurrentPositionCoordinated}
 					/>
 				</MyLocationButtonContainer>
@@ -269,11 +268,10 @@ function SelectPostLocation({
 								? <Loader />
 								: (
 									<PrimaryButton
-										flexDirection={'row-reverse'}
 										color={theme.green3}
 										label={'continuar'}
 										labelColor={theme.white3}
-										SvgIcon={CheckWhiteIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveLocation(markerCoordinate)}
 									/>
 								)

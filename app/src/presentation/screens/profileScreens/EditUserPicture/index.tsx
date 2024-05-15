@@ -131,7 +131,6 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					onPress={() => { setCameraModalVisibility(true) }}
 				/>
 				<SmallButton
-					flexDirection={'row-reverse'}
 					relativeWidth={relativeScreenWidth(35)}
 					height={relativeScreenWidth(20)}
 					color={theme.green3}

@@ -118,8 +118,7 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 						&& (
 							<PrimaryButton
 								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								flexDirection={'row-reverse'}
-								SvgIcon={CheckWhiteIcon}
+								SecondSvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
 								label={'continuar'}
 								highlightedWords={['continuar']}

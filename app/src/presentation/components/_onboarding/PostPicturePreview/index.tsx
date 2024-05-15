@@ -179,7 +179,6 @@ function PostPicturePreview({
 					svgScale={['100%', '100%']}
 				/>
 				<SmallButton
-					flexDirection={'row-reverse'}
 					relativeWidth={relativeScreenWidth(35)}
 					height={relativeScreenWidth(20)}
 					color={theme.green3}

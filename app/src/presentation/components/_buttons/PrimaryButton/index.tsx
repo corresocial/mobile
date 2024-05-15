@@ -35,7 +35,6 @@ interface PrimaryButtonProps {
 	startsHidden?: boolean
 	highlightedWords?: string[]
 	justifyContent?: ViewStyle['justifyContent']
-	flexDirection?: ViewStyle['flexDirection']
 	onPress: (() => void) | undefined
 }
 
@@ -59,7 +58,6 @@ function PrimaryButton({
 	keyboardHideButton = true,
 	startsHidden = false,
 	justifyContent,
-	flexDirection,
 	onPress
 }: PrimaryButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(disabled || false)
@@ -140,7 +138,6 @@ function PrimaryButton({
 				<ContainerSurface
 					style={{
 						backgroundColor: buttonDisabled ? theme.white3 : color,
-						flexDirection: flexDirection || 'row',
 						justifyContent: justifyContent || 'center',
 						minHeight: RFValue(minHeight),
 						marginLeft: buttonPressed ? RFValue(7) : 0

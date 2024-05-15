@@ -237,7 +237,6 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 					(mediaSelected.length > 0) && (
 						<ConfirmSelectionButton>
 							<SmallButton
-								flexDirection={'row-reverse'}
 								relativeWidth={relativeScreenWidth(20)}
 								height={relativeScreenWidth(13)}
 								color={theme.green3}

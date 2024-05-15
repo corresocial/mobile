@@ -93,11 +93,10 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 				onPress={() => selectIdentificationOption('telefone')}
 			/>
 			<PrimaryButton
-				flexDirection={'row-reverse'}
 				color={theme.green3}
 				label={'continuar'}
 				labelColor={theme.white3}
-				SvgIcon={CheckWhiteIcon}
+				SecondSvgIcon={CheckWhiteIcon}
 				onPress={saveIdentificationRequest}
 			/>
 		</PostSelectButton>
