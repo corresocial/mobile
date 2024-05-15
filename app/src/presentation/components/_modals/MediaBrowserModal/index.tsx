@@ -21,6 +21,9 @@ import {
 	ActivityIndicatorContainer,
 	ActivityIndicatorBg,
 	HeaderTextContent,
+	InvalidAssetAlert,
+	InvalidDurationText,
+	InvalidAssetContainer,
 
 } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -36,11 +39,12 @@ import { MediaThumbnail } from '@components/MediaThumbnail'
 interface MediaBrowserProps {
 	showMediaBrowser: boolean,
 	maxImages?: number,
+	videoDurationLimit?: number,
 	onClose: () => void,
 	onSelectionConfirmed: (mediaSelected: Asset[]) => void,
 }
 
-function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelectionConfirmed }: MediaBrowserProps) {
+function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimit = 180, onClose, onSelectionConfirmed }: MediaBrowserProps) {
 	const [albums, setAlbums] = useState<AlbumType[]>([])
 	const [media, setMedia] = useState<Asset[]>([])
 	const [cursor, setCursor] = useState<AssetRef | undefined>(undefined)
@@ -49,6 +53,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	const [permissionResponse, requestPermission] = MediaLibrary.usePermissions()
 	const [isContentLoading, setIsContentLoading] = useState(false)
+	const [showInvalidDurationText, setShowInvalidDurationText] = useState(false)
 
 	useEffect(() => {
 		if (showMediaBrowser && albums.length === 0) loadAlbums()
@@ -143,7 +148,18 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		setMediaSelected([])
 	}
 
-	const assetSelectionHandler = (item: any) => {
+	const invalidDurationPopUp = () => {
+		setShowInvalidDurationText(true)
+		setTimeout(() => {
+			setShowInvalidDurationText(false)
+		}, 4000)
+	}
+
+	const assetSelectionHandler = (item: Asset) => {
+		if (item.duration > videoDurationLimit) {
+			invalidDurationPopUp()
+			return
+		}
 		const isItemSelected = mediaSelected.includes(item)
 		let itemsSelected = []
 		if (isItemSelected) {
@@ -152,8 +168,6 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			if (mediaSelected.length >= maxImages) return
 			itemsSelected = [...mediaSelected, item]
 		}
-
-		console.log(itemsSelected)
 		setMediaSelected(itemsSelected)
 	}
 
@@ -242,6 +256,16 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	return (
 		<MediaBrowserModalContainer animationType={'slide'} visible={showMediaBrowser}>
+			{
+				showInvalidDurationText && (
+					<InvalidAssetContainer>
+						<InvalidAssetAlert>
+							<InvalidDurationText>{`Seu vídeo tem mais que ${videoDurationLimit / 60} minutos` }</InvalidDurationText>
+						</InvalidAssetAlert>
+					</InvalidAssetContainer>
+				)
+			}
+			
 			<StatusBar backgroundColor={theme.white3} />
 			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
 				{
