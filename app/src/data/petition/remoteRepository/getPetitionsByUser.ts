@@ -6,7 +6,7 @@ import { PETITION_COLLECTION } from '@data/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-export async function getPetitionsByUser(userId: string, maxDocs = 1, lastDoc = null) {
+export async function getPetitionsByUser(userId: string, maxDocs = 1, lastDoc: any = null) {
 	try {
 		const collectionRef = collection(firestore, PETITION_COLLECTION)
 		let petitionsByUserQuery
@@ -16,7 +16,7 @@ export async function getPetitionsByUser(userId: string, maxDocs = 1, lastDoc = 
 				where('owner.userId', '==', userId),
 				orderBy('createdAt', 'desc'),
 				limit(maxDocs),
-				startAfter(lastDoc)
+				startAfter(lastDoc.createdAt)
 			)
 		} else {
 			petitionsByUserQuery = query(

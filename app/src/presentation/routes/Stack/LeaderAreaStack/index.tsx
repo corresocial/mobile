@@ -9,6 +9,7 @@ import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
+import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 
 const Stack = createStackNavigator<LeaderAreaStackParamList>()
@@ -33,6 +34,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 			<Stack.Screen name={'LeaderAreaHome'} component={LeaderAreaHome} />
 			<Stack.Screen name={'PollPetitionArea'} component={PollPetitionArea} />
 			<Stack.Screen name={'ViewPollList'} component={ViewPollList} />
+			<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
 		</Stack.Navigator>
 		// </PollRegisterProvider>
 	)

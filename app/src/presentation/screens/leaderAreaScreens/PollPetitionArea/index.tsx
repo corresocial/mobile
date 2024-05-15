@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -38,13 +38,18 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 	const [polls, setPolls] = useState<PollEntity[]>()
 	const [petitions, setPetitions] = useState<PetitionEntity[]>()
 
+	useEffect(() => {
+		loadPolls()
+		loadPetitions()
+	}, [])
+
 	const loadPolls = async () => {
-		const userPolls = await getPollsByOwner(usePollRepository, userDataContext.userId, 2)
+		const userPolls = await getPollsByOwner(usePollRepository, userDataContext.userId, 1)
 		setPolls(userPolls)
 	}
 
 	const loadPetitions = async () => {
-		const userPetitions = await getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 2)
+		const userPetitions = await getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 1)
 		setPetitions(userPetitions)
 	}
 
@@ -147,7 +152,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 					text={'seus abaixo assinados'}
 					highlightedText={['abaixo', 'assinados']}
 					SvgIcon={FormHearthWhiteIcon}
-					onPress={loadPetitions}
+					onPress={() => navigation.navigate('ViewPetitionList')}
 					seeMoreText
 				/>
 				<VerticalSpacing/>

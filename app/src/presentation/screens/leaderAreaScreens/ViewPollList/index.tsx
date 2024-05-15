@@ -53,7 +53,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			const userPolls = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getPollsByOwner(usePollRepository, userDataContext.userId, 4, lastPoll),
+				() => getPollsByOwner(usePollRepository, userDataContext.userId, 3, lastPoll),
 				refresh
 			)
 
