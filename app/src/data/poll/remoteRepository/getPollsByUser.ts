@@ -6,7 +6,7 @@ import { POLL_COLLECTION } from '@data/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc = null) {
+export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc: any = null) {
 	try {
 		const collectionRef = collection(firestore, POLL_COLLECTION)
 		let pollsByUserQuery
@@ -16,7 +16,7 @@ export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc = null
 				where('owner.userId', '==', userId),
 				orderBy('createdAt', 'desc'),
 				limit(maxDocs),
-				startAfter(lastDoc)
+				startAfter(lastDoc.createdAt)
 			)
 		} else {
 			pollsByUserQuery = query(
@@ -28,7 +28,6 @@ export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc = null
 		}
 
 		const pollsSnap = await getDocs(pollsByUserQuery)
-		console.log('Nº de docs =>', pollsSnap.docs.length)
 		return pollsSnap.docs.map((doc) => ({ pollId: doc.id, ...doc.data() } as PollEntity))
 	} catch (error) {
 		console.log(error)

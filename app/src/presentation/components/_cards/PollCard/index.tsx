@@ -8,6 +8,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, ContainerInner, Content, Title, TitleContainer } from './styles'
 import DocumentPencilWhiteIcon from '@assets/icons/documentPencil-white.svg'
+import PaperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -20,11 +21,12 @@ const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 interface PollCardProps {
 	pollData: PollEntity
 	owner: UserOwner
+	isOwner?: boolean
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }
 
-function PollCard({ pollData, owner, navigateToProfile, onPress }: PollCardProps) {
+function PollCard({ pollData, owner, isOwner, navigateToProfile, onPress }: PollCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	const theme = useTheme()
@@ -93,9 +95,9 @@ function PollCard({ pollData, owner, navigateToProfile, onPress }: PollCardProps
 					<VerticalSpacing />
 					<SmallButton
 						color={theme.green3}
-						label={'responder enquete'}
+						label={isOwner ? 'abrir enquete' : 'responder enquete'}
 						height={relativeScreenWidth(12)}
-						SvgIcon={DocumentPencilWhiteIcon}
+						SvgIcon={isOwner ? PaperInfoWhiteIcon : DocumentPencilWhiteIcon}
 						onPress={onPress}
 					/>
 				</Content>

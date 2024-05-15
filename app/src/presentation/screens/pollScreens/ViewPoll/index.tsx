@@ -48,7 +48,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId !== 'pollData.owner.userId' // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === pollData.owner.userId
 
 	useEffect(() => {
 		getData()

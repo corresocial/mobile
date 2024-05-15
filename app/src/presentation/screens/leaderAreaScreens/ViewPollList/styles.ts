@@ -2,10 +2,9 @@ import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 
-export const Container = styled.ScrollView`
-	width: 100%;
+export const Container = styled.View`
+	flex: 1;
 	background-color: ${({ theme }) => theme.purple2};
-	padding-bottom: 100px;
 `
 
 export const Header = styled.View`
@@ -15,18 +14,8 @@ export const Header = styled.View`
 	padding: ${relativeScreenDensity(10)}px;
 `
 
-export const HeaderButtonsContainer = styled.View`
-	width: 100%;
-  	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-`
-
-export const HeaderSection = styled.View`
+export const PollList = styled.FlatList`
 	flex: 1;
-	align-items: center;
-	justify-content: center;
-	padding: ${relativeScreenDensity(10)}px;
 `
 
 export const CardContainer = styled.View`

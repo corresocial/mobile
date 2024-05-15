@@ -46,13 +46,13 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 
 	const theme = useTheme()
 
-	const [petitionData, setPetitionData] = useState<PetitionEntity>({} as PetitionEntity)
+	const [petitionData, setPetitionData] = useState<PetitionEntity>(route.params?.petitionData || {} as PetitionEntity)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	const [postOptionsIsOpen, setPetitionOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId !== petitionData.owner.userId // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === petitionData.owner.userId
 	const isCompleted = false
 
 	useEffect(() => {
@@ -61,8 +61,8 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 
 	const getData = (async () => {
 		if (route.params.petitionId && !route.params.petitionData) {
-			const poll = await getPetitionData(usePetitionRepository, route.params.petitionId)
-			poll && setPetitionData(poll)
+			const petition = await getPetitionData(usePetitionRepository, route.params.petitionId)
+			petition && setPetitionData(petition)
 		}
 	})
 

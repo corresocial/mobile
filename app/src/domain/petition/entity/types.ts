@@ -11,7 +11,7 @@ export type PetitionEntity = {
 	completed?: boolean
 	picturesUrl?: string[]
 	videosUrl?: string[]
-	extraIdentificationRequest?: ExtraIdentificationRequest[]
+	extraIdentificationRequest: ExtraIdentificationRequest[]
 	privateResponses?: PrivatePetitionResponse[]
 }
 

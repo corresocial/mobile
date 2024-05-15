@@ -4,6 +4,7 @@ import { PetitionEntity, PrivatePetitionResponse } from './entity/types'
 
 interface PetitionDomainInterface {
 	getPetitionData: (usePetitionRepository: () => PetitionRepositoryInterface, petitionId: string) => Promise<PetitionEntity | undefined>
+	getPetitionsByOwner(usePetitionRepository: () => PetitionRepositoryInterface, userId: string, pageSize?: number, lastPetition?: PetitionEntity): Promise<PetitionEntity[]> | PetitionEntity[]
 
 	createNewPetition: (usePetitionRepository: () => PetitionRepositoryInterface, petitionData: PetitionEntity) => Promise<void> | undefined
 	sendPetitionResponse: (
