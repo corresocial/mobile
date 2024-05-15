@@ -140,7 +140,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas na enquete ${getPollField('title')}?`}
+				text={`você tem certeza que deseja descartar as alterações realizadas na enquete ${getPollField('title')} ?`}
 				highlightedWords={[...getPollField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}

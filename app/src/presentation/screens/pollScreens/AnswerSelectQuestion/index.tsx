@@ -21,7 +21,8 @@ import { ProgressBar } from '@components/ProgressBar'
 function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenProps) {
 	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
 
-	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+	// const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+	const [selectedOption, setSelectedOption] = useState<string>('')
 
 	const theme = useTheme()
 
@@ -31,7 +32,8 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 	const navigateBackwards = () => navigation.goBack()
 
 	const saveQuestionResponse = () => {
-		saveResponseData(questionData, selectedOptions)
+		// saveResponseData(questionData, selectedOptions)
+		saveResponseData(questionData, selectedOption)
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
 	}
@@ -48,12 +50,15 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 		}
 	}
 
-	const selectOption = (option: string) => {
-		if (selectedOptions.includes(option)) {
-			return setSelectedOptions(selectedOptions.filter((selectedOption) => selectedOption !== option))
-		}
+	// const selectOption = (option: string) => {
+	// 	if (selectedOptions.includes(option)) {
+	// 		return setSelectedOptions(selectedOptions.filter((selectedOption) => selectedOption !== option))
+	// 	}
+	// 	setSelectedOptions([...selectedOptions, option])
+	// }
 
-		setSelectedOptions([...selectedOptions, option])
+	const selectOption = (option: string) => {
+		setSelectedOption(option)
 	}
 
 	const renderQuestionOptions = () => {
@@ -62,14 +67,25 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 				<SelectButton
 					backgroundSelected={theme.purple3}
 					label={question}
-					labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
+					labelColor={selectedOption === question ? theme.white3 : theme.black4}
 					boldLabel
 					fontSize={12}
 					width={'100%'}
 					height={'auto'}
-					selected={selectedOptions.includes(question)}
+					selected={selectedOption === question}
 					onSelect={() => selectOption(question)}
 				/>
+				// <SelectButton
+				// 	backgroundSelected={theme.purple3}
+				// 	label={question}
+				// 	labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
+				// 	boldLabel
+				// 	fontSize={12}
+				// 	width={'100%'}
+				// 	height={'auto'}
+				// 	selected={selectedOptions.includes(question)}
+				// 	onSelect={() => selectOption(question)}
+				// />
 			)
 		})
 	}

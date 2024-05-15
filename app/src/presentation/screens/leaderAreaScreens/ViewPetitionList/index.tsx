@@ -47,6 +47,8 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 			if (listIsOver && !refresh) return
 
 			refresh && setIsLoading(true)
+			refresh && queryClient.removeQueries({ queryKey: ['petitions', userDataContext.userId] })
+
 			const lastPetition = !refresh && (petitions && petitions.length) ? petitions[petitions.length - 1] : undefined
 
 			const queryKey = ['petitions', userDataContext.userId, lastPetition?.petitionId]
@@ -66,7 +68,6 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 			}
 
 			if (refresh) {
-				queryClient.removeQueries({ queryKey: ['petitions', userDataContext.userId] })
 				setPetitions([...userPetitions])
 				setListIsOver(false)
 			} else {

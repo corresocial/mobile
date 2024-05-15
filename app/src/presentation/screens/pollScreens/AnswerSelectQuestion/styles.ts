@@ -18,7 +18,6 @@ export const InstructionButtonContainer = styled.View<InstructionButtonContainer
 
 export const OptionsContainer = styled.ScrollView`
 	flex: 1;
-	background-color: red;
 	padding: ${relativeScreenDensity(20)}px;
 `
 

@@ -47,6 +47,8 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			if (listIsOver && !refresh) return
 
 			refresh && setIsLoading(true)
+			refresh && queryClient.removeQueries({ queryKey: ['polls', userDataContext.userId] })
+
 			const lastPoll = !refresh && (polls && polls.length) ? polls[polls.length - 1] : undefined
 
 			const queryKey = ['polls', userDataContext.userId, lastPoll?.pollId]
@@ -64,7 +66,6 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			}
 
 			if (refresh) {
-				queryClient.removeQueries({ queryKey: ['polls', userDataContext.userId] })
 				setPolls([...userPolls])
 				setListIsOver(false)
 			} else {

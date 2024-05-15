@@ -123,7 +123,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')}?`}
+				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')} ?`}
 				highlightedWords={[...getPetitionField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
