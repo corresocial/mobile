@@ -44,12 +44,12 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 		loadPollsAndPetitions()
 	}, [])
 
-	const loadPollsAndPetitions = async () => {
+	const loadPollsAndPetitions = async (refresh?: boolean) => {
 		try {
-			setIsLoading(true)
+			refresh && setIsLoading(true)
 			await loadPolls()
 			await loadPetitions()
-			setIsLoading(false)
+			refresh && setIsLoading(false)
 		} catch (error) {
 			console.log(error)
 			setIsLoading(false)
@@ -116,7 +116,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 				refreshControl={(
 					<RefreshControl
 						refreshing={isLoading}
-						onRefresh={loadPollsAndPetitions}
+						onRefresh={() => loadPollsAndPetitions(true)}
 						colors={[theme.white3]}
 						size={relativeScreenDensity(20)}
 					/>
