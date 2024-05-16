@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -37,11 +38,23 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 
 	const [polls, setPolls] = useState<PollEntity[]>()
 	const [petitions, setPetitions] = useState<PetitionEntity[]>()
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		loadPolls()
-		loadPetitions()
+		loadPollsAndPetitions()
 	}, [])
+
+	const loadPollsAndPetitions = async () => {
+		try {
+			setIsLoading(true)
+			await loadPolls()
+			await loadPetitions()
+			setIsLoading(false)
+		} catch (error) {
+			console.log(error)
+			setIsLoading(false)
+		}
+	}
 
 	const loadPolls = async () => {
 		const userPolls = await getPollsByOwner(usePollRepository, userDataContext.userId, 1)
@@ -99,7 +112,16 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.white3} >
-			<Container>
+			<Container
+				refreshControl={(
+					<RefreshControl
+						refreshing={isLoading}
+						onRefresh={loadPollsAndPetitions}
+						colors={[theme.white3]}
+						size={relativeScreenDensity(20)}
+					/>
+				)}
+			>
 				<Header>
 					<DefaultPostViewHeader
 						ignorePlatform
