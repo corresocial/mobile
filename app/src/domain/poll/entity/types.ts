@@ -17,10 +17,11 @@ export type PollEntity = {
 
 export type PollQuestionOptional = Partial<PollQuestion>
 export type PollQuestion = {
-	options?: string[]
 	questionId: string
 	question: string
 	questionType: PollQuestionType
+	options?: string[]
+	multiSelect?: boolean
 }
 
 export type PollQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'select'

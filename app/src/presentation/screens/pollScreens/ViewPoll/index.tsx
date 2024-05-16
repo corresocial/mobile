@@ -48,7 +48,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId !== pollData.owner.userId
+	const isAuthor = () => userDataContext.userId === pollData.owner.userId
 
 	useEffect(() => {
 		getData()
@@ -163,7 +163,8 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		)
 	}
 
-	const alreadyResponded = pollData.idUsersResponded?.includes(userDataContext.userId)
+	// const alreadyResponded = pollData.idUsersResponded?.includes(userDataContext.userId) // TODO uncomment
+	const alreadyResponded = false
 
 	return (
 		<>

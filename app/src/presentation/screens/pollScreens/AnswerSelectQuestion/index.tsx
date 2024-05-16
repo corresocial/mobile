@@ -21,19 +21,18 @@ import { ProgressBar } from '@components/ProgressBar'
 function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenProps) {
 	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
 
-	// const [selectedOptions, setSelectedOptions] = useState<string[]>([])
-	const [selectedOption, setSelectedOption] = useState<string>('')
+	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
 	const theme = useTheme()
 
 	const { questionData } = route.params
+	const { multiSelect } = questionData
 	const responseProgress = getResponseProgess(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 
 	const saveQuestionResponse = () => {
-		// saveResponseData(questionData, selectedOptions)
-		saveResponseData(questionData, selectedOption)
+		saveResponseData(questionData, selectedOptions)
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
 	}
@@ -50,42 +49,31 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 		}
 	}
 
-	// const selectOption = (option: string) => {
-	// 	if (selectedOptions.includes(option)) {
-	// 		return setSelectedOptions(selectedOptions.filter((selectedOption) => selectedOption !== option))
-	// 	}
-	// 	setSelectedOptions([...selectedOptions, option])
-	// }
-
 	const selectOption = (option: string) => {
-		setSelectedOption(option)
+		if (multiSelect) {
+			if (selectedOptions.includes(option)) {
+				return setSelectedOptions(selectedOptions.filter((currentOption) => currentOption !== option))
+			}
+			return setSelectedOptions([...selectedOptions, option])
+		}
+
+		selectedOptions.length && selectedOptions.includes(option) ? setSelectedOptions([]) : setSelectedOptions([option])
 	}
 
 	const renderQuestionOptions = () => {
-		return (/* questionData.options ||  */['orem ipsum dolor sit amet consectetur. Hac quicdolor ', 'orem ipsum dolor sit amet consectetur. Hac quam urna dicdolor ', 'Lorem ipsum dolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dicdolor sit amet consectetur. Hac quam urna dictumst nunc.']).map((question) => {
+		return (questionData.options || []).map((question) => {
 			return (
 				<SelectButton
 					backgroundSelected={theme.purple3}
 					label={question}
-					labelColor={selectedOption === question ? theme.white3 : theme.black4}
+					labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
 					boldLabel
 					fontSize={12}
 					width={'100%'}
 					height={'auto'}
-					selected={selectedOption === question}
+					selected={selectedOptions.includes(question)}
 					onSelect={() => selectOption(question)}
 				/>
-				// <SelectButton
-				// 	backgroundSelected={theme.purple3}
-				// 	label={question}
-				// 	labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
-				// 	boldLabel
-				// 	fontSize={12}
-				// 	width={'100%'}
-				// 	height={'auto'}
-				// 	selected={selectedOptions.includes(question)}
-				// 	onSelect={() => selectOption(question)}
-				// />
 			)
 		})
 	}
@@ -112,15 +100,19 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 			<OptionsContainer>
 				{renderQuestionOptions()}
 			</OptionsContainer>
-			<ButtonOptionsContainer>
-				<PrimaryButton
-					color={theme.green3}
-					label={'continuar'}
-					labelColor={theme.white3}
-					SvgIcon={CheckWhiteIcon}
-					onPress={saveQuestionResponse}
-				/>
-			</ButtonOptionsContainer>
+			{
+				!!selectedOptions.length && (
+					<ButtonOptionsContainer>
+						<PrimaryButton
+							color={theme.green3}
+							label={'continuar'}
+							labelColor={theme.white3}
+							SvgIcon={CheckWhiteIcon}
+							onPress={saveQuestionResponse}
+						/>
+					</ButtonOptionsContainer>
+				)
+			}
 		</Container>
 	)
 }

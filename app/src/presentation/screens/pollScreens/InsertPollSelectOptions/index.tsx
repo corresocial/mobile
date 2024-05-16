@@ -117,11 +117,12 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 					questionId: uuid(),
 					questionType: 'select',
 					options: selectOptions,
+					multiSelect: !!route.params.multiSelect,
 					question: route.params.questionText,
 				} as PollQuestion]
 			})
 		} else {
-			setRegisteredQuestionOnPollDataContext('select', selectOptions)
+			setRegisteredQuestionOnPollDataContext('select', selectOptions, !!route.params.multiSelect)
 		}
 
 		navigation.push('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })

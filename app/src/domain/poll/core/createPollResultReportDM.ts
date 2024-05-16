@@ -7,6 +7,8 @@ async function createPollResultReportDM(pollData: PollEntity) {
 		const binaryResponses = groupQuestionsByQuestionType(pollData, 'binary')
 		const numericalResponses = groupQuestionsByQuestionType(pollData, 'numerical')
 		const satisfactionResponses = groupQuestionsByQuestionType(pollData, 'satisfaction')
+		const textualResponses = groupQuestionsByQuestionType(pollData, 'textual')
+		const selectResponses = groupQuestionsByQuestionType(pollData, 'select')
 
 		return `
 			<html lang='pt-br'>
@@ -16,6 +18,9 @@ async function createPollResultReportDM(pollData: PollEntity) {
 					${renderBinaryGraph(binaryResponses)}
 					${renderNumericalGraph(numericalResponses)}
 					${renderSatisfactionGraph(satisfactionResponses)}
+					${renderSelectGraph(selectResponses)}
+					${renderTextualResponses(textualResponses)}
+					${renderTextualResponses(selectResponses, 'select')}
 					${renderPollFooter()}
 				</div>
 			</html>
@@ -214,6 +219,59 @@ function renderNumericalGraph(allResponsesByQuestion: PollQuestionWithResponses)
 	}).join('')
 }
 
+function renderSelectGraph(allResponsesByQuestion: PollQuestionWithResponses) {
+	type NumericalGraphIterator = [string, number, string][]
+
+	return allResponsesByQuestion.map((questionWithResponses) => {
+		const ordenedOptions = questionWithResponses.options?.sort((a: any, b: any) => a.response > b.response as any)
+
+		const numericalValues = (ordenedOptions || ['']).reduce((acc: NumericalGraphIterator, option: string) => {
+			const responses = questionWithResponses.responses.filter((currentResponse) => (currentResponse.response as string[]).includes(option))
+			const allSelectedOptions = [].concat(...(questionWithResponses.responses || ['']).map(({ response }) => response) as any[])
+			const percentage = (responses.length / allSelectedOptions.length) * 100
+
+			if (acc.find((item) => option.includes(item[0] as string))) {
+				return [...acc]
+			}
+			const numberOfSelections = allSelectedOptions.filter((opt) => opt === option).length
+
+			return [...acc, [option, numberOfSelections as number, `${percentage.toFixed(2)}%`]] as NumericalGraphIterator
+		}, [] as NumericalGraphIterator)
+
+		const renderNumericalBars = () => {
+			return numericalValues.map((number, i, values) => {
+				const isFirstItem = i === 0
+				const isLastItem = i === values.length - 1
+
+				return (
+					`
+						<div class="bar">
+							<div class="bar-label">${number[0]}</div>
+							<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
+							<div class="bar-progress">
+								<div class="bar-progress-inner orange3" style="width: ${number[2]}"></div>
+							</div>
+							<div class="bar-progress-text">${number[1]}</div>
+							<div class="bar-progress-text">${number[2]}</div>
+						</div>
+					`
+				)
+			}).join('')
+		}
+
+		return (
+			`
+				<div class="card" >
+					<div class="card-content">
+					<h3 class="card-title">${questionWithResponses.question}</h3>
+					${renderNumericalBars()}
+					</div>
+				</div>
+			`
+		)
+	}).join('')
+}
+
 function renderSatisfactionGraph(allResponsesByQuestion: PollQuestionWithResponses) {
 	type SatisfactionValue = SatisfactionType
 	type SatisfactionLabel = 'Muito satisfeito' | 'Satisfeito' | 'Mais ou menos' | 'Insatisfeito' | 'Muito insatisfeito'
@@ -324,9 +382,35 @@ function renderSatisfactionGraph(allResponsesByQuestion: PollQuestionWithRespons
 	}).join('')
 }
 
+const renderTextualResponses = (allResponsesByQuestion: PollQuestionWithResponses, type?: 'textual' | 'select') => {
+	const renderRows = (poll: { responses: PollResponse[] }) => {
+		return poll.responses.map((response, index, responses) => {
+			const isLastItem = index === responses.length - 1
+			return (`
+					<div class="long-text-container ${isLastItem ? 'last-item' : ''}">
+						<ul>
+							<li class="long-text"> ${type === 'select' ? (response.response as string[] || []).join(' - ') : response.response}</li>
+						</ul>
+					</div>
+				`)
+		}).join('')
+	}
+
+	return allResponsesByQuestion.map((poll, index) => {
+		return (`
+		<div class="card">
+			<div class="card-content" >
+				<h3 class="card-title"> ${poll.question} </h3>
+				${renderRows(poll)}
+			</div>
+		</div>
+		`)
+	})
+}
+
 function renderPollFooter() {
 	return (`
-		<h4 className="author">Formulário criado utilizando o aplicativo corre.social</h4>
+		<h4 class="author">Formulário criado utilizando o aplicativo corre.social</h4>
 		<svg width="138" height="36" viewBox="0 0 138 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd" clip-rule="evenodd"
 				d="M137.235 26.8056C137.235 29.2392 136.259 31.5741 134.526 33.2945C132.785 35.0156 130.431 35.9823 127.975 35.9823H118.711C117.373 35.9823 116.062 35.695 114.864 35.1528C113.155 35.6909 111.333 35.9823 109.444 35.9823H100.181C97.7529 35.9823 95.4418 35.5023 93.3313 34.635C92.3548 35.4746 91.0795 35.9823 89.6875 35.9823H55.7241C55.1891 35.9823 54.6726 35.9079 54.184 35.768C53.2758 35.9086 52.3451 35.9823 51.3973 35.9823H42.135C39.6117 35.9823 37.2105 35.4631 35.0331 34.5302C32.8543 35.4631 30.4538 35.9823 27.9318 35.9823H18.6689C8.78776 35.9823 0.764648 28.0332 0.764648 18.2408C0.764648 8.44902 8.78776 0.5 18.6689 0.5H27.9318C30.4538 0.5 32.8543 1.01781 35.0331 1.95271C37.2105 1.01781 39.6117 0.5 42.135 0.5H51.3973C52.9128 0.5 54.3846 0.68725 55.7903 1.03944C56.5183 0.693334 57.3331 0.5 58.1942 0.5H95.8574C96.393 0.5 96.9075 0.574359 97.3974 0.713614C98.3029 0.573007 99.233 0.5 100.181 0.5H109.444C119.117 0.5 127.009 8.11845 127.338 17.627H127.975C130.431 17.627 132.785 18.5937 134.526 20.3141C136.259 22.0351 137.235 24.3687 137.235 26.8023V26.8056C137.235 28.8329 137.235 28.8309 137.235 26.8056Z"

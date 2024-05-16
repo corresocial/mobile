@@ -11,7 +11,7 @@ export type PollRegisterContextType = {
 	setPollDataOnContext: (data: PollEntityOptional) => void
 
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => void,
-	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options?: string[]) => void
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options?: string[], multiSelect?: boolean) => void
 	removeQuestionFromRegisterContext: (questionId: string) => void
 
 	pollToRespond: PollEntity,

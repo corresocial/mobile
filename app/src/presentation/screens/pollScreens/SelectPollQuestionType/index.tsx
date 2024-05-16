@@ -26,7 +26,7 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
 		if (questionType === 'select') {
-			return navigation.push('InsertPollSelectOptions', { ...route.params, selectOptions: [], editMode: !!route.params?.editMode })
+			return navigation.push('SelectNumberOfSelections', { ...route.params, selectOptions: [], editMode: !!route.params?.editMode })
 		}
 
 		if (route.params?.editMode) {

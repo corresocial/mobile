@@ -22,7 +22,8 @@ export const OptionsContainer = styled.ScrollView`
 `
 
 export const ButtonOptionsContainer = styled.View`
-	padding: ${relativeScreenDensity(20)}px;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(20)}px;
+	padding-bottom: ${relativeScreenDensity(30)}px;
 	align-items: center;
 	justify-content: space-between;
 `
