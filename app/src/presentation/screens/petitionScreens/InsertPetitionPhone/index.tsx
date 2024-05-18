@@ -66,9 +66,9 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 	}
 
 	const navigateToNextScreen = (currentInfo: ExtraIdentificationRequest) => {
-		const nextQuestions = petitionSignatureDataWithoutResponse()
-		if (!nextQuestions) return navigation.navigate('FinishPetitionSignature')
-		switch (nextQuestions.filter((info) => info !== currentInfo)[0]) { 								// TODO Type
+		const nextQuestions = petitionSignatureDataWithoutResponse()?.filter((info) => info !== currentInfo)
+		if (!nextQuestions || !nextQuestions.length) return navigation.navigate('FinishPetitionSignature')
+		switch (nextQuestions[0]) { 								// TODO Type
 			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
 			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
 			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })

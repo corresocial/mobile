@@ -103,12 +103,10 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	}
 
 	const getNextQuestion = (lastQuestion: PollQuestion) => {
-		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : ['']
-		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === lastQuestionId[0])
+		const lastQuestionId = lastQuestion ? lastQuestion.questionId : ''
+		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === lastQuestionId)
 		const nextIndex = currentQuestionIndex + 1
-
 		if (nextIndex >= pollResponseData.length) return null
-
 		return pollToRespond.questions[nextIndex]
 	}
 

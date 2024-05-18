@@ -7,6 +7,7 @@ import { getPetitionsByUser } from './remoteRepository/getPetitionsByUser'
 import { getPrivateResponses } from './remoteRepository/getPrivateResponses'
 import { updatePetition } from './remoteRepository/updatePetition'
 import { updatePetitionArrayField } from './remoteRepository/updatePetitionArrayField'
+import { uploadPetitionMedia } from './remoteRepository/updatePetitionMedia'
 
 function usePetitionRepository(): PetitionRepositoryInterface {
 	return {
@@ -20,7 +21,9 @@ function usePetitionRepository(): PetitionRepositoryInterface {
 		updatePetition: updatePetition,
 		updatePetitionArrayField: updatePetitionArrayField,
 
-		deletePetition: deletePetition
+		deletePetition: deletePetition,
+
+		uploadPetitionMedia: uploadPetitionMedia
 	}
 }
 

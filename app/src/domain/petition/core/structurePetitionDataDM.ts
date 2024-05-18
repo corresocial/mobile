@@ -8,6 +8,7 @@ function structurePetitionDataDM(pollData: PetitionEntity): PostEntityOptional {
 
 	return {
 		...rest,
+		completed: false,
 		createdAt: new Date()
 	}
 }

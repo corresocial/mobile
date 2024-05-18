@@ -9,9 +9,9 @@ import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { SelectPollQuestionTypeScreenProps } from '@routes/Stack/PollStack/screenProps'
 
+import ChecksWhiteIcon from '@assets/icons/checks-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import NumbersWhiteIcon from '@assets/icons/numbers-white.svg'
-import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import SatisfactionEmoji5WhiteIcon from '@assets/icons/satisfactionEmoji-5-white.svg'
 import VerifiedLabelWhiteIcon from '@assets/icons/verifiedLabel.svg'
 
@@ -102,8 +102,8 @@ function SelectPollQuestionType({ route, navigation }: SelectPollQuestionTypeScr
 				highlightedWords={['múltipla']}
 				labelSize={15}
 				relativeHeight={'17%'}
-				SvgIcon={QuestionMarkWhiteIcon}
-				svgIconScale={['50%', '50%']}
+				SvgIcon={ChecksWhiteIcon}
+				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.purple3}
 				leftSideWidth={'25%'}
 				onPress={() => selectPollQuestionType('select')}

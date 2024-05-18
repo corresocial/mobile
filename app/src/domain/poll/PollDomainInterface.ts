@@ -13,7 +13,7 @@ interface PollDomainInterface {
 		responseData: PrivatePollResponse) => Promise<void>
 	generatePollResultsReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
 	generateIndividualPollResponsesReport: (usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) => Promise<string>
-	markPollAsCompleted: (usePollRepository: () => PollRepositoryInterface, pollId: string) => Promise<void>
+	markPollAsCompleted: (usePollRepository: () => PollRepositoryInterface, pollId: string, currentCompletedState: boolean) => Promise<void>
 
 	deletePollData: (usePollRepository: () => PollRepositoryInterface, pollId: string) => Promise<void>
 }

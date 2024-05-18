@@ -4,13 +4,16 @@ import { PetitionEntity } from '../entity/types'
 
 import { structurePetitionDataDM } from '../core/structurePetitionDataDM'
 
-function createNewPetitionDM(usePetitionRepository: () => PetitionRepositoryInterface, petitionData: PetitionEntity) {
+async function createNewPetitionDM(usePetitionRepository: () => PetitionRepositoryInterface, petitionData: PetitionEntity) {
 	try {
-		const { createPetition } = usePetitionRepository()
+		const { createPetition, uploadPetitionMedia } = usePetitionRepository()
 
-		// Fazer upload de assets
+		let picturesUrl: string[] = []
+		if (petitionData && petitionData.picturesUrl && petitionData.picturesUrl.length) {
+			picturesUrl = await uploadPetitionMedia(petitionData.picturesUrl, 'pictures')
+		}
 
-		const structuredPetitionData = structurePetitionDataDM(petitionData)
+		const structuredPetitionData = structurePetitionDataDM({ ...petitionData, picturesUrl })
 
 		return createPetition(structuredPetitionData)
 	} catch (error: any) {

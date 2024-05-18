@@ -120,9 +120,9 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 			case 'binary':
 				return VerifiedLabelWhiteIcon
 			case 'select':
-				return QuestionMarkWhiteIcon
+				return CheckWhiteIcon
 			default:
-				return undefined
+				return QuestionMarkWhiteIcon
 		}
 	}
 

@@ -33,6 +33,7 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 
 	useEffect(() => {
 		const questionIndex = pollResponseData.findIndex((res) => res.questionId === questionData.questionId)
+		if (questionIndex < 0) return
 		const questionResponse = pollResponseData[questionIndex].response || ''
 		if (questionResponse) {
 			setInputText(String(questionResponse))

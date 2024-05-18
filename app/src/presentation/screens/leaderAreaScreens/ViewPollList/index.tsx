@@ -47,15 +47,14 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			if (listIsOver && !refresh) return
 
 			refresh && setIsLoading(true)
-			refresh && queryClient.removeQueries({ queryKey: ['polls', userDataContext.userId] })
 
 			const lastPoll = !refresh && (polls && polls.length) ? polls[polls.length - 1] : undefined
 
-			const queryKey = ['polls', userDataContext.userId, lastPoll?.pollId]
+			const queryKey = ['polls', userDataContext.userId, lastPoll]
 			const userPolls = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getPollsByOwner(usePollRepository, userDataContext.userId, 3, lastPoll),
+				() => getPollsByOwner(usePollRepository, userDataContext.userId, 5, lastPoll),
 				refresh
 			)
 
@@ -66,6 +65,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			}
 
 			if (refresh) {
+				queryClient.removeQueries({ queryKey: ['polls', userDataContext.userId] })
 				setPolls([...userPolls])
 				setListIsOver(false)
 			} else {

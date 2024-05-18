@@ -42,7 +42,7 @@ const { arrayIsEmpty } = UiUtils()
 function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { userDataContext } = useContext(AuthContext)
-	const { savePetitionToRespondOnContext } = usePetitionContext()
+	const { savePetitionToRespondOnContext, setPetitionSignatureOnContext } = usePetitionContext()
 
 	const theme = useTheme()
 
@@ -57,6 +57,11 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 
 	useEffect(() => {
 		getData()
+
+		const unsubscribe = navigation.addListener('focus', () => {
+			setPetitionSignatureOnContext({})
+		})
+		return unsubscribe
 	}, [])
 
 	const getData = (async () => {

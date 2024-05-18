@@ -67,7 +67,6 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	}
 
 	const savePetition = async () => {
-		console.log(newPetitionDataState)
 		try {
 			setIsLoading(true)
 

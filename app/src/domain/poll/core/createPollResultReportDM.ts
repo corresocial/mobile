@@ -186,20 +186,20 @@ function renderNumericalGraph(allResponsesByQuestion: PollQuestionWithResponses)
 		}, [] as NumericalGraphIterator)
 
 		const renderNumericalBars = () => {
-			return numericalValues.map((number, i, values) => {
+			return numericalValues.map((item, i, values) => {
 				const isFirstItem = i === 0
 				const isLastItem = i === values.length - 1
 
 				return (
 					`
 						<div class="bar">
-							<div class="bar-label">${number[0]}</div>
+							<div class="bar-label">${item[0] || '(em branco)'}</div>
 							<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
 							<div class="bar-progress">
-								<div class="bar-progress-inner orange3" style="width: ${number[2]}"></div>
+								<div class="bar-progress-inner orange3" style="width: ${item[2]}"></div>
 							</div>
-							<div class="bar-progress-text">${number[1]}</div>
-							<div class="bar-progress-text">${number[2]}</div>
+							<div class="bar-progress-text">${item[1]}</div>
+							<div class="bar-progress-text">${item[2]}</div>
 						</div>
 					`
 				)
@@ -225,7 +225,7 @@ function renderSelectGraph(allResponsesByQuestion: PollQuestionWithResponses) {
 	return allResponsesByQuestion.map((questionWithResponses) => {
 		const ordenedOptions = questionWithResponses.options?.sort((a: any, b: any) => a.response > b.response as any)
 
-		const numericalValues = (ordenedOptions || ['']).reduce((acc: NumericalGraphIterator, option: string) => {
+		const selectValues = (ordenedOptions || ['']).reduce((acc: NumericalGraphIterator, option: string) => {
 			const responses = questionWithResponses.responses.filter((currentResponse) => (currentResponse.response as string[]).includes(option))
 			const allSelectedOptions = [].concat(...(questionWithResponses.responses || ['']).map(({ response }) => response) as any[])
 			const percentage = (responses.length / allSelectedOptions.length) * 100
@@ -239,20 +239,20 @@ function renderSelectGraph(allResponsesByQuestion: PollQuestionWithResponses) {
 		}, [] as NumericalGraphIterator)
 
 		const renderNumericalBars = () => {
-			return numericalValues.map((number, i, values) => {
+			return selectValues.map((item, i, values) => {
 				const isFirstItem = i === 0
 				const isLastItem = i === values.length - 1
 
 				return (
 					`
 						<div class="bar">
-							<div class="bar-label">${number[0]}</div>
+							<div class="bar-label">${item[0] || '(em branco)'}</div>
 							<div class="bar-base ${isFirstItem ? ' bar-base-first' : ''} ${isLastItem ? ' bar-base-last' : ''}"></div>
 							<div class="bar-progress">
-								<div class="bar-progress-inner orange3" style="width: ${number[2]}"></div>
+								<div class="bar-progress-inner orange3" style="width: ${item[2]}"></div>
 							</div>
-							<div class="bar-progress-text">${number[1]}</div>
-							<div class="bar-progress-text">${number[2]}</div>
+							<div class="bar-progress-text">${item[1]}</div>
+							<div class="bar-progress-text">${item[2]}</div>
 						</div>
 					`
 				)
@@ -384,7 +384,7 @@ function renderSatisfactionGraph(allResponsesByQuestion: PollQuestionWithRespons
 
 const renderTextualResponses = (allResponsesByQuestion: PollQuestionWithResponses, type?: 'textual' | 'select') => {
 	const renderRows = (poll: { responses: PollResponse[] }) => {
-		return poll.responses.map((response, index, responses) => {
+		return (poll.responses || []).map((response, index, responses) => {
 			const isLastItem = index === responses.length - 1
 			return (`
 					<div class="long-text-container ${isLastItem ? 'last-item' : ''}">
@@ -397,6 +397,8 @@ const renderTextualResponses = (allResponsesByQuestion: PollQuestionWithResponse
 	}
 
 	return allResponsesByQuestion.map((poll, index) => {
+		if (!poll.responses || !poll.responses.length) return
+
 		return (`
 		<div class="card">
 			<div class="card-content" >

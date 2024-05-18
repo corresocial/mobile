@@ -3,6 +3,7 @@ import { PostType, LatLong } from '@domain/post/entity/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 export type FeedSearchParams = {
+	searchLeaderPosts?: boolean
 	searchText: string
 	range: string
 	city: string

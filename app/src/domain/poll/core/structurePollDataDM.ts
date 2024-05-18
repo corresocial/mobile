@@ -8,6 +8,7 @@ function structurePollDataDM(pollData: PollEntity): PostEntityOptional {
 
 	return {
 		...rest,
+		completed: false,
 		createdAt: new Date()
 	}
 }

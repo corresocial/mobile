@@ -39,7 +39,6 @@ function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
 
 	const navigateToNextScreen = (currentInfo: ExtraIdentificationRequest) => {
 		const nextQuestions = petitionSignatureDataWithoutResponse()?.filter((info) => info !== currentInfo)
-		console.log(nextQuestions)
 		if (!nextQuestions || !nextQuestions.length) return navigation.navigate('FinishPetitionSignature')
 		switch (nextQuestions[0]) { 								// TODO Type
 			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })

@@ -55,7 +55,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 			const userPetitions = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 3, lastPetition),
+				() => getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 5, lastPetition),
 				refresh
 			)
 

@@ -1,5 +1,7 @@
 import { PetitionEntity, PetitionEntityOptional, PrivatePetitionResponse } from '@domain/petition/entity/types'
 
+import { StorageFolder } from '@data/user/remoteRepository/uploadUserMedia'
+
 interface PetitionRepositoryInterface {
 	getPetitionDataById: (petitionId: string) => Promise<PetitionEntity | undefined>
 	getPrivateResponses: (petitionId: string) => Promise<PetitionEntity['privateResponses']>
@@ -12,6 +14,8 @@ interface PetitionRepositoryInterface {
 	updatePetitionArrayField: (petitionId: string, data: any, fieldName: keyof PetitionEntityOptional) => Promise<void>
 
 	deletePetition: (petitionId: string) => Promise<void>
+
+	uploadPetitionMedia: (mediaUri: string[], folder: StorageFolder) => Promise<string[]>
 }
 
 export { PetitionRepositoryInterface }

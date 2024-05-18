@@ -46,6 +46,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	const [pollData, setPollData] = useState<PollEntity>(route.params?.pollData || {} as PollEntity)
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
+	const [currentCompletedState, setCurrentCompletedState] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
 	const isAuthor = () => userDataContext.userId === pollData.owner.userId
@@ -58,6 +59,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		if (route.params.pollId && !route.params?.pollData) {
 			const poll = await getPollData(usePollRepository, route.params.pollId)
 			poll && setPollData(poll)
+			poll && setCurrentCompletedState(!!poll.completed)
 		}
 	})
 
@@ -76,7 +78,6 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: PollQuestion) => {
-		console.log(nextQuestion)
 		switch (nextQuestion.questionType) {
 			case 'binary': return navigation.navigate('PollStack' as any, { // TODO Type
 				screen: 'AnswerBinaryQuestion' as keyof PollStackParamList,
@@ -125,7 +126,8 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	const markAsCompleted = async () => {
 		setPollOptionsIsOpen(false)
-		await markPollAsCompleted(usePollRepository, pollData.pollId)
+		await markPollAsCompleted(usePollRepository, pollData.pollId, currentCompletedState)
+		setCurrentCompletedState(!currentCompletedState)
 	}
 
 	const deletePoll = async () => {
@@ -163,8 +165,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		)
 	}
 
-	// const alreadyResponded = pollData.idUsersResponded?.includes(userDataContext.userId) // TODO uncomment
-	const alreadyResponded = false
+	const alreadyResponded = pollData.idUsersResponded?.includes(userDataContext.userId)
 
 	return (
 		<>
@@ -206,7 +207,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPollOptionsIsOpen(false)}
 					isAuthor={isAuthor()}
-					isCompleted={pollData.completed}
+					isCompleted={currentCompletedState}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}
 					deletePost={toggleDefaultConfirmationModalVisibility}
