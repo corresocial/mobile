@@ -55,7 +55,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	const [postOptionsIsOpen, setPetitionOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId !== petitionData.owner.userId
+	const isAuthor = () => userDataContext.userId === petitionData.owner.userId
 	const isCompleted = false
 
 	useEffect(() => {
