@@ -104,7 +104,7 @@ export default {
 				NSPhotoLibraryUsageDescription: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.',
 				NSFaceIDUsageDescription: 'Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.',
 				CFBundleURLTypes: [
-					{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME] }
+					{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial'] }
 				]
 			},
 			supportsTablet: true,
