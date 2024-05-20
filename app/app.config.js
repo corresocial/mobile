@@ -96,7 +96,7 @@ export default {
 			'**/*'
 		],
 		ios: {
-			bundleIdentifier: 'com.corresocial.corresocial', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
+			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
 			buildNumber: '59',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
