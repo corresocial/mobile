@@ -4,7 +4,7 @@ import { PollEntity } from '../entity/types'
 
 import { createIndividualPollResponsesReportDM } from '../core/createIndividualPollResponsesReportDM'
 
-/* const pollDataMock: PollEntity = {
+/* const data: PollEntity = {
 	title: 'Praça da lapa',
 	description: 'lorem ipsum',
 	pollId: '10',
@@ -57,6 +57,12 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 			questionId: '6',
 			question: 'Você tem pc com luizinhas?',
 			questionType: 'binary'
+		},
+		{
+			questionId: '7',
+			question: 'SELECT, você quer SELECT?',
+			questionType: 'select',
+			options: ['AAA', 'BBB', 'CCC', 'DDD']
 		}
 	],
 	privateResponses: [
@@ -66,12 +72,12 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 				city: 'Londrina',
 				country: 'Brasil',
 				district: 'Palhano 2',
-				geohashNearby: ['', ''],
+				geohashNearby: [''],
 				number: '50',
 				postalCode: '86055-650',
-				coordinates: { latitude: 1, longitude: 2 },
 				state: 'Paraná',
 				street: 'Rua Guilherme Farel',
+				coordinates: { latitude: 1, longitude: 2 }
 			},
 			responses: [
 				{
@@ -83,12 +89,12 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 				{
 					questionId: '2',
 					questionType: 'numerical',
-					response: 55,
+					response: 2,
 				},
 				{
 					questionId: '2',
 					questionType: 'numerical',
-					response: 55,
+					response: 4,
 				},
 
 				{
@@ -113,11 +119,31 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 					questionType: 'binary',
 					response: true,
 				},
-
 				{
 					questionId: '6',
 					questionType: 'binary',
 					response: true,
+				},
+
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['BBB']
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['AAA', 'BBB']
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['CCC', 'DDD']
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['BBB']
 				},
 			],
 		},
@@ -130,9 +156,9 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 				geohashNearby: [''],
 				number: '50',
 				postalCode: '86055-650',
-				coordinates: { latitude: 1, longitude: 2 },
 				state: 'Paraná',
 				street: 'Rua Guilherme Farel',
+				coordinates: { latitude: 1, longitude: 2 }
 			},
 			responses: [
 				{
@@ -209,6 +235,11 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 					questionType: 'binary',
 					response: true,
 				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['DDD', 'CCC'],
+				},
 			],
 		}
 	]
@@ -216,7 +247,7 @@ import { createIndividualPollResponsesReportDM } from '../core/createIndividualP
 
 async function generateIndividualPollResponsesReportDM(usePollRepository: () => PollRepositoryInterface, pollData: PollEntity) {
 	try {
-		const { getPrivateResponses } = usePollRepository() // TODO Descomentar
+		const { getPrivateResponses } = usePollRepository()
 		const privateResponses = await getPrivateResponses(pollData.pollId)
 
 		const pollWithResponses: PollEntity = {

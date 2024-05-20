@@ -15,6 +15,7 @@ interface SelectButtonProps {
 	backgroundColor?: string
 	backgroundSelected?: string
 	label?: string
+	labelColor?: string
 	boldLabel?: boolean
 	noDisplacement?: boolean
 	fontSize?: number
@@ -33,6 +34,7 @@ function SelectButton({
 	backgroundColor = theme.white3,
 	backgroundSelected,
 	label,
+	labelColor,
 	boldLabel = false,
 	noDisplacement = false,
 	fontSize = 15,
@@ -85,6 +87,7 @@ function SelectButton({
 						style={{
 							fontSize: RFValue(fontSize),
 							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular',
+							color: labelColor,
 						}}
 					>
 						{label}

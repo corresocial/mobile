@@ -18,13 +18,12 @@ async function searchAddressByText(query: string, allResults?: boolean) {
 						formattedAddress: data.results[0].formatted_address
 					}] as AddressSearchResult[]
 				}
-				return data.results.map((result: any) => { // TODO Type
-					return {
-						lat: result.geometry.location.lat,
-						lon: result.geometry.location.lng,
-						formattedAddress: result.formatted_address
-					}
-				}) as AddressSearchResult[]
+
+				return [{
+					lat: data.results[0].geometry.location.lat,
+					lon: data.results[0].geometry.location.lng,
+					formattedAddress: data.results[0].formatted_address
+				}] as AddressSearchResult[]
 			})
 			.catch((err) => {
 				console.log(err)

@@ -52,14 +52,22 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 	const [isContentLoading, setIsContentLoading] = useState(false)
 
 	useEffect(() => {
-		loadAlbums()
-	}, [])
+		if (showMediaBrowser) {
+			loadAlbums()
+		}
+	}, [showMediaBrowser, permissionResponse])
+
+	const withoutAccessPermissions = () => {
+		if (Platform.OS === 'ios') {
+			return !permissionResponse?.granted || permissionResponse?.accessPrivileges !== 'all'
+		}
+		return !permissionResponse?.granted
+	}
 
 	const loadAlbums = async () => {
-		if (permissionResponse?.status !== 'granted') {
-			await requestPermission()
+		if (withoutAccessPermissions()) {
+			return requestPermission()
 		}
-
 		const fetchedAlbums = await MediaLibrary.getAlbumsAsync({ includeSmartAlbums: true })
 		const manipulatedAlbums = await manipulateAlbums(fetchedAlbums as AlbumType[])
 
@@ -135,20 +143,8 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		setCursor(albumMedia.hasNextPage ? albumMedia.endCursor : '')
 
 		setMedia([...media, ...albumMedia.assets])
-		//	const albumMediaWithThumbnail = await generateThumbnailOnVideoAssets(albumMedia.assets)
-		// setMedia([...media, ...albumMediaWithThumbnail])
 		setIsContentLoading(false)
 	}
-
-	// const generateThumbnailOnVideoAssets = async (assets: Asset[]) => {
-	// 	return Promise.all(
-	// 		assets.map(async (asset) => {
-	// 			if (asset.mediaType === 'photo') return { ...asset }
-	// 			const { uri } = await VideoThumbnails.getThumbnailAsync(asset.uri, { time: 1000 })
-	// 			return { ...asset, thumbnail: uri }
-	// 		})
-	// 	)
-	// }
 
 	const selectAlbumHandler = async (album: AlbumType) => {
 		setAlbumSelected({ id: album.id, albumName: album.title })
@@ -241,7 +237,6 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 					(mediaSelected.length > 0) && (
 						<ConfirmSelectionButton>
 							<SmallButton
-								flexDirection={'row-reverse'}
 								relativeWidth={relativeScreenWidth(20)}
 								height={relativeScreenWidth(13)}
 								color={theme.green3}
@@ -290,11 +285,10 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 				</HeaderTextContent>
 			</MediaBrowserHeader>
 			{albumSelected ? renderAlbumPhotos() : renderAlbums()}
-
 			{
-				!permissionResponse?.granted && (
+				withoutAccessPermissions() && (
 					<NotPermissionText>
-						{'Você não permitiu o uso da câmera ou galeria, você precisa ir em configurações "corre." e permitir.'}
+						{'Você não permitiu o uso da câmera ou galeria, você precisa ir em configurações "corre." e permitir acesso total'}
 					</NotPermissionText>
 				)
 			}
@@ -303,5 +297,3 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 }
 
 export { MediaBrowserModal }
-
-// TODO Video

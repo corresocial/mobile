@@ -5,6 +5,8 @@ import { RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
+import { PetitionEntity } from '@domain/petition/entity/types'
+import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -14,7 +16,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToLeaderPostsView, navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
@@ -126,6 +128,8 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
+			searchParams = { ...searchParams, searchLeaderPosts: true }
+
 			const { userId } = userDataContext
 			const queryKey = ['home.feed', searchParams, userId]
 			const remoteFeedPosts = await executeCachedRequest(
@@ -135,13 +139,22 @@ function Home({ navigation }: HomeScreenProps) {
 				refresh
 			)
 
+			/* console.log('--------------------------------------')
+			console.log('NEAR')
+			remoteFeedPosts?.nearby.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
+			console.log('CITY')
+			remoteFeedPosts?.city.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
+			console.log('COUNTRY')
+			remoteFeedPosts?.country.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
+			console.log('--------------------------------------')
+ */
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext({
 				searchParams: searchParams as FeedSearchParams,
-				feedPosts: remoteFeedPosts,
+				feedPosts: remoteFeedPosts, // Mandar só postagens e deixar as enquetes e abaixos
 				lastRefreshInMilliseconds: Date.now(),
 			})
 		} catch (err) {
@@ -264,6 +277,10 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
+	const viewLeaderPostsDetails = (leaderPostData: PollEntity & PetitionEntity) => {
+		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
+	}
+
 	const navigateToPostCategories = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
@@ -282,7 +299,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		const rangeConfig = {
+		const rangeConfig = { // Filtrar enquetes e abaixos
 			near: { postsByRange: feedPosts.nearby, postRange: 'near' as PostRange },
 			city: { postsByRange: feedPosts.city, postRange: 'city' as PostRange },
 			country: { postsByRange: feedPosts.country, postRange: 'country' as PostRange }
@@ -369,6 +386,7 @@ function Home({ navigation }: HomeScreenProps) {
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}
+					goToLeaderPostsView={viewLeaderPostsDetails}
 				/>
 			</RecentPostsContainer>
 		</Container>

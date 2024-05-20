@@ -4,7 +4,7 @@ import { PollEntity } from '../entity/types'
 
 import { createPollResultReportDM } from '../core/createPollResultReportDM'
 
-/* const pollDataMock: PollEntity = {
+/* const data: PollEntity = {
 	title: 'Praça da lapa',
 	description: 'lorem ipsum',
 	pollId: '10',
@@ -57,6 +57,12 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 			questionId: '6',
 			question: 'Você tem pc com luizinhas?',
 			questionType: 'binary'
+		},
+		{
+			questionId: '7',
+			question: 'SELECT, você quer SELECT?',
+			questionType: 'select',
+			options: ['AAA', 'BBB', 'CCC', 'DDD']
 		}
 	],
 	privateResponses: [
@@ -66,12 +72,12 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 				city: 'Londrina',
 				country: 'Brasil',
 				district: 'Palhano 2',
-				geohashNearby: ['', ''],
+				geohashNearby: [''],
 				number: '50',
 				postalCode: '86055-650',
-				coordinates: { latitude: 1, longitude: 2 },
 				state: 'Paraná',
 				street: 'Rua Guilherme Farel',
+				coordinates: { latitude: 1, longitude: 2 }
 			},
 			responses: [
 				{
@@ -83,12 +89,12 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 				{
 					questionId: '2',
 					questionType: 'numerical',
-					response: 55,
+					response: 2,
 				},
 				{
 					questionId: '2',
 					questionType: 'numerical',
-					response: 55,
+					response: 4,
 				},
 
 				{
@@ -113,11 +119,31 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 					questionType: 'binary',
 					response: true,
 				},
-
 				{
 					questionId: '6',
 					questionType: 'binary',
 					response: true,
+				},
+
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['BBB']
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['AAA', 'BBB']
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['CCC', 'DDD']
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['BBB']
 				},
 			],
 		},
@@ -130,9 +156,9 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 				geohashNearby: [''],
 				number: '50',
 				postalCode: '86055-650',
-				coordinates: { latitude: 1, longitude: 2 },
 				state: 'Paraná',
 				street: 'Rua Guilherme Farel',
+				coordinates: { latitude: 1, longitude: 2 }
 			},
 			responses: [
 				{
@@ -208,6 +234,11 @@ import { createPollResultReportDM } from '../core/createPollResultReportDM'
 					questionId: '6',
 					questionType: 'binary',
 					response: true,
+				},
+				{
+					questionId: '7',
+					questionType: 'select',
+					response: ['DDD', 'CCC'],
 				},
 			],
 		}

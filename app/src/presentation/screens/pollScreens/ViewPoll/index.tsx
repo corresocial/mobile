@@ -46,9 +46,10 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	const [pollData, setPollData] = useState<PollEntity>(route.params?.pollData || {} as PollEntity)
 	const [postOptionsIsOpen, setPollOptionsIsOpen] = useState(false)
+	const [currentCompletedState, setCurrentCompletedState] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId === 'pollData.owner.userId' // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === pollData.owner.userId
 
 	useEffect(() => {
 		getData()
@@ -58,6 +59,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		if (route.params.pollId && !route.params?.pollData) {
 			const poll = await getPollData(usePollRepository, route.params.pollId)
 			poll && setPollData(poll)
+			poll && setCurrentCompletedState(!!poll.completed)
 		}
 	})
 
@@ -93,6 +95,10 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				screen: 'AnswerTextualQuestion' as keyof PollStackParamList,
 				params: { questionData: nextQuestion }
 			})
+			case 'select': return navigation.navigate('PollStack' as any, {
+				screen: 'AnswerSelectQuestion' as keyof PollStackParamList,
+				params: { questionData: nextQuestion }
+			})
 		}
 	}
 
@@ -120,7 +126,8 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	const markAsCompleted = async () => {
 		setPollOptionsIsOpen(false)
-		await markPollAsCompleted(usePollRepository, pollData.pollId)
+		await markPollAsCompleted(usePollRepository, pollData.pollId, currentCompletedState)
+		setCurrentCompletedState(!currentCompletedState)
 	}
 
 	const deletePoll = async () => {
@@ -200,7 +207,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPollOptionsIsOpen(false)}
 					isAuthor={isAuthor()}
-					isCompleted={pollData.completed}
+					isCompleted={currentCompletedState}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}
 					deletePost={toggleDefaultConfirmationModalVisibility}

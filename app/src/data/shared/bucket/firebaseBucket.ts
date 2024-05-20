@@ -1,10 +1,10 @@
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 
-import { POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
+import { PETITION_COLLECTION, POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
 
 import { storage } from '@infrastructure/firebase'
 
-type UploadPath = typeof USER_COLLECTION | typeof POST_COLLECTION
+type UploadPath = typeof USER_COLLECTION | typeof POST_COLLECTION | typeof PETITION_COLLECTION
 
 async function uploadMedia(mediaUri: string[], uploadPath: UploadPath, folder: string) {
 	const mediaUrl = mediaUri.map((url) => processUpload(url, uploadPath, folder))

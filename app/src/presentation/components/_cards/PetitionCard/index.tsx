@@ -8,6 +8,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { ButtonContainer, Container, ContainerInner, Content, ImageArea, Title, TitleContainer } from './styles'
 import DocumentPencilWhiteIcon from '@assets/icons/documentPencil-white.svg'
+import PaperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -20,11 +21,12 @@ const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 interface PetitionCardProps {
 	petitionData: PetitionEntity
 	owner: UserOwner
+	isOwner?: boolean
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }
 
-function PetitionCard({ petitionData, owner, navigateToProfile, onPress }: PetitionCardProps) {
+function PetitionCard({ petitionData, owner, isOwner, navigateToProfile, onPress }: PetitionCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	const theme = useTheme()
@@ -68,7 +70,7 @@ function PetitionCard({ petitionData, owner, navigateToProfile, onPress }: Petit
 
 	return (
 		<Container
-			hasPicture={!!(petitionData.picturesUrl && petitionData.picturesUrl.length)}
+			hasPicture={!!(petitionData && petitionData.picturesUrl && petitionData.picturesUrl.length)}
 			activeOpacity={1}
 			onPressIn={pressingButton}
 			onPressOut={notPressingButton}
@@ -108,9 +110,9 @@ function PetitionCard({ petitionData, owner, navigateToProfile, onPress }: Petit
 								<ButtonContainer>
 									<SmallButton
 										color={theme.green3}
-										label={'assinar'}
+										label={isOwner ? 'visualizar assinaturas' : 'assinar'}
 										height={relativeScreenWidth(12)}
-										SvgIcon={DocumentPencilWhiteIcon}
+										SvgIcon={isOwner ? PaperInfoWhiteIcon : DocumentPencilWhiteIcon}
 										onPress={onPress}
 									/>
 								</ButtonContainer>
@@ -120,9 +122,9 @@ function PetitionCard({ petitionData, owner, navigateToProfile, onPress }: Petit
 							<ButtonContainer>
 								<SmallButton
 									color={theme.green3}
-									label={'assinar'}
+									label={isOwner ? 'visualizar assinaturas' : 'assinar'}
 									height={relativeScreenWidth(12)}
-									SvgIcon={DocumentPencilWhiteIcon}
+									SvgIcon={isOwner ? PaperInfoWhiteIcon : DocumentPencilWhiteIcon}
 									onPress={onPress}
 								/>
 							</ButtonContainer>

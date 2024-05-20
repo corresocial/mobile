@@ -113,8 +113,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 								<VerticalSpacing height={relativeScreenHeight(5)} />
 								<PrimaryButton
 									color={theme.green3}
-									flexDirection={'row-reverse'}
-									SvgIcon={AddPictureWhiteIcon}
+									SecondSvgIcon={AddPictureWhiteIcon}
 									svgIconScale={['50%', '25%']}
 									labelColor={theme.white3}
 									label={'opa, claro!'}

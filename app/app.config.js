@@ -51,8 +51,8 @@ export default {
 			[
 				'expo-media-library',
 				{
-					photosPermission: 'Allow corre to access your photos.',
-					savePhotosPermission: 'Allow corre to save photos.',
+					photosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts',
+					savePhotosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts',
 					isAccessMediaLocationEnabled: true
 				}
 			],

@@ -58,7 +58,7 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 				customHighlight={['fale', 'sobre', 'enquete']}
 				inputPlaceholder={'descreva sua enquete...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 3]}
+				progress={[2, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validatePollDescription}
 				navigateBackwards={() => navigation.goBack()}

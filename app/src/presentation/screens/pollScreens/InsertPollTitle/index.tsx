@@ -62,7 +62,7 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 				customHighlight={['título', 'enquete']}
 				inputPlaceholder={'ex: serviços da prefeitura...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				// progress={[1, 3]}
+				progress={[1, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validatePollTitle}
 				navigateBackwards={() => navigation.goBack()}

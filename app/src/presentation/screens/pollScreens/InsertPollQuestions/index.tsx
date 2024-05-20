@@ -12,6 +12,7 @@ import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import NumbersWhiteIcon from '@assets/icons/numbers-white.svg'
+import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import SatisfactionEmoji5WhiteIcon from '@assets/icons/satisfactionEmoji-5-white.svg'
 import VerifiedLabelWhiteIcon from '@assets/icons/verifiedLabel.svg'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
@@ -80,7 +81,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 
 		if (!questionsLength() || keyboardOpened) return <></>
 		return allQuestions.map((currentQuestion, index) => (
-			<>
+			<React.Fragment key={currentQuestion.questionId}>
 				<DefaultInput
 					key={index as number}
 					value={currentQuestion.question || ''}
@@ -104,7 +105,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					onChangeText={(text: string) => { }}
 				/>
 				<VerticalSpacing />
-			</>
+			</React.Fragment>
 		))
 	}
 
@@ -118,8 +119,10 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 				return DescriptionWhiteIcon
 			case 'binary':
 				return VerifiedLabelWhiteIcon
+			case 'select':
+				return CheckWhiteIcon
 			default:
-				return undefined
+				return QuestionMarkWhiteIcon
 		}
 	}
 
@@ -175,7 +178,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					message={'adicione suas perguntas'}
 					highlightedWords={['perguntas']}
 				>
-					<ProgressBar range={3} value={3} />
+					<ProgressBar value={3} range={4} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

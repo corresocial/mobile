@@ -67,7 +67,6 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	}
 
 	const savePetition = async () => {
-		console.log(newPetitionDataState)
 		try {
 			setIsLoading(true)
 
@@ -83,7 +82,6 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	}
 
 	const navigateToSelectPostTypeScreen = () => {
-		navigation.goBack()
 		navigation.goBack()
 	}
 
@@ -124,7 +122,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')}?`}
+				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')} ?`}
 				highlightedWords={[...getPetitionField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
@@ -173,12 +171,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 							<PostCardContainer backgroundColor={backgroundColor}>
 								<PetitionCard
 									owner={petitionOwner}
-									petitionData={{
-										...newPetitionDataState,
-										createdAt: new Date(),
-										title: 'Abaixo assinado para decidir os investimetos da praça da sé',
-										picturesUrl: ['https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg']
-									}}
+									petitionData={{ ...newPetitionDataState, createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>

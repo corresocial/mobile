@@ -6,6 +6,7 @@ import { PetitionEntity } from '@domain/petition/entity/types'
 import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
 
 import { usePetitionRepository } from '@data/petition/usePetitionRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -37,32 +38,39 @@ import { PostPopOver } from '@components/PostPopOver'
 
 const { getPetitionData, generatePetitionResultsReport, markPetitionAsCompleted, deletePetitionData } = usePetitionDomain()
 
+const { remoteStorage } = useUserRepository()
+
 const { arrayIsEmpty } = UiUtils()
 
 function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { userDataContext } = useContext(AuthContext)
-	const { savePetitionToRespondOnContext } = usePetitionContext()
+	const { savePetitionToRespondOnContext, setPetitionSignatureOnContext } = usePetitionContext()
 
 	const theme = useTheme()
 
-	const [petitionData, setPetitionData] = useState<PetitionEntity>({} as PetitionEntity)
+	const [petitionData, setPetitionData] = useState<PetitionEntity>(route.params?.petitionData || {} as PetitionEntity)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	const [postOptionsIsOpen, setPetitionOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = () => userDataContext.userId !== petitionData.owner.userId // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === petitionData.owner.userId
 	const isCompleted = false
 
 	useEffect(() => {
 		getData()
+
+		const unsubscribe = navigation.addListener('focus', () => {
+			setPetitionSignatureOnContext({})
+		})
+		return unsubscribe
 	}, [])
 
 	const getData = (async () => {
 		if (route.params.petitionId && !route.params.petitionData) {
-			const poll = await getPetitionData(usePetitionRepository, route.params.petitionId)
-			poll && setPetitionData(poll)
+			const petition = await getPetitionData(usePetitionRepository, route.params.petitionId)
+			petition && setPetitionData(petition)
 		}
 	})
 
@@ -75,9 +83,19 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
-	const respondPetition = () => {
+	const respondPetition = async () => {
 		navigation.navigate('InsertPetitionFullName')
+		const userAuthIdentification = await checkRegisteredAuthInfo()
+
+		setPetitionSignatureOnContext({ ...userAuthIdentification })
 		savePetitionToRespondOnContext(petitionData)
+	}
+
+	const checkRegisteredAuthInfo = async () => {
+		const privateUserContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
+		const phoneIdentification = privateUserContacts?.cellNumber ? { cellNumber: privateUserContacts?.cellNumber } : {}
+		const emailIdentification = privateUserContacts?.email ? { email: privateUserContacts?.email } : {}
+		return { ...phoneIdentification, ...emailIdentification }
 	}
 
 	const downloadPetitionResults = async () => {

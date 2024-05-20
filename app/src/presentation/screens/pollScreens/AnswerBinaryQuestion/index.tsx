@@ -43,6 +43,7 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
 			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
 			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+			case 'select': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
 		}
 	}
 

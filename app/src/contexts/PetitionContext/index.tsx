@@ -45,6 +45,8 @@ function PetitionProvider({ children }: PetitionProviderProps) {
 		const petitionWithoutResponse = petitionToRespond.extraIdentificationRequest
 			.filter((info) => petitionAlreadyResonded.includes(info as ExtraIdentificationRequest))
 
+		console.log(petitionWithoutResponse)
+
 		if (petitionWithoutResponse.length) {
 			return petitionWithoutResponse
 		}

@@ -32,7 +32,7 @@ function SelectPetitionMedia({ route, navigation }: SelectPetitionMediaScreenPro
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.purple2}
-				initialValue={route.params?.initialValue.picturesUrl || []}
+				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}
 			/>

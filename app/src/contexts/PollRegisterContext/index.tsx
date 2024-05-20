@@ -27,7 +27,7 @@ const initialValue: PollRegisterContextType = {
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => { },
-	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => { },
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options?: string[], multiSelect?: boolean) => { },
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
 	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
@@ -36,10 +36,10 @@ const initialValue: PollRegisterContextType = {
 	pollToRespond: { questions: [] as PollQuestion[] } as PollEntity,
 	pollResponseData: [{
 		questionId: '',
-		response: '' as string | number | boolean,
+		response: '' as string[] | string | number | boolean,
 		questionType: 'textual' as PollQuestion['questionType']
 	}],
-	saveResponseData: (question: PollQuestion, response: string | number | boolean) => { }
+	saveResponseData: (question: PollQuestion, response: string | string[] | number | boolean) => { }
 }
 
 const PollRegisterContext = createContext<PollRegisterContextType>(initialValue)
@@ -61,11 +61,13 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
-	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType']) => {
+	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType'], options?: string[], multiSelect?: boolean) => {
+		const selectOptions = options ? { options, multiSelect: !!multiSelect } : {}
 		const newQuestion: PollQuestion = {
 			questionId: uuid(),
 			question: pollQuestionRegisterDataContext.question,
-			questionType
+			questionType,
+			...selectOptions
 		}
 
 		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
@@ -101,16 +103,14 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	}
 
 	const getNextQuestion = (lastQuestion: PollQuestion) => {
-		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : ['']
-		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === lastQuestionId[0])
+		const lastQuestionId = lastQuestion ? lastQuestion.questionId : ''
+		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === lastQuestionId)
 		const nextIndex = currentQuestionIndex + 1
-
 		if (nextIndex >= pollResponseData.length) return null
-
 		return pollToRespond.questions[nextIndex]
 	}
 
-	const saveResponseData = (question: PollQuestion, response: string | number | boolean) => {
+	const saveResponseData = (question: PollQuestion, response: string | string[] | number | boolean) => {
 		const pollData: PollResponse = {
 			questionId: question.questionId,
 			response,

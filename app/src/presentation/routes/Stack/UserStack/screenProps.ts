@@ -8,7 +8,6 @@ export type HomeTabStackScreenProps = NativeStackScreenProps<UserStackParamList,
 export type OfflinePostsManagementScreenProps = NativeStackScreenProps<UserStackParamList, 'OfflinePostsManagement'>
 
 export type SelectPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPostType'>
-export type SelectLeaderPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectLeaderPostType'>
 export type SelectIncomeTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectIncomeType'>
 export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'ServiceStack'>
 export type SaleStackScreenProps = NativeStackScreenProps<UserStackParamList, 'SaleStack'>

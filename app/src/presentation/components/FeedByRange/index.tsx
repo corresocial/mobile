@@ -1,7 +1,11 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
+import { PetitionEntity } from '@domain/petition/entity/types'
+import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
+
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { Container, PostCardContainer } from './styles'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
@@ -9,6 +13,8 @@ import CityWhiteIcon from '@assets/icons/city-white.svg'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
+import { PetitionCard } from '@components/_cards/PetitionCard'
+import { PollCard } from '@components/_cards/PollCard'
 import { PostCard } from '@components/_cards/PostCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -23,6 +29,7 @@ interface FeedByRangeProps {
 	viewPostsByRange: (postRange: PostRange) => void
 	navigateToProfile: (userId: string) => void
 	goToPostView: (post: PostEntityOptional) => void
+	goToLeaderPostsView?: (post: PollEntity & PetitionEntity) => void
 }
 
 function FeedByRange({
@@ -32,8 +39,11 @@ function FeedByRange({
 	children,
 	viewPostsByRange,
 	navigateToProfile,
-	goToPostView
+	goToPostView,
+	goToLeaderPostsView
 }: FeedByRangeProps) {
+	const { userDataContext } = useAuthContext()
+
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
 		if (items.length >= 5) return items.slice(0, 5)
@@ -63,18 +73,55 @@ function FeedByRange({
 		})
 	}
 
-	const renderPostItem = (item: PostEntityOptional) => {
-		return (
-			<PostCardContainer key={uuid()}>
-				<PostCard
-					post={item}
-					owner={item.owner as PostEntityCommonFields['owner']}
-					navigateToProfile={navigateToProfile}
-					onPress={() => goToPostView(item)}
-				/>
-				<VerticalSpacing />
-			</PostCardContainer>
-		)
+	const getItemType = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+		if (item.postId) return 'post'
+		if (item.pollId) return 'poll'
+		if (item.petitionId) return 'petition'
+		return ''
+	}
+
+	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+		const itemType = getItemType(item)
+
+		switch (itemType) {
+			case 'post': return (
+				<PostCardContainer key={uuid()}>
+					<PostCard
+						post={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						navigateToProfile={navigateToProfile}
+						onPress={() => goToPostView(item)}
+					/>
+					<VerticalSpacing />
+				</PostCardContainer>
+			)
+
+			case 'poll': return (
+				<PostCardContainer key={uuid()}>
+					<PollCard
+						pollData={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
+						navigateToProfile={navigateToProfile}
+						onPress={() => goToLeaderPostsView && goToLeaderPostsView(item)}
+					/>
+					<VerticalSpacing />
+				</PostCardContainer>
+			)
+			case 'petition': return (
+				<PostCardContainer key={uuid()}>
+					<PetitionCard
+						petitionData={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
+						navigateToProfile={navigateToProfile}
+						onPress={() => goToLeaderPostsView && goToLeaderPostsView(item)}
+					/>
+					<VerticalSpacing />
+				</PostCardContainer>
+			)
+			default: return <></>
+		}
 	}
 
 	return (
