@@ -39,7 +39,7 @@ function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
 	const navigateToNextScreen = () => {
 		const nextQuestions = petitionSignatureDataWithoutResponse()
 		if (!nextQuestions) return navigation.navigate('FinishPetitionSignature')
-		switch (nextQuestions[0]) { 								// TODO Type
+		switch (nextQuestions[0]) { 	// TODO Type
 			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
 			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
 			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })

@@ -4,6 +4,7 @@ import { Keyboard, StatusBar } from 'react-native'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionFullNameScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
@@ -11,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPetitionFullName({ navigation }: InsertPetitionFullNameScreenProps) {
-	const { setPetitionSignatureOnContext } = usePetitionContext()
+	const { petitionSignatureData, petitionSignatureDataWithoutResponse, setPetitionSignatureOnContext } = usePetitionContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -32,9 +33,24 @@ function InsertPetitionFullName({ navigation }: InsertPetitionFullNameScreenProp
 		return false
 	}
 
-	const savePetitionFullName = (inputText: string) => {
+	const savePetitionFullName = async (inputText: string) => {
 		setPetitionSignatureOnContext({ userName: inputText })
+
+		if (petitionSignatureData.email) {
+			return navigateToNextScreen()
+		}
+
 		navigation.navigate('InsertPetitionEmail')
+	}
+
+	const navigateToNextScreen = () => {
+		const nextQuestions = petitionSignatureDataWithoutResponse()
+		if (!nextQuestions) return navigation.navigate('FinishPetitionSignature')
+		switch (nextQuestions[0]) { 								// TODO Type
+			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
+			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
+			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })
+		}
 	}
 
 	return (
