@@ -5,6 +5,7 @@ import { createPostWithCustomId } from './remoteStorage/createPostWithCustomId'
 import { deletePost } from './remoteStorage/deletePost'
 import { deletePostMedias } from './remoteStorage/deletePostMedias'
 import { getPostById } from './remoteStorage/getPostById'
+import { getPostIdsByUser } from './remoteStorage/getPostIdsByUser'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
 import { updatePostData } from './remoteStorage/updatePostData'
@@ -26,6 +27,7 @@ function usePostRepository(): PostRepositoryInterface {
 		remoteStorage: {
 			// GET
 			getPostById: getPostById,
+			getPostIdsByUser: getPostIdsByUser,
 
 			// POST
 			createPost: createPost,

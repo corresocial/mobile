@@ -5,6 +5,7 @@ import { getPetitionDataDM } from './methods/getPetitionDataDM'
 import { getPetitionsByOwnerDM } from './methods/getPetitionsByOwnerDM'
 import { markPetitionAsCompletedDM } from './methods/markPetitionAsCompletedDM'
 import { sendPetitionResponseDM } from './methods/sendPetitionResponseDM'
+import { updateOwnerDataOnPetitionsDM } from './methods/updateOwnerDataOnPetitionsDM'
 import { PetitionDomainInterface } from './PetitionDomainInterface'
 
 function usePetitionDomain(): PetitionDomainInterface {
@@ -15,7 +16,9 @@ function usePetitionDomain(): PetitionDomainInterface {
 		createNewPetition: createNewPetitionDM,
 		sendPetitionResponse: sendPetitionResponseDM,
 		generatePetitionResultsReport: generatePetitionResultsReportDM,
+
 		markPetitionAsCompleted: markPetitionAsCompletedDM,
+		updateOwnerDataOnPetitions: updateOwnerDataOnPetitionsDM,
 
 		deletePetitionData: deletePetitionDataDM
 	}

@@ -1,9 +1,9 @@
-import { uploadMedia } from '@data/shared/firebaseBucket'
+import { uploadMedia } from '@data/shared/bucket/firebaseBucket'
 
 export type StorageFolder = 'pictures'
 
-async function uploadPetitionMedia(mediaUri: string[], folder: StorageFolder) {
+async function uploadUserMedia(mediaUri: string[], folder: StorageFolder) {
 	return uploadMedia(mediaUri, 'users', folder)
 }
 
-export { uploadPetitionMedia }
+export { uploadUserMedia }

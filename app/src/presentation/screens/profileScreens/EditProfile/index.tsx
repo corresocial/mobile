@@ -4,11 +4,15 @@ import { ScrollView, StatusBar } from 'react-native'
 import * as Sentry from 'sentry-expo'
 
 import { useChatDomain } from '@domain/chat/useChatDomain'
-import { Id, PostEntity, PostEntityOptional } from '@domain/post/entity/types'
+import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
+import { usePollDomain } from '@domain/poll/usePollDomain'
+import { Id, PostEntity } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { usePetitionRepository } from '@data/petition/usePetitionRepository'
+import { usePollRepository } from '@data/poll/usePollRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
-import { uploadUserMedia } from '@data/user/remoteRepository/uploadUserMedia'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -34,8 +38,10 @@ import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList
 import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
-const { remoteStorage: remotePostStorage } = usePostRepository()
 
+const { updateOwnerDataOnPosts } = usePostDomain()
+const { updateOwnerDataOnPolls } = usePollDomain()
+const { updateOwnerDataOnPetitions } = usePetitionDomain()
 const { updateUserRepository } = useUserDomain()
 const { updateProfilePictureOnConversations } = useChatDomain()
 
@@ -141,7 +147,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		let profilePictureUrl = ['']
 		if (Object.keys(editDataContext.unsaved).includes('profilePictureUrl')) {
 			if (editDataContext.unsaved.profilePictureUrl) {
-				profilePictureUrl = await uploadUserMedia([editDataContext.unsaved.profilePictureUrl], 'pictures')
+				profilePictureUrl = await remoteStorage.uploadUserMedia([editDataContext.unsaved.profilePictureUrl], 'pictures')
 			}
 		} else {
 			profilePictureUrl = userDataContext.profilePictureUrl || []
@@ -155,16 +161,19 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 		const owner: PostEntity['owner'] = {
 			userId: userDataContext.userId,
-			name: userDataContext.name,
+			name: editDataContext.unsaved.name || userDataContext.name,
 			profilePictureUrl: profilePictureUrl
 		}
 
-		await remotePostStorage.updateOwnerDataOnPosts(
-			{ ...owner },
-			userDataContext.posts?.map((post: PostEntityOptional) => post.postId) as string[]
-		)
+		await updateOwnerDataOnPosts(usePostRepository, { ...owner })
+		if (userDataContext.verified && userDataContext.verified.type === 'leader') {
+			await updateOwnerDataOnPolls(usePollRepository, { ...owner })
+			await updateOwnerDataOnPetitions(usePetitionRepository, { ...owner })
+		}
 
-		await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl[0])
+		if (profilePictureUrl && profilePictureUrl.length && !profilePictureUrl[0].includes('http')) {
+			await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl[0])
+		}
 
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
 			await remoteStorage.updatePrivateLocation(

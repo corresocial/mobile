@@ -2,12 +2,16 @@ import { UserSubscription } from '@domain/user/entity/types'
 
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
-import { PostEntity } from './entity/types'
+import { PostEntity, PostEntityOptional } from './entity/types'
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
 interface PostDomainInterface {
-	updatePost: (
+	updateOwnerDataOnPosts(
+		usePostRepository: () => PostRepositoryInterface,
+		ownerData: Partial<PostEntityOptional['owner']>
+	): Promise<boolean | void>
+	updatePost(
 		usePostRepository: () => PostRepositoryInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
 		userPosts: PostEntity[],
@@ -15,8 +19,8 @@ interface PostDomainInterface {
 		newPostData: PostEntity,
 		newPostPicturesUri: string[],
 		unsavedPostVideos: string[]
-	) => Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
-	savePost: (
+	): Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	savePost(
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
@@ -25,7 +29,7 @@ interface PostDomainInterface {
 		newPostData: PostEntity,
 		unsavedPostPictures: string[],
 		notifyUsersByLocation?: boolean
-	) => Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	): Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 }
 
 export { PostDomainInterface }

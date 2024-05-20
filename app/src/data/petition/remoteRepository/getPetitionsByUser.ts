@@ -38,6 +38,6 @@ export async function getPetitionsByUser(userId: string, maxDocs = 1, lastDoc: a
 		return petitions
 	} catch (error) {
 		console.log(error)
-		throw new Error('Houve um erro ao tentar obter as enquetes')
+		throw new Error('Houve um erro ao tentar obter os abaixo assinados')
 	}
 }
