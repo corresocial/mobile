@@ -8,6 +8,13 @@ async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 			requireConfirmation: false
 		}
 
+		const hasDeviceAuthRegistered = await LocalAuthentication.getEnrolledLevelAsync()
+
+		if (!hasDeviceAuthRegistered) {
+			const result: boolean = await secureMethod()
+			return result
+		}
+
 		const hasAuth = await LocalAuthentication.authenticateAsync(config)
 		if (hasAuth.success) {
 			const result: boolean = await secureMethod()
