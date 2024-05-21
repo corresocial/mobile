@@ -5,7 +5,6 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -72,8 +71,6 @@ import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { updateUserRepository } = useUserDomain()
-
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
 
@@ -114,18 +111,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 		return unsubscribe
 	}, [navigation])
-
-	const viewPoll = () => {
-		navigation.navigate('PollStack' as any, {
-			screen: 'ViewPoll'
-		})
-	}
-
-	const viewPetition = () => {
-		navigation.navigate('PetitionStack' as any, {
-			screen: 'ViewPetition'
-		})
-	}
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const userData = await remoteStorage.getUserData(userId)
@@ -288,7 +273,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 				}
 			}
 
-			await updateUserRepository(useUserRepository, userDataContext, verifiedObject)
+			await remoteStorage.updateUserData(user.userId, verifiedObject)
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
 	}
@@ -544,24 +529,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 													/>
 												</PopOver>
 											</OptionsArea>
-											{/*
-											<VerticalSpacing />
-											<SmallButton
-												color={theme.white3}
-												label={'Visualizar enquete'}
-												labelColor={'black'}
-												height={relativeScreenWidth(12)}
-												onPress={viewPoll}
-											/>
-											<VerticalSpacing />
-											<SmallButton
-												color={theme.white3}
-												label={'Visualizar abaixo assinado'}
-												labelColor={'black'}
-												height={relativeScreenWidth(12)}
-												onPress={viewPetition}
-											/> */}
-
 										</ProfileHeader>
 									</DefaultHeaderContainer>
 									{
