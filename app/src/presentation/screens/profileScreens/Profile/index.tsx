@@ -5,7 +5,6 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -71,8 +70,6 @@ import { PopOver } from '@components/PopOver'
 import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
-
-const { updateUserRepository } = useUserDomain()
 
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
@@ -276,7 +273,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 				}
 			}
 
-			await updateUserRepository(useUserRepository, userDataContext, verifiedObject)
+			await remoteStorage.updateUserData(user.userId, verifiedObject)
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
 	}
