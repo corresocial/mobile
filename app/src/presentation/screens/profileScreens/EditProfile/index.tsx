@@ -155,7 +155,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 		const owner: PostEntity['owner'] = {
 			userId: userDataContext.userId,
-			name: userDataContext.name,
+			name: editDataContext.unsaved.name || userDataContext.name,
 			profilePictureUrl: profilePictureUrl
 		}
 
