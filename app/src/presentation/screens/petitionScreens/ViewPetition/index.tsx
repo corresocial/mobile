@@ -172,6 +172,17 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 				highlightedButtonIcon={DocumentPencilWhiteIcon}
 				highlightedButtonAction={isAuthor() ? downloadPetitionResults : alreadyResponded ? () => { } : respondPetition}
 				inactiveHighlightedButton={alreadyResponded}
+				HeaderFooter={isAuthor() && (
+					<SmallButton
+						label={'responder abaixo assinado'}
+						labelColor={theme.black4}
+						color={theme.yellow3}
+						SvgIcon={DocumentPencilWhiteIcon}
+						relativeWidth={'98%'}
+						height={relativeScreenWidth(12)}
+						onPress={respondPetition}
+					/>
+				)}
 			>
 				<PostPopOver
 					postTitle={petitionData.title}
