@@ -129,7 +129,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	const questionsLength = () => questionsList.length
 
 	const addNewQuestion = () => {
-		if (questionsLength() === 10 || questionText === '') return
+		if (questionsLength() === 50 || questionText === '') return
 
 		setQuestionsList([...questionsList, { question: questionText }])
 		setQuestionText('')
@@ -190,7 +190,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 					<VerticalSpacing height={relativeScreenHeight(3)} />
 					{!keyboardOpened && renderQuestionsSaved()}
 					{
-						questionsLength() < 10
+						questionsLength() < 50
 						&& (
 							<DefaultInput
 								key={12}
