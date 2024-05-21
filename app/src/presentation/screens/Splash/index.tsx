@@ -99,7 +99,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		const postPages = {
 			income: 'ViewIncomePostHome',
 			culture: 'ViewCulturePostHome',
-			socialimpact: 'ViewSocialImpactPostHome',
+			socialImpact: 'ViewSocialImpactPostHome',
 			vacancy: 'ViewVacancyPostHome',
 		}
 		navigation.reset({

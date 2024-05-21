@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as Application from 'expo-application'
 import Constants from 'expo-constants'
 import * as Device from 'expo-device'
@@ -27,6 +28,7 @@ export async function showBuildInfo() {
 
 	Alert.alert(`${appVersion} - ${platformVersion}`, `
 	ENVIRONMENT: ${ENVIRONMENT}
+	__DEV__: ${__DEV__}
 
 	lastUpdateTime: ${lastUpdateTime}
 	androidId: ${androidId}
