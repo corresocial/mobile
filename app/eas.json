@@ -4,20 +4,23 @@
 		"promptToConfigurePushNotifications": false
 	},
 	"build": {
-		"development-simulator": {
+		"development-build": {
 			"developmentClient": true,
 			"distribution": "internal",
+			"ios": {
+				"simulator": true,
+				"resourceClass": "m-medium"
+			},
 			"android": {
 				"buildType": "apk"
 			},
-			"ios": {
-				"simulator": true
-			}
+			"channel": "development-build"
 		},
 		"development": {
 			"developmentClient": false,
 			"distribution": "internal",
 			"ios": {
+				"simulator": true,
 				"resourceClass": "m-medium"
 			},
 			"android": {
