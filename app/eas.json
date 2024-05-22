@@ -4,20 +4,23 @@
 		"promptToConfigurePushNotifications": false
 	},
 	"build": {
-		"development-simulator": {
+		"development-build": {
 			"developmentClient": true,
 			"distribution": "internal",
+			"ios": {
+				"simulator": true,
+				"resourceClass": "m-medium"
+			},
 			"android": {
 				"buildType": "apk"
 			},
-			"ios": {
-				"simulator": true
-			}
+			"channel": "development-build"
 		},
 		"development": {
 			"developmentClient": false,
 			"distribution": "internal",
 			"ios": {
+				"simulator": true,
 				"resourceClass": "m-medium"
 			},
 			"android": {
@@ -41,7 +44,7 @@
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.6.3"
+			"channel": "production"
 		}
 	},
 	"submit": {
