@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { PostEntityOptional, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
@@ -22,6 +24,7 @@ import { socialImpactCategories } from '@utils/postsCategories/socialImpactCateg
 
 import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
@@ -56,6 +59,8 @@ const { sendImpactReport } = useImpactReportDomain()
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
 
+const { mergeObjects } = useUtils()
+
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
@@ -70,6 +75,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
+	const [approvedPostData, setApprovedPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -78,14 +84,27 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		}
 	}, [])
 
-	const getPost = (async () => {
+	const getPost = async () => {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as SocialImpactEntity)
+			setApprovedPostData(post as SocialImpactEntity)
 			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
 		}
+		mergeUnapprovedPostData()
 		setPostLoaded(true)
-	})
+	}
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!postData || !postData.owner) return false
@@ -156,7 +175,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		setPostOptionsIsOpen(false)
 		navigation.navigate('SocialImpactStack' as any, {
 			screen: 'EditSocialImpactPostReview' as keyof SocialImpactStackParamList,
-			params: { postData: { ...postData, ...editDataContext.saved } }
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 		})
 	}
 
@@ -300,6 +319,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
+					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

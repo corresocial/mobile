@@ -195,6 +195,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'socialImpact' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.pink2}
 				unsavedPost={unsavedPost}
