@@ -81,9 +81,9 @@ async function updatePostDM(
 
 	const newPostWithUploadedMedia = {
 		...newPostData,
-		picturesUrl: newPostPicturesUrl,
+		unapprovedData: { ...(newPostData.unapprovedData || {}), picturesUrl: newPostPicturesUrl },
 		// videosUrl: newPostVideosUrl
-	}
+	} as PostEntity
 
 	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostWithUploadedMedia)
 
