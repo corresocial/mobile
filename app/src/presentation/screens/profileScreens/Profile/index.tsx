@@ -138,7 +138,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const viewPostDetails = (post: PostEntityOptional) => {
 		const customStackLabel = route.params?.userId && !route.params?.stackLabel ? 'Home' : route.params?.stackLabel
-		const postData = { ...post, owner: getUserDataOnly() } as PostEntityOptional
+		const postData = { ...post, owner: getOwnerDataOnly() } as PostEntityOptional
 
 		navigateToPostView(postData, navigation, customStackLabel)
 	}
@@ -225,16 +225,13 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return userDataContext[fieldName]
 	}
 
-	const getUserDataOnly = () => {
-		let currentUser = {} as UserEntityOptional
+	const getOwnerDataOnly = () => {
+		let currentUser = {} as PostEntityCommonFields['owner']
 		if (route.params && route.params.userId) {
-			currentUser = { ...user }
+			currentUser = { userId: user.userId!, name: user.name!, profilePictureUrl: user.profilePictureUrl }
 		} else {
-			currentUser = { ...userDataContext }
+			currentUser = { userId: userDataContext.userId, name: userDataContext.name, profilePictureUrl: userDataContext.profilePictureUrl }
 		}
-
-		delete currentUser.posts
-		delete currentUser.socialMedias
 		return currentUser
 	}
 
@@ -565,6 +562,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 									<PostCard
 										post={item}
 										owner={getUserField() as PostEntityCommonFields['owner']}
+										isOwner={isLoggedUser}
 										onPress={() => viewPostDetails(item)}
 									/>
 								</PostPadding>
