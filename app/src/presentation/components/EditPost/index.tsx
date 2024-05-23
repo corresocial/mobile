@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
@@ -9,7 +11,6 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
@@ -34,8 +35,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
+const { getObjectDifferences } = useUtils()
+
 const { updateUserRepository } = useUserDomain()
-const { updatePost, savePost } = usePostDomain()
+const { updatePost, saveUnapprovedPost } = usePostDomain()
 
 const { localStorage: localPostStorage } = usePostRepository()
 
@@ -55,6 +58,7 @@ type EditContextFragment = {
 
 interface EditPostProps {
 	initialPostData: PostEntity
+	approvedPostData?: PostEntity
 	owner: PostEntity['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
@@ -72,6 +76,7 @@ interface EditPostProps {
 
 function EditPost({
 	initialPostData,
+	approvedPostData,
 	owner,
 	backgroundColor,
 	unsavedPost,
@@ -110,17 +115,25 @@ function EditPost({
 	const editPostData = async () => {
 		if (!editDataContext.unsaved) return
 
-		const postDataToSave: PostEntity = { ...initialPostData, ...editDataContext.unsaved }
+		const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, editDataContext.unsaved)
+		console.log(dataChanges)
+		if (!dataChanges) return
 
 		try {
 			setIsLoading(true)
+			console.log(dataChanges)
+
+			const postWithUnapprovedData = {
+				...approvedPostData,
+				unapprovedData: { ...dataChanges, updatedAt: new Date() }
+			}
 
 			const { updatedUserPosts, picturesUrlUploaded } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
-				postDataToSave,
+				postWithUnapprovedData as PostEntity,
 				editDataContext.unsaved.picturesUrl || [],
 				editDataContext.unsaved.videosUrl || []
 			)
@@ -145,7 +158,15 @@ function EditPost({
 
 	const savePostData = async () => {
 		try {
-			const hasValidConnection = await checkNetworkStatus()
+			const postDataToSave = {
+				...initialPostData,
+				...editDataContext.unsaved,
+				completed: false,
+			} as PostEntity
+
+			// await saveUnapprovedPost(usePostRepository, dataChangesWithUpdatedAt)
+
+			/* const hasValidConnection = await checkNetworkStatus()
 
 			const postDataToSave = {
 				...initialPostData,
@@ -199,7 +220,7 @@ function EditPost({
 			showShareModal(true, getShortText(newPost.description, 70), newPost.postId)
 			navigateToPostView(newPost)
 
-			setIsLoading(false)
+			setIsLoading(false) */
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
@@ -350,7 +371,7 @@ function EditPost({
 					)
 				}
 				{
-					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
+					(getObjectDifferences(initialPostData, editDataContext.unsaved) || unsavedPost) && (
 						isLoading && !hasError
 							? <Loader />
 							: (
@@ -380,7 +401,7 @@ function EditPost({
 										fontSize={13}
 										SecondSvgIcon={getHeaderButtonIcon()}
 										svgIconScale={['50%', '30%']}
-										minHeight={relativeScreenHeight(4)}
+										minHeight={relativeScreenHeight(5)}
 										relativeHeight={relativeScreenHeight(6)}
 										relativeWidth={userHasGovernmentProfileSeal() && unsavedPost ? '55%' : '100%'}
 										onPress={getHeaderButtonHandler()}
@@ -401,6 +422,7 @@ function EditPost({
 							<PostCardContainer backgroundColor={backgroundColor} hasError={hasError}>
 								<PostCard
 									owner={owner}
+									isOwner={owner.userId === userDataContext.userId}
 									post={presentationPostCardData}
 									onPress={() => { }}
 								/>

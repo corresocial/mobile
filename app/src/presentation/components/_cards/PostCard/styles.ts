@@ -2,7 +2,7 @@ import { ImageBackground, ImageBackgroundProps } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
 	width: 98%;
@@ -94,6 +94,21 @@ export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
 
 export const RightAreaLimits = styled.View`
 	flex: 1;
-	justify-content: center; // space-around?
+	justify-content: center; // TODO space-around?
 	overflow: hidden;
+`
+
+interface WaitingApproveIconContainerProps {
+	hasValues?: boolean
+	hasPicture?: boolean
+}
+
+export const WaitingApproveIconContainer = styled.View<WaitingApproveIconContainerProps>`
+	flex: 1;
+	flex-direction: column;
+	justify-content:center;
+	${({ hasValues, hasPicture }) => `
+		justify-content: ${(!hasValues ? hasPicture ? 'flex-start ' : 'center' : 'flex-start')};
+	`}
+	padding: ${relativeScreenDensity(5)}px 0px;
 `

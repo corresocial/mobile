@@ -1,11 +1,15 @@
-import { objectValuesAreEquals } from './methods/objects'
-import { remoteDuplicatedObjectItemsByKey } from './remoteDuplicatedItemsByKey'
+import { getObjectDifferences } from './methods/getObjectDifferences'
+import { mergeObjects } from './methods/mergeObjects'
+import { objectValuesAreEquals } from './methods/objectValuesAreEquals'
+import { removeDuplicatedItemsByKey } from './methods/removeDuplicatedItemsByKey'
 import { UtilsInterface } from './UtilsInterface'
 
 function useUtils(): UtilsInterface {
 	return {
 		objectValuesAreEquals: objectValuesAreEquals,
-		remoteDuplicatedObjectItemsByKey: remoteDuplicatedObjectItemsByKey
+		getObjectDifferences: getObjectDifferences,
+		removeDuplicatedItemsByKey: removeDuplicatedItemsByKey,
+		mergeObjects: mergeObjects
 	}
 }
 
