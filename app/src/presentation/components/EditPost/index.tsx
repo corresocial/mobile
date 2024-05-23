@@ -115,7 +115,7 @@ function EditPost({
 	const editPostData = async () => {
 		if (!editDataContext.unsaved) return
 
-		const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, editDataContext.unsaved)
+		const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, { ...initialPostData, ...editDataContext.unsaved })
 		console.log(dataChanges)
 		if (!dataChanges) return
 

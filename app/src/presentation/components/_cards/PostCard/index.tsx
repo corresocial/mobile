@@ -170,7 +170,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 				<RightArea hasPictureOrSaleValue={enableLeftAreaSpacing()}>
 					<RightAreaLimits>
 						<TitleContainer>
-							<Title numberOfLines={post.description ? 3 : 2}>
+							<Title numberOfLines={3}>
 								{post.description}
 							</Title>
 						</TitleContainer>
