@@ -1,6 +1,6 @@
 import { deleteDoc, doc } from 'firebase/firestore'
 
-import { USER_COLLECTION } from '@data/remoteStorageKeys'
+import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

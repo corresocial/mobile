@@ -1,6 +1,6 @@
 import { PostEntityOptional } from '@domain/post/entity/types'
 
-import { POST_COLLECTION } from '@data/remoteStorageKeys'
+import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 import { updateOwnerData } from '@data/shared/postOwner/updateOwnerData'
 
 async function updateOwnerDataOnPosts(ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) {

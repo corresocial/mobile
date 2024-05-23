@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 
-import { PETITION_COLLECTION, POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
+import { PETITION_COLLECTION, POST_COLLECTION, USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { storage } from '@infrastructure/firebase'
 

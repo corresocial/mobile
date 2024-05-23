@@ -107,6 +107,7 @@ export interface IncomeEntity extends PostEntityCommonFields {
 	itemStatus: ItemStatus
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
+	unapprovedData?: IncomeEntityOptional
 }
 
 export type VacancyEntityOptional = Partial<VacancyEntity>
@@ -120,6 +121,7 @@ export interface VacancyEntity extends PostEntityCommonFields {
 	endDate?: Date
 	saleValue?: string
 	exchangeValue?: string
+	unapprovedData?: VacancyEntityOptional
 }
 
 export type CultureEntityOptional = Partial<CultureEntity>
@@ -131,6 +133,7 @@ export interface CultureEntity extends PostEntityCommonFields {
 	exhibitionFrequency?: WeekdaysFrequency
 	startDate?: Date
 	endDate?: Date
+	unapprovedData?: CultureEntityOptional
 }
 
 export type SocialImpactEntityOptional = Partial<SocialImpactEntity>
@@ -141,6 +144,7 @@ export interface SocialImpactEntity extends PostEntityCommonFields {
 	repeat?: EventRepeatType
 	startDate?: Date
 	endDate?: Date
+	unapprovedData?: SocialImpactEntityOptional
 }
 
 export interface PostEntityCommonFields {

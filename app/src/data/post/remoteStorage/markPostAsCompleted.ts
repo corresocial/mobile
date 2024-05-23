@@ -1,6 +1,6 @@
 import { PostEntityOptional } from '@domain/post/entity/types'
 
-import { USER_COLLECTION } from '@data/remoteStorageKeys'
+import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
 
 import { updatePostData } from './updatePostData' // from data/post
