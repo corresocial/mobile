@@ -1,6 +1,6 @@
 import { ref, uploadBytesResumable } from 'firebase/storage'
 
-import { POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
+import { POST_COLLECTION, USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { storage } from '@infrastructure/firebase/index'
 

@@ -1,6 +1,6 @@
 import { PetitionEntityOptional } from '@domain/petition/entity/types'
 
-import { PETITION_COLLECTION } from '@data/remoteStorageKeys'
+import { PETITION_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 import { updateOwnerData } from '@data/shared/postOwner/updateOwnerData'
 
 async function updateOwnerDataOnPetitions(ownerPetition: Partial<PetitionEntityOptional['owner']>, userPetitionIds: string[]) {

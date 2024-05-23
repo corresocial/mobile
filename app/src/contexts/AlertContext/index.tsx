@@ -93,7 +93,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 	}, [])
 
 	const updateNotificationState = useCallback(async (state: Partial<InitialNotificationStateType>) => {
-		if (objectValuesAreEquals(notificationState, state)) return
+		if (objectValuesAreEquals(notificationState, state)) return // REFACTOR Otimização de contexto
 
 		setAlertNotificationIsVisible(false)
 		setNotificationState({ ...notificationState, ...state })
