@@ -1,3 +1,5 @@
+import analytics from '@react-native-firebase/analytics'
+import firebase from '@react-native-firebase/app'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
@@ -93,11 +95,23 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 	const mediaUrls = [/* ...videosUrl,  */...picturesUrl]
 	const hideArrows = (picturesUrl /* && videosUrl */) && ((picturesUrl.length/*  + videosUrl.length */) < 2)
 
-	const goToNext = (direction: number) => {
+	const logEvent = async () => {
+		if (!firebase.apps.length) {
+			firebase.initializeApp()
+		}
+		await analytics().logEvent('eu_sou_um_teste', {
+			id: 123,
+			description: 'exemplo de rquest no analytics',
+		})
+		console.log('Event logged')
+	}
+
+	const goToNext = async (direction: number) => {
 		const length = (picturesUrl.length/*  + videosUrl.length */) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
+		logEvent()
 	}
 
 	const goToIndex = (index: number, noAnimation?: boolean) => {
