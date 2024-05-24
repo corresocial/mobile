@@ -7,6 +7,8 @@ import { PostEntity, PostEntityOptional } from './entity/types'
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
 interface PostDomainInterface {
+	getUnapprovedPosts(usePostRepository: () => PostRepositoryInterface, pageSize?: number, lastPost?: PostEntity | any): Promise<PostEntity[] | void>
+
 	updateOwnerDataOnPosts(
 		usePostRepository: () => PostRepositoryInterface,
 		ownerData: Partial<PostEntityOptional['owner']>
@@ -19,7 +21,7 @@ interface PostDomainInterface {
 		newPostData: PostEntity,
 		newPostPicturesUri: string[],
 		unsavedPostVideos: string[]
-	): Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	): Promise<{ updatedUserPosts: PostEntity[], picturesUrl: string[] }>
 	savePost(
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,

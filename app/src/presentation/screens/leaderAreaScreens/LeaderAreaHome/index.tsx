@@ -1,7 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { PostEntity, PostEntityCommonFields, PostEntityOptional } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
+
+import { useAuthContext } from '@contexts/AuthContext'
+
+import { navigateToPostView } from '@routes/auxMethods'
 import { LeaderAreaHomeScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { HeaderButtonsContainer, HeaderSection, ListItemContainer, UnapprovedPostsList } from './styles'
@@ -11,36 +19,43 @@ import FormHearthWhiteIcon from '@assets/icons/formHearth-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
+import { PostCard } from '@components/_cards/PostCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
+const { getUnapprovedPosts } = usePostDomain()
+
 export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
+	const { userDataContext } = useAuthContext()
+
+	const [unapprovedPosts, setUnapprovedPosts] = useState<PostEntity[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 
-	const loadUnapprovedPosts = () => {
-		console.log('load unapproved posts') // Buscar 10
+	useEffect(() => {
+		loadUnapprovedPosts()
+	}, [])
+
+	const loadUnapprovedPosts = async () => {
+		const posts = await getUnapprovedPosts(usePostRepository, 2)
+		setUnapprovedPosts(posts || [])
 		setIsLoading(true)
 		setTimeout(() => {
 			setIsLoading(false)
 		}, 2000)
 	}
 
-	const renderUnapprovedPosts = () => {
+	const renderUnapprovedPosts = (item: PostEntityOptional) => {
 		return (
 			<ListItemContainer >
-				<OptionButton
-					label={'postagem'}
-					highlightedWords={['enquetes', 'abaixo', '\nassinados']}
-					labelSize={11}
-					relativeHeight={relativeScreenDensity(70)}
-					leftSideWidth={'28%'}
-					leftSideColor={theme.purple3}
-					SvgIcon={FormHearthWhiteIcon}
-					svgIconScale={['80%', '120%']}
-					onPress={() => navigation.navigate('PollPetitionArea')}
+				<PostCard
+					post={item}
+					owner={item.owner as PostEntityCommonFields['owner']}
+					isOwner={userDataContext.userId === (item.owner as any).userId}
+					navigateToProfile={() => console.log('navigateToProfile')}
+					onPress={() => navigation.navigate('ViewUnapprovedPost', { postData: item as any })} // TODO TYpe
 				/>
 			</ListItemContainer>
 		)
@@ -49,8 +64,8 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange2} >
 			<UnapprovedPostsList
-				data={[1]}
-				renderItem={renderUnapprovedPosts}
+				data={unapprovedPosts}
+				renderItem={({ item }) => renderUnapprovedPosts(item as any)}
 				refreshControl={(
 					<RefreshControl
 						tintColor={theme.black4}

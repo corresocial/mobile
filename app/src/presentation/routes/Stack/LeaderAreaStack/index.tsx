@@ -11,6 +11,7 @@ import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
+import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'
 
 const Stack = createStackNavigator<LeaderAreaStackParamList>()
 
@@ -35,6 +36,9 @@ export function LeaderAreaStack({ route, navigation }: any) {
 			<Stack.Screen name={'PollPetitionArea'} component={PollPetitionArea} />
 			<Stack.Screen name={'ViewPollList'} component={ViewPollList} />
 			<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
+
+			{/* REFACTOR Mostar sem bottom tabs e na rota de stack */}
+			<Stack.Screen name={'ViewUnapprovedPost'} component={ViewUnapprovedPost} />
 		</Stack.Navigator>
 		// </PollRegisterProvider>
 	)

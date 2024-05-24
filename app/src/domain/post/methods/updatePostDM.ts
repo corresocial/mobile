@@ -79,9 +79,11 @@ async function updatePostDM(
 
 	// Tratamento de videos ^ ///////////////////////////////////////////////
 
+	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl } : {}
+
 	const newPostWithUploadedMedia = {
 		...newPostData,
-		unapprovedData: { ...(newPostData.unapprovedData || {}), picturesUrl: newPostPicturesUrl },
+		unapprovedData: { ...(newPostData.unapprovedData || {}), ...postMediasUploaded },
 		// videosUrl: newPostVideosUrl
 	} as PostEntity
 
@@ -93,7 +95,7 @@ async function updatePostDM(
 
 	return {
 		updatedUserPosts: [...userPostsUpdated, newPostDesnormalized as PostEntity],
-		picturesUrlUploaded: newPostPicturesUrl,
+		...postMediasUploaded,
 		// videosUrlUploaded: newPostVideosUrl
 	}
 }

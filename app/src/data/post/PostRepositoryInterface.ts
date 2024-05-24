@@ -17,6 +17,7 @@ interface PostRepositoryInterface {
 	remoteStorage: {
 		getPostById: (postId: string) => Promise<PostEntityOptional | null>
 		getPostIdsByUser(userId: string): Promise<string[]>
+		getUnapprovedPosts(maxDocs?: number, lastDoc?: PostEntity | any): Promise<PostEntity[]>
 
 		createPost: (post: PostEntityOptional) => Promise<PostEntity | null>
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>

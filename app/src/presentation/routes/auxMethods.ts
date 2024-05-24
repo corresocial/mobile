@@ -8,7 +8,7 @@ import { PetitionStackParamList } from './Stack/PetitionStack/types'
 import { PollStackParamList } from './Stack/PollStack/types'
 import { StackLabelProps } from './types'
 
-const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type
+const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => {
 	switch (postData.postType) {
 		case 'income': {
 			if (postData.macroCategory === 'vacancy') return navigation.navigate(`ViewVacancyPost${stackLabel || ''}`, { postData })

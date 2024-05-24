@@ -6,3 +6,5 @@ export type LeaderAreaHomeScreenProps = NativeStackScreenProps<LeaderAreaStackPa
 export type PollPetitionAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'PollPetitionArea'>
 export type ViewPollListScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewPollList'>
 export type ViewPetitionListScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewPetitionList'>
+
+export type ViewUnapprovedPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewUnapprovedPost'>

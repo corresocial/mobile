@@ -11,6 +11,7 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
@@ -38,7 +39,7 @@ import { Loader } from '../Loader'
 const { getObjectDifferences } = useUtils()
 
 const { updateUserRepository } = useUserDomain()
-const { updatePost, saveUnapprovedPost } = usePostDomain()
+const { updatePost, savePost, saveUnapprovedPost } = usePostDomain()
 
 const { localStorage: localPostStorage } = usePostRepository()
 
@@ -128,7 +129,7 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date() }
 			}
 
-			const { updatedUserPosts, picturesUrlUploaded } = await updatePost(
+			const { updatedUserPosts, picturesUrl } = await updatePost( // Mudar tipagem
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
@@ -145,7 +146,7 @@ function EditPost({
 			)
 
 			updateUserContext({ ...userDataContext }, updatedUserPosts)
-			changeStateOfEditedFields([...picturesUrlUploaded])
+			changeStateOfEditedFields([...picturesUrl])
 
 			setIsLoading(false)
 			navigateBackwards()

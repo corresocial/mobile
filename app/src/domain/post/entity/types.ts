@@ -96,6 +96,7 @@ export type FeedPosts = {
 
 export type PostType = 'income' | 'socialImpact' | 'culture'
 
+export type PostEntityKeys = keyof IncomeEntityOptional | keyof VacancyEntityOptional | keyof CultureEntityOptional | keyof SocialImpactEntityOptional
 export type PostEntity = IncomeEntity | VacancyEntity | CultureEntity | SocialImpactEntity
 export type PostEntityOptional = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
 

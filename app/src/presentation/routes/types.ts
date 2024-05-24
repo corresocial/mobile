@@ -1,1 +1,1 @@
-export type StackLabelProps = 'Home' | 'Profile' | 'User'
+export type StackLabelProps = 'Home' | 'Profile' | 'User' | 'Leader'
