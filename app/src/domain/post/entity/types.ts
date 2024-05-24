@@ -108,7 +108,7 @@ export interface IncomeEntity extends PostEntityCommonFields {
 	itemStatus: ItemStatus
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	unapprovedData?: IncomeEntityOptional
+	unapprovedData?: IncomeEntityOptional & { reject?: boolean }
 }
 
 export type VacancyEntityOptional = Partial<VacancyEntity>

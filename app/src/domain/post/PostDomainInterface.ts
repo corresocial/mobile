@@ -33,6 +33,7 @@ interface PostDomainInterface {
 	): Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 	saveUnapprovedPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntityOptional): Promise<void>
 	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
+	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 }
 
 export { PostDomainInterface }

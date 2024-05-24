@@ -28,7 +28,9 @@ export async function getUnapprovedPosts(maxDocs = 1, lastDoc: PostEntity | null
 		}
 
 		const postsSnap = await getDocs(unapprovedPosts)
-		return postsSnap.docs.map((doc) => ({ postId: doc.id, ...doc.data() } as PostEntity))
+		const posts = postsSnap.docs.map((doc) => ({ postId: doc.id, ...doc.data() } as PostEntity))
+		const filteredPosts = posts.filter((post) => post.unapprovedData && (post.unapprovedData as any).reject !== true)
+		return filteredPosts
 	} catch (error) {
 		console.log(error)
 		throw new Error('Houve um erro ao tentar obter os posts não aprovados')

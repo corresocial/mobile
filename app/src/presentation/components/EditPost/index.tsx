@@ -126,7 +126,7 @@ function EditPost({
 
 			const postWithUnapprovedData = {
 				...approvedPostData,
-				unapprovedData: { ...dataChanges, updatedAt: new Date() }
+				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
 			}
 
 			const { updatedUserPosts, picturesUrl } = await updatePost(

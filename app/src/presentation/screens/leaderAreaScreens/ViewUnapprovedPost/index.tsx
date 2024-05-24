@@ -36,7 +36,7 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-const { approvePost } = usePostDomain()
+const { approvePost, rejectPost } = usePostDomain()
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
@@ -98,7 +98,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	}
 
 	const getPostField = (fieldName: PostEntityKeys, useApproedPostData?: boolean):any => { // TODO TYpe
-		return !useApproedPostData ? (postData.unapprovedData as any)[fieldName] || (postData as any)[fieldName] : (postData.unapprovedData as any)[fieldName]
+		return useApproedPostData ? (postData.unapprovedData as any)[fieldName] || (postData as any)[fieldName] : (postData.unapprovedData as any)[fieldName]
 	}
 
 	const toggleApproveConfirmationModalVisibility = () => {
@@ -127,8 +127,8 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		try {
 			setLoaderIsVisible(true)
 			console.log('Rejeitado!')
-			// const approvedPost = await remoteStorage.approveUserPost(postData.postId)
-			// setPostData(approvedPost)
+			const rejectedPost = await rejectPost(usePostRepository, postData)
+			// setPostData(approvedPost) // Atualizar em um contexto
 			setLoaderIsVisible(false)
 		} catch (err) {
 			console.log(err)
