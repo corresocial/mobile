@@ -56,6 +56,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 							<PostCard
 								post={item}
 								owner={getUserDataOnly() as PostEntityCommonFields['owner']}
+								isOwner={userDataContext.userId === (item.owner as any).userId}
 								onPress={() => viewPostDetails(item)}
 							/>
 						</PostPadding>

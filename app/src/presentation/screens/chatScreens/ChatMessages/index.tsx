@@ -60,6 +60,7 @@ const {
 	hasBlockedUserOnConversation,
 } = useChatDomain()
 
+// https://www.youtube.com/watch?v=fpAlf1vPCE4
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { chatDataContext } = useContext(ChatContext)

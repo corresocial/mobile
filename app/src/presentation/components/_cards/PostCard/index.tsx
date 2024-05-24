@@ -44,8 +44,6 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	useEffect(() => {
-		console.log('effect')
-		console.log(postData.unapprovedData)
 		if (isOwner && post && post.unapprovedData) {
 			setPost({ ...(postData || {}), ...postData.unapprovedData } as PostEntity)
 		}

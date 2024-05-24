@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
-import uuid from 'react-uuid'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -111,10 +110,11 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 		switch (itemType) {
 			case 'post': return (
-				<ContainerPadding key={uuid()}>
+				<ContainerPadding key={item.postId}>
 					<PostCard
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
 						onPress={() => viewPostDetails(item)}
 					/>
@@ -122,7 +122,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 			)
 
 			case 'poll': return (
-				<ContainerPadding key={uuid()}>
+				<ContainerPadding key={item.pollId}>
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -133,7 +133,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 				</ContainerPadding>
 			)
 			case 'petition': return (
-				<ContainerPadding key={uuid()}>
+				<ContainerPadding key={item.petitionId}>
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}

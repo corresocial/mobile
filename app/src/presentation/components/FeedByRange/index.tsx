@@ -89,6 +89,7 @@ function FeedByRange({
 					<PostCard
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
 						onPress={() => goToPostView(item)}
 					/>

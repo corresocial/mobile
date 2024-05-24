@@ -1,14 +1,15 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-export const Container = styled.View`
+export const UnapprovedPostsList = styled.FlatList`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2};
 `
 
 export const HeaderButtonsContainer = styled.View`
-	width: 100%;
+	background-color: ${({ theme }) => theme.orange2};
+	width: ${relativeScreenWidth(100)}px;
   	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
@@ -20,4 +21,8 @@ export const HeaderSection = styled.View`
 	align-items: center;
 	justify-content: center;
 	padding: ${relativeScreenDensity(10)}px;
+`
+
+export const ListItemContainer = styled.View`
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
