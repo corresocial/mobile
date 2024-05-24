@@ -15,8 +15,7 @@ async function updatePostDM(
 	userPosts: PostEntity[],
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
-	unsavedPostPictures: string[],
-	// unsavedPostVideos: string[]
+	unsavedPostPictures: string[]
 ) {
 	const { remoteStorage } = usePostRepository()
 
@@ -79,7 +78,7 @@ async function updatePostDM(
 
 	// Tratamento de videos ^ ///////////////////////////////////////////////
 
-	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl } : {}
+	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl || [] } : {}
 
 	const newPostWithUploadedMedia = {
 		...newPostData,

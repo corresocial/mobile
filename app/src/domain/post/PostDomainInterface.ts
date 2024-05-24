@@ -19,9 +19,8 @@ interface PostDomainInterface {
 		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
-		newPostPicturesUri: string[],
-		unsavedPostVideos: string[]
-	): Promise<{ updatedUserPosts: PostEntity[], picturesUrl: string[] }>
+		newPostPicturesUri: string[]
+	): Promise<{ updatedUserPosts: PostEntity[], picturesUrl?: string[] }>
 	savePost(
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,
@@ -33,6 +32,7 @@ interface PostDomainInterface {
 		notifyUsersByLocation?: boolean
 	): Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 	saveUnapprovedPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntityOptional): Promise<void>
+	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 }
 
 export { PostDomainInterface }

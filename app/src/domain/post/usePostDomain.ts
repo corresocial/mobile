@@ -1,3 +1,4 @@
+import { approvePostDM } from './methods/approvePostDM'
 import { getUnapprovedPostsDM } from './methods/getUnapprovedPostsDM'
 import { savePostDM } from './methods/savePostDM'
 import { saveUnapprovedPostDM } from './methods/saveUnapprovedPostDM'
@@ -13,6 +14,7 @@ function usePostDomain(): PostDomainInterface {
 
 		savePost: savePostDM,
 		saveUnapprovedPost: saveUnapprovedPostDM,
+		approvePost: approvePostDM,
 
 		updatePost: updatePostDM
 	}

@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
 import { PostEntityKeys } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
+
+import { usePostRepository } from '@data/post/usePostRepository'
 
 import { EditContext } from '@contexts/EditContext'
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -32,6 +35,8 @@ import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
+
+const { approvePost } = usePostDomain()
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
@@ -135,7 +140,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		try {
 			setLoaderIsVisible(true)
 			console.log('Aprovado!')
-			// const approvedPost = await remoteStorage.approveUserPost(postData.postId)
+			const approvedPost = await approvePost(usePostRepository, postData)
 			// setPostData(approvedPost)
 			setLoaderIsVisible(false)
 		} catch (err) {

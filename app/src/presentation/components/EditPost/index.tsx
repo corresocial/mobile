@@ -129,14 +129,13 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date() }
 			}
 
-			const { updatedUserPosts, picturesUrl } = await updatePost( // Mudar tipagem
+			const { updatedUserPosts, picturesUrl } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
 				postWithUnapprovedData as PostEntity,
-				editDataContext.unsaved.picturesUrl || [],
-				editDataContext.unsaved.videosUrl || []
+				editDataContext.unsaved.picturesUrl || []
 			)
 
 			await updateUserRepository(
@@ -146,7 +145,7 @@ function EditPost({
 			)
 
 			updateUserContext({ ...userDataContext }, updatedUserPosts)
-			changeStateOfEditedFields([...picturesUrl])
+			changeStateOfEditedFields(picturesUrl)
 
 			setIsLoading(false)
 			navigateBackwards()
@@ -233,9 +232,9 @@ function EditPost({
 		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
-	const changeStateOfEditedFields = (uploadedPictures?: string[], uploadedVideos?: string[]) => {
+	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
 		let newEditState
-		if (uploadedPictures) {
+		if (uploadedPictures && uploadedPictures.length) {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
 		} else {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
