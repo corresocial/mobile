@@ -1,7 +1,7 @@
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
-import { RefreshControl } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -27,10 +27,11 @@ import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { getMostRecentAddress } from '@utils/maps/recentAddresses'
 
-import { Container, DropdownContainer, RecentPostsContainer } from './styles'
+import { Container, DropdownContainer } from './styles'
 import { generateGeohashes } from '@common/generateGeohashes'
 import { theme } from '@common/theme'
 
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { AdsCarousel } from '@components/AdsCarousel'
 import { FeedByRange } from '@components/FeedByRange'
@@ -332,64 +333,73 @@ function Home({ navigation }: HomeScreenProps) {
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
-		<Container>
-			<FocusAwareStatusBar
-				backgroundColor={theme.orange2}
-				barStyle={'dark-content'}
-			/>
-			<SubscriptionPresentationModal
-				visibility={subscriptionModalIsVisible}
-				profilePictureUri={profilePictureUrl}
-				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={navigateToSelectSubscriptionRange}
-			/>
-			<DropdownContainer>
-				<LocationNearDropdown
-					selectedAddress={selectedAddress}
-					recentAddresses={recentAddresses}
-					addressSuggestions={addressSuggestions}
-					selectAddress={setSelectedAddress}
-					saveRecentAddresses={saveRecentAddresses}
-					clearAddressSuggestions={clearAddressSuggestions}
-					findNearPosts={findFeedPosts}
-					findAddressSuggestions={findAddressSuggestions}
-				/>
-			</DropdownContainer>
-			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
-			<RecentPostsContainer
-				showsVerticalScrollIndicator={false}
-				refreshControl={(
-					<RefreshControl
-						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-						refreshing={feedIsUpdating}
-						progressBackgroundColor={theme.white3}
-						onRefresh={refreshFeedPosts}
-					/>
-				)}
-			>
-				<AdsCarousel
-					onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
-				// onPressUserLocationAd={navigateToEditUserLocation} // SMAS
-				/>
-				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
-					<RequestLocation
-						getLocationPermissions={() => {
-							requestPermissions()
-							findFeedPosts('', true)
-						}}
-					/>
-				)}
-				<FeedByRange
-					searchEnded={searchEnded}
+		<ScreenContainer topSafeAreaColor={theme.orange2}>
+			<Container>
+				<FocusAwareStatusBar
 					backgroundColor={theme.orange2}
-					filteredFeedPosts={feedPosts}
-					viewPostsByRange={viewPostsByRange}
-					navigateToProfile={navigateToProfile}
-					goToPostView={viewPostDetails}
-					goToLeaderPostsView={viewLeaderPostsDetails}
+					barStyle={'dark-content'}
 				/>
-			</RecentPostsContainer>
-		</Container>
+				<SubscriptionPresentationModal
+					visibility={subscriptionModalIsVisible}
+					profilePictureUri={profilePictureUrl}
+					closeModal={() => setSubscriptionModalIsVisible(false)}
+					onPressButton={navigateToSelectSubscriptionRange}
+				/>
+				<DropdownContainer>
+					<LocationNearDropdown
+						selectedAddress={selectedAddress}
+						recentAddresses={recentAddresses}
+						addressSuggestions={addressSuggestions}
+						selectAddress={setSelectedAddress}
+						saveRecentAddresses={saveRecentAddresses}
+						clearAddressSuggestions={clearAddressSuggestions}
+						findNearPosts={findFeedPosts}
+						findAddressSuggestions={findAddressSuggestions}
+					/>
+				</DropdownContainer>
+				<FlatList
+					style={{ flex: 1, width: '100%', overflow: 'visible' }}
+					showsVerticalScrollIndicator={false}
+					data={[1]}
+					renderItem={(() => {}) as any}
+					refreshControl={(
+						<RefreshControl
+							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							refreshing={feedIsUpdating}
+							progressBackgroundColor={theme.white3}
+							onRefresh={refreshFeedPosts}
+						/>
+					)}
+					ListHeaderComponent={(
+						<>
+							<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+							<AdsCarousel
+								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
+							/>
+							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
+								<RequestLocation
+									getLocationPermissions={() => {
+										requestPermissions()
+										findFeedPosts('', true)
+									}}
+								/>
+							)}
+						</>
+					)}
+					CellRendererComponent={() => (
+						<FeedByRange
+							searchEnded={searchEnded}
+							backgroundColor={theme.orange2}
+							filteredFeedPosts={feedPosts}
+							viewPostsByRange={viewPostsByRange}
+							navigateToProfile={navigateToProfile}
+							goToPostView={viewPostDetails}
+							goToLeaderPostsView={viewLeaderPostsDetails}
+						/>
+					)}
+				/>
+			</Container>
+		</ScreenContainer>
 	)
 }
 
