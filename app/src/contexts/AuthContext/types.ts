@@ -9,9 +9,11 @@ export interface AuthProviderProps {
 
 export type AuthContextType = {
 	userDataContext: UserEntity
+	userPostsContext: PostEntity[]
 	setUserDataOnContext: (data: UserEntityOptional) => void
 	getLastUserPost: () => PostEntity
 	setRemoteUserOnLocal: (uid?: string, userData?: UserEntity) => Promise<boolean | undefined>
+	loadUserPosts: (userId?: string) => Promise<PostEntity[]>
 
 	userAuthData: UserAuthData
 	setUserAuthDataOnContext: (data: Partial<UserAuthData>) => void

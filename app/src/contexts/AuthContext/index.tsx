@@ -1,23 +1,28 @@
 import React, { createContext, useContext, useState } from 'react'
 
 import { PostEntity } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserAuthData, UserEntity, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps } from './types'
 
 const { syncWithRemoteUser } = useUserDomain()
+const { getPostsByOwner } = usePostDomain()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
 		userId: '',
 		name: ''
 	},
+	userPostsContext: [] as PostEntity[],
 	setUserDataOnContext: () => { },
 	setRemoteUserOnLocal: (uid?: string, localUserData?: UserEntity) => new Promise<boolean>(() => { }),
 	getLastUserPost: () => ({}) as PostEntity,
+	loadUserPosts: () => Promise.resolve([] as PostEntity[]),
 	userAuthData: { cellNumber: '' },
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
@@ -30,11 +35,19 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const [userRegistrationData, setUserRegisterDataContext] = useState<UserRegisterData>(initialValue.userRegistrationData)
 	const [userAuthData, setUserAuthDataContext] = useState<UserAuthData>(initialValue.userAuthData)
 	const [userDataContext, setUserDataContext] = useState(initialValue.userDataContext)
+	const [userPostsContext, setUserPosts] = useState(initialValue.userPostsContext)
+
+	const loadUserPosts = async (userId?: string) => {
+		return getPostsByOwner(usePostRepository, userId || userDataContext.userId, 3)
+	}
 
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserEntity) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid, localUserData)
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
+				const posts = await loadUserPosts(userData.userId)
+				const mergedUnapprovedData = posts.map((p) => ({ ...p, ...(p.unapprovedData || {}) }))
+				setUserPosts(mergedUnapprovedData as PostEntity[])
 				setUserDataContext({ ...userData })
 				return true
 			}
@@ -47,11 +60,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const getLastUserPost = () => {
 		try {
-			const { posts: userPosts } = userDataContext
-
-			if (!userPosts || (userPosts && !userPosts.length)) return {} as PostEntity
-
-			const lastUserPost = userPosts[userPosts.length - 1]
+			if (!userPostsContext || (userPostsContext && !userPostsContext.length)) return {} as PostEntity
+			const lastUserPost = userPostsContext[userPostsContext.length - 1]
 			return lastUserPost
 		} catch (err) {
 			return {} as PostEntity
@@ -76,9 +86,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 		<AuthContext.Provider
 			value={{
 				userDataContext,
+				userPostsContext,
 				setUserDataOnContext,
 				getLastUserPost,
 				setRemoteUserOnLocal,
+				loadUserPosts,
 				userAuthData,
 				setUserAuthDataOnContext,
 				userRegistrationData,
