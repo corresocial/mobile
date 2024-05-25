@@ -50,14 +50,14 @@ function FlatListPosts({
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
 			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing height={relativeScreenDensity(30)}/>}
 			onEndReached={onEndReached}
-			refreshControl={(
-				<RefreshControl
-					colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-					refreshing={/* !!flatListIsLoading */ false}
-					progressBackgroundColor={theme.white3}
-					onRefresh={onRefresh && onRefresh}
-				/>
-			)}
+			// refreshControl={(
+			// 	<RefreshControl
+			// 		colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+			// 		refreshing={/* !!flatListIsLoading */ false}
+			// 		progressBackgroundColor={theme.white3}
+			// 		onRefresh={onRefresh && onRefresh}
+			// 	/>
+			// )}
 			stickyHeaderIndices={[1]}
 		/>
 	)
