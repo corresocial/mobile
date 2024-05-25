@@ -85,7 +85,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	}
 
 	const navigateToProfile = () => {
-		const ownerId = '9aHh25GWlHVu8O1uMA7Nn9V8AkJ2' || postData.owner.userId
+		const ownerId = postData.owner.userId
 		if (userDataContext.userId === ownerId) {
 			return navigation.navigate('Profile' as any)
 		}

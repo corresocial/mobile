@@ -9,5 +9,5 @@ export interface LeaderAreaProviderProps {
 export type LeaderAreaContextType = {
 	unapprovedPosts: PostEntity[]
 	removeFromUnapprovedPostList: (data?: PostEntity) => void
-	loadUnapprovedPosts: () => Promise<void>
+	loadUnapprovedPosts: (refresh?: boolean) => Promise<void>
 }

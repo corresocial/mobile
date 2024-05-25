@@ -31,7 +31,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 
 	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
-		await loadUnapprovedPosts()
+		await loadUnapprovedPosts(true)
 		setIsLoading(false)
 	}
 
@@ -40,7 +40,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	}
 
 	const navigateToProfile = (postData: PostEntity) => {
-		const ownerId = '9aHh25GWlHVu8O1uMA7Nn9V8AkJ2' || postData.owner.userId
+		const ownerId = postData.owner.userId
 		if (userDataContext.userId === ownerId) {
 			return navigation.navigate('Profile' as any)
 		}
@@ -66,6 +66,8 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 			<UnapprovedPostsList
 				data={unapprovedPosts}
 				renderItem={({ item }) => renderUnapprovedPosts(item as any)}
+				onEndReached={() => loadUnapprovedPosts()}
+				// onEndReachedThreshold={0.2}
 				refreshControl={(
 					<RefreshControl
 						tintColor={theme.black4}
@@ -118,19 +120,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					</>
 				)}
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
-				/* StickyHeaderComponent={() => (
-					<OptionButton
-						label={'AAAAAAAAAAAA'}
-						highlightedWords={['enquetes', 'abaixo', '\nassinados']}
-						labelSize={11}
-						relativeHeight={relativeScreenDensity(70)}
-						leftSideWidth={'28%'}
-						leftSideColor={theme.purple3}
-						SvgIcon={FormHearthWhiteIcon}
-						svgIconScale={['80%', '120%']}
-						onPress={() => navigation.navigate('PollPetitionArea')}
-					/>
-				)} */
 				stickyHeaderIndices={[0]}
 			/>
 
