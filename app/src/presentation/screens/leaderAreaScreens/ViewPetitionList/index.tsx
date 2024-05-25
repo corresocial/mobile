@@ -106,7 +106,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} bottomSafeAreaColor={theme.purple2}>
+		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -124,6 +124,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					renderItem={renderPetition as ListRenderItem<unknown>}
 					onEndReached={loadMorePetitions}
 					onEndReachedThreshold={0.4}
+					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl
 							refreshing={isLoading}

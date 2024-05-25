@@ -104,7 +104,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} bottomSafeAreaColor={theme.purple2}>
+		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -122,6 +122,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 					renderItem={renderPoll as ListRenderItem<unknown>}
 					onEndReached={loadMorePolls}
 					onEndReachedThreshold={0.4}
+					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl
 							refreshing={isLoading}

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -15,9 +15,9 @@ export const Header = styled.View`
 `
 
 export const InputContainer = styled.View`
-	margin: ${relativeScreenWidth(5)}px 0px;
-	height: ${relativeScreenDensity(50)}px;
-	padding: ${relativeScreenWidth(2)}px ${relativeScreenWidth(2)}px;
+	background-color: white;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(10)}px;
+	padding-bottom: ${relativeScreenDensity(10)}px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;

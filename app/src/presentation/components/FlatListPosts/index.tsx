@@ -2,7 +2,7 @@ import React, { JSXElementConstructor, ReactElement } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { PostEntityOptional } from '@domain/post/entity/types'
+import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
@@ -12,6 +12,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 interface FlatListPostsProps {
 	data: PostEntityOptional[]
 	headerComponent?: JSXElementConstructor<any>
+	stickyHeaderComponent?: JSXElementConstructor<any>
 	flatListIsLoading?: boolean
 	withoutFooter?: boolean
 	renderItem: (post: PostEntityOptional) => ReactElement<any, string | JSXElementConstructor<any>> | null
@@ -22,6 +23,7 @@ interface FlatListPostsProps {
 function FlatListPosts({
 	data,
 	headerComponent,
+	stickyHeaderComponent,
 	flatListIsLoading,
 	withoutFooter,
 	renderItem,
@@ -30,10 +32,20 @@ function FlatListPosts({
 }: FlatListPostsProps) {
 	return (
 		<FlatList
-			data={data}
-			renderItem={({ item }) => renderItem(item)}
+			data={[0, ...data]}
+			renderItem={({ item }) => renderItem(item as PostEntity)}
 			showsVerticalScrollIndicator={false}
-			ItemSeparatorComponent={() => <VerticalSpacing />}
+			CellRendererComponent={({ item }) => {
+				if (item === 0) {
+					return (stickyHeaderComponent as any)()
+				}
+				return (
+					<>
+						<VerticalSpacing />
+						{renderItem(item as PostEntity)}
+					</>
+				)
+			}}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
 			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing height={relativeScreenDensity(30)}/>}
@@ -46,6 +58,7 @@ function FlatListPosts({
 					onRefresh={onRefresh && onRefresh}
 				/>
 			)}
+			stickyHeaderIndices={[1]}
 		/>
 	)
 }

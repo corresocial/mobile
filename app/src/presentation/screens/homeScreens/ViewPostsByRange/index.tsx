@@ -18,6 +18,7 @@ import { theme } from '@common/theme'
 import { PetitionCard } from '@components/_cards/PetitionCard'
 import { PollCard } from '@components/_cards/PollCard'
 import { PostCard } from '@components/_cards/PostCard'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
@@ -148,43 +149,50 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	}
 
 	return (
-		<Container >
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<Header>
-				<DefaultPostViewHeader
-					text={getRelativeTitle()}
-					highlightedWords={['perto', 'cidade', 'país', 'recentes']}
-					onBackPress={() => navigation.goBack()}
-				/>
-				<InputContainer>
-					<SearchInput
-						value={searchText}
-						placeholder={'pesquisar'}
-						returnKeyType={'search'}
-						onChangeText={(text: string) => setSearchText(text)}
-						onPressKeyboardSubmit={navigateToResultScreen}
-					/>
-				</InputContainer>
-			</Header>
-			<Body
-				style={{ backgroundColor: getRelativeBackgroundColor() }}
-				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			>
-				{
-					(postsByRange && postsByRange.length)
-						? (
-							<>
-								<FlatListPosts
-									data={postsByRange}
-									renderItem={renderPostItem as any} // TODO Type
-									headerComponent={() => <VerticalSpacing />}
-								/>
-							</>
-						)
-						: <></>
-				}
-			</Body>
-		</Container>
+		<ScreenContainer infinityBottom>
+			<Container >
+				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<Body
+					style={{ backgroundColor: getRelativeBackgroundColor() }}
+					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				>
+					{
+						(postsByRange && postsByRange.length)
+							? (
+								<>
+									<FlatListPosts
+										data={postsByRange}
+										renderItem={renderPostItem as any}
+										headerComponent={() => (
+											<Header>
+												<DefaultPostViewHeader
+													text={getRelativeTitle()}
+													highlightedWords={['perto', 'cidade', 'país', 'recentes']}
+													ignorePlatform
+													onBackPress={() => navigation.goBack()}
+												/>
+												<VerticalSpacing/>
+											</Header>
+										)}
+										stickyHeaderComponent={() => (
+											<InputContainer>
+												<SearchInput
+													value={searchText}
+													placeholder={'pesquisar'}
+													returnKeyType={'search'}
+													onChangeText={(text: string) => setSearchText(text)}
+													onPressKeyboardSubmit={navigateToResultScreen}
+												/>
+											</InputContainer>
+										)}
+									/>
+								</>
+							)
+							: <></>
+					}
+				</Body>
+			</Container>
+		</ScreenContainer>
 	)
 }
 
