@@ -43,7 +43,7 @@ const { getTextualAddress } = UiLocationUtils()
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
 	const { cancelSubscription, refundSubscriptionValue, sendReceiptByEmail, updateStripeCustomer } = useContext(StripeContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -71,7 +71,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}
 
 	const userHasAnyPost = () => {
-		return userDataContext.posts && userDataContext.posts.length
+		return userPostsContext && userPostsContext.length
 	}
 
 	const onPressCancelSubscriptionButton = () => {
@@ -151,6 +151,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 

@@ -19,7 +19,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext } = useContext(AuthContext)
 
 	const viewPostDetails = (post: PostEntityOptional) => {
 		const postData = { ...post, owner: getUserDataOnly() }
@@ -35,7 +35,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 	}
 
 	const getCompletedPosts = () => {
-		const userPosts = userDataContext.posts || []
+		const userPosts = userPostsContext || []
 		return userPosts.filter((post) => post.completed)
 	}
 

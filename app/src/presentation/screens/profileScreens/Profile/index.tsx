@@ -565,7 +565,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								</PostFilterContainer>
 							</>
 						)}
-						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
+						ListFooterComponent={() => (isLoggedUser && (!userPostsContext || userPostsContext.length === 0)
 							? (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}

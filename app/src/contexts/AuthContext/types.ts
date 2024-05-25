@@ -11,12 +11,14 @@ export type AuthContextType = {
 	userDataContext: UserEntity
 	userPostsContext: PostEntity[]
 	setUserDataOnContext: (data: UserEntityOptional) => void
-	getLastUserPost: () => PostEntity
 	setRemoteUserOnLocal: (uid?: string, userData?: UserEntity) => Promise<boolean | undefined>
-	loadUserPosts: (userId?: string) => Promise<PostEntity[]>
-
 	userAuthData: UserAuthData
 	setUserAuthDataOnContext: (data: Partial<UserAuthData>) => void
 	userRegistrationData: UserRegisterData
 	setUserRegisterDataOnContext: (data: Partial<UserRegisterData>) => void
+
+	getLastUserPost: () => PostEntity | null
+	loadUserPosts: (userId?: string) => Promise<PostEntity[]>
+	updateUserPost: (postData: PostEntity) => void
+	removeUserPost: (postData: PostEntity) => Promise<void>
 }

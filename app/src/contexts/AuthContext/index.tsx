@@ -12,6 +12,7 @@ import { AuthContextType, AuthProviderProps } from './types'
 
 const { syncWithRemoteUser } = useUserDomain()
 const { getPostsByOwner } = usePostDomain()
+const { remoteStorage } = usePostRepository()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -21,12 +22,14 @@ const initialValue: AuthContextType = {
 	userPostsContext: [] as PostEntity[],
 	setUserDataOnContext: () => { },
 	setRemoteUserOnLocal: (uid?: string, localUserData?: UserEntity) => new Promise<boolean>(() => { }),
-	getLastUserPost: () => ({}) as PostEntity,
-	loadUserPosts: () => Promise.resolve([] as PostEntity[]),
 	userAuthData: { cellNumber: '' },
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
 	setUserRegisterDataOnContext: () => null,
+	loadUserPosts: () => Promise.resolve([] as PostEntity[]),
+	getLastUserPost: () => ({} || null) as PostEntity,
+	updateUserPost: (postData: PostEntity) => {},
+	removeUserPost: (postData: PostEntity) => Promise.resolve()
 }
 
 const AuthContext = createContext<AuthContextType>(initialValue)
@@ -38,7 +41,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const [userPostsContext, setUserPosts] = useState(initialValue.userPostsContext)
 
 	const loadUserPosts = async (userId?: string) => {
-		return getPostsByOwner(usePostRepository, userId || userDataContext.userId, 3)
+		return getPostsByOwner(usePostRepository, userId || userDataContext.userId, 10)
 	}
 
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserEntity) => {
@@ -58,16 +61,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 		}
 	}
 
-	const getLastUserPost = () => {
-		try {
-			if (!userPostsContext || (userPostsContext && !userPostsContext.length)) return {} as PostEntity
-			const lastUserPost = userPostsContext[userPostsContext.length - 1]
-			return lastUserPost
-		} catch (err) {
-			return {} as PostEntity
-		}
-	}
-
 	const setUserRegisterDataOnContext = (data: Partial<UserRegisterData>) => {
 		setUserRegisterDataContext({ ...userRegistrationData, ...data })
 	}
@@ -80,6 +73,37 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
+	const getLastUserPost = () => {
+		try {
+			if (!userPostsContext || (userPostsContext && !userPostsContext.length)) return null
+			return userPostsContext[0]
+		} catch (err) {
+			return {} as PostEntity
+		}
+	}
+
+	const removeUserPost = async (postData: PostEntity) => {
+		try {
+			if (!postData) return
+			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
+			const postsWithoutDeletedPost = userPostsContext.filter((post) => post.postId !== postData.postId)
+			setUserPosts(postsWithoutDeletedPost)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const updateUserPost = (postData: PostEntity) => {
+		try {
+			if (!postData) return
+			const updatedUserPosts = userPostsContext.map((post) => (post.postId === postData.postId ? postData : post))
+			setUserPosts(updatedUserPosts)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	// REFACTOR useMemo & useCallbaack em todos os contextos
 
 	return (
@@ -88,13 +112,15 @@ function AuthProvider({ children }: AuthProviderProps) {
 				userDataContext,
 				userPostsContext,
 				setUserDataOnContext,
-				getLastUserPost,
 				setRemoteUserOnLocal,
-				loadUserPosts,
 				userAuthData,
 				setUserAuthDataOnContext,
 				userRegistrationData,
 				setUserRegisterDataOnContext,
+				loadUserPosts,
+				getLastUserPost,
+				updateUserPost,
+				removeUserPost
 			}}
 		>
 			{children}

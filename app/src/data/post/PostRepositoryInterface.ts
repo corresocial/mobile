@@ -24,7 +24,7 @@ interface PostRepositoryInterface {
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
 
 		updatePostData: (postId: string, data: PostEntityOptional, merge?: boolean) => Promise<boolean>
-		markPostAsComplete: (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => Promise<boolean>
+		markPostAsComplete: (postId: string, postData: PostEntityOptional, state: boolean) => Promise<boolean>
 		updateOwnerDataOnPosts: (ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
 		updateRangeAndLocationOnPosts: (
 			userOwner: PostEntity['owner'],

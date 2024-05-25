@@ -11,7 +11,6 @@ export const Container = styled.View`
 
 export const UserPostsFlatList = styled.FlatList`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
 	background-color: 'transparent';
 `
 
@@ -70,6 +69,7 @@ export const Body = styled.View`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
 	width: 100%;
+	background-color: ${({ theme }) => theme.orange2};
 	overflow: visible;
 `
 
