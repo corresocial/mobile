@@ -6,7 +6,9 @@ import { usePostDomain } from '@domain/post/usePostDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 
+import { useAuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
+import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 
 import { ViewUnapprovedPostScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
@@ -41,8 +43,10 @@ const { approvePost, rejectPost } = usePostDomain()
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps) {
+	const { userDataContext } = useAuthContext()
 	const { clearEditContext } = useContext(EditContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
+	const { removeFromUnapprovedPostList } = useLeaderAreaContext()
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -81,7 +85,11 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+		const ownerId = '9aHh25GWlHVu8O1uMA7Nn9V8AkJ2' || postData.owner.userId
+		if (userDataContext.userId === ownerId) {
+			return navigation.navigate('Profile' as any)
+		}
+		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
 	}
 
 	const getCategoryLabel = () => {
@@ -122,13 +130,12 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	const handleRejectPostButton = () => {
 		toggleRejectConfirmationModalVisibility()
 	}
-
 	const rejectUserPost = async () => {
 		try {
 			setLoaderIsVisible(true)
 			console.log('Rejeitado!')
 			const rejectedPost = await rejectPost(usePostRepository, postData)
-			// setPostData(approvedPost) // Atualizar em um contexto
+			removeFromUnapprovedPostList(rejectedPost!) // Atualizar em um contexto
 			setLoaderIsVisible(false)
 		} catch (err) {
 			console.log(err)
@@ -141,13 +148,16 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 			setLoaderIsVisible(true)
 			console.log('Aprovado!')
 			const approvedPost = await approvePost(usePostRepository, postData)
-			// setPostData(approvedPost)
+			removeFromUnapprovedPostList(approvedPost!)
 			setLoaderIsVisible(false)
+			navigationBackwards()
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
 		}
 	}
+
+	const navigationBackwards = () => navigation.goBack()
 
 	return (
 		<Container>

@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Alert, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields, PostEntityOptional } from '@domain/post/entity/types'
-import { usePostDomain } from '@domain/post/usePostDomain'
-
-import { usePostRepository } from '@data/post/usePostRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
+import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
 import { LeaderAreaHomeScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { HeaderButtonsContainer, HeaderSection, ListItemContainer, UnapprovedPostsList } from './styles'
@@ -24,27 +21,30 @@ import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-const { getUnapprovedPosts } = usePostDomain()
-
 export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
 	const { userDataContext } = useAuthContext()
+	const { unapprovedPosts, loadUnapprovedPosts } = useLeaderAreaContext()
 
-	const [unapprovedPosts, setUnapprovedPosts] = useState<PostEntity[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 
-	useEffect(() => {
-		loadUnapprovedPosts()
-	}, [])
-
-	const loadUnapprovedPosts = async () => {
-		const posts = await getUnapprovedPosts(usePostRepository, 2)
-		setUnapprovedPosts(posts || [])
+	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
-		setTimeout(() => {
-			setIsLoading(false)
-		}, 2000)
+		await loadUnapprovedPosts()
+		setIsLoading(false)
+	}
+
+	const navigateToUnapprovedPostView = (postData: PostEntity) => {
+		navigation.navigate('ViewUnapprovedPost', { postData })
+	}
+
+	const navigateToProfile = (postData: PostEntity) => {
+		const ownerId = '9aHh25GWlHVu8O1uMA7Nn9V8AkJ2' || postData.owner.userId
+		if (userDataContext.userId === ownerId) {
+			return navigation.navigate('Profile' as any)
+		}
+		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
 	}
 
 	const renderUnapprovedPosts = (item: PostEntityOptional) => {
@@ -54,8 +54,8 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					post={item}
 					owner={item.owner as PostEntityCommonFields['owner']}
 					isOwner={userDataContext.userId === (item.owner as any).userId}
-					navigateToProfile={() => console.log('navigateToProfile')}
-					onPress={() => navigation.navigate('ViewUnapprovedPost', { postData: item as any })} // TODO TYpe
+					navigateToProfile={() => navigateToProfile(item as PostEntity)}
+					onPress={() => navigateToUnapprovedPostView(item as PostEntity)}
 				/>
 			</ListItemContainer>
 		)
@@ -71,7 +71,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 						tintColor={theme.black4}
 						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 						refreshing={isLoading}
-						onRefresh={loadUnapprovedPosts}
+						onRefresh={loadUnapprovedRegisters}
 					/>
 				)}
 				showsVerticalScrollIndicator={false}

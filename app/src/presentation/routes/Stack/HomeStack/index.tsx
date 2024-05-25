@@ -45,9 +45,9 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 			>
 				<Stack.Screen name={'Home'} component={Home} />
 				{/* REFACTOR Mostar sem bottom tabs e na rota de stack */}
+				<Stack.Screen name={'ViewPostsByRange'} component={ViewPostsByRange as any} />
 				<Stack.Screen name={'ViewIncomePostHome'} component={ViewIncomePost as any} />
 				<Stack.Screen name={'ViewVacancyPostHome'} component={ViewVacancyPost as any} />
-				<Stack.Screen name={'ViewPostsByRange'} component={ViewPostsByRange as any} />
 				<Stack.Screen name={'ViewSocialImpactPostHome'} component={ViewSocialImpactPost as any} />
 				<Stack.Screen name={'ViewCulturePostHome'} component={ViewCulturePost as any} />
 

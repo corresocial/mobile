@@ -1,4 +1,4 @@
-import { PostEntity } from '@domain/post/entity/types'
+import { CultureEntity, IncomeEntity, PostEntity, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -9,4 +9,10 @@ export type LeaderAreaStackParamList = {
 	ViewPetitionList: undefined
 
 	ViewUnapprovedPost: { postData: PostEntity }
+	ProfileLeaderArea: { userId: string, stackLabel?: string }
+
+	ViewIncomePostLeaderArea: { postData: IncomeEntity, redirectedPostId: string }
+	ViewVacancyPostLeaderArea: { postData: VacancyEntity, redirectedPostId: string }
+	ViewSocialImpactPostLeaderArea: { postData: SocialImpactEntity, redirectedPostId: string }
+	ViewCulturePostLeaderArea: { postData: CultureEntity, redirectedPostId: string }
 } & UserStackParamList
