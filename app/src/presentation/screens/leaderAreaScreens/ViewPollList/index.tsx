@@ -121,7 +121,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 					data={polls}
 					renderItem={renderPoll as ListRenderItem<unknown>}
 					onEndReached={loadMorePolls}
-					onEndReachedThreshold={0.2}
+					onEndReachedThreshold={0.4}
 					refreshControl={(
 						<RefreshControl
 							refreshing={isLoading}

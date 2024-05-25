@@ -14,6 +14,7 @@ import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'
+import { ViewUnapprovedRegistersList } from '@screens/leaderAreaScreens/ViewUnapprovedRegistersList'
 import { Profile } from '@screens/profileScreens/Profile'
 import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
 import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
@@ -45,9 +46,10 @@ export function LeaderAreaStack({ route, navigation }: any) {
 				<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
 
 				<Stack.Screen name={'ViewUnapprovedPost'} component={ViewUnapprovedPost} />
+				<Stack.Screen name={'ViewUnapprovedRegistersList'} component={ViewUnapprovedRegistersList} />
+
 				{/* TODO Type */}
 				<Stack.Screen name={'ProfileLeaderArea'} component={Profile as any} />
-
 				<Stack.Screen name={'ViewIncomePostLeaderArea'} component={ViewIncomePost as any} />
 				<Stack.Screen name={'ViewVacancyPostLeaderArea'} component={ViewVacancyPost as any} />
 				<Stack.Screen name={'ViewSocialImpactPostLeaderArea'} component={ViewSocialImpactPost as any} />

@@ -123,7 +123,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					data={petitions}
 					renderItem={renderPetition as ListRenderItem<unknown>}
 					onEndReached={loadMorePetitions}
-					onEndReachedThreshold={0.2}
+					onEndReachedThreshold={0.4}
 					refreshControl={(
 						<RefreshControl
 							refreshing={isLoading}

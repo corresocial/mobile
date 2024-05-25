@@ -72,7 +72,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 			<UnapprovedPostsList
 				data={unapprovedPosts}
 				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
-				onEndReachedThreshold={0.2}
+				onEndReachedThreshold={0.4}
 				onEndReached={loadMoreRegisters}
 				refreshControl={(
 					<RefreshControl
@@ -118,7 +118,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 							text={'aguardando aprovação'}
 							highlightedText={['aguardando', 'aprovação']}
 							SvgIcon={ClockArrowWhiteIcon}
-							onPress={() => console.log('navigate')}
+							onPress={() => navigation.navigate('ViewUnapprovedRegistersList')}
 							seeMoreText
 						/>
 						<VerticalSpacing/>

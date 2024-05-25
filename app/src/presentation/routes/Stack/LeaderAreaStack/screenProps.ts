@@ -8,8 +8,9 @@ export type ViewPollListScreenProps = NativeStackScreenProps<LeaderAreaStackPara
 export type ViewPetitionListScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewPetitionList'>
 
 export type ViewUnapprovedPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewUnapprovedPost'>
-export type ProfileLeaderAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ProfileLeaderArea'>
+export type ViewUnapprovedRegistersListScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewUnapprovedRegistersList'>
 
+export type ProfileLeaderAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ProfileLeaderArea'>
 export type ViewIncomePostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewIncomePostLeaderArea'>
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewVacancyPostLeaderArea'>
 export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewSocialImpactPostLeaderArea'>
