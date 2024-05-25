@@ -21,7 +21,6 @@ interface PostRepositoryInterface {
 
 		createPost: (post: PostEntityOptional) => Promise<PostEntity | null>
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
-		createUnapprovedPost(post: PostEntityOptional): Promise<void>
 
 		updatePostData: (postId: string, data: PostEntityOptional, merge?: boolean) => Promise<boolean>
 		markPostAsComplete: (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => Promise<boolean>

@@ -165,6 +165,7 @@ export interface PostEntityCommonFields {
 	videosUrl?: string[]
 	links?: string[]
 	createdAt: Date
+	updatedAt: Date
 	location: {
 		country: string
 		state: string

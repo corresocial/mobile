@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Alert, RefreshControl } from 'react-native'
+import { Alert, ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { PostEntity, PostEntityCommonFields, PostEntityOptional } from '@domain/post/entity/types'
+import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 
 import { LeaderAreaHomeScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
+import { FlatListItem } from 'src/presentation/types'
 
 import { HeaderButtonsContainer, HeaderSection, ListItemContainer, UnapprovedPostsList } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
@@ -35,6 +36,11 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 		setIsLoading(false)
 	}
 
+	const loadMoreRegisters = async () => {
+		console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
+		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
+	}
+
 	const navigateToUnapprovedPostView = (postData: PostEntity) => {
 		navigation.navigate('ViewUnapprovedPost', { postData })
 	}
@@ -47,13 +53,13 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
 	}
 
-	const renderUnapprovedPosts = (item: PostEntityOptional) => {
+	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity>) => {
 		return (
-			<ListItemContainer >
+			<ListItemContainer key={item.postId}>
 				<PostCard
-					post={item}
+					post={{ ...item, createdAt: item.updatedAt }}
 					owner={item.owner as PostEntityCommonFields['owner']}
-					isOwner={userDataContext.userId === (item.owner as any).userId}
+					isOwner
 					navigateToProfile={() => navigateToProfile(item as PostEntity)}
 					onPress={() => navigateToUnapprovedPostView(item as PostEntity)}
 				/>
@@ -65,9 +71,9 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 		<ScreenContainer topSafeAreaColor={theme.orange2} >
 			<UnapprovedPostsList
 				data={unapprovedPosts}
-				renderItem={({ item }) => renderUnapprovedPosts(item as any)}
-				onEndReached={() => loadUnapprovedPosts()}
-				// onEndReachedThreshold={0.2}
+				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
+				onEndReachedThreshold={0.2}
+				onEndReached={loadMoreRegisters}
 				refreshControl={(
 					<RefreshControl
 						tintColor={theme.black4}
@@ -77,7 +83,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					/>
 				)}
 				showsVerticalScrollIndicator={false}
-				keyExtractor={(item) => (Date.now() * Math.random()).toString()} // REFACTOR Centralizar geração de keys de flatlists
 				contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 				ListHeaderComponent={(
 					<>
@@ -122,7 +127,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
 				stickyHeaderIndices={[0]}
 			/>
-
 		</ScreenContainer>
 	)
 }

@@ -31,8 +31,8 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 
 		setSocialImpactDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
-			locationView: lastUserPost.locationView || '',
-			location: lastUserPost.location || ''
+			locationView: { ...lastUserPost, ...lastUserPost.unapprovedData }.locationView || '',
+			location: { ...lastUserPost, ...lastUserPost.unapprovedData }.location || ''
 		} as SocialImpactEntity)
 		setIsSecondPost(true)
 	}

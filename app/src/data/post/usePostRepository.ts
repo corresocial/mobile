@@ -2,7 +2,6 @@ import { clearOfflinePosts, deleteOfflinePostByDescription, getNumberOfOfflinePo
 import { PostRepositoryInterface } from './PostRepositoryInterface'
 import { createPost } from './remoteStorage/createPost'
 import { createPostWithCustomId } from './remoteStorage/createPostWithCustomId'
-import { createUnapprovedPost } from './remoteStorage/createUnapprovedPost'
 import { deletePost } from './remoteStorage/deletePost'
 import { deletePostMedias } from './remoteStorage/deletePostMedias'
 import { getPostById } from './remoteStorage/getPostById'
@@ -35,7 +34,6 @@ function usePostRepository(): PostRepositoryInterface {
 			// POST
 			createPost: createPost,
 			createPostWithCustomId: createPostWithCustomId,
-			createUnapprovedPost: createUnapprovedPost,
 
 			// UPDATE
 			updatePostData: updatePostData,

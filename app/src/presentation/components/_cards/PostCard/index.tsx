@@ -82,7 +82,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		return owner.profilePictureUrl[0]
 	}
 
-	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || postData.unapprovedData
+	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -133,7 +133,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 							transition={300}
 						>
 							{
-								postData.unapprovedData && (
+								postData.unapprovedData && isOwner && (
 									<WaitingApproveIconContainer
 										hasValues={post.saleValue || post.exchangeValue}
 										hasPicture={!arrayIsEmpty(post.picturesUrl)}

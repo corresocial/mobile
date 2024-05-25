@@ -13,16 +13,16 @@ export async function getUnapprovedPosts(maxDocs = 1, lastDoc: PostEntity | null
 		if (lastDoc) {
 			unapprovedPosts = query(
 				collectionRef,
-				where('unapprovedData', '!=', false),
-				orderBy('unapprovedData', 'desc'),
+				where('unapprovedData.updatedAt', '!=', false),
+				orderBy('unapprovedData.updatedAt', 'desc'),
 				limit(maxDocs),
-				startAfter(lastDoc.createdAt)
+				startAfter(lastDoc.updatedAt)
 			)
 		} else {
 			unapprovedPosts = query(
 				collectionRef,
-				where('unapprovedData', '!=', false),
-				orderBy('unapprovedData', 'desc'),
+				where('unapprovedData.updatedAt', '!=', false),
+				orderBy('unapprovedData.updatedAt', 'desc'),
 				limit(maxDocs),
 			)
 		}

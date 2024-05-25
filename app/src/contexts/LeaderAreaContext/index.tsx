@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -12,6 +12,8 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { LeaderAreaContextType, LeaderAreaProviderProps } from './types'
+
+import { getNewDate } from '@utils-ui/common/date/dateFormat'
 
 const { executeCachedRequest } = useCacheRepository()
 
@@ -35,55 +37,53 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 	const queryClient = useQueryClient()
 
 	useEffect(() => {
-		console.log('effect')
 		loadUnapprovedPosts()
 	}, [])
 
-	const loadUnapprovedPosts = async (refresh?: boolean) => {
+	const loadUnapprovedPosts = useCallback(async (refresh?: boolean) => {
 		try {
 			if (unapprovedListIsOver && !refresh) return
+			!refresh && setLoaderIsVisible(true)
 
-			refresh && setLoaderIsVisible(true)
-
-			// TODO Criar utilitário para pegar o último item de um array
+			// TODO Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
 			const lastPost = !refresh && (unapprovedPosts && unapprovedPosts.length) ? unapprovedPosts[unapprovedPosts.length - 1] : undefined
 
-			/* const queryKey = ['unapprovedPosts', userDataContext.userId, lastPost]
-			const posts = await executeCachedRequest(
+			const queryKey = ['unapprovedPosts', userDataContext.userId, lastPost]
+			let posts = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getUnapprovedPosts(usePostRepository, 2, lastPost),
+				async () => getUnapprovedPosts(usePostRepository, 5, lastPost),
 				refresh
-			) */
+			)
 
-			const posts = await getUnapprovedPosts(usePostRepository, 2, lastPost)
+			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
 
 			if (!posts || (posts && !posts.length)) {
-				refresh && setLoaderIsVisible(false)
+				!refresh && setLoaderIsVisible(false)
 				setUnapprovedListIsOver(true)
 				return
 			}
 
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['unapprovedPosts', userDataContext.userId] })
-				setUnapprovedPosts([...posts])
 				setUnapprovedListIsOver(false)
+				setUnapprovedPosts([...posts])
 			} else {
 				setUnapprovedPosts([...unapprovedPosts, ...posts])
 			}
 
-			refresh && setLoaderIsVisible(false)
+			!refresh && setLoaderIsVisible(false)
 		} catch (error) {
 			console.log(error)
-			refresh && setLoaderIsVisible(false)
+			!refresh && setLoaderIsVisible(false)
 		}
-	}
+	}, [unapprovedPosts, unapprovedListIsOver])
 
-	const removeFromUnapprovedPostList = async (data?: PostEntity) => {
+	const removeFromUnapprovedPostList = useCallback((data?: PostEntity) => {
 		if (!data) return
 		const filteredList = unapprovedPosts.filter((post) => post.postId !== data.postId)
 		setUnapprovedPosts(filteredList)
-	}
+	}, [unapprovedPosts])
 
 	const leaderAreaProviderData = useMemo(() => ({
 		unapprovedPosts,

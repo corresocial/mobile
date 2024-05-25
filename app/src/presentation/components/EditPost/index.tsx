@@ -39,22 +39,19 @@ import { Loader } from '../Loader'
 const { getObjectDifferences } = useUtils()
 
 const { updateUserRepository } = useUserDomain()
-const { updatePost, savePost, saveUnapprovedPost } = usePostDomain()
+const { updatePost, savePost } = usePostDomain() // TODO Remover saveUnapprovedPost
 
 const { localStorage: localPostStorage } = usePostRepository()
 
 type UserContextFragment = {
-	userDataContext: UserEntity;
-	setUserDataOnContext: (data: UserEntityOptional) => void;
+	userDataContext: UserEntity
+	setUserDataOnContext: (data: UserEntityOptional) => void
 }
 
 type EditContextFragment = {
-	setEditDataOnContext: (data: any) => void;
-	editDataContext: {
-		unsaved: any;
-		saved: any;
-	};
-	clearUnsavedEditContext: () => void;
+	setEditDataOnContext: (data: any) => void
+	editDataContext: {unsaved: any, saved: any}
+	clearUnsavedEditContext: () => void
 }
 
 interface EditPostProps {
@@ -116,13 +113,12 @@ function EditPost({
 	const editPostData = async () => {
 		if (!editDataContext.unsaved) return
 
-		const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, { ...initialPostData, ...editDataContext.unsaved })
-		console.log(dataChanges)
-		if (!dataChanges) return
-
 		try {
-			setIsLoading(true)
+			const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, { ...initialPostData, ...editDataContext.unsaved })
 			console.log(dataChanges)
+			if (!dataChanges) return
+
+			setIsLoading(true)
 
 			const postWithUnapprovedData = {
 				...approvedPostData,
@@ -158,26 +154,23 @@ function EditPost({
 
 	const savePostData = async () => {
 		try {
-			const postDataToSave = {
-				...initialPostData,
-				...editDataContext.unsaved,
-				completed: false,
-			} as PostEntity
-
-			// await saveUnapprovedPost(usePostRepository, dataChangesWithUpdatedAt)
-
-			/* const hasValidConnection = await checkNetworkStatus()
-
-			const postDataToSave = {
-				...initialPostData,
-				...editDataContext.unsaved,
-				completed: false,
-			} as PostEntity
-
+			const hasValidConnection = await checkNetworkStatus()
 			if (offlinePost && !hasValidConnection) return
 
+			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved, completed: false } as PostEntity
+			const { createdAt, postType, macroCategory, ...unapprovedData } = postDataToSave
+			const postWithUnapprovedData = {
+				...approvedPostData,
+				owner,
+				createdAt,
+				updatedAt: new Date(),
+				postType,
+				macroCategory,
+				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
+			} as PostEntity
+
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
-				await localPostStorage.saveOfflinePost({ ...postDataToSave, owner })
+				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
 				navigateToProfile && navigateToProfile()
 				return
 			}
@@ -192,7 +185,7 @@ function EditPost({
 					setHasError(false)
 					toggleOfflinePostAlertModal()
 					setNetworkConnectionIsValid(false)
-				}, 30000)
+				}, 40000)
 			}
 
 			const { newPost, updatedUserPosts } = await savePost(
@@ -201,7 +194,7 @@ function EditPost({
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
-				{ ...postDataToSave, owner },
+				postWithUnapprovedData,
 				editDataContext.unsaved.picturesUrl || [],
 				notifyUsersEnabled
 			)
@@ -220,7 +213,7 @@ function EditPost({
 			showShareModal(true, getShortText(newPost.description, 70), newPost.postId)
 			navigateToPostView(newPost)
 
-			setIsLoading(false) */
+			setIsLoading(false)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
