@@ -364,6 +364,7 @@ function Home({ navigation }: HomeScreenProps) {
 					renderItem={(() => {}) as any}
 					refreshControl={(
 						<RefreshControl
+							tintColor={theme.black4}
 							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 							refreshing={feedIsUpdating}
 							progressBackgroundColor={theme.white3}
