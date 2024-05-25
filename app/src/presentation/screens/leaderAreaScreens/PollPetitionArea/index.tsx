@@ -209,13 +209,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 				)}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
-				/* ListHeaderComponent={(
-					<>
-
-					</>
-				)} */
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
-				// stickyHeaderIndices={[0]}
 			/>
 		</ScreenContainer>
 	)

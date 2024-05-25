@@ -4,6 +4,7 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 
 export const UnapprovedPostsList = styled.FlatList`
 	flex: 1;
+	width: 100%;
 	background-color: ${({ theme }) => theme.orange2};
 `
 

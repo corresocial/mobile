@@ -68,7 +68,35 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange2} >
+		<ScreenContainer topSafeAreaColor={theme.orange2}>
+			<HeaderButtonsContainer>
+				<HeaderSection>
+					<OptionButton
+						label={'enquetes \ne abaixo \nassinados'}
+						highlightedWords={['enquetes', 'abaixo', '\nassinados']}
+						labelSize={11}
+						relativeHeight={relativeScreenDensity(70)}
+						leftSideWidth={'28%'}
+						leftSideColor={theme.purple3}
+						SvgIcon={FormHearthWhiteIcon}
+						svgIconScale={['80%', '120%']}
+						onPress={() => navigation.navigate('PollPetitionArea')}
+					/>
+				</HeaderSection>
+				<HeaderSection>
+					<OptionButton
+						label={'0 problemas \nna região'}
+						highlightedWords={['problemas', 'sua', 'região']}
+						labelSize={11}
+						relativeHeight={relativeScreenDensity(70)}
+						leftSideWidth={'28%'}
+						leftSideColor={theme.red3}
+						SvgIcon={DeniedWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						onPress={() => Alert.alert('Aviso', 'Esta funcionalidade será implementada em breve!')}
+					/>
+				</HeaderSection>
+			</HeaderButtonsContainer>
 			<UnapprovedPostsList
 				data={unapprovedPosts}
 				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
@@ -86,34 +114,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 				contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 				ListHeaderComponent={(
 					<>
-						<HeaderButtonsContainer>
-							<HeaderSection>
-								<OptionButton
-									label={'enquetes \ne abaixo \nassinados'}
-									highlightedWords={['enquetes', 'abaixo', '\nassinados']}
-									labelSize={11}
-									relativeHeight={relativeScreenDensity(70)}
-									leftSideWidth={'28%'}
-									leftSideColor={theme.purple3}
-									SvgIcon={FormHearthWhiteIcon}
-									svgIconScale={['80%', '120%']}
-									onPress={() => navigation.navigate('PollPetitionArea')}
-								/>
-							</HeaderSection>
-							<HeaderSection>
-								<OptionButton
-									label={'0 problemas \nna região'}
-									highlightedWords={['problemas', 'sua', 'região']}
-									labelSize={11}
-									relativeHeight={relativeScreenDensity(70)}
-									leftSideWidth={'28%'}
-									leftSideColor={theme.red3}
-									SvgIcon={DeniedWhiteIcon}
-									svgIconScale={['80%', '80%']}
-									onPress={() => Alert.alert('Aviso', 'Esta funcionalidade será implementada em breve!')}
-								/>
-							</HeaderSection>
-						</HeaderButtonsContainer>
 						<SubtitleCard
 							text={'aguardando aprovação'}
 							highlightedText={['aguardando', 'aprovação']}
@@ -125,7 +125,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					</>
 				)}
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
-				stickyHeaderIndices={[0]}
 			/>
 		</ScreenContainer>
 	)
