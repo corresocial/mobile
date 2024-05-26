@@ -47,6 +47,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		if (isOwner && post && post.unapprovedData) {
 			setPost({ ...(postData || {}), ...postData.unapprovedData } as PostEntity)
 		}
+		setPost(postData)
 	}, [postData, isOwner])
 
 	const getRelativeColor = (lightColor?: boolean) => {

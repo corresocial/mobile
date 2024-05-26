@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity, Text } from 'react-native'
+import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Chat } from '@domain/chat/entity/types'
@@ -407,7 +407,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 					)
 				}
 				<Body >
-					<Text>{userPostsContext.map((p) => p.description).join(' - ')}</Text>
 					<UserPostsFlatList
 						data={userPostsContext}
 						renderItem={renderPost as ListRenderItem<unknown>}
