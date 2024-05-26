@@ -97,7 +97,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const mergeUnapprovedPostData = () => {
 		if (canRenderUnapprovedData()) {
-			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			const mergedPost = mergeObjects({ ...postData, ...editDataContext.saved }, postData.unapprovedData as any)
 			setPostData(mergedPost)
 		}
 	}

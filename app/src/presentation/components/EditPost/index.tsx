@@ -11,6 +11,8 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
+import { useAuthContext } from '@contexts/AuthContext'
+
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
@@ -89,6 +91,8 @@ function EditPost({
 	showShareModal,
 	getPostField
 }: EditPostProps) {
+	const { updateUserPost } = useAuthContext()
+
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -141,6 +145,7 @@ function EditPost({
 			)
 
 			updateUserContext({ ...userDataContext }, updatedUserPosts)
+			updateUserPost(postWithUnapprovedData as PostEntity)
 			changeStateOfEditedFields(picturesUrl)
 
 			setIsLoading(false)

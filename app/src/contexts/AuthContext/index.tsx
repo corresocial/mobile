@@ -84,11 +84,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 			const postOwnerId = userId || userDataContext.userId
 			const userIsOwnerOfPosts = postOwnerId === userDataContext.userId
 
-			console.log('------------------------------------------')
-			console.log('postsListIsOver', postsListIsOver)
-			console.log('refresh', refresh)
-			console.log('postOwnerId', postOwnerId)
-			console.log('userIsOwnerOfPosts', userIsOwnerOfPosts ? 'SIM' : 'NÃO')
+			// console.log('------------------------------------------')
+			// console.log('postsListIsOver', postsListIsOver)
+			// console.log('refresh', refresh)
+			// console.log('postOwnerId', postOwnerId)
+			// console.log('userIsOwnerOfPosts', userIsOwnerOfPosts ? 'SIM' : 'NÃO')
 
 			const lastPost = !refresh && (userPostsContext.length) ? userPostsContext[userPostsContext.length - 1] : undefined
 			const queryKey = ['user.posts', userId, lastPost]

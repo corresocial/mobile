@@ -264,7 +264,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const getUserPosts = (withoutFilter?: boolean) => {
 		if (hasPostFilter && !withoutFilter) { return filteredPosts }
 
-		console.log('getUserPosts =>', isLoggedUser)
 		return isLoggedUser
 			? userPostsContext.filter((post) => !post.completed) // TODO Atualizar query
 			: currentUserPosts.filter((post) => !post.completed)
@@ -408,7 +407,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 				}
 				<Body >
 					<UserPostsFlatList
-						data={userPostsContext}
+						data={getUserPosts()}
 						renderItem={renderPost as ListRenderItem<unknown>}
 						onEndReached={loadMoreUserPosts}
 						refreshControl={(
