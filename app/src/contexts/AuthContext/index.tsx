@@ -13,15 +13,11 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps } from './types'
 
-import { UiUtils } from '@utils-ui/common/UiUtils'
-
 const { syncWithRemoteUser } = useUserDomain()
 const { getPostsByOwner } = usePostDomain()
 
 const { remoteStorage } = usePostRepository()
 const { executeCachedRequest } = useCacheRepository()
-
-const { getNewDate } = UiUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -85,12 +81,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 		try {
 			if (postsListIsOver && !refresh) return
 
+			const postOwnerId = userId || userDataContext.userId
+			const userIsOwnerOfPosts = postOwnerId === userDataContext.userId
+
 			console.log('------------------------------------------')
 			console.log('postsListIsOver', postsListIsOver)
 			console.log('refresh', refresh)
-
-			const postOwnerId = userId || userDataContext.userId
-			const userIsOwnerOfPosts = postOwnerId === userDataContext.userId
+			console.log('postOwnerId', postOwnerId)
+			console.log('userIsOwnerOfPosts', userIsOwnerOfPosts ? 'SIM' : 'NÃO')
 
 			const lastPost = !refresh && (userPostsContext.length) ? userPostsContext[userPostsContext.length - 1] : undefined
 			const queryKey = ['user.posts', userId, lastPost]
@@ -102,7 +100,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 			)
 
 			if (!posts || (posts && !posts.length)) {
-				console.log('setListOver')
 				setPostListIsOver(true)
 				return []
 			}

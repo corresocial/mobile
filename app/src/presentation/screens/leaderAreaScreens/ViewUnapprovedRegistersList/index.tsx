@@ -94,7 +94,6 @@ export function ViewUnapprovedRegistersList({ navigation } : ViewUnapprovedRegis
 							size={relativeScreenDensity(20)}
 						/>
 					)}
-					onEndReachedThreshold={0.4}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 					ListHeaderComponent={() => <VerticalSpacing/>}

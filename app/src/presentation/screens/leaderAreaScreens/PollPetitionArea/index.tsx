@@ -197,7 +197,6 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 			<PollPetitionList
 				data={[1]}
 				renderItem={(() => {}) as any}
-				onEndReachedThreshold={0.4}
 				CellRendererComponent={renderPollPetitions}
 				refreshControl={(
 					<RefreshControl

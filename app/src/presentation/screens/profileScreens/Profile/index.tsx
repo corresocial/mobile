@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
+import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity, Text } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Chat } from '@domain/chat/entity/types'
@@ -134,6 +134,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const loadRemoteUserPosts = async () => {
 		setIsLoading(true)
 		const posts = await loadUserPosts(user.userId, true)
+		console.log((posts || []).map((p:any) => p.description))
 		!isLoggedUser && setCurrentUserPosts(posts || [])
 		setIsLoading(false)
 	}
@@ -261,11 +262,11 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const getUserPosts = (withoutFilter?: boolean) => {
-		// (userPostsContext && userPostsContext.length) && console.log((userPostsContext[0]).description)
 		if (hasPostFilter && !withoutFilter) { return filteredPosts }
 
+		console.log('getUserPosts =>', isLoggedUser)
 		return isLoggedUser
-			? userPostsContext.filter((post) => !post.completed)
+			? userPostsContext.filter((post) => !post.completed) // TODO Atualizar query
 			: currentUserPosts.filter((post) => !post.completed)
 	}
 
@@ -406,10 +407,10 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 					)
 				}
 				<Body >
+					<Text>{userPostsContext.map((p) => p.description).join(' - ')}</Text>
 					<UserPostsFlatList
 						data={userPostsContext}
 						renderItem={renderPost as ListRenderItem<unknown>}
-						onEndReachedThreshold={0.4}
 						onEndReached={loadMoreUserPosts}
 						refreshControl={(
 							<RefreshControl
@@ -588,7 +589,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								</PostFilterContainer>
 							</>
 						)}
-						ListFooterComponent={() => (isLoggedUser && (!getUserPosts() || getUserPosts().length === 0)
+						ListFooterComponent={() => (isLoggedUser && (!getUserPosts() || !getUserPosts().length)
 							? (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}

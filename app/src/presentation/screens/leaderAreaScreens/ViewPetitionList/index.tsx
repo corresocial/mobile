@@ -123,7 +123,6 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					data={petitions}
 					renderItem={renderPetition as ListRenderItem<unknown>}
 					onEndReached={loadMorePetitions}
-					onEndReachedThreshold={0.4}
 					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl

@@ -100,7 +100,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 			<UnapprovedPostsList
 				data={unapprovedPosts}
 				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
-				onEndReachedThreshold={0.4}
 				onEndReached={loadMoreRegisters}
 				refreshControl={(
 					<RefreshControl

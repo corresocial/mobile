@@ -1,11 +1,10 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
-import { FlatList, RefreshControl } from 'react-native'
+import { FlatList } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
-import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
