@@ -18,7 +18,7 @@ export type AuthContextType = {
 	setUserRegisterDataOnContext: (data: Partial<UserRegisterData>) => void
 
 	getLastUserPost: () => PostEntity | null
-	loadUserPosts: (userId?: string) => Promise<PostEntity[]>
+	loadUserPosts: (userId?: string, refresh?: boolean) => Promise<PostEntity[] | void>
 	updateUserPost: (postData: PostEntity) => void
 	removeUserPost: (postData: PostEntity) => Promise<void>
 }

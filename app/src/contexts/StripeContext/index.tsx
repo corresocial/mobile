@@ -116,12 +116,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const stripeProducts = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getStripeProducts()
+				async () => getStripeProducts()
 			)
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
-			console.log('STRIPE: Produtos do Stripe obtidos com sucesso!')
+			// console.log('STRIPE: Produtos do Stripe obtidos com sucesso!')
 		} catch (error) {
 			console.error('Erro ao obter os produtos do Stripe:', error)
 		}
@@ -271,7 +271,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				showSubscriptionAlertWithCustomMessage(numberOfExpiredDays as number)
 				setSubscriptionHasActive(false)
 			} else {
-				console.log('STRIPE: Fatura em dia')
+				// console.log('STRIPE: Assinatura em dia')
 				setSubscriptionHasActive(true)
 			}
 		} catch (err: any) {

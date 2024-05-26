@@ -31,8 +31,8 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
 	const { userDataContext } = useAuthContext()
 
-	const [unapprovedListIsOver, setUnapprovedListIsOver] = useState(false)
 	const [unapprovedPosts, setUnapprovedPosts] = useState(initialValue.unapprovedPosts)
+	const [unapprovedListIsOver, setUnapprovedListIsOver] = useState(false)
 
 	const queryClient = useQueryClient()
 
@@ -46,9 +46,9 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			!refresh && setLoaderIsVisible(true)
 
 			// TODO Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
-			const lastPost = !refresh && (unapprovedPosts && unapprovedPosts.length) ? unapprovedPosts[unapprovedPosts.length - 1] : undefined
+			const lastPost = !refresh && (unapprovedPosts.length) ? unapprovedPosts[unapprovedPosts.length - 1] : undefined
 
-			const queryKey = ['unapprovedPosts', userDataContext.userId, lastPost]
+			const queryKey = ['posts.unapproved', userDataContext.userId, lastPost]
 			let posts = await executeCachedRequest(
 				queryClient,
 				queryKey,
@@ -60,12 +60,11 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 
 			if (!posts || (posts && !posts.length)) {
 				!refresh && setLoaderIsVisible(false)
-				setUnapprovedListIsOver(true)
-				return
+				return setUnapprovedListIsOver(true)
 			}
 
 			if (refresh) {
-				queryClient.removeQueries({ queryKey: ['unapprovedPosts', userDataContext.userId] })
+				queryClient.removeQueries({ queryKey: ['posts.unapproved', userDataContext.userId] })
 				setUnapprovedListIsOver(false)
 				setUnapprovedPosts([...posts])
 			} else {

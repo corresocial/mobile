@@ -1,18 +1,27 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+
+import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserAuthData, UserEntity, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps } from './types'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 const { syncWithRemoteUser } = useUserDomain()
 const { getPostsByOwner } = usePostDomain()
+
 const { remoteStorage } = usePostRepository()
+const { executeCachedRequest } = useCacheRepository()
+
+const { getNewDate } = UiUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -26,7 +35,7 @@ const initialValue: AuthContextType = {
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
 	setUserRegisterDataOnContext: () => null,
-	loadUserPosts: () => Promise.resolve([] as PostEntity[]),
+	loadUserPosts: (userId?: string, refresh?: boolean) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
 	updateUserPost: (postData: PostEntity) => {},
 	removeUserPost: (postData: PostEntity) => Promise.resolve()
@@ -38,20 +47,19 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const [userRegistrationData, setUserRegisterDataContext] = useState<UserRegisterData>(initialValue.userRegistrationData)
 	const [userAuthData, setUserAuthDataContext] = useState<UserAuthData>(initialValue.userAuthData)
 	const [userDataContext, setUserDataContext] = useState(initialValue.userDataContext)
-	const [userPostsContext, setUserPosts] = useState(initialValue.userPostsContext)
 
-	const loadUserPosts = async (userId?: string) => {
-		return getPostsByOwner(usePostRepository, userId || userDataContext.userId, 10)
-	}
+	const [userPostsContext, setUserPosts] = useState(initialValue.userPostsContext)
+	const [postsListIsOver, setPostListIsOver] = useState(false)
+
+	const queryClient = useQueryClient()
 
 	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserEntity) => {
 		try {
-			const userData = await syncWithRemoteUser(useUserRepository, uid, localUserData)
+			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId, localUserData)
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
-				const posts = await loadUserPosts(userData.userId)
-				const mergedUnapprovedData = posts.map((p) => ({ ...p, ...(p.unapprovedData || {}) }))
-				setUserPosts(mergedUnapprovedData as PostEntity[])
 				setUserDataContext({ ...userData })
+				const posts = await loadUserPosts(userData.userId)
+				setUserPosts(posts || [])
 				return true
 			}
 			return false
@@ -73,11 +81,51 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
+	const loadUserPosts = useCallback(async (userId?: string, refresh?: boolean) => {
+		try {
+			if (postsListIsOver && !refresh) return
+
+			console.log('------------------------------------------')
+			console.log('postsListIsOver', postsListIsOver)
+			console.log('refresh', refresh)
+
+			const postOwnerId = userId || userDataContext.userId
+			const userIsOwnerOfPosts = postOwnerId === userDataContext.userId
+
+			const lastPost = !refresh && (userPostsContext.length) ? userPostsContext[userPostsContext.length - 1] : undefined
+			const queryKey = ['user.posts', userId, lastPost]
+			const posts = await executeCachedRequest(
+				queryClient,
+				queryKey,
+				async () => getPostsByOwner(usePostRepository, postOwnerId, 4, lastPost),
+				refresh
+			)
+
+			if (!posts || (posts && !posts.length)) {
+				console.log('setListOver')
+				setPostListIsOver(true)
+				return []
+			}
+
+			if (refresh) {
+				queryClient.removeQueries()
+				setPostListIsOver(false)
+				userIsOwnerOfPosts && setUserPosts([...posts])
+				return [...posts]
+			}
+			userIsOwnerOfPosts && setUserPosts([...userPostsContext, ...posts])
+			return [...userPostsContext, ...posts]
+		} catch (error) {
+			console.log(error)
+		}
+	}, [userPostsContext, postsListIsOver])
+
 	const getLastUserPost = () => {
 		try {
 			if (!userPostsContext || (userPostsContext && !userPostsContext.length)) return null
 			return userPostsContext[0]
-		} catch (err) {
+		} catch (error) {
+			console.log(error)
 			return {} as PostEntity
 		}
 	}
@@ -106,23 +154,23 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	// REFACTOR useMemo & useCallbaack em todos os contextos
 
+	const authContextProviderData = useMemo(() => ({
+		userDataContext,
+		userPostsContext,
+		setUserDataOnContext,
+		setRemoteUserOnLocal,
+		userAuthData,
+		setUserAuthDataOnContext,
+		userRegistrationData,
+		setUserRegisterDataOnContext,
+		loadUserPosts,
+		getLastUserPost,
+		updateUserPost,
+		removeUserPost
+	}), [userRegistrationData, userAuthData, userDataContext, userPostsContext, postsListIsOver])
+
 	return (
-		<AuthContext.Provider
-			value={{
-				userDataContext,
-				userPostsContext,
-				setUserDataOnContext,
-				setRemoteUserOnLocal,
-				userAuthData,
-				setUserAuthDataOnContext,
-				userRegistrationData,
-				setUserRegisterDataOnContext,
-				loadUserPosts,
-				getLastUserPost,
-				updateUserPost,
-				removeUserPost
-			}}
-		>
+		<AuthContext.Provider value={authContextProviderData} >
 			{children}
 		</AuthContext.Provider>
 	)

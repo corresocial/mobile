@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ListRenderItem, ScrollView, TouchableOpacity } from 'react-native'
+import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Chat } from '@domain/chat/entity/types'
@@ -20,7 +20,6 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import {
@@ -75,7 +74,6 @@ const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
 
 const { arrayIsEmpty } = UiUtils()
-const { sortPostsByCreatedData } = UiPostUtils()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -86,6 +84,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
 	const [hasPostFilter, setHasPostFilter] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [user, setUser] = useState<UserEntityOptional>({})
 	const [currentUserPosts, setCurrentUserPosts] = useState<PostEntity[]>([])
@@ -117,15 +116,32 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const loadRemoteUserPosts = async () => {
-		const posts = await loadUserPosts(user.userId)
-		setCurrentUserPosts(posts)
-	}
+	/* 	useEffect(() => {
+		console.log('Effect')
+		console.log(userPostsContext.map((p) => p.description))
+	}, [userPostsContext]) */
 
 	const loadRemoteProfileData = async (userId: string) => {
-		const userData = await remoteStorage.getUserData(userId)
-		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
-		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
+		try {
+			const userData = await remoteStorage.getUserData(userId)
+			const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
+			setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const loadRemoteUserPosts = async () => {
+		setIsLoading(true)
+		const posts = await loadUserPosts(user.userId, true)
+		!isLoggedUser && setCurrentUserPosts(posts || [])
+		setIsLoading(false)
+	}
+
+	const loadMoreUserPosts = async () => {
+		const localPosts = getUserPosts()
+		console.log('currentLoadedPosts =>', localPosts && localPosts.length)
+		return localPosts && localPosts.length ? loadUserPosts(user.userId, false) : null
 	}
 
 	const checkHasOfflinePosts = async () => {
@@ -245,17 +261,12 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const getUserPosts = (withoutFilter?: boolean) => {
-		if (hasPostFilter && !withoutFilter) return filteredPosts
+		// (userPostsContext && userPostsContext.length) && console.log((userPostsContext[0]).description)
+		if (hasPostFilter && !withoutFilter) { return filteredPosts }
 
-		if (isLoggedUser) {
-			return userPostsContext
-				.filter((post) => !post.completed)
-				.sort(sortPostsByCreatedData)
-		}
-
-		return (currentUserPosts || [])
-			.filter((post) => !post.completed)
-			.sort(sortPostsByCreatedData)
+		return isLoggedUser
+			? userPostsContext.filter((post) => !post.completed)
+			: currentUserPosts.filter((post) => !post.completed)
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
@@ -341,16 +352,18 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		)
 	}
 
-	const renderPost = ({ item }: FlatListItem<PostEntity>) => (
-		<PostPadding key={item.postId}>
-			<PostCard
-				post={item}
-				owner={getUserField() as PostEntityCommonFields['owner']}
-				isOwner={isLoggedUser}
-				onPress={() => viewPostDetails(item)}
-			/>
-		</PostPadding>
-	)
+	const renderPost = ({ item }: FlatListItem<PostEntity>) => {
+		return (
+			<PostPadding key={item.postId}>
+				<PostCard
+					post={item}
+					owner={getUserField() as PostEntityCommonFields['owner']}
+					isOwner={isLoggedUser}
+					onPress={() => viewPostDetails(item)}
+				/>
+			</PostPadding>
+		)
+	}
 
 	const getConfigurationIcon = () => {
 		if (isLoggedUser) {
@@ -394,8 +407,18 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 				}
 				<Body >
 					<UserPostsFlatList
-						data={getUserPosts()}
+						data={userPostsContext}
 						renderItem={renderPost as ListRenderItem<unknown>}
+						onEndReachedThreshold={0.4}
+						onEndReached={loadMoreUserPosts}
+						refreshControl={(
+							<RefreshControl
+								tintColor={theme.black4}
+								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+								refreshing={isLoading}
+								onRefresh={loadRemoteUserPosts}
+							/>
+						)}
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
 						ListHeaderComponent={(
@@ -565,7 +588,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								</PostFilterContainer>
 							</>
 						)}
-						ListFooterComponent={() => (isLoggedUser && (!userPostsContext || userPostsContext.length === 0)
+						ListFooterComponent={() => (isLoggedUser && (!getUserPosts() || getUserPosts().length === 0)
 							? (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}
