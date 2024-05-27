@@ -73,8 +73,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
-	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
+	const [postLoaded, setPostLoaded] = useState(false)
 	const [approvedPostData, setApprovedPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
 
 	useEffect(() => {
@@ -89,8 +89,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as SocialImpactEntity)
 			setApprovedPostData(post as SocialImpactEntity)
-			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+			setIsCompleted(!!(post && post.completed))
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		mergeUnapprovedPostData()
 		setPostLoaded(true)
 	}
