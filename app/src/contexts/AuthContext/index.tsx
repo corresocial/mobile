@@ -86,18 +86,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 			const postOwnerId = userId || userDataContext.userId
 			const userIsOwnerOfPosts = postOwnerId === userDataContext.userId
 
-			// console.log('------------------------------------------')
-			// console.log('postsListIsOver', postsListIsOver)
-			// console.log('refresh', refresh)
-			// console.log('postOwnerId', postOwnerId)
-			// console.log('userIsOwnerOfPosts', userIsOwnerOfPosts ? 'SIM' : 'NÃO')
-
 			const lastPost = userIsOwnerOfPosts
 				? !refresh && userPostsContext.length ? userPostsContext[userPostsContext.length - 1] : undefined
 				: !refresh && (loadedPosts && loadedPosts.length) ? loadedPosts[loadedPosts.length - 1] : undefined
-
-			// console.log(lastPost ? lastPost.description : 'nullo')
-			// console.log(['user.posts', postOwnerId, lastPost ? 'Object' : 'Initial'])
 
 			const queryKey = ['user.posts', postOwnerId, lastPost]
 			let posts = await executeCachedRequest(

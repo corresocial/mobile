@@ -4,8 +4,6 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
-
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface FlatListPostsProps {
@@ -47,7 +45,7 @@ function FlatListPosts({
 			}}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing height={relativeScreenDensity(30)}/>}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace/>}
 			onEndReached={onEndReached}
 			// refreshControl={(
 			// 	<RefreshControl

@@ -52,7 +52,6 @@ export const SidePicture = styled(ImageBackground) <SidePictureProps>`
 `
 
 export const SaleValueContainer = styled.View`
-	background-color: red;
 	border-width: ${RFValue(2)}px;
 	border-right-width: ${RFValue(5)}px;
 	border-color: ${({ theme }) => theme.black4};
@@ -108,7 +107,7 @@ export const WaitingApproveIconContainer = styled.View<WaitingApproveIconContain
 	flex-direction: column;
 	justify-content:center;
 	${({ hasValues, hasPicture }) => `
-		justify-content: ${(!hasValues ? hasPicture ? 'flex-start ' : 'center' : 'flex-start')};
+		justify-content: ${(!hasValues ? (hasPicture ? 'flex-start ' : 'center') : 'flex-start')};
 	`}
 	padding: ${relativeScreenDensity(5)}px 0px;
 `

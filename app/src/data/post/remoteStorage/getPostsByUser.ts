@@ -6,13 +6,14 @@ import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-export async function getPostsByUser(userId: string, maxDocs = 10, lastDoc: PostEntity | null = null) {
+export async function getPostsByUser(userId: string, maxDocs = 10, lastDoc: PostEntity | null = null, completed: boolean = false) {
 	try {
 		const collectionRef = collection(firestore, POST_COLLECTION)
 		let postsByUserQuery
 		if (lastDoc) {
 			postsByUserQuery = query(
 				collectionRef,
+				where('completed', '==', completed),
 				where('owner.userId', '==', userId),
 				orderBy('createdAt', 'desc'),
 				limit(maxDocs),
@@ -21,6 +22,7 @@ export async function getPostsByUser(userId: string, maxDocs = 10, lastDoc: Post
 		} else {
 			postsByUserQuery = query(
 				collectionRef,
+				where('completed', '==', completed),
 				where('owner.userId', '==', userId),
 				orderBy('createdAt', 'desc'),
 				limit(maxDocs),

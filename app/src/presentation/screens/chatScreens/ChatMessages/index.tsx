@@ -1,6 +1,5 @@
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
@@ -354,7 +353,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 							errorSending={false}
 							sendAgain={() => console.log('sendAgain')}
 						/>
-						<VerticalSpacing height={RFValue(3)} />
+						<VerticalSpacing height={3} relativeDensity/>
 					</>
 				)}
 				ListHeaderComponent={() => (

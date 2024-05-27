@@ -4,14 +4,17 @@ import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimen
 
 interface ContainerProps {
 	bottomNavigatorSpace: boolean
+	relativeDensity: boolean
 	height?: number
 }
 relativeScreenDensity(75)
 export const Container = styled.View<ContainerProps>`
 	width: 100%;
-	height: ${({ bottomNavigatorSpace, height }) => (
+	height: ${({ bottomNavigatorSpace, relativeDensity, height }) => (
 		bottomNavigatorSpace
 			? relativeScreenDensity(75)
-			: height ? relativeScreenHeight(height) : relativeScreenDensity(10)
+			: height
+				? relativeDensity ? relativeScreenDensity(height) : relativeScreenHeight(height)
+				: relativeScreenDensity(10)
 	)}px;
 `

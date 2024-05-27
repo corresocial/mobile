@@ -149,7 +149,7 @@ function PopOver({
 							/>
 						)
 					}
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing />
 					<PrimaryButton
 						color={theme.red3}
 						SvgIcon={DeniedWhiteIcon}
@@ -161,7 +161,7 @@ function PopOver({
 						relativeHeight={relativeScreenHeight(8)}
 						onPress={reportUser && reportUser}
 					/>
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing/>
 					<PrimaryButton
 						color={theme.green3}
 						SecondSvgIcon={VerifiedLabel}
@@ -173,7 +173,7 @@ function PopOver({
 						relativeHeight={relativeScreenHeight(8)}
 						onPress={toggleVerifyUserModal}
 					/>
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing/>
 					<PrimaryButton
 						color={theme.pink3}
 						SecondSvgIcon={ImpactLabel}
@@ -188,7 +188,7 @@ function PopOver({
 					{
 						isAdmin && (
 							<>
-								<VerticalSpacing height={RFValue(5)} />
+								<VerticalSpacing/>
 								<PrimaryButton
 									color={theme.purple3}
 									SecondSvgIcon={CityWhiteIcon}
@@ -206,7 +206,7 @@ function PopOver({
 					{
 						isAdmin && (
 							<>
-								<VerticalSpacing height={RFValue(5)} />
+								<VerticalSpacing/>
 								<PrimaryButton
 									color={theme.blue3}
 									SecondSvgIcon={HanOnMoneyWhiteIcon}

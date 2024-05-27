@@ -8,7 +8,7 @@ import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFun
 
 interface PostDomainInterface {
 	getUnapprovedPosts(usePostRepository: () => PostRepositoryInterface, pageSize?: number, lastPost?: PostEntity | any): Promise<PostEntity[] | void>
-	getPostsByOwner(usePostRepository: () => PostRepositoryInterface, userId: string, pageSize?: number, lastPost?: PostEntity): Promise<PostEntity[]>
+	getPostsByOwner(usePostRepository: () => PostRepositoryInterface, userId: string, pageSize?: number, lastPost?: PostEntity, completed?: boolean): Promise<PostEntity[]>
 
 	updateOwnerDataOnPosts(
 		usePostRepository: () => PostRepositoryInterface,
