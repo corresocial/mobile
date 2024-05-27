@@ -45,7 +45,6 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 
 	useEffect(() => {
 		if (isOwner && post && post.unapprovedData) {
-			console.log(post.unapprovedData)
 			setPost({ ...(postData || {}), ...postData.unapprovedData } as PostEntity)
 		}
 	}, [postData, isOwner])

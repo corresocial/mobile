@@ -5,7 +5,6 @@ import { WhoWeAreCultureScreenProps } from '@routes/Stack/ProfileStack/screenPro
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -28,15 +27,15 @@ function WhoWeAreCulture({ navigation }: WhoWeAreCultureScreenProps) {
 				<DefaultCardContainer flex={1}>
 					<ContainerContent>
 						<Title>{'gerar cultura.'}</Title>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'também digitalizamos seus artistas e cultura locais, não importa de onde. '}
 						</Description>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'queremos oferecer uma plataforma gratuita de educação e arte para todos os brasileiros'}
 						</Description>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'além de gerar renda, auxiliamos na formação social e cultural de todos.'}
 						</Description>

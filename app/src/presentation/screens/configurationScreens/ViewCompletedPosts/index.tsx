@@ -10,7 +10,6 @@ import { ViewCompletedPostsScreenProps } from '@routes/Stack/ProfileStack/screen
 import { FlatListItem } from 'src/presentation/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PostCard } from '@components/_cards/PostCard'
@@ -22,11 +21,11 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 	const { userDataContext, userPostsContext } = useContext(AuthContext)
 
 	const viewPostDetails = (post: PostEntityOptional) => {
-		const postData = { ...post, owner: getUserDataOnly() }
+		const postData = { ...post, owner: getOwnerDataOnly() }
 		navigateToPostView(postData as PostEntityOptional, navigation)
 	}
 
-	const getUserDataOnly = () => {
+	const getOwnerDataOnly = () => {
 		return {
 			userId: userDataContext.userId,
 			name: userDataContext.name,
@@ -55,14 +54,14 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 						<PostPadding>
 							<PostCard
 								post={item}
-								owner={getUserDataOnly() as PostEntityCommonFields['owner']}
+								owner={getOwnerDataOnly() as PostEntityCommonFields['owner']}
 								isOwner={userDataContext.userId === (item.owner as any).userId}
 								onPress={() => viewPostDetails(item)}
 							/>
 						</PostPadding>
 					)}
 					showsVerticalScrollIndicator={false}
-					ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
+					ItemSeparatorComponent={() => <VerticalSpacing height={0.8} />}
 					contentContainerStyle={{ backgroundColor: theme.orange2 }}
 					ListHeaderComponent={<VerticalSpacing />}
 					ListFooterComponent={() => (
@@ -74,7 +73,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 									highlightedWords={['marcado', 'como', 'concluído']}
 								/>
 							)
-							: <VerticalSpacing height={relativeScreenHeight(11)} />
+							: <VerticalSpacing bottomNavigatorSpace />
 					)}
 				/>
 			</Body>

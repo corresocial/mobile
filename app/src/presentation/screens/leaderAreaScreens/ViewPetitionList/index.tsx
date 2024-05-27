@@ -17,7 +17,7 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { CardContainer, Container, Header, PetitionList } from './styles'
 import FormHearthWhiteIcon from '@assets/icons/formHearth-white.svg'
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
@@ -134,7 +134,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					)}
 					ListHeaderComponent={() => <VerticalSpacing/>}
 					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(10)}/>}
+					ListFooterComponent={() => <VerticalSpacing height={10}/>}
 				/>
 			</Container>
 		</ScreenContainer>

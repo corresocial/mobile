@@ -267,7 +267,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						pressionable={false}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
-					<VerticalSpacing height={relativeScreenHeight(5)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</ScrollView>
 			</Body>
 		</Container>

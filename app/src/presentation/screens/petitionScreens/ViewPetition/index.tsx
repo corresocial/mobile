@@ -20,7 +20,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { Body } from './styles'
 import DocumentPencilWhiteIcon from '@assets/icons/documentPencil-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -192,7 +192,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 				</PostPopOver>
 			</PostHeader>
 			<Body>
-				<VerticalSpacing height={relativeScreenHeight(2)} />
+				<VerticalSpacing height={2} />
 				<DescriptionCard
 					title={'descrição'}
 					text={petitionData.description}
@@ -237,7 +237,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 					location={petitionData.location}
 					locationView={'public'}
 				/>
-				<VerticalSpacing height={relativeScreenHeight(5)} />
+				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
 		</>
 	)

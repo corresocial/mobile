@@ -6,7 +6,6 @@ import GoogleWhiteIcon from '@assets/icons/google-white.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
 import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -68,14 +67,14 @@ function SocialLoginAlertModal({
 						)
 					}
 				</Description>
-				<VerticalSpacing height={relativeScreenHeight(3)} />
+				<VerticalSpacing height={3} />
 				{
 					accountIdentifier && (
 						<>
 							<DescriptionWithLeftTracing
 								text={accountIdentifier?.includes('+55') ? getFormatedCellNumber() : accountIdentifier}
 							/>
-							<VerticalSpacing height={relativeScreenHeight(3)} />
+							<VerticalSpacing height={3} />
 						</>
 					)
 				}
@@ -98,7 +97,7 @@ function SocialLoginAlertModal({
 						/>
 					)
 				}
-				<VerticalSpacing height={relativeScreenHeight(2)} />
+				<VerticalSpacing height={2} />
 				<PrimaryButton
 					keyboardHideButton={false}
 					color={theme.white3}

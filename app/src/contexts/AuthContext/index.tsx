@@ -13,6 +13,8 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps } from './types'
 
+import { getNewDate } from '@utils-ui/common/date/dateFormat'
+
 const { syncWithRemoteUser } = useUserDomain()
 const { getPostsByOwner } = usePostDomain()
 
@@ -31,7 +33,7 @@ const initialValue: AuthContextType = {
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
 	setUserRegisterDataOnContext: () => null,
-	loadUserPosts: (userId?: string, refresh?: boolean) => Promise.resolve([] as PostEntity[]),
+	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
 	updateUserPost: (postData: PostEntity) => {},
 	removeUserPost: (postData: PostEntity) => Promise.resolve()
@@ -77,7 +79,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string, refresh?: boolean) => {
+	const loadUserPosts = useCallback(async (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => {
 		try {
 			if (postsListIsOver && !refresh) return
 
@@ -90,28 +92,36 @@ function AuthProvider({ children }: AuthProviderProps) {
 			// console.log('postOwnerId', postOwnerId)
 			// console.log('userIsOwnerOfPosts', userIsOwnerOfPosts ? 'SIM' : 'NÃO')
 
-			const lastPost = !refresh && (userPostsContext.length) ? userPostsContext[userPostsContext.length - 1] : undefined
-			const queryKey = ['user.posts', userId, lastPost]
-			const posts = await executeCachedRequest(
+			const lastPost = userIsOwnerOfPosts
+				? !refresh && userPostsContext.length ? userPostsContext[userPostsContext.length - 1] : undefined
+				: !refresh && (loadedPosts && loadedPosts.length) ? loadedPosts[loadedPosts.length - 1] : undefined
+
+			// console.log(lastPost ? lastPost.description : 'nullo')
+			// console.log(['user.posts', postOwnerId, lastPost ? 'Object' : 'Initial'])
+
+			const queryKey = ['user.posts', postOwnerId, lastPost]
+			let posts = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				async () => getPostsByOwner(usePostRepository, postOwnerId, 4, lastPost),
+				async () => getPostsByOwner(usePostRepository, postOwnerId, 2, lastPost),
 				refresh
 			)
+			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
 			if (!posts || (posts && !posts.length)) {
+				console.log('Acabaram os posts')
 				setPostListIsOver(true)
 				return []
 			}
 
 			if (refresh) {
-				queryClient.removeQueries()
+				queryClient.removeQueries({ queryKey: ['user.posts', postOwnerId] })
 				setPostListIsOver(false)
 				userIsOwnerOfPosts && setUserPosts([...posts])
 				return [...posts]
 			}
 			userIsOwnerOfPosts && setUserPosts([...userPostsContext, ...posts])
-			return [...userPostsContext, ...posts]
+			return userIsOwnerOfPosts ? [...userPostsContext, ...posts] : [...(loadedPosts || []), ...posts]
 		} catch (error) {
 			console.log(error)
 		}

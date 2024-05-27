@@ -97,7 +97,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							: <VerticalSpacing />
 					}
 					{renderSocialMedias()}
-					<VerticalSpacing height={relativeScreenHeight(4)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</ScrollView>
 			</Body>
 		</Container >

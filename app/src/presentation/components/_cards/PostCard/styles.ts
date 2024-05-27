@@ -2,11 +2,11 @@ import { ImageBackground, ImageBackgroundProps } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
 	width: 98%;
-	height: ${relativeScreenHeight(16)}px;
+	height: ${relativeScreenDensity(120)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(23)}px;
     position: relative;

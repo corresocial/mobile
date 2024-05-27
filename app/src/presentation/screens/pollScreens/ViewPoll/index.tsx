@@ -20,7 +20,7 @@ import DocumentWhiteIcon from '@assets/icons/document-white.svg'
 import DownloadWhiteIcon from '@assets/icons/download-white.svg'
 import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -221,7 +221,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				</PostPopOver>
 			</PostHeader>
 			<Body>
-				<VerticalSpacing height={relativeScreenHeight(2)} />
+				<VerticalSpacing height={2} />
 				<DescriptionCard
 					text={pollData.description}
 				/>
@@ -237,7 +237,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 					locationView={'public'}
 				/>
 				{renderQuestions()}
-				<VerticalSpacing height={relativeScreenHeight(5)} />
+				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
 		</>
 	)

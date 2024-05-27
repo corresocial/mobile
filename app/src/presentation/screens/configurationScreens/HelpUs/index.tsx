@@ -45,7 +45,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<VerticalSpacing height={relativeScreenHeight(3)} />
+				<VerticalSpacing height={3} />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={16}

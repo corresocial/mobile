@@ -150,7 +150,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 				justifyContent={questionsLength() < 1 ? 'center' : 'space-around'}
 			>
 				<ScrollView showsVerticalScrollIndicator={false}>
-					<VerticalSpacing height={relativeScreenHeight(3)} />
+					<VerticalSpacing height={3} />
 					{!keyboardOpened && renderQuestionsSaved()}
 					{
 						questionsLength() < 5

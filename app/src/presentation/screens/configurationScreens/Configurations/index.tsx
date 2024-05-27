@@ -268,7 +268,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					SvgIcon={XWhiteIcon}
 					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
-				<VerticalSpacing height={relativeScreenHeight(8)} />
+				<VerticalSpacing bottomNavigatorSpace/>
 			</Body>
 		</Container >
 	)

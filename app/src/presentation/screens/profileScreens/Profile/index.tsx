@@ -11,6 +11,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { useAuthContext } from '@contexts/AuthContext'
+import { useLoaderContext } from '@contexts/LoaderContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
@@ -79,16 +80,17 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
 	const { userDataContext, userPostsContext, loadUserPosts } = useAuthContext()
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
+	const { setLoaderIsVisible } = useLoaderContext()
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
 	const [hasPostFilter, setHasPostFilter] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
+	const [isRefresing, setIsRefresing] = useState(false)
 
 	const [user, setUser] = useState<UserEntityOptional>({})
 	const [currentUserPosts, setCurrentUserPosts] = useState<PostEntity[]>([])
-	const [filteredPosts, setFilteredPosts] = useState<PostEntityOptional[]>([])
+	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
@@ -104,7 +106,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}, [])
 
 	useEffect(() => {
-		(user && user.userId) && loadRemoteUserPosts()
+		(user && user.userId) && loadRemoteUserPosts(true)
 	}, [user])
 
 	useEffect(() => {
@@ -131,18 +133,26 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		}
 	}
 
-	const loadRemoteUserPosts = async () => {
-		setIsLoading(true)
-		const posts = await loadUserPosts(user.userId, true)
-		console.log((posts || []).map((p:any) => p.description))
-		!isLoggedUser && setCurrentUserPosts(posts || [])
-		setIsLoading(false)
+	const loadRemoteUserPosts = async (firstLoad?: boolean) => {
+		try {
+			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
+			const posts = await loadUserPosts(user.userId, true)
+			// console.log((posts || []).map((p:any) => p.description))
+			!isLoggedUser && setCurrentUserPosts(posts || [])
+			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
+		} catch (error) {
+			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
+			console.log(error)
+		}
 	}
 
 	const loadMoreUserPosts = async () => {
-		const localPosts = getUserPosts()
+		const localPosts = getUserPosts(true)
 		console.log('currentLoadedPosts =>', localPosts && localPosts.length)
-		return localPosts && localPosts.length ? loadUserPosts(user.userId, false) : null
+		if (localPosts && localPosts.length) {
+			const posts = await loadUserPosts(user.userId, false, localPosts)
+			!isLoggedUser && setCurrentUserPosts(posts || [])
+		}
 	}
 
 	const checkHasOfflinePosts = async () => {
@@ -157,7 +167,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const viewPostDetails = (post: PostEntityOptional) => {
 		const customStackLabel = route.params?.userId && !route.params?.stackLabel ? 'Home' : route.params?.stackLabel
-		const postData = { ...post, owner: getOwnerDataOnly() } as PostEntityOptional
+		const postData = { ...post, owner: getOwnerDataOnly() }
 
 		navigateToPostView(postData, navigation, customStackLabel)
 	}
@@ -414,12 +424,12 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 							<RefreshControl
 								tintColor={theme.black4}
 								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-								refreshing={isLoading}
+								refreshing={isRefresing}
 								onRefresh={loadRemoteUserPosts}
 							/>
 						)}
 						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
+						ItemSeparatorComponent={() => <VerticalSpacing height={0.8} />}
 						ListHeaderComponent={(
 							<>
 								<DefaultHeaderContainer
@@ -596,7 +606,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 									backgroundColor={theme.yellow1}
 								/>
 							)
-							: <VerticalSpacing height={relativeScreenHeight(11)} />
+							: <VerticalSpacing bottomNavigatorSpace />
 						)}
 					/>
 				</Body>

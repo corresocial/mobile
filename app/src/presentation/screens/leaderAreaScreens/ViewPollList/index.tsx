@@ -17,7 +17,7 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { CardContainer, Container, Header, PollList } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PollCard } from '@components/_cards/PollCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
@@ -132,7 +132,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 					)}
 					ListHeaderComponent={() => <VerticalSpacing/>}
 					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(10)}/>}
+					ListFooterComponent={() => <VerticalSpacing height={10}/>}
 				/>
 			</Container>
 		</ScreenContainer>

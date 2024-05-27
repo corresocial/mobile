@@ -355,7 +355,7 @@ function EditPost({
 				{
 					hasError && (
 						<>
-							<VerticalSpacing height={relativeScreenHeight(2)} />
+							<VerticalSpacing height={2} />
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
@@ -434,7 +434,7 @@ function EditPost({
 				}
 				<BodyPadding backgroundColor={backgroundColor} hasError={hasError} >
 					{children}
-					<VerticalSpacing height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</BodyPadding >
 			</Body>
 		</Container>

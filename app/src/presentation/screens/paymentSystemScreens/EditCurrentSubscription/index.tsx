@@ -266,7 +266,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 									relativeHeight={relativeScreenHeight(10)}
 									onPress={onPressCancelSubscriptionButton}
 								/>
-								<VerticalSpacing height={relativeScreenHeight(3)} />
+								<VerticalSpacing height={3} />
 								<PrimaryButton
 									color={theme.white3}
 									keyboardHideButton={false}
@@ -281,7 +281,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 								{
 									!leaveFromPaidSubscription && (
 										<>
-											<VerticalSpacing height={relativeScreenHeight(3)} />
+											<VerticalSpacing height={3} />
 											<PrimaryButton
 												color={theme.green3}
 												keyboardHideButton={false}
