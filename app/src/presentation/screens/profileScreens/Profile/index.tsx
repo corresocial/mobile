@@ -2,10 +2,14 @@ import React, { useEffect, useState, useContext } from 'react'
 import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange, PostEntity } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
 
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -73,8 +77,11 @@ import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
+const { executeCachedRequest } = useCacheRepository()
 
-const { arrayIsEmpty } = UiUtils()
+const { getPostsByOwner } = usePostDomain()
+
+const { arrayIsEmpty, getNewDate } = UiUtils()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -90,11 +97,14 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const [user, setUser] = useState<UserEntityOptional>({})
 	const [currentUserPosts, setCurrentUserPosts] = useState<PostEntity[]>([])
+	const [postListIsOver, setPostListIsOver] = useState(false)
 	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
 	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
+
+	const queryClient = useQueryClient()
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
@@ -118,11 +128,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	/* 	useEffect(() => {
-		console.log('Effect')
-		console.log(userPostsContext.map((p) => p.description))
-	}, [userPostsContext]) */
-
 	const loadRemoteProfileData = async (userId: string) => {
 		try {
 			const userData = await remoteStorage.getUserData(userId)
@@ -133,12 +138,10 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		}
 	}
 
-	const loadRemoteUserPosts = async (firstLoad?: boolean) => {
+	const loadRemoteUserPosts = async (firstLoad?: boolean, refresh?: boolean) => {
 		try {
 			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
-			const posts = await loadUserPosts(user.userId, true)
-			// console.log((posts || []).map((p:any) => p.description))
-			!isLoggedUser && setCurrentUserPosts(posts || [])
+			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '')
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
 		} catch (error) {
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
@@ -147,11 +150,38 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const loadMoreUserPosts = async () => {
-		const localPosts = getUserPosts(true)
-		console.log('currentLoadedPosts =>', localPosts && localPosts.length)
-		if (localPosts && localPosts.length) {
-			const posts = await loadUserPosts(user.userId, false, localPosts)
-			!isLoggedUser && setCurrentUserPosts(posts || [])
+		const loadedPosts = getUserPosts(true)
+		// console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
+		if (loadedPosts && loadedPosts.length) {
+			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false, loadedPosts)
+		}
+	}
+
+	const loadCurrentUserPosts = async (userId: string, refresh?: boolean, loadedPosts?: PostEntity[] | null) => {
+		try {
+			if (postListIsOver && !refresh) return
+
+			const lastPost = !refresh && (currentUserPosts && currentUserPosts.length) ? currentUserPosts[currentUserPosts.length - 1] : undefined
+
+			const queryKey = ['user.posts', userId, lastPost]
+			let posts = await executeCachedRequest(
+				queryClient,
+				queryKey,
+				async () => getPostsByOwner(usePostRepository, userId || 'user.generic', 10, lastPost),
+				refresh
+			)
+			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
+
+			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
+
+			if (refresh) {
+				queryClient.removeQueries({ queryKey: ['user.posts', userId || 'user.generic'] })
+				setPostListIsOver(false)
+				setCurrentUserPosts([...posts])
+			}
+			setCurrentUserPosts([...currentUserPosts, ...posts])
+		} catch (error) {
+			console.log(error)
 		}
 	}
 
@@ -425,7 +455,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								tintColor={theme.black4}
 								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 								refreshing={isRefresing}
-								onRefresh={loadRemoteUserPosts}
+								onRefresh={() => loadRemoteUserPosts(false, true)}
 							/>
 						)}
 						showsVerticalScrollIndicator={false}

@@ -47,7 +47,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const [userDataContext, setUserDataContext] = useState(initialValue.userDataContext)
 
 	const [userPostsContext, setUserPosts] = useState(initialValue.userPostsContext)
-	const [postsListIsOver, setPostListIsOver] = useState(false)
+	const [postListIsOver, setPostListIsOver] = useState(false)
 
 	const queryClient = useQueryClient()
 
@@ -79,44 +79,36 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => {
+	const loadUserPosts = useCallback(async (userId?: string, refresh?: boolean) => {
 		try {
-			if (postsListIsOver && !refresh) return
+			if (postListIsOver && !refresh) return
 
 			const postOwnerId = userId || userDataContext.userId
-			const userIsOwnerOfPosts = postOwnerId === userDataContext.userId
 
-			const lastPost = userIsOwnerOfPosts
-				? !refresh && userPostsContext.length ? userPostsContext[userPostsContext.length - 1] : undefined
-				: !refresh && (loadedPosts && loadedPosts.length) ? loadedPosts[loadedPosts.length - 1] : undefined
-
+			const lastPost = !refresh && userPostsContext.length ? userPostsContext[userPostsContext.length - 1] : undefined
 			const queryKey = ['user.posts', postOwnerId, lastPost]
 			let posts = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				async () => getPostsByOwner(usePostRepository, postOwnerId, 2, lastPost),
+				async () => getPostsByOwner(usePostRepository, postOwnerId, 10, lastPost),
 				refresh
 			)
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!posts || (posts && !posts.length)) {
-				console.log('Acabaram os posts')
-				setPostListIsOver(true)
-				return []
-			}
+			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
 
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['user.posts', postOwnerId] })
 				setPostListIsOver(false)
-				userIsOwnerOfPosts && setUserPosts([...posts])
+				setUserPosts([...posts])
 				return [...posts]
 			}
-			userIsOwnerOfPosts && setUserPosts([...userPostsContext, ...posts])
-			return userIsOwnerOfPosts ? [...userPostsContext, ...posts] : [...(loadedPosts || []), ...posts]
+			setUserPosts([...userPostsContext, ...posts])
+			return [...userPostsContext, ...posts]
 		} catch (error) {
 			console.log(error)
 		}
-	}, [userPostsContext, postsListIsOver])
+	}, [userPostsContext, postListIsOver])
 
 	const getLastUserPost = () => {
 		try {
@@ -165,7 +157,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		getLastUserPost,
 		updateUserPost,
 		removeUserPost
-	}), [userRegistrationData, userAuthData, userDataContext, userPostsContext, postsListIsOver])
+	}), [userRegistrationData, userAuthData, userDataContext, userPostsContext, postListIsOver])
 
 	return (
 		<AuthContext.Provider value={authContextProviderData} >
