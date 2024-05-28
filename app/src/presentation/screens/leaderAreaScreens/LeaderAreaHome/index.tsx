@@ -110,7 +110,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					/>
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 				ListHeaderComponent={(
 					<>
 						<SubtitleCard
@@ -124,6 +123,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					</>
 				)}
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
 			/>
 		</ScreenContainer>
 	)

@@ -51,13 +51,12 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const queryClient = useQueryClient()
 
-	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserEntity) => {
+	const setRemoteUserOnLocal = async (uid?: string) => {
 		try {
-			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId, localUserData)
+			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId)
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
+				await loadUserPosts(userData.userId, false, true)
 				setUserDataContext({ ...userData })
-				const posts = await loadUserPosts(userData.userId)
-				setUserPosts(posts || [])
 				return true
 			}
 			return false
@@ -79,13 +78,13 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean) => {
+	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => {
 		try {
-			if (postListIsOver && !refresh) return
+			if (postListIsOver && !firstLoad && !refresh) return
 
 			const postOwnerId = userId || userDataContext.userId
 
-			const lastPost = !refresh && userPostsContext.length ? userPostsContext[userPostsContext.length - 1] : undefined
+			const lastPost = !refresh && userPostsContext.length && !firstLoad ? userPostsContext[userPostsContext.length - 1] : undefined
 			const queryKey = ['user.posts', postOwnerId, lastPost]
 			let posts = await executeCachedRequest(
 				queryClient,
@@ -97,14 +96,15 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
 
+			if (lastPost && lastPost.postId === posts[posts.length - 1].postId) return
+
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['user.posts', postOwnerId] })
 				setPostListIsOver(false)
 				setUserPosts([...posts])
-				return [...posts]
+				return
 			}
-			setUserPosts([...userPostsContext, ...posts])
-			return [...userPostsContext, ...posts]
+			firstLoad ? setUserPosts([...posts]) : setUserPosts([...userPostsContext, ...posts])
 		} catch (error) {
 			console.log(error)
 		}

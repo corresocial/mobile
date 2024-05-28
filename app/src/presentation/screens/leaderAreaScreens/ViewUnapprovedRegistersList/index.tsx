@@ -12,7 +12,6 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { ListItemContainer, Container, Header, UnapprovedRegistersList } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
-import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PostCard } from '@components/_cards/PostCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
@@ -88,16 +87,16 @@ export function ViewUnapprovedRegistersList({ navigation } : ViewUnapprovedRegis
 					onEndReached={loadMoreRegisters}
 					refreshControl={(
 						<RefreshControl
+							tintColor={theme.white3}
+							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 							refreshing={isLoading}
 							onRefresh={loadUnapprovedRegisters}
-							colors={[theme.white3]}
-							size={relativeScreenDensity(20)}
 						/>
 					)}
 					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 					ListHeaderComponent={() => <VerticalSpacing/>}
 					ItemSeparatorComponent={() => <VerticalSpacing/>}
+					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
 				/>
 			</Container>
 		</ScreenContainer>
