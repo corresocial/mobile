@@ -141,7 +141,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const loadRemoteUserPosts = async (firstLoad?: boolean, refresh?: boolean) => {
 		try {
 			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
-			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '')
+			isLoggedUser ? loadUserPosts(undefined, refresh) : await loadCurrentUserPosts(user.userId || '', refresh)
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
 		} catch (error) {
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
@@ -397,7 +397,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			<PostPadding key={item.postId}>
 				<PostCard
 					post={item}
-					owner={getUserField() as PostEntityCommonFields['owner']}
+					owner={getOwnerDataOnly()}
 					isOwner={isLoggedUser}
 					onPress={() => viewPostDetails(item)}
 				/>

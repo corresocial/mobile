@@ -1,5 +1,4 @@
 import React from 'react'
-import uuid from 'react-uuid'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -84,7 +83,7 @@ function FeedByRange({
 
 		switch (itemType) {
 			case 'post': return (
-				<PostCardContainer key={uuid()}>
+				<PostCardContainer key={item.postId}>
 					<PostCard
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -97,7 +96,7 @@ function FeedByRange({
 			)
 
 			case 'poll': return (
-				<PostCardContainer key={uuid()}>
+				<PostCardContainer key={item.pollId}>
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -108,8 +107,9 @@ function FeedByRange({
 					<VerticalSpacing />
 				</PostCardContainer>
 			)
+
 			case 'petition': return (
-				<PostCardContainer key={uuid()}>
+				<PostCardContainer key={item.petitionId}>
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}

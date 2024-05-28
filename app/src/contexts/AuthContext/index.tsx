@@ -79,7 +79,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string, refresh?: boolean) => {
+	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean) => {
 		try {
 			if (postListIsOver && !refresh) return
 

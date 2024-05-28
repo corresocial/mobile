@@ -168,9 +168,10 @@ function EditPost({
 				...approvedPostData,
 				owner,
 				createdAt,
-				updatedAt: new Date(),
 				postType,
 				macroCategory,
+				updatedAt: new Date(),
+				completed: false,
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
 
