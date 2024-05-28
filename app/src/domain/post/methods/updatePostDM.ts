@@ -50,33 +50,16 @@ async function updatePostDM(
 	}
 
 	const storedPicturesUrl = storedPostData.picturesUrl || []
-	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
+	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter(
+		(pictureUrl) => (unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
+			|| (newPostData.unapprovedData?.picturesUrl && !newPostData.unapprovedData?.picturesUrl.includes(pictureUrl))
+	)
+	console.log(picturesAlreadyUploadedToRemove)
 	if (picturesAlreadyUploadedToRemove.length) {
 		await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
 	}
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
-
-	// Tratamento de videos  v ///////////////////////////////////////////////
-
-	// console.log(mediaUrlUpdatedDM(unsavedPostVideos) ? 'Videos atualizadas' : 'Videos não atualizadas')
-
-	// let newPostVideosUrl: string[] = unsavedPostVideos || []
-	// if (mediaUrlUpdatedDM(unsavedPostVideos)) {
-	// 	const picturesNotUploaded = (unsavedPostVideos || []).filter((url: string) => !url.includes('https://')) || []
-	// 	const picturesAlreadyUploaded = (unsavedPostVideos || []).filter((url: string) => url.includes('https://')) || []
-
-	// 	const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'videos')
-	// 	newPostVideosUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
-	// }
-
-	// const storedVideosUrl = storedPostData.videosUrl || []
-	// const videosAlreadyUploadedToRemove = storedVideosUrl.filter((videoUrl) => unsavedPostVideos && !unsavedPostVideos.includes(videoUrl))
-	// if (videosAlreadyUploadedToRemove.length) {
-	// 	await remoteStorage.deletePostMedias(videosAlreadyUploadedToRemove, 'videos')
-	// }
-
-	// Tratamento de videos ^ ///////////////////////////////////////////////
 
 	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl || [] } : {}
 

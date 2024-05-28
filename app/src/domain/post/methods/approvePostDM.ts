@@ -9,6 +9,7 @@ async function approvePostDM(usePostRepository: () => PostRepositoryInterface, p
 		const { remoteStorage } = usePostRepository()
 
 		const newPostData = mergeUnapprovedDataOnPostDM(postData)
+		console.log(newPostData)
 		await remoteStorage.updatePostData(postData.postId, newPostData, false)
 
 		return newPostData

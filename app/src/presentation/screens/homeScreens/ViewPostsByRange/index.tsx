@@ -115,7 +115,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 					<PostCard
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
-						isOwner={false}
+						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
 						onPress={() => viewPostDetails(item)}
 					/>

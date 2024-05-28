@@ -78,7 +78,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => {
+	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => { // REFACTOR firstLoad foi adicionado para evitar da função pegar dados do contexto após o logout
 		try {
 			if (postListIsOver && !firstLoad && !refresh) return
 

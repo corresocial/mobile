@@ -58,11 +58,16 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 
 			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
 
-			if (!posts || (posts && !posts.length)) {
+			if (
+				!posts || (posts && !posts.length)
+				|| (lastPost && posts && posts.length && (lastPost.postId === posts[posts.length - 1].postId))
+			) { // TODO usar verificação em petições e posts de perfil/completed
+				console.log('posts is empty')
 				!refresh && setLoaderIsVisible(false)
 				return setUnapprovedListIsOver(true)
 			}
 
+			console.log(posts)
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['posts.unapproved', userDataContext.userId] })
 				setUnapprovedListIsOver(false)
