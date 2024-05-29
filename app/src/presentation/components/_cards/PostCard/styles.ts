@@ -45,7 +45,6 @@ interface SidePictureProps extends ImageBackgroundProps {
 export const SidePicture = styled(ImageBackground) <SidePictureProps>`
 	width: 100%;
 	height: 100%;
-	resize-mode: contain;
 	align-items: center;
 	justify-content: ${({ hasPicture }) => (hasPicture ? 'flex-end' : 'center')};
 	flex: 1;

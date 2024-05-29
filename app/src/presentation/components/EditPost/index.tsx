@@ -145,6 +145,7 @@ function EditPost({
 			)
 
 			updateUserContext({ ...userDataContext }, updatedUserPosts)
+			console.log(postWithUnapprovedData)
 			updateUserPost(postWithUnapprovedData as PostEntity)
 			changeStateOfEditedFields(picturesUrl)
 

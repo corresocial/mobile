@@ -2,8 +2,6 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
-// import { PollRegisterProvider } from '@contexts/PollRegisterContext'
-
 import { LeaderAreaProvider } from '@contexts/LeaderAreaContext'
 
 import { LeaderAreaStackParamList } from './types'
@@ -11,6 +9,7 @@ import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
+import { ViewApproveProfile } from '@screens/leaderAreaScreens/ViewApproveProfile'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'
@@ -46,6 +45,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 				<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
 
 				<Stack.Screen name={'ViewUnapprovedPost'} component={ViewUnapprovedPost} />
+				<Stack.Screen name={'ViewApproveProfile'} component={ViewApproveProfile as any} />
 				<Stack.Screen name={'ViewUnapprovedRegistersList'} component={ViewUnapprovedRegistersList} />
 
 				{/* TODO Type */}

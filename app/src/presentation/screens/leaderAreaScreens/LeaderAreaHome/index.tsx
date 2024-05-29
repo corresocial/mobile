@@ -3,6 +3,7 @@ import { Alert, ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
+import { CompleteUser, UserEntity } from '@domain/user/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
@@ -18,6 +19,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostCard } from '@components/_cards/PostCard'
+import { ProfileCard } from '@components/_cards/ProfileCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -53,7 +55,19 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
 	}
 
-	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity>) => {
+	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity & UserEntity>) => {
+		if (item.userId) {
+			return (
+				<ListItemContainer key={item.userId}>
+					<ProfileCard
+						userData={userDataContext as CompleteUser}
+						isOwner
+						onPress={() => console.log('press')}
+					/>
+				</ListItemContainer>
+			)
+		}
+
 		return (
 			<ListItemContainer key={item.postId}>
 				<PostCard
@@ -98,7 +112,8 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 				</HeaderSection>
 			</HeaderButtonsContainer>
 			<UnapprovedPostsList
-				data={unapprovedPosts}
+				data={[userDataContext]}
+				// data={unapprovedPosts}
 				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
 				onEndReached={loadMoreRegisters}
 				refreshControl={(

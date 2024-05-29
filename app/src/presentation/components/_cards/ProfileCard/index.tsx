@@ -1,0 +1,122 @@
+import React, { useEffect, useState } from 'react'
+
+import { CompleteUser } from '@domain/user/entity/types'
+
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
+import {
+	Container,
+	ContainerInner,
+	DescriptionContainer,
+	LeftArea,
+	RightArea,
+	RightAreaLimits,
+	SidePicture,
+	UserDescription,
+	UserName,
+	WaitingApproveIconContainer
+} from './styles'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import { relativeScreenWidth } from '@common/screenDimensions'
+
+const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+
+interface ProfileCardProps {
+	userData: CompleteUser
+	isOwner: boolean
+	onPress: () => void
+}
+
+function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
+	const [user, setUser] = useState<CompleteUser>(userData)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (isOwner && user && user.unapprovedData) {
+			setUser({
+				...(userData || {}),
+				...userData.unapprovedData,
+				name: 'wellington souza abreu de souza lopes de',
+				profilePictureUrl: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG-GXrCs_6EXtOZPwDeD9hPqc6AkviQQJjpA&s']
+			})
+		}
+	}, [userData, isOwner])
+
+	const renderUserUpdatedAt = () => {
+		if (!user.updatedAt) return '---'
+		const formatedDate = formatRelativeDate(user.updatedAt)
+		return formatedDate
+	}
+
+	const getProfilePictureUrl = () => {
+		if (!user || !user.profilePictureUrl) return null
+		if (arrayIsEmpty(user.profilePictureUrl)) return null
+		return user.profilePictureUrl[0]
+	}
+
+	function pressingButton() {
+		setButtomPressed(true)
+	}
+
+	function notPressingButton() {
+		setButtomPressed(false)
+	}
+
+	function releaseButton() {
+		setButtomPressed(false)
+		onPress()
+	}
+
+	return (
+		<Container
+			activeOpacity={1}
+			onPressIn={pressingButton}
+			onPressOut={notPressingButton}
+			onPress={releaseButton}
+		>
+			<ContainerInner
+				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+			>
+				<LeftArea>
+					{
+						<SidePicture
+							source={getProfilePictureUrl() ? { uri: getProfilePictureUrl() || '' } : {}}
+							recyclingKey={getProfilePictureUrl() ? getProfilePictureUrl() : ''}
+							placeholder={'U1T7N2={fQ={~AjtfQjtfQfQfQfQ~AjtfQjt'}
+							placeholderContentFit={'contain'}
+							cachePolicy={'memory-disk'}
+							transition={300}
+							contentFit={'cover'}
+						>
+							{
+								userData.unapprovedData && isOwner && (
+									<WaitingApproveIconContainer >
+										<ClockArrowWhiteIcon />
+									</WaitingApproveIconContainer>
+								)
+							}
+						</SidePicture>
+					}
+				</LeftArea>
+				{/* <LeftSideLabel style={{ backgroundColor: theme.orange3 }} /> */}
+				<RightArea >
+					<RightAreaLimits>
+						<UserName numberOfLines={2}>
+							{user.name}
+						</UserName>
+						<UserName numberOfLines={2}>
+							{renderUserUpdatedAt()}
+						</UserName>
+						<DescriptionContainer>
+							<UserDescription numberOfLines={2}>
+								{user.description}
+							</UserDescription>
+						</DescriptionContainer>
+					</RightAreaLimits>
+				</RightArea>
+			</ContainerInner>
+		</Container >
+	)
+}
+
+export { ProfileCard }
