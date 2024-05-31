@@ -83,7 +83,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 
 	const renderRegisterButtons = () => {
 		return (
-			<HeaderButtonsContainer>
+			<HeaderButtonsContainer key={111}>
 				<HeaderSection>
 					<SmallButton
 						label={'criar enquete'}
@@ -117,7 +117,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 	const renderPolls = () => {
 		if (!polls) return
 		return (
-			<>
+			<React.Fragment key={222}>
 				<SubtitleCard
 					text={'suas enquetes'}
 					highlightedText={['enquetes']}
@@ -139,14 +139,14 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 						</CardContainer>
 					))
 				}
-			</>
+			</React.Fragment>
 		)
 	}
 
 	const renderPetitions = () => {
 		if (!petitions) return
 		return (
-			<>
+			<React.Fragment key={333}>
 				<SubtitleCard
 					text={'seus abaixo assinados'}
 					highlightedText={['abaixo', 'assinados']}
@@ -168,7 +168,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 						</CardContainer>
 					))
 				}
-			</>
+			</React.Fragment>
 		)
 	}
 
@@ -197,19 +197,18 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 			<PollPetitionList
 				data={[1]}
 				renderItem={(() => {}) as any}
-				onEndReachedThreshold={0.4}
 				CellRendererComponent={renderPollPetitions}
 				refreshControl={(
 					<RefreshControl
+						tintColor={theme.black4}
+						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 						refreshing={isLoading}
 						onRefresh={() => loadPollsAndPetitions(true)}
-						colors={[theme.white3]}
-						size={relativeScreenDensity(20)}
 					/>
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
 			/>
 		</ScreenContainer>
 	)

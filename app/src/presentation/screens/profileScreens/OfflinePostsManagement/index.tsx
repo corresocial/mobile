@@ -124,7 +124,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 				{ posts: newUserPosts }
 			)
 
-			setUserDataOnContext({ ...userDataContext, posts: newUserPosts })
+			setUserDataOnContext({ posts: newUserPosts })
 
 			localPostsStorage.deleteOfflinePostByDescription(postData.description)
 		} catch (err) {

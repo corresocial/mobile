@@ -3,6 +3,7 @@ import { Alert, ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
+import { CompleteUser } from '@domain/user/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
@@ -18,6 +19,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostCard } from '@components/_cards/PostCard'
+import { ProfileCard } from '@components/_cards/ProfileCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -26,19 +28,24 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
 	const { userDataContext } = useAuthContext()
-	const { unapprovedPosts, loadUnapprovedPosts } = useLeaderAreaContext()
+	const { unapprovedProfiles, unapprovedPosts, loadUnapprovedProfiles, loadUnapprovedPosts } = useLeaderAreaContext()
 
 	const [isLoading, setIsLoading] = useState(false)
 
 	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
-		await loadUnapprovedPosts(true)
+		// await loadUnapprovedPosts(true)
+		await loadUnapprovedProfiles(true)
 		setIsLoading(false)
 	}
 
 	const loadMoreRegisters = async () => {
 		console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
 		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
+	}
+
+	const navigateToUnapprovedUserView = (profileData: CompleteUser) => {
+		navigation.navigate('ViewApprovedProfile', { profileData })
 	}
 
 	const navigateToUnapprovedPostView = (postData: PostEntity) => {
@@ -53,7 +60,19 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
 	}
 
-	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity>) => {
+	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity & CompleteUser>) => {
+		if (item.userId) {
+			return (
+				<ListItemContainer key={item.userId}>
+					<ProfileCard
+						userData={item as CompleteUser}
+						isOwner
+						onPress={() => navigateToUnapprovedUserView(item as CompleteUser)}
+					/>
+				</ListItemContainer>
+			)
+		}
+
 		return (
 			<ListItemContainer key={item.postId}>
 				<PostCard
@@ -98,9 +117,9 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 				</HeaderSection>
 			</HeaderButtonsContainer>
 			<UnapprovedPostsList
-				data={unapprovedPosts}
+				data={[...unapprovedProfiles, ...unapprovedPosts]}
+				// data={unapprovedPosts}
 				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
-				onEndReachedThreshold={0.4}
 				onEndReached={loadMoreRegisters}
 				refreshControl={(
 					<RefreshControl
@@ -111,7 +130,6 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					/>
 				)}
 				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ paddingBottom: relativeScreenDensity(60) }}
 				ListHeaderComponent={(
 					<>
 						<SubtitleCard
@@ -125,6 +143,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					</>
 				)}
 				ItemSeparatorComponent={() => <VerticalSpacing/>}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
 			/>
 		</ScreenContainer>
 	)

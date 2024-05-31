@@ -1,16 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
+import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Chat } from '@domain/chat/entity/types'
-import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
-import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
+import { useUtils } from '@newutils/useUtils'
+import { useQueryClient } from '@tanstack/react-query'
 
+import { Chat } from '@domain/chat/entity/types'
+import { Id, PostEntityOptional, PostEntityCommonFields, PostRange, PostEntity } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
+import { CompleteUser, SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
+
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AlertContext } from '@contexts/AlertContext/index'
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
+import { useLoaderContext } from '@contexts/LoaderContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
@@ -20,7 +26,6 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import {
@@ -37,9 +42,8 @@ import {
 	VerticalPaddingContainer,
 	PostPadding,
 	SeeMoreLabel,
-	SafeAreaViewContainer,
 	PostFilterContainer,
-	OffBounceBackground
+	UserPostsFlatList
 } from './styles'
 import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -60,6 +64,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { PostCard } from '@components/_cards/PostCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { ProfileVerifiedModal } from '@components/_modals/ProfileVerifiedModal'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -73,35 +78,48 @@ import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
+const { executeCachedRequest } = useCacheRepository()
 
-const { arrayIsEmpty } = UiUtils()
-const { sortPostsByCreatedData } = UiPostUtils()
+const { getPostsByOwner } = usePostDomain()
+
+const { arrayIsEmpty, getNewDate } = UiUtils()
+const { mergeObjects } = useUtils()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, loadUserPosts } = useAuthContext()
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
+	const { setLoaderIsVisible } = useLoaderContext()
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
-	const [filteredPosts, setFilteredPosts] = useState<PostEntityOptional[]>([])
 	const [hasPostFilter, setHasPostFilter] = useState(false)
+	const [isRefresing, setIsRefresing] = useState(false)
 
 	const [user, setUser] = useState<UserEntityOptional>({})
+	const [currentUserPosts, setCurrentUserPosts] = useState<PostEntity[]>([])
+	const [postListIsOver, setPostListIsOver] = useState(false)
+	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
 	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
 
+	const queryClient = useQueryClient()
+
 	useEffect(() => {
 		if (route.params && route.params.userId) {
 			setIsLoggedUser(false)
-			getProfileDataFromRemote(route.params.userId)
+			loadRemoteProfileData(route.params.userId)
 		} else {
 			setIsLoggedUser(true)
 		}
 	}, [])
+
+	useEffect(() => {
+		(user && user.userId) && loadRemoteUserPosts(true)
+	}, [user])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -112,10 +130,61 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const getProfileDataFromRemote = async (userId: string) => {
-		const userData = await remoteStorage.getUserData(userId)
-		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
-		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
+	const loadRemoteProfileData = async (userId: string) => {
+		try {
+			const userData = await remoteStorage.getUserData(userId)
+			const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
+			setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const loadRemoteUserPosts = async (firstLoad?: boolean, refresh?: boolean) => {
+		try {
+			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
+			isLoggedUser ? loadUserPosts(undefined, refresh) : await loadCurrentUserPosts(user.userId || '', refresh)
+			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
+		} catch (error) {
+			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
+			console.log(error)
+		}
+	}
+
+	const loadMoreUserPosts = async () => {
+		const loadedPosts = getUserPosts(true)
+		console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
+		if (loadedPosts && loadedPosts.length) {
+			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false, loadedPosts)
+		}
+	}
+
+	const loadCurrentUserPosts = async (userId: string, refresh?: boolean, loadedPosts?: PostEntity[] | null) => {
+		try {
+			if (postListIsOver && !refresh) return
+
+			const lastPost = !refresh && (currentUserPosts && currentUserPosts.length) ? currentUserPosts[currentUserPosts.length - 1] : undefined
+
+			const queryKey = ['user.posts', userId, lastPost]
+			let posts = await executeCachedRequest(
+				queryClient,
+				queryKey,
+				async () => getPostsByOwner(usePostRepository, userId || 'user.generic', 10, lastPost),
+				refresh
+			)
+			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
+
+			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
+
+			if (refresh) {
+				queryClient.removeQueries({ queryKey: ['user.posts', userId || 'user.generic'] })
+				setPostListIsOver(false)
+				setCurrentUserPosts([...posts])
+			}
+			setCurrentUserPosts([...currentUserPosts, ...posts])
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const checkHasOfflinePosts = async () => {
@@ -128,17 +197,9 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		setHasNetworkConnection(!!networkStatus.isConnected && !!networkStatus.isInternetReachable)
 	}
 
-	const getFlatlistPosts = () => {
-		return !hasPostFilter
-			? getUserPosts()
-			: getFilteredUserPosts()
-	}
-
-	const getFilteredUserPosts = () => filteredPosts || []
-
 	const viewPostDetails = (post: PostEntityOptional) => {
 		const customStackLabel = route.params?.userId && !route.params?.stackLabel ? 'Home' : route.params?.stackLabel
-		const postData = { ...post, owner: getOwnerDataOnly() } as PostEntityOptional
+		const postData = { ...post, owner: getOwnerDataOnly() }
 
 		navigateToPostView(postData, navigation, customStackLabel)
 	}
@@ -160,7 +221,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile', { user: user as UserEntity })
+		navigation.navigate('EditProfile', { user: userDataContext })
 	}
 
 	const navigationToBack = () => navigation.goBack()
@@ -221,11 +282,25 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			if (!fieldName) return user
 			return user[fieldName]
 		}
+
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
+			return (mergedPost as any)[fieldName as any]
+		}
+
 		if (!fieldName) return userDataContext
 		return userDataContext[fieldName]
 	}
 
+	const canRenderUnapprovedData = () => {
+		return isLoggedUser && userDataContext && userDataContext.unapprovedData
+	}
+
 	const getOwnerDataOnly = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
+			return { userId: mergedPost.userId, name: mergedPost.name, profilePictureUrl: mergedPost.profilePictureUrl }
+		}
 		let currentUser = {} as PostEntityCommonFields['owner']
 		if (route.params && route.params.userId) {
 			currentUser = { userId: user.userId!, name: user.name!, profilePictureUrl: user.profilePictureUrl }
@@ -236,26 +311,22 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const getProfilePicture = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
+			return mergedPost && mergedPost.profilePictureUrl && mergedPost.profilePictureUrl.length ? mergedPost.profilePictureUrl[0] : ''
+		}
 		if (route.params && route.params.userId) return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
 		return userDataContext.profilePictureUrl
 			? userDataContext.profilePictureUrl[0]
 			: ''
 	}
 
-	const getUserPosts = () => {
-		if (route.params && route.params.userId) {
-			return user.posts
-				? user.posts
-					.filter((post) => !post.completed)
-					.sort(sortPostsByCreatedData as (a: PostEntityOptional, b: PostEntityOptional) => number)
-				: []
-		}
+	const getUserPosts = (withoutFilter?: boolean) => {
+		if (hasPostFilter && !withoutFilter) { return filteredPosts }
 
-		return userDataContext.posts
-			? userDataContext.posts
-				.filter((post) => !post.completed)
-				.sort(sortPostsByCreatedData)
-			: []
+		return isLoggedUser
+			? userPostsContext.filter((post) => !post.completed) // TODO Atualizar query
+			: currentUserPosts.filter((post) => !post.completed)
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
@@ -271,7 +342,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			}
 
 			await remoteStorage.updateUserData(user.userId, verifiedObject)
-			user.userId && await getProfileDataFromRemote(user.userId)
+			user.userId && await loadRemoteProfileData(user.userId)
 		}
 	}
 
@@ -286,9 +357,9 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			plan, // range
 			'monthly', // plan
 			priceId,
-			() => getProfileDataFromRemote(user.userId || '')
+			() => loadRemoteProfileData(user.userId || '')
 		)
-		// user.userId && await getProfileDataFromRemote(user.userId)
+		// user.userId && await loadRemoteProfileData(user.userId)
 	}
 
 	const hasAnyVerifiedUser = () => {
@@ -341,6 +412,19 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		)
 	}
 
+	const renderPost = ({ item }: FlatListItem<PostEntity>) => {
+		return (
+			<PostPadding key={item.postId}>
+				<PostCard
+					post={item}
+					owner={getOwnerDataOnly()}
+					isOwner={isLoggedUser}
+					onPress={() => viewPostDetails(item)}
+				/>
+			</PostPadding>
+		)
+	}
+
 	const getConfigurationIcon = () => {
 		if (isLoggedUser) {
 			if (hasConfigNotification()) return GearAlertWhiteIcon
@@ -362,83 +446,90 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	return (
-		<Container >
-			<FocusAwareStatusBar
-				backgroundColor={theme.white3}
-				barStyle={'dark-content'}
-			/>
-			{
-				hasAnyVerifiedUser()
-				&& (
-					<ProfileVerifiedModal
-						visibility={toggleVerifiedModal}
-						closeModal={() => setToggleVerifiedModal(!toggleVerifiedModal)}
-						label={
-							isLoggedUser
-								? userDataContext.verified?.type
-								: user.verified?.type
-						}
-					/>
-				)
-			}
-			<SafeAreaViewContainer>
-				<OffBounceBackground
-					colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
-					locations={[0.25, 0.25, 0.25, 0.25]}
-				>
-					<Body >
-						<FlatList
-							ListHeaderComponent={(
-								<>
-									<DefaultHeaderContainer
-										backgroundColor={theme.white3}
-										centralized={false}
-										grow
-										withoutIOSPadding
-										borderBottomWidth={0}
-										paddingVertical={15}
-									>
-										<ProfileHeader>
-											<ProfileInfoContainer>
+		<ScreenContainer >
+			<Container >
+				<FocusAwareStatusBar
+					backgroundColor={theme.white3}
+					barStyle={'dark-content'}
+				/>
+				{
+					hasAnyVerifiedUser() && (
+						<ProfileVerifiedModal
+							visibility={toggleVerifiedModal}
+							closeModal={() => setToggleVerifiedModal(!toggleVerifiedModal)}
+							label={
+								isLoggedUser
+									? userDataContext.verified?.type
+									: user.verified?.type
+							}
+						/>
+					)
+				}
+				<Body >
+					<UserPostsFlatList
+						data={getUserPosts()}
+						renderItem={renderPost as ListRenderItem<unknown>}
+						onEndReached={loadMoreUserPosts}
+						refreshControl={(
+							<RefreshControl
+								tintColor={theme.black4}
+								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+								refreshing={isRefresing}
+								onRefresh={() => loadRemoteUserPosts(false, true)}
+							/>
+						)}
+						showsVerticalScrollIndicator={false}
+						ItemSeparatorComponent={() => <VerticalSpacing height={0.8} />}
+						ListHeaderComponent={(
+							<>
+								<DefaultHeaderContainer
+									backgroundColor={theme.white3}
+									centralized={false}
+									grow
+									withoutIOSPadding
+									borderBottomWidth={0}
+								>
+									<ProfileHeader>
+										<ProfileInfoContainer>
+											{
+												!isLoggedUser && (
+													<>
+														<BackButton
+															onPress={navigationToBack}
+															withoutRightSpacing={false}
+														/>
+														<HorizontalSpacing width={relativeScreenWidth(3)} />
+													</>
+												)
+											}
+											<PhotoPortrait
+												height={isLoggedUser ? RFValue(95) : RFValue(65)}
+												width={isLoggedUser ? RFValue(100) : RFValue(70)}
+												borderWidth={3}
+												borderRightWidth={8}
+												pictureUri={getProfilePicture()}
+											/>
+											<InfoArea>
+												<UserName numberOfLines={3}>
+													{getUserField('name') as string}
+												</UserName>
+												{renderUserVerifiedType()}
 												{
-													!isLoggedUser && (
-														<>
-															<BackButton
-																onPress={navigationToBack}
-																withoutRightSpacing={false}
-															/>
-															<HorizontalSpacing width={relativeScreenWidth(3)} />
-														</>
+													!userDescriptionIsExpanded && isLoggedUser && (
+														<TouchableOpacity
+															onPress={() => getUserField('description')
+																	&& setUserDescriptionIsExpanded(true)}
+														>
+															<UserDescription numberOfLines={3}>
+																{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
+															</UserDescription>
+														</TouchableOpacity>
 													)
 												}
-												<PhotoPortrait
-													height={isLoggedUser ? RFValue(95) : RFValue(65)}
-													width={isLoggedUser ? RFValue(100) : RFValue(70)}
-													borderWidth={3}
-													borderRightWidth={8}
-													pictureUri={getProfilePicture()}
-												/>
-												<InfoArea>
-													<UserName numberOfLines={3}>
-														{getUserField('name') as string}
-													</UserName>
-													{renderUserVerifiedType()}
-													{
-														!userDescriptionIsExpanded && isLoggedUser && (
-															<TouchableOpacity
-																onPress={() => getUserField('description')
-																	&& setUserDescriptionIsExpanded(true)}
-															>
-																<UserDescription numberOfLines={3}>
-																	{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
-																</UserDescription>
-															</TouchableOpacity>
-														)
-													}
-												</InfoArea>
-											</ProfileInfoContainer>
-											{
-												(userDescriptionIsExpanded || !isLoggedUser)
+											</InfoArea>
+										</ProfileInfoContainer>
+										{
+											(userDescriptionIsExpanded || !isLoggedUser)
 												&& getUserField('description')
 												&& (
 													<ExpandedUserDescriptionArea>
@@ -457,135 +548,120 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 														</ScrollView>
 													</ExpandedUserDescriptionArea>
 												)
-											}
-											{
-												arrayIsEmpty(getUserField('socialMedias'))
-													? isLoggedUser
-														? (
-															<>
-																<VerticalSpacing />
-																<SmallButton
-																	label={'adicionar redes'}
-																	labelColor={theme.black4}
-																	SvgIcon={AtSignWhiteIcon}
-																	svgScale={['60%', '20%']}
-																	height={relativeScreenHeight(5)}
-																	onPress={openSocialMediaManagement}
-																/>
-																<VerticalSpacing />
-															</>
-														)
-														: <VerticalSpacing />
-													: (
-														<HorizontalSocialMediaList
-															socialMedias={getUserField('socialMedias') as SocialMedia[]}
-															onPress={openSocialMediaManagement}
-														/>
+										}
+										{
+											arrayIsEmpty(getUserField('socialMedias'))
+												? isLoggedUser
+													? (
+														<>
+															<VerticalSpacing />
+															<SmallButton
+																label={'adicionar redes'}
+																labelColor={theme.black4}
+																SvgIcon={AtSignWhiteIcon}
+																svgScale={['60%', '20%']}
+																height={relativeScreenHeight(5)}
+																onPress={openSocialMediaManagement}
+															/>
+															<VerticalSpacing />
+														</>
 													)
-											}
-											<OptionsArea>
-												<SmallButton
-													label={isLoggedUser ? 'editar' : 'chat'}
-													labelColor={theme.black4}
-													SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
-													svgScale={['85%', '25%']}
-													relativeWidth={'28%'}
-													height={relativeScreenWidth(12)}
-													onPress={isLoggedUser ? goToEditProfile : openChat}
-												/>
-												<SmallButton
-													color={theme.orange3}
-													label={'compartilhar'}
-													labelColor={theme.black4}
-													highlightedWords={
-														isLoggedUser ? ['compartilhar'] : []
-													}
-													fontSize={12}
-													SvgIcon={ShareIcon}
-													relativeWidth={isLoggedUser ? '50%' : '45%'}
-													height={relativeScreenWidth(12)}
-													onPress={shareProfile}
-												/>
-												<PopOver
-													title={getUserField('name') as string}
-													isAdmin={userIsAdmin()}
-													buttonLabel={'denunciar perfil'}
-													popoverVisibility={profileOptionsIsOpen}
-													closePopover={() => setProfileOptionsIsOpen(false)}
-													reportUser={reportUser}
-													onPressVerify={verifyUserProfile}
-													setFreeTrialToProfile={setFreeTrialToProfile}
-												>
-													<SmallButton
-														color={theme.white3}
-														SvgIcon={getConfigurationIcon()}
-														relativeWidth={relativeScreenWidth(12)}
-														svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
-														height={relativeScreenWidth(12)}
-														onPress={openProfileOptions}
+													: <VerticalSpacing />
+												: (
+													<HorizontalSocialMediaList
+														socialMedias={getUserField('socialMedias') as SocialMedia[]}
+														onPress={openSocialMediaManagement}
 													/>
-												</PopOver>
-											</OptionsArea>
-										</ProfileHeader>
-									</DefaultHeaderContainer>
-									{
-										!!numberOfOfflinePostsStored && isLoggedUser && (
-											<PostPadding>
-												<OptionButton
-													label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
-													shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-													highlightedWords={['posts', 'post']}
-													labelSize={18}
-													relativeHeight={relativeScreenHeight(8)}
-													leftSideWidth={'25%'}
-													leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
-													SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
-													svgIconScale={['60%', '60%']}
-													onPress={() => navigation.navigate('OfflinePostsManagement')}
+												)
+										}
+										<OptionsArea>
+											<SmallButton
+												label={isLoggedUser ? 'editar' : 'chat'}
+												labelColor={theme.black4}
+												SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+												svgScale={['85%', '25%']}
+												relativeWidth={'28%'}
+												height={relativeScreenWidth(12)}
+												onPress={isLoggedUser ? goToEditProfile : openChat}
+											/>
+											<SmallButton
+												color={theme.orange3}
+												label={'compartilhar'}
+												labelColor={theme.black4}
+												highlightedWords={
+													isLoggedUser ? ['compartilhar'] : []
+												}
+												fontSize={12}
+												SvgIcon={ShareIcon}
+												relativeWidth={isLoggedUser ? '50%' : '45%'}
+												height={relativeScreenWidth(12)}
+												onPress={shareProfile}
+											/>
+											<PopOver
+												title={getUserField('name') as string}
+												isAdmin={userIsAdmin()}
+												buttonLabel={'denunciar perfil'}
+												popoverVisibility={profileOptionsIsOpen}
+												closePopover={() => setProfileOptionsIsOpen(false)}
+												reportUser={reportUser}
+												onPressVerify={verifyUserProfile}
+												setFreeTrialToProfile={setFreeTrialToProfile}
+											>
+												<SmallButton
+													color={theme.white3}
+													SvgIcon={getConfigurationIcon()}
+													relativeWidth={relativeScreenWidth(12)}
+													svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
+													height={relativeScreenWidth(12)}
+													onPress={openProfileOptions}
 												/>
-												<VerticalSpacing />
-											</PostPadding>
-										)
-									}
-									<PostFilterContainer>
-										<PostFilter
-											posts={getUserPosts()}
-											setHasPostFilter={setHasPostFilter}
-											setFilteredPosts={setFilteredPosts}
-										/>
-									</PostFilterContainer>
-								</>
-							)}
-							data={getFlatlistPosts()}
-							renderItem={({ item }: FlatListItem<PostEntityOptional>) => (
-								<PostPadding>
-									<PostCard
-										post={item}
-										owner={getUserField() as PostEntityCommonFields['owner']}
-										isOwner={isLoggedUser}
-										onPress={() => viewPostDetails(item)}
+											</PopOver>
+										</OptionsArea>
+									</ProfileHeader>
+								</DefaultHeaderContainer>
+								{
+									!!numberOfOfflinePostsStored && isLoggedUser && (
+										<PostPadding>
+											<OptionButton
+												label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+												shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+												highlightedWords={['posts', 'post']}
+												labelSize={18}
+												relativeHeight={relativeScreenHeight(8)}
+												leftSideWidth={'25%'}
+												leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+												SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+												svgIconScale={['60%', '60%']}
+												onPress={() => navigation.navigate('OfflinePostsManagement')}
+											/>
+											<VerticalSpacing />
+										</PostPadding>
+									)
+								}
+								<PostFilterContainer>
+									<PostFilter
+										posts={getUserPosts(true)}
+										setHasPostFilter={setHasPostFilter}
+										setFilteredPosts={setFilteredPosts}
 									/>
-								</PostPadding>
-							)}
-							showsVerticalScrollIndicator={false}
-							ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
-							contentContainerStyle={{ backgroundColor: theme.orange2 }}
-							ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
-								? (
-									<WithoutPostsMessage
-										title={'faça uma postagem!'}
-										message={'você precisa fazer um post para que outras pessoas possam te encontrar\ncaso veio aqui apenas para procurar, não se preocupe.'}
-										highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
-										backgroundColor={theme.yellow1}
-									/>
-								)
-								: <VerticalSpacing height={relativeScreenHeight(11)} />
-							)}
-						/>
-					</Body>
-				</OffBounceBackground>
-			</SafeAreaViewContainer>
-		</Container >
+								</PostFilterContainer>
+							</>
+						)}
+						ListFooterComponent={() => (isLoggedUser && (!getUserPosts() || !getUserPosts().length)
+							? (
+								<WithoutPostsMessage
+									title={'faça uma postagem!'}
+									message={'você precisa fazer um post para que outras pessoas possam te encontrar\ncaso veio aqui apenas para procurar, não se preocupe.'}
+									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
+									backgroundColor={theme.yellow1}
+								/>
+							)
+							: <VerticalSpacing bottomNavigatorSpace />
+						)}
+					/>
+				</Body>
+			</Container >
+		</ScreenContainer>
 	)
 }
 

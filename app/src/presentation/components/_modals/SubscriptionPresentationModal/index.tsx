@@ -6,7 +6,7 @@ import { Body, Description, ImageContainer, ImageDescription, ProfilePictureCont
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
 import UserNetworkImage from '@assets/imgs/userNetwork.png'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
@@ -72,14 +72,14 @@ function SubscriptionPresentationModal({
 						)}
 					</Description>
 				</ImageDescription>
-				<VerticalSpacing height={relativeScreenHeight(4)} />
+				<VerticalSpacing height={4} />
 				<Description fullWidth>
 					{showMessageWithHighlight(
 						'ao mesmo tempo, todo nosso lucro vai para iniciativas sociais nas favelas brasileiras!',
 						['todo', 'nosso', 'vai', 'lucro', 'para', 'iniciativas', 'sociais', 'nas', 'favelas', 'brasileiras!']
 					)}
 				</Description>
-				<VerticalSpacing height={relativeScreenHeight(3)} />
+				<VerticalSpacing height={3} />
 			</Body>
 		</CustomModal>
 	)

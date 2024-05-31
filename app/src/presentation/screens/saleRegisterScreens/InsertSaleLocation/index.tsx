@@ -22,7 +22,7 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
-	const { userDataContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
 	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,7 +35,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 
 	const userSubscriptionIsCity = () => userDataContext.subscription?.subscriptionRange === 'city'
 
-	const userHasSomePost = () => userDataContext.posts && userDataContext.posts.length > 0
+	const userHasSomePost = () => userPostsContext && userPostsContext.length > 0
 
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false

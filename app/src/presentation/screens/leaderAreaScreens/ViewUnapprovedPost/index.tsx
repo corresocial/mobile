@@ -25,10 +25,21 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { CultureTypeCard } from '@components/_cards/CultureTypeCard'
+import { DateTimeCard } from '@components/_cards/DateTimeCard'
+import { DeliveryMethodCard } from '@components/_cards/DeliveryMethodCard'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
+import { ExhibitionPlaceCard } from '@components/_cards/ExhibitionPlace'
 import { ImportantPointsCard } from '@components/_cards/ImportantPointsCard'
+import { IncomeTypeCard } from '@components/_cards/IncomeTypeCard'
+import { ItemStatusCard } from '@components/_cards/ItemStatusCard'
 import { LinkCard } from '@components/_cards/LinkCard'
+import { LocationViewCard } from '@components/_cards/LocationViewCard'
+import { PlaceModality } from '@components/_cards/PlaceModalityCard'
+import { PostRangeCard } from '@components/_cards/PostRangeCard'
 import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
+import { SocialImpactTypeCard } from '@components/_cards/SocialImpactType'
+import { VacancyPurposeCard } from '@components/_cards/VacancyPurposeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -45,11 +56,11 @@ const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps) {
 	const { userDataContext } = useAuthContext()
 	const { clearEditContext } = useContext(EditContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { removeFromUnapprovedPostList } = useLeaderAreaContext()
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const [approveConfirmationModalIsVisible, setApproveConfirmationModalIsVisible] = useState(false)
 	const [rejectConfirmationModalIsVisible, setRejectConfirmationModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
@@ -105,8 +116,9 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		}
 	}
 
-	const getPostField = (fieldName: PostEntityKeys, useApproedPostData?: boolean):any => { // TODO TYpe
+	const getPostField = (fieldName: PostEntityKeys, useApproedPostData?: boolean): any => {
 		return useApproedPostData ? (postData.unapprovedData as any)[fieldName] || (postData as any)[fieldName] : (postData.unapprovedData as any)[fieldName]
+		// return useApproedPostData ? (postData as any)[fieldName] || (postData as any)[fieldName] : (postData as any)[fieldName]
 	}
 
 	const toggleApproveConfirmationModalVisibility = () => {
@@ -130,13 +142,14 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	const handleRejectPostButton = () => {
 		toggleRejectConfirmationModalVisibility()
 	}
+
 	const rejectUserPost = async () => {
 		try {
 			setLoaderIsVisible(true)
-			console.log('Rejeitado!')
 			const rejectedPost = await rejectPost(usePostRepository, postData)
 			removeFromUnapprovedPostList(rejectedPost!) // Atualizar em um contexto
 			setLoaderIsVisible(false)
+			navigationBackwards()
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -146,7 +159,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	const approveUserPost = async () => {
 		try {
 			setLoaderIsVisible(true)
-			console.log('Aprovado!')
 			const approvedPost = await approvePost(usePostRepository, postData)
 			removeFromUnapprovedPostList(approvedPost!)
 			setLoaderIsVisible(false)
@@ -231,7 +243,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-
 			<ScrollView showsVerticalScrollIndicator={false} >
 				<VerticalSpacing />
 				{
@@ -242,29 +253,60 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						/>
 					)
 				}
+				<VerticalSpacing />
 				<Body>
-					<VerticalSpacing />
 					{
 						getPostField('description') && (
-							<>
-								<DescriptionCard
-									text={getPostField('description')}
-								/>
-								<VerticalSpacing />
-							</>
+							<DescriptionCard
+								text={getPostField('description')}
+							/>
+						)
+					}
+					{
+						getPostField('macroCategory') && getPostField('postType') === 'income' && (
+							<IncomeTypeCard
+								title={'tipo de renda'}
+								macroCategory={getPostField('macroCategory')}
+							/>
+						)
+					}
+					{
+						getPostField('macroCategory') && getPostField('postType') === 'culture' && (
+							<CultureTypeCard
+								title={'tipo de cultura'}
+								macroCategory={getPostField('macroCategory')}
+							/>
+						)
+					}
+					{
+						getPostField('macroCategory') && getPostField('postType') === 'socialImpact' && (
+							<SocialImpactTypeCard
+								title={'tipo de impacto'}
+								macroCategory={getPostField('macroCategory')}
+							/>
+						)
+					}
+					{
+						getPostField('itemStatus') && (
+							<ItemStatusCard
+								itemStatus={getPostField('itemStatus')}
+							/>
+						)
+					}
+					{
+						getPostField('vacancyPurpose' as any) && getPostField('macroCategory') === 'vacancy' && (
+							<VacancyPurposeCard
+								vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
+							/>
 						)
 					}
 					{
 						!arrayIsEmpty(getPostField('links')) && (
-							<>
-								<VerticalSpacing />
-								<LinkCard
-									links={getPostField('links')}
-								/>
-							</>
+							<LinkCard
+								links={getPostField('links')}
+							/>
 						)
 					}
-					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
@@ -285,21 +327,105 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 										showFullscreenIcon
 									/>
 								</TouchableOpacity>
-
 							</>
 						)
 					}
 					{
-						getPostField('entryValue', true) && (
-							<>
-								<SaleOrExchangeCard
-									title={'custo de entrada'}
-									hightligtedWords={['custo', 'entrada']}
-									saleValue={getPostField('entryValue', true)}
-									isCulturePost
-								/>
-								<VerticalSpacing />
-							</>
+						getPostField('range') && (
+							<PostRangeCard postRange={getPostField('range')}/>
+						)
+					}
+					{
+						getPostField('eventPlaceModality') && (
+							<PlaceModality
+								title={'como participar'}
+								hightligtedWords={['participar']}
+								placeModality={getPostField('eventPlaceModality')}
+							/>
+						)
+					}
+					{
+						getPostField('eventPlaceModality') && (
+							<PlaceModality
+								title={'local de trabalho'}
+								hightligtedWords={['local', 'trabalho']}
+								placeModality={getPostField('workplace')}
+								isVacancy
+							/>
+						)
+					}
+					{
+						(getPostField('eventPlaceModality') || getPostField('locationView') || getPostField('location')) && (
+							<LocationViewCard
+								online={getPostField('workplace') === 'homeoffice'}
+								locationView={getPostField('locationView')}
+								withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
+								location={getPostField('location')}
+							/>
+						)
+					}
+					{
+						getPostField('exhibitionPlace') && (
+							<ExhibitionPlaceCard
+								exhibitionPlace={getPostField('exhibitionPlace')}
+							/>
+						)
+					}
+					{
+						getPostField('entryValue', true) && getPostField('postType') === 'culture' && (
+							<SaleOrExchangeCard
+								title={'custo de entrada'}
+								hightligtedWords={['custo', 'entrada']}
+								saleValue={getPostField('entryValue', true)}
+								isCulturePost
+							/>
+						)
+					}
+					{
+						(getPostField('saleValue', true) || getPostField('exchangeValue', true)) && getPostField('macroCategory') === 'vacancy' && (
+							<SaleOrExchangeCard
+								title={'tipo de remuneração'}
+								hightligtedWords={['tipo', 'remuneração']}
+								saleValue={getPostField('saleValue', true)}
+								exchangeValue={getPostField('exchangeValue', true)}
+								isPayment
+							/>
+						)
+					}
+					{
+						(getPostField('saleValue') || getPostField('exchangeValue')) && getPostField('postType') === 'income' && (
+							<SaleOrExchangeCard
+								saleValue={getPostField('saleValue', true)}
+								exchangeValue={getPostField('exchangeValue', true)}
+							/>
+						)
+					}
+					{
+						(
+							getPostField('exhibitionFrequency')
+						|| getPostField('daysOfWeek', true)
+						|| getPostField('startDate', true)
+						|| getPostField('endDate', true)
+						|| getPostField('startHour', true)
+						|| getPostField('endHour', true)
+						|| getPostField('repeat')
+						) && (
+							<DateTimeCard
+								weekDaysfrequency={getPostField('exhibitionFrequency')}
+								daysOfWeek={getPostField('daysOfWeek', true)}
+								startDate={getPostField('startDate', true)}
+								endDate={getPostField('endDate', true)}
+								startTime={getPostField('startHour', true)}
+								endTime={getPostField('endHour', true)}
+								repetition={getPostField('repeat')}
+							/>
+						)
+					}
+					{
+						getPostField('deliveryMethod') && (
+							<DeliveryMethodCard
+								deliveryMethod={getPostField('deliveryMethod')}
+							/>
 						)
 					}
 					{
@@ -309,6 +435,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 							/>
 						)
 					}
+					<VerticalSpacing bottomNavigatorSpace/>
 				</Body>
 			</ScrollView>
 		</Container >
@@ -316,129 +443,3 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 }
 
 export { ViewUnapprovedPost }
-
-// Outros cards de informações
-
-// {/* {
-// 						getPostField('macroCategory') && (
-// 							<SocialImpactTypeCard
-// 								title={'tipo de cultura'}
-// 								macroCategory={getPostField('macroCategory')}
-// 							/>
-// 						)
-// 					}
-// 					{
-// 						getPostField('macroCategory') && (
-// 							<CultureTypeCard
-// 								title={'tipo de cultura'}
-// 								macroCategory={getPostField('macroCategory')}
-// 							/>
-// 						)
-// 					}
-// 					{
-// 						getPostField('macroCategory') && (
-// 							<SocialImpactTypeCard
-// 								title={'tipo de impacto'}
-// 								macroCategory={getPostField('macroCategory')}
-// 							/>
-// 						)
-// 					}
-// 					{
-// 						getPostField('macroCategory') && (
-// 							<IncomeTypeCard
-// 								title={'tipo de cultura'}
-// 								macroCategory={getPostField('macroCategory')}
-// 							/>
-// 						)
-// 					} */}
-// 					{/* {
-// 						getPostField('eventPlaceModality') && (
-// 							<>
-// 								<PlaceModality
-// 									title={'como participar'}
-// 									hightligtedWords={['participar']}
-// 									placeModality={getPostField('eventPlaceModality')}
-// 								/>
-// 								<VerticalSpacing />
-// 							</>
-// 						)
-// 					} */}
-// 					{/* <PlaceModality // Se for vacancy
-// 						title={'local de trabalho'}
-// 						hightligtedWords={['local', 'trabalho']}
-// 						placeModality={getPostField('workplace')}
-// 						isVacancy
-// 					/> */}
-// 					{/* {
-// 						(getPostField('eventPlaceModality') || getPostField('locationView') || getPostField('location')) && (
-// 							<LocationViewCard
-// 								online={getPostField('workplace') === 'homeoffice'}
-// 								locationView={getPostField('locationView')}
-// 								withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
-// 								location={getPostField('location')}
-// 							/>
-// 						)
-// 					} */}
-// 					{/* <DateTimeCard
-// 						weekDaysfrequency={getPostField('exhibitionFrequency')}
-// 						daysOfWeek={getPostField('daysOfWeek', true)}
-// 						startDate={getPostField('startDate', true)}
-// 						endDate={getPostField('endDate', true)}
-// 						startTime={getPostField('startHour', true)}
-// 						endTime={getPostField('endHour', true)}
-// 						repetition={getPostField('repeat')}
-// 					/> */}
-// 					{/* <ExhibitionPlaceCard
-// 						exhibitionPlace={getPostField('exhibitionPlace')}
-// 					/> */}
-// 					{/*
-// 						getPostField('itemStatus') && (
-// 							<>
-// 								<ItemStatusCard
-// 									itemStatus={getPostField('itemStatus')}
-// 								/>
-// 								<VerticalSpacing />
-// 							</>
-// 						)
-// 					} */}
-// 					{/*
-// 					 {
-// 						(getPostField('saleValue') || getPostField('exchangeValue')) && (
-// 							<>
-// 								<SaleOrExchangeCard
-// 									saleValue={getPostField('saleValue', true)}
-// 									exchangeValue={getPostField('exchangeValue', true)}
-// 								/>
-// 								<VerticalSpacing />
-// 							</>
-// 						)
-// 					} */}
-// 					{/*
-// 					 {
-// 						getPostField('deliveryMethod') && (
-// 							<>
-// 								<VerticalSpacing />
-// 								<DeliveryMethodCard
-// 									deliveryMethod={getPostField('deliveryMethod')}
-// 								/>
-// 							</>
-// 						)
-// 					} */}
-// 					{/*
-// 					 <VacancyPurposeCard
-// 						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')} // TODO Vacancy purpose não existe mais
-// 					/> */}
-// 					{/* {
-// 						(getPostField('saleValue', true) || getPostField('exchangeValue', true)) && (
-// 							<>
-// 								<SaleOrExchangeCard
-// 									title={'tipo de remuneração'}
-// 									hightligtedWords={['tipo', 'remuneração']}
-// 									saleValue={getPostField('saleValue', true)}
-// 									exchangeValue={getPostField('exchangeValue', true)}
-// 									isPayment
-// 								/>
-// 								<VerticalSpacing />
-// 							</>
-// 						)
-// 					} */}

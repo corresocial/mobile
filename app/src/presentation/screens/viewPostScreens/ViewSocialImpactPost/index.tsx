@@ -5,7 +5,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostEntityOptional, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
+import { SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -62,7 +62,7 @@ const { mergeArrayPosts } = UiPostUtils()
 const { mergeObjects } = useUtils()
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
@@ -73,8 +73,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
-	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
+	const [postLoaded, setPostLoaded] = useState(false)
 	const [approvedPostData, setApprovedPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
 
 	useEffect(() => {
@@ -89,15 +89,16 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as SocialImpactEntity)
 			setApprovedPostData(post as SocialImpactEntity)
-			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+			setIsCompleted(!!(post && post.completed))
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		mergeUnapprovedPostData()
 		setPostLoaded(true)
 	}
 
 	const mergeUnapprovedPostData = () => {
 		if (canRenderUnapprovedData()) {
-			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			const mergedPost = mergeObjects({ ...postData, ...editDataContext.saved }, postData.unapprovedData as any)
 			setPostData(mergedPost)
 		}
 	}
@@ -126,18 +127,14 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const markAsCompleted = async (impactValue: string) => {
 		try {
-			const updatedPostData = { ...postData, completed: !isCompleted }
-			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+			const updatedUserPost = { ...postData, completed: !isCompleted }
 
-			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(postData.postId, postData, !isCompleted)
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergeArrayPosts(userPostsContext, updatedUserPost) })
 
-			setUserDataOnContext({ posts: mergedPosts })
-			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
-
+			updateUserPost(updatedUserPost)
 			setPostOptionsIsOpen(false)
-
 			!isCompleted && saveImpactReport(impactValue)
-
 			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
@@ -152,18 +149,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		toggleImpactReportSuccessModalVisibility()
 	}
 
-	const deleteRemotePost = async () => {
-		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
-
-		await removePostOnContext()
+	const deletePost = async () => {
+		await removeUserPost(postData)
 		backToPreviousScreen()
-	}
-
-	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostEntityOptional) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 
 	const backToPreviousScreen = () => {
@@ -285,7 +273,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
-				onPressButton={deleteRemotePost}
+				onPressButton={deletePost}
 			/>
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}

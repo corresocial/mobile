@@ -26,8 +26,8 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost = getLastUserPost() || {}
-		if (!Object.keys(lastUserPost).length) return
+		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return
 
 		setSocialImpactDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',

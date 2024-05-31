@@ -1,15 +1,10 @@
 import { PostEntityOptional } from '@domain/post/entity/types'
 
-import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
-import { updateDocField } from '@data/user/remoteRepository/sujeira/updateDocField'
-
 import { updatePostData } from './updatePostData' // from data/post
 
-const markPostAsComplete = async (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => { // REFACTOR Precisa mesmo de todos so posts?
-	try { // REFACTOR Deve virar um domain method
-		await updatePostData(postId, currentPost)
-		await updateDocField(USER_COLLECTION, userId, 'posts', userPosts, false) // REFACTOR Depende da funão updatePost
-
+const markPostAsComplete = async (postId: string, postData: PostEntityOptional, state: boolean) => {
+	try {
+		await updatePostData(postId, { ...postData, completed: state })
 		return true
 	} catch (error) {
 		console.log(error)

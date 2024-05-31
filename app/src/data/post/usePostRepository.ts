@@ -6,6 +6,7 @@ import { deletePost } from './remoteStorage/deletePost'
 import { deletePostMedias } from './remoteStorage/deletePostMedias'
 import { getPostById } from './remoteStorage/getPostById'
 import { getPostIdsByUser } from './remoteStorage/getPostIdsByUser'
+import { getPostsByUser } from './remoteStorage/getPostsByUser'
 import { getUnapprovedPosts } from './remoteStorage/getUnapprovedPosts'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
@@ -28,6 +29,7 @@ function usePostRepository(): PostRepositoryInterface {
 		remoteStorage: {
 			// GET
 			getPostById: getPostById,
+			getPostsByUser: getPostsByUser,
 			getPostIdsByUser: getPostIdsByUser,
 			getUnapprovedPosts: getUnapprovedPosts,
 

@@ -13,7 +13,6 @@ import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack
 import { Container } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import xWhiteIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -110,7 +109,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 									highlightedWords={['não']}
 									onPress={saveUserData}
 								/>
-								<VerticalSpacing height={relativeScreenHeight(5)} />
+								<VerticalSpacing height={5} />
 								<PrimaryButton
 									color={theme.green3}
 									SecondSvgIcon={AddPictureWhiteIcon}

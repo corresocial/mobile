@@ -16,6 +16,7 @@ interface PostRepositoryInterface {
 
 	remoteStorage: {
 		getPostById: (postId: string) => Promise<PostEntityOptional | null>
+		getPostsByUser(userId: string, maxDocs?: number, lastDoc?: PostEntity | null, completed?: boolean): Promise<PostEntity[]>
 		getPostIdsByUser(userId: string): Promise<string[]>
 		getUnapprovedPosts(maxDocs?: number, lastDoc?: PostEntity | any): Promise<PostEntity[]>
 
@@ -23,7 +24,7 @@ interface PostRepositoryInterface {
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
 
 		updatePostData: (postId: string, data: PostEntityOptional, merge?: boolean) => Promise<boolean>
-		markPostAsComplete: (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => Promise<boolean>
+		markPostAsComplete: (postId: string, postData: PostEntityOptional, state: boolean) => Promise<boolean>
 		updateOwnerDataOnPosts: (ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
 		updateRangeAndLocationOnPosts: (
 			userOwner: PostEntity['owner'],

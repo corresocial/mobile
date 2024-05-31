@@ -19,7 +19,7 @@ import HomeWhiteIcon from '@assets/icons/home-white.svg'
 import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { Post } from '@screens/postScreens/Post'
@@ -105,7 +105,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				tabBarStyle: {
 					flex: 1,
 					position: 'absolute',
-					height: Platform.OS === 'ios' ? relativeScreenHeight(10) : relativeScreenHeight(8),
+					height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
 					borderTopColor: theme.black4,
 					borderTopWidth: 5,
 					marginBottom: 0,
@@ -113,7 +113,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				},
 				tabBarItemStyle: Platform.OS === 'ios' && {
 					flex: 1,
-					height: relativeScreenHeight(6.5)
+					height: relativeScreenDensity(50)
 				},
 				tabBarBadgeStyle: {
 					borderRadius: 5,

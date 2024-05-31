@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
@@ -157,7 +156,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										{(!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue) && <VerticalSpacing height={RFValue(8)} />}
+										{(!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue) && <VerticalSpacing />}
 									</>
 								)
 							}

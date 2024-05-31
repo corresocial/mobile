@@ -162,7 +162,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 							{renderUnselectedTags()}
 						</TagsUnselectedArea>
 
-						<VerticalSpacing height={relativeScreenHeight(10)} />
+						<VerticalSpacing height={10} />
 					</ScrollView>
 				</SelectButtonsContainer>
 				{

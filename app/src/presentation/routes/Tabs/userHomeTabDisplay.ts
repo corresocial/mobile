@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 
 import { HomeTabParamList } from './HomeTab/types'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
@@ -19,7 +19,7 @@ const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
 			tabBarStyle: {
 				display: routeName === undefined || visibleRoutes.includes(routeName) ? 'flex' : 'none',
 				position: 'absolute',
-				height: Platform.OS === 'ios' ? relativeScreenHeight(10) : relativeScreenHeight(8),
+				height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
 				borderTopColor: theme.black4,
 				borderTopWidth: 5,
 				marginBottom: 0,

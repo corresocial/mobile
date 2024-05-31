@@ -1,4 +1,5 @@
 import { approvePostDM } from './methods/approvePostDM'
+import { getPostsByOwnerDM } from './methods/getPostsByOwnerDM'
 import { getUnapprovedPostsDM } from './methods/getUnapprovedPostsDM'
 import { rejectPostDM } from './methods/rejectPostDM'
 import { savePostDM } from './methods/savePostDM'
@@ -9,6 +10,7 @@ import { PostDomainInterface } from './PostDomainInterface'
 function usePostDomain(): PostDomainInterface {
 	return {
 		getUnapprovedPosts: getUnapprovedPostsDM,
+		getPostsByOwner: getPostsByOwnerDM,
 
 		updateOwnerDataOnPosts: updateOwnerDataOnPostsDM,
 

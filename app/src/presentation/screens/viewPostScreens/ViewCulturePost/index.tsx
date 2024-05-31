@@ -11,7 +11,6 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { LoaderContext } from '@contexts/LoaderContext'
 
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
@@ -55,9 +54,8 @@ const { convertTextToNumber, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
@@ -100,18 +98,14 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const markAsCompleted = async (impactValue: string) => {
 		try {
-			const updatedPostData: CultureEntity = { ...postData, completed: !isCompleted }
-			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+			const updatedUserPost = { ...postData, completed: !isCompleted }
 
-			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(postData.postId, postData, !isCompleted)
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergeArrayPosts(userPostsContext, updatedUserPost) })
 
-			setUserDataOnContext({ posts: mergedPosts })
-			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
-
+			updateUserPost(updatedUserPost)
 			setPostOptionsIsOpen(false)
-
 			!isCompleted && saveImpactReport(impactValue)
-
 			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
@@ -126,25 +120,9 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		toggleImpactReportSuccessModalVisibility()
 	}
 
-	const deleteRemotePost = async () => {
-		try {
-			setLoaderIsVisible(true)
-
-			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-			await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
-			await removePostOnContext()
-
-			setLoaderIsVisible(false)
-			backToPreviousScreen()
-		} catch (error) {
-			setLoaderIsVisible(false)
-		}
-	}
-
-	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
+	const deletePost = async () => {
+		await removeUserPost(postData)
+		backToPreviousScreen()
 	}
 
 	const goToEditPost = () => {
@@ -266,7 +244,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
-				onPressButton={deleteRemotePost}
+				onPressButton={deletePost}
 			/>
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}

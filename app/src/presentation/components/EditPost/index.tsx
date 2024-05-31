@@ -11,6 +11,8 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
+import { useAuthContext } from '@contexts/AuthContext'
+
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
@@ -89,6 +91,8 @@ function EditPost({
 	showShareModal,
 	getPostField
 }: EditPostProps) {
+	const { updateUserPost } = useAuthContext()
+
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -141,6 +145,8 @@ function EditPost({
 			)
 
 			updateUserContext({ ...userDataContext }, updatedUserPosts)
+			console.log(postWithUnapprovedData)
+			updateUserPost(postWithUnapprovedData as PostEntity)
 			changeStateOfEditedFields(picturesUrl)
 
 			setIsLoading(false)
@@ -163,9 +169,10 @@ function EditPost({
 				...approvedPostData,
 				owner,
 				createdAt,
-				updatedAt: new Date(),
 				postType,
 				macroCategory,
+				updatedAt: new Date(),
+				completed: false,
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
 
@@ -350,7 +357,7 @@ function EditPost({
 				{
 					hasError && (
 						<>
-							<VerticalSpacing height={relativeScreenHeight(2)} />
+							<VerticalSpacing height={2} />
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
@@ -429,7 +436,7 @@ function EditPost({
 				}
 				<BodyPadding backgroundColor={backgroundColor} hasError={hasError} >
 					{children}
-					<VerticalSpacing height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</BodyPadding >
 			</Body>
 		</Container>

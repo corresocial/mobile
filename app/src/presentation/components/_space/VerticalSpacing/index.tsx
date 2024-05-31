@@ -1,18 +1,20 @@
 import React from 'react'
 
 import { Container } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface VerticalSpacingProps {
 	height?: number
+	relativeDensity?: boolean
 	bottomNavigatorSpace?: boolean
 }
 
-function VerticalSpacing({ height, bottomNavigatorSpace }: VerticalSpacingProps) {
-	const customHeight = bottomNavigatorSpace ? relativeScreenHeight(13) : height
-
+function VerticalSpacing({ height, relativeDensity, bottomNavigatorSpace }: VerticalSpacingProps) {
 	return (
-		<Container height={customHeight}>
+		<Container
+			relativeDensity={!!relativeDensity}
+			bottomNavigatorSpace={!!bottomNavigatorSpace}
+			height={height}
+		>
 
 		</Container>
 	)
