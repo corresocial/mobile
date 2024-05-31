@@ -3,7 +3,7 @@ import { Alert, ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
-import { CompleteUser, UserEntity } from '@domain/user/entity/types'
+import { CompleteUser } from '@domain/user/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
@@ -28,19 +28,24 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
 	const { userDataContext } = useAuthContext()
-	const { unapprovedPosts, loadUnapprovedPosts } = useLeaderAreaContext()
+	const { unapprovedProfiles, unapprovedPosts, loadUnapprovedProfiles, loadUnapprovedPosts } = useLeaderAreaContext()
 
 	const [isLoading, setIsLoading] = useState(false)
 
 	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
-		await loadUnapprovedPosts(true)
+		// await loadUnapprovedPosts(true)
+		await loadUnapprovedProfiles(true)
 		setIsLoading(false)
 	}
 
 	const loadMoreRegisters = async () => {
 		console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
 		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
+	}
+
+	const navigateToUnapprovedUserView = (profileData: CompleteUser) => {
+		navigation.navigate('ViewApprovedProfile', { profileData })
 	}
 
 	const navigateToUnapprovedPostView = (postData: PostEntity) => {
@@ -55,14 +60,14 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
 	}
 
-	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity & UserEntity>) => {
+	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity & CompleteUser>) => {
 		if (item.userId) {
 			return (
 				<ListItemContainer key={item.userId}>
 					<ProfileCard
-						userData={userDataContext as CompleteUser}
+						userData={item as CompleteUser}
 						isOwner
-						onPress={() => console.log('press')}
+						onPress={() => navigateToUnapprovedUserView(item as CompleteUser)}
 					/>
 				</ListItemContainer>
 			)
@@ -112,7 +117,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 				</HeaderSection>
 			</HeaderButtonsContainer>
 			<UnapprovedPostsList
-				data={[userDataContext]}
+				data={[...unapprovedProfiles, ...unapprovedPosts]}
 				// data={unapprovedPosts}
 				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
 				onEndReached={loadMoreRegisters}

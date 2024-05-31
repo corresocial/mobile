@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { CompleteUser } from '@domain/user/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
 import {
 	Container,
@@ -36,8 +37,8 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 			setUser({
 				...(userData || {}),
 				...userData.unapprovedData,
-				name: 'wellington souza abreu de souza lopes de',
-				profilePictureUrl: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG-GXrCs_6EXtOZPwDeD9hPqc6AkviQQJjpA&s']
+				// name: 'wellington souza abreu de souza lopes de',
+				// profilePictureUrl: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG-GXrCs_6EXtOZPwDeD9hPqc6AkviQQJjpA&s']
 			})
 		}
 	}, [userData, isOwner])
@@ -80,7 +81,7 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 				<LeftArea>
 					{
 						<SidePicture
-							source={getProfilePictureUrl() ? { uri: getProfilePictureUrl() || '' } : {}}
+							source={getProfilePictureUrl() ? { uri: getProfilePictureUrl() || defaultUserProfilePicture } : { uri: defaultUserProfilePicture }}
 							recyclingKey={getProfilePictureUrl() ? getProfilePictureUrl() : ''}
 							placeholder={'U1T7N2={fQ={~AjtfQjtfQfQfQfQ~AjtfQjt'}
 							placeholderContentFit={'contain'}

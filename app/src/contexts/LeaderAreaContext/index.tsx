@@ -4,9 +4,12 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
+import { UserEntity } from '@domain/user/entity/types'
+import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
@@ -18,11 +21,15 @@ import { getNewDate } from '@utils-ui/common/date/dateFormat'
 const { executeCachedRequest } = useCacheRepository()
 
 const { getUnapprovedPosts } = usePostDomain()
+const { getUnapprovedProfiles } = useUserDomain()
 
 const initialValue: LeaderAreaContextType = {
+	unapprovedProfiles: [] as UserEntity[],
 	unapprovedPosts: [] as PostEntity[],
+	loadUnapprovedProfiles: (refresh?: boolean) => Promise.resolve(),
+	loadUnapprovedPosts: (refresh?: boolean) => Promise.resolve(),
+	removeFromUnapprovedProfileList: (data?: UserEntity) => { },
 	removeFromUnapprovedPostList: (data?: PostEntity) => { },
-	loadUnapprovedPosts: (refresh?: boolean) => Promise.resolve()
 }
 
 const LeaderAreaContext = createContext<LeaderAreaContextType>(initialValue)
@@ -31,21 +38,65 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
 	const { userDataContext } = useAuthContext()
 
+	const [unapprovedProfiles, setUnapprovedProfiles] = useState(initialValue.unapprovedProfiles)
 	const [unapprovedPosts, setUnapprovedPosts] = useState(initialValue.unapprovedPosts)
-	const [unapprovedListIsOver, setUnapprovedListIsOver] = useState(false)
+	const [unapprovedPostListIsOver, setUnapprovedPostListIsOver] = useState(false)
+	const [unapprovedProfileListIsOver, setUnapprovedProfileListIsOver] = useState(false)
 
 	const queryClient = useQueryClient()
 
 	useEffect(() => {
-		loadUnapprovedPosts()
+		// loadUnapprovedPosts()
+		loadUnapprovedProfiles()
 	}, [])
+
+	const loadUnapprovedProfiles = useCallback(async (refresh?: boolean) => {
+		try {
+			if (unapprovedProfileListIsOver && !refresh) return
+			!refresh && setLoaderIsVisible(true)
+
+			const lastProfile = !refresh && (unapprovedProfiles.length) ? unapprovedProfiles[unapprovedProfiles.length - 1] : undefined
+
+			const queryKey = ['users.unapproved', userDataContext.userId, lastProfile]
+			let profiles = await executeCachedRequest(
+				queryClient,
+				queryKey,
+				async () => getUnapprovedProfiles(useUserRepository, 5, lastProfile),
+				refresh
+			)
+
+			profiles = profiles.map((p: UserEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
+			console.log(profiles.map((p: any) => p.name))
+
+			if (
+				!profiles || (profiles && !profiles.length)
+				|| (lastProfile && profiles && profiles.length && (lastProfile.userId === profiles[profiles.length - 1].userId))
+			) {
+				!refresh && setLoaderIsVisible(false)
+				return setUnapprovedProfileListIsOver(true)
+			}
+
+			if (refresh) {
+				queryClient.removeQueries({ queryKey: ['users.unapproved', userDataContext.userId] })
+				setUnapprovedProfileListIsOver(false)
+				setUnapprovedProfiles([...profiles])
+			} else {
+				setUnapprovedProfiles([...unapprovedProfiles, ...profiles])
+			}
+
+			!refresh && setLoaderIsVisible(false)
+		} catch (error) {
+			console.log(error)
+			!refresh && setLoaderIsVisible(false)
+		}
+	}, [unapprovedProfiles, unapprovedProfileListIsOver])
 
 	const loadUnapprovedPosts = useCallback(async (refresh?: boolean) => {
 		try {
-			if (unapprovedListIsOver && !refresh) return
+			if (unapprovedPostListIsOver && !refresh) return
 			!refresh && setLoaderIsVisible(true)
 
-			// TODO Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
+			// CURRENT Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
 			const lastPost = !refresh && (unapprovedPosts.length) ? unapprovedPosts[unapprovedPosts.length - 1] : undefined
 
 			const queryKey = ['posts.unapproved', userDataContext.userId, lastPost]
@@ -61,16 +112,14 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			if (
 				!posts || (posts && !posts.length)
 				|| (lastPost && posts && posts.length && (lastPost.postId === posts[posts.length - 1].postId))
-			) { // TODO usar verificação em petições e posts de perfil/completed
-				console.log('posts is empty')
+			) { // CURRENT usar verificação em petições e posts de perfil/completed
 				!refresh && setLoaderIsVisible(false)
-				return setUnapprovedListIsOver(true)
+				return setUnapprovedPostListIsOver(true)
 			}
 
-			console.log(posts)
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['posts.unapproved', userDataContext.userId] })
-				setUnapprovedListIsOver(false)
+				setUnapprovedPostListIsOver(false)
 				setUnapprovedPosts([...posts])
 			} else {
 				setUnapprovedPosts([...unapprovedPosts, ...posts])
@@ -81,7 +130,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			console.log(error)
 			!refresh && setLoaderIsVisible(false)
 		}
-	}, [unapprovedPosts, unapprovedListIsOver])
+	}, [unapprovedPosts, unapprovedPostListIsOver])
 
 	const removeFromUnapprovedPostList = useCallback((data?: PostEntity) => {
 		if (!data) return
@@ -89,11 +138,20 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 		setUnapprovedPosts(filteredList)
 	}, [unapprovedPosts])
 
+	const removeFromUnapprovedProfileList = useCallback((data?: UserEntity) => {
+		if (!data) return
+		const filteredList = unapprovedProfiles.filter((profile) => profile.userId !== data.userId)
+		setUnapprovedProfiles(filteredList)
+	}, [unapprovedProfiles])
+
 	const leaderAreaProviderData = useMemo(() => ({
+		unapprovedProfiles,
 		unapprovedPosts,
-		removeFromUnapprovedPostList,
+		loadUnapprovedProfiles,
 		loadUnapprovedPosts,
-	}), [unapprovedPosts])
+		removeFromUnapprovedProfileList,
+		removeFromUnapprovedPostList
+	}), [unapprovedPosts, unapprovedProfiles])
 
 	return (
 		<LeaderAreaContext.Provider value={leaderAreaProviderData}>

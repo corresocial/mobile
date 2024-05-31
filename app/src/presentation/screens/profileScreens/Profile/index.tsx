@@ -2,12 +2,13 @@ import React, { useEffect, useState, useContext } from 'react'
 import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange, PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
-import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
+import { CompleteUser, SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -82,6 +83,7 @@ const { executeCachedRequest } = useCacheRepository()
 const { getPostsByOwner } = usePostDomain()
 
 const { arrayIsEmpty, getNewDate } = UiUtils()
+const { mergeObjects } = useUtils()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -219,7 +221,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile', { user: user as UserEntity })
+		navigation.navigate('EditProfile', { user: userDataContext })
 	}
 
 	const navigationToBack = () => navigation.goBack()
@@ -280,11 +282,25 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			if (!fieldName) return user
 			return user[fieldName]
 		}
+
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
+			return (mergedPost as any)[fieldName as any]
+		}
+
 		if (!fieldName) return userDataContext
 		return userDataContext[fieldName]
 	}
 
+	const canRenderUnapprovedData = () => {
+		return isLoggedUser && userDataContext && userDataContext.unapprovedData
+	}
+
 	const getOwnerDataOnly = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
+			return { userId: mergedPost.userId, name: mergedPost.name, profilePictureUrl: mergedPost.profilePictureUrl }
+		}
 		let currentUser = {} as PostEntityCommonFields['owner']
 		if (route.params && route.params.userId) {
 			currentUser = { userId: user.userId!, name: user.name!, profilePictureUrl: user.profilePictureUrl }
@@ -295,6 +311,10 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const getProfilePicture = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
+			return mergedPost && mergedPost.profilePictureUrl && mergedPost.profilePictureUrl.length ? mergedPost.profilePictureUrl[0] : ''
+		}
 		if (route.params && route.params.userId) return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
 		return userDataContext.profilePictureUrl
 			? userDataContext.profilePictureUrl[0]

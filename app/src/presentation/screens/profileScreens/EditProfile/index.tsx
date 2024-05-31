@@ -5,17 +5,10 @@ import { ScrollView, StatusBar } from 'react-native'
 import { useUtils } from '@newutils/useUtils'
 import * as Sentry from 'sentry-expo'
 
-import { useChatDomain } from '@domain/chat/useChatDomain'
-import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
-import { usePollDomain } from '@domain/poll/usePollDomain'
-import { Id, PostEntity } from '@domain/post/entity/types'
-import { usePostDomain } from '@domain/post/usePostDomain'
-import { CompleteUser, PrivateUserEntity, UserEntity } from '@domain/user/entity/types'
+import { Id } from '@domain/post/entity/types'
+import { CompleteUser, UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { usePetitionRepository } from '@data/petition/usePetitionRepository'
-import { usePollRepository } from '@data/poll/usePollRepository'
-import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -24,7 +17,6 @@ import { EditContext } from '@contexts/EditContext'
 import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 
-import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -42,14 +34,9 @@ import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
 
-const { updateOwnerDataOnPosts } = usePostDomain()
-const { updateOwnerDataOnPolls } = usePollDomain()
-const { updateOwnerDataOnPetitions } = usePetitionDomain()
 const { updateUserRepository } = useUserDomain()
-const { updateProfilePictureOnConversations } = useChatDomain()
 
-const { arrayIsEmpty } = UiUtils()
-const { getObjectDifferences } = useUtils()
+const { getObjectDifferences, mergeObjects } = useUtils()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -84,18 +71,27 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		return null
 	} */
 
+	type UserDataFields = keyof UserEntity
+	const getUserField = (fieldName?: UserDataFields) => {
+		if (editDataContext.unsaved[fieldName as any]) {
+			return editDataContext.unsaved[fieldName as any]
+		}
+		const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity || {})
+		return mergedPost ? (mergedPost as any)[fieldName as any] : ''
+	}
+
 	const goToEditScreen = (screenName: keyof ProfileStackParamList) => {
 		switch (screenName) {
 			case 'EditUserName': {
 				navigation.navigate('EditUserName', {
-					userName: editDataContext.unsaved.name || userDataContext.name || '',
+					userName: getUserField('name') || '',
 					userId: userDataContext.userId || ''
 				})
 				break
 			}
 			case 'EditUserDescription': {
 				navigation.navigate('EditUserDescription', {
-					userDescription: editDataContext.unsaved.description || userDataContext.description || '',
+					userDescription: getUserField('description') || '',
 					userId: userDataContext.userId || ''
 				})
 				break
@@ -114,21 +110,13 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			}
 			case 'EditUserPicture': {
 				navigation.navigate(screenName, {
-					profilePictureUrl: getProfilePictureUrl(),
+					profilePictureUrl: getUserField('profilePictureUrl') && getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl')[0] : '',
 					userId: userDataContext.userId || ''
 				})
 				break
 			}
 			default: return false
 		}
-	}
-
-	const getProfilePictureUrl = () => {
-		if (userDataContext && !userDataContext.profilePictureUrl && !editDataContext.unsaved.profilePictureUrl) return ''
-		if (arrayIsEmpty([editDataContext.unsaved.profilePictureUrl]) && arrayIsEmpty(userDataContext.profilePictureUrl)) return ''
-		if (editDataContext.unsaved.profilePictureUrl === '') return ''
-		if (editDataContext.unsaved.profilePictureUrl) return editDataContext.unsaved.profilePictureUrl
-		if (userDataContext && userDataContext.profilePictureUrl && userDataContext.profilePictureUrl[0]) return userDataContext.profilePictureUrl[0]
 	}
 
 	const updateUserData = async () => {
@@ -149,43 +137,37 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 	const updateUser = async () => {
 		const dataChanges = getObjectDifferences<CompleteUser>(userDataContext as CompleteUser, { ...editDataContext.unsaved })
+		console.log(dataChanges)
 
-		let profilePictureUrl = ['']
-		if (dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length) {
-			profilePictureUrl = await remoteStorage.uploadUserMedia([editDataContext.unsaved.profilePictureUrl], 'pictures')
+		let profilePictureUrl = []
+		if (dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]) {
+			profilePictureUrl = await remoteStorage.uploadUserMedia([dataChanges.profilePictureUrl as any], 'pictures')
 		} else {
 			profilePictureUrl = userDataContext.profilePictureUrl || []
 		}
 
-		const owner: PostEntity['owner'] = {
-			userId: userDataContext.userId,
-			name: editDataContext.unsaved.name || userDataContext.name,
-			profilePictureUrl: profilePictureUrl
-		}
+		const picture = dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]
+			? { profilePictureUrl: profilePictureUrl }
+			: {}
+		const ownerData = dataChanges && (dataChanges.name || dataChanges.profilePictureUrl || dataChanges.socialMedias)
+			? {
+				owner: {
+					userId: userDataContext.userId,
+					name: getUserField('name'),
+					...picture
+				}
+			}
+			: {}
 
 		const { location, ...approveData } = dataChanges as CompleteUser
-		const unapprovedData = { ...approveData, owner }
+		const unapprovedData = { ...approveData, ...ownerData, ...picture } as CompleteUser
 
 		await updateUserRepository(useUserRepository, userDataContext, { unapprovedData })
 		if (dataChanges && dataChanges.location) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
-		// MIGRATE TO LEADER APROVE
-
-		/* await updateOwnerDataOnPosts(usePostRepository, { ...owner }) // LEADER
-		if (userDataContext.verified && userDataContext.verified.type === 'leader') {
-			await updateOwnerDataOnPolls(usePollRepository, { ...owner })
-			await updateOwnerDataOnPetitions(usePetitionRepository, { ...owner })
-		}
-
-		if (profilePictureUrl && profilePictureUrl.length && !profilePictureUrl[0].includes('http')) {
-			await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl[0])
-		}
-
-		if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-			await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
-		} */
+		// CURRENT Passar a edição de links para aqui e não na tela de management
 
 		setUserDataOnContext({ unapprovedData })
 
@@ -231,7 +213,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'seu nome'}
 						highlightedWords={['nome']}
-						value={editDataContext.unsaved.name || userDataContext.name}
+						value={getUserField('name')}
 						pressionable
 						onEdit={() => goToEditScreen('EditUserName')}
 					/>
@@ -239,14 +221,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
-						value={editDataContext.unsaved.description ? getShortText(editDataContext.unsaved.description, 140) : getShortText(userDataContext.description, 140)}
+						value={getShortText(getUserField('description') || '', 140)}
 						pressionable
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
 					<VerticalSpacing />
 					<EditCard
-						title={'links e contato'}
-						highlightedWords={['links', 'contato']}
+						title={'links e contatos'}
+						highlightedWords={['links', 'contatos']}
 						pressionable
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
@@ -264,7 +246,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
-						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						profilePicturesUrl={getUserField('profilePictureUrl') || []}
 						pressionable={false}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>

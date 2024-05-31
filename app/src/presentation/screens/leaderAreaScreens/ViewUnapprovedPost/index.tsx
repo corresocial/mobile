@@ -56,11 +56,11 @@ const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps) {
 	const { userDataContext } = useAuthContext()
 	const { clearEditContext } = useContext(EditContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { removeFromUnapprovedPostList } = useLeaderAreaContext()
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const [approveConfirmationModalIsVisible, setApproveConfirmationModalIsVisible] = useState(false)
 	const [rejectConfirmationModalIsVisible, setRejectConfirmationModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
@@ -142,12 +142,14 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	const handleRejectPostButton = () => {
 		toggleRejectConfirmationModalVisibility()
 	}
+
 	const rejectUserPost = async () => {
 		try {
 			setLoaderIsVisible(true)
 			const rejectedPost = await rejectPost(usePostRepository, postData)
 			removeFromUnapprovedPostList(rejectedPost!) // Atualizar em um contexto
 			setLoaderIsVisible(false)
+			navigationBackwards()
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
