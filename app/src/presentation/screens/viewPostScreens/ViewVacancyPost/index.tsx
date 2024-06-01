@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
@@ -28,6 +30,7 @@ import {
 	UserAndValueContainer,
 } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
@@ -65,6 +68,7 @@ const { sendImpactReport } = useImpactReportDomain()
 
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
+const { mergeObjects } = useUtils()
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
@@ -80,6 +84,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<VacancyEntity>(route.params?.postData || null)
+	const [approvedPostData, setApprovedPostData] = useState<VacancyEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -92,10 +97,26 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as VacancyEntity)
-			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+			setApprovedPostData(post as VacancyEntity)
+			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		setPostLoaded(true)
+		mergeUnapprovedPostData()
 	})
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -147,7 +168,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		setPostOptionsIsOpen(false)
 		navigation.navigate('VacancyStack' as any, {
 			screen: 'EditVacancyPostReview' as keyof VacancyStackParamList,
-			params: { postData: { ...postData, ...editDataContext.saved } }
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData }
 		})
 	}
 
@@ -290,6 +311,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
+					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

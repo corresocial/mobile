@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntity } from '@domain/post/entity/types'
@@ -20,6 +21,8 @@ const { getPostsByOwner } = usePostDomain()
 
 const { remoteStorage } = usePostRepository()
 const { executeCachedRequest } = useCacheRepository()
+
+const { mergeObjects } = useUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -113,7 +116,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const getLastUserPost = () => {
 		try {
 			if (!userPostsContext || (userPostsContext && !userPostsContext.length)) return null
-			return userPostsContext[0]
+			return mergeObjects(userPostsContext[0], userPostsContext[0].unapprovedData || {})
 		} catch (error) {
 			console.log(error)
 			return {} as PostEntity

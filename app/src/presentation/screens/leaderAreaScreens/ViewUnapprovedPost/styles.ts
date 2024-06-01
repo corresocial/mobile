@@ -2,14 +2,18 @@ import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
-export const Container = styled.View`
+interface BackgroundProps {
+	backgroundColor?: string
+}
+
+export const Container = styled.View<BackgroundProps>`
 	flex: 1;
-	background-color: ${({ theme }) => theme.pink2};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
 `
 
-export const Body = styled.View`
+export const Body = styled.View<BackgroundProps>`
 	flex: 1;
-	background-color: ${({ theme }) => theme.pink2};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
 	padding: 0px ${relativeScreenWidth(3)}px;
 	gap: ${relativeScreenDensity(9)}px;
 `

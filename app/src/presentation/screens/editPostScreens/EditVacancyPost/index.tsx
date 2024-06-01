@@ -201,6 +201,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'vacancy' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}

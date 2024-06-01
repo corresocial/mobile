@@ -90,10 +90,12 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			setPostData(post as SocialImpactEntity)
 			setApprovedPostData(post as SocialImpactEntity)
 			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
+		setPostLoaded(true)
 		setIsCompleted(!!(postData && postData.completed))
 		mergeUnapprovedPostData()
-		setPostLoaded(true)
 	}
 
 	const mergeUnapprovedPostData = () => {

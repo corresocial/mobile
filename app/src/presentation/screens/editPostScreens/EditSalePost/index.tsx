@@ -199,6 +199,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			/>
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'sale' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}

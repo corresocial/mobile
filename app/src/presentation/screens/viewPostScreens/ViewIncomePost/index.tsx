@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { SaleCategories, IncomeEntity } from '@domain/post/entity/types'
@@ -23,6 +25,7 @@ import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
@@ -58,6 +61,7 @@ const { sendImpactReport } = useImpactReportDomain()
 
 const { textHasOnlyNumbers, convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
+const { mergeObjects } = useUtils()
 
 function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
@@ -73,7 +77,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<IncomeEntity>(route.params?.postData || null)
-	// const [videosThumbnails, setVideosThumbnails] = useState<string[]>([])
+	const [approvedPostData, setApprovedPostData] = useState<IncomeEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -82,22 +86,30 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		}
 	}, [])
 
-	/* const setVideoThumbnails = async () => {
-		if (!postData.videosUrl) return
-		const thumbnails = await generateVideoThumbnails(postData.videosUrl) // Await for thumbnails to be generated
-		console.log(`length => ${thumbnails.length}`)
-
-		setVideosThumbnails(thumbnails)
-	} */
-
 	const getPost = (async () => {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as IncomeEntity)
+			setApprovedPostData(post as IncomeEntity)
 			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		setPostLoaded(true)
+		mergeUnapprovedPostData()
 	})
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!postData || !postData.owner) { return false }
@@ -123,13 +135,13 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		if (postData.macroCategory === 'sale') {
 			return navigation.navigate('SaleStack' as any, {
 				screen: 'EditSalePostReview' as keyof SaleStackParamList,
-				params: { postData: { ...postData, ...editDataContext.saved } }
+				params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 			})
 		}
 
 		navigation.navigate('ServiceStack' as any, {
 			screen: 'EditServicePostReview' as keyof ServiceStackParamList,
-			params: { postData: { ...postData, ...editDataContext.saved } }
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 		})
 	}
 
@@ -310,6 +322,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
+					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

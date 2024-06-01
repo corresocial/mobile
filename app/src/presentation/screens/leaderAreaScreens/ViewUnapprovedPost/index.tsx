@@ -14,6 +14,8 @@ import { LoaderContext } from '@contexts/LoaderContext'
 import { ViewUnapprovedPostScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
+import { cultureCategories } from '@utils/postsCategories/cultureCategories'
+import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
 import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
@@ -105,9 +107,11 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const getCategoryLabel = () => {
 		try {
+			const categories = getRelativeCategories()
+
 			const categoryField = getPostField('category')
-			if (Object.keys(socialImpactCategories).includes(categoryField)) {
-				return (socialImpactCategories as any)[categoryField].label
+			if (Object.keys(categories).includes(categoryField)) {
+				return (categories as any)[categoryField].label
 			}
 			return ''
 		} catch (err) {
@@ -171,8 +175,24 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const navigationBackwards = () => navigation.goBack()
 
+	const getRelativeCategories = () => {
+		switch (postData.postType) {
+			case 'income': return incomeCategories
+			case 'socialImpact': return socialImpactCategories
+			case 'culture': return cultureCategories
+		}
+	}
+
+	const getRelativeColor = (light?: boolean) => {
+		switch (postData.postType) {
+			case 'income': return light ? theme.green1 : theme.green2
+			case 'socialImpact': return light ? theme.pink1 : theme.pink2
+			case 'culture': return light ? theme.blue1 : theme.blue2
+		}
+	}
+
 	return (
-		<Container>
+		<Container backgroundColor={getRelativeColor()}>
 			<DefaultConfirmationModal // APROVAR
 				visibility={approveConfirmationModalIsVisible}
 				title={'aprovar'}
@@ -249,12 +269,12 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					getPostField('tags') && (
 						<HorizontalTagList
 							tags={[getCategoryLabel(), ...getPostField('tags')]}
-							selectedColor={theme.pink1}
+							selectedColor={getRelativeColor(true)}
 						/>
 					)
 				}
 				<VerticalSpacing />
-				<Body>
+				<Body backgroundColor={getRelativeColor()}>
 					{
 						getPostField('description') && (
 							<DescriptionCard

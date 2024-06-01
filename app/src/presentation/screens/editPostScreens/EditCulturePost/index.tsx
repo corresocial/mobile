@@ -188,6 +188,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 			/>
 			<EditPost
 				initialPostData={{ ...postData, postType: 'culture' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.blue2}
 				unsavedPost={unsavedPost}

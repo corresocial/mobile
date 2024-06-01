@@ -193,6 +193,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'service' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
