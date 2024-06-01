@@ -167,8 +167,10 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
+		// CURRENT Atualizar contexto ao adicionar/Editar uma nova postagem
 		// CURRENT Passar a edição de links para aqui e não na tela de management
-
+		// CURRENT Adicionar indicador de aguardando aprovação no perfil
+		// CURRENT Adicionar indicador de rejeitado no perfil/post
 		setUserDataOnContext({ unapprovedData })
 
 		setIsLoading(false)
