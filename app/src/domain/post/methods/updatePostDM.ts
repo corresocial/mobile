@@ -49,16 +49,6 @@ async function updatePostDM(
 		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
 	}
 
-	const storedPicturesUrl = storedPostData.picturesUrl || []
-	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter(
-		(pictureUrl) => (unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
-			|| (newPostData.unapprovedData?.picturesUrl && !newPostData.unapprovedData?.picturesUrl.includes(pictureUrl))
-	)
-	console.log(picturesAlreadyUploadedToRemove)
-	if (picturesAlreadyUploadedToRemove.length) {
-		await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
-	}
-
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
 
 	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl || [] } : {}
