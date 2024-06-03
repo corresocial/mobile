@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
@@ -31,6 +31,10 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const { unapprovedProfiles, unapprovedPosts, loadUnapprovedProfiles, loadUnapprovedPosts } = useLeaderAreaContext()
 
 	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		loadUnapprovedRegisters()
+	}, [])
 
 	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
