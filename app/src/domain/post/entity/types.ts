@@ -122,7 +122,7 @@ export interface VacancyEntity extends PostEntityCommonFields {
 	endDate?: Date
 	saleValue?: string
 	exchangeValue?: string
-	unapprovedData?: VacancyEntityOptional
+	unapprovedData?: VacancyEntityOptional & { reject?: boolean }
 }
 
 export type CultureEntityOptional = Partial<CultureEntity>
@@ -134,7 +134,7 @@ export interface CultureEntity extends PostEntityCommonFields {
 	exhibitionFrequency?: WeekdaysFrequency
 	startDate?: Date
 	endDate?: Date
-	unapprovedData?: CultureEntityOptional
+	unapprovedData?: CultureEntityOptional & { reject?: boolean }
 }
 
 export type SocialImpactEntityOptional = Partial<SocialImpactEntity>
@@ -145,7 +145,7 @@ export interface SocialImpactEntity extends PostEntityCommonFields {
 	repeat?: EventRepeatType
 	startDate?: Date
 	endDate?: Date
-	unapprovedData?: SocialImpactEntityOptional
+	unapprovedData?: SocialImpactEntityOptional & { reject?: boolean }
 }
 
 export interface PostEntityCommonFields {

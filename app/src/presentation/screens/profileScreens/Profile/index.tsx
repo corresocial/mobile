@@ -293,7 +293,11 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const canRenderUnapprovedData = () => {
-		return isLoggedUser && userDataContext && userDataContext.unapprovedData
+		return isLoggedUser && userDataContext && userDataContext.unapprovedData && !userDataContext.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return isLoggedUser && userDataContext && userDataContext.unapprovedData && userDataContext.unapprovedData.reject
 	}
 
 	const getOwnerDataOnly = () => {
@@ -508,6 +512,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												borderWidth={3}
 												borderRightWidth={8}
 												pictureUri={getProfilePicture()}
+												waitingApproveIndicator={!!canRenderUnapprovedData()}
+												rejectApproveIndicator={!!canRenderRejectIndicator()}
 											/>
 											<InfoArea>
 												<UserName numberOfLines={3}>

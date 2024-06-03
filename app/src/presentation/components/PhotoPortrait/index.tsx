@@ -1,14 +1,15 @@
 import { ImageContentFit } from 'expo-image'
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, DeleteItemArea, EditItemArea, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
+import { Container, DeleteItemArea, EditItemArea, LeftBottomIndicatorContainer, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import EditWhiteIcon from '@assets/icons/edit-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 import UserShadow from '@assets/imgs/userShadow.jpg'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -23,6 +24,8 @@ interface PhotoPortraitProps {
 	pictureUri: string
 	maxWidth?: number
 	videoIndicator?: boolean
+	waitingApproveIndicator?: boolean
+	rejectApproveIndicator?: boolean
 	deleteCurrentPicture?: () => void
 	editCurrentPicture?: () => void
 }
@@ -36,6 +39,8 @@ function PhotoPortrait({
 	pictureUri,
 	resizeMode = 'cover',
 	videoIndicator,
+	waitingApproveIndicator,
+	rejectApproveIndicator,
 	maxWidth = relativeScreenWidth(90),
 	deleteCurrentPicture,
 	editCurrentPicture
@@ -104,8 +109,22 @@ function PhotoPortrait({
 			{
 				videoIndicator && (
 					<VideoIndicatorContainer>
-						<VideoCameraIcon width={RFValue(40)} height={RFValue(40)} />
+						<VideoCameraIcon width={relativeScreenDensity(40)} height={relativeScreenDensity(40)} />
 					</VideoIndicatorContainer>
+				)
+			}
+			{
+				waitingApproveIndicator && (
+					<LeftBottomIndicatorContainer>
+						<ClockArrowWhiteIcon width={relativeScreenDensity(35)} height={relativeScreenDensity(35)} />
+					</LeftBottomIndicatorContainer>
+				)
+			}
+			{
+				rejectApproveIndicator && (
+					<LeftBottomIndicatorContainer>
+						<DeniedWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
+					</LeftBottomIndicatorContainer>
 				)
 			}
 		</Container >

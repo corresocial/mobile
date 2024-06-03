@@ -6,10 +6,8 @@ import { useUtils } from '@newutils/useUtils'
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 
@@ -40,8 +38,7 @@ import { Loader } from '../Loader'
 
 const { getObjectDifferences } = useUtils()
 
-const { updateUserRepository } = useUserDomain()
-const { updatePost, savePost } = usePostDomain() // TODO Remover saveUnapprovedPost
+const { updatePost, savePost } = usePostDomain() // CURRENT Remover saveUnapprovedPost
 
 const { localStorage: localPostStorage } = usePostRepository()
 
@@ -91,7 +88,7 @@ function EditPost({
 	showShareModal,
 	getPostField
 }: EditPostProps) {
-	const { updateUserPost } = useAuthContext()
+	const { addUserPost, updateUserPost } = useAuthContext()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
@@ -129,7 +126,7 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
 			}
 
-			const { updatedUserPosts, picturesUrl } = await updatePost(
+			const { /* updatedUserPosts, */ picturesUrl } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
@@ -138,17 +135,14 @@ function EditPost({
 				editDataContext.unsaved.picturesUrl || []
 			)
 
-			await updateUserRepository(
-				useUserRepository,
-				userDataContext,
-				{ posts: updatedUserPosts || [] }
-			)
+			// await updateUserRepository( // CURRENT Salvar em user.posts
+			// 	useUserRepository,
+			// 	userDataContext,
+			// 	{ posts: updatedUserPosts || [] }
+			// )
 
-			updateUserContext({ ...userDataContext }, updatedUserPosts)
-			console.log(postWithUnapprovedData)
 			updateUserPost(postWithUnapprovedData as PostEntity)
 			changeStateOfEditedFields(picturesUrl)
-
 			setIsLoading(false)
 			navigateBackwards()
 		} catch (error: any) {
@@ -192,10 +186,10 @@ function EditPost({
 					setHasError(false)
 					toggleOfflinePostAlertModal()
 					setNetworkConnectionIsValid(false)
-				}, 40000)
+				}, 30000)
 			}
 
-			const { newPost, updatedUserPosts } = await savePost(
+			const { newPost/* , updatedUserPosts */ } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
@@ -206,13 +200,7 @@ function EditPost({
 				notifyUsersEnabled
 			)
 
-			await updateUserRepository(
-				useUserRepository,
-				{ ...userDataContext },
-				{ posts: updatedUserPosts || [] }
-			)
-
-			updateUserContext({ ...userDataContext }, updatedUserPosts)
+			addUserPost(newPost)
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
@@ -246,10 +234,6 @@ function EditPost({
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
-	}
-
-	const updateUserContext = (user: UserEntity, updatedUserPosts?: PostEntity[]) => {
-		userContext.setUserDataOnContext({ ...user, posts: updatedUserPosts })
 	}
 
 	const cancelAllChangesAndGoBack = () => {

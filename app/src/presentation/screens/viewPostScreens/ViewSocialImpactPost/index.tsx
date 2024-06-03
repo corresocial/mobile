@@ -106,7 +106,11 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const canRenderUnapprovedData = () => {
-		return loggedUserIsOwner() && postData && postData.unapprovedData
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
 	}
 
 	const loggedUserIsOwner = () => {
@@ -310,6 +314,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						navigateToProfile={navigateToProfile}
 					/>
 					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
+					{canRenderRejectIndicator() && <DeniedWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

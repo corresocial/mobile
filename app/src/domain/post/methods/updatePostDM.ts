@@ -27,7 +27,7 @@ async function updatePostDM(
 		newPostData
 	)
 
-	let userPostsUpdated: PostEntity[] = []
+	let userPostsUpdated: PostEntity[] = [] // CURRENT puxar todos e atualizar
 	if (postLocationIsOutsideSubscriptionRange) {
 		userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
 			owner,

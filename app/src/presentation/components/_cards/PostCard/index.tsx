@@ -20,6 +20,7 @@ import {
 	WaitingApproveIconContainer
 } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -137,7 +138,11 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 										hasValues={post.saleValue || post.exchangeValue}
 										hasPicture={!arrayIsEmpty(post.picturesUrl)}
 									>
-										<ClockArrowWhiteIcon />
+										{
+											postData.unapprovedData.reject
+												? <DeniedWhiteIcon />
+												: <ClockArrowWhiteIcon />
+										}
 									</WaitingApproveIconContainer>
 								)
 							}

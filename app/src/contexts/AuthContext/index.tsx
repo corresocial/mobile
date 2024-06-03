@@ -38,6 +38,7 @@ const initialValue: AuthContextType = {
 	setUserRegisterDataOnContext: () => null,
 	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
+	addUserPost: (postData: PostEntity) => {},
 	updateUserPost: (postData: PostEntity) => {},
 	removeUserPost: (postData: PostEntity) => Promise.resolve()
 }
@@ -123,13 +124,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 		}
 	}
 
-	const removeUserPost = async (postData: PostEntity) => {
+	const addUserPost = (postData: PostEntity) => {
 		try {
 			if (!postData) return
-			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
-			const postsWithoutDeletedPost = userPostsContext.filter((post) => post.postId !== postData.postId)
-			setUserPosts(postsWithoutDeletedPost)
+			userPostsContext.unshift(postData)
+			setUserPosts(userPostsContext)
 		} catch (error) {
 			console.log(error)
 		}
@@ -140,6 +139,18 @@ function AuthProvider({ children }: AuthProviderProps) {
 			if (!postData) return
 			const updatedUserPosts = userPostsContext.map((post) => (post.postId === postData.postId ? postData : post))
 			setUserPosts(updatedUserPosts)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const removeUserPost = async (postData: PostEntity) => {
+		try {
+			if (!postData) return
+			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
+			const postsWithoutDeletedPost = userPostsContext.filter((post) => post.postId !== postData.postId)
+			setUserPosts(postsWithoutDeletedPost)
 		} catch (error) {
 			console.log(error)
 		}
@@ -158,6 +169,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserRegisterDataOnContext,
 		loadUserPosts,
 		getLastUserPost,
+		addUserPost,
 		updateUserPost,
 		removeUserPost
 	}), [userRegistrationData, userAuthData, userDataContext, userPostsContext, postListIsOver])

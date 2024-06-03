@@ -167,18 +167,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
-		// CURRENT Adicionar remoção de pictures do storage ao aprovar uma postagem
-		// const storedPicturesUrl = storedPostData.picturesUrl || []
-		// const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter(
-		// 	(pictureUrl) => (unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
-		// 		|| (newPostData.unapprovedData?.picturesUrl && !newPostData.unapprovedData?.picturesUrl.includes(pictureUrl))
-		// )
-		// console.log(picturesAlreadyUploadedToRemove)
-		// if (picturesAlreadyUploadedToRemove.length) {
-		// 	await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
-		// }
-
-		// CURRENT Atualizar contexto ao adicionar/Editar uma nova postagem
+		// CURRENT Proibir compartilhar de post não aprovado(novo)
 		// CURRENT Passar a edição de links para aqui e não na tela de management
 		// CURRENT Adicionar indicador de aguardando aprovação no perfil
 		// CURRENT Adicionar indicador de rejeitado no perfil/post

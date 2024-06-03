@@ -108,7 +108,11 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	}
 
 	const canRenderUnapprovedData = () => {
-		return loggedUserIsOwner() && postData && postData.unapprovedData
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
 	}
 
 	const loggedUserIsOwner = () => {
@@ -323,6 +327,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
+					{canRenderRejectIndicator() && <DeniedWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

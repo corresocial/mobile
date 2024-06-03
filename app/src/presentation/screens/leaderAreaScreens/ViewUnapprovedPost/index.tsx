@@ -14,6 +14,7 @@ import { LoaderContext } from '@contexts/LoaderContext'
 import { ViewUnapprovedPostScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
@@ -122,7 +123,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const getPostField = (fieldName: PostEntityKeys, useApproedPostData?: boolean): any => {
 		return useApproedPostData ? (postData.unapprovedData as any)[fieldName] || (postData as any)[fieldName] : (postData.unapprovedData as any)[fieldName]
-		// return useApproedPostData ? (postData as any)[fieldName] || (postData as any)[fieldName] : (postData as any)[fieldName]
 	}
 
 	const toggleApproveConfirmationModalVisibility = () => {
@@ -151,7 +151,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		try {
 			setLoaderIsVisible(true)
 			const rejectedPost = await rejectPost(usePostRepository, postData)
-			removeFromUnapprovedPostList(rejectedPost!) // Atualizar em um contexto
+			removeFromUnapprovedPostList(rejectedPost!)
 			setLoaderIsVisible(false)
 			navigationBackwards()
 		} catch (err) {
@@ -328,27 +328,35 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						)
 					}
 					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
-							<>
-								<GalleryModal
-									picturesUrl={getPostField('picturesUrl')}
-									videosUrl={getPostField('videosUrl')}
-									showGallery={galeryIsVisible}
-									onClose={closeGalery}
-								/>
-								<TouchableOpacity
-									activeOpacity={1}
-									onPress={openGallery}
-								>
-									<ImageCarousel
-										picturesUrl={getPostField('picturesUrl') || []}
-										indicatorColor={theme.blue1}
-										square
-										showFullscreenIcon
+						!arrayIsEmpty(getPostField('picturesUrl'))
+							? (
+								<>
+									<GalleryModal
+										picturesUrl={getPostField('picturesUrl')}
+										videosUrl={getPostField('videosUrl')}
+										showGallery={galeryIsVisible}
+										onClose={closeGalery}
 									/>
-								</TouchableOpacity>
-							</>
-						)
+									<TouchableOpacity
+										activeOpacity={1}
+										onPress={openGallery}
+									>
+										<ImageCarousel
+											picturesUrl={getPostField('picturesUrl') || []}
+											indicatorColor={theme.blue1}
+											square
+											showFullscreenIcon
+										/>
+									</TouchableOpacity>
+								</>
+							)
+							: (
+								<ImageCarousel
+									picturesUrl={[defaultUserProfilePicture]}
+									indicatorColor={theme.blue1}
+									square
+								/>
+							)
 					}
 					{
 						getPostField('range') && (

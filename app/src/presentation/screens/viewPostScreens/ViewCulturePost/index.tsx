@@ -106,7 +106,11 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const canRenderUnapprovedData = () => {
-		return loggedUserIsOwner() && postData && postData.unapprovedData
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
 	}
 
 	const loggedUserIsOwner = () => {
@@ -303,6 +307,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
+					{canRenderRejectIndicator() && <DeniedWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
