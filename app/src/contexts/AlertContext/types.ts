@@ -25,4 +25,5 @@ export interface AlertContextProps {
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => void
 	showAlertNotificationModal: () => void
 	showNewHomePresentationModal: () => void
+	showWaitingApproveModal: () => void
 }

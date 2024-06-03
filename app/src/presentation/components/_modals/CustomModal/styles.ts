@@ -3,19 +3,17 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 interface ContainerProps {
-	overlayColor?: 'error' | 'info'
+	overlayColor?: 'success' | 'error' | 'info'
 }
 
 export const Container = styled.KeyboardAvoidingView<ContainerProps>`
     height: 100%;
     background-color: ${({ overlayColor, theme }) => {
 		switch (overlayColor) {
-			case 'error':
-				return theme.transparence.red1
-			case 'info':
-				return theme.transparence.blue3
-			default:
-				return theme.transparence.orange1
+			case 'error': return theme.transparence.red
+			case 'info': return theme.transparence.blue3
+			case 'success': return theme.transparence.green
+			default: return theme.transparence.orange1
 		}
 	}};
 	justify-content: center;

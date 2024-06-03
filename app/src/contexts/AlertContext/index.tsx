@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
+import React, { createContext, useMemo, useState, useCallback, useEffect, useContext } from 'react'
 
 import { useUtils } from '@newutils/useUtils'
 
@@ -10,6 +10,7 @@ import { AlertContextProps, AlertModalContent, AlertProviderProps, InitialNotifi
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { DefaultAlertModal } from '@components/_modals/DefaultAlertModal'
 import { NewHomePresentationModal } from '@components/_modals/NewHomePresentationModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 
 const { objectValuesAreEquals } = useUtils()
 
@@ -25,7 +26,8 @@ const initialValue: AlertContextProps = {
 	notificationState: initialNotificationState,
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => { },
 	showAlertNotificationModal: () => { },
-	showNewHomePresentationModal: () => { }
+	showNewHomePresentationModal: () => { },
+	showWaitingApproveModal: () => { }
 }
 
 const AlertContext = createContext<AlertContextProps>(initialValue)
@@ -35,6 +37,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const [alertNotificationModalIsVisible, setAlertNotificationIsVisible] = useState(false)
 
 	const [newHomePresentationModalIsVisible, setNewHomePresentationIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
 
 	const navigation = useNavigation<UserStackNavigationProps>()
 
@@ -72,6 +75,10 @@ function AlertProvider({ children }: AlertProviderProps) {
 		if (notificationState.newHomePresentationModal) setNewHomePresentationIsVisible(true)
 	}, [notificationState])
 
+	const showWaitingApproveModal = useCallback(() => {
+		setWaitingApproveModalIsVisible(true)
+	}, [])
+
 	const [defaultAlertModalContent, setDefaultAlertModalContent] = useState({} as AlertModalContent)
 
 	const showAlertModal = async (modalContent: AlertModalContent) => {
@@ -105,6 +112,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 		updateNotificationState,
 		showAlertNotificationModal,
 		showNewHomePresentationModal,
+		showWaitingApproveModal,
 		showAlertModal
 	}), [defaultAlertModalContent, notificationState])
 
@@ -123,9 +131,15 @@ function AlertProvider({ children }: AlertProviderProps) {
 				visibility={newHomePresentationModalIsVisible}
 				onPressButton={handleNewHomePresentationModal}
 			/>
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={() => setWaitingApproveModalIsVisible(false)}
+			/>
 			{children}
 		</AlertContext.Provider>
 	)
 }
 
-export { AlertProvider, AlertContext }
+const useAlertContext = () => useContext(AlertContext)
+
+export { AlertProvider, useAlertContext, AlertContext }

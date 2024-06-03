@@ -49,7 +49,7 @@ import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 
 const { approveProfile, rejectProfile } = useUserDomain()
 
-export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfileScreenProps) { // CURRENT é unnaproved
+export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfileScreenProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
 	const { userDataContext } = useAuthContext()
 	const { removeFromUnapprovedProfileList } = useLeaderAreaContext()
@@ -88,6 +88,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 			const rejectedProfile = await rejectProfile(useUserRepository, profileData)
 			removeFromUnapprovedProfileList(rejectedProfile!)
 			setLoaderIsVisible(false)
+			navigationBackwards()
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)

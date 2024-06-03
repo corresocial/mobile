@@ -96,7 +96,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			if (unapprovedPostListIsOver && !refresh) return
 			!refresh && setLoaderIsVisible(true)
 
-			// CURRENT Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
+			// REFACTOR Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
 			const lastPost = !refresh && (unapprovedPosts.length) ? unapprovedPosts[unapprovedPosts.length - 1] : undefined
 
 			const queryKey = ['posts.unapproved', userDataContext.userId, lastPost]

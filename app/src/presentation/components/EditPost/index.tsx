@@ -9,6 +9,7 @@ import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
@@ -38,7 +39,7 @@ import { Loader } from '../Loader'
 
 const { getObjectDifferences } = useUtils()
 
-const { updatePost, savePost } = usePostDomain() // CURRENT Remover saveUnapprovedPost
+const { updatePost, savePost } = usePostDomain()
 
 const { localStorage: localPostStorage } = usePostRepository()
 
@@ -89,6 +90,7 @@ function EditPost({
 	getPostField
 }: EditPostProps) {
 	const { addUserPost, updateUserPost } = useAuthContext()
+	const { showWaitingApproveModal } = useAlertContext()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
@@ -135,15 +137,13 @@ function EditPost({
 				editDataContext.unsaved.picturesUrl || []
 			)
 
-			// await updateUserRepository( // CURRENT Salvar em user.posts
-			// 	useUserRepository,
-			// 	userDataContext,
-			// 	{ posts: updatedUserPosts || [] }
-			// )
+			// REFACTOR Atualizar em user.posts localmente
 
 			updateUserPost(postWithUnapprovedData as PostEntity)
 			changeStateOfEditedFields(picturesUrl)
 			setIsLoading(false)
+
+			showWaitingApproveModal()
 			navigateBackwards()
 		} catch (error: any) {
 			console.log(error)
@@ -201,11 +201,12 @@ function EditPost({
 			)
 
 			addUserPost(newPost)
+			// REFACTOR salvar em user.posts localmente
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
 
-			showShareModal(true, getShortText(newPost.description, 70), newPost.postId)
+			showWaitingApproveModal()
 			navigateToPostView(newPost)
 
 			setIsLoading(false)

@@ -194,6 +194,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	return (
 		<Container backgroundColor={getRelativeColor()}>
 			<DefaultConfirmationModal // APROVAR
+				overlayColor={'success'}
 				visibility={approveConfirmationModalIsVisible}
 				title={'aprovar'}
 				text={'você tem certeza que deseja aprovar esse post?'}
@@ -203,6 +204,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 				onPressButton={approveUserPost}
 			/>
 			<DefaultConfirmationModal // REJEITAR
+				overlayColor={'error'}
 				visibility={rejectConfirmationModalIsVisible}
 				title={'rejeitar'}
 				text={'você tem certeza que deseja rejeitar esse post?'}

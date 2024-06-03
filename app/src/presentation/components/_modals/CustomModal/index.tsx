@@ -27,7 +27,7 @@ import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface CustomModalProps {
 	visibility: boolean
-	overlayColor?: 'error' | 'info'
+	overlayColor?: 'success' | 'error' | 'info'
 	title?: string
 	titleHighlightedWords?: string[]
 	titleAlign?: TextStyle['textAlign']
@@ -109,12 +109,10 @@ function CustomModal({
 
 	const getRelativeStatusBarColor = () => {
 		switch (overlayColor) {
-			case 'error':
-				return theme.transparence.red1
-			case 'info':
-				return theme.transparence.blue3
-			default:
-				return theme.transparence.orange1
+			case 'error': return theme.transparence.red
+			case 'info': return theme.transparence.blue3
+			case 'success': return theme.transparence.green
+			default: return theme.transparence.orange1
 		}
 	}
 

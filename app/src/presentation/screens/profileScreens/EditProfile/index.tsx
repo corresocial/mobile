@@ -11,6 +11,7 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
@@ -41,6 +42,7 @@ const { getObjectDifferences, mergeObjects } = useUtils()
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { showWaitingApproveModal } = useAlertContext()
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
 	// const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
@@ -167,10 +169,13 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
+		// CURRENT Enviar texto de reject no chat
 		// CURRENT Passar a edição de links para aqui e não na tela de management
 		setUserDataOnContext({ unapprovedData })
 
 		setIsLoading(false)
+
+		showWaitingApproveModal()
 		navigation.goBack()
 	}
 

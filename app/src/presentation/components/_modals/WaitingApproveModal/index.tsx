@@ -23,7 +23,7 @@ function WaitingApproveModal({
 			titleAlign={'center'}
 			TitleIcon={ClockArrowWhiteIcon}
 			firstParagraph={{
-				text: 'seu post foi salvo e está aguardando aprovação de um líder.',
+				text: 'suas alterações foram salvas e estão aguardando aprovação de um líder.',
 				highlightedWords: ['aguardando', 'aprovação', 'de', 'um', 'líder'],
 				textAlign: 'center',
 				fontSize: 14

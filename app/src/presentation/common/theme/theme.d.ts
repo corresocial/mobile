@@ -58,9 +58,9 @@ declare module 'styled-components' {
 			orange1: string // Orange Light
 			orange2: string // Orange Medium
 
-			red1: string
+			red: string
+			green: string
 			purple3: string
-			green3: string
 			yellow3: string
 			blue3: string
 			pink3: string

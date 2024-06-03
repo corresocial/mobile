@@ -477,6 +477,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 					closeModal={toggleWaitingApproveModalVisibility}
 				/>
 				<RejectModal // REJECT
+					isProfile
 					visibility={rejectModalIsVisible}
 					closeModal={toggleRejectModalVisibility}
 				/>
