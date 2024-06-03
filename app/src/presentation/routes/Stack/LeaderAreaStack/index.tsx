@@ -9,10 +9,10 @@ import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
-import { ViewApprovedProfile } from '@screens/leaderAreaScreens/ViewApprovedProfile'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'
+import { ViewUnapprovedProfile } from '@screens/leaderAreaScreens/ViewUnapprovedProfile'
 import { ViewUnapprovedRegistersList } from '@screens/leaderAreaScreens/ViewUnapprovedRegistersList'
 import { Profile } from '@screens/profileScreens/Profile'
 import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
@@ -45,7 +45,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 				<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
 
 				<Stack.Screen name={'ViewUnapprovedPost'} component={ViewUnapprovedPost} />
-				<Stack.Screen name={'ViewApprovedProfile'} component={ViewApprovedProfile as any} />
+				<Stack.Screen name={'ViewUnapprovedProfile'} component={ViewUnapprovedProfile as any} />
 				<Stack.Screen name={'ViewUnapprovedRegistersList'} component={ViewUnapprovedRegistersList} />
 
 				{/* TODO Type */}

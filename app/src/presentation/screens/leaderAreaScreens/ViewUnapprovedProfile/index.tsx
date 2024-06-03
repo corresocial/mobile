@@ -11,7 +11,7 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
-import { ViewApprovedProfileScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
+import { ViewUnapprovedProfileScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { getRelativeSocialMediaIcon } from '@utils/socialMedias'
 
@@ -49,7 +49,7 @@ import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 
 const { approveProfile, rejectProfile } = useUserDomain()
 
-export function ViewApprovedProfile({ route, navigation }: ViewApprovedProfileScreenProps) { // CURRENT é unnaproved
+export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfileScreenProps) { // CURRENT é unnaproved
 	const { setLoaderIsVisible } = useLoaderContext()
 	const { userDataContext } = useAuthContext()
 	const { removeFromUnapprovedProfileList } = useLeaderAreaContext()

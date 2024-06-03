@@ -167,7 +167,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
-		// CURRENT Proibir compartilhar de post não aprovado(novo)
 		// CURRENT Passar a edição de links para aqui e não na tela de management
 		setUserDataOnContext({ unapprovedData })
 

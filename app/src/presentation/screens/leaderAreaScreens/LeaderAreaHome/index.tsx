@@ -45,7 +45,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	}
 
 	const navigateToUnapprovedUserView = (profileData: CompleteUser) => {
-		navigation.navigate('ViewApprovedProfile', { profileData })
+		navigation.navigate('ViewUnapprovedProfile', { profileData })
 	}
 
 	const navigateToUnapprovedPostView = (postData: PostEntity) => {
