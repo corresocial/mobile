@@ -44,6 +44,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -71,6 +73,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	const [postData, setPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
@@ -100,12 +104,16 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const mergeUnapprovedPostData = () => {
 		if (canRenderUnapprovedData()) {
-			const mergedPost = mergeObjects({ ...postData, ...editDataContext.saved }, postData.unapprovedData as any)
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
 			setPostData(mergedPost)
 		}
 	}
 
 	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
+
+	const canRenderWaitingApproveIndicator = () => {
 		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
 	}
 
@@ -260,6 +268,14 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
@@ -290,6 +306,14 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={toggleWaitingApproveModalVisibility}
+			/>
+			<RejectModal // REJECT
+				visibility={rejectModalIsVisible}
+				closeModal={toggleRejectModalVisibility}
+			/>
 			<GalleryModal
 				picturesUrl={getPostField('picturesUrl')}
 				videosUrl={getPostField('videosUrl')}
@@ -313,8 +337,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
-					{canRenderRejectIndicator() && <DeniedWhiteIcon/>}
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon/></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon/></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -375,7 +399,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			<ScrollView showsVerticalScrollIndicator={false}	>
 				<VerticalSpacing />
 				<HorizontalTagList
-					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					tags={[getCategoryLabel(), ...(getPostField('tags') || [])]}
 					selectedColor={theme.pink1}
 				/>
 				<Body>

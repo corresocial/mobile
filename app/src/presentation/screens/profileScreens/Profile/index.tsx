@@ -66,6 +66,8 @@ import { PostCard } from '@components/_cards/PostCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { ProfileVerifiedModal } from '@components/_modals/ProfileVerifiedModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
@@ -102,6 +104,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const [postListIsOver, setPostListIsOver] = useState(false)
 	const [filteredPosts, setFilteredPosts] = useState<PostEntity[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
 	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
@@ -296,6 +300,10 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return isLoggedUser && userDataContext && userDataContext.unapprovedData && !userDataContext.unapprovedData.reject
 	}
 
+	const canRenderWaitingApproveIndicator = () => {
+		return isLoggedUser && userDataContext && userDataContext.unapprovedData && !userDataContext.unapprovedData.reject
+	}
+
 	const canRenderRejectIndicator = () => {
 		return isLoggedUser && userDataContext && userDataContext.unapprovedData && userDataContext.unapprovedData.reject
 	}
@@ -429,6 +437,14 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const getConfigurationIcon = () => {
 		if (isLoggedUser) {
 			if (hasConfigNotification()) return GearAlertWhiteIcon
@@ -455,6 +471,14 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 				<FocusAwareStatusBar
 					backgroundColor={theme.white3}
 					barStyle={'dark-content'}
+				/>
+				<WaitingApproveModal // APPROVE
+					visibility={waitingApproveModalIsVisible}
+					closeModal={toggleWaitingApproveModalVisibility}
+				/>
+				<RejectModal // REJECT
+					visibility={rejectModalIsVisible}
+					closeModal={toggleRejectModalVisibility}
 				/>
 				{
 					hasAnyVerifiedUser() && (
@@ -506,15 +530,20 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 													</>
 												)
 											}
-											<PhotoPortrait
-												height={isLoggedUser ? RFValue(95) : RFValue(65)}
-												width={isLoggedUser ? RFValue(100) : RFValue(70)}
-												borderWidth={3}
-												borderRightWidth={8}
-												pictureUri={getProfilePicture()}
-												waitingApproveIndicator={!!canRenderUnapprovedData()}
-												rejectApproveIndicator={!!canRenderRejectIndicator()}
-											/>
+											<TouchableOpacity
+												activeOpacity={0.9}
+												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : toggleWaitingApproveModalVisibility}
+											>
+												<PhotoPortrait
+													height={isLoggedUser ? RFValue(95) : RFValue(65)}
+													width={isLoggedUser ? RFValue(100) : RFValue(70)}
+													borderWidth={3}
+													borderRightWidth={8}
+													pictureUri={getProfilePicture()}
+													waitingApproveIndicator={!!canRenderWaitingApproveIndicator()}
+													rejectApproveIndicator={!!canRenderRejectIndicator()}
+												/>
+											</TouchableOpacity>
 											<InfoArea>
 												<UserName numberOfLines={3}>
 													{getUserField('name') as string}

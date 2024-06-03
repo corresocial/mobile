@@ -1,7 +1,7 @@
 import { ImageContentFit } from 'expo-image'
 import React from 'react'
 
-import { Container, DeleteItemArea, EditItemArea, LeftBottomIndicatorContainer, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
+import { Container, DeleteItemArea, EditItemArea, RightBottomIndicatorContainer, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import EditWhiteIcon from '@assets/icons/edit-white.svg'
@@ -115,16 +115,16 @@ function PhotoPortrait({
 			}
 			{
 				waitingApproveIndicator && (
-					<LeftBottomIndicatorContainer>
+					<RightBottomIndicatorContainer>
 						<ClockArrowWhiteIcon width={relativeScreenDensity(35)} height={relativeScreenDensity(35)} />
-					</LeftBottomIndicatorContainer>
+					</RightBottomIndicatorContainer>
 				)
 			}
 			{
 				rejectApproveIndicator && (
-					<LeftBottomIndicatorContainer>
+					<RightBottomIndicatorContainer>
 						<DeniedWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
-					</LeftBottomIndicatorContainer>
+					</RightBottomIndicatorContainer>
 				)
 			}
 		</Container >

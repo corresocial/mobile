@@ -45,6 +45,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -72,6 +74,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<CultureEntity>(route.params.postData || null)
@@ -106,6 +110,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
+
+	const canRenderWaitingApproveIndicator = () => {
 		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
 	}
 
@@ -259,6 +267,14 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
@@ -289,6 +305,14 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={toggleWaitingApproveModalVisibility}
+			/>
+			<RejectModal // REJECT
+				visibility={rejectModalIsVisible}
+				closeModal={toggleRejectModalVisibility}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -306,7 +330,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderUnapprovedData() && <ClockArrowWhiteIcon/>}
+					{canRenderWaitingApproveIndicator() && <ClockArrowWhiteIcon/>}
 					{canRenderRejectIndicator() && <DeniedWhiteIcon/>}
 				</UserAndValueContainer>
 				<VerticalSpacing />

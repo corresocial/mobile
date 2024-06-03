@@ -75,7 +75,7 @@ export const VideoIndicatorContainer = styled.View`
 	left: ${RFValue(15)}px;
 `
 
-export const LeftBottomIndicatorContainer = styled.View`
+export const RightBottomIndicatorContainer = styled.View`
 	position: absolute;
 	bottom: 0%;
 	right: 0%;

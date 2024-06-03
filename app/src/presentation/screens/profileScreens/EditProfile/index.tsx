@@ -160,7 +160,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			: {}
 
 		const { location, ...approveData } = dataChanges as CompleteUser
-		const unapprovedData = { ...approveData, ...ownerData, ...picture } as CompleteUser
+		const unapprovedData = { ...approveData, ...ownerData, ...picture, reject: false } as CompleteUser['unapprovedData']
 
 		await updateUserRepository(useUserRepository, userDataContext, { unapprovedData })
 		if (dataChanges && dataChanges.location) {
@@ -169,8 +169,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 		// CURRENT Proibir compartilhar de post não aprovado(novo)
 		// CURRENT Passar a edição de links para aqui e não na tela de management
-		// CURRENT Adicionar indicador de aguardando aprovação no perfil
-		// CURRENT Adicionar indicador de rejeitado no perfil/post
 		setUserDataOnContext({ unapprovedData })
 
 		setIsLoading(false)
