@@ -354,10 +354,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						)
 					}
 					{
-						isCompleted
+						isCompleted || (canRenderUnapprovedData() && !approvedPostData.description) // Só existirá descrição nesse objeto se a postagem houver sido aprovada ao menos uma vez
 							? (
 								<SmallButton
-									label={'post foi concluído'}
+									label={approvedPostData.description ? 'post foi concluído' : 'compartilhar'}
 									labelColor={theme.black4}
 									SvgIcon={DeniedWhiteIcon}
 									relativeWidth={'80%'}
