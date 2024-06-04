@@ -34,7 +34,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings') // SMAS
+		navigation.navigate('NotificationSettings' as any)
 	}
 
 	const handleContinueButton = async () => {

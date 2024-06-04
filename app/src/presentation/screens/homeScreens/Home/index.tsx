@@ -321,14 +321,14 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
-	/* const navigateToEditUserLocation = () => { // SMAS
+	const navigateToEditUserLocation = () => {
 		navigation.navigate('EditProfile' as any, { user: userDataContext })
 		navigation.navigate('EditUserLocation' as any, { initialCoordinates: null })
-	} */
+	}
 
-	/* const navigateToPublicServices = () => { // SMAS
+	const navigateToPublicServices = () => {
 		navigation.navigate('PublicServicesStack')
-	} */
+	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
@@ -376,6 +376,8 @@ function Home({ navigation }: HomeScreenProps) {
 							<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
 							<AdsCarousel
 								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
+								onPressPublicServicesAd={navigateToPublicServices}
+								onPressUserLocationAd={navigateToEditUserLocation}
 							/>
 							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 								<RequestLocation

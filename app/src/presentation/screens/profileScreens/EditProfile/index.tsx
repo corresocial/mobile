@@ -7,7 +7,7 @@ import { useUtils } from '@newutils/useUtils'
 import * as Sentry from 'sentry-expo'
 
 import { Id } from '@domain/post/entity/types'
-import { CompleteUser, SocialMedia, UserEntity } from '@domain/user/entity/types'
+import { CompleteUser, PrivateUserEntity, SocialMedia, UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -46,7 +46,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { showWaitingApproveModal } = useAlertContext()
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
-	// const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
+	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
@@ -57,11 +57,11 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		// const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
-		// setPrivateUserLocation(userLocation)
+		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
+		setPrivateUserLocation(userLocation)
 	}
 
-	/* const getUserAddress = () => { SMAS
+	const getUserAddress = () => {
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
 			const userLocation = editDataContext.unsaved.location
 			return `${userLocation.city} - ${userLocation.district}`
@@ -72,7 +72,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		}
 
 		return null
-	} */
+	}
 
 	type UserDataFields = keyof UserEntity
 	const getUserField = (fieldName?: UserDataFields) => {
@@ -170,7 +170,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
-		// CURRENT Enviar texto de reject no chat
 		setUserDataOnContext({ unapprovedData })
 		setIsLoading(false)
 
@@ -244,14 +243,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						<HorizontalSocialMediaList socialMedias={filteredSocialMedias()} onPress={openURL} />
 					</EditCard>
 					<VerticalSpacing />
-					{/* <EditCard // SMAS
+					<EditCard
 						title={'região de moradia'}
 						highlightedWords={['moradia']}
 						pressionable
 						value={getUserAddress() || 'localização utilizada para envio de notificações da prefeitura'}
 						onEdit={() => goToEditScreen('EditUserLocation')}
 					/>
-					<VerticalSpacing /> */}
+					<VerticalSpacing />
 					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
