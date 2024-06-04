@@ -11,6 +11,7 @@ import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormal
 import { mediaUrlUpdatedDM } from '../core/editPostValidationDM'
 import { getUneditedPostsDM } from '../core/getUneditedPostsDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
+import { updateLocationDataOnPostsDM } from './updateLocationDataOnPostsDM'
 
 async function savePostDM(
 	usePostRepository: () => PostRepositoryInterface,
@@ -27,7 +28,7 @@ async function savePostDM(
 
 	const owner = { ...newPostData.owner }
 
-	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
+	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM( // CURRENT Utilizar isso para filtrar postagens antes de editar
 		userSubscriptionRange,
 		storedPostData,
 		newPostData
@@ -35,9 +36,8 @@ async function savePostDM(
 
 	let userPostsUpdated: PostEntity[] = []
 	if (postLocationIsOutsideSubscriptionRange) {
-		userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner,
-			getUneditedPostsDM(userPosts, newPostData),
+		await updateLocationDataOnPostsDM(
+			newPostData.owner.userId,
 			{ range: newPostData.range, location: newPostData.location }
 		)
 	}
@@ -55,11 +55,11 @@ async function savePostDM(
 		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
 	}
 
-	const storedPicturesUrl = storedPostData.picturesUrl || []
-	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
-	if (picturesAlreadyUploadedToRemove.length) {
-		await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
-	}
+	// const storedPicturesUrl = storedPostData.picturesUrl || []
+	// const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
+	// if (picturesAlreadyUploadedToRemove.length) {
+	// 	await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
+	// }
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
 

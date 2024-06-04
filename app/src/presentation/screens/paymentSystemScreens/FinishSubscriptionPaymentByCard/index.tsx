@@ -4,12 +4,11 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardForm } from '@stripe/stripe-react-native'
 
-import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
+import { PostRange } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserSubscription } from '@domain/user/entity/types'
 
-import { usePostRepository } from '@data/post/usePostRepository'
-
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
@@ -36,7 +35,7 @@ import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
 
-const { remoteStorage } = usePostRepository()
+const { updateLocationDataOnPosts } = usePostDomain()
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
@@ -56,7 +55,7 @@ type RemoteCardDetails = {
 }
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, updateUserPost, getLastUserPost } = useAuthContext()
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
 	const {
 		getRangePlanPrice,
@@ -127,28 +126,15 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
 		const lastUserPost = getLastUserPost()
 
-		const owner: PostEntityOptional['owner'] = {
-			userId: userDataContext.userId,
-			name: userDataContext.name,
-			profilePictureUrl: userDataContext.profilePictureUrl
-		}
-
 		if (!lastUserPost) return
-		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner,
-			userDataContext.posts || [],
-			{
-				range: 'near',
-				location: lastUserPost.location
-			},
+		const userPostsUpdated = await updateLocationDataOnPosts(
+			userDataContext.userId,
+			{ range: 'near', location: lastUserPost.location },
 			true
 		) || []
 
-		updateUserContext(userSubscription, userPostsUpdated as PostEntity[])
-	}
-
-	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostEntity[] | []) => {
-		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
+		updateUserPost(userPostsUpdated)
+		setUserDataOnContext({ subscription: { ...userSubscription } })
 	}
 
 	const navigateToResultScreen = (successfulPayment: boolean, routeParams: any) => {

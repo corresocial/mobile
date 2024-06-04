@@ -11,7 +11,7 @@ import { getUnapprovedPosts } from './remoteStorage/getUnapprovedPosts'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
 import { updatePostData } from './remoteStorage/updatePostData'
-import { updateRangeAndLocationOnPosts } from './remoteStorage/updateRangeAndLocationOnPosts'
+import { updatePostsList } from './remoteStorage/updatePosts'
 import { uploadPostMedias } from './remoteStorage/uploadPostMedias'
 
 function usePostRepository(): PostRepositoryInterface {
@@ -40,8 +40,8 @@ function usePostRepository(): PostRepositoryInterface {
 			// UPDATE
 			updatePostData: updatePostData,
 			markPostAsComplete: markPostAsComplete,
+			updatePostsList: updatePostsList,
 			updateOwnerDataOnPosts: updateOwnerDataOnPosts,
-			updateRangeAndLocationOnPosts: updateRangeAndLocationOnPosts,
 
 			// DELETE
 			deletePost: deletePost,

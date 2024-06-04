@@ -33,7 +33,8 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		loadUnapprovedRegisters()
+		loadUnapprovedPosts()
+		loadUnapprovedProfiles()
 	}, [])
 
 	const loadUnapprovedRegisters = async () => {

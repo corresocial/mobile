@@ -8,6 +8,7 @@ import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormal
 import { getUneditedPostsDM } from '../core/getUneditedPostsDM'
 import { mediaUrlUpdatedDM } from '../core/mediaUrlUpdatedDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
+import { updateLocationDataOnPostsDM } from './updateLocationDataOnPostsDM'
 
 async function updatePostDM(
 	usePostRepository: () => PostRepositoryInterface,
@@ -19,19 +20,16 @@ async function updatePostDM(
 ) {
 	const { remoteStorage } = usePostRepository()
 
-	const owner = { ...storedPostData.owner }
-
 	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
 		userSubscriptionRange,
 		storedPostData,
 		newPostData
 	)
 
-	let userPostsUpdated: PostEntity[] = [] // CURRENT puxar todos e atualizar
+	let userPostsUpdated: PostEntity[] = []
 	if (postLocationIsOutsideSubscriptionRange) {
-		userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner,
-			getUneditedPostsDM(userPosts, newPostData),
+		await updateLocationDataOnPostsDM(
+			storedPostData.owner.userId,
 			{ range: newPostData.range, location: newPostData.location }
 		)
 	}

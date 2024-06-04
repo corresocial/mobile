@@ -20,6 +20,6 @@ export type AuthContextType = {
 	getLastUserPost: () => PostEntity | null
 	loadUserPosts: (userId?: string, refresh?: boolean) => Promise<PostEntity[] | void>
 	addUserPost: (postData: PostEntity) => void
-	updateUserPost: (postData: PostEntity) => void
+	updateUserPost: (postData: PostEntity | PostEntity[]) => void
 	removeUserPost: (postData: PostEntity) => Promise<void>
 }

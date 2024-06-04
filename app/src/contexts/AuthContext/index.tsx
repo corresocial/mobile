@@ -39,7 +39,7 @@ const initialValue: AuthContextType = {
 	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
 	addUserPost: (postData: PostEntity) => {},
-	updateUserPost: (postData: PostEntity) => {},
+	updateUserPost: (postData: PostEntity | PostEntity[]) => {},
 	removeUserPost: (postData: PostEntity) => Promise.resolve()
 }
 
@@ -134,10 +134,20 @@ function AuthProvider({ children }: AuthProviderProps) {
 		}
 	}
 
-	const updateUserPost = (postData: PostEntity) => {
+	const updateUserPost = (postData: PostEntity | PostEntity[]) => {
 		try {
 			if (!postData) return
-			const updatedUserPosts = userPostsContext.map((post) => (post.postId === postData.postId ? postData : post))
+
+			let updatedUserPosts = userPostsContext
+
+			if (Array.isArray(postData)) {
+				postData.forEach((post) => {
+					updatedUserPosts = updatedUserPosts.map((userPost) => (userPost.postId === post.postId ? post : userPost))
+				})
+			} else {
+				updatedUserPosts = updatedUserPosts.map((userPost) => (userPost.postId === postData.postId ? postData : userPost))
+			}
+
 			setUserPosts(updatedUserPosts)
 		} catch (error) {
 			console.log(error)

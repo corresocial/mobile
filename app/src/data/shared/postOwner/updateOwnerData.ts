@@ -1,4 +1,4 @@
-import { doc, setDoc, writeBatch } from 'firebase/firestore'
+import { doc, writeBatch } from 'firebase/firestore'
 
 import { PostEntityOptional } from '@domain/post/entity/types'
 
@@ -20,16 +20,6 @@ async function updateOwnerData(ownerPost: Partial<PostEntityOptional['owner']>, 
 		if (ownerPost && ownerPost.profilePictureUrl) {
 			owner = { ...owner, profilePictureUrl: ownerPost.profilePictureUrl }
 		}
-
-		userPostIds.forEach(async (postId) => {
-			const ref = doc(firestore, collection, postId)
-
-			await setDoc(
-				ref,
-				{ owner, updatedAt: new Date() },
-				{ merge: true },
-			)
-		})
 
 		const BATCH_SIZE = 500
 		const batches = []

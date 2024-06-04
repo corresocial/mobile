@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { PostEntityOptional, PostEntity } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserSubscription } from '@domain/user/entity/types'
 
-import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
@@ -35,7 +34,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
-const { remoteStorage: remotePostStorage } = usePostRepository()
+
+const { updateLocationDataOnPosts } = usePostDomain()
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()
@@ -43,7 +43,7 @@ const { getTextualAddress } = UiLocationUtils()
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
 	const { cancelSubscription, refundSubscriptionValue, sendReceiptByEmail, updateStripeCustomer } = useContext(StripeContext)
-	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, updateUserPost, userPostsContext, setUserDataOnContext, getLastUserPost } = useAuthContext()
 
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -54,12 +54,6 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const [privateEmail, setPrivateEmail] = useState('')
 
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
-
-	const owner: PostEntityOptional['owner'] = {
-		userId: userDataContext.userId,
-		name: userDataContext.name,
-		profilePictureUrl: userDataContext.profilePictureUrl
-	}
 
 	useEffect(() => {
 		loadPrivateEmail()
@@ -139,24 +133,21 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		const lastUserPost = getLastUserPost()
 
 		if (!lastUserPost) return
-		const userPostsUpdated = await remotePostStorage.updateRangeAndLocationOnPosts(
-			owner,
-			userDataContext.posts || [],
+
+		const userPostsUpdated = await updateLocationDataOnPosts(
+			userDataContext.userId,
 			{ range: 'near', location: lastUserPost.location },
 			true
-		) || []
+		)
 
-		updateUserContext(userSubscription, userPostsUpdated as PostEntity[])
+		updateUserPost(userPostsUpdated)
+		setUserDataOnContext({ subscription: { ...userSubscription } })
 	}
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
 		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
-	}
-
-	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostEntity[] | []) => {
-		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
 	}
 
 	const editPaymentMethod = () => {

@@ -6,14 +6,12 @@ import { PostEntity, PostEntityOptional } from './entity/types'
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
+import { PostRangeLocation } from './core/updatePostsLocation'
+
 interface PostDomainInterface {
 	getUnapprovedPosts(usePostRepository: () => PostRepositoryInterface, pageSize?: number, lastPost?: PostEntity | any): Promise<PostEntity[] | void>
 	getPostsByOwner(usePostRepository: () => PostRepositoryInterface, userId: string, pageSize?: number, lastPost?: PostEntity, completed?: boolean): Promise<PostEntity[]>
 
-	updateOwnerDataOnPosts(
-		usePostRepository: () => PostRepositoryInterface,
-		ownerData: Partial<PostEntityOptional['owner']>
-	): Promise<boolean | void>
 	updatePost(
 		usePostRepository: () => PostRepositoryInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
@@ -22,6 +20,11 @@ interface PostDomainInterface {
 		newPostData: PostEntity,
 		newPostPicturesUri: string[]
 	): Promise<{ updatedUserPosts: PostEntity[], picturesUrl?: string[] }>
+	updateOwnerDataOnPosts(
+		usePostRepository: () => PostRepositoryInterface,
+		ownerData: Partial<PostEntityOptional['owner']>
+	): Promise<boolean | void>
+	updateLocationDataOnPosts(userId: string, newPostRangeLocation: PostRangeLocation, subscriptionDowngrade?: boolean): Promise<PostEntity[]>
 	savePost(
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,
