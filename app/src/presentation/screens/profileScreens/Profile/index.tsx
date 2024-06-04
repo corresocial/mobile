@@ -273,7 +273,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const openSocialMediaManagement = () => {
-		navigation.navigate('SocialMediaManagementHome' as any, {
+		navigation.navigate(isLoggedUser ? 'SocialMediaManagement' : 'SocialMediaManagementHome' as any, {
 			userId: getUserField('userId'),
 			socialMedias: getUserField('socialMedias') || [],
 			isAuthor: isLoggedUser,

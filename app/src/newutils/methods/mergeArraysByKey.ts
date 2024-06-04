@@ -1,7 +1,7 @@
-export type Obj = { [key: string]: any }
+type Obj = { [key: string]: any }
 
-export function mergeArraysByKey(arr1: Obj[], arr2: Obj[], key: string): Obj[] {
-	const map = new Map<any, Obj>()
+export function mergeArraysByKey<T extends Obj, K extends keyof T>(arr1: T[], arr2: T[], key: K): T[] {
+	const map = new Map<T[K], T>()
 
 	arr1.forEach((item) => {
 		if (key in item) {

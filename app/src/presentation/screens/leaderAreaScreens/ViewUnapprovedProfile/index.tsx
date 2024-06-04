@@ -62,8 +62,6 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 	const { profileData } = route.params
 	const isLoggedUser = userDataContext.userId === profileData.userId
 
-	console.log(profileData.unapprovedData)
-
 	const toggleApproveConfirmationModalVisibility = () => {
 		setProfileOptionsIsOpen(false)
 		setTimeout(() => setApproveConfirmationModalIsVisible(!approveConfirmationModalIsVisible), 400)

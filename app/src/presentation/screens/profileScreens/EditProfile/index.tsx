@@ -2,11 +2,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 
+import { mergeArraysByKey } from '@newutils/methods/mergeArraysByKey'
 import { useUtils } from '@newutils/useUtils'
 import * as Sentry from 'sentry-expo'
 
 import { Id } from '@domain/post/entity/types'
-import { CompleteUser, UserEntity } from '@domain/user/entity/types'
+import { CompleteUser, SocialMedia, UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -171,11 +172,16 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 		// CURRENT Enviar texto de reject no chat
 		setUserDataOnContext({ unapprovedData })
-
 		setIsLoading(false)
 
 		showWaitingApproveModal()
 		navigation.goBack()
+	}
+
+	const filteredSocialMedias = () => {
+		return userDataContext && userDataContext.unapprovedData && userDataContext.unapprovedData.socialMedias
+			? mergeArraysByKey(userDataContext.socialMedias || [], userDataContext.unapprovedData.socialMedias || [], 'title')
+			: userDataContext.socialMedias
 	}
 
 	return (
@@ -235,7 +241,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						pressionable
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
-						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
+						<HorizontalSocialMediaList socialMedias={filteredSocialMedias()} onPress={openURL} />
 					</EditCard>
 					<VerticalSpacing />
 					{/* <EditCard // SMAS
