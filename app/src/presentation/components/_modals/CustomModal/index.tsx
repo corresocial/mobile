@@ -191,11 +191,13 @@ function CustomModal({
 										defaultBackgroundColor={theme.white2}
 										validBackgroundColor={theme.orange1}
 										fontSize={15}
+										multiline
+										numberOfLines={5}
 										keyboardType={customInput.keyboardType || 'email-address'}
 										placeholder={customInput.placeholder}
 										validateText={customInput.validateText}
 										value={textInput}
-										onChangeText={(text: string) => setTextInput(text.trim().toLowerCase())}
+										onChangeText={setTextInput}
 									/>
 									<VerticalSpacing/>
 								</>

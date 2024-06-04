@@ -24,7 +24,7 @@ function RejectModal({
 			TitleIcon={DeniedWhiteIcon}
 			firstParagraph={{
 				text: 'suas alteraçoes foram rejeitadas por não estarem de acordo com nossos termos de uso.',
-				highlightedWords: ['rejeitada', 'não', 'estar', 'de', 'acordo', 'termos', 'uso'],
+				highlightedWords: ['rejeitada', 'não', 'estarem', 'de', 'acordo', 'termos', 'uso'],
 				textAlign: 'center',
 				fontSize: 14
 			}}

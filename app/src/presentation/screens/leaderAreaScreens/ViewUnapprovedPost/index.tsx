@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
 import { PostEntityKeys } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
+import { UserOwner } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 
@@ -45,6 +48,7 @@ import { SocialImpactTypeCard } from '@components/_cards/SocialImpactType'
 import { VacancyPurposeCard } from '@components/_cards/VacancyPurposeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { GalleryModal } from '@components/_modals/GalleryModal'
+import { RejectConfirmationModal } from '@components/_modals/RejectConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -55,6 +59,14 @@ import { SmallUserIdentification } from '@components/SmallUserIdentification'
 const { approvePost, rejectPost } = usePostDomain()
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+
+const {
+	existsOnDatabase,
+	registerNewChat,
+	setChatIdForUsers,
+	generateNewMessageObject,
+	sendMessage,
+} = useChatDomain()
 
 function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps) {
 	const { userDataContext } = useAuthContext()
@@ -121,8 +133,8 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		}
 	}
 
-	const getPostField = (fieldName: PostEntityKeys, useApproedPostData?: boolean): any => {
-		return useApproedPostData ? (postData.unapprovedData as any)[fieldName] || (postData as any)[fieldName] : (postData.unapprovedData as any)[fieldName]
+	const getPostField = (fieldName: PostEntityKeys, useApprovedPostData?: boolean): any => {
+		return useApprovedPostData ? (postData.unapprovedData as any)[fieldName] || (postData as any)[fieldName] : (postData.unapprovedData as any)[fieldName]
 	}
 
 	const toggleApproveConfirmationModalVisibility = () => {
@@ -147,11 +159,12 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		toggleRejectConfirmationModalVisibility()
 	}
 
-	const rejectUserPost = async () => {
+	const rejectUserPost = async (rejectMessage?: string) => {
 		try {
 			setLoaderIsVisible(true)
 			const rejectedPost = await rejectPost(usePostRepository, postData)
 			removeFromUnapprovedPostList(rejectedPost!)
+			await sendRejectMessageToChat(rejectMessage)
 			setLoaderIsVisible(false)
 			navigationBackwards()
 		} catch (err) {
@@ -170,6 +183,52 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
+		}
+	}
+
+	const sendRejectMessageToChat = async (rejectMessage?: string) => {
+		try {
+			const authenticatedUserId = userDataContext.userId
+			const recipientUser: UserOwner = getPostField('owner', true)
+
+			if (authenticatedUserId === recipientUser.userId) throw new Error('Você não pode enviar mensagens para seu próprio post')
+
+			const secondaryChatId = `${recipientUser.userId}-${userDataContext.userId}`
+			const currentChat = {
+				chatId: `${userDataContext.userId}-${recipientUser.userId}`,
+				user1: {
+					userId: userDataContext.userId || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: userDataContext.profilePictureUrl && userDataContext.profilePictureUrl.length ? userDataContext.profilePictureUrl[0] : '',
+				},
+				user2: { ...recipientUser, profilePictureUrl: recipientUser.profilePictureUrl && recipientUser.profilePictureUrl.length ? recipientUser.profilePictureUrl[0] : '' },
+				messages: {},
+			}
+
+			let validChatId = ''
+			if (await existsOnDatabase(currentChat.chatId)) {
+				validChatId = currentChat.chatId
+			} else if (await existsOnDatabase(secondaryChatId)) {
+				validChatId = secondaryChatId
+			} else {
+				await registerNewChat(currentChat as Chat)
+				await setChatIdForUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
+				validChatId = currentChat.chatId
+			}
+
+			if (!validChatId) throw new Error('Não foi possível utilizar um identificador de chat válido')
+
+			const textMessage = `Sua postagem "${getShortText(getPostField('description') || '', 45)}" foi rejeitada por não estar de acordo com nossos termos de uso\n${rejectMessage ? `MOTIVO: ${rejectMessage}` : ''}`
+			const newMessageObject = generateNewMessageObject(textMessage, authenticatedUserId)
+			const newMessageValue = Object.values(newMessageObject)[0]
+
+			await sendMessage(
+				{ ...newMessageValue },
+				validChatId,
+				recipientUser.name
+			)
+		} catch (error) {
+			console.log(error)
 		}
 	}
 
@@ -203,13 +262,8 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 				closeModal={toggleApproveConfirmationModalVisibility}
 				onPressButton={approveUserPost}
 			/>
-			<DefaultConfirmationModal // REJEITAR
-				overlayColor={'error'}
+			<RejectConfirmationModal // REJEITAR
 				visibility={rejectConfirmationModalIsVisible}
-				title={'rejeitar'}
-				text={'você tem certeza que deseja rejeitar esse post?'}
-				highlightedWords={['rejeitar']}
-				buttonKeyword={'rejeitar'}
 				closeModal={toggleRejectConfirmationModalVisibility}
 				onPressButton={rejectUserPost}
 			/>
@@ -352,7 +406,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 									</TouchableOpacity>
 								</>
 							)
-							: (
+							: Object.keys((postData.unapprovedData || {})).length <= 2 && (
 								<ImageCarousel
 									picturesUrl={[defaultUserProfilePicture]}
 									indicatorColor={theme.blue1}
