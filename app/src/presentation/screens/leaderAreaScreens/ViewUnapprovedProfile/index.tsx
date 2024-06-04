@@ -213,6 +213,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 	return (
 		<ScreenContainer infinityBottom>
 			<DefaultConfirmationModal // APROVAR
+				overlayColor={'success'}
 				visibility={approveConfirmationModalIsVisible}
 				title={'aprovar'}
 				text={'você tem certeza que deseja aprovar esse perfil?'}
@@ -222,6 +223,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 				onPressButton={approveUserProfile}
 			/>
 			<DefaultConfirmationModal // REJEITAR
+				overlayColor={'error'}
 				visibility={rejectConfirmationModalIsVisible}
 				title={'rejeitar'}
 				text={'você tem certeza que deseja rejeitar esse perfil?'}

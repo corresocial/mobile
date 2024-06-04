@@ -24,7 +24,7 @@ export type ProfileStackParamList = {
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserLocation: { initialCoordinates: LatLong } | undefined
 	EditUserPicture: { profilePictureUrl: string, userId: string }
-	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
+	SocialMediaManagement: { socialMedias?: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { socialMedia: SocialMedia, index?: number }
 

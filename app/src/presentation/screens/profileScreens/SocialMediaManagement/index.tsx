@@ -2,7 +2,11 @@ import React from 'react'
 import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { SocialMedia } from '@domain/user/entity/types'
+
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { SocialMediaManagementScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
@@ -25,7 +29,11 @@ import { EditCard } from '@components/_cards/EditCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
+const { mergeArraysByKey } = useUtils()
+
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
+	const { userDataContext } = useAuthContext()
+
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
 		if (route.params.isAuthor) {
 			if (isDefaultSocialMedia(socialMedia.title)) {
@@ -44,7 +52,15 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 	}
 
 	const renderSocialMedias = () => {
-		const mergedSocialMedias = mergeWithDefaultSocialMedia(route.params.socialMedias)
+		const currentSocialMedias = route.params.isAuthor ? userDataContext.socialMedias : route.params.socialMedias
+
+		if (!currentSocialMedias || !currentSocialMedias.length) return
+
+		const mergedUnapprovedLinks: SocialMedia[] = userDataContext.unapprovedData && userDataContext.unapprovedData.socialMedias && route.params.isAuthor
+			? mergeArraysByKey(currentSocialMedias, (userDataContext.unapprovedData.socialMedias || []), 'title') as SocialMedia[]
+			: currentSocialMedias
+
+		const mergedSocialMedias = mergeWithDefaultSocialMedia(mergedUnapprovedLinks)
 
 		const socialMediaToRender = !route.params.isAuthor
 			? mergedSocialMedias.filter((socialMedia) => socialMedia.link && socialMediaUrl(socialMedia.title, '') !== socialMedia.link)

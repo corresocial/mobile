@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { SocialMedia } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -25,6 +27,8 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
 const { updateUserRepository } = useUserDomain()
+
+const { getArrayObjectDifferences } = useUtils()
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -73,18 +77,22 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			}
 		}
 
-		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
+			console.log(socialMediaData)
+
+			if (!(getArrayObjectDifferences(userDataContext.socialMedias || [], socialMediaData.socialMedias) || []).length) {
+				return navigation.navigate('SocialMediaManagement', { isAuthor: true })
+			}
 
 			await updateUserRepository(
 				useUserRepository,
 				userDataContext,
-				socialMediaData
+				{ unapprovedData: socialMediaData }
 			)
-			setUserDataOnContext(socialMediaData)
+			setUserDataOnContext({ unapprovedData: socialMediaData })
 
-			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
+			navigation.navigate('SocialMediaManagement', { isAuthor: true })
 		} catch (err) {
 			console.log(err)
 			setInvaliLinkValueAfterSubmit(true)

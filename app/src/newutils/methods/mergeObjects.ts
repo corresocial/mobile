@@ -2,6 +2,12 @@ export type RecursivePartial<T> = {
 	[P in keyof T]?: T[P] extends object ? RecursivePartial<T[P]> : T[P];
 };
 
+/**
+* A função mergeObjects é utilizada para mesclar dois objetos,
+* onde o segundo objeto pode ser uma versão parcial e recursiva do primeiro.
+* Essa função permite a mesclagem profunda de objetos, combinando propriedades de forma recursiva
+* para objetos aninhados.
+*/
 export function mergeObjects<T>(obj1: T, obj2: RecursivePartial<T>): T {
 	const result: any = { ...obj1 }
 

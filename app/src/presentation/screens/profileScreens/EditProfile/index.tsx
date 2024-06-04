@@ -170,7 +170,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		}
 
 		// CURRENT Enviar texto de reject no chat
-		// CURRENT Passar a edição de links para aqui e não na tela de management
 		setUserDataOnContext({ unapprovedData })
 
 		setIsLoading(false)
