@@ -28,7 +28,7 @@ async function savePostDM(
 
 	const owner = { ...newPostData.owner }
 
-	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM( // CURRENT Utilizar isso para filtrar postagens antes de editar
+	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
 		userSubscriptionRange,
 		storedPostData,
 		newPostData
