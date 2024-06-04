@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { Linking, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { CompleteUser, SocialMedia, VerifiedLabelName } from '@domain/user/entity/types'
+import { Chat } from '@domain/chat/entity/types'
+import { useChatDomain } from '@domain/chat/useChatDomain'
+import { CompleteUser, SocialMedia, UserOwner, VerifiedLabelName } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -40,6 +42,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { GalleryModal } from '@components/_modals/GalleryModal'
+import { RejectConfirmationModal } from '@components/_modals/RejectConfirmationModal'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ImageCarousel } from '@components/ImageCarousel'
@@ -48,6 +51,13 @@ import { PopOver } from '@components/PopOver'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 
 const { approveProfile, rejectProfile } = useUserDomain()
+const {
+	existsOnDatabase,
+	registerNewChat,
+	setChatIdForUsers,
+	generateNewMessageObject,
+	sendMessage,
+} = useChatDomain()
 
 export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfileScreenProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
@@ -80,11 +90,13 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 		toggleRejectConfirmationModalVisibility()
 	}
 
-	const rejectUserProfile = async () => {
+	const rejectUserProfile = async (rejectMessage?: string) => {
+		sendRejectMessageToChat(rejectMessage)
 		try {
 			setLoaderIsVisible(true)
 			const rejectedProfile = await rejectProfile(useUserRepository, profileData)
 			removeFromUnapprovedProfileList(rejectedProfile!)
+			sendRejectMessageToChat(rejectMessage)
 			setLoaderIsVisible(false)
 			navigationBackwards()
 		} catch (err) {
@@ -103,6 +115,56 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
+		}
+	}
+
+	const sendRejectMessageToChat = async (rejectMessage?: string) => {
+		try {
+			const authenticatedUserId = userDataContext.userId
+			const recipientUser: UserOwner = {
+				name: profileData.name,
+				userId: profileData.userId,
+				profilePictureUrl: profileData.profilePictureUrl || []
+			}
+
+			if (authenticatedUserId === recipientUser.userId) throw new Error('Você não pode enviar mensagens para seu próprio post')
+
+			const secondaryChatId = `${recipientUser.userId}-${userDataContext.userId}`
+			const currentChat = {
+				chatId: `${userDataContext.userId}-${recipientUser.userId}`,
+				user1: {
+					userId: userDataContext.userId || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: userDataContext.profilePictureUrl && userDataContext.profilePictureUrl.length ? userDataContext.profilePictureUrl[0] : '',
+				},
+				user2: { ...recipientUser, profilePictureUrl: recipientUser.profilePictureUrl && recipientUser.profilePictureUrl.length ? recipientUser.profilePictureUrl[0] : '' },
+				messages: {},
+			}
+
+			let validChatId = ''
+			if (await existsOnDatabase(currentChat.chatId)) {
+				validChatId = currentChat.chatId
+			} else if (await existsOnDatabase(secondaryChatId)) {
+				validChatId = secondaryChatId
+			} else {
+				await registerNewChat(currentChat as Chat)
+				await setChatIdForUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
+				validChatId = currentChat.chatId
+			}
+
+			if (!validChatId) throw new Error('Não foi possível utilizar um identificador de chat válido')
+
+			const textMessage = `As alterações que realizou no seu perfil foram rejeitadas por não estar de acordo com nossos termos de uso\n${rejectMessage ? `MOTIVO: ${rejectMessage}` : ''}`
+			const newMessageObject = generateNewMessageObject(textMessage, authenticatedUserId)
+			const newMessageValue = Object.values(newMessageObject)[0]
+
+			await sendMessage(
+				{ ...newMessageValue },
+				validChatId,
+				recipientUser.name
+			)
+		} catch (error) {
+			console.log(error)
 		}
 	}
 
@@ -220,13 +282,8 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 				closeModal={toggleApproveConfirmationModalVisibility}
 				onPressButton={approveUserProfile}
 			/>
-			<DefaultConfirmationModal // REJEITAR
-				overlayColor={'error'}
+			<RejectConfirmationModal // REJEITAR
 				visibility={rejectConfirmationModalIsVisible}
-				title={'rejeitar'}
-				text={'você tem certeza que deseja rejeitar esse perfil?'}
-				highlightedWords={['rejeitar']}
-				buttonKeyword={'rejeitar'}
 				closeModal={toggleRejectConfirmationModalVisibility}
 				onPressButton={rejectUserProfile}
 			/>
