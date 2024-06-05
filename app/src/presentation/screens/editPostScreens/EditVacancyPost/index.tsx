@@ -39,7 +39,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
@@ -135,6 +135,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 
@@ -147,7 +148,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const checkChangeLocationAlertIsRequired = () => {
-		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectVacancyLocationView', 'location')
+		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectVacancyLocationView', 'location')
 
 		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
@@ -200,6 +201,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'vacancy' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}

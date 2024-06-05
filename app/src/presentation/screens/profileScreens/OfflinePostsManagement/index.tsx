@@ -124,7 +124,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 				{ posts: newUserPosts }
 			)
 
-			setUserDataOnContext({ ...userDataContext, posts: newUserPosts })
+			setUserDataOnContext({ posts: newUserPosts })
 
 			localPostsStorage.deleteOfflinePostByDescription(postData.description)
 		} catch (err) {
@@ -157,6 +157,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		<PostCard
 			post={{ ...item, createdAt: new Date() }}
 			owner={item.owner as PostEntityCommonFields['owner']}
+			isOwner={userDataContext.userId === item.owner?.userId}
 			onPress={() => naigateToReviewPost(item)}
 		/>
 	)

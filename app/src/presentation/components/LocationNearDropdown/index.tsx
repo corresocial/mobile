@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, FlatList, Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
 import { LatLong } from '@domain/post/entity/types'
@@ -158,7 +157,7 @@ function LocationNearDropdown({
 							/>
 						)
 					}
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing />
 					{
 						!searchText.length && (
 							<MyLocationButtonContainer>
@@ -179,7 +178,7 @@ function LocationNearDropdown({
 							</MyLocationButtonContainer>
 						)
 					}
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing />
 					<FlatList
 						data={!searchText.length ? recentAddresses : addressSuggestions}
 						showsVerticalScrollIndicator={false} // Item
@@ -191,8 +190,8 @@ function LocationNearDropdown({
 								recent={item.recent}
 							/>
 						)}
-						ItemSeparatorComponent={() => <VerticalSpacing height={RFValue(5)} />}
-						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(40)} />}
+						ItemSeparatorComponent={() => <VerticalSpacing />}
+						ListFooterComponent={() => <VerticalSpacing height={40} />}
 					/>
 				</DropdownBody>
 				{

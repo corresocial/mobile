@@ -1,27 +1,24 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 
+import { mergeArraysByKey } from '@newutils/methods/mergeArraysByKey'
+import { useUtils } from '@newutils/useUtils'
 import * as Sentry from 'sentry-expo'
 
-import { useChatDomain } from '@domain/chat/useChatDomain'
-import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
-import { usePollDomain } from '@domain/poll/usePollDomain'
-import { Id, PostEntity } from '@domain/post/entity/types'
-import { usePostDomain } from '@domain/post/usePostDomain'
+import { Id } from '@domain/post/entity/types'
+import { CompleteUser, PrivateUserEntity, SocialMedia, UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { usePetitionRepository } from '@data/petition/usePetitionRepository'
-import { usePollRepository } from '@data/poll/usePollRepository'
-import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 
-import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -39,20 +36,17 @@ import { Loader } from '@components/Loader'
 
 const { remoteStorage } = useUserRepository()
 
-const { updateOwnerDataOnPosts } = usePostDomain()
-const { updateOwnerDataOnPolls } = usePollDomain()
-const { updateOwnerDataOnPetitions } = usePetitionDomain()
 const { updateUserRepository } = useUserDomain()
-const { updateProfilePictureOnConversations } = useChatDomain()
 
-const { arrayIsEmpty } = UiUtils()
+const { getObjectDifferences, mergeObjects } = useUtils()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { showWaitingApproveModal } = useAlertContext()
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
-	// const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
+	const [privateUserLocation, setPrivateUserLocation] = useState<PrivateUserEntity['location'] | null>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
@@ -63,11 +57,11 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}, [])
 
 	const loadPrivateUserLocation = async () => {
-		// const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
-		// setPrivateUserLocation(userLocation)
+		const userLocation = await remoteStorage.getPrivateLocation(userDataContext.userId)
+		setPrivateUserLocation(userLocation)
 	}
 
-	/* const getUserAddress = () => { SMAS
+	const getUserAddress = () => {
 		if (editDataContext.unsaved && editDataContext.unsaved.location) {
 			const userLocation = editDataContext.unsaved.location
 			return `${userLocation.city} - ${userLocation.district}`
@@ -78,20 +72,29 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		}
 
 		return null
-	} */
+	}
+
+	type UserDataFields = keyof UserEntity
+	const getUserField = (fieldName?: UserDataFields) => {
+		if (editDataContext.unsaved[fieldName as any]) {
+			return editDataContext.unsaved[fieldName as any]
+		}
+		const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity || {})
+		return mergedPost ? (mergedPost as any)[fieldName as any] : ''
+	}
 
 	const goToEditScreen = (screenName: keyof ProfileStackParamList) => {
 		switch (screenName) {
 			case 'EditUserName': {
 				navigation.navigate('EditUserName', {
-					userName: editDataContext.unsaved.name || userDataContext.name || '',
+					userName: getUserField('name') || '',
 					userId: userDataContext.userId || ''
 				})
 				break
 			}
 			case 'EditUserDescription': {
 				navigation.navigate('EditUserDescription', {
-					userDescription: editDataContext.unsaved.description || userDataContext.description || '',
+					userDescription: getUserField('description') || '',
 					userId: userDataContext.userId || ''
 				})
 				break
@@ -110,21 +113,13 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			}
 			case 'EditUserPicture': {
 				navigation.navigate(screenName, {
-					profilePictureUrl: getProfilePictureUrl(),
+					profilePictureUrl: getUserField('profilePictureUrl') && getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl')[0] : '',
 					userId: userDataContext.userId || ''
 				})
 				break
 			}
 			default: return false
 		}
-	}
-
-	const getProfilePictureUrl = () => {
-		if (userDataContext && !userDataContext.profilePictureUrl && !editDataContext.unsaved.profilePictureUrl) return ''
-		if (arrayIsEmpty([editDataContext.unsaved.profilePictureUrl]) && arrayIsEmpty(userDataContext.profilePictureUrl)) return ''
-		if (editDataContext.unsaved.profilePictureUrl === '') return ''
-		if (editDataContext.unsaved.profilePictureUrl) return editDataContext.unsaved.profilePictureUrl
-		if (userDataContext && userDataContext.profilePictureUrl && userDataContext.profilePictureUrl[0]) return userDataContext.profilePictureUrl[0]
 	}
 
 	const updateUserData = async () => {
@@ -144,52 +139,48 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}
 
 	const updateUser = async () => {
-		let profilePictureUrl = ['']
-		if (Object.keys(editDataContext.unsaved).includes('profilePictureUrl')) {
-			if (editDataContext.unsaved.profilePictureUrl) {
-				profilePictureUrl = await remoteStorage.uploadUserMedia([editDataContext.unsaved.profilePictureUrl], 'pictures')
-			}
+		const dataChanges = getObjectDifferences<CompleteUser>(userDataContext as CompleteUser, { ...editDataContext.unsaved })
+		console.log(dataChanges)
+
+		let profilePictureUrl = []
+		if (dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]) {
+			profilePictureUrl = await remoteStorage.uploadUserMedia([dataChanges.profilePictureUrl as any], 'pictures')
 		} else {
 			profilePictureUrl = userDataContext.profilePictureUrl || []
 		}
 
-		await updateUserRepository(
-			useUserRepository,
-			userDataContext,
-			{ ...editDataContext.unsaved, profilePictureUrl: profilePictureUrl }
-		)
+		const picture = dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]
+			? { profilePictureUrl: profilePictureUrl }
+			: {}
+		const ownerData = dataChanges && (dataChanges.name || dataChanges.profilePictureUrl || dataChanges.socialMedias)
+			? {
+				owner: {
+					userId: userDataContext.userId,
+					name: getUserField('name'),
+					...picture
+				}
+			}
+			: {}
 
-		const owner: PostEntity['owner'] = {
-			userId: userDataContext.userId,
-			name: editDataContext.unsaved.name || userDataContext.name,
-			profilePictureUrl: profilePictureUrl
+		const { location, ...approveData } = dataChanges as CompleteUser
+		const unapprovedData = { ...approveData, ...ownerData, ...picture, reject: false } as CompleteUser['unapprovedData']
+
+		await updateUserRepository(useUserRepository, userDataContext, { unapprovedData })
+		if (dataChanges && dataChanges.location) {
+			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
-		await updateOwnerDataOnPosts(usePostRepository, { ...owner })
-		if (userDataContext.verified && userDataContext.verified.type === 'leader') {
-			await updateOwnerDataOnPolls(usePollRepository, { ...owner })
-			await updateOwnerDataOnPetitions(usePetitionRepository, { ...owner })
-		}
-
-		if (profilePictureUrl && profilePictureUrl.length && !profilePictureUrl[0].includes('http')) {
-			await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl[0])
-		}
-
-		if (editDataContext.unsaved && editDataContext.unsaved.location) {
-			await remoteStorage.updatePrivateLocation(
-				userDataContext.userId as Id,
-				editDataContext.unsaved.location
-			)
-		}
-
-		if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-			await remoteStorage.deleteUserProfilePicture(userDataContext.profilePictureUrl || [])
-		}
-
-		setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: profilePictureUrl })
-
+		setUserDataOnContext({ unapprovedData })
 		setIsLoading(false)
+
+		showWaitingApproveModal()
 		navigation.goBack()
+	}
+
+	const filteredSocialMedias = () => {
+		return userDataContext && userDataContext.unapprovedData && userDataContext.unapprovedData.socialMedias
+			? mergeArraysByKey(userDataContext.socialMedias || [], userDataContext.unapprovedData.socialMedias || [], 'title')
+			: userDataContext.socialMedias
 	}
 
 	return (
@@ -202,7 +193,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					highlightedWords={['editar']}
 				/>
 				{
-					Object.keys(editDataContext.unsaved).length > 0 && (
+					getObjectDifferences(userDataContext, editDataContext.unsaved) && (
 						isLoading
 							? <Loader />
 							: (
@@ -230,7 +221,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'seu nome'}
 						highlightedWords={['nome']}
-						value={editDataContext.unsaved.name || userDataContext.name}
+						value={getUserField('name')}
 						pressionable
 						onEdit={() => goToEditScreen('EditUserName')}
 					/>
@@ -238,36 +229,36 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
-						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? getShortText(editDataContext.unsaved.description, 140) : getShortText(userDataContext.description, 140)}
+						value={getShortText(getUserField('description') || '', 140)}
 						pressionable
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
 					<VerticalSpacing />
 					<EditCard
-						title={'links e contato'}
-						highlightedWords={['links', 'contato']}
+						title={'links e contatos'}
+						highlightedWords={['links', 'contatos']}
 						pressionable
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
-						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
+						<HorizontalSocialMediaList socialMedias={filteredSocialMedias()} onPress={openURL} />
 					</EditCard>
 					<VerticalSpacing />
-					{/* <EditCard // SMAS
+					<EditCard
 						title={'região de moradia'}
 						highlightedWords={['moradia']}
 						pressionable
 						value={getUserAddress() || 'localização utilizada para envio de notificações da prefeitura'}
 						onEdit={() => goToEditScreen('EditUserLocation')}
 					/>
-					<VerticalSpacing /> */}
+					<VerticalSpacing />
 					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
-						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						profilePicturesUrl={getUserField('profilePictureUrl') || []}
 						pressionable={false}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
-					<VerticalSpacing height={relativeScreenHeight(5)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</ScrollView>
 			</Body>
 		</Container>

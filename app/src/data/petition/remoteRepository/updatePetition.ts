@@ -2,7 +2,7 @@ import { doc, setDoc } from 'firebase/firestore'
 
 import { PetitionEntityOptional } from '@domain/petition/entity/types'
 
-import { PETITION_COLLECTION } from '@data/remoteStorageKeys'
+import { PETITION_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

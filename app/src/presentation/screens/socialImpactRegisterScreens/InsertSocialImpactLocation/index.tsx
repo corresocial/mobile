@@ -22,7 +22,7 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLocationScreenProps) {
-	const { userDataContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,7 +35,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 
 	const userSubscriptionIsCity = () => userDataContext.subscription?.subscriptionRange === 'city'
 
-	const userHasSomePost = () => userDataContext.posts && userDataContext.posts.length > 0
+	const userHasSomePost = () => userPostsContext && userPostsContext.length > 0
 
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false

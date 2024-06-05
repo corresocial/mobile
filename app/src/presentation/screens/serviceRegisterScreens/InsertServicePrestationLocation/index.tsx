@@ -22,7 +22,7 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertServicePrestationLocation({ route, navigation }: InsertServicePrestationLocationScreenProps) {
-	const { userDataContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,7 +35,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 
 	const userSubscriptionIsCity = () => userDataContext.subscription?.subscriptionRange === 'city'
 
-	const userHasSomePost = () => userDataContext.posts && userDataContext.posts.length > 0
+	const userHasSomePost = () => userPostsContext && userPostsContext.length > 0
 
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false

@@ -6,7 +6,6 @@ import { WhoWeAreScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { Body, Container, ContainerContent, Header, BoldPhrase, ButtonContainer, Description } from './styles'
 import Logo from '@assets/icons/logoBuilding.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -32,7 +31,7 @@ function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 						<BoldPhrase>{'o corre. é trabalho,'}</BoldPhrase>
 						<BoldPhrase>{'o corre. é cultura,'}</BoldPhrase>
 						<BoldPhrase>{'o corre. é transformação'}</BoldPhrase>
-						<VerticalSpacing height={relativeScreenWidth(6)} />
+						<VerticalSpacing height={6} />
 						<Description>
 							{'somos uma organização social que usa todos os lucros para combater desigualdades sociais nas periferias.'}
 						</Description>

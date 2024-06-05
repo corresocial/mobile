@@ -1,6 +1,5 @@
 import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 
-import { PostRangeLocation } from './remoteStorage/updateRangeAndLocationOnPosts'
 import { StorageFolder } from './remoteStorage/uploadPostMedias'
 
 interface PostRepositoryInterface {
@@ -16,20 +15,17 @@ interface PostRepositoryInterface {
 
 	remoteStorage: {
 		getPostById: (postId: string) => Promise<PostEntityOptional | null>
+		getPostsByUser(userId: string, maxDocs?: number, lastDoc?: PostEntity | null, completed?: boolean, allPosts?: boolean): Promise<PostEntity[]>
 		getPostIdsByUser(userId: string): Promise<string[]>
+		getUnapprovedPosts(maxDocs?: number, lastDoc?: PostEntity | any): Promise<PostEntity[]>
 
 		createPost: (post: PostEntityOptional) => Promise<PostEntity | null>
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
 
-		updatePostData: (postId: string, data: PostEntityOptional) => Promise<boolean>
-		markPostAsComplete: (userId: string, postId: string, currentPost: PostEntityOptional, userPosts: PostEntityOptional[]) => Promise<boolean>
+		updatePostData: (postId: string, data: PostEntityOptional, merge?: boolean) => Promise<boolean>
+		markPostAsComplete: (postId: string, postData: PostEntityOptional, state: boolean) => Promise<boolean>
 		updateOwnerDataOnPosts: (ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
-		updateRangeAndLocationOnPosts: (
-			userOwner: PostEntity['owner'],
-			userPosts: PostEntity[],
-			newPostRangeLocation: PostRangeLocation,
-			subscriptionChange?: boolean
-		) => Promise<PostEntity[]>
+		updatePostsList: (userPosts: PostEntity[]) => Promise<boolean>
 
 		deletePost: (postId: string, userId: string) => Promise<boolean>
 		deletePostMedias: (postMedias: string[], storagePath: 'pictures') => Promise<boolean>

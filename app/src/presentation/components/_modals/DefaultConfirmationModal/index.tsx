@@ -3,6 +3,7 @@ import React from 'react'
 import { CustomModal } from '../CustomModal'
 
 interface DefaultConfirmationModalProps {
+	overlayColor?: 'success' | 'error' | 'info'
 	visibility: boolean
 	title?: string
 	text?: string
@@ -14,6 +15,7 @@ interface DefaultConfirmationModalProps {
 }
 
 function DefaultConfirmationModal({
+	overlayColor,
 	visibility,
 	title,
 	text,
@@ -25,6 +27,7 @@ function DefaultConfirmationModal({
 }: DefaultConfirmationModalProps) {
 	return (
 		<CustomModal
+			overlayColor={overlayColor}
 			visibility={visibility}
 			title={title || ''}
 			firstParagraph={{

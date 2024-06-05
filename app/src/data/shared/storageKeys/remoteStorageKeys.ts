@@ -1,5 +1,3 @@
-// REFACTOR CENTRALIZAR EM OUTRO LUGAR?
-
 const USER_COLLECTION = 'users'
 const POST_COLLECTION = 'posts'
 const IMPACT_REPORT_COLLECTION = 'impactReports'

@@ -96,6 +96,7 @@ export type FeedPosts = {
 
 export type PostType = 'income' | 'socialImpact' | 'culture'
 
+export type PostEntityKeys = keyof IncomeEntityOptional | keyof VacancyEntityOptional | keyof CultureEntityOptional | keyof SocialImpactEntityOptional
 export type PostEntity = IncomeEntity | VacancyEntity | CultureEntity | SocialImpactEntity
 export type PostEntityOptional = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
 
@@ -107,6 +108,7 @@ export interface IncomeEntity extends PostEntityCommonFields {
 	itemStatus: ItemStatus
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
+	unapprovedData?: IncomeEntityOptional & { reject?: boolean }
 }
 
 export type VacancyEntityOptional = Partial<VacancyEntity>
@@ -120,6 +122,7 @@ export interface VacancyEntity extends PostEntityCommonFields {
 	endDate?: Date
 	saleValue?: string
 	exchangeValue?: string
+	unapprovedData?: VacancyEntityOptional & { reject?: boolean }
 }
 
 export type CultureEntityOptional = Partial<CultureEntity>
@@ -131,6 +134,7 @@ export interface CultureEntity extends PostEntityCommonFields {
 	exhibitionFrequency?: WeekdaysFrequency
 	startDate?: Date
 	endDate?: Date
+	unapprovedData?: CultureEntityOptional & { reject?: boolean }
 }
 
 export type SocialImpactEntityOptional = Partial<SocialImpactEntity>
@@ -141,6 +145,7 @@ export interface SocialImpactEntity extends PostEntityCommonFields {
 	repeat?: EventRepeatType
 	startDate?: Date
 	endDate?: Date
+	unapprovedData?: SocialImpactEntityOptional & { reject?: boolean }
 }
 
 export interface PostEntityCommonFields {
@@ -160,6 +165,7 @@ export interface PostEntityCommonFields {
 	videosUrl?: string[]
 	links?: string[]
 	createdAt: Date
+	updatedAt: Date
 	location: {
 		country: string
 		state: string

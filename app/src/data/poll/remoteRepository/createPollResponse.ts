@@ -2,7 +2,7 @@ import { collection, addDoc } from 'firebase/firestore'
 
 import { PrivatePollResponse } from '@domain/poll/entity/types'
 
-import { POLL_COLLECTION } from '@data/remoteStorageKeys'
+import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

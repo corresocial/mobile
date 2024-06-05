@@ -26,13 +26,13 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost = getLastUserPost() || {}
-		if (!Object.keys(lastUserPost).length) return
+		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return
 
 		setSocialImpactDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
-			locationView: lastUserPost.locationView || '',
-			location: lastUserPost.location || ''
+			locationView: { ...lastUserPost, ...lastUserPost.unapprovedData }.locationView || '',
+			location: { ...lastUserPost, ...lastUserPost.unapprovedData }.location || ''
 		} as SocialImpactEntity)
 		setIsSecondPost(true)
 	}

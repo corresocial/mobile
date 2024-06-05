@@ -8,7 +8,7 @@ export interface SaleProviderProps {
 
 export type SaleContextType = {
 	isSecondPost: boolean
-	saleDataContext: IncomeEntity | {}
+	saleDataContext: IncomeEntity
 	setSaleDataOnContext: (data: IncomeEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

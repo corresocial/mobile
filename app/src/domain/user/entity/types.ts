@@ -26,6 +26,7 @@ export type UserEntity = {
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
+	unapprovedData?: UserEntityOptional & { reject?: boolean, owner?: UserOwner }
 	private?: PrivateUserEntity
 }
 
@@ -79,3 +80,5 @@ export type PrivateUserEntity = {
 		visibleToGovernment: boolean
 	}
 }
+
+export type CompleteUser = UserEntity & PrivateUserEntity

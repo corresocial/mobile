@@ -3,7 +3,7 @@ import { deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore'
 import { PostEntityOptional } from '@domain/post/entity/types'
 import { UserEntity } from '@domain/user/entity/types'
 
-import { POST_COLLECTION, USER_COLLECTION } from '@data/remoteStorageKeys'
+import { POST_COLLECTION, USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

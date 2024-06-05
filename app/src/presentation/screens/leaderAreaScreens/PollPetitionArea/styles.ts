@@ -1,11 +1,11 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-export const Container = styled.ScrollView`
-	width: 100%;
+export const PollPetitionList = styled.FlatList`
+	flex: 1;
 	background-color: ${({ theme }) => theme.purple2};
-	padding-bottom: 100px;
+	width: ${relativeScreenWidth(100)}px;
 `
 
 export const Header = styled.View`

@@ -26,7 +26,7 @@ interface DescriptionCardProps {
 function DescriptionCard({ title, text, hightligtedWords, children, CustomHeaderIcon, textFontSize = 14, onEdit }: DescriptionCardProps) {
 	const sumarizedSubscriptionSize = 200
 
-	const showResizeLabel = text.length >= sumarizedSubscriptionSize
+	const showResizeLabel = (text || '').length >= sumarizedSubscriptionSize
 
 	const [descriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
 

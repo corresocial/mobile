@@ -15,9 +15,10 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { ViewPollListScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { CardContainer, Container, Header, PollList } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 import { PollCard } from '@components/_cards/PollCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
@@ -27,6 +28,8 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 const { getPollsByOwner } = usePollDomain()
 
 const { executeCachedRequest } = useCacheRepository()
+
+const { getNewDate } = UiUtils()
 
 export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 	const { userDataContext } = useAuthContext()
@@ -50,13 +53,14 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 
 			const lastPoll = !refresh && (polls && polls.length) ? polls[polls.length - 1] : undefined
 
-			const queryKey = ['polls', userDataContext.userId, lastPoll]
-			const userPolls = await executeCachedRequest(
+			const queryKey = ['user.polls', userDataContext.userId, lastPoll]
+			let userPolls = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				() => getPollsByOwner(usePollRepository, userDataContext.userId, 5, lastPoll),
 				refresh
 			)
+			userPolls = userPolls.map((p: PollEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
 			if (!userPolls.length) {
 				refresh && setIsLoading(false)
@@ -65,7 +69,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			}
 
 			if (refresh) {
-				queryClient.removeQueries({ queryKey: ['polls', userDataContext.userId] })
+				queryClient.removeQueries({ queryKey: ['user.polls', userDataContext.userId] })
 				setPolls([...userPolls])
 				setListIsOver(false)
 			} else {
@@ -104,7 +108,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} bottomSafeAreaColor={theme.purple2}>
+		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -121,18 +125,18 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 					data={polls}
 					renderItem={renderPoll as ListRenderItem<unknown>}
 					onEndReached={loadMorePolls}
-					onEndReachedThreshold={0.2}
+					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl
+							tintColor={theme.black4}
+							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 							refreshing={isLoading}
 							onRefresh={() => loadPolls(true)}
-							colors={[theme.white3]}
-							size={relativeScreenDensity(20)}
 						/>
 					)}
 					ListHeaderComponent={() => <VerticalSpacing/>}
 					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(10)}/>}
+					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
 				/>
 			</Container>
 		</ScreenContainer>

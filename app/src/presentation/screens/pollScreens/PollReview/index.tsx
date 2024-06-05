@@ -229,7 +229,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 					/>
 					<VerticalSpacing />
 					{renderQuestions()}
-					<VerticalSpacing height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing height={1.5} />
 				</BodyPadding >
 			</Body>
 		</Container>

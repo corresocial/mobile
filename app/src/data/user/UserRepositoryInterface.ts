@@ -15,13 +15,14 @@ interface UserRepositoryInterface {
 		getUserData: (userId: string) => Promise<UserEntity | null>
 		getPrivateContacts: (userId: string) => Promise<PrivateUserEntity['contacts'] | null>
 		getPrivateLocation: (userId: string) => Promise<PrivateUserEntity['location'] | null>
+		getUnapprovedProfiles(maxDocs?: number, lastDoc?: UserEntity | any): Promise<UserEntity[]>
 
 		userExists: (userId: string) => Promise<boolean>
 		// POST
 		saveUserData: (userId: string, data: UserEntityOptional) => Promise<void>
 
 		// UPDATE
-		updateUserData: (userId: string, data: UserEntityOptional) => Promise<boolean>
+		updateUserData: (userId: string, data: UserEntityOptional, merge?: boolean) => Promise<boolean>
 		updatePrivateContacts: (userId: string, data: PrivateUserEntity['contacts']) => Promise<boolean>
 		updatePrivateLocation: (userId: string, data: PrivateUserEntity['location']) => Promise<boolean>
 

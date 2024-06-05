@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React, { useEffect, useState } from 'react'
 
-import { PostEntityOptional } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -17,8 +16,11 @@ import {
 	SaleValueContainerInner,
 	SidePicture,
 	Title,
-	TitleContainer
+	TitleContainer,
+	WaitingApproveIconContainer
 } from './styles'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -30,15 +32,24 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 interface PostCardProps {
-	post: PostEntityOptional | any
+	post: PostEntity | any // TODO Type
 	owner: UserOwner
+	isOwner: boolean
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }
 
-function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
+function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }: PostCardProps) {
+	const [post, setPost] = useState<PostEntity | any>(postData)
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
-	const defineLabelColor = (lightColor?: boolean) => {
+
+	useEffect(() => {
+		if (isOwner && postData && postData.unapprovedData) {
+			setPost({ ...(postData || {}), ...postData.unapprovedData } as PostEntity)
+		}
+	}, [postData, isOwner])
+
+	const getRelativeColor = (lightColor?: boolean) => {
 		switch (post.postType) {
 			case 'income': return lightColor ? theme.green1 : theme.green3
 			case 'socialImpact': return lightColor ? theme.pink1 : theme.pink3
@@ -70,6 +81,8 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 		if (arrayIsEmpty(owner.profilePictureUrl)) return null
 		return owner.profilePictureUrl[0]
 	}
+
+	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -106,8 +119,8 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
 				<LeftArea
-					hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}
-					backgroundColor={defineLabelColor(true)}
+					hasPictureOrSaleValue={enableLeftAreaSpacing()}
+					backgroundColor={getRelativeColor(true)}
 				>
 					{
 						<SidePicture
@@ -119,6 +132,20 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 							cachePolicy={'memory-disk'}
 							transition={300}
 						>
+							{
+								postData.unapprovedData && isOwner && (
+									<WaitingApproveIconContainer
+										hasValues={post.saleValue || post.exchangeValue}
+										hasPicture={!arrayIsEmpty(post.picturesUrl)}
+									>
+										{
+											postData.unapprovedData.reject
+												? <DeniedWhiteIcon />
+												: <ClockArrowWhiteIcon />
+										}
+									</WaitingApproveIconContainer>
+								)
+							}
 							{
 								(post.saleValue || post.exchangeValue) && (
 									<>
@@ -134,18 +161,18 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										{(!arrayIsEmpty(post.picturesUrl)) && <VerticalSpacing height={RFValue(8)} />}
+										{(!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue) && <VerticalSpacing />}
 									</>
 								)
 							}
 						</SidePicture>
 					}
 				</LeftArea>
-				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
-				<RightArea hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}>
+				<LeftSideLabel style={{ backgroundColor: getRelativeColor() }} />
+				<RightArea hasPictureOrSaleValue={enableLeftAreaSpacing()}>
 					<RightAreaLimits>
 						<TitleContainer>
-							<Title numberOfLines={post.description ? 3 : 2}>
+							<Title numberOfLines={3}>
 								{post.description}
 							</Title>
 						</TitleContainer>

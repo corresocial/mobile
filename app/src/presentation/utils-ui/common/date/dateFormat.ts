@@ -1,7 +1,7 @@
 import { formatDistance, formatRelative, isValid, format } from 'date-fns'
 import brasilLocale from 'date-fns/locale/pt-BR'
 
-type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number }
+export type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number }
 
 const getNewDate = (date: any) => {
 	if (Object.keys(date).includes('seconds') || Object.keys(date).includes('_seconds')) {

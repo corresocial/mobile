@@ -2,11 +2,11 @@ import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'f
 
 import { PollEntity } from '@domain/poll/entity/types'
 
-import { POLL_COLLECTION } from '@data/remoteStorageKeys'
+import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc: any = null) {
+export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc: PollEntity | null = null) {
 	try {
 		const collectionRef = collection(firestore, POLL_COLLECTION)
 		let pollsByUserQuery

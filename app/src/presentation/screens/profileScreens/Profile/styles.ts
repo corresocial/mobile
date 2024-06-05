@@ -1,7 +1,5 @@
-import { LinearGradient } from 'expo-linear-gradient'
 import { TextProps } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { SafeAreaViewProps } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -9,6 +7,12 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 export const Container = styled.View`
     flex: 1;
 	background-color: ${({ theme }) => theme.white3};
+`
+
+export const UserPostsFlatList = styled.FlatList`
+	flex: 1;
+	width: ${relativeScreenWidth(100)}px;
+	background-color: 'transparent';
 `
 
 export const ProfileHeader = styled.View`
@@ -51,20 +55,11 @@ export const ExpandedUserDescription = styled.Text<TextProps>`
 	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 `
+
 export const OptionsArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-`
-
-export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
-	flex: 1;
-	background-color: ${({ theme }) => theme.white3};
-	overflow: visible;
-`
-
-export const OffBounceBackground = styled(LinearGradient as any)`
-	flex: 1;
 `
 
 export const VerticalPaddingContainer = styled.View`
@@ -74,6 +69,8 @@ export const VerticalPaddingContainer = styled.View`
 export const Body = styled.View`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
+	width: 100%;
+	background-color: ${({ theme }) => theme.orange2};
 	overflow: visible;
 `
 
@@ -84,4 +81,5 @@ export const PostPadding = styled.View`
 export const PostFilterContainer = styled.View`
 	padding: ${relativeScreenHeight(1.25)}px 0px;
 	background-color: ${({ theme }) => theme.orange2};
+
 `

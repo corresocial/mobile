@@ -8,6 +8,7 @@ import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormal
 import { getUneditedPostsDM } from '../core/getUneditedPostsDM'
 import { mediaUrlUpdatedDM } from '../core/mediaUrlUpdatedDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
+import { updateLocationDataOnPostsDM } from './updateLocationDataOnPostsDM'
 
 async function updatePostDM(
 	usePostRepository: () => PostRepositoryInterface,
@@ -15,12 +16,9 @@ async function updatePostDM(
 	userPosts: PostEntity[],
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
-	unsavedPostPictures: string[],
-	// unsavedPostVideos: string[]
+	unsavedPostPictures: string[]
 ) {
 	const { remoteStorage } = usePostRepository()
-
-	const owner = { ...storedPostData.owner }
 
 	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
 		userSubscriptionRange,
@@ -30,9 +28,8 @@ async function updatePostDM(
 
 	let userPostsUpdated: PostEntity[] = []
 	if (postLocationIsOutsideSubscriptionRange) {
-		userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner,
-			getUneditedPostsDM(userPosts, newPostData),
+		await updateLocationDataOnPostsDM(
+			storedPostData.owner.userId,
 			{ range: newPostData.range, location: newPostData.location }
 		)
 	}
@@ -50,40 +47,15 @@ async function updatePostDM(
 		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
 	}
 
-	const storedPicturesUrl = storedPostData.picturesUrl || []
-	const picturesAlreadyUploadedToRemove = storedPicturesUrl.filter((pictureUrl) => unsavedPostPictures && !unsavedPostPictures.includes(pictureUrl))
-	if (picturesAlreadyUploadedToRemove.length) {
-		await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
-	}
-
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
 
-	// Tratamento de videos  v ///////////////////////////////////////////////
-
-	// console.log(mediaUrlUpdatedDM(unsavedPostVideos) ? 'Videos atualizadas' : 'Videos não atualizadas')
-
-	// let newPostVideosUrl: string[] = unsavedPostVideos || []
-	// if (mediaUrlUpdatedDM(unsavedPostVideos)) {
-	// 	const picturesNotUploaded = (unsavedPostVideos || []).filter((url: string) => !url.includes('https://')) || []
-	// 	const picturesAlreadyUploaded = (unsavedPostVideos || []).filter((url: string) => url.includes('https://')) || []
-
-	// 	const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'videos')
-	// 	newPostVideosUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
-	// }
-
-	// const storedVideosUrl = storedPostData.videosUrl || []
-	// const videosAlreadyUploadedToRemove = storedVideosUrl.filter((videoUrl) => unsavedPostVideos && !unsavedPostVideos.includes(videoUrl))
-	// if (videosAlreadyUploadedToRemove.length) {
-	// 	await remoteStorage.deletePostMedias(videosAlreadyUploadedToRemove, 'videos')
-	// }
-
-	// Tratamento de videos ^ ///////////////////////////////////////////////
+	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl || [] } : {}
 
 	const newPostWithUploadedMedia = {
 		...newPostData,
-		picturesUrl: newPostPicturesUrl,
+		unapprovedData: { ...(newPostData.unapprovedData || {}), ...postMediasUploaded },
 		// videosUrl: newPostVideosUrl
-	}
+	} as PostEntity
 
 	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostWithUploadedMedia)
 
@@ -93,7 +65,7 @@ async function updatePostDM(
 
 	return {
 		updatedUserPosts: [...userPostsUpdated, newPostDesnormalized as PostEntity],
-		picturesUrlUploaded: newPostPicturesUrl,
+		...postMediasUploaded,
 		// videosUrlUploaded: newPostVideosUrl
 	}
 }
