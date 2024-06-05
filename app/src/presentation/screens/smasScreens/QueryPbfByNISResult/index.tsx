@@ -32,7 +32,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings')
+		navigation.navigate('NotificationPublicServicesSettings' as any) // CURRENT Linkar na home
 	}
 
 	const handleContinueButton = async () => {

@@ -34,7 +34,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings' as any)
+		navigation.navigate('NotificationPublicServicesSettings' as any) // CURRENT Linkar na home
 	}
 
 	const handleContinueButton = async () => {

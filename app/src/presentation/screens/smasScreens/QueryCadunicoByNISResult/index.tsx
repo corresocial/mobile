@@ -34,7 +34,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings')
+		navigation.navigate('NotificationPublicServicesSettings' as any) // CURRENT Linkar na home
 	}
 
 	const navigateToQueryNIS = () => {

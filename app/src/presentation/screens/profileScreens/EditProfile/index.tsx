@@ -173,7 +173,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		setUserDataOnContext({ unapprovedData })
 		setIsLoading(false)
 
-		showWaitingApproveModal()
+		dataChanges && dataChanges.location && Object.keys(dataChanges).length > 1 && showWaitingApproveModal()
 		navigation.goBack()
 	}
 
