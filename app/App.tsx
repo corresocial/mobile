@@ -8,6 +8,9 @@ import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 
+import Aptabase from '@aptabase/react-native'
+import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -37,11 +40,18 @@ const startSentry = () => {
 
 startSentry()
 
+Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
+
+sendEvent('opened_app', {}, true)
+
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
 		Arvo_400Regular,
 		Arvo_700Bold,
 	})
+
+	const routeNameRef = React.useRef<string>()
+	const navigationRef = React.useRef<any>()
 
 	if (!fontsLoaded) {
 		return (
@@ -74,7 +84,23 @@ function App() {
 	})
 
 	return (
-		<NavigationContainer linking={linking}>
+		<NavigationContainer 
+			ref={navigationRef} 
+			linking={linking} 
+			onReady={() => {
+				routeNameRef.current = navigationRef.current.getCurrentRoute().name
+			}}
+			onStateChange={() => {
+				const previousRouteName = routeNameRef.current
+				const currentRouteName = navigationRef.current.getCurrentRoute().name
+		
+				if (previousRouteName !== currentRouteName) {
+					sendEvent('user_opened_screen', { screenName: currentRouteName })
+				}
+		
+				routeNameRef.current = currentRouteName
+			}}
+		>
 			<ThemeProvider theme={theme}>
 				<AlertProvider>
 					<LoaderProvider>
