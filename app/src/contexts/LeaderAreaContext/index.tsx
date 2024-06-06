@@ -113,6 +113,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 				!posts || (posts && !posts.length)
 				|| (lastPost && posts && posts.length && (lastPost.postId === posts[posts.length - 1].postId))
 			) { // CURRENT usar verificação em petições e posts de perfil/completed
+				// CURRENT Atualizar user com refresh
 				!refresh && setLoaderIsVisible(false)
 				return setUnapprovedPostListIsOver(true)
 			}

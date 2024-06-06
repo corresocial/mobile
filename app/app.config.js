@@ -5,7 +5,7 @@ export default {
 		owner: 'corresocial',
 		scheme: 'com.corresocial.corresocial', // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
-		version: '0.8.0',
+		version: '0.7.0',
 		orientation: 'portrait',
 		userInterfaceStyle: 'light',
 		icon: './assets/icon.png',
