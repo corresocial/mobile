@@ -59,7 +59,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const getBenefitStatusMessage = () => {
 		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
-		if (nisNotFound) return 'opa! \n\ntem algo errado com esse NIS'
+		if (nisNotFound) return 'opa! \n\ntem algo errado com esse NIS \n\nentre em contato com o CRAS mais próximo da sua residência \n\nou tente uma das alternativas abaixo'
 		if (!benefitRequested) return 'solicitação não foi localizada'
 		if (inAnalysis) return 'sua solicitação ainda está sendo analisada'
 		if (!benefitGranted) return 'não foi concedido'
@@ -69,7 +69,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const getBenefitStatusMessageHighlighted = () => {
 		if (serverError) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
-		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS']
+		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS', 'CRAS', 'alternativas']
 		if (!benefitRequested) return ['solicitação', 'não', 'foi', 'localizada']
 		if (inAnalysis) return ['ainda', 'está', 'sendo', 'analisada']
 		if (!benefitGranted) return ['não foi concedido']

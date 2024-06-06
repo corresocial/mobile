@@ -51,13 +51,13 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 
 	const getCustomResponseText = () => {
 		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
-		if (nisNotFound) return 'opa! \n\ntem algo de errado com esse NIS'
+		if (nisNotFound) return 'opa! \n\ntem algo de errado com esse NIS \n\nconsulte o aplicativo do Cadastro Único \n\nou entre em contato com o CRAS mais próximo da sua residência\n'
 		return `Desde a data deste sistema ${lastUpdate}, o cadastro consta como ${status.toUpperCase()}. \n\nCaso já tenha comparecido a uma unidade após esta data, ligue para central: \n\n (43) 33780476`
 	}
 
 	const getResponseHighlightedWords = () => {
 		if (serverError) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
-		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS']
+		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS', 'Cadastro', 'Único', 'CRAS']
 		return [status.toUpperCase(), 'ligue', lastUpdate, 'para', 'central:', '(43)', '33780476']
 	}
 
@@ -94,6 +94,8 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 						fontSize={16}
 						message={getCustomResponseText()}
 						highlightedWords={getResponseHighlightedWords()}
+						redirectLink={'https://play.google.com/store/apps/details?id=br.gov.dataprev.meucadunico&hl=pt_BR'}
+						redirectLinkLabel={'Aplicativo Cadastro Único'}
 					/>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
