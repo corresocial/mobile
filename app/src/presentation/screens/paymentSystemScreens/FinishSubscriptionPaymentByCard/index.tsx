@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { CardForm } from '@stripe/stripe-react-native'
 
 import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
@@ -111,6 +112,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				await updateSubscriptionDependentPosts(userSubscription)
 			}
 			setIsLoading(false)
+			sendEvent('user_subscribed', { subscriptionType: 'paid', subscriptionRange: subscriptionRange })
 			navigateToResultScreen(true, route.params)
 		} catch (err: any) { // Check stripe erros
 			console.log(err)

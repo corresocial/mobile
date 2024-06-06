@@ -193,7 +193,9 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'culture'
 			})
 		}, 50)
 	}

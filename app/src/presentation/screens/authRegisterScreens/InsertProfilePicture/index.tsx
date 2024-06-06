@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -67,6 +69,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const navigateToHome = () => {
+		sendEvent('user_authed', { authType: 'login' }, true)
 		navigation.navigate('UserStack', { newUser: true })
 	}
 

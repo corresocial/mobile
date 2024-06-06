@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
@@ -195,6 +197,8 @@ function EditPost({
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
+
+			sendEvent('user_posted', { postType: getPostField('postType') })
 
 			showShareModal(true, getShortText(newPost.description, 70), newPost.postId)
 			navigateToPostView(newPost)

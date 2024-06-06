@@ -201,7 +201,9 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'income'
 			})
 		}, 50)
 	}

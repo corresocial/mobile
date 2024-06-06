@@ -193,7 +193,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'socialImpact'
 			})
 		}, 50)
 	}

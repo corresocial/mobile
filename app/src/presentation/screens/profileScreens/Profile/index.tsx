@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
@@ -202,7 +204,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 						profilePictureUrl: getProfilePicture() || '',
 					},
 					messages: {},
-				} as Chat
+				} as Chat,
+				via: 'profile'
 			})
 		}, 50)
 	}
@@ -291,6 +294,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			priceId,
 			() => getProfileDataFromRemote(user.userId || '')
 		)
+		sendEvent('user_subscribed', { subscriptionType: 'free', subscriptionRange: plan })
 		// user.userId && await getProfileDataFromRemote(user.userId)
 	}
 
