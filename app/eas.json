@@ -44,7 +44,7 @@
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "production"
+			"channel": "v0.8.0"
 		}
 	},
 	"submit": {
