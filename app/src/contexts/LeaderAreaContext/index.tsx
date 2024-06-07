@@ -110,8 +110,6 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 
 			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
 
-			// CURRENT Atualizar user com refresh
-
 			if (
 				!posts || (posts && !posts.length)
 				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))
