@@ -140,7 +140,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 	const updateUser = async () => {
 		const dataChanges = getObjectDifferences<CompleteUser>(userDataContext as CompleteUser, { ...editDataContext.unsaved })
-		console.log(dataChanges)
 
 		let profilePictureUrl = []
 		if (dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]) {
@@ -165,15 +164,19 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		const { location, ...approveData } = dataChanges as CompleteUser
 		const unapprovedData = { ...approveData, ...ownerData, ...picture, reject: false } as CompleteUser['unapprovedData']
 
-		await updateUserRepository(useUserRepository, userDataContext, { unapprovedData })
+		console.log(unapprovedData)
+
+		const hasValidDataToUpdate = !(Object.keys(unapprovedData || {}).length === 1 && Object.keys(unapprovedData || {}).includes('reject'))
+		hasValidDataToUpdate && await updateUserRepository(useUserRepository, userDataContext, { unapprovedData })
 		if (dataChanges && dataChanges.location) {
 			await remoteStorage.updatePrivateLocation(userDataContext.userId as Id, dataChanges.location)
 		}
 
-		setUserDataOnContext({ unapprovedData })
+		hasValidDataToUpdate && setUserDataOnContext({ unapprovedData })
+
 		setIsLoading(false)
 
-		dataChanges && dataChanges.location && Object.keys(dataChanges).length > 1 && showWaitingApproveModal()
+		hasValidDataToUpdate && showWaitingApproveModal()
 		navigation.goBack()
 	}
 
