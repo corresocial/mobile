@@ -69,10 +69,8 @@ async function savePostDM(
 
 	const newStoredPost = await remoteStorage.createPost(newPostWithUploadedPictures)
 
-	console.log(newPostData.unapprovedData)
-
 	if (notifyUsersByLocation) {
-		await notifyUsersOnLocation({ // CURRENT postagnes novas não estão aqui a localização
+		await notifyUsersOnLocation({
 			state: newPostData.unapprovedData?.location?.state as string,
 			city: newPostData.unapprovedData?.location?.city as string,
 			district: newPostData.unapprovedData?.location?.district as string,

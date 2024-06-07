@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { ChatContext } from '@contexts/ChatContext'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { QueryCadunicoByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
@@ -19,8 +21,9 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
+const { smasNisHasLinkedWithUser } = useSmasDomain()
+
 function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResultScreenProps) {
-	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { status, serverError, nisNotFound, lastUpdate } = route.params
@@ -34,15 +37,19 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationPublicServicesSettings' as any) // CURRENT Linkar na home
+		navigation.navigate('NotificationPublicServicesSettingsPublicServices')
 	}
 
 	const navigateToQueryNIS = () => {
 		navigation.navigate('InsertNameNIS')
 	}
 
+	const smasNotificationIsEnable = async (nis?: string) => {
+		return smasNisHasLinkedWithUser(nis || '', useSmasRepository)
+	}
+
 	const handleContinueButton = async () => {
-		if (await chatUserHasTokenNotification()) {
+		if (await smasNotificationIsEnable()) {
 			return backToInitialStackScreen()
 		}
 
@@ -69,7 +76,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 				affirmativeConfigButton
 				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
 				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
-				closeModal={backToInitialStackScreen}
+				closeModal={() => setNotificationModalIsVisible(false)}
 				onCloseModal={() => setNotificationModalIsVisible(false)}
 				onPressButton={navigateToConfigScreen}
 			/>

@@ -25,7 +25,7 @@ const {
 	removeNotificationListener
 } = useChatDomain()
 
-const initialValue = {
+const initialValue : ChatContextType = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
 	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),

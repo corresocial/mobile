@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { ChatContext } from '@contexts/ChatContext'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { QueryPbfByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
@@ -17,8 +19,9 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
+const { smasNisHasLinkedWithUser } = useSmasDomain()
+
 function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenProps) {
-	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { status, NIS, nisNotFound, serverError, familyBagName, familyBagValue } = route.params
@@ -32,11 +35,15 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationPublicServicesSettings' as any) // CURRENT Linkar na home
+		navigation.navigate('NotificationPublicServicesSettingsPublicServices')
+	}
+
+	const smasNotificationIsEnable = async (nis?: string) => {
+		return smasNisHasLinkedWithUser(nis || '', useSmasRepository)
 	}
 
 	const handleContinueButton = async () => {
-		if (await chatUserHasTokenNotification()) {
+		if (await smasNotificationIsEnable()) {
 			return backToInitialStackScreen()
 		}
 
@@ -69,7 +76,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 				affirmativeConfigButton
 				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
 				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
-				closeModal={backToInitialStackScreen}
+				closeModal={() => setNotificationModalIsVisible(false)}
 				onCloseModal={() => setNotificationModalIsVisible(false)}
 				onPressButton={navigateToConfigScreen}
 			/>
