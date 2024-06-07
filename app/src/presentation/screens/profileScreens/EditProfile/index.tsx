@@ -145,8 +145,10 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 		const profilePictureRemoved = !!(dataChanges && dataChanges.profilePictureUrl && !dataChanges.profilePictureUrl.length)
 		const hasNewProfilePicture = !!(dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length)
+
 		console.log('profilePictureRemoved', profilePictureRemoved)
 		console.log('hasNewProfilePicture', hasNewProfilePicture)
+
 		let profilePictureUrl = []
 		if (hasNewProfilePicture) {
 			profilePictureUrl = await remoteStorage.uploadUserMedia(dataChanges.profilePictureUrl || [], 'pictures')

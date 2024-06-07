@@ -170,7 +170,6 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 	}
 
 	const reportUser = () => {
-		console.log('report')
 		setProfileOptionsIsOpen(false)
 		navigation.navigate('ContactUsInsertMessage' as any, {
 			title: 'denunciar',
@@ -186,7 +185,6 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 	}
 
 	const getProfilePicture = () => {
-		console.log(getUserField('profilePictureUrl'))
 		return getUserField('profilePictureUrl') && getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl')[0] : ''
 	}
 
