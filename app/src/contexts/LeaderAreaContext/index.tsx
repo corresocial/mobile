@@ -115,7 +115,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			if (
 				!posts || (posts && !posts.length)
 				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))
-			) { // CURRENT usar verificação em petições e posts de perfil/completed
+			) {
 				!refresh && setLoaderIsVisible(false)
 				return setUnapprovedPostListIsOver(true)
 			}

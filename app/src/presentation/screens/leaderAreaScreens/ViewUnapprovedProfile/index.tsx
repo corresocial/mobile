@@ -185,7 +185,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 	}
 
 	const getProfilePicture = () => {
-		return getUserField('profilePictureUrl') && getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl')[0] : ''
+		return getUserField('profilePictureUrl', true) && getUserField('profilePictureUrl', true).length ? getUserField('profilePictureUrl', true)[0] : ''
 	}
 
 	const hasAnyVerifiedUser = () => {

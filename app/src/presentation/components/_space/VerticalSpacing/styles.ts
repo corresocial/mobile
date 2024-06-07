@@ -12,7 +12,7 @@ export const Container = styled.View<ContainerProps>`
 	width: 100%;
 	height: ${({ bottomNavigatorSpace, relativeDensity, height }) => (
 		bottomNavigatorSpace
-			? relativeScreenDensity(75)
+			? relativeScreenDensity(100)
 			: height
 				? relativeDensity ? relativeScreenDensity(height) : relativeScreenHeight(height)
 				: relativeScreenDensity(10)

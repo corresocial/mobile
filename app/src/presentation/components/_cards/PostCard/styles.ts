@@ -6,7 +6,7 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 
 export const Container = styled.TouchableOpacity`
 	width: 98%;
-	height: ${relativeScreenDensity(240)}px; // 120
+	height: ${relativeScreenDensity(120)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(23)}px;
     position: relative;

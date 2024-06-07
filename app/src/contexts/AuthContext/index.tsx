@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
-import { UserAuthData, UserEntity, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
+import { UserAuthData, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -31,7 +31,7 @@ const initialValue: AuthContextType = {
 	},
 	userPostsContext: [] as PostEntity[],
 	setUserDataOnContext: () => { },
-	setRemoteUserOnLocal: (uid?: string, localUserData?: UserEntity) => new Promise<boolean>(() => { }),
+	setRemoteUserOnLocal: (uid?: string, refreshMode?: boolean) => new Promise<boolean>(() => { }),
 	userAuthData: { cellNumber: '' },
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
@@ -55,11 +55,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const queryClient = useQueryClient()
 
-	const setRemoteUserOnLocal = async (uid?: string) => {
+	const setRemoteUserOnLocal = async (uid?: string, refreshMode?: boolean) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId)
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
-				await loadUserPosts(userData.userId, false, true)
+				refreshMode ? await loadUserPosts(userData.userId, true) : await loadUserPosts(userData.userId, false, true)
 				setUserDataContext({ ...userData })
 				return true
 			}
