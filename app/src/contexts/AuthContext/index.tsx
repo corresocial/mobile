@@ -22,7 +22,7 @@ const { getPostsByOwner } = usePostDomain()
 const { remoteStorage } = usePostRepository()
 const { executeCachedRequest } = useCacheRepository()
 
-const { mergeObjects } = useUtils()
+const { mergeObjects, getLastItem } = useUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -88,9 +88,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			const postOwnerId = userId || userDataContext.userId
 
-			const lastPost = !refresh && userPostsContext.length && !firstLoad ? userPostsContext[userPostsContext.length - 1] : undefined
+			const lastPost = !refresh && userPostsContext.length && !firstLoad ? getLastItem(userPostsContext) : undefined
 			const queryKey = ['user.posts', postOwnerId, lastPost]
-			let posts = await executeCachedRequest(
+			let posts : PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				async () => getPostsByOwner(usePostRepository, postOwnerId, 10, lastPost),
@@ -98,9 +98,10 @@ function AuthProvider({ children }: AuthProviderProps) {
 			)
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
-
-			if (lastPost && lastPost.postId === posts[posts.length - 1].postId) return
+			if (!posts || (posts && !posts.length)
+				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
+				setPostListIsOver(true)
+			}
 
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['user.posts', postOwnerId] })

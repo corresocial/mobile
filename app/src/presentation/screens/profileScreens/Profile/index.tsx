@@ -85,7 +85,7 @@ const { executeCachedRequest } = useCacheRepository()
 const { getPostsByOwner } = usePostDomain()
 
 const { arrayIsEmpty, getNewDate } = UiUtils()
-const { mergeObjects } = useUtils()
+const { mergeObjects, getLastItem } = useUtils()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -159,18 +159,18 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		const loadedPosts = getUserPosts(true)
 		console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
 		if (loadedPosts && loadedPosts.length) {
-			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false, loadedPosts)
+			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false)
 		}
 	}
 
-	const loadCurrentUserPosts = async (userId: string, refresh?: boolean, loadedPosts?: PostEntity[] | null) => {
+	const loadCurrentUserPosts = async (userId: string, refresh?: boolean) => {
 		try {
 			if (postListIsOver && !refresh) return
 
-			const lastPost = !refresh && (currentUserPosts && currentUserPosts.length) ? currentUserPosts[currentUserPosts.length - 1] : undefined
+			const lastPost = !refresh && (currentUserPosts && currentUserPosts.length) ? getLastItem(currentUserPosts) : undefined
 
 			const queryKey = ['user.posts', userId, lastPost]
-			let posts = await executeCachedRequest(
+			let posts: PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				async () => getPostsByOwner(usePostRepository, userId || 'user.generic', 10, lastPost),
@@ -178,7 +178,11 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			)
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
+			if (
+				!posts || (posts && !posts.length)
+				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
+				setPostListIsOver(true)
+			}
 
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['user.posts', userId || 'user.generic'] })

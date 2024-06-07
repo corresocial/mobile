@@ -1,4 +1,5 @@
 import { getArrayObjectDifferences } from './methods/getArrayObjectDifferences'
+import { getLastItem } from './methods/getLastItem'
 import { getObjectDifferences } from './methods/getObjectDifferences'
 import { mergeArraysByKey } from './methods/mergeArraysByKey'
 import { mergeObjects } from './methods/mergeObjects'
@@ -12,6 +13,7 @@ function useUtils(): UtilsInterface {
 		getArrayObjectDifferences: getArrayObjectDifferences,
 		removeDuplicatedItemsByKey: removeDuplicatedItemsByKey,
 		mergeArraysByKey: mergeArraysByKey,
+		getLastItem: getLastItem,
 
 		// OBJECT
 		getObjectDifferences: getObjectDifferences,

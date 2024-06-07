@@ -8,6 +8,7 @@ interface UtilsInterface {
 	removeDuplicatedItemsByKey(array: any[], key: string): any[]
 	getArrayObjectDifferences(firstArray: SocialMedia[], secondArray: SocialMedia[]): SocialMedia[]
 	mergeArraysByKey(arr1: Obj[], arr2: Obj[], key: string): Obj[]
+	getLastItem<T>(items: T[] | null | undefined): T | undefined
 
 	// OBJECT
 	objectValuesAreEquals(completeObject: object, partialObject: object): boolean
