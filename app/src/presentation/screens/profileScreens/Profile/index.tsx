@@ -337,8 +337,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		if (hasPostFilter && !withoutFilter) { return filteredPosts }
 
 		return isLoggedUser
-			? userPostsContext.filter((post) => !post.completed) // TODO Atualizar query
-			: currentUserPosts.filter((post) => !post.completed)
+			? userPostsContext // TODO Atualizar query
+			: currentUserPosts.filter((post) => post.description)
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {

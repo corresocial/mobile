@@ -15,6 +15,7 @@ import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { ViewUnapprovedProfileScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 import { getRelativeSocialMediaIcon } from '@utils/socialMedias'
 
 import {
@@ -180,12 +181,13 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 	}
 
 	type UserDataFields = keyof CompleteUser
-	const getUserField = (fieldName: UserDataFields): any => {
-		return (profileData.unapprovedData as any)[fieldName] || '' // (profileData as any)[fieldName]
+	const getUserField = (fieldName: UserDataFields, useApprovedData?: boolean): any => {
+		return useApprovedData ? (profileData.unapprovedData as any)[fieldName] || (profileData as any)[fieldName] : (profileData.unapprovedData as any)[fieldName]
 	}
 
 	const getProfilePicture = () => {
-		return profileData.profilePictureUrl ? profileData.profilePictureUrl[0] : ''
+		console.log(getUserField('profilePictureUrl'))
+		return getUserField('profilePictureUrl') && getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl')[0] : ''
 	}
 
 	const hasAnyVerifiedUser = () => {
@@ -308,7 +310,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 							/>
 							<InfoArea>
 								<UserName numberOfLines={3}>
-									{getUserField('name') as string}
+									{getUserField('name', true) as string}
 								</UserName>
 								{renderUserVerifiedType()}
 							</InfoArea>
@@ -381,7 +383,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 							? (
 								<>
 									<GalleryModal
-										picturesUrl={getUserField('profilePictureUrl')}
+										picturesUrl={getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl') : [defaultUserProfilePicture]}
 										videosUrl={[]}
 										showGallery={galeryIsVisible}
 										onClose={closeGalery}
@@ -391,7 +393,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 										onPress={openGallery}
 									>
 										<ImageCarousel
-											picturesUrl={getUserField('profilePictureUrl') || []}
+											picturesUrl={getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl') : [defaultUserProfilePicture]}
 											indicatorColor={theme.blue1}
 											square
 											showFullscreenIcon

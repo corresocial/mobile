@@ -20,7 +20,7 @@ import {
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
-const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { arrayIsEmpty } = UiUtils()
 
 interface ProfileCardProps {
 	userData: CompleteUser
@@ -42,12 +42,6 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 			})
 		}
 	}, [userData, isOwner])
-
-	const renderUserUpdatedAt = () => {
-		if (!user.updatedAt) return '---'
-		const formatedDate = formatRelativeDate(user.updatedAt)
-		return formatedDate
-	}
 
 	const getProfilePictureUrl = () => {
 		if (!user || !user.profilePictureUrl) return null
@@ -99,14 +93,10 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 						</SidePicture>
 					}
 				</LeftArea>
-				{/* <LeftSideLabel style={{ backgroundColor: theme.orange3 }} /> */}
 				<RightArea >
 					<RightAreaLimits>
 						<UserName numberOfLines={2}>
 							{user.name}
-						</UserName>
-						<UserName numberOfLines={2}>
-							{renderUserUpdatedAt()}
 						</UserName>
 						<DescriptionContainer>
 							<UserDescription numberOfLines={2}>

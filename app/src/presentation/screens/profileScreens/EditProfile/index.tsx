@@ -141,22 +141,28 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const updateUser = async () => {
 		const dataChanges = getObjectDifferences<CompleteUser>(userDataContext as CompleteUser, { ...editDataContext.unsaved })
 
+		console.log(dataChanges)
+
+		const profilePictureRemoved = !!(dataChanges && dataChanges.profilePictureUrl && !dataChanges.profilePictureUrl.length)
+		const hasNewProfilePicture = !!(dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length)
+		console.log('profilePictureRemoved', profilePictureRemoved)
+		console.log('hasNewProfilePicture', hasNewProfilePicture)
 		let profilePictureUrl = []
-		if (dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]) {
-			profilePictureUrl = await remoteStorage.uploadUserMedia([dataChanges.profilePictureUrl as any], 'pictures')
+		if (hasNewProfilePicture) {
+			profilePictureUrl = await remoteStorage.uploadUserMedia(dataChanges.profilePictureUrl || [], 'pictures')
 		} else {
 			profilePictureUrl = userDataContext.profilePictureUrl || []
 		}
 
-		const picture = dataChanges && dataChanges.profilePictureUrl && dataChanges.profilePictureUrl.length && dataChanges.profilePictureUrl[0]
-			? { profilePictureUrl: profilePictureUrl }
+		const picture = hasNewProfilePicture || profilePictureRemoved
+			? { profilePictureUrl: !profilePictureRemoved ? profilePictureUrl : [] }
 			: {}
-		const ownerData = dataChanges && (dataChanges.name || dataChanges.profilePictureUrl || dataChanges.socialMedias)
+		const ownerData = dataChanges && (dataChanges.name || dataChanges.profilePictureUrl)
 			? {
 				owner: {
 					userId: userDataContext.userId,
 					name: getUserField('name'),
-					...picture
+					profilePictureUrl: !profilePictureRemoved ? profilePictureUrl : []
 				}
 			}
 			: {}
