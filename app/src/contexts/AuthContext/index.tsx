@@ -38,8 +38,8 @@ const initialValue: AuthContextType = {
 	setUserRegisterDataOnContext: () => null,
 	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
-	addUserPost: (postData: PostEntity) => {},
-	updateUserPost: (postData: PostEntity | PostEntity[]) => {},
+	addUserPost: (postData: PostEntity) => { },
+	updateUserPost: (postData: PostEntity | PostEntity[]) => { },
 	removeUserPost: (postData: PostEntity) => Promise.resolve()
 }
 
@@ -82,7 +82,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => { // REFACTOR firstLoad foi adicionado para evitar da função pegar dados do contexto após o logout
+	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => { // firstLoad foi adicionado para evitar da função pegar dados do contexto após o logout
 		try {
 			if (postListIsOver && !firstLoad && !refresh) return
 
@@ -90,7 +90,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			const lastPost = !refresh && userPostsContext.length && !firstLoad ? getLastItem(userPostsContext) : undefined
 			const queryKey = ['user.posts', postOwnerId, lastPost]
-			let posts : PostEntity[] = await executeCachedRequest(
+			let posts: PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				async () => getPostsByOwner(usePostRepository, postOwnerId, 10, lastPost),
