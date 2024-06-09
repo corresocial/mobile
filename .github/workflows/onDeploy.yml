@@ -56,7 +56,7 @@ jobs:
         run: |
           HEAD_REF="${{ github.event.pull_request.head.ref }}"
           BASE_REF="${{ github.event.pull_request.base.ref }}"
-          MESSAGE="${HEAD_REF} <- ${BASE_REF}"
+          MESSAGE="${BASE_REF} <- ${HEAD_REF}"
           eas update --auto --branch "v$VERSION" --message "$MESSAGE"
       
       # - name: Build on EAS
