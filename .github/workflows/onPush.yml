@@ -6,7 +6,7 @@ on:
       - 'test/*'
 
 jobs:
-  check-env:
+  check-environment:
     runs-on: ubuntu-latest
     defaults:
       run:
