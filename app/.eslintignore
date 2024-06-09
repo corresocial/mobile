@@ -3,6 +3,7 @@
 /src/tests/**/*
 /src/services/firebase/index.ts
 ignoredLogs.ts
+**/*.txt
 
 # /src/common/**/*
 # /src/components/**/*

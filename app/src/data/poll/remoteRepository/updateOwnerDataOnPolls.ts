@@ -1,7 +1,7 @@
 import { PollEntityOptional } from '@domain/poll/entity/types'
 
-import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 import { updateOwnerData } from '@data/shared/postOwner/updateOwnerData'
+import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 async function updateOwnerDataOnPolls(ownerPoll: Partial<PollEntityOptional['owner']>, userPollIds: string[]) {
 	try {
