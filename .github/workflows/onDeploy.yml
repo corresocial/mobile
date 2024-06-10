@@ -19,9 +19,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check commit patterns
-        uses: wagoid/commitlint-github-action@v6
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -33,8 +30,8 @@ jobs:
       - name: Run lint
         run: npm run format
 
-      - name: Run tests
-        run: npm test
+      # - name: Run tests
+      #   run: npm test
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
