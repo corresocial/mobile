@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
-import { UserAuthData, UserEntity, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
+import { UserAuthData, UserEntityOptional, UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -22,7 +22,7 @@ const { getPostsByOwner } = usePostDomain()
 const { remoteStorage } = usePostRepository()
 const { executeCachedRequest } = useCacheRepository()
 
-const { mergeObjects } = useUtils()
+const { mergeObjects, getLastItem } = useUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -31,15 +31,15 @@ const initialValue: AuthContextType = {
 	},
 	userPostsContext: [] as PostEntity[],
 	setUserDataOnContext: () => { },
-	setRemoteUserOnLocal: (uid?: string, localUserData?: UserEntity) => new Promise<boolean>(() => { }),
+	setRemoteUserOnLocal: (uid?: string, refreshMode?: boolean) => new Promise<boolean>(() => { }),
 	userAuthData: { cellNumber: '' },
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
 	setUserRegisterDataOnContext: () => null,
 	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
-	addUserPost: (postData: PostEntity) => {},
-	updateUserPost: (postData: PostEntity | PostEntity[]) => {},
+	addUserPost: (postData: PostEntity) => { },
+	updateUserPost: (postData: PostEntity | PostEntity[]) => { },
 	removeUserPost: (postData: PostEntity) => Promise.resolve()
 }
 
@@ -55,11 +55,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const queryClient = useQueryClient()
 
-	const setRemoteUserOnLocal = async (uid?: string) => {
+	const setRemoteUserOnLocal = async (uid?: string, refreshMode?: boolean) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId)
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
-				await loadUserPosts(userData.userId, false, true)
+				refreshMode ? await loadUserPosts(userData.userId, true) : await loadUserPosts(userData.userId, false, true)
 				setUserDataContext({ ...userData })
 				return true
 			}
@@ -82,15 +82,15 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserDataContext({ ...userDataContext, ...data })
 	}
 
-	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => { // REFACTOR firstLoad foi adicionado para evitar da função pegar dados do contexto após o logout
+	const loadUserPosts = useCallback(async (userId?: string | null, refresh?: boolean, firstLoad?: boolean) => { // firstLoad foi adicionado para evitar da função pegar dados do contexto após o logout
 		try {
 			if (postListIsOver && !firstLoad && !refresh) return
 
 			const postOwnerId = userId || userDataContext.userId
 
-			const lastPost = !refresh && userPostsContext.length && !firstLoad ? userPostsContext[userPostsContext.length - 1] : undefined
+			const lastPost = !refresh && userPostsContext.length && !firstLoad ? getLastItem(userPostsContext) : undefined
 			const queryKey = ['user.posts', postOwnerId, lastPost]
-			let posts = await executeCachedRequest(
+			let posts: PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				async () => getPostsByOwner(usePostRepository, postOwnerId, 10, lastPost),
@@ -98,9 +98,10 @@ function AuthProvider({ children }: AuthProviderProps) {
 			)
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
-
-			if (lastPost && lastPost.postId === posts[posts.length - 1].postId) return
+			if (!posts || (posts && !posts.length)
+				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
+				setPostListIsOver(true)
+			}
 
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['user.posts', postOwnerId] })

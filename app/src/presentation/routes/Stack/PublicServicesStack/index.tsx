@@ -6,6 +6,7 @@ import { SmasProvider } from '@contexts/SmasContext'
 
 import { PublicServiceStackParamList } from './types'
 
+import { NotificationPublicServicesSettings } from '@screens/configurationScreens/NotificationPublicServicesSettings'
 import { InsertMotherNameNIS } from '@screens/smasScreens/InserMotherNameNIS'
 import { InsertAnonymizedCpfNIS } from '@screens/smasScreens/InsertAnonymizedCpfNIS'
 import { InsertNameNIS } from '@screens/smasScreens/InsertNameNIS'
@@ -42,6 +43,8 @@ export function PublicServicesStack() {
 				<Stack.Screen name={'QueryBeeByNISResult'} component={QueryBeeByNISResult} />
 				<Stack.Screen name={'QueryPbfByNISResult'} component={QueryPbfByNISResult} />
 				<Stack.Screen name={'QueryCadunicoByNISResult'} component={QueryCadunicoByNISResult} />
+
+				<Stack.Screen name={'NotificationPublicServicesSettingsPublicServices'} component={NotificationPublicServicesSettings as any} />
 			</Stack.Navigator>
 		</SmasProvider>
 	)

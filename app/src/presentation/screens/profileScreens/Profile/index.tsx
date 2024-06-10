@@ -72,6 +72,7 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
+import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 import { PopOver } from '@components/PopOver'
 import { PostFilter } from '@components/PostFilter'
@@ -85,11 +86,11 @@ const { executeCachedRequest } = useCacheRepository()
 const { getPostsByOwner } = usePostDomain()
 
 const { arrayIsEmpty, getNewDate } = UiUtils()
-const { mergeObjects } = useUtils()
+const { mergeObjects, getLastItem } = useUtils()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
-	const { userDataContext, userPostsContext, loadUserPosts } = useAuthContext()
+	const { userDataContext, userPostsContext, loadUserPosts, setRemoteUserOnLocal } = useAuthContext()
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
 	const { setLoaderIsVisible } = useLoaderContext()
 
@@ -115,15 +116,11 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	useEffect(() => {
 		if (route.params && route.params.userId) {
 			setIsLoggedUser(false)
-			loadRemoteProfileData(route.params.userId)
+			loadRemoteProfileData(true)
 		} else {
 			setIsLoggedUser(true)
 		}
 	}, [])
-
-	useEffect(() => {
-		(user && user.userId) && loadRemoteUserPosts(true)
-	}, [user])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -134,20 +131,30 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const loadRemoteProfileData = async (userId: string) => {
+	const loadRemoteProfileData = async (firstLoad?: boolean, refresh?: boolean) => {
 		try {
-			const userData = await remoteStorage.getUserData(userId)
-			const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = userData as UserEntityOptional
-			setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
+			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
+
+			if (isLoggedUser) {
+				await setRemoteUserOnLocal(userDataContext.userId, true)
+				firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
+				return
+			}
+
+			if (!route.params?.userId) return
+			const userData = await remoteStorage.getUserData(route.params?.userId!)
+			if (!userData) return
+			setUser(userData as UserEntity)
+			await loadRemoteUserPosts(firstLoad, refresh, route.params?.userId)
 		} catch (error) {
 			console.log(error)
+			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
 		}
 	}
 
-	const loadRemoteUserPosts = async (firstLoad?: boolean, refresh?: boolean) => {
+	const loadRemoteUserPosts = async (firstLoad?: boolean, refresh?: boolean, userId?: string) => {
 		try {
-			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
-			isLoggedUser ? loadUserPosts(undefined, refresh) : await loadCurrentUserPosts(user.userId || '', refresh)
+			isLoggedUser ? loadUserPosts(undefined, refresh) : await loadCurrentUserPosts(userId || '', refresh)
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
 		} catch (error) {
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
@@ -159,33 +166,38 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		const loadedPosts = getUserPosts(true)
 		console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
 		if (loadedPosts && loadedPosts.length) {
-			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false, loadedPosts)
+			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false)
 		}
 	}
 
-	const loadCurrentUserPosts = async (userId: string, refresh?: boolean, loadedPosts?: PostEntity[] | null) => {
+	const loadCurrentUserPosts = async (userId: string, refresh?: boolean) => {
 		try {
 			if (postListIsOver && !refresh) return
 
-			const lastPost = !refresh && (currentUserPosts && currentUserPosts.length) ? currentUserPosts[currentUserPosts.length - 1] : undefined
+			const lastPost = !refresh && (currentUserPosts && currentUserPosts.length) ? getLastItem(currentUserPosts) : undefined
 
 			const queryKey = ['user.posts', userId, lastPost]
-			let posts = await executeCachedRequest(
+			let posts: PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				async () => getPostsByOwner(usePostRepository, userId || 'user.generic', 10, lastPost),
+				async () => getPostsByOwner(usePostRepository, userId, 10, lastPost),
 				refresh
 			)
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
+			if (
+				!posts || (posts && !posts.length)
+				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
+				setPostListIsOver(true)
+			}
 
 			if (refresh) {
-				queryClient.removeQueries({ queryKey: ['user.posts', userId || 'user.generic'] })
+				queryClient.removeQueries({ queryKey: ['user.posts', userId] })
 				setPostListIsOver(false)
 				setCurrentUserPosts([...posts])
+			} else {
+				setCurrentUserPosts([...currentUserPosts, ...posts])
 			}
-			setCurrentUserPosts([...currentUserPosts, ...posts])
 		} catch (error) {
 			console.log(error)
 		}
@@ -283,7 +295,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	type UserDataFields = keyof UserEntity
 	const getUserField = (fieldName?: UserDataFields) => {
 		if (route.params && route.params.userId) {
-			if (!fieldName) return user
+			if (!fieldName || !user) return user
 			return user[fieldName]
 		}
 
@@ -327,7 +339,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			const mergedPost = mergeObjects<CompleteUser>(userDataContext as CompleteUser, userDataContext.unapprovedData as UserEntity)
 			return mergedPost && mergedPost.profilePictureUrl && mergedPost.profilePictureUrl.length ? mergedPost.profilePictureUrl[0] : ''
 		}
-		if (route.params && route.params.userId) return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
+		if (route.params && route.params.userId) return user && user.profilePictureUrl ? user.profilePictureUrl[0] : ''
 		return userDataContext.profilePictureUrl
 			? userDataContext.profilePictureUrl[0]
 			: ''
@@ -337,8 +349,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		if (hasPostFilter && !withoutFilter) { return filteredPosts }
 
 		return isLoggedUser
-			? userPostsContext.filter((post) => !post.completed) // TODO Atualizar query
-			: currentUserPosts.filter((post) => !post.completed)
+			? userPostsContext // TODO Atualizar query
+			: currentUserPosts.filter((post) => post.description)
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
@@ -354,7 +366,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			}
 
 			await remoteStorage.updateUserData(user.userId, verifiedObject)
-			user.userId && await loadRemoteProfileData(user.userId)
+			user.userId && await loadRemoteProfileData(false, true)
 		}
 	}
 
@@ -369,7 +381,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			plan, // range
 			'monthly', // plan
 			priceId,
-			() => loadRemoteProfileData(user.userId || '')
+			() => loadRemoteProfileData(false, true)
 		)
 		// user.userId && await loadRemoteProfileData(user.userId)
 	}
@@ -465,8 +477,12 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return description.length > 160
 	}
 
+	if (!user) {
+		return <Loader flex/>
+	}
+
 	return (
-		<ScreenContainer >
+		<ScreenContainer infinityBottom>
 			<Container >
 				<FocusAwareStatusBar
 					backgroundColor={theme.white3}
@@ -504,7 +520,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 								tintColor={theme.black4}
 								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 								refreshing={isRefresing}
-								onRefresh={() => loadRemoteUserPosts(false, true)}
+								onRefresh={() => loadRemoteProfileData(false, true)}
 							/>
 						)}
 						showsVerticalScrollIndicator={false}

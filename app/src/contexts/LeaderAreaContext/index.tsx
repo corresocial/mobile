@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntity } from '@domain/post/entity/types'
@@ -22,6 +23,8 @@ const { executeCachedRequest } = useCacheRepository()
 
 const { getUnapprovedPosts } = usePostDomain()
 const { getUnapprovedProfiles } = useUserDomain()
+
+const { getLastItem } = useUtils()
 
 const initialValue: LeaderAreaContextType = {
 	unapprovedProfiles: [] as UserEntity[],
@@ -66,7 +69,6 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			)
 
 			profiles = profiles.map((p: UserEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
-			console.log(profiles.map((p: any) => p.name))
 
 			if (
 				!profiles || (profiles && !profiles.length)
@@ -96,14 +98,13 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			if (unapprovedPostListIsOver && !refresh) return
 			!refresh && setLoaderIsVisible(true)
 
-			// REFACTOR Criar utilitário para pegar o último item de um array POST/POLLS/PETITIONS
-			const lastPost = !refresh && (unapprovedPosts.length) ? unapprovedPosts[unapprovedPosts.length - 1] : undefined
+			const lastPost = !refresh && (unapprovedPosts.length) ? getLastItem(unapprovedPosts) : undefined
 
 			const queryKey = ['posts.unapproved', userDataContext.userId, lastPost]
-			let posts = await executeCachedRequest(
+			let posts:PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				async () => getUnapprovedPosts(usePostRepository, 5, lastPost),
+				async () => getUnapprovedPosts(usePostRepository, 10, lastPost),
 				refresh
 			)
 
@@ -111,8 +112,8 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 
 			if (
 				!posts || (posts && !posts.length)
-				|| (lastPost && posts && posts.length && (lastPost.postId === posts[posts.length - 1].postId))
-			) { // CURRENT usar verificação em petições e posts de perfil/completed
+				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))
+			) {
 				!refresh && setLoaderIsVisible(false)
 				return setUnapprovedPostListIsOver(true)
 			}
@@ -151,7 +152,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 		loadUnapprovedPosts,
 		removeFromUnapprovedProfileList,
 		removeFromUnapprovedPostList
-	}), [unapprovedPosts, unapprovedProfiles])
+	}), [unapprovedPosts, unapprovedProfiles, unapprovedPostListIsOver])
 
 	return (
 		<LeaderAreaContext.Provider value={leaderAreaProviderData}>

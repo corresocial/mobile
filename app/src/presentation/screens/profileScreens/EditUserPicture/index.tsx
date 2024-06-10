@@ -43,7 +43,8 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const saveUserPicture = async () => {
 		const areEquals = route.params.profilePictureUrl === profilePictureUrl
 		if (!areEquals) {
-			const compressedUrl = profilePictureUrl ? await compressImage(profilePictureUrl) : ['']
+			const compressedUrl = profilePictureUrl ? [await compressImage(profilePictureUrl)] : []
+			console.log({ profilePictureUrl: compressedUrl })
 			addNewUnsavedFieldToEditContext({ profilePictureUrl: compressedUrl })
 		}
 		navigation.goBack()

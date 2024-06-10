@@ -6,7 +6,6 @@ import { useSmasDomain } from '@domain/smas/useSmasDomain'
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
@@ -32,15 +31,12 @@ const { remoteStorage } = useUserRepository()
 const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = useSmasDomain()
 
 function NotificationPublicServicesSettings({ navigation }: NotificationPublicServicesSettingsScreenProps) {
-	const { pushNotificationEnabled, chatUserHasTokenNotification } = useContext(ChatContext)
-
-	const { showAlertNotificationModal } = useContext(AlertContext)
+	const { pushNotificationEnabled, setPushNotificationState } = useContext(ChatContext)
 	const { userDataContext } = useContext(AuthContext)
 
 	const [userNis, setUserNis] = useState('')
 	const [governmentNotificationIsEnabled, setGovernmentNotificationIsEnabled] = useState(pushNotificationEnabled)
 	const [smasMessagesIsEnabled, setSmasMessagesIsEnabled] = useState(false)
-	const [notificationIsEnabled, setNotificationIsEnabled] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [insertNisModalIsVisible, setInsertNisModalIsVisible] = useState(false)
 
@@ -52,15 +48,9 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 
 	const checkNotificationStates = async () => {
 		setIsLoading(true)
-		await checkNotificationState()
 		await checkSmasMessagesState()
 		await checkGovernmentNotificationState()
 		setIsLoading(false)
-	}
-
-	const checkNotificationState = async () => {
-		const userNotificationIsEnabled = await chatUserHasTokenNotification()
-		setNotificationIsEnabled(userNotificationIsEnabled)
 	}
 
 	const checkSmasMessagesState = async (nis?: string) => {
@@ -86,6 +76,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 				if (!inputedNis || (inputedNis && inputedNis.trim().length !== 11)) throw new Error('NIS inválido!')
 				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId, useSmasRepository)
 				setUserNis(inputedNis)
+				await setPushNotificationState(true)
 				await setNisOnLocalRepository(inputedNis, useSmasRepository)
 			} else {
 				setSmasPushNotificationState(newState, inputedNis || userNis, userDataContext.userId, useSmasRepository)
@@ -110,13 +101,10 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 				userDataContext.userId,
 				{ visibleToGovernment: newNotificationState }
 			)
+			await setPushNotificationState(true)
 
 			setGovernmentNotificationIsEnabled(newNotificationState)
 			setIsLoading(false)
-
-			if (newNotificationState && !notificationIsEnabled) {
-				showAlertNotificationModal()
-			}
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)

@@ -11,7 +11,7 @@ export type AuthContextType = {
 	userDataContext: UserEntity
 	userPostsContext: PostEntity[]
 	setUserDataOnContext: (data: UserEntityOptional) => void
-	setRemoteUserOnLocal: (uid?: string, userData?: UserEntity) => Promise<boolean | undefined>
+	setRemoteUserOnLocal: (uid?: string, refreshMode?: boolean) => Promise<boolean | undefined>
 	userAuthData: UserAuthData
 	setUserAuthDataOnContext: (data: Partial<UserAuthData>) => void
 	userRegistrationData: UserRegisterData

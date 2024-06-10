@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FlatList, RefreshControl, StatusBar } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PostEntityOptional, PostEntityCommonFields, PostEntity } from '@domain/post/entity/types'
@@ -31,6 +32,8 @@ const { executeCachedRequest } = useCacheRepository()
 const { getPostsByOwner } = usePostDomain()
 
 const { getNewDate } = UiUtils()
+
+const { getLastItem } = useUtils()
 
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -65,10 +68,10 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 
 			refresh ? setLoaderIsVisible(true) : setIsRefresing(true)
 
-			const lastPost = !refresh ? completedPosts[completedPosts.length - 1] : undefined
+			const lastPost = !refresh ? getLastItem(completedPosts) : undefined
 
 			const queryKey = ['user.posts.completed', userDataContext.userId, lastPost]
-			let posts = await executeCachedRequest(
+			let posts: PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				async () => getPostsByOwner(usePostRepository, userDataContext.userId, 2, lastPost, true),
@@ -76,7 +79,10 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 			)
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!posts || (posts && !posts.length)) return setPostListIsOver(true)
+			if (!posts || (posts && !posts.length)
+					|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
+				setPostListIsOver(true)
+			}
 
 			if (refresh) {
 				queryClient.removeQueries({ queryKey: ['user.posts.completed', userDataContext.userId] })

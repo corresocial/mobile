@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -31,6 +32,8 @@ const { executeCachedRequest } = useCacheRepository()
 
 const { getNewDate } = UiUtils()
 
+const { getLastItem } = useUtils()
+
 export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 	const { userDataContext } = useAuthContext()
 
@@ -51,10 +54,10 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 
 			refresh && setIsLoading(true)
 
-			const lastPetition = !refresh && (petitions && petitions.length) ? petitions[petitions.length - 1] : undefined
+			const lastPetition = !refresh && (petitions && petitions.length) ? getLastItem(petitions) : undefined
 
 			const queryKey = ['user.petitions', userDataContext.userId, lastPetition?.petitionId]
-			let userPetitions = await executeCachedRequest(
+			let userPetitions: PetitionEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				() => getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 10, lastPetition),
@@ -62,10 +65,10 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 			)
 			userPetitions = userPetitions.map((p: PetitionEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!userPetitions.length) {
+			if (!userPetitions || (userPetitions && !userPetitions.length)
+				|| (lastPetition && userPetitions && userPetitions.length && (lastPetition.petitionId === getLastItem(userPetitions)?.petitionId))) {
 				refresh && setIsLoading(false)
-				setListIsOver(true)
-				return
+				return setListIsOver(true)
 			}
 
 			if (refresh) {

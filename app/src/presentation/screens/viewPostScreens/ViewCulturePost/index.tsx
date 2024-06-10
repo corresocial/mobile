@@ -330,8 +330,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderWaitingApproveIndicator() && <ClockArrowWhiteIcon/>}
-					{canRenderRejectIndicator() && <DeniedWhiteIcon/>}
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon/></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon/></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

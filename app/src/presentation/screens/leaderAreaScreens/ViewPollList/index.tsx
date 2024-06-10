@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PollEntity } from '@domain/poll/entity/types'
@@ -31,6 +32,8 @@ const { executeCachedRequest } = useCacheRepository()
 
 const { getNewDate } = UiUtils()
 
+const { getLastItem } = useUtils()
+
 export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 	const { userDataContext } = useAuthContext()
 
@@ -51,21 +54,21 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 
 			refresh && setIsLoading(true)
 
-			const lastPoll = !refresh && (polls && polls.length) ? polls[polls.length - 1] : undefined
+			const lastPoll = !refresh && (polls && polls.length) ? getLastItem(polls) : undefined
 
 			const queryKey = ['user.polls', userDataContext.userId, lastPoll]
-			let userPolls = await executeCachedRequest(
+			let userPolls:PollEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getPollsByOwner(usePollRepository, userDataContext.userId, 5, lastPoll),
+				() => getPollsByOwner(usePollRepository, userDataContext.userId, 10, lastPoll),
 				refresh
 			)
 			userPolls = userPolls.map((p: PollEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			if (!userPolls.length) {
+			if (!userPolls || (userPolls && !userPolls.length)
+				|| (lastPoll && userPolls && userPolls.length && (lastPoll.pollId === getLastItem(userPolls)?.pollId))) {
 				refresh && setIsLoading(false)
-				setListIsOver(true)
-				return
+				return setListIsOver(true)
 			}
 
 			if (refresh) {
