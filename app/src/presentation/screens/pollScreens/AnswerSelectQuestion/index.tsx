@@ -16,6 +16,7 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SelectButton } from '@components/_buttons/SelectButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenProps) {
@@ -99,6 +100,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 			</DefaultHeaderContainer>
 			<OptionsContainer>
 				{renderQuestionOptions()}
+				<VerticalSpacing bottomNavigatorSpace />
 			</OptionsContainer>
 			{
 				!!selectedOptions.length && (
