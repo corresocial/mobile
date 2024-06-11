@@ -174,7 +174,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				>
 					{
-						(postsByRange && postsByRange.length) && (
+						(postsByRange && postsByRange.length) ? (
 							<FlatListPosts
 								data={postsByRange}
 								renderItem={renderPostItem as any}
@@ -183,6 +183,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 								)}
 							/>
 						)
+							: <></>
 					}
 				</Body>
 			</Container>

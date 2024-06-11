@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, Linking, Platform, StatusBar, TextInput } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 
@@ -70,14 +70,16 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 	const saveLinkValue = async () => {
 		setInvaliLinkValueAfterSubmit(false)
-		if (linkValue !== '' && !isDefaultSocialMedia(route.params.socialMedia.title)) {
-			if (!linkValue.includes('http') && !linkValue.includes('www')) {
-				setInvaliLinkValueAfterSubmit(true)
-				return
-			}
-		}
-
 		try {
+			setIsLoading(true)
+
+			if (linkValue !== '' && !isDefaultSocialMedia(route.params.socialMedia.title)) {
+				if (!linkValue.includes('http') && !linkValue.includes('www') && !await Linking.canOpenURL(linkValue)) {
+					setInvaliLinkValueAfterSubmit(true)
+					return
+				}
+			}
+
 			const socialMediaData = await getSocialMediaData()
 			console.log(socialMediaData)
 
@@ -116,6 +118,10 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 		if (isDefaultSocialMedia(socialMediaTitle) && !linkValue.includes('http') && !linkValue.includes('www')) {
 			completeLink = socialMediaUrl(socialMediaTitle, linkValue)
+		}
+
+		if (completeLink && completeLink.slice(0, 4) !== 'http') {
+			completeLink = `http://${completeLink}`
 		}
 
 		if (socialMediaEditableIndex >= 0) {
