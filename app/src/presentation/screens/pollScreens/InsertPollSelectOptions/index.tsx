@@ -99,7 +99,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 	const questionsLength = () => selectOptions.length
 
 	const addNewQuestion = () => {
-		if (questionsLength() === 5 || selectOptionText === '' || selectOptions.includes(selectOptionText)) return
+		if (questionsLength() === 10 || selectOptionText === '' || selectOptions.includes(selectOptionText)) return
 
 		setSelectOptions([...selectOptions, selectOptionText])
 		setQuestionText('')
@@ -153,7 +153,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 					<VerticalSpacing height={3} />
 					{!keyboardOpened && renderQuestionsSaved()}
 					{
-						questionsLength() < 5
+						questionsLength() < 10
 						&& (
 							<DefaultInput
 								key={12}
