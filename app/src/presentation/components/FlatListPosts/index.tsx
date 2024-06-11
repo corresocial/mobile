@@ -9,43 +9,27 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 interface FlatListPostsProps {
 	data: PostEntityOptional[]
 	headerComponent?: JSXElementConstructor<any>
-	stickyHeaderComponent?: JSXElementConstructor<any>
-	flatListIsLoading?: boolean
 	withoutFooter?: boolean
 	renderItem: (post: PostEntityOptional) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
-	onRefresh?: () => void
 }
 
 function FlatListPosts({
 	data,
 	headerComponent,
-	stickyHeaderComponent,
-	flatListIsLoading,
 	withoutFooter,
 	renderItem,
 	onEndReached,
-	onRefresh
 }: FlatListPostsProps) {
 	return (
 		<FlatList
 			data={[0, ...data]}
 			renderItem={({ item }) => renderItem(item as PostEntity)}
 			showsVerticalScrollIndicator={false}
-			CellRendererComponent={({ item }) => {
-				if (item === 0) {
-					return (stickyHeaderComponent as any)()
-				}
-				return (
-					<>
-						<VerticalSpacing />
-						{renderItem(item as PostEntity)}
-					</>
-				)
-			}}
+			ItemSeparatorComponent={() => <VerticalSpacing />}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace/>}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace />}
 			onEndReached={onEndReached}
 			// refreshControl={(
 			// 	<RefreshControl
