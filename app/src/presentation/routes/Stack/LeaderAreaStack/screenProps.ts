@@ -16,3 +16,5 @@ export type ViewIncomePostScreenProps = NativeStackScreenProps<LeaderAreaStackPa
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewVacancyPostLeaderArea'>
 export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewSocialImpactPostLeaderArea'>
 export type ViewCulturePostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewCulturePostLeaderArea'>
+
+export type CitizenRegistrationAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'CitizenRegistrationArea'>

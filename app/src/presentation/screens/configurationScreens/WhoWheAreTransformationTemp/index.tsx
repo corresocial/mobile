@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { WhoWeAreTransformationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { WhoWeAreTransformationTempScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
@@ -12,10 +12,15 @@ import { DefaultCardContainer } from '@components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScreenProps) {
-	const navigateToHelpUs = () => {
-		navigation.navigate('Configurations')
-		navigation.navigate('HelpUs')
+function WhoWeAreTransformationTemp({ route, navigation }: WhoWeAreTransformationTempScreenProps) {
+	// REFACTOR Screen temporária somente para utilizar o redirecionamento final
+	// no contexto de cadastro cidadão
+
+	const navigateToInitialScreen = () => {
+		navigation.goBack()
+		navigation.goBack()
+		navigation.goBack()
+		navigation.goBack()
 	}
 
 	return (
@@ -51,7 +56,7 @@ function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScr
 						SecondSvgIcon={HandOnCorreWhiteIcon}
 						svgIconScale={['50%', '30%']}
 						fontSize={18}
-						onPress={navigateToHelpUs}
+						onPress={navigateToInitialScreen}
 					/>
 				</ButtonContainer>
 			</Body>
@@ -59,4 +64,4 @@ function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScr
 	)
 }
 
-export { WhoWeAreTransformation }
+export { WhoWeAreTransformationTemp }

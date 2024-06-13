@@ -96,6 +96,7 @@
 		"react-native-keyboard-aware-scroll-view": "^0.9.5",
 		"react-native-maps": "1.7.1",
 		"react-native-modal-datetime-picker": "^17.1.0",
+		"react-native-pager-view": "^6.3.1",
 		"react-native-popover-view": "^5.1.7",
 		"react-native-qrcode-svg": "^6.2.0",
 		"react-native-reanimated": "~3.3.0",

@@ -20,6 +20,8 @@ import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
 import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
 import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
 
+import { CitizenRegistrationStack } from '../CitizenRegistrationStack'
+
 const Stack = createStackNavigator<LeaderAreaStackParamList>()
 
 export function LeaderAreaStack({ route, navigation }: any) {
@@ -54,6 +56,8 @@ export function LeaderAreaStack({ route, navigation }: any) {
 				<Stack.Screen name={'ViewVacancyPostLeaderArea'} component={ViewVacancyPost as any} />
 				<Stack.Screen name={'ViewSocialImpactPostLeaderArea'} component={ViewSocialImpactPost as any} />
 				<Stack.Screen name={'ViewCulturePostLeaderArea'} component={ViewCulturePost as any} />
+
+				<Stack.Screen name={'CitizenRegistrationArea'} component={CitizenRegistrationStack} />
 			</Stack.Navigator>
 		</LeaderAreaProvider>
 	)

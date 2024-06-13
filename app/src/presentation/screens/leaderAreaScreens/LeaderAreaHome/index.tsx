@@ -24,7 +24,7 @@ import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
+export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
 	const { userDataContext } = useAuthContext()
@@ -121,6 +121,17 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 					/>
 				</HeaderSection>
 			</HeaderButtonsContainer>
+			<OptionButton
+				label={'0 problemas \nna região'}
+				highlightedWords={['problemas', 'sua', 'região']}
+				labelSize={11}
+				relativeHeight={relativeScreenDensity(70)}
+				leftSideWidth={'28%'}
+				leftSideColor={theme.red3}
+				SvgIcon={DeniedWhiteIcon}
+				svgIconScale={['80%', '80%']}
+				onPress={() => navigation.navigate('CitizenRegistrationArea')}
+			/>
 			<UnapprovedPostsList
 				data={[...unapprovedProfiles, ...unapprovedPosts]}
 				// data={unapprovedPosts}
@@ -144,11 +155,11 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 							onPress={() => navigation.navigate('ViewUnapprovedRegistersList')}
 							seeMoreText
 						/>
-						<VerticalSpacing/>
+						<VerticalSpacing />
 					</>
 				)}
-				ItemSeparatorComponent={() => <VerticalSpacing/>}
-				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
+				ItemSeparatorComponent={() => <VerticalSpacing />}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</ScreenContainer>
 	)
