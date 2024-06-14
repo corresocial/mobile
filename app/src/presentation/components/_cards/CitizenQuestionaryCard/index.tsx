@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 
 import { CitizenNameContainer, CitizenNameText, Container, ContainerInner, CreatedAtText, CreatorContainer, CreatorDataContainer, CreatorNameText, QuestionaryContainer } from './styles'
 import QuestionaryIcon from '@assets/icons/questionary-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
+
+import { CitizenRegistrationQuestionary } from '@screens/citizenRegistrationScreens/CitizenOfflineRegistrationList'
 
 interface CitizenQuestionaryCardProps {
-	questionaryData?: object
+	questionaryData: CitizenRegistrationQuestionary
 	onPress: () => void
 }
 
@@ -35,30 +37,26 @@ function CitizenQuestionaryCard({ questionaryData, onPress }: CitizenQuestionary
 			<ContainerInner
 				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
-
 				<QuestionaryContainer>
 					<CitizenNameContainer>
 						<CitizenNameText>
-							{'Cidadão Cadastrado'}
+							{questionaryData.name}
 						</CitizenNameText>
 					</CitizenNameContainer>
 
 					<CreatorContainer>
-						<QuestionaryIcon/>
+						<QuestionaryIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						<CreatorDataContainer>
 							<CreatorNameText>
-								{'Recenseador'}
+								{questionaryData.censusTakerName}
 							</CreatorNameText>
 							<CreatedAtText>
-								{'Hoje, 20:00'}
+								{questionaryData.createdAt.toDateString()}
 							</CreatedAtText>
 						</CreatorDataContainer>
 					</CreatorContainer>
-
 				</QuestionaryContainer>
-
 			</ContainerInner>
-
 		</Container>
 	)
 }

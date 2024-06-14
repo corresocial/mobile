@@ -12,7 +12,7 @@ export const Header = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
  	padding: ${relativeScreenWidth(4)}px;
- `
+`
 
 interface EditPostStyleProps {
 	hasError?: boolean
@@ -36,7 +36,7 @@ export const SaveButtonContainer = styled.View`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
- `
+`
 
 export const PostCardContainer = styled.View<EditPostStyleProps>`
 	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.red2 : backgroundColor || theme.orange2)};

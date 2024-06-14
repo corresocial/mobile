@@ -5,6 +5,7 @@ import React from 'react'
 import { CitizenRegistrationStackParamList } from './types'
 import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
+import { CitizenOfflineRegistrationList } from '@screens/citizenRegistrationScreens/CitizenOfflineRegistrationList'
 import { CitizenRegistrationHome } from '@screens/citizenRegistrationScreens/CitizenRegistrationHome'
 import { WhoWeAre } from '@screens/configurationScreens/WhoWeAre'
 import { WhoWeAreCulture } from '@screens/configurationScreens/WhoWeAreCulture'
@@ -30,7 +31,8 @@ export function CitizenRegistrationStack({ route, navigation }: any) {
 				...TransitionPresets.SlideFromRightIOS,
 			}}
 		>
-			<Stack.Screen name={'CitizenRegistrationHome'} component={CitizenRegistrationHome as any} />
+			<Stack.Screen name={'CitizenRegistrationHome'} component={CitizenRegistrationHome} />
+			<Stack.Screen name={'CitizenOfflineRegistrationList'} component={CitizenOfflineRegistrationList} />
 
 			<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
 			<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />

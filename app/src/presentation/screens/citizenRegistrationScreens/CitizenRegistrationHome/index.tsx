@@ -34,7 +34,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 
 	return (
 		<ScreenContainer
-			topSafeAreaColor={theme.orange3}
+			topSafeAreaColor={theme.orange2}
 			bottomSafeAreaColor={theme.orange1}
 
 		>
@@ -57,7 +57,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 						leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
 						SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
 						svgIconScale={['70%', '70%']}
-						onPress={() => console.log('navigation')}
+						onPress={() => navigation.navigate('CitizenOfflineRegistrationList')}
 					/>
 				</HeaderActionsContainer>
 			</HeaderContainer>
