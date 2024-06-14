@@ -4,6 +4,7 @@ import { CitizenRegistrationStackParamList } from './types'
 
 export type CitizenRegistrationHomeScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'CitizenRegistrationHome'>
 export type CitizenOfflineRegistrationListProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'CitizenOfflineRegistrationList'>
+export type CitizenQuestionsListProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'CitizenQuestionsList'>
 
 export type WhoWeAreScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAre'>
 export type WhoWeAreIncomeScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAreIncome'>

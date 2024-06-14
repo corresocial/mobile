@@ -82,7 +82,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					leftSideColor={theme.orange3}
 					SvgIcon={RecordWhiteIcon}
 					svgIconScale={['40%', '40%']}
-					onPress={() => console.log('navigation')}
+					onPress={() => navigation.navigate('CitizenQuestionsList')}
 				/>
 			</Body>
 		</ScreenContainer>
