@@ -20,7 +20,7 @@ jobs:
       - name: Check commit patterns
         uses: wagoid/commitlint-github-action@v6
         with:
-          configFile: .commitlintrc.js
+          configFile: .commitlintrc.mjs
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
