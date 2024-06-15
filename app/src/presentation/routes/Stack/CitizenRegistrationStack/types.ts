@@ -5,6 +5,7 @@ import { UserStackParamList } from '../UserStack/types'
 export type CitizenRegistrationStackParamList = {
 	CitizenRegistrationHome: undefined
 	CitizenOfflineRegistrationList: undefined
+	CitizenQuestionsList: undefined
 
 	InsertBinaryResponse: { questionData: CitizenRegisterQuestion }
 	InsertSatisfactionResponse: { questionData: CitizenRegisterQuestion }

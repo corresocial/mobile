@@ -7,13 +7,13 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { BackButton } from '@components/_buttons/BackButton'
 
-interface QuestionaryHeaderProps {
+interface CitizenQuestionHeaderProps {
 	onBackPressed: () => void
 	onChatOpened: () => void
 	onNotePadOpened: () => void
 }
 
-function QuestionaryHeader({ onBackPressed, onChatOpened, onNotePadOpened }: QuestionaryHeaderProps) {
+function CitizenQuestionHeader({ onBackPressed, onChatOpened, onNotePadOpened }: CitizenQuestionHeaderProps) {
 	return (
 		<HeaderContainer>
 			<BackButton onPress={onBackPressed} />
@@ -29,4 +29,4 @@ function QuestionaryHeader({ onBackPressed, onChatOpened, onNotePadOpened }: Que
 	)
 }
 
-export { QuestionaryHeader }
+export { CitizenQuestionHeader }
