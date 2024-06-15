@@ -20,12 +20,12 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenProps) {
-	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const { questionData } = route.params
-	const responseProgress = getResponseProgess(questionData.questionId)
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 

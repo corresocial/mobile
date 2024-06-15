@@ -6,6 +6,12 @@ export type CitizenRegistrationHomeScreenProps = NativeStackScreenProps<CitizenR
 export type CitizenOfflineRegistrationListProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'CitizenOfflineRegistrationList'>
 export type CitizenQuestionsListProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'CitizenQuestionsList'>
 
+export type InsertBinaryResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertBinaryResponse'>
+export type InsertSatisfactionResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertSatisfactionResponse'>
+export type InsertTextualResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertTextualResponse'>
+export type InsertSelectResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertSelectResponse'>
+export type FinishCitizenRegistrationScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'FinishCitizenRegistration'>
+
 export type WhoWeAreScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAre'>
 export type WhoWeAreIncomeScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAreIncome'>
 export type WhoWeAreCultureScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAreCulture'>

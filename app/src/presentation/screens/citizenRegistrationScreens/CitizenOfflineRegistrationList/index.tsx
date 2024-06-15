@@ -2,6 +2,8 @@ import React from 'react'
 import { ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { CitizenRegisterQuestionResponse, CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/types'
+
 import { CitizenOfflineRegistrationListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
@@ -14,43 +16,77 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-export interface CitizenRegistrationQuestionary {
-	registerId: string
-	nome: string
-	censusTakerName: string,
-	createdAt: Date
-	[key: string]: any // CURRENT Tipagem de enquetes
-}
-
 function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrationListProps) {
 	const theme = useTheme()
 
-	const data = [
+	const data: CitizenRegisterResponse[] = [
 		{
-			registerId: '1',
-			name: 'Mariquina',
-			censusTakerName: 'Wellington',
-			createdAt: new Date()
+			cellNumber: '6999284',
+			censusTakerId: 'idd',
+			censusTakerName: 'José da pinga',
+			citizenRegisterId: 'id de register',
+			createdAt: new Date(),
+			location: {} as any,
+			name: 'Maiquinha da silva',
+			userId: 'sem id',
+			responses: [
+				{
+					questionId: '1',
+					question: 'Quem foi Mariquina?',
+					response: 'Wellington',
+					questionType: 'textual'
+				},
+				{
+					questionId: '2',
+					question: 'Quem foi Luis?',
+					response: 'Wellington',
+					questionType: 'textual'
+				},
+				{
+					questionId: '3',
+					question: 'Quem foi Eduardo?',
+					response: 'Wellington',
+					questionType: 'textual'
+				}
+			]
 		},
 		{
-			registerId: '2',
-			name: 'Luis',
-			censusTakerName: 'Wellington',
-			createdAt: new Date()
+			cellNumber: '6999284',
+			censusTakerId: 'idd',
+			censusTakerName: 'Recenseador boss',
+			citizenRegisterId: 'id de register',
+			createdAt: new Date(),
+			location: {} as any,
+			name: 'Pedrinho da quebrada',
+			userId: 'sem id',
+			responses: [
+				{
+					questionId: '1',
+					question: 'Quem foi Mariquina?',
+					response: 'Wellington',
+					questionType: 'textual'
+				},
+				{
+					questionId: '2',
+					question: 'Quem foi Luis?',
+					response: 'Wellington',
+					questionType: 'textual'
+				},
+				{
+					questionId: '3',
+					question: 'Quem foi Eduardo?',
+					response: 'Wellington',
+					questionType: 'textual'
+				}
+			]
 		},
-		{
-			registerId: '3',
-			name: 'Eduardo',
-			censusTakerName: 'Wellington',
-			createdAt: new Date()
-		}
 	]
 
-	const renderQuestionary = ({ item }: FlatListItem<CitizenRegistrationQuestionary>) => {
+	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
 		return (
 			<CitizenQuestionaryCard
 				questionaryData={item}
-				onPress={() => console.log(item.registerId)}
+				onPress={() => console.log(item.questionId)}
 			/>
 		)
 	}

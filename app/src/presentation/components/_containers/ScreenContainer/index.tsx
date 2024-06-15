@@ -44,7 +44,6 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 						</>
 					)
 			}
-
 		</>
 	)
 }

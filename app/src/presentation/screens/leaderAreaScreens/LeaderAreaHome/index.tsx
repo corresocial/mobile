@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ListRenderItem, RefreshControl } from 'react-native'
+import { ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
@@ -13,8 +13,8 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { HeaderButtonsContainer, HeaderSection, ListItemContainer, UnapprovedPostsList } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
-import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import FormHearthWhiteIcon from '@assets/icons/formHearth-white.svg'
+import LogoCorreWhiteIcon from '@assets/icons/logoBuilding.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
@@ -109,29 +109,18 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 				</HeaderSection>
 				<HeaderSection>
 					<OptionButton
-						label={'0 problemas \nna região'}
-						highlightedWords={['problemas', 'sua', 'região']}
+						label={'cadastro cidadão'}
+						highlightedWords={['cadastro', 'cidadão']}
 						labelSize={11}
 						relativeHeight={relativeScreenDensity(70)}
 						leftSideWidth={'28%'}
-						leftSideColor={theme.red3}
-						SvgIcon={DeniedWhiteIcon}
+						leftSideColor={theme.orange3}
+						SvgIcon={LogoCorreWhiteIcon}
 						svgIconScale={['80%', '80%']}
-						onPress={() => Alert.alert('Aviso', 'Esta funcionalidade será implementada em breve!')}
+						onPress={() => navigation.navigate('CitizenRegistrationArea')}
 					/>
 				</HeaderSection>
 			</HeaderButtonsContainer>
-			<OptionButton
-				label={'0 problemas \nna região'}
-				highlightedWords={['problemas', 'sua', 'região']}
-				labelSize={11}
-				relativeHeight={relativeScreenDensity(70)}
-				leftSideWidth={'28%'}
-				leftSideColor={theme.red3}
-				SvgIcon={DeniedWhiteIcon}
-				svgIconScale={['80%', '80%']}
-				onPress={() => navigation.navigate('CitizenRegistrationArea')}
-			/>
 			<UnapprovedPostsList
 				data={[...unapprovedProfiles, ...unapprovedPosts]}
 				// data={unapprovedPosts}

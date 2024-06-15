@@ -17,7 +17,7 @@ export type PollRegisterContextType = {
 	pollToRespond: PollEntity,
 	pollResponseData: PollResponse[]
 	savePollToRespondOnContext: (currentPoll: PollEntity) => void
-	getResponseProgess: (currentQuestionId: string | number) => number[]
+	getResponseProgress: (currentQuestionId: string | number) => number[]
 	getNextQuestion: (lastQuestion: PollQuestion) => PollQuestion | null
 	saveResponseData: (question: PollQuestion, response: string | string[] | number | boolean) => void
 }

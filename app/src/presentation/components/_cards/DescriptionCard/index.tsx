@@ -11,7 +11,6 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
-// import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DescriptionCardProps {
 	title?: string
