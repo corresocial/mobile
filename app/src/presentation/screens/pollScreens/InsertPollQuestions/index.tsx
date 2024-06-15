@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
+import { FlatList, Keyboard, ListRenderItem, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
+import uuid from 'react-uuid'
 
 import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
 
@@ -7,8 +8,9 @@ import { EditContext } from '@contexts/EditContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollQuestionsScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { FlatListItem } from 'src/presentation/types'
 
-import { ButtonsContainer, Container } from './styles'
+import { ButtonsContainer, Container, QuestionList } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import NumbersWhiteIcon from '@assets/icons/numbers-white.svg'
@@ -22,15 +24,29 @@ import { theme } from '@common/theme'
 import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
+import { QuestionCardControls } from '@components/_cards/QuestionCardControls'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { SelectQuestionTypeModal } from '@components/_modals/SelectQuestionTypeModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
 function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
-	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, removeQuestionFromRegisterContext } = usePollRegisterContext()
+	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, setRegisteredQuestionOnPollDataContext, removeQuestionFromRegisterContext } = usePollRegisterContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const [selectQuestionTypeModalIsVisible, setSelectQuestionTypeModalIsVisible] = useState(false)
+
+	const questionListRef = useRef<FlatList | any>()
+
+	const questionLimit = 60
+
+	const scrollQuestionListToEnd = () => {
+		setTimeout(() => {
+			questionListRef && questionListRef.current && questionListRef.current.scrollToEnd({ animated: true })
+		}, 100)
+	}
 
 	const getQuestionList = (): PollQuestion[] => {
 		if (editDataContext.unsaved && editDataContext.unsaved.questions) {
@@ -64,49 +80,9 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 		return unsubscribe
 	}, [navigation])
 
-	const validatePollQuestions = (text: string) => {
-		const isValid = (text).trim().length >= 1
-		if (isValid && !keyboardOpened) {
-			return true
-		}
-		return false
-	}
-
-	const moveToEditableInput = (text: string) => {
+	const moveToEditableInput = (text: string, questionId: string) => {
 		setQuestionText(text)
-	}
-
-	const renderQuestionsSaved = () => {
-		const allQuestions = getQuestionList()
-
-		if (!questionsLength() || keyboardOpened) return <></>
-		return allQuestions.map((currentQuestion, index) => (
-			<React.Fragment key={currentQuestion.questionId}>
-				<DefaultInput
-					key={index as number}
-					value={currentQuestion.question || ''}
-					relativeWidth={'100%'}
-					textInputRef={inputRefs.inputCards[index]}
-					defaultBackgroundColor={theme.white2}
-					validBackgroundColor={theme.purple1}
-					CustonLeftIcon={currentQuestion.questionType && getRelativeQuestionTypeIcon(currentQuestion.questionType)}
-					withoutBottomLine
-					multiline
-					lastInput
-					numberOfLines={3}
-					editable={false}
-					uneditableMethod={moveToEditableInput}
-					textAlign={'left'}
-					fontSize={16}
-					keyboardType={'default'}
-					textIsValid
-					onIconPress={() => removeQuestion(currentQuestion.questionId)}
-					validateText={(text: string) => validatePollQuestions(text)}
-					onChangeText={(text: string) => { }}
-				/>
-				<VerticalSpacing />
-			</React.Fragment>
-		))
+		removeQuestion(questionId)
 	}
 
 	const getRelativeQuestionTypeIcon = (questionType: PollQuestion['questionType']) => {
@@ -129,13 +105,13 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	const questionsLength = () => questionsList.length
 
 	const addNewQuestion = () => {
-		if (questionsLength() === 10 || questionText === '') return
+		if (questionsLength() === questionLimit || questionText === '') return
 
 		setQuestionsList([...questionsList, { question: questionText }])
 		setQuestionText('')
 		setPollQuestionRegisterDataOnContext({ question: questionText })
 
-		navigation.push('SelectPollQuestionType', { editMode: !!route.params?.editMode, questionText })
+		setSelectQuestionTypeModalIsVisible(true)
 	}
 
 	const removeQuestion = (questionId: string) => {
@@ -163,9 +139,47 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 		navigation.navigate('SelectPollRange')
 	}
 
+	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
+		setSelectQuestionTypeModalIsVisible(false)
+
+		if (questionType === 'select') {
+			return navigation.navigate('SelectNumberOfSelections', { ...route.params, selectOptions: [], editMode: !!route.params?.editMode })
+		}
+
+		if (route.params?.editMode) {
+			addNewUnsavedFieldToEditContext({
+				questions: [...(editDataContext.unsaved.questions || []), {
+					questionId: uuid(),
+					questionType,
+					question: questionText,
+				} as PollQuestion]
+			})
+		} else {
+			setRegisteredQuestionOnPollDataContext(questionType)
+		}
+
+		scrollQuestionListToEnd()
+	}
+
+	const renderQuestions = ({ item }: FlatListItem<PollQuestion>) => {
+		return (
+			<QuestionCardControls
+				title={item.question}
+				CustonLeftIcon={getRelativeQuestionTypeIcon(item.questionType)}
+				onEdit={() => moveToEditableInput(item.question, item.questionId)}
+				onRemove={() => removeQuestion(item.questionId)}
+			/>
+		)
+	}
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<SelectQuestionTypeModal
+				visibility={selectQuestionTypeModalIsVisible}
+				closeModal={() => { }}
+				onSelect={selectPollQuestionType}
+			/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
 				relativeHeight={relativeScreenHeight(26)}
@@ -186,37 +200,46 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 				backgroundColor={theme.white3}
 				justifyContent={questionsLength() < 1 ? 'center' : 'space-around'}
 			>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<VerticalSpacing height={3} />
-					{!keyboardOpened && renderQuestionsSaved()}
-					{
-						questionsLength() < 10
-						&& (
-							<DefaultInput
-								key={12}
-								value={questionText}
-								relativeWidth={'100%'}
-								textInputRef={inputRefs.questionTextInput}
-								defaultBackgroundColor={theme.white2}
-								validBackgroundColor={theme.purple1}
-								withoutBottomLine
-								lastInput
-								multiline
-								fontSize={16}
-								onIconPress={!keyboardOpened ? () => { } : null}
-								iconPosition={'left'}
-								textAlignVertical={'center'}
-								textAlign={'center'}
-								placeholder={'pergunta'}
-								keyboardType={'default'}
-								onPressKeyboardSubmit={addNewQuestion}
-								validateText={(text: string) => false}
-								onChangeText={(text: string) => setQuestionText(text)}
-							/>
-
-						)
-					}
-				</ScrollView>
+				<QuestionList
+					ref={questionListRef}
+					data={getQuestionList()}
+					renderItem={renderQuestions as ListRenderItem<unknown>}
+					showsVerticalScrollIndicator={false}
+					ItemSeparatorComponent={() => <VerticalSpacing />}
+					ListHeaderComponent={<VerticalSpacing height={3} />}
+					ListFooterComponent={(
+						<>
+							<VerticalSpacing />
+							{
+								questionsLength() < questionLimit
+								&& (
+									<DefaultInput
+										key={12}
+										value={questionText}
+										relativeWidth={'100%'}
+										textInputRef={inputRefs.questionTextInput}
+										defaultBackgroundColor={theme.white2}
+										validBackgroundColor={theme.purple1}
+										withoutBottomLine
+										lastInput
+										multiline
+										fontSize={16}
+										onIconPress={!keyboardOpened ? () => { } : null}
+										iconPosition={'left'}
+										textAlignVertical={'center'}
+										textAlign={'center'}
+										placeholder={'pergunta'}
+										keyboardType={'default'}
+										onPressKeyboardSubmit={addNewQuestion}
+										validateText={(text: string) => false}
+										onChangeText={(text: string) => setQuestionText(text)}
+									/>
+								)
+							}
+							<VerticalSpacing height={3} />
+						</>
+					)}
+				/>
 				<VerticalSpacing />
 				<ButtonsContainer>
 					{

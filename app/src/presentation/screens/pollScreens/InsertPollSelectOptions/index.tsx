@@ -31,6 +31,8 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 	const [selectOptions, setSelectOptions] = useState<string[]>([])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
+	const optionLimit = 15
+
 	const inputRefs = {
 		inputCards: [
 			useRef<TextInput>(null),
@@ -99,7 +101,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 	const questionsLength = () => selectOptions.length
 
 	const addNewQuestion = () => {
-		if (questionsLength() === 5 || selectOptionText === '' || selectOptions.includes(selectOptionText)) return
+		if (questionsLength() === optionLimit || selectOptionText === '' || selectOptions.includes(selectOptionText)) return
 
 		setSelectOptions([...selectOptions, selectOptionText])
 		setQuestionText('')
@@ -125,7 +127,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 			setRegisteredQuestionOnPollDataContext('select', selectOptions, !!route.params.multiSelect)
 		}
 
-		navigation.push('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
+		navigation.navigate('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
 	}
 
 	return (
@@ -153,7 +155,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 					<VerticalSpacing height={3} />
 					{!keyboardOpened && renderQuestionsSaved()}
 					{
-						questionsLength() < 5
+						questionsLength() < optionLimit
 						&& (
 							<DefaultInput
 								key={12}
