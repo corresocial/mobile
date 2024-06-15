@@ -1,31 +1,32 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const HeaderContainer = styled.View`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-left: ${RFValue(20)}px;
-    padding-right: ${RFValue(20)}px;
-    height: ${RFValue(55)}px;
+    padding-left: ${relativeScreenDensity(15)}px;
+    padding-right: ${relativeScreenDensity(15)}px;
+    height: ${relativeScreenDensity(55)}px;
     width: 100%;
     background-color: ${({ theme }) => theme.orange1};
 `
 
 export const ButtonsContainer = styled.View`
-    display: flex;
+	flex: 1;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    width: 25%;
     height: 100%;
+	gap: ${relativeScreenDensity(5)}px;
 `
 
 export const ButtonArea = styled.TouchableOpacity`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: ${RFValue(40)}px;
-    width: ${RFValue(40)}px;
+    height: ${relativeScreenDensity(40)}px;
+    width: ${relativeScreenDensity(40)}px;
 `

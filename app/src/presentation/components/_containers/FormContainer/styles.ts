@@ -14,6 +14,7 @@ export const Container = styled.View<ContainerProps>`
 	justify-content: ${({ justifyContent }) => justifyContent || 'space-around'};
 
     flex: 1;
+	width: 100%;
     padding:  ${relativeScreenWidth(6)}px;
     padding-top:  ${({ withoutPaddingTop }) => (withoutPaddingTop ? 0 : relativeScreenWidth(5))}px;
     align-items: center;

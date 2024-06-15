@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
+import { CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
+
+import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
+
 import { CitizenRegistrationHomeScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -17,9 +21,11 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenProps) {
+	const { citizenRegistrationQuestionToRespond, startNewCitizenRegistration } = useCitizenRegistrationContext()
+
 	const theme = useTheme()
 
-	const number = 10 + 1
+	const number = 10 + 1 // CURRENT Obter número de cadastros offline
 
 	const [hasNetworkConnection, setHasNetworkConnection] = useState<boolean>()
 
@@ -27,16 +33,40 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 		isConnected()
 	}, [])
 
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			startNewCitizenRegistration()
+		})
+
+		return unsubscribe
+	})
+
 	const isConnected = async () => {
 		const status = await getNetworkStatus()
 		setHasNetworkConnection(status.isConnected && status.isInternetReachable)
+	}
+
+	const startCitizenRegistration = () => {
+		const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
+		navigateToNextReponseScreen(firstQuestion)
+	}
+
+	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
+		if (nextQuestion === null) return
+
+		switch (nextQuestion.questionType) {
+			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+		}
 	}
 
 	return (
 		<ScreenContainer
 			topSafeAreaColor={theme.orange2}
 			bottomSafeAreaColor={theme.orange1}
-
 		>
 			<HeaderContainer>
 				<DefaultPostViewHeader
@@ -82,7 +112,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					leftSideColor={theme.orange3}
 					SvgIcon={RecordWhiteIcon}
 					svgIconScale={['40%', '40%']}
-					onPress={() => console.log('navigation')}
+					onPress={startCitizenRegistration}
 				/>
 			</Body>
 		</ScreenContainer>

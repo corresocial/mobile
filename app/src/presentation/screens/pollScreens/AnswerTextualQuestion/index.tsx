@@ -22,14 +22,14 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScreenProps) {
-	const { getNextQuestion, pollResponseData, getResponseProgess, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, pollResponseData, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const [inputText, setInputText] = useState<string>('')
 
 	const { questionData } = route.params
-	const responseProgress = getResponseProgess(questionData.questionId)
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	useEffect(() => {
 		const questionIndex = pollResponseData.findIndex((res) => res.questionId === questionData.questionId)

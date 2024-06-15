@@ -3,24 +3,21 @@ import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
 
-import { usePollRegisterContext } from '@contexts/PollRegisterContext'
+import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
-import { AnswerSelectQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { InsertSelectResponseScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
-import { ButtonOptionsContainer, Container, InstructionButtonContainer, OptionsContainer } from './styles'
+import { ButtonOptionsContainer, OptionsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 
-import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SelectButton } from '@components/_buttons/SelectButton'
-import { InstructionCard } from '@components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { ProgressBar } from '@components/ProgressBar'
+import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 
-function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenProps) {
-	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
+function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenProps) {
+	const { getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
 
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
@@ -28,6 +25,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 
 	const { questionData } = route.params
 	const { multiSelect } = questionData
+
 	const responseProgress = getResponseProgress(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
@@ -39,14 +37,14 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: PollQuestion | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
+		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
-			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
-			case 'select': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
+			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
@@ -65,7 +63,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 		return (questionData.options || []).map((question) => {
 			return (
 				<SelectButton
-					backgroundSelected={theme.purple3}
+					backgroundSelected={theme.orange3}
 					label={question}
 					labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
 					boldLabel
@@ -80,31 +78,19 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 	}
 
 	return (
-		<Container>
-			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(30)}
-				centralized
-				backgroundColor={theme.purple2}
-				flexDirection={'column'}
-			>
-				<InstructionButtonContainer >
-					<BackButton onPress={navigateBackwards} />
-					<InstructionCard
-						fontSize={16}
-						message={questionData.question}
-						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
-					>
-						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
-					</InstructionCard>
-				</InstructionButtonContainer>
-			</DefaultHeaderContainer>
+		<ScreenContainer topSafeAreaColor={theme.orange1}>
+			<CitizenRegistrationHeader
+				message={questionData.question}
+				progress={responseProgress}
+				navigateBackwards={navigateBackwards}
+			/>
 			<OptionsContainer>
 				{renderQuestionOptions()}
 				<VerticalSpacing bottomNavigatorSpace />
 			</OptionsContainer>
-			{
-				!!selectedOptions.length && (
-					<ButtonOptionsContainer>
+			<ButtonOptionsContainer >
+				{
+					!!selectedOptions.length && (
 						<PrimaryButton
 							color={theme.green3}
 							label={'continuar'}
@@ -112,11 +98,11 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 							SvgIcon={CheckWhiteIcon}
 							onPress={saveQuestionResponse}
 						/>
-					</ButtonOptionsContainer>
-				)
-			}
-		</Container>
+					)
+				}
+			</ButtonOptionsContainer>
+		</ScreenContainer>
 	)
 }
 
-export { AnswerSelectQuestion }
+export { InsertSelectResponse }

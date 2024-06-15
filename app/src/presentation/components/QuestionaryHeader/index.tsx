@@ -3,25 +3,26 @@ import React from 'react'
 import { ButtonArea, ButtonsContainer, HeaderContainer } from './styles'
 import ChatIcon from '@assets/icons/chat-outlined.svg'
 import PaperIcon from '@assets/icons/paperList-outlined.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { BackButton } from '@components/_buttons/BackButton'
 
-interface QuestionaryHeaderProps{
+interface QuestionaryHeaderProps {
 	onBackPressed: () => void
-    onChatOpened: () => void
+	onChatOpened: () => void
 	onNotePadOpened: () => void
 }
 
 function QuestionaryHeader({ onBackPressed, onChatOpened, onNotePadOpened }: QuestionaryHeaderProps) {
 	return (
 		<HeaderContainer>
-			<BackButton onPress={onBackPressed}/>
+			<BackButton onPress={onBackPressed} />
 			<ButtonsContainer>
-				<ButtonArea activeOpacity={1} onPress={onChatOpened}>
-					<ChatIcon/>
+				<ButtonArea onPress={onChatOpened}>
+					<ChatIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
-				<ButtonArea activeOpacity={1} onPress={onNotePadOpened}>
-					<PaperIcon/>
+				<ButtonArea onPress={onNotePadOpened}>
+					<PaperIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
 			</ButtonsContainer>
 		</HeaderContainer>

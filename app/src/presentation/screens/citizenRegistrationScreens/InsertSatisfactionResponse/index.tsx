@@ -1,29 +1,28 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
-import { PollQuestion, SatisfactionType } from '@domain/poll/entity/types'
+import { CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
+import { SatisfactionType } from '@domain/poll/entity/types'
 
-import { usePollRegisterContext } from '@contexts/PollRegisterContext'
+import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
-import { AnswerSatisfactionQuestionScreenProps } from '@routes/Stack/PollStack/screenProps'
+import { InsertSatisfactionResponseScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
-import { ButtonOptionsContainer, Container, InstructionButtonContainer } from './styles'
+import { ButtonOptionsContainer } from './styles'
 import SatisfactionEmoji1WhiteIcon from '@assets/icons/satisfactionEmoji-1-white.svg'
 import SatisfactionEmoji2WhiteIcon from '@assets/icons/satisfactionEmoji-2-white.svg'
 import SatisfactionEmoji3WhiteIcon from '@assets/icons/satisfactionEmoji-3-white.svg'
 import SatisfactionEmoji4WhiteIcon from '@assets/icons/satisfactionEmoji-4-white.svg'
 import SatisfactionEmoji5WhiteIcon from '@assets/icons/satisfactionEmoji-5-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
-import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
-import { InstructionCard } from '@components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
-import { ProgressBar } from '@components/ProgressBar'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
+import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 
-function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQuestionScreenProps) {
-	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
+function InsertSatisfactionResponse({ route, navigation }: InsertSatisfactionResponseScreenProps) {
+	const { getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
 
 	const theme = useTheme()
 
@@ -38,37 +37,25 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 		navigateToNextReponseScreen(nextQuestion)
 	}
 
-	const navigateToNextReponseScreen = (nextQuestion: PollQuestion | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
+	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
+		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
 
-		switch (nextQuestion?.questionType) {
-			case 'binary': return navigation.push('AnswerBinaryQuestion', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
-			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
-			case 'select': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
+		switch (nextQuestion.questionType) {
+			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
 	return (
-		<Container>
-			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(50)}
-				centralized
-				backgroundColor={theme.purple2}
-				flexDirection={'column'}
-			>
-				<InstructionButtonContainer >
-					<BackButton onPress={navigateBackwards} />
-					<InstructionCard
-						fontSize={16}
-						message={questionData.question || ''}
-						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
-					>
-						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
-					</InstructionCard>
-				</InstructionButtonContainer>
-			</DefaultHeaderContainer>
+		<ScreenContainer topSafeAreaColor={theme.orange1}>
+			<CitizenRegistrationHeader
+				message={questionData.question}
+				progress={responseProgress}
+				navigateBackwards={navigateBackwards}
+			/>
 			<FormContainer>
 				<ButtonOptionsContainer>
 					<SmallButton
@@ -108,8 +95,8 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 					/>
 				</ButtonOptionsContainer>
 			</FormContainer>
-		</Container>
+		</ScreenContainer>
 	)
 }
 
-export { AnswerSatisfactionQuestion }
+export { InsertSatisfactionResponse }
