@@ -49,7 +49,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 	const queryClient = useQueryClient()
 
 	useEffect(() => {
-		// loadUnapprovedPosts()
+		loadUnapprovedPosts()
 		loadUnapprovedProfiles()
 	}, [])
 
@@ -101,7 +101,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			const lastPost = !refresh && (unapprovedPosts.length) ? getLastItem(unapprovedPosts) : undefined
 
 			const queryKey = ['posts.unapproved', userDataContext.userId, lastPost]
-			let posts:PostEntity[] = await executeCachedRequest(
+			let posts: PostEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				async () => getUnapprovedPosts(usePostRepository, 10, lastPost),
@@ -109,6 +109,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			)
 
 			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
+			console.log(posts.map((p) => p.postId))
 
 			if (
 				!posts || (posts && !posts.length)
