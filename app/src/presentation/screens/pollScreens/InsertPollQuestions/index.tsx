@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { FlatList, Keyboard, ListRenderItem, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
-import uuid from 'react-uuid'
+import React, { useEffect, useRef, useState } from 'react'
+import { FlatList, Keyboard, ListRenderItem, Platform, StatusBar, TextInput } from 'react-native'
 
 import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
 
-import { EditContext } from '@contexts/EditContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollQuestionsScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -34,25 +32,10 @@ import { ProgressBar } from '@components/ProgressBar'
 
 function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenProps) {
 	const { pollRegisterDataContext, setPollQuestionRegisterDataOnContext, setRegisteredQuestionOnPollDataContext, removeQuestionFromRegisterContext } = usePollRegisterContext()
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [selectQuestionTypeModalIsVisible, setSelectQuestionTypeModalIsVisible] = useState(false)
 
-	const questionListRef = useRef<FlatList | any>()
-
-	const questionLimit = 60
-
-	const scrollQuestionListToEnd = () => {
-		setTimeout(() => {
-			questionListRef && questionListRef.current && questionListRef.current.scrollToEnd({ animated: true })
-		}, 100)
-	}
-
 	const getQuestionList = (): PollQuestion[] => {
-		if (editDataContext.unsaved && editDataContext.unsaved.questions) {
-			return (editDataContext.unsaved.questions || [])
-		}
-
 		return route.params?.initialValue || pollRegisterDataContext.questions as PollQuestion[]
 	}
 
@@ -69,6 +52,15 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 			useRef<TextInput>(null)
 		],
 		questionTextInput: useRef<TextInput>(null),
+	}
+	const questionListRef = useRef<FlatList | any>()
+
+	const questionLimit = 60
+
+	const scrollQuestionListToEnd = () => {
+		setTimeout(() => {
+			questionListRef && questionListRef.current && questionListRef.current.scrollToEnd({ animated: true })
+		}, 100)
 	}
 
 	useEffect(() => {
@@ -108,35 +100,17 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 		if (questionsLength() === questionLimit || questionText === '') return
 
 		setQuestionsList([...questionsList, { question: questionText }])
-		setQuestionText('')
 		setPollQuestionRegisterDataOnContext({ question: questionText })
-
+		setQuestionText('')
 		setSelectQuestionTypeModalIsVisible(true)
 	}
 
 	const removeQuestion = (questionId: string) => {
-		const questions = getQuestionList()
-
-		const newQuestionsList = questions.filter((question: any) => question.questionId !== questionId)
-
+		const newQuestionsList = (pollRegisterDataContext.questions || []).filter((question: any) => question.questionId !== questionId)
 		setQuestionsList(newQuestionsList)
-
-		if (route.params?.editMode) {
-			return addNewUnsavedFieldToEditContext({ questions: newQuestionsList })
-		}
-
 		if (questionId) {
 			removeQuestionFromRegisterContext(questionId)
 		}
-	}
-
-	const savePollQuestions = () => {
-		if (route.params?.editMode) {
-			navigation.popToTop()
-			return
-		}
-
-		navigation.navigate('SelectPollRange')
 	}
 
 	const selectPollQuestionType = (questionType: PollQuestion['questionType']) => {
@@ -146,19 +120,29 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 			return navigation.navigate('SelectNumberOfSelections', { ...route.params, selectOptions: [], editMode: !!route.params?.editMode })
 		}
 
+		setRegisteredQuestionOnPollDataContext(questionType)
+
+		// if (route.params?.editMode) {
+		// 	addNewUnsavedFieldToEditContext({
+		// 		questions: [...(editDataContext.unsaved.questions || []), {
+		// 			questionId: uuid(),
+		// 			questionType,
+		// 			question: questionText,
+		// 		} as PollQuestion]
+		// 	})
+		// } else {
+		// 	setRegisteredQuestionOnPollDataContext(questionType)
+		// }
+		scrollQuestionListToEnd()
+	}
+
+	const savePollQuestions = () => {
 		if (route.params?.editMode) {
-			addNewUnsavedFieldToEditContext({
-				questions: [...(editDataContext.unsaved.questions || []), {
-					questionId: uuid(),
-					questionType,
-					question: questionText,
-				} as PollQuestion]
-			})
-		} else {
-			setRegisteredQuestionOnPollDataContext(questionType)
+			navigation.popToTop()
+			return
 		}
 
-		scrollQuestionListToEnd()
+		navigation.navigate('SelectPollRange')
 	}
 
 	const renderQuestions = ({ item }: FlatListItem<PollQuestion>) => {
@@ -202,7 +186,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 			>
 				<QuestionList
 					ref={questionListRef}
-					data={getQuestionList()}
+					data={(pollRegisterDataContext.questions || [])}
 					renderItem={renderQuestions as ListRenderItem<unknown>}
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <VerticalSpacing />}

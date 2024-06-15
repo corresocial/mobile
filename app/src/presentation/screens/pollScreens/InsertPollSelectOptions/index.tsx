@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
-import { PollQuestion } from '@domain/poll/entity/types'
-
-import { EditContext } from '@contexts/EditContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollSelectOptionsScreenProps } from '@routes/Stack/PollStack/screenProps'
@@ -25,7 +22,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScreenProps) {
 	const { setRegisteredQuestionOnPollDataContext } = usePollRegisterContext()
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [selectOptionText, setQuestionText] = useState('')
 	const [selectOptions, setSelectOptions] = useState<string[]>([])
@@ -113,20 +109,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 	}
 
 	const savePollQuestions = () => {
-		if (route.params?.editMode) {
-			addNewUnsavedFieldToEditContext({
-				questions: [...(editDataContext.unsaved.questions || []), {
-					questionId: uuid(),
-					questionType: 'select',
-					options: selectOptions,
-					multiSelect: !!route.params.multiSelect,
-					question: route.params.questionText,
-				} as PollQuestion]
-			})
-		} else {
-			setRegisteredQuestionOnPollDataContext('select', selectOptions, !!route.params.multiSelect)
-		}
-
+		setRegisteredQuestionOnPollDataContext('select', selectOptions, !!route.params.multiSelect)
 		navigation.navigate('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
 	}
 

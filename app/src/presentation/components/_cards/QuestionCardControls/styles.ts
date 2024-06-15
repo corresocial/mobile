@@ -8,7 +8,7 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.purple1};
 	border-radius: ${RFValue(17.5)}px;
 	overflow: hidden;
-	padding: ${relativeScreenDensity(10)}px;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(13)}px;
 	flex-direction: row;
 	gap: ${relativeScreenDensity(10)}px;
 `
