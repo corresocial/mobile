@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, ListRenderItem, RefreshControl } from 'react-native'
+import { Alert, ListRenderItem, RefreshControl, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
@@ -24,7 +24,7 @@ import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
+export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 	const theme = useTheme()
 
 	const { userDataContext } = useAuthContext()
@@ -93,6 +93,7 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange2}>
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<HeaderButtonsContainer>
 				<HeaderSection>
 					<OptionButton
@@ -144,11 +145,11 @@ export function LeaderAreaHome({ navigation } : LeaderAreaHomeScreenProps) {
 							onPress={() => navigation.navigate('ViewUnapprovedRegistersList')}
 							seeMoreText
 						/>
-						<VerticalSpacing/>
+						<VerticalSpacing />
 					</>
 				)}
-				ItemSeparatorComponent={() => <VerticalSpacing/>}
-				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
+				ItemSeparatorComponent={() => <VerticalSpacing />}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</ScreenContainer>
 	)

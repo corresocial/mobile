@@ -313,7 +313,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const canRenderWaitingApproveIndicator = () => {
-		return isLoggedUser && userDataContext && userDataContext.unapprovedData && !userDataContext.unapprovedData.reject
+		return (isLoggedUser && userDataContext && userDataContext.unapprovedData && !userDataContext.unapprovedData.reject)
 	}
 
 	const canRenderRejectIndicator = () => {
@@ -478,7 +478,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	if (!user) {
-		return <Loader flex/>
+		return <Loader flex />
 	}
 
 	return (
@@ -570,7 +570,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 													!userDescriptionIsExpanded && isLoggedUser && (
 														<TouchableOpacity
 															onPress={() => getUserField('description')
-																	&& setUserDescriptionIsExpanded(true)}
+																&& setUserDescriptionIsExpanded(true)}
 														>
 															<UserDescription numberOfLines={3}>
 																{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
@@ -582,24 +582,24 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 										</ProfileInfoContainer>
 										{
 											(userDescriptionIsExpanded || !isLoggedUser)
-												&& getUserField('description')
-												&& (
-													<ExpandedUserDescriptionArea>
-														<ScrollView showsVerticalScrollIndicator={false}	>
-															<TouchableOpacity
-																activeOpacity={0.9}
-																onPress={() => (isLoggedUser ? setUserDescriptionIsExpanded(false) : setHostDescriptionIsExpanded(!hostDescriptionIsExpanded))}
-															>
-																<ExpandedUserDescription numberOfLines={hostDescriptionIsExpanded ? 0 : 7} >
-																	{`${hostDescriptionIsExpanded || userDescriptionIsExpanded ? getUserField('description') : getShortDescription()}`}
-																	<SeeMoreLabel>
-																		{hostDescriptionIsExpanded || userDescriptionIsExpanded ? '  mostrar menos' : descriptionIsLarge() && '  ...mostrar mais'}
-																	</SeeMoreLabel>
-																</ExpandedUserDescription>
-															</TouchableOpacity>
-														</ScrollView>
-													</ExpandedUserDescriptionArea>
-												)
+											&& getUserField('description')
+											&& (
+												<ExpandedUserDescriptionArea>
+													<ScrollView showsVerticalScrollIndicator={false}	>
+														<TouchableOpacity
+															activeOpacity={0.9}
+															onPress={() => (isLoggedUser ? setUserDescriptionIsExpanded(false) : setHostDescriptionIsExpanded(!hostDescriptionIsExpanded))}
+														>
+															<ExpandedUserDescription numberOfLines={hostDescriptionIsExpanded ? 0 : 7} >
+																{`${hostDescriptionIsExpanded || userDescriptionIsExpanded ? getUserField('description') : getShortDescription()}`}
+																<SeeMoreLabel>
+																	{hostDescriptionIsExpanded || userDescriptionIsExpanded ? '  mostrar menos' : descriptionIsLarge() && '  ...mostrar mais'}
+																</SeeMoreLabel>
+															</ExpandedUserDescription>
+														</TouchableOpacity>
+													</ScrollView>
+												</ExpandedUserDescriptionArea>
+											)
 										}
 										{
 											arrayIsEmpty(getUserField('socialMedias'))
