@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
-
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
 import { CitizenRegistrationHomeScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
@@ -21,7 +19,7 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenProps) {
-	const { citizenRegistrationQuestionToRespond, startNewCitizenRegistration } = useCitizenRegistrationContext()
+	const { startNewCitizenRegistration } = useCitizenRegistrationContext()
 
 	const theme = useTheme()
 
@@ -47,21 +45,22 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 	}
 
 	const startCitizenRegistration = () => {
-		const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
-		navigateToNextReponseScreen(firstQuestion)
-	}
+		navigation.navigate('CitizenQuestionsList')
+		// const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
+		// navigateToNextReponseScreen(firstQuestion)
+	} // CURRENT Ao iniciar cadastro
 
-	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
-		if (nextQuestion === null) return
+	// const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
+	// 	if (nextQuestion === null) return
 
-		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
-		}
-	}
+	// 	switch (nextQuestion.questionType) {
+	// 		case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
+	// 		case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
+	// 		case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+	// 		case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+	// 		case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+	// 	}
+	// }
 
 	return (
 		<ScreenContainer

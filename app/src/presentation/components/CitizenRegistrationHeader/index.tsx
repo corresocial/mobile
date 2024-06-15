@@ -5,8 +5,8 @@ import { InstructionButtonContainer } from './styles'
 
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { CitizenQuestionHeader } from '@components/CitizenQuestionHeader'
 import { ProgressBar } from '@components/ProgressBar'
-import { QuestionaryHeader } from '@components/QuestionaryHeader'
 
 interface CitizenRegistrationHeaderProps {
 	message: string
@@ -21,7 +21,7 @@ export function CitizenRegistrationHeader({ message, customHeaderHeight, highlig
 
 	return (
 		<>
-			<QuestionaryHeader
+			<CitizenQuestionHeader
 				onChatOpened={() => console.log('Open chat')}
 				onNotePadOpened={() => console.log('Open notes')}
 				onBackPressed={navigateBackwards}
