@@ -27,20 +27,22 @@ export const QuestionContainer = styled.View`
 `
 
 export const QuestionTitle = styled.Text`
-    font-size: ${relativeScreenDensity(18)}px;
+    font-size: ${relativeScreenDensity(14)}px;
 	font-family: Arvo_700Bold;
 	color: ${({ theme }) => theme.black4};
-    padding-right: ${relativeScreenDensity(25)}px;
+    padding-right: ${relativeScreenDensity(40)}px;
 `
 
 export const AnswerContainer = styled.View`
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: ${relativeScreenDensity(15)}px;
 `
 
 export const AnswerText = styled.Text`
     font-size: ${relativeScreenDensity(12)}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.black4};
+    text-align: justify;
 `
