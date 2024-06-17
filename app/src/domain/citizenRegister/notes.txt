@@ -1,0 +1,31 @@
+
+Value objects
+- IdUUID
+- Id
+- Name
+- CellNumber
+- CustomDate
+- QuestionType
+- QuestionOptions
+
+Entities
+- Question
+- QuestionResponse
+- CitizenRegisterResponse
+
+Use cases
+- GetCitizenRegistrationQuestionary
+- SaveCitizenRegisterOffline
+- CitizenHasAccountOnApp
+- SaveCitizenRegister
+- SendOfflineRegisters
+- DeleteOfflineCitizenRegister
+
+
+Data - CitizenRegisterRemoteRepository
+- Save
+
+Data - CitizenRegisterLocalRepository
+- Save
+- Delete
+
