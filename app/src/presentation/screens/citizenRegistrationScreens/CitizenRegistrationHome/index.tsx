@@ -44,24 +44,6 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 		setHasNetworkConnection(status.isConnected && status.isInternetReachable)
 	}
 
-	const startCitizenRegistration = () => {
-		navigation.navigate('CitizenQuestionsList')
-		// const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
-		// navigateToNextReponseScreen(firstQuestion)
-	} // CURRENT Ao iniciar cadastro
-
-	// const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
-	// 	if (nextQuestion === null) return
-
-	// 	switch (nextQuestion.questionType) {
-	// 		case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-	// 		case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-	// 		case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-	// 		case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-	// 		case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
-	// 	}
-	// }
-
 	return (
 		<ScreenContainer
 			topSafeAreaColor={theme.orange2}
@@ -111,7 +93,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					leftSideColor={theme.orange3}
 					SvgIcon={RecordWhiteIcon}
 					svgIconScale={['40%', '40%']}
-					onPress={startCitizenRegistration}
+					onPress={() => 	navigation.navigate('CitizenQuestionsList')}
 				/>
 			</Body>
 		</ScreenContainer>
