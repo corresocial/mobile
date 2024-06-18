@@ -42,7 +42,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 		if (nextQuestion === null) return navigation.navigate('FinishedPollResponse')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
+			case 'binary': return navigation.push('AnswerBinaryQuestion', { questionData: nextQuestion })
 			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
 			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
 			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
@@ -82,7 +82,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(30)}
+				relativeHeight={relativeScreenHeight(40)}
 				centralized
 				backgroundColor={theme.purple2}
 				flexDirection={'column'}
