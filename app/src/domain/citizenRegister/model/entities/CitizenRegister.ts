@@ -5,7 +5,12 @@ import { CitizenRegisterLocation, CitizenRegisterQuestionResponse, CitizenRegist
 
 import { UserName } from '../valueObjects/UserName'
 
-export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegisterEntity */> { // CURRENT Resolver id causa isso
+/* interface CitizenRegisterProps extends CitizenRegisterEntity {
+	citizenRegisterId: string
+	props?: CitizenRegisterEntity
+} */
+
+export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegisterProps */> { // CURRENT Resolver id causa isso
 	readonly citizenRegisterId: Id | null
 	readonly userId: Id
 	readonly name: UserName

@@ -19,13 +19,13 @@ export abstract class Entity<Type, Props extends EntityProps> {
 	// 	return this.id.value !== anotherEntity?.id.value
 	// }
 
-	// clone(newProps: Props, ...args: any): Type {
-	// 	return new (this.constructor as any)(
-	// 		{
-	// 			...this.props,
-	// 			...newProps
-	// 		},
-	// 		...args
-	// 	)
-	// }
+	clone(newProps: Props, ...args: any): Type {
+		return new (this.constructor as any)(
+			{
+				...this.props,
+				...newProps
+			},
+			...args
+		)
+	}
 }

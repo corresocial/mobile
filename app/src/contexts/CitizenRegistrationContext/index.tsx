@@ -17,11 +17,10 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 
 		const citizenRegisterResponseMapper = citizenRegisterData.questions.map((question) => {
 			return {
-				questionId: question.questionId,
-				response: '',
-				questionType: question.questionType
+				...question,
+				response: ''
 			}
-		}) as CitizenRegisterQuestionResponse[] // CURRENT Definir novas variáveis para construir o objeto no contexto
+		}) as CitizenRegisterQuestionResponse[]
 
 		setCitizenRegistrationResponseData(citizenRegisterResponseMapper)
 	}
