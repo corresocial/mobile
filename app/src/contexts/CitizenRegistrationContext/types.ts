@@ -1,16 +1,16 @@
 import { ReactNode } from 'react'
 
-import { CitizenRegisterEntity, CitizenRegisterQuestion, CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 export interface CitizenRegistrationProviderProps {
 	children: ReactNode
 }
 
 export interface CitizenRegistrationContextType {
-	citizenRegistrationQuestionToRespond: CitizenRegisterEntity
-	citizenRegistrationResponseData: CitizenRegisterResponse[]
+	citizenRegistrationQuestionToRespond: CitizenRegisterQuestionary
+	citizenRegistrationResponseData: CitizenRegisterQuestionResponse[]
 	startNewCitizenRegistration(): void
 	getNextQuestion(lastQuestion: CitizenRegisterQuestion): CitizenRegisterQuestion | null
 	getResponseProgress: (currentQuestionId: string | number) => number[]
-	saveResponseData(question: CitizenRegisterQuestion, response: CitizenRegisterResponse['response']): void
+	saveResponseData(question: CitizenRegisterQuestion, response: CitizenRegisterQuestionResponse['response']): void
 }

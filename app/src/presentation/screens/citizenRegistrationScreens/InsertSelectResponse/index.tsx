@@ -63,6 +63,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		return (questionData.options || []).map((question) => {
 			return (
 				<SelectButton
+					key={question}
 					backgroundSelected={theme.orange3}
 					label={question}
 					labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}

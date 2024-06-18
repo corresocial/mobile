@@ -1,27 +1,26 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { CitizenRegisterEntity, CitizenRegisterQuestion, CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegistrationContextType, CitizenRegistrationProviderProps } from './types'
 
 import { citizenRegisterData } from './citizenRegisterData'
 
-const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as any)
+const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as CitizenRegistrationContextType)
 
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
-	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterEntity>({} as any)
-	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterResponse[]>([])
+	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionary>({} as any)
+	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
 
 	const startNewCitizenRegistration = () => {
 		setCitizenRegistrationQuestionToRespond(citizenRegisterData)
 
 		const citizenRegisterResponseMapper = citizenRegisterData.questions.map((question) => {
 			return {
-				questionId: question.questionId,
-				response: '',
-				questionType: question.questionType
+				...question,
+				response: ''
 			}
-		})
+		}) as CitizenRegisterQuestionResponse[]
 
 		setCitizenRegistrationResponseData(citizenRegisterResponseMapper)
 	}
@@ -41,12 +40,11 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		return [numberOfResponses - (numberOfResponses - currentQuestionIndex), numberOfResponses]
 	}
 
-	const saveResponseData = (question: CitizenRegisterQuestion, response: CitizenRegisterResponse['response']) => {
-		const registerData: CitizenRegisterResponse = {
-			questionId: question.questionId,
-			response,
-			questionType: question.questionType
-		}
+	const saveResponseData = (question: CitizenRegisterQuestion, response: CitizenRegisterQuestionResponse['response']) => {
+		const registerData: CitizenRegisterQuestionResponse = {
+			...question,
+			response: response
+		} as CitizenRegisterQuestionResponse
 
 		console.log(registerData)
 

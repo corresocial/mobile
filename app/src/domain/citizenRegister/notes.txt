@@ -1,0 +1,26 @@
+
+Value objects
+- QuestionType
+- QuestionOptions
+
+Entities
+CitizenRegister x
+- QuestionResponse
+
+Use cases
+- GetCitizenRegistrationQuestionary
+GetOfflineCitizenRegisters x
+SaveCitizenRegisterOffline x
+- CitizenHasAccountOnApp
+SaveCitizenRegister x
+- SendOfflineRegisters
+- DeleteOfflineCitizenRegister
+
+
+Data - CitizenRegisterRemoteRepository
+Save x
+
+Data - CitizenRegisterLocalRepository
+Save x
+Delete x
+

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+
+import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
+
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
 import { CitizenRegistrationHomeScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
@@ -20,24 +24,25 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenProps) {
 	const { startNewCitizenRegistration } = useCitizenRegistrationContext()
+	const [numberOfOfflineCitizenRegisters, setNumberOfOfflineCitizenRegisters] = useState(0)
 
 	const theme = useTheme()
-
-	const number = 10 + 1 // CURRENT Obter número de cadastros offline
 
 	const [hasNetworkConnection, setHasNetworkConnection] = useState<boolean>()
 
 	useEffect(() => {
-		isConnected()
-	}, [])
-
-	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			startNewCitizenRegistration()
+			isConnected()
+			loadNumberOfOfflineCitizenRegisters()
 		})
-
 		return unsubscribe
-	})
+	}, [])
+
+	const loadNumberOfOfflineCitizenRegisters = async () => {
+		const offlineRegisters = await CitizenRegisterUseCases.getOfflineCitizenRegisters(CitizenRegisterLocalRepository) || []
+		setNumberOfOfflineCitizenRegisters((offlineRegisters || []).length)
+	}
 
 	const isConnected = async () => {
 		const status = await getNetworkStatus()
@@ -58,18 +63,22 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 				/>
 				<HeaderActionsContainer>
 					<GreetingText>{showMessageWithHighlight('seja bem-vindo, recenseador!', ['bem-vindo,', 'recenseador!'])}</GreetingText>
-					<OptionButton
-						label={`você tem ${number} ${number === 1 ? 'post pronto' : 'posts prontos'} `}
-						shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-						highlightedWords={['posts', 'post']}
-						labelSize={15}
-						relativeHeight={'65%'}
-						leftSideWidth={'25%'}
-						leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
-						SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
-						svgIconScale={['70%', '70%']}
-						onPress={() => navigation.navigate('CitizenOfflineRegistrationList')}
-					/>
+					{
+						(!!numberOfOfflineCitizenRegisters) && (
+							<OptionButton
+								label={`você tem ${numberOfOfflineCitizenRegisters} ${numberOfOfflineCitizenRegisters === 1 ? 'post pronto' : 'posts prontos'} `}
+								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+								highlightedWords={['posts', 'post']}
+								labelSize={15}
+								relativeHeight={'65%'}
+								leftSideWidth={'25%'}
+								leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+								svgIconScale={['70%', '70%']}
+								onPress={() => navigation.navigate('CitizenOfflineRegistrationList')}
+							/>
+						)
+					}
 				</HeaderActionsContainer>
 			</HeaderContainer>
 			<Body>
