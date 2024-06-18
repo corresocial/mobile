@@ -1,5 +1,6 @@
 import * as Location from 'expo-location' // REFACTOR Centralizar request permissions
 import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollEntity } from '@domain/poll/entity/types'
@@ -117,6 +118,7 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 				}}
 				closeModal={() => setLocationPermissionModalIsVisible(false)}
 			/>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				centralized

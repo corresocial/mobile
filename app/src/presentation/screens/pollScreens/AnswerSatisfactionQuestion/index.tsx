@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion, SatisfactionType } from '@domain/poll/entity/types'
@@ -52,6 +53,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized

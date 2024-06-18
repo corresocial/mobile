@@ -10,17 +10,21 @@ async function createPollResultReportDM(pollData: PollEntity) {
 		const textualResponses = groupQuestionsByQuestionType(pollData, 'textual')
 		const selectResponses = groupQuestionsByQuestionType(pollData, 'select')
 
+		const pollHasResponses = pollData && pollData.privateResponses && pollData.privateResponses.length
+
 		return `
 			<html lang='pt-br'>
 				${renderHtmlHeader()}
 				<div class='body'>
 					${renderPollHeader(pollData)}
-					${renderBinaryGraph(binaryResponses)}
-					${renderNumericalGraph(numericalResponses)}
-					${renderSatisfactionGraph(satisfactionResponses)}
-					${renderSelectGraph(selectResponses)}
-					${renderTextualResponses(textualResponses)}
-					${renderTextualResponses(selectResponses, 'select')}
+					${pollHasResponses && (`
+						${renderBinaryGraph(binaryResponses)}
+						${renderNumericalGraph(numericalResponses)}
+						${renderSatisfactionGraph(satisfactionResponses)}
+						${renderSelectGraph(selectResponses)}
+						${renderTextualResponses(textualResponses)}
+						${renderTextualResponses(selectResponses, 'select')}
+					`)}
 					${renderPollFooter()}
 				</div>
 			</html>

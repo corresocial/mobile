@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
@@ -81,6 +82,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(40)}
 				centralized

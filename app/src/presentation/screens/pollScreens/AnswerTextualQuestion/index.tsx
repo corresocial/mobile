@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Platform } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
@@ -69,6 +69,7 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
