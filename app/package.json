@@ -22,12 +22,6 @@
 		"build-android-prod": "eas build --platform android --profile production",
 		"build-ios-prod": "eas build --platform ios --profile production"
 	},
-	"jest": {
-		"preset": "react-native",
-		"transformIgnorePatterns": [
-			"node_modules/(?!(jest-)?@react-native|react-native|react-clone-referenced-element|@react-native-community|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|native-base|@sentry/.*)"
-		]
-	},
 	"dependencies": {
 		"@expo-google-fonts/arvo": "^0.2.2",
 		"@likashefqet/react-native-image-zoom": "^2.2.0",

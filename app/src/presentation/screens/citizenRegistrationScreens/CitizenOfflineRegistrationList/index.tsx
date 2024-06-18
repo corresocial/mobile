@@ -2,7 +2,7 @@ import React from 'react'
 import { ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestionResponse, CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionResponse, CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenOfflineRegistrationListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
@@ -19,7 +19,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrationListProps) {
 	const theme = useTheme()
 
-	const data: CitizenRegisterResponse[] = [
+	const data: CitizenRegisterEntity[] = [
 		{
 			cellNumber: '6999284',
 			censusTakerId: 'idd',

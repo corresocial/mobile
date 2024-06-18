@@ -2,6 +2,15 @@ import * as Location from 'expo-location' // REFACTOR Centralizar request permis
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
+
+import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
+import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
+
+import { useAuthContext } from '@contexts/AuthContext'
+import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
+
 import { FinishCitizenRegistrationScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
@@ -24,6 +33,9 @@ const { getCurrentLocation } = useLocationService()
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 
 function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScreenProps) {
+	const { userDataContext } = useAuthContext()
+	const { citizenRegistrationResponseData } = useCitizenRegistrationContext()
+
 	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
 	const [locationPermissionModalModalIsVisible, setLocationPermissionModalIsVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -57,19 +69,45 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			const completeAddress = structureAddress(currentLocation)
 			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-			// sendPollResponse(usePollRepository, pollToRespond.pollId, {
-			// 	userId: userDataContext.userId,
-			// 	location: {
-			// 		...currentLocation,
-			// 		...geohashObject
-			// 	} as PollEntity['location'],
-			// 	responses: pollResponseData
-			// })
-			console.log('Respostas enviadas!')
+			await CitizenRegisterUseCases.saveCitizenRegisterOffline(
+				CitizenRegisterLocalRepository,
+				userDataContext,
+				{
+					userId: userDataContext.userId,
+					location: {
+						...currentLocation,
+						...geohashObject,
+						coordinates: {
+							latitude: currentCoordinates.coords.latitude,
+							longitude: currentCoordinates.coords.longitude
+						}
+					} as CitizenRegisterEntity['location'],
+					responses: citizenRegistrationResponseData
+				}
+			)
 
+			// await CitizenRegisterUseCases.createCitizenRegister(
+			// 	CitizenRegisterRemoteRepository,
+			// 	userDataContext,
+			// 	{
+			// 		userId: userDataContext.userId,
+			// 		location: {
+			// 			...currentLocation,
+			// 			...geohashObject,
+			// 			coordinates: {
+			// 				latitude: currentCoordinates.coords.latitude,
+			// 				longitude: currentCoordinates.coords.longitude
+			// 			}
+			// 		} as CitizenRegisterEntity['location'],
+			// 		responses: citizenRegistrationResponseData
+			// 	}
+			// )
+
+			console.log('Cadastro cidadão realizado com sucesso!')
 			setIsLoading(false)
-			navigation.navigate('CitizenRegistrationHome')
+			// navigation.navigate('CitizenRegistrationHome')
 		} catch (error) {
+			console.log(error)
 			setIsLoading(false)
 		}
 	}

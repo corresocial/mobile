@@ -1,36 +1,36 @@
-import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionary, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
-export const citizenRegisterData: CitizenRegisterEntity = {
+export const citizenRegisterData: CitizenRegisterQuestionary = {
 	citizenRegisterId: '10',
 	createdAt: new Date(),
 	questions: [
-		{
-			questionId: '8',
-			question: 'Mulitsleect?',
-			questionType: 'select',
-			multiSelect: true,
-			options: ['AAA', 'BBB', 'CCC', 'DDD']
-		},
-		{
-			questionId: '1',
-			question: 'Qual a sua idade?',
-			questionType: 'textual',
-			options: []
-		},
-		{
-			questionId: '2',
-			question: 'Cor/Raça/etnia:',
-			questionType: 'select',
-			multiSelect: false,
-			options: ['Preta', 'Parda', 'Branca', 'Amarela', 'Indígena', 'Não Sei']
-		},
-		{
-			questionId: '3',
-			question: 'Sexo:',
-			questionType: 'select',
-			multiSelect: false,
-			options: ['Mulher', 'Homem']
-		},
+		// {
+		// 	questionId: '8',
+		// 	question: 'Mulitsleect?',
+		// 	questionType: 'select',
+		// 	multiSelect: true,
+		// 	options: ['AAA', 'BBB', 'CCC', 'DDD']
+		// },
+		// {
+		// 	questionId: '1',
+		// 	question: 'Qual a sua idade?',
+		// 	questionType: 'textual',
+		// 	options: []
+		// },
+		// {
+		// 	questionId: '2',
+		// 	question: 'Cor/Raça/etnia:',
+		// 	questionType: 'select',
+		// 	multiSelect: false,
+		// 	options: ['Preta', 'Parda', 'Branca', 'Amarela', 'Indígena', 'Não Sei']
+		// },
+		// {
+		// 	questionId: '3',
+		// 	question: 'Sexo:',
+		// 	questionType: 'select',
+		// 	multiSelect: false,
+		// 	options: ['Mulher', 'Homem']
+		// },
 		{
 			questionId: '4',
 			question: 'Você possui filhos?',

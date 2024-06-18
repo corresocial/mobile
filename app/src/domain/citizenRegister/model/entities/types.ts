@@ -1,24 +1,8 @@
+// Raiz do agregado
+
 export type CitizenRegisterEntityOptional = Partial<CitizenRegisterEntity>
 export type CitizenRegisterEntity = {
-	createdAt: Date
-	citizenRegisterId: string
-	questions: CitizenRegisterQuestion[]
-}
-
-export type CitizenRegisterQuestionOptional = Partial<CitizenRegisterQuestion>
-export type CitizenRegisterQuestion = {
-	questionId: string
-	question: string
-	questionType: CitizenRegisterQuestionType
-	options?: string[]
-	multiSelect?: boolean
-}
-
-export type CitizenRegisterQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'select'
-
-export type SatisfactionType = 1 | 2 | 3 | 4 | 5
-
-export type CitizenRegisterResponse = {
+	// id: string
 	citizenRegisterId: string
 	userId?: string
 	name: string
@@ -26,9 +10,12 @@ export type CitizenRegisterResponse = {
 	censusTakerName: string,
 	censusTakerId: string,
 	createdAt: Date
-	location: CitizenRegisterLocation // REFACTOR Centralizar todos os endereços
+	location: CitizenRegisterLocation
 	responses: CitizenRegisterQuestionResponse[]
 }
+
+export type CitizenRegisterQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'select'
+export type SatisfactionType = 1 | 2 | 3 | 4 | 5
 
 export type CitizenRegisterQuestionResponse = {
 	questionId: string
@@ -39,7 +26,16 @@ export type CitizenRegisterQuestionResponse = {
 	response: string | string[] | number | boolean | SatisfactionType
 }
 
-type CitizenRegisterLocation = {
+export type CitizenRegisterResponse = {
+	questionId: string
+	question: string
+	questionType: CitizenRegisterQuestionType
+	options?: string[]
+	multiSelect?: boolean
+	response: string | string[] | number | boolean | SatisfactionType
+}
+
+export type CitizenRegisterLocation = {
 	country: string
 	state: string
 	city: string
@@ -54,4 +50,21 @@ type CitizenRegisterLocation = {
 export type Coordinates = {
 	latitude: number
 	longitude: number
+}
+
+// Question
+
+export type CitizenRegisterQuestionary = {
+	citizenRegisterId: string
+	createdAt: Date
+	questions: CitizenRegisterQuestion[]
+}
+
+export type CitizenRegisterQuestionOptional = Partial<CitizenRegisterQuestion>
+export type CitizenRegisterQuestion = {
+	questionId: string
+	question: string
+	questionType: CitizenRegisterQuestionType
+	options?: string[]
+	multiSelect?: boolean
 }

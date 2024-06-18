@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { CitizenRegisterEntity, CitizenRegisterQuestion, CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegistrationContextType, CitizenRegistrationProviderProps } from './types'
 
@@ -9,7 +9,7 @@ import { citizenRegisterData } from './citizenRegisterData'
 const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as any)
 
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
-	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterEntity>({} as any)
+	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionary>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterResponse[]>([])
 
 	const startNewCitizenRegistration = () => {
@@ -21,7 +21,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 				response: '',
 				questionType: question.questionType
 			}
-		})
+		}) as CitizenRegisterResponse[] // CURRENT Definir novas variáveis para construir o objeto no contexto
 
 		setCitizenRegistrationResponseData(citizenRegisterResponseMapper)
 	}
@@ -41,12 +41,13 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		return [numberOfResponses - (numberOfResponses - currentQuestionIndex), numberOfResponses]
 	}
 
-	const saveResponseData = (question: CitizenRegisterQuestion, response: CitizenRegisterResponse['response']) => {
+	const saveResponseData = (question: CitizenRegisterQuestion, response: CitizenRegisterResponse) => {
 		const registerData: CitizenRegisterResponse = {
+			...question,
 			questionId: question.questionId,
-			response,
-			questionType: question.questionType
-		}
+			question: question.question,
+			questionType: question.questionType,
+		} as CitizenRegisterResponse
 
 		console.log(registerData)
 
