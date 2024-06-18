@@ -15,6 +15,7 @@ import EditCitizenIcon from '@assets/icons/editCitizen-white.svg'
 import trashIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { QuestionCard } from '@components/_cards/QuestionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
@@ -23,7 +24,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) { // CURRENT Mudar para final com ScreenProps
 	const { citizenRegistrationQuestionToRespond } = useCitizenRegistrationContext()
-	
+
 	const citizenRegisterResponses = mockCitizenRegisterResponses
 
 	const theme = useTheme()
@@ -62,12 +63,9 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) 
 	const deleteButtonHandler = () => {
 		console.log('deleted')
 	}
-	
+
 	return (
-		<ScreenContainer
-			topSafeAreaColor={theme.white3}
-			bottomSafeAreaColor={theme.orange1}
-		>
+		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom >
 			<HeaderContainer>
 				<DefaultPostViewHeader
 					text={'questionário cidadão'}
@@ -76,27 +74,30 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) 
 					onBackPress={() => navigation.goBack()}
 				/>
 				<HeaderActionsContainer isEditMode={editMode}>
-					<SmallButton
+					<PrimaryButton
 						label={editMode ? 'enviar' : 'responder'}
 						highlightedWords={[editMode ? 'enviar' : 'responder']}
-						SvgIcon={EditCitizenIcon}
 						color={theme.green3}
-						height={relativeScreenHeight(7)}
+						fontSize={14}
+						SecondSvgIcon={EditCitizenIcon}
+						svgIconScale={['50%', '30%']}
+						minHeight={relativeScreenHeight(5)}
+						relativeHeight={relativeScreenHeight(6)}
+						labelColor={theme.white3}
 						onPress={startCitizenRegistration}
-						
 					/>
 					{
 						editMode && (
-							<SmallButton 
-								relativeWidth={relativeScreenWidth(10)} 
-								height={relativeScreenWidth(10)} 
-								SvgIcon={trashIcon} 
-								onPress={deleteButtonHandler} 
+							<SmallButton
+								relativeWidth={relativeScreenWidth(10)}
+								height={relativeScreenWidth(10)}
+								SvgIcon={trashIcon}
+								onPress={deleteButtonHandler}
 								color={theme.red3}
 							/>
 						)
 					}
-			
+
 				</HeaderActionsContainer>
 			</HeaderContainer>
 

@@ -4,6 +4,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const HeaderContainer = styled.View`
 	flex: 0.23;
+	position: relative;
     background-color: ${({ theme }) => theme.white3};
 	padding: ${relativeScreenDensity(15)}px;
 	width: 100%;
@@ -12,7 +13,7 @@ export const HeaderContainer = styled.View`
 	gap: ${relativeScreenDensity(8)}px;
 `
 
-interface HeaderActionsContainerProps{
+interface HeaderActionsContainerProps {
 	isEditMode: boolean
 }
 
