@@ -6,18 +6,23 @@ export const HeaderContainer = styled.View`
 	flex: 0.23;
     background-color: ${({ theme }) => theme.white3};
 	padding: ${relativeScreenDensity(15)}px;
-	padding-bottom: 0px;
 	width: 100%;
 	align-items: center;
 	justify-content: center;
 	gap: ${relativeScreenDensity(8)}px;
 `
 
-export const HeaderActionsContainer = styled.View`
-	flex: 1;
-	width: 100%;
+interface HeaderActionsContainerProps{
+	isEditMode: boolean
+}
+
+export const HeaderActionsContainer = styled.View<HeaderActionsContainerProps>`
+	width: ${({ isEditMode }) => (isEditMode ? '80%' : '90%')};
+	height: 50%;
+	flex-direction: row;
+	align-items: center;
 	justify-content: center;
-	gap: ${relativeScreenDensity(15)}px;
+	gap: ${relativeScreenDensity(5)}px;
 `
 
 export const Body = styled.View`

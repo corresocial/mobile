@@ -18,10 +18,10 @@ function CitizenQuestionHeader({ onBackPressed, onChatOpened, onNotePadOpened }:
 		<HeaderContainer>
 			<BackButton onPress={onBackPressed} />
 			<ButtonsContainer>
-				<ButtonArea onPress={onChatOpened}>
+				<ButtonArea activeOpacity={1} onPress={onChatOpened}>
 					<ChatIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
-				<ButtonArea onPress={onNotePadOpened}>
+				<ButtonArea activeOpacity={1} onPress={onNotePadOpened}>
 					<PaperIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
 			</ButtonsContainer>

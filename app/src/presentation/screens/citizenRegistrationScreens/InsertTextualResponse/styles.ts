@@ -1,5 +1,7 @@
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 export const Container = styled.KeyboardAvoidingView`
     flex: 1;
 `
@@ -9,8 +11,9 @@ export const InstructionContainer = styled.View`
 	align-items: center;
 `
 
+// CURRENT
 export const FormContent = styled.View`
-	gap: 30%;
+	gap: ${relativeScreenDensity(40)}px;
 	width: 100%;
 	align-items: center;
 	justify-content: space-between;

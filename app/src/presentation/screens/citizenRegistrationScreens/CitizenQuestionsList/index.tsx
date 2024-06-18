@@ -2,8 +2,9 @@ import React from 'react'
 import { ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
+import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 import { mockCitizenRegisterResponses } from '@contexts/CitizenRegistrationContext/citizenRegisterData'
 
 import { CitizenQuestionsListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
@@ -11,29 +12,57 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { Body, HeaderActionsContainer, HeaderContainer, QuestionsList } from './styles'
 import EditCitizenIcon from '@assets/icons/editCitizen-white.svg'
+import trashIcon from '@assets/icons/trash-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
-import { OptionButton } from '@components/_buttons/OptionButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 import { QuestionCard } from '@components/_cards/QuestionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-function CitizenQuestionsList({ navigation }: CitizenQuestionsListProps) { // CURRENT Mudar para final com ScreenProps
+function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) { // CURRENT Mudar para final com ScreenProps
+	const { citizenRegistrationQuestionToRespond } = useCitizenRegistrationContext()
+	
 	const citizenRegisterResponses = mockCitizenRegisterResponses
 
 	const theme = useTheme()
+
+	const editMode = !!route.params
 
 	const renderQuestion = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
 		return (
 			<QuestionCard
 				question={item.question}
-				answer={item.response} // CURRENT Não renderizando
+				answer={item.response}
+				questionType={item.questionType}
 			>
 
 			</QuestionCard>
 		)
 	}
 
+	const startCitizenRegistration = () => {
+		const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
+		navigateToNextReponseScreen(firstQuestion)
+	}
+
+	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
+		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+
+		switch (nextQuestion.questionType) {
+			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+		}
+	}
+
+	const deleteButtonHandler = () => {
+		console.log('deleted')
+	}
+	
 	return (
 		<ScreenContainer
 			topSafeAreaColor={theme.white3}
@@ -46,18 +75,28 @@ function CitizenQuestionsList({ navigation }: CitizenQuestionsListProps) { // CU
 					ignorePlatform
 					onBackPress={() => navigation.goBack()}
 				/>
-				<HeaderActionsContainer>
-					<OptionButton
-						label={'responder'}
-						highlightedWords={['responder']}
-						labelSize={15}
+				<HeaderActionsContainer isEditMode={editMode}>
+					<SmallButton
+						label={editMode ? 'enviar' : 'responder'}
+						highlightedWords={[editMode ? 'enviar' : 'responder']}
 						SvgIcon={EditCitizenIcon}
-						relativeHeight={'65%'}
-						leftSideWidth={'25%'}
-						leftSideColor={theme.green3}
-						svgIconScale={['50%', '50%']}
-						onPress={() => console.log('TEST')}
+						color={theme.green3}
+						height={relativeScreenHeight(7)}
+						onPress={startCitizenRegistration}
+						
 					/>
+					{
+						editMode && (
+							<SmallButton 
+								relativeWidth={relativeScreenWidth(10)} 
+								height={relativeScreenWidth(10)} 
+								SvgIcon={trashIcon} 
+								onPress={deleteButtonHandler} 
+								color={theme.red3}
+							/>
+						)
+					}
+			
 				</HeaderActionsContainer>
 			</HeaderContainer>
 

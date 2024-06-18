@@ -19,7 +19,7 @@ import HomeWhiteIcon from '@assets/icons/home-white.svg'
 import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { Post } from '@screens/postScreens/Post'
