@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestionResponse, CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
+
+import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
+import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
+
+import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { CitizenOfflineRegistrationListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
 import { Body, Header, QuestionaryList, SaveButtonContainer } from './styles'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { CitizenQuestionaryCard } from '@components/_cards/CitizenQuestionaryCard'
@@ -17,76 +24,45 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrationListProps) {
+	const { setLoaderIsVisible } = useLoaderContext()
+
+	const [offlineRegisters, setOfflineRegisters] = useState<CitizenRegisterEntity[]>([])
+
 	const theme = useTheme()
 
-	const data: CitizenRegisterEntity[] = [
-		{
-			cellNumber: '6999284',
-			censusTakerId: 'idd',
-			censusTakerName: 'José da pinga',
-			citizenRegisterId: 'id de register',
-			createdAt: new Date(),
-			location: {} as any,
-			name: 'Maiquinha da silva',
-			userId: 'sem id',
-			responses: [
-				{
-					questionId: '1',
-					question: 'Quem foi Mariquina?',
-					response: 'Wellington',
-					questionType: 'textual'
-				},
-				{
-					questionId: '2',
-					question: 'Quem foi Luis?',
-					response: 'Wellington',
-					questionType: 'textual'
-				},
-				{
-					questionId: '3',
-					question: 'Quem foi Eduardo?',
-					response: 'Wellington',
-					questionType: 'textual'
-				}
-			]
-		},
-		{
-			cellNumber: '6999284',
-			censusTakerId: 'idd',
-			censusTakerName: 'Recenseador boss',
-			citizenRegisterId: 'id de register',
-			createdAt: new Date(),
-			location: {} as any,
-			name: 'Pedrinho da quebrada',
-			userId: 'sem id',
-			responses: [
-				{
-					questionId: '1',
-					question: 'Quem foi Mariquina?',
-					response: 'Wellington',
-					questionType: 'textual'
-				},
-				{
-					questionId: '2',
-					question: 'Quem foi Luis?',
-					response: 'Wellington',
-					questionType: 'textual'
-				},
-				{
-					questionId: '3',
-					question: 'Quem foi Eduardo?',
-					response: 'Wellington',
-					questionType: 'textual'
-				}
-			]
-		},
-	]
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			loadOfflineRegisters()
+		})
+		return unsubscribe
+	}, [])
 
-	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
+	const loadOfflineRegisters = async () => {
+		try {
+			setLoaderIsVisible(true)
+			const registers = await CitizenRegisterUseCases.getOfflineCitizenRegisters(CitizenRegisterLocalRepository)
+			setLoaderIsVisible(false)
+			setOfflineRegisters(registers.reverse())
+		} catch (error) {
+			setLoaderIsVisible(false)
+			console.log(error)
+		}
+	}
+
+	const saveOfflineRegistersOnRemoteStorage = async () => {
+		try {
+			await CitizenRegisterUseCases.sendOfflineRegisters(CitizenRegisterLocalRepository, CitizenRegisterRemoteRepository)
+			await loadOfflineRegisters()
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterEntity>) => {
 		return (
 			<CitizenQuestionaryCard
 				questionaryData={item}
-				onPress={() => console.log(item.questionId)}
+				onPress={() => console.log(item.citizenRegisterId)}
 			/>
 		)
 	}
@@ -105,14 +81,16 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 						label={'enviar'}
 						color={theme.green3}
 						SecondSvgIcon={AngleRightWhiteIcon}
+						minHeight={relativeScreenHeight(5)}
+						relativeHeight={relativeScreenHeight(6)}
 						labelColor={theme.white3}
-						onPress={() => console.log('enviar')}
+						onPress={saveOfflineRegistersOnRemoteStorage}
 					/>
 				</SaveButtonContainer>
 			</Header>
 			<Body>
 				<QuestionaryList
-					data={data}
+					data={offlineRegisters}
 					renderItem={renderQuestionary as ListRenderItem<unknown>}
 					ListHeaderComponent={<VerticalSpacing height={2} />}
 					ItemSeparatorComponent={() => <VerticalSpacing />}

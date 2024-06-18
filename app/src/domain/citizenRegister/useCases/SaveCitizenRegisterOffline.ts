@@ -10,17 +10,17 @@ import { CitizenRegister } from '../model/entities/CitizenRegister'
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 
 type Input = CitizenRegisterEntityOptional
-type Output = Promise<void>
+type Output = Promise<string | void>
 
 export class SaveCitizenRegisterOffline implements UseCase<Input, Output> {
-	private remoteRepository: CitizenRegisterLocalRepositoryInterface
+	private localRepository: CitizenRegisterLocalRepositoryInterface
 	private currentUser: any
 
 	constructor(
 		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
 		currentUser: UserEntity // MODEL Type user
 	) {
-		this.remoteRepository = new CitizenRegisterLocalRepository()
+		this.localRepository = new CitizenRegisterLocalRepository()
 		this.currentUser = currentUser // new User(currentUser)
 	}
 
@@ -36,6 +36,6 @@ export class SaveCitizenRegisterOffline implements UseCase<Input, Output> {
 		} as CitizenRegisterEntity
 
 		const { data } = new CitizenRegister(newCitizenRegister, true)
-		return this.remoteRepository.updateOfflineCitizenRegisters([data])
+		return this.localRepository.updateOfflineCitizenRegisters([data])
 	}
 }

@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 
+import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
+
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { CitizenNameContainer, CitizenNameText, Container, ContainerInner, CreatedAtText, CreatorContainer, CreatorDataContainer, CreatorNameText, QuestionaryContainer } from './styles'
 import QuestionaryIcon from '@assets/icons/questionary-white.svg'
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-import { CitizenRegistrationQuestionary } from '@screens/citizenRegistrationScreens/CitizenOfflineRegistrationList'
+const { formatRelativeDate } = UiUtils()
 
 interface CitizenQuestionaryCardProps {
-	questionaryData: CitizenRegistrationQuestionary
+	questionaryData: CitizenRegisterEntity
 	onPress: () => void
 }
 
@@ -51,7 +55,7 @@ function CitizenQuestionaryCard({ questionaryData, onPress }: CitizenQuestionary
 								{questionaryData.censusTakerName}
 							</CreatorNameText>
 							<CreatedAtText>
-								{questionaryData.createdAt.toDateString()}
+								{formatRelativeDate(questionaryData.createdAt)}
 							</CreatedAtText>
 						</CreatorDataContainer>
 					</CreatorContainer>

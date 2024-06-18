@@ -7,20 +7,23 @@ import { LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY } from '@data/shared/storageKeys/lo
 import { JSONMethods } from '@data/shared/utils/JSONMethods'
 
 export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepositoryInterface {
-	async updateOfflineCitizenRegisters(citizenRegisters: CitizenRegisterEntity[], overwrite?: boolean): Promise<void> {
+	async updateOfflineCitizenRegisters(citizenRegisters: CitizenRegisterEntity[], overwrite?: boolean): Promise<string | void> {
 		try {
+			if (!citizenRegisters) throw new Error('Não foram fornecidos dados de cadastro para atualizar')
+
 			if (overwrite) {
 				const JsonData = JSONMethods.convertToJson([...citizenRegisters])
 				await AsyncStorage.setItem(LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY, JsonData)
-				return
+				return ''
 			}
 
 			const storagedData = await this.getOfflineCitizenRegisters()
 			const allRegisters = [...storagedData, ...citizenRegisters]
 			const allRegistersJson = JSONMethods.convertToJson(allRegisters)
-			console.log(allRegistersJson)
 
 			await AsyncStorage.setItem(LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY, allRegistersJson)
+
+			return citizenRegisters[0].citizenRegisterId
 		} catch (error: any) {
 			console.log(error)
 			throw new Error(error)
@@ -29,9 +32,7 @@ export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepos
 
 	async getOfflineCitizenRegisters(): Promise<CitizenRegisterEntity[]> {
 		const storagedDataJSON = await AsyncStorage.getItem(LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY)
-		console.log('storagedDataJSON')
-		console.log(storagedDataJSON)
-		return storagedDataJSON && !!Number.isNaN(storagedDataJSON)
+		return storagedDataJSON
 			? JSONMethods.convertFromJson(storagedDataJSON)
 			: []
 	}

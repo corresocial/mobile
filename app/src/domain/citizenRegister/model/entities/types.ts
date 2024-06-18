@@ -26,15 +26,6 @@ export type CitizenRegisterQuestionResponse = {
 	response: string | string[] | number | boolean | SatisfactionType
 }
 
-export type CitizenRegisterResponse = {
-	questionId: string
-	question: string
-	questionType: CitizenRegisterQuestionType
-	options?: string[]
-	multiSelect?: boolean
-	response: string | string[] | number | boolean | SatisfactionType
-}
-
 export type CitizenRegisterLocation = {
 	country: string
 	state: string

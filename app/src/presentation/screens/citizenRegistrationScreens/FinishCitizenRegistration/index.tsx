@@ -6,7 +6,6 @@ import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/Citizen
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
@@ -103,9 +102,10 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			// 	}
 			// )
 
-			console.log('Cadastro cidadão realizado com sucesso!')
+			// CURRENT
+			// Remover cadastro offline após salvar remotamente
 			setIsLoading(false)
-			// navigation.navigate('CitizenRegistrationHome')
+			navigation.navigate('CitizenRegistrationHome')
 		} catch (error) {
 			console.log(error)
 			setIsLoading(false)

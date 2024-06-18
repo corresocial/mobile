@@ -14,6 +14,6 @@ export class CitizenRegisterRemoteRepository implements CitizenRegisterRemoteRep
 		const financeData = { ...data }
 		const docRef = await addDoc(collectionRef, financeData)
 
-		return { ...financeData, id: docRef.id } as CitizenRegisterEntity
+		return { ...financeData, citizenRegisterId: docRef.id } as CitizenRegisterEntity
 	}
 }
