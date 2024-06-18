@@ -6,6 +6,7 @@ export const HeaderContainer = styled.View`
 	gap: ${relativeScreenDensity(15)}px;
     background-color: ${({ theme }) => theme.orange2};
 	padding: ${relativeScreenDensity(15)}px;
+	padding-bottom: ${relativeScreenDensity(25)}px;
 `
 
 export const HeaderActionsContainer = styled.View`

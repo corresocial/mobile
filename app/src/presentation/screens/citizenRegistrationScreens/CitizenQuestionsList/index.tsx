@@ -118,10 +118,10 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom >
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
-				title={'descartar'}
-				text={`você tem certeza que deseja deletar o Cadastro Cidadão ${registerData?.name ? `de ${registerData?.name}` : ''}?`}
-				highlightedWords={[registerData?.name || 'cidadão']}
-				buttonKeyword={'descartar'}
+				title={'apagar'}
+				text={`você tem certeza que deseja apagar o Cadastro Cidadão ${registerData?.name ? `de ${registerData?.name}` : ''}?`}
+				highlightedWords={[`${registerData?.name || 'cidadão'}?`]}
+				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={deleteCitizenRegister}
 			/>

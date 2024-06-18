@@ -6,6 +6,7 @@ import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/Citizen
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
+import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
@@ -68,42 +69,36 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			const completeAddress = structureAddress(currentLocation)
 			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-			await CitizenRegisterUseCases.saveCitizenRegisterOffline(
+			const citizenRegisterData = {
+				userId: userDataContext.userId,
+				location: {
+					...currentLocation,
+					...geohashObject,
+					coordinates: {
+						latitude: currentCoordinates.coords.latitude,
+						longitude: currentCoordinates.coords.longitude
+					}
+				} as CitizenRegisterEntity['location'],
+				responses: citizenRegistrationResponseData
+			}
+
+			const offlineRegisterId = await CitizenRegisterUseCases.saveCitizenRegisterOffline(
 				CitizenRegisterLocalRepository,
 				userDataContext,
-				{
-					userId: userDataContext.userId,
-					location: {
-						...currentLocation,
-						...geohashObject,
-						coordinates: {
-							latitude: currentCoordinates.coords.latitude,
-							longitude: currentCoordinates.coords.longitude
-						}
-					} as CitizenRegisterEntity['location'],
-					responses: citizenRegistrationResponseData
-				}
+				citizenRegisterData
 			)
 
-			// await CitizenRegisterUseCases.createCitizenRegister(
-			// 	CitizenRegisterRemoteRepository,
-			// 	userDataContext,
-			// 	{
-			// 		userId: userDataContext.userId,
-			// 		location: {
-			// 			...currentLocation,
-			// 			...geohashObject,
-			// 			coordinates: {
-			// 				latitude: currentCoordinates.coords.latitude,
-			// 				longitude: currentCoordinates.coords.longitude
-			// 			}
-			// 		} as CitizenRegisterEntity['location'],
-			// 		responses: citizenRegistrationResponseData
-			// 	}
-			// )
+			await CitizenRegisterUseCases.createCitizenRegister(
+				CitizenRegisterRemoteRepository,
+				userDataContext,
+				citizenRegisterData
+			)
 
-			// CURRENT
-			// Remover cadastro offline após salvar remotamente
+			await CitizenRegisterUseCases.deleteOfflineCitizenRegister(
+				CitizenRegisterLocalRepository,
+				offlineRegisterId || ''
+			)
+
 			setIsLoading(false)
 			navigation.navigate('CitizenRegistrationHome')
 		} catch (error) {
@@ -135,7 +130,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			<CitizenRegistrationHeader
 				message={'cadastro cidadão finalidado!'}
 				customHeaderHeight={'60%'}
-				navigateBackwards={() => { }}
+				navigateBackwards={() => navigation.goBack()}
 			/>
 			<FormContainer>
 				<ButtonOptionsContainer>
