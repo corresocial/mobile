@@ -1,14 +1,18 @@
 import React from 'react'
-import uuid from 'react-uuid'
 
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
-import { AnswerContainer, AnswerText, Container, ContainerInner, QuestionContainer, QuestionTitle } from './styles'
+import { AnswerContainer, AnswerText, QuestionContainer, QuestionTitle } from './styles'
 import CheckMarkIcon from '@assets/icons/checkLabel-white.svg'
 import MultiCheckMarkIcon from '@assets/icons/checks-white.svg'
 import NumericalIcon from '@assets/icons/numbers-white.svg'
 import TextualIcon from '@assets/icons/paperList-outlined.svg'
 import SatisfactionIcon from '@assets/icons/satisfactionEmoji-5-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
+
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface QuestionCardProps {
 	question: string;
@@ -20,17 +24,17 @@ function QuestionCard({ question, questionType, answer }: QuestionCardProps) {
 	function QuestionIcon() {
 		switch (questionType) {
 			case 'binary':
-				return (<CheckMarkIcon width={35}/>)
+				return (<CheckMarkIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />)
 			case 'textual':
-				return (<TextualIcon width={35}/>)
+				return (<TextualIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />)
 			case 'numerical':
-				return (<NumericalIcon width={35}/>)
+				return (<NumericalIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />)
 			case 'select':
-				return (<MultiCheckMarkIcon width={35}/>)
+				return (<MultiCheckMarkIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />)
 			case 'satisfaction':
-				return (<SatisfactionIcon width={35}/>)
+				return (<SatisfactionIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />)
 		}
-	} 
+	}
 
 	const getNormalizedAnswer = () => {
 		if (questionType === 'binary') {
@@ -46,29 +50,28 @@ function QuestionCard({ question, questionType, answer }: QuestionCardProps) {
 	}
 
 	return (
-		<Container>
-			<ContainerInner>
-				<QuestionContainer>
-					<QuestionIcon/>
-					<QuestionTitle>{question}</QuestionTitle>
-				</QuestionContainer>
-				{
-					answer && ( 
-						<AnswerContainer>
-							{
-								Array.isArray(answer) ? (
-									answer.map((item) => (
-										<AnswerText key={uuid()}>{`• ${item}`}</AnswerText>
-									))
-								) : (
-									<AnswerText>{getNormalizedAnswer()}</AnswerText>
-								)
-							}
-						</AnswerContainer>
-					)
-				}
-			</ContainerInner>
-		</Container>
+		<DefaultCardContainer>
+			<QuestionContainer>
+				<QuestionIcon />
+				<QuestionTitle>{question}</QuestionTitle>
+			</QuestionContainer>
+			{
+				answer && (
+					<AnswerContainer>
+						<VerticalSpacing height={5} relativeDensity />
+						{
+							Array.isArray(answer) ? (
+								answer.map((item) => (
+									<AnswerText key={item}>{`●  ${item}`}</AnswerText>
+								))
+							) : (
+								<AnswerText>{getNormalizedAnswer()}</AnswerText>
+							)
+						}
+					</AnswerContainer>
+				)
+			}
+		</DefaultCardContainer >
 	)
 }
 

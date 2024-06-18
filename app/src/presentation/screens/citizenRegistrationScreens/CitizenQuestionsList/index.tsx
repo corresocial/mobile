@@ -7,13 +7,13 @@ import { CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domai
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 import { mockCitizenRegisterResponses } from '@contexts/CitizenRegistrationContext/citizenRegisterData'
 
-import { CitizenQuestionsListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
+import { CitizenQuestionsListScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
 import { Body, HeaderActionsContainer, HeaderContainer, QuestionsList } from './styles'
 import EditCitizenIcon from '@assets/icons/editCitizen-white.svg'
 import trashIcon from '@assets/icons/trash-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -22,7 +22,7 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) { // CURRENT Mudar para final com ScreenProps
+function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenProps) { // CURRENT Mudar para final com ScreenProps
 	const { citizenRegistrationQuestionToRespond } = useCitizenRegistrationContext()
 
 	const citizenRegisterResponses = mockCitizenRegisterResponses
@@ -37,9 +37,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) 
 				question={item.question}
 				answer={item.response}
 				questionType={item.questionType}
-			>
-
-			</QuestionCard>
+			/>
 		)
 	}
 
@@ -81,16 +79,16 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListProps) 
 						fontSize={14}
 						SecondSvgIcon={EditCitizenIcon}
 						svgIconScale={['50%', '30%']}
-						minHeight={relativeScreenHeight(5)}
-						relativeHeight={relativeScreenHeight(6)}
+						minHeight={45}
+						relativeHeight={relativeScreenDensity(40)}
 						labelColor={theme.white3}
 						onPress={startCitizenRegistration}
 					/>
 					{
 						editMode && (
 							<SmallButton
-								relativeWidth={relativeScreenWidth(10)}
-								height={relativeScreenWidth(10)}
+								relativeWidth={relativeScreenDensity(40)}
+								height={relativeScreenDensity(40)}
 								SvgIcon={trashIcon}
 								onPress={deleteButtonHandler}
 								color={theme.red3}
