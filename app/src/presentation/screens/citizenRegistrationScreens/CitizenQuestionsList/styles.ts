@@ -24,8 +24,9 @@ export const HeaderActionsContainer = styled.View<HeaderActionsContainerProps>`
 
 export const Body = styled.View`
 	flex: 1;
+	width: 100%;
     flex-direction: column;
-    padding: 0 ${relativeScreenDensity(15)}px;
+    padding: 0 ${relativeScreenDensity(10)}px;
 	background-color: ${({ theme }) => theme.orange2};
 `
 

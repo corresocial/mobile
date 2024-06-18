@@ -5,8 +5,6 @@ import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/Citizen
 
 import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
 
-import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
-
 import { CitizenRegistrationHomeScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -17,13 +15,13 @@ import RecordWhiteIcon from '@assets/icons/record-white.svg'
 import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '@assets/icons/wirelessOn-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenProps) {
-	const { startNewCitizenRegistration } = useCitizenRegistrationContext()
 	const [numberOfOfflineCitizenRegisters, setNumberOfOfflineCitizenRegisters] = useState(0)
 
 	const theme = useTheme()
@@ -32,7 +30,6 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			startNewCitizenRegistration()
 			isConnected()
 			loadNumberOfOfflineCitizenRegisters()
 		})
@@ -66,11 +63,11 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					{
 						(!!numberOfOfflineCitizenRegisters) && (
 							<OptionButton
-								label={`você tem ${numberOfOfflineCitizenRegisters} ${numberOfOfflineCitizenRegisters === 1 ? 'post pronto' : 'posts prontos'} `}
-								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-								highlightedWords={['posts', 'post']}
-								labelSize={15}
-								relativeHeight={'65%'}
+								label={`você tem ${numberOfOfflineCitizenRegisters} ${numberOfOfflineCitizenRegisters === 1 ? 'cadastro pronto' : 'cadastros prontos'} `}
+								shortDescription={hasNetworkConnection ? 'você já pode enviá-los' : 'esperando conexão com internet'}
+								highlightedWords={['cadastro', 'cadastros']}
+								labelSize={14}
+								relativeHeight={relativeScreenDensity(60)}
 								leftSideWidth={'25%'}
 								leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
 								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
@@ -86,7 +83,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					label={'quem somos?'}
 					highlightedWords={['quem']}
 					labelSize={15}
-					relativeHeight={'18%'}
+					relativeHeight={relativeScreenDensity(80)}
 					leftSideWidth={'25%'}
 					leftSideColor={theme.orange3}
 					SvgIcon={QuestionMarkWhiteIcon}
@@ -97,12 +94,12 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					label={'questionário'}
 					highlightedWords={['questionário']}
 					labelSize={15}
-					relativeHeight={'18%'}
+					relativeHeight={relativeScreenDensity(80)}
 					leftSideWidth={'25%'}
 					leftSideColor={theme.orange3}
 					SvgIcon={RecordWhiteIcon}
 					svgIconScale={['40%', '40%']}
-					onPress={() => 	navigation.navigate('CitizenQuestionsList')}
+					onPress={() => navigation.navigate('CitizenQuestionsList')}
 				/>
 			</Body>
 		</ScreenContainer>

@@ -39,30 +39,34 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 
 	const loadOfflineRegisters = async () => {
 		try {
-			setLoaderIsVisible(true)
 			const registers = await CitizenRegisterUseCases.getOfflineCitizenRegisters(CitizenRegisterLocalRepository)
-			setLoaderIsVisible(false)
 			setOfflineRegisters(registers.reverse())
 		} catch (error) {
-			setLoaderIsVisible(false)
 			console.log(error)
 		}
 	}
 
 	const saveOfflineRegistersOnRemoteStorage = async () => {
 		try {
+			setLoaderIsVisible(true)
 			await CitizenRegisterUseCases.sendOfflineRegisters(CitizenRegisterLocalRepository, CitizenRegisterRemoteRepository)
 			await loadOfflineRegisters()
+			setLoaderIsVisible(false)
 		} catch (error) {
 			console.log(error)
+			setLoaderIsVisible(false)
 		}
+	}
+
+	const viewCitizenRegister = async (citizenRegister: CitizenRegisterEntity) => {
+		navigation.navigate('CitizenQuestionsList', { registerData: citizenRegister })
 	}
 
 	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterEntity>) => {
 		return (
 			<CitizenQuestionaryCard
 				questionaryData={item}
-				onPress={() => console.log(item.citizenRegisterId)}
+				onPress={() => viewCitizenRegister(item)}
 			/>
 		)
 	}

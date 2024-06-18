@@ -6,6 +6,7 @@ import { CitizenRegisterEntityOptional } from '../model/entities/types'
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
 import { CreateCitizenRegister } from '../useCases/CreateCitizenRegister'
+import { DeleteOfflineCitizenRegister } from '../useCases/DeleteOfflineCitizenRegister'
 import { GetOfflineCitizenRegisters } from '../useCases/GetOfflineCitizenRegisters'
 import { SaveCitizenRegisterOffline } from '../useCases/SaveCitizenRegisterOffline'
 import { SendOfflineRegisters } from '../useCases/SendOfflineRegisters'
@@ -24,7 +25,6 @@ export class CitizenRegisterUseCases {
 		currentUser: UserEntity,
 		citizenRegisterData: CitizenRegisterEntityOptional
 	) {
-		console.log('Cadastro cidadão salvo offline!')
 		return new SaveCitizenRegisterOffline(CitizenRegisterLocalRepository, currentUser).exec(citizenRegisterData)
 	}
 
@@ -37,5 +37,12 @@ export class CitizenRegisterUseCases {
 		CitizenRegisterRemoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>
 	) {
 		return new SendOfflineRegisters(CitizenRegisterLocalRepository, CitizenRegisterRemoteRepository).exec()
+	}
+
+	static deleteOfflineCitizenRegister(
+		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
+		citizenRegisterId: string
+	) {
+		return new DeleteOfflineCitizenRegister(CitizenRegisterLocalRepository).exec(citizenRegisterId)
 	}
 }

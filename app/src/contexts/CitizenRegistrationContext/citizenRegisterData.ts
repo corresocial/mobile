@@ -33,10 +33,8 @@ export const citizenRegisterData: CitizenRegisterQuestionary = {
 		// },
 		{
 			questionId: '4',
-			question: 'Você possui filhos?',
-			questionType: 'select',
-			multiSelect: false,
-			options: ['Não tenho filhos', 'Um(a) filho(a)', 'Dois filhos', 'Três filhos', 'Mais de três filhos']
+			question: 'Qual o seu nome?',
+			questionType: 'textual'
 		}
 	],
 }

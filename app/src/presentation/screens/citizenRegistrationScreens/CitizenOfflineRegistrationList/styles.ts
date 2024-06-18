@@ -10,7 +10,7 @@ export const Header = styled.View`
 
 export const SaveButtonContainer = styled.View`
 	width: 100%;
-	padding: 0px ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
 	flex-direction: row;
 	align-items: center;

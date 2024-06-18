@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+import { CitizenRegisterEntity, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
+import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
+import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
+
+import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 import { mockCitizenRegisterResponses } from '@contexts/CitizenRegistrationContext/citizenRegisterData'
+import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { CitizenQuestionsListScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
@@ -19,27 +25,29 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { QuestionCard } from '@components/_cards/QuestionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
+import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenProps) { // CURRENT Mudar para final com ScreenProps
-	const { citizenRegistrationQuestionToRespond } = useCitizenRegistrationContext()
+function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenProps) {
+	const { userDataContext } = useAuthContext()
+	const { citizenRegistrationQuestionToRespond, startNewCitizenRegistration } = useCitizenRegistrationContext()
+	const { setLoaderIsVisible } = useLoaderContext()
 
-	const citizenRegisterResponses = mockCitizenRegisterResponses
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	const theme = useTheme()
 
-	const editMode = !!route.params
+	const editMode = !!(route.params && route.params.registerData)
+	const hasResponsesFromRoute = (route.params && route.params.registerData && route.params.registerData && route.params.registerData.responses && route.params.registerData.responses.length)
+	const registerData = route.params?.registerData
+	const citizenRegisterResponses = hasResponsesFromRoute
+		? route.params.registerData.responses
+		: mockCitizenRegisterResponses
 
-	const renderQuestion = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
-		return (
-			<QuestionCard
-				question={item.question}
-				answer={item.response}
-				questionType={item.questionType}
-			/>
-		)
-	}
+	useEffect(() => {
+		startNewCitizenRegistration()
+	}, [])
 
 	const startCitizenRegistration = () => {
 		const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
@@ -58,12 +66,65 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 		}
 	}
 
-	const deleteButtonHandler = () => {
-		console.log('deleted')
+	const saveCitizenRegister = async () => {
+		try {
+			setLoaderIsVisible(true)
+			await CitizenRegisterUseCases.createCitizenRegister(
+				CitizenRegisterRemoteRepository,
+				userDataContext,
+				registerData as CitizenRegisterEntity
+			)
+			await deleteCitizenRegister(registerData?.citizenRegisterId)
+			setLoaderIsVisible(false)
+			navigation.goBack()
+		} catch (error) {
+			console.log(error)
+			setLoaderIsVisible(false)
+		}
+	}
+
+	const deleteCitizenRegister = async (registerId?: string) => {
+		try {
+			if (!editMode) return
+			!registerId && setLoaderIsVisible(true)
+			const { citizenRegisterId } = route.params.registerData
+			await CitizenRegisterUseCases.deleteOfflineCitizenRegister(
+				CitizenRegisterLocalRepository,
+				registerId || citizenRegisterId
+			)
+			!registerId && setLoaderIsVisible(false)
+			navigation.goBack()
+		} catch (error) {
+			console.log(error)
+			setLoaderIsVisible(false)
+		}
+	}
+
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
+	}
+
+	const renderQuestion = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
+		return (
+			<QuestionCard
+				question={item.question}
+				answer={editMode ? item.response : ''}
+				questionType={item.questionType}
+			/>
+		)
 	}
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom >
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'descartar'}
+				text={`você tem certeza que deseja deletar o Cadastro Cidadão ${registerData?.name ? `de ${registerData?.name}` : ''}?`}
+				highlightedWords={[registerData?.name || 'cidadão']}
+				buttonKeyword={'descartar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={deleteCitizenRegister}
+			/>
 			<HeaderContainer>
 				<DefaultPostViewHeader
 					text={'questionário cidadão'}
@@ -82,7 +143,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 						minHeight={45}
 						relativeHeight={relativeScreenDensity(40)}
 						labelColor={theme.white3}
-						onPress={startCitizenRegistration}
+						onPress={editMode ? saveCitizenRegister : startCitizenRegistration}
 					/>
 					{
 						editMode && (
@@ -90,7 +151,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 								relativeWidth={relativeScreenDensity(40)}
 								height={relativeScreenDensity(40)}
 								SvgIcon={trashIcon}
-								onPress={deleteButtonHandler}
+								onPress={toggleDefaultConfirmationModalVisibility}
 								color={theme.red3}
 							/>
 						)
@@ -98,7 +159,6 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 
 				</HeaderActionsContainer>
 			</HeaderContainer>
-
 			<Body>
 				<QuestionsList
 					data={citizenRegisterResponses}
