@@ -20,7 +20,6 @@ export const AnswerContainer = styled.View`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: ${relativeScreenDensity(5)}px;
 `
 
 export const AnswerText = styled.Text`

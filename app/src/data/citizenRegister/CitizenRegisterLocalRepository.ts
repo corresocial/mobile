@@ -8,7 +8,6 @@ import { JSONMethods } from '@data/shared/utils/JSONMethods'
 
 export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepositoryInterface {
 	async updateOfflineCitizenRegisters(citizenRegisters: CitizenRegisterEntity[], overwrite?: boolean): Promise<string | void> {
-		console.log(citizenRegisters)
 		try {
 			if (!citizenRegisters) {
 				throw new Error('Não foram fornecidos dados de cadastro para atualizar')

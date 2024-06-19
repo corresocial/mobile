@@ -7,6 +7,9 @@ export type CitizenRegistrationStackParamList = {
 	CitizenOfflineRegistrationList: undefined
 	CitizenQuestionsList: { registerData: CitizenRegisterEntity } | undefined
 
+	InsertCitizenCellNumber: undefined
+	InsertCitizenName: undefined
+
 	InsertBinaryResponse: { questionData: CitizenRegisterQuestion }
 	InsertSatisfactionResponse: { questionData: CitizenRegisterQuestion }
 	InsertTextualResponse: { questionData: CitizenRegisterQuestion }

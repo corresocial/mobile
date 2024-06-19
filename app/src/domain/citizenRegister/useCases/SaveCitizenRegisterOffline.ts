@@ -30,6 +30,7 @@ export class SaveCitizenRegisterOffline implements UseCase<Input, Output> {
 			citizenRegisterId: citizenRegisterData.citizenRegisterId || uuid(),
 			userId: this.currentUser.userId,
 			name: citizenRegisterData.name || 'cidadão',
+			cellNumber: citizenRegisterData.cellNumber || '',
 			censusTakerId: this.currentUser.userId || '',
 			censusTakerName: this.currentUser.name || '',
 			createdAt: new Date(),

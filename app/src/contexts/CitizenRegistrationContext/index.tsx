@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
 import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegistrationContextType, CitizenRegistrationProviderProps } from './types'
+import { CitizenRegistrationContextType, CitizenRegistrationIdentifier, CitizenRegistrationProviderProps } from './types'
 
 import { citizenRegisterData } from './citizenRegisterData'
 
@@ -11,19 +11,21 @@ const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
 	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionary>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
+	const [citizenRegistrationIdentifier, setCitizenRegistrationIdentifier] = useState<CitizenRegistrationIdentifier>({ cellNumber: '', name: '' })
 
 	const startNewCitizenRegistration = () => {
 		setCitizenRegistrationQuestionToRespond(citizenRegisterData)
 
-		const citizenRegisterResponseMapper = citizenRegisterData.questions.map((question) => {
-			return {
-				...question,
-				response: ''
-			}
+		const citizenRegisterResponseMapper = citizenRegisterData.questions.map((question) => { // Mapeia todas as questões no contexto
+			return { ...question, response: '' }
 		}) as CitizenRegisterQuestionResponse[]
 
 		setCitizenRegistrationResponseData(citizenRegisterResponseMapper)
 	}
+
+	const saveCitizenRegistrationIdentifier = useCallback((data: CitizenRegistrationIdentifier) => {
+		setCitizenRegistrationIdentifier({ ...citizenRegistrationIdentifier, ...data })
+	}, [citizenRegistrationIdentifier])
 
 	const getNextQuestion = (lastQuestion: CitizenRegisterQuestion) => {
 		const lastQuestionId = lastQuestion ? lastQuestion.questionId : ''
@@ -45,9 +47,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 			...question,
 			response: response
 		} as CitizenRegisterQuestionResponse
-
 		console.log(registerData)
-
 		if (citizenRegistrationResponseData.find((citizenRegister) => citizenRegister.questionId === question.questionId)) {
 			return setCitizenRegistrationResponseData(citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister)))
 		}
@@ -58,10 +58,12 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	const CitizenProviderData = useMemo(() => ({
 		citizenRegistrationQuestionToRespond,
 		citizenRegistrationResponseData,
+		citizenRegistrationIdentifier,
 		startNewCitizenRegistration,
+		saveCitizenRegistrationIdentifier,
 		getNextQuestion,
 		getResponseProgress,
-		saveResponseData
+		saveResponseData,
 	}
 
 	), [citizenRegistrationResponseData, citizenRegistrationQuestionToRespond])

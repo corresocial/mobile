@@ -43,7 +43,7 @@ function CitizenQuestionaryCard({ questionaryData, onPress }: CitizenQuestionary
 			>
 				<QuestionaryContainer>
 					<CitizenNameContainer>
-						<CitizenNameText>
+						<CitizenNameText numberOfLines={1}>
 							{questionaryData.name}
 						</CitizenNameText>
 					</CitizenNameContainer>

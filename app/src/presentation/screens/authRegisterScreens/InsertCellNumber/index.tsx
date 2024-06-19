@@ -51,6 +51,7 @@ const headerMessages = {
 	}
 }
 
+// REFACTOR Verificar se é viável transformar em componente depois de remover mensagens de erro on screen
 export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
 	const { setUserRegisterDataOnContext, setUserAuthDataOnContext } = useAuthContext()
 

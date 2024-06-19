@@ -3,7 +3,7 @@ import { ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
-import { CitizenRegisterEntity, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
@@ -28,9 +28,10 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
+// CURRENT Renomear para CitizenQuestionayPreview
 function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenProps) {
 	const { userDataContext } = useAuthContext()
-	const { citizenRegistrationQuestionToRespond, startNewCitizenRegistration } = useCitizenRegistrationContext()
+	const { startNewCitizenRegistration } = useCitizenRegistrationContext()
 	const { setLoaderIsVisible } = useLoaderContext()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -49,20 +50,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 	}, [])
 
 	const startCitizenRegistration = () => {
-		const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
-		navigateToNextReponseScreen(firstQuestion)
-	}
-
-	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
-
-		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
-		}
+		navigation.navigate('InsertCitizenCellNumber')
 	}
 
 	const saveCitizenRegister = async () => {
@@ -132,7 +120,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 						fontSize={14}
 						SecondSvgIcon={EditCitizenIcon}
 						svgIconScale={['50%', '30%']}
-						minHeight={45}
+						minHeight={40}
 						relativeHeight={relativeScreenDensity(40)}
 						labelColor={theme.white3}
 						onPress={editMode ? saveCitizenRegister : startCitizenRegistration}
@@ -152,10 +140,40 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 				</HeaderActionsContainer>
 			</HeaderContainer>
 			<Body>
+
 				<QuestionsList
 					data={citizenRegisterResponses}
 					renderItem={renderQuestion as ListRenderItem<unknown>}
-					ListHeaderComponent={<VerticalSpacing height={2} />}
+					ListHeaderComponent={(
+						<>
+							<VerticalSpacing height={2} />
+							{
+								editMode && registerData?.name && (
+									<>
+										<QuestionCard
+											question={'Qual o seu nome?'}
+											answer={registerData?.name}
+											questionType={'textual'}
+										/>
+										<VerticalSpacing />
+									</>
+								)
+							}
+
+							{
+								editMode && registerData?.cellNumber && (
+									<>
+										<QuestionCard
+											question={'gostaria de deixar o seu telefone para contato?'}
+											answer={registerData?.cellNumber}
+											questionType={'textual'}
+										/>
+										<VerticalSpacing />
+									</>
+								)
+							}
+						</>
+					)}
 					ItemSeparatorComponent={() => <VerticalSpacing />}
 					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 					showsVerticalScrollIndicator={false}

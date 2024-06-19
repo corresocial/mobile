@@ -33,7 +33,7 @@ const citizenUseCases = new CitizenRegisterUseCases()
 
 function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScreenProps) {
 	const { userDataContext } = useAuthContext()
-	const { citizenRegistrationResponseData } = useCitizenRegistrationContext()
+	const { citizenRegistrationIdentifier, citizenRegistrationResponseData } = useCitizenRegistrationContext()
 
 	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
 	const [locationPermissionModalModalIsVisible, setLocationPermissionModalIsVisible] = useState(false)
@@ -69,7 +69,8 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
 			const citizenRegisterData = {
-				userId: userDataContext.userId,
+				...citizenRegistrationIdentifier,
+				responses: citizenRegistrationResponseData,
 				location: {
 					...currentLocation,
 					...geohashObject,
@@ -77,15 +78,16 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 						latitude: currentCoordinates.coords.latitude,
 						longitude: currentCoordinates.coords.longitude
 					}
-				} as CitizenRegisterEntity['location'],
-				responses: citizenRegistrationResponseData
+				} as CitizenRegisterEntity['location']
 			}
 
-			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(
-				userDataContext,
-				citizenRegisterData
-			)
+			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)
+
+			// CURRENT Mostrar modal de timeout / offline
+			const timeoutId = setTimeout(() => { setIsLoading(false) }, 20000) // Se durar mais que 20 segundos
 			await citizenUseCases.createCitizenRegister(userDataContext, citizenRegisterData)
+			clearTimeout(timeoutId)
+
 			await citizenUseCases.deleteOfflineCitizenRegister(offlineRegisterId || '')
 
 			setIsLoading(false)
