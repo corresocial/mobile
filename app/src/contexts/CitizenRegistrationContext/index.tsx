@@ -1,8 +1,11 @@
-import React, { createContext, useContext, useMemo, useState } from 'react'
+import * as Battery from 'expo-battery'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegistrationContextType, CitizenRegistrationProviderProps } from './types'
+
+import { LowBatteryModal } from '@components/_modals/LowBatteryModal'
 
 import { citizenRegisterData } from './citizenRegisterData'
 
@@ -11,6 +14,19 @@ const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
 	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionary>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
+
+	const [showLowBatteryModal, setShowLowBatteryModal] = useState<boolean>(false)
+
+	useEffect(() => {
+		const subscription = Battery.addBatteryLevelListener(({ batteryLevel }) => {
+			console.log(batteryLevel)
+			if (batteryLevel < 0.15) {
+				setShowLowBatteryModal(true)
+			}
+		})
+
+		return () => subscription.remove()
+	}, [])
 
 	const startNewCitizenRegistration = () => {
 		setCitizenRegistrationQuestionToRespond(citizenRegisterData)
@@ -68,6 +84,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 
 	return (
 		<CitizenRegistrationContext.Provider value={CitizenProviderData}>
+			<LowBatteryModal isVisible={showLowBatteryModal} onConfirm={() => setShowLowBatteryModal(false)}/>
 			{children}
 		</CitizenRegistrationContext.Provider>
 	)
