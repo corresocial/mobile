@@ -12,6 +12,8 @@ import { SaveCitizenRegisterOffline } from '../useCases/SaveCitizenRegisterOffli
 import { SendOfflineRegisters } from '../useCases/SendOfflineRegisters'
 
 export class CitizenRegisterUseCases {
+	dontRemoveThisMethod() { } // Impede que a classe seja apenas um object, guardando muito cacheamento
+
 	static createCitizenRegister(
 		CitizenRegisterRemoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>,
 		currentUser: UserEntity,
