@@ -54,6 +54,8 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 		setHasLocationPermissions(locationPermission.granted)
 	}
 
+	console.log(citizenRegistrationIdentifier)
+
 	const submitResponses = async () => {
 		try {
 			setIsLoading(true)

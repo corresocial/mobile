@@ -9,14 +9,21 @@ const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
+const initialCitizenRegisterIdentifier: CitizenRegistrationIdentifier = {
+	cellNumber: '',
+	name: '',
+	citizenHasAccount: false
+}
+
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
 	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionResponse[]>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
-	const [citizenRegistrationIdentifier, setCitizenRegistrationIdentifier] = useState<CitizenRegistrationIdentifier>({ cellNumber: '', name: '' })
+	const [citizenRegistrationIdentifier, setCitizenRegistrationIdentifier] = useState<CitizenRegistrationIdentifier>(initialCitizenRegisterIdentifier)
 
 	const startNewCitizenRegistration = () => {
 		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
 		setCitizenRegistrationQuestionToRespond(citizenRegistrationQuestionary)
+		setCitizenRegistrationIdentifier(initialCitizenRegisterIdentifier)
 
 		const citizenRegisterResponseMapper = citizenRegistrationQuestionary.map((question) => { // Mapeia todas as questões no contexto
 			return { ...question, response: '' }
@@ -26,6 +33,9 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	}
 
 	const saveCitizenRegistrationIdentifier = useCallback((data: CitizenRegistrationIdentifier) => {
+		console.log('saveCitizenRegistrationIdentifier')
+		console.log(data)
+		console.log({ ...citizenRegistrationIdentifier, ...data }) // CURRENT data está sobrescrevendo todo o estado
 		setCitizenRegistrationIdentifier({ ...citizenRegistrationIdentifier, ...data })
 	}, [citizenRegistrationIdentifier])
 
@@ -68,7 +78,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		saveResponseData,
 	}
 
-	), [citizenRegistrationResponseData, citizenRegistrationQuestionToRespond])
+	), [citizenRegistrationResponseData, citizenRegistrationQuestionToRespond, citizenRegistrationIdentifier])
 
 	return (
 		<CitizenRegistrationContext.Provider value={CitizenProviderData}>

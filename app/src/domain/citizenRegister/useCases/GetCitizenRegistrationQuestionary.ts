@@ -503,7 +503,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionType: 'textual',
 				response: ''
 			}
-		].splice(0, 3) as CitizenRegisterQuestionResponse[]
+		].slice(1, 3) as CitizenRegisterQuestionResponse[]
 		// CURRENT remover .splice em diante na linha
 		return citizenRegistrationQuestionary
 	}

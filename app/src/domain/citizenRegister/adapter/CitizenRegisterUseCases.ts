@@ -6,8 +6,11 @@ import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRe
 
 import { CitizenRegisterEntityOptional } from '../model/entities/types'
 
+import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
+
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
+import { CitizenHasAccountOnApp } from '../useCases/CitizenHasAccountOnApp'
 import { CreateCitizenRegister } from '../useCases/CreateCitizenRegister'
 import { DeleteOfflineCitizenRegister } from '../useCases/DeleteOfflineCitizenRegister'
 import { GetCitizenRegistrationQuestionary } from '../useCases/GetCitizenRegistrationQuestionary'
@@ -51,5 +54,9 @@ export class CitizenRegisterUseCases {
 
 	deleteOfflineCitizenRegister(citizenRegisterId: string) {
 		return new DeleteOfflineCitizenRegister(this.localRepository).exec(citizenRegisterId)
+	}
+
+	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) { // MODEL
+		return new CitizenHasAccountOnApp(useCloudFunctionService).exec(cellNumber)
 	}
 }

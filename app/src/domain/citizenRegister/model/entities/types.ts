@@ -4,7 +4,7 @@ export type CitizenRegisterEntityOptional = Partial<CitizenRegisterEntity>
 export type CitizenRegisterEntity = {
 	// id: string
 	citizenRegisterId: string
-	userId?: string
+	citizenHasAccount?: boolean
 	name: string
 	cellNumber: string
 	censusTakerName: string,

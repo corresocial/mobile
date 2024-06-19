@@ -4,7 +4,6 @@ import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/
 describe('CitizenRegister', () => {
 	const mockProps: CitizenRegisterEntity = {
 		citizenRegisterId: '123',
-		userId: 'user-1',
 		name: 'John Doe',
 		cellNumber: '123456789',
 		censusTakerId: 'census-taker-1',
@@ -18,7 +17,6 @@ describe('CitizenRegister', () => {
 		const citizenRegister = new CitizenRegister(mockProps, true)
 
 		expect(citizenRegister.citizenRegisterId).toBeNull()
-		expect(citizenRegister.userId.value).toBe('user-1')
 		expect(citizenRegister.name.value).toBe('John Doe')
 		expect(citizenRegister.cellNumber).toBe('123456789')
 		expect(citizenRegister.censusTakerId.value).toBe('census-taker-1')
@@ -32,7 +30,6 @@ describe('CitizenRegister', () => {
 		const citizenRegister = new CitizenRegister(mockProps, false)
 
 		expect(citizenRegister.citizenRegisterId?.value).toBe('123')
-		expect(citizenRegister.userId.value).toBe('user-1')
 		expect(citizenRegister.name.value).toBe('John Doe')
 		expect(citizenRegister.cellNumber).toBe('123456789')
 		expect(citizenRegister.censusTakerId.value).toBe('census-taker-1')
@@ -49,6 +46,5 @@ describe('CitizenRegister', () => {
 
 	test('Deve lançar um erro se as propriedades obrigatórias estiverem ausentes ou inválidas', () => {
 		expect(() => new CitizenRegister({ ...mockProps, name: '' }, true)).toThrow()
-		expect(() => new CitizenRegister({ ...mockProps, userId: '' }, true)).toThrow()
 	})
 })

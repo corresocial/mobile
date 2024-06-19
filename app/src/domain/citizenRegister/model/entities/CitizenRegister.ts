@@ -31,7 +31,7 @@ export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegist
 		this.censusTakerId = new Id(this.props.censusTakerId)
 		this.censusTakerName = new UserName(this.props.censusTakerName)
 		this.createdAt = newRegister ? new Date() : this.props.createdAt
-		this.location = this.props.location
+		this.location = this.props.location // MODEL
 		this.responses = this.props.responses || []
 	}
 

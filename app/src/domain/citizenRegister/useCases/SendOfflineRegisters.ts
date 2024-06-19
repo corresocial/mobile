@@ -31,7 +31,7 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {
 					console.log(error)
-					console.log(`Falha ao enviar o registro${register.citizenRegisterId}`)
+					console.log(`Falha ao enviar o registro de ${register.name}`)
 				}
 			})
 		)

@@ -9,6 +9,7 @@ export interface CitizenRegistrationProviderProps {
 export interface CitizenRegistrationIdentifier {
 	name?: string
 	cellNumber?: string
+	citizenHasAccount?: boolean
 }
 
 export interface CitizenRegistrationContextType {

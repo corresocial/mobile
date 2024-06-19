@@ -1,9 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { StatusBar, Platform, TextInput } from 'react-native'
 
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
 import { InsertCitizenCellNumberScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
+
+import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -17,6 +21,8 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
+
+const citizenUseCases = new CitizenRegisterUseCases()
 
 export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCellNumberScreenProps) {
 	const { saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
@@ -57,8 +63,13 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 		if (!cellNumberIsValid) return setInvalidCellNumberAfterSubmit(true)
 
 		if (DDDIsValid && cellNumberIsValid) {
-			const fullCellNumber = `+55${DDD}${cellNumber}`
-			saveCitizenRegistrationIdentifier({ cellNumber: fullCellNumber })
+			const fullCellNumber = `+55${DDD}${cellNumber}` // CURRENT LOADDDER
+			const citizenHasAccountOnApp = await citizenUseCases.citizenHasAccountOnApp(useCloudFunctionService, fullCellNumber)
+			console.log(citizenHasAccountOnApp)
+			saveCitizenRegistrationIdentifier({
+				cellNumber: fullCellNumber,
+				citizenHasAccount: citizenHasAccountOnApp
+			})
 			navigation.navigate('InsertCitizenName')
 		}
 	}

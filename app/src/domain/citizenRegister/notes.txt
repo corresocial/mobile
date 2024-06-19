@@ -1,4 +1,4 @@
-
+// CURRENT - model
 Value objects
 - QuestionType
 - QuestionOptions
@@ -7,20 +7,22 @@ Entities
 CitizenRegister
 - QuestionResponse
 
-Use cases
-- GetCitizenRegistrationQuestionary
+// DONE v ///
+
+ - Casos de uso
+GetCitizenRegistrationQuestionary
 GetOfflineCitizenRegisters
 SaveCitizenRegisterOffline
-- CitizenHasAccountOnApp
+CitizenHasAccountOnApp
 SaveCitizenRegister
 SendOfflineRegisters
 DeleteOfflineCitizenRegister
 
 
-Data - CitizenRegisterRemoteRepository
+ - Repositório - CitizenRegisterRemoteRepository
 Save
 
-Data - CitizenRegisterLocalRepository
+ - Repositório - CitizenRegisterLocalRepository
 Save
 Delete
 
