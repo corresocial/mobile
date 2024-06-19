@@ -24,6 +24,12 @@ export type CitizenRegisterQuestionResponse = {
 	options?: string[]
 	multiSelect?: boolean
 	response: string | string[] | number | boolean | SatisfactionType
+	notes?: CitizenRegisterQuestionNote[]
+}
+
+export type CitizenRegisterQuestionNote = {
+	questionId: string
+	text: string
 }
 
 export type CitizenRegisterLocation = {
