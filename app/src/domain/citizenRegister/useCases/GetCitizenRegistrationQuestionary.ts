@@ -54,8 +54,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Falta de acesso a serviços de saúde',
 					'Falta de acesso à educação de qualidade',
 					'Falta de atividades de lazer adequadas',
-					'Outros (especificar)'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -139,10 +140,11 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Agricultura (trabalho rural)',
 					'Alimentação (restaurantes, lanchonetes)',
 					'Construção Civil',
-					'Trabalhos manuais (Costura, artesanato)',
+					'Trabalhos manuais (costura, artesanato)',
 					'Transporte (motorista, entregador)',
-					'Outra: _______'
+					'Outra (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -186,8 +188,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Com mais 2 pessoas',
 					'Com mais 3 pessoas',
 					'Com mais 4 pessoas',
-					'Com mais de 4 pessoas, especificar _______'
+					'Com mais de 4 pessoas (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -209,8 +212,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Educação (cursos online, pesquisa escolar)',
 					'Compras online',
 					'Trabalho ou atividade profissional',
-					'Outros (especificar)___________'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -227,8 +231,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Instagram',
 					'Aplicativos de transporte (Uber, 99)',
 					'Jogos',
-					'Outros, especificar'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -282,8 +287,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Alimentos',
 					'Vestuário',
 					'Móvel',
-					'Outros; Qual?_______________'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -296,8 +302,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Transporte público (ônibus)',
 					'Bicicleta',
 					'A pé',
-					'Outros (especificar)'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -323,8 +330,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Falta de infraestrutura para pedestres e ciclistas',
 					'Falta de pontualidade e qualidade no transporte público',
 					'Falta de segurança',
-					'Outros (especificar)'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -348,8 +356,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Adquiriu novas habilidades ou conhecimentos',
 					'Melhorou suas chances de conseguir emprego',
 					'Conseguiu um emprego ou trabalho remunerado',
-					'Outros; (especificar)'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -373,8 +382,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Finanças e Contabilidade',
 					'Rec Recursos Humanos',
 					'Comunicação e Mídia',
-					'Outros (especificar)'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -389,8 +399,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Acesso a programas de capacitação e qualificação profissional',
 					'Acesso a programas de apoio ao empreendedorismo',
 					'Acesso a programas de moradia popular',
-					'Outros (especificar)'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
@@ -439,8 +450,9 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Jogos de tabuleiro',
 					'Participo de coral e/ou banda',
 					'Artesanato, costura, pintura, etc.',
-					'Outros (especificar)____________'
+					'Outros (especifique)'
 				],
+				allowOtherOptions: true,
 				response: []
 			},
 			{
