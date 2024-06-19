@@ -1,22 +1,24 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
-import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+import { CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegistrationContextType, CitizenRegistrationIdentifier, CitizenRegistrationProviderProps } from './types'
 
-import { citizenRegisterData } from './citizenRegisterData'
-
 const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as CitizenRegistrationContextType)
 
+const citizenUseCases = new CitizenRegisterUseCases()
+
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
-	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionary>({} as any)
+	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionResponse[]>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
 	const [citizenRegistrationIdentifier, setCitizenRegistrationIdentifier] = useState<CitizenRegistrationIdentifier>({ cellNumber: '', name: '' })
 
 	const startNewCitizenRegistration = () => {
-		setCitizenRegistrationQuestionToRespond(citizenRegisterData)
+		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
+		setCitizenRegistrationQuestionToRespond(citizenRegistrationQuestionary)
 
-		const citizenRegisterResponseMapper = citizenRegisterData.questions.map((question) => { // Mapeia todas as questões no contexto
+		const citizenRegisterResponseMapper = citizenRegistrationQuestionary.map((question) => { // Mapeia todas as questões no contexto
 			return { ...question, response: '' }
 		}) as CitizenRegisterQuestionResponse[]
 
@@ -32,8 +34,8 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		const currentQuestionIndex = citizenRegistrationResponseData.findIndex(({ questionId }) => questionId === lastQuestionId)
 		const nextIndex = currentQuestionIndex + 1
 		if (nextIndex >= citizenRegistrationResponseData.length) return null
-		console.log(citizenRegistrationQuestionToRespond.questions[nextIndex])
-		return citizenRegistrationQuestionToRespond.questions[nextIndex]
+		console.log(citizenRegistrationQuestionToRespond[nextIndex])
+		return citizenRegistrationQuestionToRespond[nextIndex]
 	}
 
 	const getResponseProgress = (currentQuestionId: string | number) => {

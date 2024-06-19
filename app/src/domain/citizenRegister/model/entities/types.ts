@@ -43,13 +43,7 @@ export type Coordinates = {
 	longitude: number
 }
 
-// Question
-
-export type CitizenRegisterQuestionary = {
-	citizenRegisterId: string
-	createdAt: Date
-	questions: CitizenRegisterQuestion[]
-}
+// Questions
 
 export type CitizenRegisterQuestionOptional = Partial<CitizenRegisterQuestion>
 export type CitizenRegisterQuestion = {

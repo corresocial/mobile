@@ -10,6 +10,7 @@ import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegi
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
 import { CreateCitizenRegister } from '../useCases/CreateCitizenRegister'
 import { DeleteOfflineCitizenRegister } from '../useCases/DeleteOfflineCitizenRegister'
+import { GetCitizenRegistrationQuestionary } from '../useCases/GetCitizenRegistrationQuestionary'
 import { GetOfflineCitizenRegisters } from '../useCases/GetOfflineCitizenRegisters'
 import { SaveCitizenRegisterOffline } from '../useCases/SaveCitizenRegisterOffline'
 import { SendOfflineRegisters } from '../useCases/SendOfflineRegisters'
@@ -26,6 +27,10 @@ export class CitizenRegisterUseCases {
 	constructor(props?: FinanceUseCasesProps) {
 		this.localRepository = props?.localRepository || CitizenRegisterLocalRepository
 		this.remoteRepository = props?.remoteRepository || CitizenRegisterRemoteRepository
+	}
+
+	getCitizenRegistrationQuestionary() {
+		return new GetCitizenRegistrationQuestionary().exec()
 	}
 
 	createCitizenRegister(currentUser: UserEntity, citizenRegisterData: CitizenRegisterEntityOptional) {

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 export interface CitizenRegistrationProviderProps {
 	children: ReactNode
@@ -12,7 +12,7 @@ export interface CitizenRegistrationIdentifier {
 }
 
 export interface CitizenRegistrationContextType {
-	citizenRegistrationQuestionToRespond: CitizenRegisterQuestionary
+	citizenRegistrationQuestionToRespond: CitizenRegisterQuestionResponse[]
 	citizenRegistrationResponseData: CitizenRegisterQuestionResponse[]
 	citizenRegistrationIdentifier: CitizenRegistrationIdentifier
 	startNewCitizenRegistration(): void

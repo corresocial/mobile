@@ -75,7 +75,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					message={'gostaria de deixar o seu telefone para contato?'}
+					message={'Gostaria de deixar o seu telefone para contato?'}
 					highlightedWords={['telefone']}
 					fontSize={16}
 				/>

@@ -7,7 +7,6 @@ import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
-import { mockCitizenRegisterResponses } from '@contexts/CitizenRegistrationContext/citizenRegisterData'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { CitizenQuestionsListScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
@@ -43,7 +42,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 	const registerData = route.params?.registerData
 	const citizenRegisterResponses = hasResponsesFromRoute
 		? route.params.registerData.responses
-		: mockCitizenRegisterResponses
+		: citizenUseCases.getCitizenRegistrationQuestionary()
 
 	useEffect(() => {
 		startNewCitizenRegistration()
@@ -151,7 +150,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 								editMode && registerData?.name && (
 									<>
 										<QuestionCard
-											question={'Qual o seu nome?'}
+											question={'Como você se chama?'}
 											answer={registerData?.name}
 											questionType={'textual'}
 										/>

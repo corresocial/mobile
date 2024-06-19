@@ -26,7 +26,7 @@ export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegist
 
 		this.citizenRegisterId = newRegister ? null : new Id(this.props.citizenRegisterId)
 		this.name = new UserName(this.props.name)
-		this.userId = new Id(this.props.userId || '')
+		this.userId = this.props.userId
 		this.cellNumber = this.props.cellNumber
 		this.censusTakerId = new Id(this.props.censusTakerId)
 		this.censusTakerName = new UserName(this.props.censusTakerName)

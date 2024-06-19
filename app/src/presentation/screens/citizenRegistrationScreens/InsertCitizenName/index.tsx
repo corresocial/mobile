@@ -51,7 +51,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 	}
 
 	const startCitizenQuestionary = () => {
-		const firstQuestion = citizenRegistrationQuestionToRespond.questions[0]
+		const firstQuestion = citizenRegistrationQuestionToRespond[0]
 		navigateToNextReponseScreen(firstQuestion)
 	}
 
@@ -74,7 +74,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 				multiline
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
-				customTitle={'qual o seu nome?'}
+				customTitle={'Como você se chama?'}
 				customHighlight={['nome', 'completo?']}
 				inputPlaceholder={'escreva seu nome aqui...'}
 				keyboardOpened={keyboardOpened}
