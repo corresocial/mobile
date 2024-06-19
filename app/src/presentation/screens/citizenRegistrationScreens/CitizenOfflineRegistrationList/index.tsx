@@ -5,9 +5,6 @@ import { useTheme } from 'styled-components'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
-
 import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { CitizenOfflineRegistrationListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
@@ -22,6 +19,8 @@ import { CitizenQuestionaryCard } from '@components/_cards/CitizenQuestionaryCar
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
+const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrationListProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
@@ -39,7 +38,7 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 
 	const loadOfflineRegisters = async () => {
 		try {
-			const registers = await CitizenRegisterUseCases.getOfflineCitizenRegisters(CitizenRegisterLocalRepository)
+			const registers = await citizenUseCases.getOfflineCitizenRegisters()
 			setOfflineRegisters(registers.reverse())
 		} catch (error) {
 			console.log(error)
@@ -49,7 +48,7 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 	const saveOfflineRegistersOnRemoteStorage = async () => {
 		try {
 			setLoaderIsVisible(true)
-			await CitizenRegisterUseCases.sendOfflineRegisters(CitizenRegisterLocalRepository, CitizenRegisterRemoteRepository)
+			await citizenUseCases.sendOfflineRegisters()
 			await loadOfflineRegisters()
 			setLoaderIsVisible(false)
 		} catch (error) {

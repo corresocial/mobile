@@ -3,8 +3,6 @@ import { useTheme } from 'styled-components'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 
-import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-
 import { CitizenRegistrationHomeScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -20,6 +18,8 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
+const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenProps) {
 	const [numberOfOfflineCitizenRegisters, setNumberOfOfflineCitizenRegisters] = useState(0)
@@ -37,7 +37,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 	}, [])
 
 	const loadNumberOfOfflineCitizenRegisters = async () => {
-		const offlineRegisters = await CitizenRegisterUseCases.getOfflineCitizenRegisters(CitizenRegisterLocalRepository) || []
+		const offlineRegisters = await citizenUseCases.getOfflineCitizenRegisters() || []
 		setNumberOfOfflineCitizenRegisters((offlineRegisters || []).length)
 	}
 

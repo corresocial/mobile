@@ -5,9 +5,6 @@ import { useTheme } from 'styled-components'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterEntity, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
-
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 import { mockCitizenRegisterResponses } from '@contexts/CitizenRegistrationContext/citizenRegisterData'
@@ -28,6 +25,8 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
+const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenProps) {
 	const { userDataContext } = useAuthContext()
@@ -69,11 +68,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 	const saveCitizenRegister = async () => {
 		try {
 			setLoaderIsVisible(true)
-			await CitizenRegisterUseCases.createCitizenRegister(
-				CitizenRegisterRemoteRepository,
-				userDataContext,
-				registerData as CitizenRegisterEntity
-			)
+			await citizenUseCases.createCitizenRegister(userDataContext, registerData as CitizenRegisterEntity)
 			await deleteCitizenRegister(registerData?.citizenRegisterId)
 			setLoaderIsVisible(false)
 			navigation.goBack()
@@ -88,10 +83,7 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 			if (!editMode) return
 			!registerId && setLoaderIsVisible(true)
 			const { citizenRegisterId } = route.params.registerData
-			await CitizenRegisterUseCases.deleteOfflineCitizenRegister(
-				CitizenRegisterLocalRepository,
-				registerId || citizenRegisterId
-			)
+			await citizenUseCases.deleteOfflineCitizenRegister(registerId || citizenRegisterId)
 			!registerId && setLoaderIsVisible(false)
 			navigation.goBack()
 		} catch (error) {

@@ -1,6 +1,9 @@
 import { Class } from '@domain/shared/interfaces/Class'
 import { UserEntity } from '@domain/user/entity/types'
 
+import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
+import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
+
 import { CitizenRegisterEntityOptional } from '../model/entities/types'
 
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
@@ -11,40 +14,37 @@ import { GetOfflineCitizenRegisters } from '../useCases/GetOfflineCitizenRegiste
 import { SaveCitizenRegisterOffline } from '../useCases/SaveCitizenRegisterOffline'
 import { SendOfflineRegisters } from '../useCases/SendOfflineRegisters'
 
+interface FinanceUseCasesProps {
+	localRepository: Class<CitizenRegisterLocalRepositoryInterface>
+	remoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>
+}
+
 export class CitizenRegisterUseCases {
-	dontRemoveThisMethod() { } // Impede que a classe seja apenas um object, guardando muito cacheamento
+	private localRepository: Class<CitizenRegisterLocalRepositoryInterface>
+	private remoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>
 
-	static createCitizenRegister(
-		CitizenRegisterRemoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>,
-		currentUser: UserEntity,
-		citizenRegisterData: CitizenRegisterEntityOptional
-	) {
-		return new CreateCitizenRegister(CitizenRegisterRemoteRepository, currentUser).exec(citizenRegisterData)
+	constructor(props?: FinanceUseCasesProps) {
+		this.localRepository = props?.localRepository || CitizenRegisterLocalRepository
+		this.remoteRepository = props?.remoteRepository || CitizenRegisterRemoteRepository
 	}
 
-	static saveCitizenRegisterOffline(
-		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
-		currentUser: UserEntity,
-		citizenRegisterData: CitizenRegisterEntityOptional
-	) {
-		return new SaveCitizenRegisterOffline(CitizenRegisterLocalRepository, currentUser).exec(citizenRegisterData)
+	createCitizenRegister(currentUser: UserEntity, citizenRegisterData: CitizenRegisterEntityOptional) {
+		return new CreateCitizenRegister(this.remoteRepository, currentUser).exec(citizenRegisterData)
 	}
 
-	static getOfflineCitizenRegisters(CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>) {
-		return new GetOfflineCitizenRegisters(CitizenRegisterLocalRepository).exec()
+	saveCitizenRegisterOffline(currentUser: UserEntity, citizenRegisterData: CitizenRegisterEntityOptional) {
+		return new SaveCitizenRegisterOffline(this.localRepository, currentUser).exec(citizenRegisterData)
 	}
 
-	static sendOfflineRegisters(
-		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
-		CitizenRegisterRemoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>
-	) {
-		return new SendOfflineRegisters(CitizenRegisterLocalRepository, CitizenRegisterRemoteRepository).exec()
+	getOfflineCitizenRegisters() {
+		return new GetOfflineCitizenRegisters(this.localRepository).exec()
 	}
 
-	static deleteOfflineCitizenRegister(
-		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
-		citizenRegisterId: string
-	) {
-		return new DeleteOfflineCitizenRegister(CitizenRegisterLocalRepository).exec(citizenRegisterId)
+	sendOfflineRegisters() {
+		return new SendOfflineRegisters(this.localRepository, this.remoteRepository).exec()
+	}
+
+	deleteOfflineCitizenRegister(citizenRegisterId: string) {
+		return new DeleteOfflineCitizenRegister(this.localRepository).exec(citizenRegisterId)
 	}
 }

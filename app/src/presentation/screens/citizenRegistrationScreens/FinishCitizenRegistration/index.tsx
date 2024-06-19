@@ -5,9 +5,6 @@ import { useTheme } from 'styled-components'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
-
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
@@ -31,6 +28,8 @@ import { Loader } from '@components/Loader'
 
 const { getCurrentLocation } = useLocationService()
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
+
+const citizenUseCases = new CitizenRegisterUseCases()
 
 function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScreenProps) {
 	const { userDataContext } = useAuthContext()
@@ -64,7 +63,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				if (!hasPermission) return
 			}
 
-			const currentCoordinates = await getCurrentLocation()
+			const currentCoordinates = await getCurrentLocation() // MODEL
 			const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
 			const completeAddress = structureAddress(currentLocation)
 			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
@@ -82,22 +81,12 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				responses: citizenRegistrationResponseData
 			}
 
-			const offlineRegisterId = await CitizenRegisterUseCases.saveCitizenRegisterOffline(
-				CitizenRegisterLocalRepository,
+			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(
 				userDataContext,
 				citizenRegisterData
 			)
-
-			await CitizenRegisterUseCases.createCitizenRegister(
-				CitizenRegisterRemoteRepository,
-				userDataContext,
-				citizenRegisterData
-			)
-
-			await CitizenRegisterUseCases.deleteOfflineCitizenRegister(
-				CitizenRegisterLocalRepository,
-				offlineRegisterId || ''
-			)
+			await citizenUseCases.createCitizenRegister(userDataContext, citizenRegisterData)
+			await citizenUseCases.deleteOfflineCitizenRegister(offlineRegisterId || '')
 
 			setIsLoading(false)
 			navigation.navigate('CitizenRegistrationHome')
