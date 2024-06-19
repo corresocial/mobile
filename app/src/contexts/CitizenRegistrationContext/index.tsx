@@ -33,9 +33,6 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	}
 
 	const saveCitizenRegistrationIdentifier = useCallback((data: CitizenRegistrationIdentifier) => {
-		console.log('saveCitizenRegistrationIdentifier')
-		console.log(data)
-		console.log({ ...citizenRegistrationIdentifier, ...data }) // CURRENT data está sobrescrevendo todo o estado
 		setCitizenRegistrationIdentifier({ ...citizenRegistrationIdentifier, ...data })
 	}, [citizenRegistrationIdentifier])
 

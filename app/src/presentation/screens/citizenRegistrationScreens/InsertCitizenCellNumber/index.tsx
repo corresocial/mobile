@@ -65,7 +65,6 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 		if (DDDIsValid && cellNumberIsValid) {
 			const fullCellNumber = `+55${DDD}${cellNumber}` // CURRENT LOADDDER
 			const citizenHasAccountOnApp = await citizenUseCases.citizenHasAccountOnApp(useCloudFunctionService, fullCellNumber)
-			console.log(citizenHasAccountOnApp)
 			saveCitizenRegistrationIdentifier({
 				cellNumber: fullCellNumber,
 				citizenHasAccount: citizenHasAccountOnApp
