@@ -16,12 +16,17 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
 
 	const [showLowBatteryModal, setShowLowBatteryModal] = useState<boolean>(false)
+	const [showedLowBatteryModal, setShowedLowBatteryModal] = useState<boolean>(false)
 
 	useEffect(() => {
 		const subscription = Battery.addBatteryLevelListener(({ batteryLevel }) => {
-			console.log(batteryLevel)
-			if (batteryLevel < 0.15) {
+			if (batteryLevel <= 0.2 && !showedLowBatteryModal) {
 				setShowLowBatteryModal(true)
+				setShowedLowBatteryModal(true)
+			}
+
+			if (batteryLevel > 0.2 && !showedLowBatteryModal) {
+				setShowedLowBatteryModal(false)
 			}
 		})
 
@@ -84,7 +89,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 
 	return (
 		<CitizenRegistrationContext.Provider value={CitizenProviderData}>
-			<LowBatteryModal isVisible={showLowBatteryModal} onConfirm={() => setShowLowBatteryModal(false)}/>
+			{showLowBatteryModal && <LowBatteryModal isVisible={showLowBatteryModal} onConfirm={() => setShowLowBatteryModal(false)} />}
 			{children}
 		</CitizenRegistrationContext.Provider>
 	)
