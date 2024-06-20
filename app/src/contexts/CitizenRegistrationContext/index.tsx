@@ -1,10 +1,11 @@
 import * as Battery from 'expo-battery'
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegistrationContextType, CitizenRegistrationIdentifier, CitizenRegistrationProviderProps } from './types'
+
 import { LowBatteryModal } from '@components/_modals/LowBatteryModal'
 
 const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as CitizenRegistrationContextType)

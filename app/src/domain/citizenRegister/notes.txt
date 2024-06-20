@@ -1,4 +1,4 @@
-// CURRENT - model
+// CURRENT - finalizar model
 Value objects
 - QuestionType
 - QuestionOptions

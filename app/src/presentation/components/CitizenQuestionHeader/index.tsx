@@ -6,6 +6,7 @@ import PaperIcon from '@assets/icons/paperList-outlined.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { BackButton } from '@components/_buttons/BackButton'
+import { ObservationsBottomSheet } from '@components/ObservationsBottomSheet'
 
 interface CitizenQuestionHeaderProps {
 	onBackPressed: () => void
@@ -16,12 +17,13 @@ interface CitizenQuestionHeaderProps {
 function CitizenQuestionHeader({ onBackPressed, onChatOpened, onNotePadOpened }: CitizenQuestionHeaderProps) {
 	return (
 		<HeaderContainer>
+			<ObservationsBottomSheet />
 			<BackButton onPress={onBackPressed} />
 			<ButtonsContainer>
-				<ButtonArea activeOpacity={1} onPress={onChatOpened}>
+				<ButtonArea activeOpacity={0.5} onPress={onChatOpened}>
 					<ChatIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
-				<ButtonArea activeOpacity={1} onPress={onNotePadOpened}>
+				<ButtonArea activeOpacity={0.5} onPress={onNotePadOpened}>
 					<PaperIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
 			</ButtonsContainer>

@@ -58,7 +58,7 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 	}
 
 	const viewCitizenRegister = async (citizenRegister: CitizenRegisterEntity) => {
-		navigation.navigate('CitizenQuestionsList', { registerData: citizenRegister })
+		navigation.navigate('CitizenQuestionayPreview', { registerData: citizenRegister })
 	}
 
 	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterEntity>) => {

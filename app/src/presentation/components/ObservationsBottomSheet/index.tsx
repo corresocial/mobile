@@ -78,24 +78,24 @@ function ObservationsBottomSheet() {
 		return (
 			<BottomSheetHeaderContainer>
 				<HeaderTitleContainer>
-					<ObservationIcon height={relativeScreenDensity(20)}/>
+					<ObservationIcon height={relativeScreenDensity(20)} />
 					<BottomSheetHeaderText>{'observações'}</BottomSheetHeaderText>
 				</HeaderTitleContainer>
-				<CloseModalArea 
-					activeOpacity={1} 
+				<CloseModalArea
+					activeOpacity={1}
 					onPress={collapseModal}
 				>
-					<DownArrowIcon width={30} height={30}/>
+					<DownArrowIcon width={30} height={30} />
 				</CloseModalArea>
 			</BottomSheetHeaderContainer>
-		) 
+		)
 	}
 
 	const renderObservationCard = ({ item }: FlatListItem<observation>) => {
 		return (
-			<ObservationCard 
-				observationText={item.questionText} 
-				questionId={item.questionId} 
+			<ObservationCard
+				observationText={item.questionText}
+				questionId={item.questionId}
 				onDeleteObservation={deleteObservation}
 			/>
 		)
@@ -105,7 +105,7 @@ function ObservationsBottomSheet() {
 		<BottomSheetModal
 			ref={bottomSheetModalRef}
 			index={1}
-			snapPoints={[relativeScreenHeight(20), relativeScreenHeight(80)]}
+			snapPoints={[relativeScreenHeight(80), relativeScreenHeight(30)]}
 			handleComponent={renderCustomHeader}
 			onChange={handleSheetChanges}
 		>
@@ -127,21 +127,21 @@ function ObservationsBottomSheet() {
 									onChangeText={setInputText}
 								/> // CURRENT default inpu ta flickando ao digitar / dúvida: como fazer para confirmar o input?
 							) : (
-								<SmallButton 
-									height={relativeScreenDensity(60)} 
-									onPress={addButtonHandler} 
-									SvgIcon={AddIcon} 
+								<SmallButton
+									height={relativeScreenDensity(60)}
+									onPress={addButtonHandler}
+									SvgIcon={AddIcon}
 									svgScale={['30%', '10%']}
-									label={'Adicionar Observação'} 
+									label={'Adicionar Observação'}
 									fontSize={relativeScreenDensity(17)}
 									flexDirection={'row-reverse'}
 									labelColor={theme.black4}
 								/>
 							)
 						}
-						
+
 					</InputsContainer>
-					
+
 					<ObservationsFlatList
 						data={observationsList}
 						renderItem={renderObservationCard as ListRenderItem<unknown>}
