@@ -2,6 +2,11 @@ import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 
+export const bottomSheetBackgroundStyle = {
+	borderTopLeftRadius: relativeScreenDensity(25),
+	borderTopRightRadius: relativeScreenDensity(25)
+}
+
 export const BottomSheetHeaderContainer = styled.View`
     flex-direction: row;
     justify-content: space-between;
@@ -32,7 +37,8 @@ export const CloseModalArea = styled.TouchableOpacity`
 
 export const InputsContainer = styled.View`
 	justify-content: center;
-	width: 85%;
+	align-items: center;
+	width: 100%;
 `
 
 export const BottomSheetViewContainer = styled.View`
@@ -43,6 +49,6 @@ export const BottomSheetViewContainer = styled.View`
 `
 
 export const ObservationsFlatList = styled.FlatList`
-	height: 100%;
+	flex: 1;
 	width: 100%;
 `

@@ -5,7 +5,7 @@ import { UserStackParamList } from '../UserStack/types'
 export type CitizenRegistrationStackParamList = {
 	CitizenRegistrationHome: undefined
 	CitizenOfflineRegistrationList: undefined
-	CitizenQuestionayPreview: { registerData: CitizenRegisterEntity } | undefined
+	CitizenQuestionaryPreview: { registerData: CitizenRegisterEntity } | undefined
 
 	InsertCitizenCellNumber: undefined
 	InsertCitizenName: undefined

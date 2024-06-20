@@ -4,7 +4,6 @@ import styled from 'styled-components/native'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
-	width: 100%;
 	background-color: ${({ theme }) => theme.white2};
 	border-radius: ${RFValue(17.5)}px;
 	overflow: hidden;
@@ -39,16 +38,16 @@ export const ButtonArea = styled.TouchableOpacity`
 `
 
 export const Title = styled.Text`
-    font-size: 18px;
+    font-size: ${relativeScreenDensity(15)}px;
     font-family: Arvo_700Bold;
 `
 
 export const QuestionIndicator = styled.Text`
-    font-size: 18px;
+    font-size: ${relativeScreenDensity(15)}px;
     font-family: Arvo_400Regular;
 `
 
 export const ObservationText = styled.Text`
-    font-size: 14px;
+    font-size: ${relativeScreenDensity(12)}px;
     font-family: Arvo_400Regular;
 `

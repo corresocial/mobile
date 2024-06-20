@@ -8,7 +8,7 @@ import { CitizenRegistrationStackParamList } from './types'
 import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { CitizenOfflineRegistrationList } from '@screens/citizenRegistrationScreens/CitizenOfflineRegistrationList'
-import { CitizenQuestionayPreview } from '@screens/citizenRegistrationScreens/CitizenQuestionayPreview'
+import { CitizenQuestionaryPreview } from '@screens/citizenRegistrationScreens/CitizenQuestionaryPreview'
 import { CitizenRegistrationHome } from '@screens/citizenRegistrationScreens/CitizenRegistrationHome'
 import { FinishCitizenRegistration } from '@screens/citizenRegistrationScreens/FinishCitizenRegistration'
 import { InsertBinaryResponse } from '@screens/citizenRegistrationScreens/InsertBinaryResponse'
@@ -43,7 +43,7 @@ export function CitizenRegistrationStack({ route, navigation }: any) {
 			>
 				<Stack.Screen name={'CitizenRegistrationHome'} component={CitizenRegistrationHome} />
 				<Stack.Screen name={'CitizenOfflineRegistrationList'} component={CitizenOfflineRegistrationList} />
-				<Stack.Screen name={'CitizenQuestionayPreview'} component={CitizenQuestionayPreview} />
+				<Stack.Screen name={'CitizenQuestionaryPreview'} component={CitizenQuestionaryPreview} />
 
 				<Stack.Screen name={'InsertCitizenCellNumber'} component={InsertCitizenCellNumber} />
 				<Stack.Screen name={'InsertCitizenName'} component={InsertCitizenName} />

@@ -25,12 +25,12 @@ export type CitizenRegisterQuestionResponse = {
 	allowOtherOptions?: boolean
 	response: string | string[] | number | boolean | SatisfactionType
 	specificResponse?: string
-	notes?: CitizenRegisterQuestionNote[]
+	notes?: CitizenRegisterQuestionObservation[]
 }
 
-export type CitizenRegisterQuestionNote = {
+export type CitizenRegisterQuestionObservation = {
 	questionId: string
-	text: string
+	message: string
 }
 
 export type CitizenRegisterLocation = {

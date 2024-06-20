@@ -4,13 +4,17 @@ import { ActionsContainer, ContentContainer, Container, TitleContainer, Title, Q
 import TrashCanIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
-interface ObservationCardProps{
-    questionId: number, // CURRENT tipagem não está definida até o momento / mudar para obj do tipo observação
-    observationText: string
-    onDeleteObservation: (questionId: number) => void
+interface ObservationCardProps {
+	questionId: string,
+	observationText: string
+	deleteObservation: (questionId: string) => void
 }
 
-function ObservationCard({ questionId = 0, observationText = 'texto', onDeleteObservation }: ObservationCardProps) {
+function ObservationCard({ questionId, observationText = 'texto', deleteObservation }: ObservationCardProps) {
+	const deleteRecord = () => {
+		deleteObservation(questionId)
+	}
+
 	return (
 		<Container>
 			<ContentContainer>
@@ -23,8 +27,8 @@ function ObservationCard({ questionId = 0, observationText = 'texto', onDeleteOb
 				</ObservationText>
 			</ContentContainer>
 			<ActionsContainer>
-				<ButtonArea activeOpacity={1}>
-					<TrashCanIcon width={relativeScreenDensity(15)}/>
+				<ButtonArea onPress={deleteRecord}>
+					<TrashCanIcon width={relativeScreenDensity(15)} />
 				</ButtonArea>
 			</ActionsContainer>
 		</Container>

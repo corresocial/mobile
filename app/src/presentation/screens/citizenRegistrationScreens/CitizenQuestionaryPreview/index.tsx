@@ -9,7 +9,7 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
-import { CitizenQuestionayPreviewScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
+import { CitizenQuestionaryPreviewScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
 import { Body, HeaderActionsContainer, HeaderContainer, QuestionsList } from './styles'
@@ -27,7 +27,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
-function CitizenQuestionayPreview({ route, navigation }: CitizenQuestionayPreviewScreenProps) {
+function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPreviewScreenProps) {
 	const { userDataContext } = useAuthContext()
 	const { startNewCitizenRegistration } = useCitizenRegistrationContext()
 	const { setLoaderIsVisible } = useLoaderContext()
@@ -181,4 +181,4 @@ function CitizenQuestionayPreview({ route, navigation }: CitizenQuestionayPrevie
 	)
 }
 
-export { CitizenQuestionayPreview }
+export { CitizenQuestionaryPreview }
