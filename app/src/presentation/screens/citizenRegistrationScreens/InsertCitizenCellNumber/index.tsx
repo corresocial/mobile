@@ -73,6 +73,11 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 		}
 	}
 
+	const skipScreen = () => {
+		saveCitizenRegistrationIdentifier({ citizenHasAccount: false })
+		navigation.navigate('InsertCitizenName')
+	}
+
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
@@ -144,7 +149,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 								labelColor={theme.black4}
 								label={'não informar'}
 								highlightedWords={['não']}
-								onPress={saveCellNumber}
+								onPress={skipScreen}
 							/>
 						)
 				}

@@ -27,7 +27,14 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 
 	const theme = useTheme()
 
+	const [inputText, setInputText] = useState<string>('')
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	const optionListRef = useRef<FlatList | any>()
+
+	const { questionData } = route.params
+	const { multiSelect } = questionData
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	useEffect(() => {
 		const handleKeyboardDidShow = () => setKeyboardOpened(true)
@@ -46,7 +53,6 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		}
 	}, [navigation])
 
-	const { questionData } = route.params
 	// const questionData = { // CURRENT Remove testOnly
 	// 	questionId: '6',
 	// 	question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
@@ -67,15 +73,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	// 	response: []
 	// }
 
-	const { multiSelect } = questionData
-
-	const responseProgress = getResponseProgress(questionData.questionId)
-
 	const navigateBackwards = () => navigation.goBack()
-
-	const [inputText, setInputText] = useState<string>('')
-
-	const optionListRef = useRef<FlatList | any>()
 
 	const selectOption = (option: string) => {
 		if (questionData && questionData.options && questionData.options.length && questionData.options[questionData.options.length - 1] === option) {

@@ -16,7 +16,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '2',
-				question: 'Qual a sua cor/etnia?:',
+				question: 'Qual a sua cor/etnia?',
 				questionType: 'select',
 				multiSelect: false,
 				options: ['Preta', 'Parda', 'Branca', 'Amarelo', 'Indígena', 'Não sei responder'],
