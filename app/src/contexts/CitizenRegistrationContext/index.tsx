@@ -1,9 +1,11 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import * as Battery from 'expo-battery'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { CitizenRegistrationContextType, CitizenRegistrationIdentifier, CitizenRegistrationProviderProps } from './types'
+import { LowBatteryModal } from '@components/_modals/LowBatteryModal'
 
 const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as CitizenRegistrationContextType)
 
@@ -19,6 +21,24 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionResponse[]>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
 	const [citizenRegistrationIdentifier, setCitizenRegistrationIdentifier] = useState<CitizenRegistrationIdentifier>(initialCitizenRegisterIdentifier)
+
+	const [showLowBatteryModal, setShowLowBatteryModal] = useState<boolean>(false)
+	const [showedLowBatteryModal, setShowedLowBatteryModal] = useState<boolean>(false)
+
+	useEffect(() => {
+		const subscription = Battery.addBatteryLevelListener(({ batteryLevel }) => {
+			if (batteryLevel <= 0.2 && !showedLowBatteryModal) {
+				setShowLowBatteryModal(true)
+				setShowedLowBatteryModal(true)
+			}
+
+			if (batteryLevel > 0.2 && !showedLowBatteryModal) {
+				setShowedLowBatteryModal(false)
+			}
+		})
+
+		return () => subscription.remove()
+	}, [])
 
 	const startNewCitizenRegistration = () => {
 		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
@@ -82,6 +102,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 
 	return (
 		<CitizenRegistrationContext.Provider value={CitizenProviderData}>
+			{showLowBatteryModal && <LowBatteryModal isVisible={showLowBatteryModal} onConfirm={() => setShowLowBatteryModal(false)} />}
 			{children}
 		</CitizenRegistrationContext.Provider>
 	)

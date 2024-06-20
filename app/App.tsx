@@ -1,13 +1,14 @@
 /* eslint-disable no-undef */
-import 'react-native-gesture-handler'
 import { useFonts, Arvo_400Regular, Arvo_700Bold } from '@expo-google-fonts/arvo'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
 import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -76,16 +77,20 @@ function App() {
 	return (
 		<NavigationContainer linking={linking}>
 			<ThemeProvider theme={theme}>
-				<AlertProvider>
-					<LoaderProvider>
-						<PersistQueryClientProvider
-							client={queryClient}
-							persistOptions={{ persister: asyncStoragePersister }}
-						>
-							<AuthRegisterStack />
-						</PersistQueryClientProvider>
-					</LoaderProvider>
-				</AlertProvider>
+				<GestureHandlerRootView style={{ flex: 1 }}> 
+					<BottomSheetModalProvider>
+						<AlertProvider>
+							<LoaderProvider>
+								<PersistQueryClientProvider
+									client={queryClient}
+									persistOptions={{ persister: asyncStoragePersister }}
+								>
+									<AuthRegisterStack />
+								</PersistQueryClientProvider>
+							</LoaderProvider>
+						</AlertProvider>
+					</BottomSheetModalProvider>
+				</GestureHandlerRootView>
 			</ThemeProvider>
 		</NavigationContainer >
 	)

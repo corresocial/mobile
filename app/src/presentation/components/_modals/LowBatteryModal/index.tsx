@@ -9,21 +9,24 @@ import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 
-interface LowBatteryModalProps{
+interface LowBatteryModalProps {
 	isVisible?: boolean
 	onConfirm: () => void
 }
 
 function LowBatteryModal({ isVisible = false, onConfirm }: LowBatteryModalProps) {
 	return (
-		<Modal visible={isVisible}>
+		<Modal
+			visible={isVisible}
+			animationType={'fade'}
+			transparent
+		>
 			<StatusBar barStyle={'dark-content'} backgroundColor={theme.transparence.red} />
-
 			<ModalContainer>
 				<Container >
 					<ContainerInner >
 						<CardTitleContainer>
-							<LowBatteryIcon/>
+							<LowBatteryIcon />
 							<CardTitleText>
 								{'Bateria baixa!'}
 							</CardTitleText>
@@ -33,14 +36,14 @@ function LowBatteryModal({ isVisible = false, onConfirm }: LowBatteryModalProps)
 							{'Sua bateria está quase acabando!'}
 						</CardDescriptionText>
 
-						<OptionButton 
+						<OptionButton
 							labelSize={RFValue(16)}
-							leftSideColor={theme.green3} 
-							leftSideWidth={RFValue(70)} 
-							SvgIcon={CheckIcon} 
+							leftSideColor={theme.green3}
+							leftSideWidth={RFValue(70)}
+							SvgIcon={CheckIcon}
 							svgIconScale={['40', '40']}
-							onPress={onConfirm} 
-							label={'ok!'}	
+							onPress={onConfirm}
+							label={'ok!'}
 						/>
 					</ContainerInner>
 				</Container>
