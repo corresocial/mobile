@@ -17,7 +17,7 @@ export class DeleteOfflineCitizenRegister implements UseCase<Input, Output> {
 		this.localRepository = new CitizenRegisterLocalRepository()
 	}
 
-	async exec(citizenRegisterId: string): Output { // CURRENT Teste
+	async exec(citizenRegisterId: string): Output { // TEST
 		return this.localRepository.removeCitizenRegister(citizenRegisterId)
 	}
 }

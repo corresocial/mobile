@@ -17,7 +17,7 @@ export class GetOfflineCitizenRegisters implements UseCase<Input, Output> {
 		this.localRepository = new CitizenRegisterLocalRepository()
 	}
 
-	async exec(): Output { // CURRENT Teste
+	async exec(): Output { // TEST
 		return this.localRepository.getOfflineCitizenRegisters()
 	}
 }

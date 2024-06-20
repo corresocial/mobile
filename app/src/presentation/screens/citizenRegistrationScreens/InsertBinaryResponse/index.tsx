@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
@@ -32,7 +32,7 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 		navigateToNextReponseScreen(nextQuestion)
 	}
 
-	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
+	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
 		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {

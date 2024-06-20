@@ -11,7 +11,6 @@ export const InstructionContainer = styled.View`
 	align-items: center;
 `
 
-// CURRENT
 export const FormContent = styled.View`
 	gap: ${relativeScreenDensity(40)}px;
 	width: 100%;

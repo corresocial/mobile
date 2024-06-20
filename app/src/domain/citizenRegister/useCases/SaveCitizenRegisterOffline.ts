@@ -24,7 +24,7 @@ export class SaveCitizenRegisterOffline implements UseCase<Input, Output> {
 		this.currentUser = currentUser // new User(currentUser)
 	}
 
-	async exec(citizenRegisterData: Input): Output { // CURRENT Teste
+	async exec(citizenRegisterData: Input): Output { // TEST
 		const newCitizenRegister = {
 			...citizenRegisterData,
 			citizenRegisterId: citizenRegisterData.citizenRegisterId || uuid(),

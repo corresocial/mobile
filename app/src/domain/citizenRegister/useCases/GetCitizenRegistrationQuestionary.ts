@@ -6,7 +6,7 @@ type Input = void
 type Output = CitizenRegisterQuestionResponse[]
 
 export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output> {
-	exec(): Output { // CURRENT Teste
+	exec(): Output { // TEST
 		const citizenRegistrationQuestionary: CitizenRegisterQuestionResponse[] = [
 			{
 				questionId: '1',

@@ -22,7 +22,7 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 		this.currentUser = currentUser // new User(currentUser)
 	}
 
-	async exec(citizenRegisterData: Input): Output { // CURRENT Teste
+	async exec(citizenRegisterData: Input): Output { // TEST
 		const newCitizenRegister = {
 			...citizenRegisterData,
 			name: citizenRegisterData.name || 'cidadão',

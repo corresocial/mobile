@@ -40,38 +40,17 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		const handleKeyboardDidShow = () => setKeyboardOpened(true)
 		const handleKeyboardDidHide = () => setKeyboardOpened(false)
 
-		const unsubscribeFocus = navigation.addListener('focus', () => {
+		const unsubscribe = navigation.addListener('focus', () => {
 			removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow)
 			Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide)
 		})
 
 		return () => {
-			unsubscribeFocus()
-			// Keyboard.removeSubscription('keyboardDidShow', handleKeyboardDidShow);
-			// Keyboard.removeSubscription('keyboardDidHide', handleKeyboardDidHide);
+			unsubscribe()
+			removeAllKeyboardEventListeners()
 		}
 	}, [navigation])
-
-	// const questionData = { // CURRENT Remove testOnly
-	// 	questionId: '6',
-	// 	question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
-	// 	questionType: 'select',
-	// 	multiSelect: true,
-	// 	options: [
-	// 		'Falta de recursos financeiros',
-	// 		'Falta de acesso a serviços de saúde',
-	// 		'Falta de acesso a serviços ',
-	// 		'Falta de acesso ',
-	// 		'Falta ',
-	// 		'Falta asdsad',
-	// 		'Falta de acesso à educação de qualidade',
-	// 		'Falta de atividades de lazer adequadas',
-	// 		'Outros (especifique)'
-	// 	],
-	// 	allowOtherOptions: true,
-	// 	response: []
-	// }
 
 	const navigateBackwards = () => navigation.goBack()
 

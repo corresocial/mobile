@@ -21,7 +21,7 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 		this.remoteRepository = new CitizenRegisterRemoteRepository()
 	}
 
-	async exec(): Output { // CURRENT Teste
+	async exec(): Output { // TEST
 		const offlineRegisters = await this.localRepository.getOfflineCitizenRegisters()
 
 		Promise.all(

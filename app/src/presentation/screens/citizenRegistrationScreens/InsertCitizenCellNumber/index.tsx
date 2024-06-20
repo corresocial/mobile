@@ -21,6 +21,7 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { Loader } from '@components/Loader'
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
@@ -29,6 +30,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
+	const [loaderIsVisible, setLoaderIsVisible] = useState(false)
 
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
 	const [invalidCellNumberAfterSubmit, setInvalidCellNumberAfterSubmit] = useState<boolean>(false)
@@ -53,23 +55,32 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 	const someInvalidFieldSubimitted = () => invalidDDDAfterSubmit || invalidCellNumberAfterSubmit
 
 	const saveCellNumber = async () => {
-		setInvalidDDDAfterSubmit(false)
-		setInvalidCellNumberAfterSubmit(false)
+		try {
+			setInvalidDDDAfterSubmit(false)
+			setInvalidCellNumberAfterSubmit(false)
 
-		const DDDIsValid = DDD ? validateDDD(DDD) : true
-		const cellNumberIsValid = cellNumber ? validateCellNumber(cellNumber) : true
+			const DDDIsValid = validateDDD(DDD)
+			const cellNumberIsValid = validateCellNumber(cellNumber)
 
-		if (!DDDIsValid) return setInvalidDDDAfterSubmit(true)
-		if (!cellNumberIsValid) return setInvalidCellNumberAfterSubmit(true)
+			if (!DDDIsValid) return setInvalidDDDAfterSubmit(true)
+			if (!cellNumberIsValid) return setInvalidCellNumberAfterSubmit(true)
 
-		if (DDDIsValid && cellNumberIsValid) {
-			const fullCellNumber = `+55${DDD}${cellNumber}` // CURRENT LOADDDER
-			const citizenHasAccountOnApp = await citizenUseCases.citizenHasAccountOnApp(useCloudFunctionService, fullCellNumber)
-			saveCitizenRegistrationIdentifier({
-				cellNumber: fullCellNumber,
-				citizenHasAccount: citizenHasAccountOnApp
-			})
-			navigation.navigate('InsertCitizenName')
+			if (DDDIsValid && cellNumberIsValid) {
+				setLoaderIsVisible(true)
+
+				const fullCellNumber = `+55${DDD}${cellNumber}`
+				const citizenHasAccountOnApp = await citizenUseCases.citizenHasAccountOnApp(useCloudFunctionService, fullCellNumber)
+				saveCitizenRegistrationIdentifier({
+					cellNumber: fullCellNumber,
+					citizenHasAccount: citizenHasAccountOnApp
+				})
+
+				setLoaderIsVisible(false)
+				navigation.navigate('InsertCitizenName')
+			}
+		} catch (error) {
+			console.log(error)
+			setLoaderIsVisible(false)
 		}
 	}
 
@@ -130,28 +141,30 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 					/>
 				</InputsContainer>
 				{
-					(DDD || cellNumber)
-						? (
-							<PrimaryButton
-								color={theme.green3}
-								SecondSvgIcon={CheckWhiteIcon}
-								labelColor={theme.white3}
-								label={'continuar'}
-								highlightedWords={['continuar']}
-								startsHidden
-								onPress={saveCellNumber}
-							/>
-						)
-						: (
-							<PrimaryButton
-								color={theme.yellow3}
-								SecondSvgIcon={DeniedWhiteIcon}
-								labelColor={theme.black4}
-								label={'não informar'}
-								highlightedWords={['não']}
-								onPress={skipScreen}
-							/>
-						)
+					loaderIsVisible
+						? <Loader />
+						: (DDD || cellNumber)
+							? (
+								<PrimaryButton
+									color={theme.green3}
+									SecondSvgIcon={CheckWhiteIcon}
+									labelColor={theme.white3}
+									label={'continuar'}
+									highlightedWords={['continuar']}
+									startsHidden
+									onPress={saveCellNumber}
+								/>
+							)
+							: (
+								<PrimaryButton
+									color={theme.yellow3}
+									SecondSvgIcon={DeniedWhiteIcon}
+									labelColor={theme.black4}
+									label={'não informar'}
+									highlightedWords={['não']}
+									onPress={skipScreen}
+								/>
+							)
 				}
 			</FormContainer>
 		</Container>

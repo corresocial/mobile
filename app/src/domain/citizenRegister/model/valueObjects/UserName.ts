@@ -1,7 +1,7 @@
 import { citizenRegisterErrors } from '@domain/shared/constants/citizenRegister/user/citizenRegisterErrors'
 import { Validator } from '@domain/shared/utils/Validator'
 
-export class UserName { // Refactor Migrar para Shared
+export class UserName { // REFACTOR Migrar para Shared
 	readonly value: string
 	readonly requireFormalName: boolean
 

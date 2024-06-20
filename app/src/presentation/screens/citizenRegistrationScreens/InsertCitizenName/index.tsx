@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterModel } from '@domain/citizenRegister/adapter/CitizenRegisterModel'
-import { CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
@@ -55,7 +55,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 		navigateToNextReponseScreen(firstQuestion)
 	}
 
-	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestion | null) => {
+	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
 		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {

@@ -47,7 +47,8 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	const getResponseProgress = (currentQuestionId: string | number) => {
 		const numberOfResponses = citizenRegistrationResponseData.length
 		const currentQuestionIndex = citizenRegistrationResponseData.findIndex(({ questionId }) => questionId === currentQuestionId)
-		return [numberOfResponses - (numberOfResponses - currentQuestionIndex), numberOfResponses]
+		console.log([(numberOfResponses + 1) - (numberOfResponses - currentQuestionIndex), numberOfResponses])
+		return [(numberOfResponses + 1) - (numberOfResponses - currentQuestionIndex), numberOfResponses]
 	}
 
 	const saveResponseData = (question: CitizenRegisterQuestionResponse, response: CitizenRegisterQuestionResponse['response'], specificResponse?: string) => {

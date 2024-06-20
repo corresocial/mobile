@@ -14,7 +14,7 @@ export class CitizenHasAccountOnApp implements UseCase<Input, Output> {
 		this.cloudFunctionService = useCloudFunctionService()
 	}
 
-	async exec(cellNumber: string): Output { // CURRENT Teste
+	async exec(cellNumber: string): Output { // TEST
 		return this.cloudFunctionService.checkUserPhoneAlreadyRegistredCloud(cellNumber)
 	}
 }

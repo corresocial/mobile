@@ -2,7 +2,6 @@
 
 export type CitizenRegisterEntityOptional = Partial<CitizenRegisterEntity>
 export type CitizenRegisterEntity = {
-	// id: string
 	citizenRegisterId: string
 	citizenHasAccount?: boolean
 	name: string
@@ -43,15 +42,4 @@ export type CitizenRegisterLocation = {
 export type Coordinates = {
 	latitude: number
 	longitude: number
-}
-
-// Questions
-
-export type CitizenRegisterQuestionOptional = Partial<CitizenRegisterQuestion>
-export type CitizenRegisterQuestion = { // CURRENT Verificar se ainda está sendo utilzado
-	questionId: string
-	question: string
-	questionType: CitizenRegisterQuestionType
-	options?: string[]
-	multiSelect?: boolean
 }
