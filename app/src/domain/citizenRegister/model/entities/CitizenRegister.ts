@@ -5,14 +5,8 @@ import { CitizenRegisterLocation, CitizenRegisterQuestionResponse, CitizenRegist
 
 import { UserName } from '../valueObjects/UserName'
 
-/* interface CitizenRegisterProps extends CitizenRegisterEntity {
-	citizenRegisterId: string
-	props?: CitizenRegisterEntity
-} */
-
-export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegisterProps */> { // CURRENT Resolver id causa isso
+export class CitizenRegister extends Entity<CitizenRegister, CitizenRegisterEntity> {
 	readonly citizenRegisterId: Id | null
-	readonly userId: Id
 	readonly name: UserName
 	readonly cellNumber: string // MODEL
 	readonly censusTakerId: Id
@@ -22,17 +16,16 @@ export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegist
 	readonly responses: CitizenRegisterQuestionResponse[] // MODEL
 
 	constructor(props: CitizenRegisterEntity, newRegister?: boolean) {
-		super(props)
+		super(props, props.citizenRegisterId)
 
 		this.citizenRegisterId = newRegister ? null : new Id(this.props.citizenRegisterId)
 		this.name = new UserName(this.props.name)
-		this.userId = new Id(this.props.userId || '')
-		this.cellNumber = this.props.cellNumber
+		this.cellNumber = this.props.cellNumber // MODEL
 		this.censusTakerId = new Id(this.props.censusTakerId)
 		this.censusTakerName = new UserName(this.props.censusTakerName)
-		this.createdAt = newRegister ? new Date() : this.props.createdAt
-		this.location = this.props.location
-		this.responses = this.props.responses || []
+		this.createdAt = newRegister ? new Date() : this.props.createdAt // MODEL
+		this.location = this.props.location // MODEL
+		this.responses = this.props.responses || [] // MODEL
 	}
 
 	get data(): CitizenRegisterEntity {

@@ -1,26 +1,28 @@
-
+// CURRENT - model
 Value objects
 - QuestionType
 - QuestionOptions
 
 Entities
-CitizenRegister x
+CitizenRegister
 - QuestionResponse
 
-Use cases
-- GetCitizenRegistrationQuestionary
-GetOfflineCitizenRegisters x
-SaveCitizenRegisterOffline x
-- CitizenHasAccountOnApp
-SaveCitizenRegister x
-- SendOfflineRegisters
-- DeleteOfflineCitizenRegister
+// DONE v ///
+
+ - Casos de uso
+GetCitizenRegistrationQuestionary
+GetOfflineCitizenRegisters
+SaveCitizenRegisterOffline
+CitizenHasAccountOnApp
+SaveCitizenRegister
+SendOfflineRegisters
+DeleteOfflineCitizenRegister
 
 
-Data - CitizenRegisterRemoteRepository
-Save x
+ - Repositório - CitizenRegisterRemoteRepository
+Save
 
-Data - CitizenRegisterLocalRepository
-Save x
-Delete x
+ - Repositório - CitizenRegisterLocalRepository
+Save
+Delete
 

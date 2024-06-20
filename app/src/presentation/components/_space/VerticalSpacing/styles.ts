@@ -15,6 +15,6 @@ export const Container = styled.View<ContainerProps>`
 			? relativeScreenDensity(100)
 			: height
 				? relativeDensity ? relativeScreenDensity(height) : relativeScreenHeight(height)
-				: relativeScreenDensity(10)
+				: relativeScreenDensity(8)
 	)}px;
 `

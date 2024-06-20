@@ -5,9 +5,6 @@ import { useTheme } from 'styled-components'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
-
 import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { CitizenOfflineRegistrationListProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
@@ -15,13 +12,15 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { Body, Header, QuestionaryList, SaveButtonContainer } from './styles'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { CitizenQuestionaryCard } from '@components/_cards/CitizenQuestionaryCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
+const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrationListProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
@@ -39,30 +38,34 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 
 	const loadOfflineRegisters = async () => {
 		try {
-			setLoaderIsVisible(true)
-			const registers = await CitizenRegisterUseCases.getOfflineCitizenRegisters(CitizenRegisterLocalRepository)
-			setLoaderIsVisible(false)
+			const registers = await citizenUseCases.getOfflineCitizenRegisters()
 			setOfflineRegisters(registers.reverse())
 		} catch (error) {
-			setLoaderIsVisible(false)
 			console.log(error)
 		}
 	}
 
 	const saveOfflineRegistersOnRemoteStorage = async () => {
 		try {
-			await CitizenRegisterUseCases.sendOfflineRegisters(CitizenRegisterLocalRepository, CitizenRegisterRemoteRepository)
+			setLoaderIsVisible(true)
+			await citizenUseCases.sendOfflineRegisters()
 			await loadOfflineRegisters()
+			setLoaderIsVisible(false)
 		} catch (error) {
 			console.log(error)
+			setLoaderIsVisible(false)
 		}
+	}
+
+	const viewCitizenRegister = async (citizenRegister: CitizenRegisterEntity) => {
+		navigation.navigate('CitizenQuestionsList', { registerData: citizenRegister })
 	}
 
 	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterEntity>) => {
 		return (
 			<CitizenQuestionaryCard
 				questionaryData={item}
-				onPress={() => console.log(item.citizenRegisterId)}
+				onPress={() => viewCitizenRegister(item)}
 			/>
 		)
 	}
@@ -81,8 +84,8 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 						label={'enviar'}
 						color={theme.green3}
 						SecondSvgIcon={AngleRightWhiteIcon}
-						minHeight={relativeScreenHeight(5)}
-						relativeHeight={relativeScreenHeight(6)}
+						minHeight={45}
+						relativeHeight={relativeScreenDensity(45)}
 						labelColor={theme.white3}
 						onPress={saveOfflineRegistersOnRemoteStorage}
 					/>

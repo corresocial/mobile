@@ -9,16 +9,26 @@ import { JSONMethods } from '@data/shared/utils/JSONMethods'
 export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepositoryInterface {
 	async updateOfflineCitizenRegisters(citizenRegisters: CitizenRegisterEntity[], overwrite?: boolean): Promise<string | void> {
 		try {
-			if (!citizenRegisters) throw new Error('Não foram fornecidos dados de cadastro para atualizar')
+			if (!citizenRegisters) {
+				throw new Error('Não foram fornecidos dados de cadastro para atualizar')
+			}
 
 			if (overwrite) {
-				const JsonData = JSONMethods.convertToJson([...citizenRegisters])
+				const JsonData = JSONMethods.convertToJson([...(citizenRegisters || [])])
 				await AsyncStorage.setItem(LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY, JsonData)
 				return ''
 			}
 
-			const storagedData = await this.getOfflineCitizenRegisters()
-			const allRegisters = [...storagedData, ...citizenRegisters]
+			const storagedData = await this.getOfflineCitizenRegisters() || []
+			const newRegisters = [...storagedData, ...(citizenRegisters || [])]
+
+			const map = new Map<string, CitizenRegisterEntity>()
+			newRegisters.forEach((register: CitizenRegisterEntity) => {
+				const key = `${register.name}-${register.cellNumber}`
+				map.set(key, register)
+			})
+
+			const allRegisters = Array.from(map.values())
 			const allRegistersJson = JSONMethods.convertToJson(allRegisters)
 
 			await AsyncStorage.setItem(LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY, allRegistersJson)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
@@ -52,7 +52,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 		navigateToNextReponseScreen(nextResponse)
 	}
 
-	const navigateToNextReponseScreen = (nextResponse: CitizenRegisterQuestion | null) => {
+	const navigateToNextReponseScreen = (nextResponse: CitizenRegisterQuestionResponse | null) => {
 		if (nextResponse === null) return navigation.navigate('FinishCitizenRegistration')
 
 		switch (nextResponse?.questionType) {

@@ -4,13 +4,12 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const HeaderContainer = styled.View`
 	gap: ${relativeScreenDensity(15)}px;
-	flex: 0.31;
     background-color: ${({ theme }) => theme.orange2};
 	padding: ${relativeScreenDensity(15)}px;
+	padding-bottom: ${relativeScreenDensity(25)}px;
 `
 
 export const HeaderActionsContainer = styled.View`
-	flex: 1;
 	gap: ${relativeScreenDensity(15)}px;
 `
 

@@ -213,7 +213,6 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 								validateText={(text: string) => false}
 								onChangeText={(text: string) => setQuestionText(text)}
 							/>
-
 						)
 					}
 				</ScrollView>

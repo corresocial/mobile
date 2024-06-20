@@ -5,8 +5,6 @@ import { useTheme } from 'styled-components'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
-
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
@@ -31,15 +29,22 @@ import { Loader } from '@components/Loader'
 const { getCurrentLocation } = useLocationService()
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 
+const citizenUseCases = new CitizenRegisterUseCases()
+
 function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScreenProps) {
 	const { userDataContext } = useAuthContext()
-	const { citizenRegistrationResponseData } = useCitizenRegistrationContext()
+	const { citizenRegistrationIdentifier, citizenRegistrationResponseData } = useCitizenRegistrationContext()
 
 	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
 	const [locationPermissionModalModalIsVisible, setLocationPermissionModalIsVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
 	const theme = useTheme()
+
+	console.log({
+		...citizenRegistrationIdentifier,
+		responses: citizenRegistrationResponseData
+	})
 
 	const checkLocationPermissions = async () => {
 		const { granted } = await Location.getForegroundPermissionsAsync()
@@ -63,47 +68,33 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				if (!hasPermission) return
 			}
 
-			const currentCoordinates = await getCurrentLocation()
+			const currentCoordinates = await getCurrentLocation() // MODEL
 			const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
 			const completeAddress = structureAddress(currentLocation)
 			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-			await CitizenRegisterUseCases.saveCitizenRegisterOffline(
-				CitizenRegisterLocalRepository,
-				userDataContext,
-				{
-					userId: userDataContext.userId,
-					location: {
-						...currentLocation,
-						...geohashObject,
-						coordinates: {
-							latitude: currentCoordinates.coords.latitude,
-							longitude: currentCoordinates.coords.longitude
-						}
-					} as CitizenRegisterEntity['location'],
-					responses: citizenRegistrationResponseData
-				}
-			)
+			const citizenRegisterData = {
+				...citizenRegistrationIdentifier,
+				responses: citizenRegistrationResponseData,
+				location: {
+					...currentLocation,
+					...geohashObject,
+					coordinates: {
+						latitude: currentCoordinates.coords.latitude,
+						longitude: currentCoordinates.coords.longitude
+					}
+				} as CitizenRegisterEntity['location']
+			}
 
-			// await CitizenRegisterUseCases.createCitizenRegister(
-			// 	CitizenRegisterRemoteRepository,
-			// 	userDataContext,
-			// 	{
-			// 		userId: userDataContext.userId,
-			// 		location: {
-			// 			...currentLocation,
-			// 			...geohashObject,
-			// 			coordinates: {
-			// 				latitude: currentCoordinates.coords.latitude,
-			// 				longitude: currentCoordinates.coords.longitude
-			// 			}
-			// 		} as CitizenRegisterEntity['location'],
-			// 		responses: citizenRegistrationResponseData
-			// 	}
-			// )
+			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)
 
-			// CURRENT
-			// Remover cadastro offline após salvar remotamente
+			// CURRENT Mostrar modal de timeout / offline
+			const timeoutId = setTimeout(() => { setIsLoading(false) }, 20000) // Se durar mais que 20 segundos
+			await citizenUseCases.createCitizenRegister(userDataContext, citizenRegisterData)
+			clearTimeout(timeoutId)
+
+			await citizenUseCases.deleteOfflineCitizenRegister(offlineRegisterId || '')
+
 			setIsLoading(false)
 			navigation.navigate('CitizenRegistrationHome')
 		} catch (error) {
@@ -135,7 +126,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			<CitizenRegistrationHeader
 				message={'cadastro cidadão finalidado!'}
 				customHeaderHeight={'60%'}
-				navigateBackwards={() => { }}
+				navigateBackwards={() => navigation.goBack()}
 			/>
 			<FormContainer>
 				<ButtonOptionsContainer>

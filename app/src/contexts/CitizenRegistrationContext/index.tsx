@@ -1,19 +1,26 @@
 import * as Battery from 'expo-battery'
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
-import { CitizenRegisterQuestionary, CitizenRegisterQuestion, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
-import { CitizenRegistrationContextType, CitizenRegistrationProviderProps } from './types'
-
+import { CitizenRegistrationContextType, CitizenRegistrationIdentifier, CitizenRegistrationProviderProps } from './types'
 import { LowBatteryModal } from '@components/_modals/LowBatteryModal'
-
-import { citizenRegisterData } from './citizenRegisterData'
 
 const CitizenRegistrationContext = createContext<CitizenRegistrationContextType>({} as CitizenRegistrationContextType)
 
+const citizenUseCases = new CitizenRegisterUseCases()
+
+const initialCitizenRegisterIdentifier: CitizenRegistrationIdentifier = {
+	cellNumber: '',
+	name: '',
+	citizenHasAccount: false
+}
+
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
-	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionary>({} as any)
+	const [citizenRegistrationQuestionToRespond, setCitizenRegistrationQuestionToRespond] = useState<CitizenRegisterQuestionResponse[]>({} as any)
 	const [citizenRegistrationResponseData, setCitizenRegistrationResponseData] = useState<CitizenRegisterQuestionResponse[]>([])
+	const [citizenRegistrationIdentifier, setCitizenRegistrationIdentifier] = useState<CitizenRegistrationIdentifier>(initialCitizenRegisterIdentifier)
 
 	const [showLowBatteryModal, setShowLowBatteryModal] = useState<boolean>(false)
 	const [showedLowBatteryModal, setShowedLowBatteryModal] = useState<boolean>(false)
@@ -34,40 +41,43 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	}, [])
 
 	const startNewCitizenRegistration = () => {
-		setCitizenRegistrationQuestionToRespond(citizenRegisterData)
+		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
+		setCitizenRegistrationQuestionToRespond(citizenRegistrationQuestionary)
+		setCitizenRegistrationIdentifier(initialCitizenRegisterIdentifier)
 
-		const citizenRegisterResponseMapper = citizenRegisterData.questions.map((question) => {
-			return {
-				...question,
-				response: ''
-			}
+		const citizenRegisterResponseMapper = citizenRegistrationQuestionary.map((question) => { // Mapeia todas as questões no contexto
+			return { ...question, response: '' }
 		}) as CitizenRegisterQuestionResponse[]
 
 		setCitizenRegistrationResponseData(citizenRegisterResponseMapper)
 	}
 
-	const getNextQuestion = (lastQuestion: CitizenRegisterQuestion) => {
+	const saveCitizenRegistrationIdentifier = useCallback((data: CitizenRegistrationIdentifier) => {
+		setCitizenRegistrationIdentifier({ ...citizenRegistrationIdentifier, ...data })
+	}, [citizenRegistrationIdentifier])
+
+	const getNextQuestion = (lastQuestion: CitizenRegisterQuestionResponse) => {
 		const lastQuestionId = lastQuestion ? lastQuestion.questionId : ''
 		const currentQuestionIndex = citizenRegistrationResponseData.findIndex(({ questionId }) => questionId === lastQuestionId)
 		const nextIndex = currentQuestionIndex + 1
 		if (nextIndex >= citizenRegistrationResponseData.length) return null
-		console.log(citizenRegistrationQuestionToRespond.questions[nextIndex])
-		return citizenRegistrationQuestionToRespond.questions[nextIndex]
+		return citizenRegistrationQuestionToRespond[nextIndex]
 	}
 
 	const getResponseProgress = (currentQuestionId: string | number) => {
 		const numberOfResponses = citizenRegistrationResponseData.length
 		const currentQuestionIndex = citizenRegistrationResponseData.findIndex(({ questionId }) => questionId === currentQuestionId)
-		return [numberOfResponses - (numberOfResponses - currentQuestionIndex), numberOfResponses]
+		return [(numberOfResponses + 1) - (numberOfResponses - currentQuestionIndex), numberOfResponses]
 	}
 
-	const saveResponseData = (question: CitizenRegisterQuestion, response: CitizenRegisterQuestionResponse['response']) => {
+	const saveResponseData = (question: CitizenRegisterQuestionResponse, response: CitizenRegisterQuestionResponse['response'], specificResponse?: string) => {
+		const extraInfo = specificResponse ? { specificResponse: specificResponse } : {}
+
 		const registerData: CitizenRegisterQuestionResponse = {
 			...question,
-			response: response
+			...extraInfo,
+			response: response,
 		} as CitizenRegisterQuestionResponse
-
-		console.log(registerData)
 
 		if (citizenRegistrationResponseData.find((citizenRegister) => citizenRegister.questionId === question.questionId)) {
 			return setCitizenRegistrationResponseData(citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister)))
@@ -79,13 +89,15 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	const CitizenProviderData = useMemo(() => ({
 		citizenRegistrationQuestionToRespond,
 		citizenRegistrationResponseData,
+		citizenRegistrationIdentifier,
 		startNewCitizenRegistration,
+		saveCitizenRegistrationIdentifier,
 		getNextQuestion,
 		getResponseProgress,
-		saveResponseData
+		saveResponseData,
 	}
 
-	), [citizenRegistrationResponseData, citizenRegistrationQuestionToRespond])
+	), [citizenRegistrationResponseData, citizenRegistrationQuestionToRespond, citizenRegistrationIdentifier])
 
 	return (
 		<CitizenRegistrationContext.Provider value={CitizenProviderData}>
