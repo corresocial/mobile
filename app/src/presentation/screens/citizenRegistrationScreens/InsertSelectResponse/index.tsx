@@ -9,7 +9,7 @@ import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationCont
 import { InsertSelectResponseScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { ButtonOptionsContainer, Container, OptionContainer, QuestionOptionsList } from './styles'
+import { ButtonOptionsContainer, Container, InputContainer, OptionContainer, QuestionOptionsList } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 
@@ -30,16 +30,24 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
+		const handleKeyboardDidShow = () => setKeyboardOpened(true)
+		const handleKeyboardDidHide = () => setKeyboardOpened(false)
+
+		const unsubscribeFocus = navigation.addListener('focus', () => {
 			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+			Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow)
+			Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide)
 		})
-		return unsubscribe
+
+		return () => {
+			unsubscribeFocus()
+			// Keyboard.removeSubscription('keyboardDidShow', handleKeyboardDidShow);
+			// Keyboard.removeSubscription('keyboardDidHide', handleKeyboardDidHide);
+		}
 	}, [navigation])
 
 	const { questionData } = route.params
-	// const questionData = {
+	// const questionData = { // CURRENT Remove testOnly
 	// 	questionId: '6',
 	// 	question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
 	// 	questionType: 'select',
@@ -47,6 +55,10 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	// 	options: [
 	// 		'Falta de recursos financeiros',
 	// 		'Falta de acesso a serviços de saúde',
+	// 		'Falta de acesso a serviços ',
+	// 		'Falta de acesso ',
+	// 		'Falta ',
+	// 		'Falta asdsad',
 	// 		'Falta de acesso à educação de qualidade',
 	// 		'Falta de atividades de lazer adequadas',
 	// 		'Outros (especifique)'
@@ -144,30 +156,29 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 					data={questionData.options || []}
 					renderItem={renderQuestionsOption as ListRenderItem<unknown>}
 					showsVerticalScrollIndicator={false}
+					removeClippedSubviews={false}
 					ListFooterComponent={(
 						<>
 							{
-								(
-									lastElementHasSelected() ? (
-										<>
-											<DefaultInput
-												value={inputText}
-												defaultBackgroundColor={theme.white2}
-												validBackgroundColor={theme.orange1}
-												lastInput
-												fontSize={16}
-												textIsValid={!!inputText}
-												multiline
-												placeholder={'especifique sua resposta...'}
-												keyboardType={'default'}
-												onTouchEnd={scrollOptionListToEnd}
-												onChangeText={setInputText}
-											/>
-										</>
-									) : <></>
+								lastElementHasSelected() && (
+									<InputContainer>
+										<DefaultInput
+											value={inputText}
+											defaultBackgroundColor={theme.white2}
+											validBackgroundColor={theme.orange1}
+											lastInput
+											fontSize={16}
+											textIsValid={!!inputText}
+											multiline
+											placeholder={'especifique sua resposta...'}
+											keyboardType={'default'}
+											onTouchEnd={scrollOptionListToEnd}
+											onChangeText={setInputText}
+										/>
+									</InputContainer>
 								)
 							}
-							< VerticalSpacing bottomNavigatorSpace />
+							<VerticalSpacing bottomNavigatorSpace />
 						</>
 					)}
 				/>
