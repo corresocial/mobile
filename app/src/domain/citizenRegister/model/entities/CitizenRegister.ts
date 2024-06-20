@@ -35,6 +35,9 @@ export class CitizenRegister extends Entity<CitizenRegister, any/* CitizenRegist
 		this.responses = this.props.responses || []
 	}
 
+	// CURRENT Novos campos
+	// specificResponse, allowOtherOptions
+
 	get data(): CitizenRegisterEntity {
 		return { ...this.props }
 	}

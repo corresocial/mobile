@@ -5,6 +5,7 @@ import { InstructionButtonContainer } from './styles'
 
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { CitizenQuestionHeader } from '@components/CitizenQuestionHeader'
 import { ProgressBar } from '@components/ProgressBar'
 
@@ -28,10 +29,13 @@ export function CitizenRegistrationHeader({ message, customHeaderHeight, highlig
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={customHeaderHeight || '35%'}
+				grow={!customHeaderHeight}
 				centralized
+				withoutIOSPadding
 				backgroundColor={theme.orange2}
 				flexDirection={'column'}
 			>
+				<VerticalSpacing />
 				<InstructionButtonContainer >
 					<InstructionCard
 						fontSize={16}

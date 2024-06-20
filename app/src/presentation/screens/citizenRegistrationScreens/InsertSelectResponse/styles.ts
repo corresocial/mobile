@@ -2,15 +2,28 @@ import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 
-export const OptionsContainer = styled.ScrollView`
+export const Container = styled.KeyboardAvoidingView`
 	flex: 1;
 	width: 100%;
-	padding: ${relativeScreenDensity(20)}px;
+`
+
+export const QuestionOptionsList = styled.FlatList`
+	width: 100%;
+	padding: ${relativeScreenDensity(10)}px;
+`
+
+// Refactor O ideal é utilizar o padding na flatlist, mas os botões com sombra cortavam à esquerda no android
+export const OptionContainer = styled.View`
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const ButtonOptionsContainer = styled.View`
 	width: 100%;
-	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(20)}px;
-	padding-bottom: ${relativeScreenDensity(30)}px;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(30)}px;
 	align-items: center;
+`
+
+export const InputContainer = styled.View`
+	width: 100%;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(20)}px;
 `

@@ -41,6 +41,11 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 
 	const theme = useTheme()
 
+	console.log({
+		...citizenRegistrationIdentifier,
+		responses: citizenRegistrationResponseData
+	})
+
 	const checkLocationPermissions = async () => {
 		const { granted } = await Location.getForegroundPermissionsAsync()
 		setHasLocationPermissions(granted)
@@ -53,8 +58,6 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
 		setHasLocationPermissions(locationPermission.granted)
 	}
-
-	console.log(citizenRegistrationIdentifier)
 
 	const submitResponses = async () => {
 		try {

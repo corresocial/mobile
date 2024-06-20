@@ -119,16 +119,16 @@ function CitizenQuestionsList({ route, navigation }: CitizenQuestionsListScreenP
 						fontSize={14}
 						SecondSvgIcon={EditCitizenIcon}
 						svgIconScale={['50%', '30%']}
-						minHeight={40}
-						relativeHeight={relativeScreenDensity(40)}
+						minHeight={45}
+						relativeHeight={relativeScreenDensity(45)}
 						labelColor={theme.white3}
 						onPress={editMode ? saveCitizenRegister : startCitizenRegistration}
 					/>
 					{
 						editMode && (
 							<SmallButton
-								relativeWidth={relativeScreenDensity(40)}
-								height={relativeScreenDensity(40)}
+								relativeWidth={relativeScreenDensity(45)}
+								height={relativeScreenDensity(45)}
 								SvgIcon={trashIcon}
 								onPress={toggleDefaultConfirmationModalVisibility}
 								color={theme.red3}

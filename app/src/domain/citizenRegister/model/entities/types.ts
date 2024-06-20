@@ -23,7 +23,9 @@ export type CitizenRegisterQuestionResponse = {
 	questionType: CitizenRegisterQuestionType
 	options?: string[]
 	multiSelect?: boolean
+	allowOtherOptions?: boolean
 	response: string | string[] | number | boolean | SatisfactionType
+	specificResponse?: string
 }
 
 export type CitizenRegisterLocation = {
@@ -46,7 +48,7 @@ export type Coordinates = {
 // Questions
 
 export type CitizenRegisterQuestionOptional = Partial<CitizenRegisterQuestion>
-export type CitizenRegisterQuestion = {
+export type CitizenRegisterQuestion = { // CURRENT Verificar se ainda está sendo utilzado
 	questionId: string
 	question: string
 	questionType: CitizenRegisterQuestionType

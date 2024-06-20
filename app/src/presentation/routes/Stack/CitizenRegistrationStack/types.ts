@@ -1,4 +1,4 @@
-import { CitizenRegisterEntity, CitizenRegisterQuestion } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -10,10 +10,10 @@ export type CitizenRegistrationStackParamList = {
 	InsertCitizenCellNumber: undefined
 	InsertCitizenName: undefined
 
-	InsertBinaryResponse: { questionData: CitizenRegisterQuestion }
-	InsertSatisfactionResponse: { questionData: CitizenRegisterQuestion }
-	InsertTextualResponse: { questionData: CitizenRegisterQuestion }
-	InsertSelectResponse: { questionData: CitizenRegisterQuestion }
+	InsertBinaryResponse: { questionData: CitizenRegisterQuestionResponse }
+	InsertSatisfactionResponse: { questionData: CitizenRegisterQuestionResponse }
+	InsertTextualResponse: { questionData: CitizenRegisterQuestionResponse }
+	InsertSelectResponse: { questionData: CitizenRegisterQuestionResponse }
 	FinishCitizenRegistration: undefined
 
 	WhoWeAre: undefined

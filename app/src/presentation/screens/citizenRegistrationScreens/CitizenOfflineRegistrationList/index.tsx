@@ -12,7 +12,7 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { Body, Header, QuestionaryList, SaveButtonContainer } from './styles'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { CitizenQuestionaryCard } from '@components/_cards/CitizenQuestionaryCard'
@@ -84,8 +84,8 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 						label={'enviar'}
 						color={theme.green3}
 						SecondSvgIcon={AngleRightWhiteIcon}
-						minHeight={relativeScreenHeight(5)}
-						relativeHeight={relativeScreenHeight(6)}
+						minHeight={45}
+						relativeHeight={relativeScreenDensity(45)}
 						labelColor={theme.white3}
 						onPress={saveOfflineRegistersOnRemoteStorage}
 					/>
