@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/arvo": "^0.2.2",
+    "@gorhom/bottom-sheet": "^4.6.3",
     "@likashefqet/react-native-image-zoom": "^2.2.0",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/clipboard": "^1.5.1",
@@ -46,6 +47,7 @@
     "expo": "^49.0.23",
     "expo-application": "~5.3.0",
     "expo-auth-session": "~5.0.2",
+    "expo-battery": "~7.3.0",
     "expo-build-properties": "~0.8.3",
     "expo-camera": "~13.4.4",
     "expo-constants": "~14.4.2",
@@ -108,8 +110,7 @@
     "sentry-expo": "~7.1.0",
     "stripe": "^12.9.0",
     "styled-components": "^5.3.5",
-    "uri-scheme": "^1.2.0",
-    "expo-battery": "~7.3.0"
+    "uri-scheme": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
