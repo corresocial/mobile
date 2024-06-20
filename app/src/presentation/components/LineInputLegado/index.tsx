@@ -15,6 +15,8 @@ import { Container, TextInput } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
+// CURRENT Deletar componente
+
 interface LineInputProps extends TextInputProps {
 	value: string
 	relativeWidth: string
