@@ -22,34 +22,37 @@ export interface ObservationsBottomSheetRef {
 	show: () => void
 }
 
-const ObservationsBottomSheet = forwardRef((_, ref) => {
+interface ObservationsBottomSheetProps {
+	observations: CitizenRegisterQuestionObservation[]
+	addNewObservation(message: string): void
+	deleteObservation(observation: CitizenRegisterQuestionObservation): void
+}
+
+const ObservationsBottomSheet = forwardRef(({
+	observations,
+	addNewObservation,
+	deleteObservation
+}: ObservationsBottomSheetProps, ref) => {
 	const theme = useTheme()
 
-	const [observationsList, setObservationsList] = useState<CitizenRegisterQuestionObservation[]>([])
-	const [observationInputText, setObservationInputText] = useState<string>('')
+	const [observationInputText, setObservationInputText] = useState('')
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 	const observationInputRef = useRef<TextInput>(null)
 
 	useImperativeHandle(ref, () => ({
-		show: () => {
-			bottomSheetModalRef.current?.present()
-		}
+		show: () => bottomSheetModalRef.current?.present()
 	}))
 
-	const addNewObservation = () => {
+	const addObservation = () => {
 		if (!observationInputText) return
-		const observations = [
-			...observationsList, // CURRENT Anexar id da questão à observação
-			{ questionId: `${observationInputText.length}`, message: observationInputText } as CitizenRegisterQuestionObservation
-		]
-		setObservationsList(observations)
+		addNewObservation(observationInputText)
 		setObservationInputText('')
 	}
 
-	const deleteObservation = (id: string) => {
-		const filteredObservations = observationsList.filter((observationObj) => observationObj.questionId !== id) // CURRENT diferenciar question id de index no array
-		setObservationsList(filteredObservations)
+	const removeObservation = (observation: CitizenRegisterQuestionObservation) => {
+		if (!observation.questionId) return
+		deleteObservation(observation)
 	}
 
 	const snapBottomSheet = (index: number) => {
@@ -80,9 +83,8 @@ const ObservationsBottomSheet = forwardRef((_, ref) => {
 	const renderObservationCard = ({ item }: FlatListItem<CitizenRegisterQuestionObservation>) => {
 		return (
 			<ObservationCard
-				observationText={item.message}
-				questionId={item.questionId}
-				deleteObservation={deleteObservation}
+				observationData={item}
+				deleteObservation={removeObservation}
 			/>
 		)
 	}
@@ -110,11 +112,11 @@ const ObservationsBottomSheet = forwardRef((_, ref) => {
 							placeholder={'digite sua observação'}
 							keyboardType={'default'}
 							onChangeText={setObservationInputText}
-							onPressKeyboardSubmit={addNewObservation}
+							onPressKeyboardSubmit={addObservation}
 						/>
 					</InputsContainer>
 					<ObservationsFlatList
-						data={observationsList}
+						data={observations}
 						renderItem={renderObservationCard as ListRenderItem<unknown>}
 						ListHeaderComponent={<VerticalSpacing height={2} />}
 						ItemSeparatorComponent={() => <VerticalSpacing />}

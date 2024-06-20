@@ -16,7 +16,7 @@ export const Container = styled.View`
 export const ContentContainer = styled.View`
     flex-direction: column;
 	width: 85%;
-	gap: ${relativeScreenDensity(10)}px;
+	gap: ${relativeScreenDensity(6)}px;
 `
 
 export const ActionsContainer = styled.View`

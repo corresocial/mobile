@@ -25,7 +25,7 @@ export type CitizenRegisterQuestionResponse = {
 	allowOtherOptions?: boolean
 	response: string | string[] | number | boolean | SatisfactionType
 	specificResponse?: string
-	notes?: CitizenRegisterQuestionObservation[]
+	observations?: CitizenRegisterQuestionObservation[]
 }
 
 export type CitizenRegisterQuestionObservation = {

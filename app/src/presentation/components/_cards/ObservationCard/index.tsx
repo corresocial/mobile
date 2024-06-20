@@ -1,18 +1,19 @@
 import React from 'react'
 
+import { CitizenRegisterQuestionObservation } from '@domain/citizenRegister/model/entities/types'
+
 import { ActionsContainer, ContentContainer, Container, TitleContainer, Title, QuestionIndicator, ButtonArea, ObservationText } from './styles'
 import TrashCanIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface ObservationCardProps {
-	questionId: string,
-	observationText: string
-	deleteObservation: (questionId: string) => void
+	observationData: CitizenRegisterQuestionObservation
+	deleteObservation: (observation: CitizenRegisterQuestionObservation) => void
 }
 
-function ObservationCard({ questionId, observationText = 'texto', deleteObservation }: ObservationCardProps) {
+function ObservationCard({ observationData, deleteObservation }: ObservationCardProps) {
 	const deleteRecord = () => {
-		deleteObservation(questionId)
+		deleteObservation(observationData)
 	}
 
 	return (
@@ -20,10 +21,10 @@ function ObservationCard({ questionId, observationText = 'texto', deleteObservat
 			<ContentContainer>
 				<TitleContainer>
 					<Title>{'Observação - '}</Title>
-					<QuestionIndicator>{`questão ${questionId}`}</QuestionIndicator>
+					<QuestionIndicator>{`questão ${observationData.questionId}`}</QuestionIndicator>
 				</TitleContainer>
 				<ObservationText>
-					{observationText}
+					{observationData.message}
 				</ObservationText>
 			</ContentContainer>
 			<ActionsContainer>

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 
+import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
+
 import { InstructionButtonContainer } from './styles'
 
 import { InstructionCard } from '@components/_cards/InstructionCard'
@@ -18,13 +20,15 @@ interface CitizenRegistrationHeaderProps {
 }
 
 export function CitizenRegistrationHeader({ message, customHeaderHeight, highlightedWords, progress, navigateBackwards }: CitizenRegistrationHeaderProps) {
+	const { showQuestionObservations } = useCitizenRegistrationContext()
+
 	const theme = useTheme()
 
 	return (
 		<>
 			<CitizenQuestionHeader
 				onChatOpened={() => console.log('Open chat')}
-				onNotePadOpened={() => console.log('Open notes')}
+				onNotePadOpened={showQuestionObservations}
 				onBackPressed={navigateBackwards}
 			/>
 			<DefaultHeaderContainer
