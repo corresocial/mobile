@@ -1,6 +1,6 @@
 import { Validator } from '../utils/Validator'
 
-describe('Teste de Validator.ts', () => {
+describe('Shared Validator.ts', () => {
 	test('Deve combinar os erros', () => {
 		const errors = Validator.stackErros(
 			Validator.notEmpty('', 'erro1'),

@@ -13,7 +13,7 @@ import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const model = new CitizenRegisterModel()
+const citizenRegisterModel = new CitizenRegisterModel()
 
 function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 	const { citizenRegistrationQuestionToRespond, saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
@@ -33,7 +33,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 
 	const validateName = (text: string) => {
 		try {
-			const validName = new model.UserName(text, true).value
+			const validName = new citizenRegisterModel.UserName(text, true).value
 			return !!(validName && !keyboardOpened)
 		} catch (error) {
 			return false
@@ -42,7 +42,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 
 	const saveName = async (inputText: string) => {
 		try {
-			const validName = new model.UserName(inputText, true).value
+			const validName = new citizenRegisterModel.UserName(inputText, true).value
 			saveCitizenRegistrationIdentifier({ name: validName })
 			startCitizenQuestionary()
 		} catch (error) {

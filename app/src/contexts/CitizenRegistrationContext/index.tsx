@@ -118,6 +118,8 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 
 		const currentQuestion = citizenRegistrationResponseData.find((question) => question.questionId === currentQuestionId)
 
+		console.log(currentQuestion)
+
 		const newRegistrationResponses = citizenRegistrationResponseData.map((questionResponse) => (
 			currentQuestionId === questionResponse.questionId
 				? { ...currentQuestion, observations: [...(questionResponse.observations || []), newObservation] }

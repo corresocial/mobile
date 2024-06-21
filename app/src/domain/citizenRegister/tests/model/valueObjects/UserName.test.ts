@@ -1,7 +1,7 @@
 import { UserName } from '@domain/citizenRegister/model/valueObjects/UserName'
 import { citizenRegisterErrors } from '@domain/shared/constants/citizenRegister/user/citizenRegisterErrors'
 
-describe('Value Object de UserName.ts', () => {
+describe('ValueObject de UserName.ts', () => {
 	// Teste de criação com nome válido sem exigir formalidade
 	test('Deve criar um nome válido sem exigir formalidade', () => {
 		const validName = 'John'

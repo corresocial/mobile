@@ -2,7 +2,7 @@ import { Id } from '@domain/shared/valueObjects/Id'
 
 import { sharedErrors } from '../constants/common/errorMessages'
 
-describe('Value Object Id.ts', () => {
+describe('ValueObject Id.ts', () => {
 	test('Deve criar um objeto Id com um ID válido', () => {
 		const validId = 'abc123'
 		const id = new Id(validId)
