@@ -24,11 +24,12 @@ export function CitizenRegistrationHeader({ message, customHeaderHeight, highlig
 
 	const theme = useTheme()
 
+	// CURRENT Redirecionar para o chat
 	return (
 		<>
 			<CitizenQuestionHeader
-				onChatOpened={() => console.log('Open chat')}
-				onNotePadOpened={showQuestionObservations}
+				openChat={() => console.log('Open chat')}
+				openNotePad={showQuestionObservations}
 				onBackPressed={navigateBackwards}
 			/>
 			<DefaultHeaderContainer

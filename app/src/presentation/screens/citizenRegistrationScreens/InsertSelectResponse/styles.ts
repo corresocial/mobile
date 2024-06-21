@@ -25,5 +25,5 @@ export const ButtonOptionsContainer = styled.View`
 
 export const InputContainer = styled.View`
 	width: 100%;
-	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(20)}px;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(10)}px;
 `

@@ -9,19 +9,19 @@ import { BackButton } from '@components/_buttons/BackButton'
 
 interface CitizenQuestionHeaderProps {
 	onBackPressed: () => void
-	onChatOpened: () => void
-	onNotePadOpened: () => void
+	openChat: () => void
+	openNotePad: () => void
 }
 
-function CitizenQuestionHeader({ onBackPressed, onChatOpened, onNotePadOpened }: CitizenQuestionHeaderProps) {
+function CitizenQuestionHeader({ onBackPressed, openChat, openNotePad }: CitizenQuestionHeaderProps) {
 	return (
 		<HeaderContainer>
 			<BackButton onPress={onBackPressed} />
 			<ButtonsContainer>
-				<ButtonArea activeOpacity={0.5} onPress={onChatOpened}>
+				<ButtonArea activeOpacity={0.5} onPress={openChat}>
 					<ChatIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
-				<ButtonArea activeOpacity={0.5} onPress={onNotePadOpened}>
+				<ButtonArea activeOpacity={0.5} onPress={openNotePad}>
 					<PaperIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</ButtonArea>
 			</ButtonsContainer>
