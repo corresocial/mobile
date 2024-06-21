@@ -1,7 +1,6 @@
 // CURRENT - finalizar model
 Value objects
 - QuestionType
-- QuestionOptions
 
 Entities
 CitizenRegister

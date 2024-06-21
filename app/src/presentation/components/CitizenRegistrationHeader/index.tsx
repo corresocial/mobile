@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { useTheme } from 'styled-components'
 
@@ -22,13 +23,33 @@ interface CitizenRegistrationHeaderProps {
 export function CitizenRegistrationHeader({ message, customHeaderHeight, highlightedWords, progress, navigateBackwards }: CitizenRegistrationHeaderProps) {
 	const { showQuestionObservations } = useCitizenRegistrationContext()
 
+	const navigation = useNavigation()
+
+	// const openChat = async () => {
+	// 	navigation.navigate('ChatMessages' as any, {
+	// 		chat: {
+	// 			chatId: '',
+	// 			user1: {
+	// 				userId: userDataContext.userId || '',
+	// 				name: userDataContext.name || '',
+	// 				profilePictureUrl: getUserProfilePictureFromContext(),
+	// 			},
+	// 			user2: {
+	// 				userId: getUserField('userId') as Id,
+	// 				name: getUserField('name') as string,
+	// 				profilePictureUrl: getProfilePicture() || '',
+	// 			},
+	// 			messages: {},
+	// 		} as Chat
+	// 	})
+	// }
+
 	const theme = useTheme()
 
-	// CURRENT Redirecionar para o chat
 	return (
 		<>
 			<CitizenQuestionHeader
-				openChat={() => console.log('Open chat')}
+				openChat={() => console.log('openChat')}
 				openNotePad={showQuestionObservations}
 				onBackPressed={navigateBackwards}
 			/>

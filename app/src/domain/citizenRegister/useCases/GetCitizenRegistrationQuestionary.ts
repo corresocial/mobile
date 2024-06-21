@@ -515,7 +515,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionType: 'textual',
 				response: ''
 			}
-		]/* .slice(1, 4) as CitizenRegisterQuestionResponse[] */
+		].slice(1, 2) as CitizenRegisterQuestionResponse[]
 		return citizenRegistrationQuestionary
 	}
 }

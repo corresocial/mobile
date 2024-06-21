@@ -13,6 +13,7 @@ import { FinishCitizenRegistrationScreenProps } from '@routes/Stack/CitizenRegis
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
 import { structureAddress } from '@utils-ui/location/addressFormatter'
+import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { ButtonOptionsContainer } from './styles'
 import MapPointerWhiteIcon from '@assets/icons/mapPoint-white.svg'
@@ -23,6 +24,7 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { CustomModal } from '@components/_modals/CustomModal'
+import { WithoutNetworkConnectionAlert } from '@components/_modals/WithoutNetworkConnectionAlert'
 import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 import { Loader } from '@components/Loader'
 
@@ -37,6 +39,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 
 	const [hasLocationPermissions, setHasLocationPermissions] = useState(false)
 	const [locationPermissionModalModalIsVisible, setLocationPermissionModalIsVisible] = useState(false)
+	const [timeoutModalIsVisible, setTimeoutModalIsVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
 	const theme = useTheme()
@@ -59,6 +62,11 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 		setHasLocationPermissions(locationPermission.granted)
 	}
 
+	const checkNetworkStatus = async () => {
+		const networkStatus = await getNetworkStatus()
+		return !!networkStatus.isConnected && !!networkStatus.isInternetReachable
+	}
+
 	const submitResponses = async () => {
 		try {
 			setIsLoading(true)
@@ -67,6 +75,8 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				console.log(`has location permission: ${hasPermission}`)
 				if (!hasPermission) return
 			}
+
+			const hasValidNetworkConnection = await checkNetworkStatus()
 
 			const currentCoordinates = await getCurrentLocation() // MODEL
 			const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
@@ -88,8 +98,17 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 
 			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)
 
-			// CURRENT Mostrar modal de timeout / offline
-			const timeoutId = setTimeout(() => { setIsLoading(false) }, 20000) // Se durar mais que 20 segundos
+			if (!hasValidNetworkConnection) {
+				setIsLoading(false)
+				setTimeoutModalIsVisible(true)
+				return
+			}
+
+			const timeoutId = setTimeout(() => {
+				setIsLoading(false)
+				setTimeoutModalIsVisible(true)
+			}, 20000) // Se durar mais que 20 segundos
+
 			await citizenUseCases.createCitizenRegister(userDataContext, citizenRegisterData)
 			clearTimeout(timeoutId)
 
@@ -122,6 +141,13 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 					}
 				}}
 				closeModal={() => setLocationPermissionModalIsVisible(false)}
+			/>
+			<WithoutNetworkConnectionAlert
+				visibility={timeoutModalIsVisible}
+				title={'não foi possível enviar as respostas'}
+				message={'houve um erro de conexão e as respostas foram armazenadas no dispositivo, você pode tentar novamente agora ou posteriormente quando houver uma conexão mais estável'}
+				highlightedWords={['armazenadas', 'no', 'dispositivo,']}
+				onPressButton={() => setTimeoutModalIsVisible(false)}
 			/>
 			<CitizenRegistrationHeader
 				message={'cadastro cidadão finalidado!'}
