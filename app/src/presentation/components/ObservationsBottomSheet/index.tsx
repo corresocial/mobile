@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { ListRenderItem, TextInput } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet'
+import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet'
 
 import { CitizenRegisterQuestionObservation } from '@domain/citizenRegister/model/entities/types'
 
@@ -63,6 +63,26 @@ const ObservationsBottomSheet = forwardRef(({
 		bottomSheetModalRef.current?.close()
 	}
 
+	const getBackgropBottomSheet = (props: BottomSheetBackdropProps) => {
+		return (
+			<BottomSheetBackdrop
+				{...props}
+				disappearsOnIndex={-1}
+				appearsOnIndex={0}
+				opacity={0.7} // Define a opacidade do backdrop
+				style={{
+					flex: 1,
+					backgroundColor: 'rgba(0, 0, 0, 0.7)', // Cor e opacidade do backdrop
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				}}
+			/>
+		)
+	}
+
 	const renderCustomHeader = () => {
 		return (
 			<BottomSheetHeaderContainer>
@@ -96,6 +116,7 @@ const ObservationsBottomSheet = forwardRef(({
 			snapPoints={[relativeScreenHeight(50), relativeScreenHeight(80)]}
 			handleComponent={renderCustomHeader}
 			backgroundStyle={bottomSheetBackgroundStyle}
+			backdropComponent={getBackgropBottomSheet}
 		>
 			<BottomSheetView>
 				<BottomSheetViewContainer>

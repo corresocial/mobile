@@ -148,8 +148,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		getNextQuestion,
 		getResponseProgress,
 		saveResponseData,
-		showQuestionObservations,
-		addNewObservation
+		showQuestionObservations
 	}
 
 	), [citizenRegistrationResponseData, citizenRegistrationQuestionToRespond, citizenRegistrationIdentifier])

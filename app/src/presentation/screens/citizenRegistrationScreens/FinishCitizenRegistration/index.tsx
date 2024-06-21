@@ -41,10 +41,10 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 
 	const theme = useTheme()
 
-	console.log({
-		...citizenRegistrationIdentifier,
-		responses: citizenRegistrationResponseData
-	})
+	// console.log({
+	// 	...citizenRegistrationIdentifier,
+	// 	responses: citizenRegistrationResponseData
+	// })
 
 	const checkLocationPermissions = async () => {
 		const { granted } = await Location.getForegroundPermissionsAsync()
