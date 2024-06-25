@@ -42,6 +42,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionId: '5',
 				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos?',
 				questionType: 'binary',
+				optional: true,
 				response: ''
 			},
 			{
@@ -49,6 +50,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
+				optional: true,
 				options: [
 					'Falta de recursos financeiros',
 					'Falta de acesso a serviços de saúde',
@@ -106,6 +108,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionId: '11',
 				question: 'Se sim, qual?',
 				questionType: 'textual',
+				optional: true,
 				response: ''
 			},
 			{
@@ -126,6 +129,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionId: '13',
 				question: 'Se está trabalhando atualmente, com que você trabalha?',
 				questionType: 'textual',
+				optional: true,
 				response: ''
 			},
 			{
@@ -246,6 +250,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionId: '22',
 				question: 'Se sim, Qual/Quais?',
 				questionType: 'textual',
+				optional: true,
 				response: ''
 			},
 			{
@@ -290,6 +295,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Outros (especifique)'
 				],
 				allowOtherOptions: true,
+				optional: true,
 				response: []
 			},
 			{
@@ -345,6 +351,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionId: '33',
 				question: 'Você ou alguém da sua família já participou de programas de capacitação profissional ou de acesso ao mercado de trabalho nos últimos 2 anos?',
 				questionType: 'binary',
+				optional: true,
 				response: ''
 			},
 			{
@@ -422,6 +429,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionType: 'select',
 				multiSelect: false,
 				options: ['Manhã', 'Tarde', 'Noite', 'Finais de semana'],
+				optional: true,
 				response: []
 			},
 			{
@@ -515,7 +523,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				questionType: 'textual',
 				response: ''
 			}
-		].slice(1, 2) as CitizenRegisterQuestionResponse[]
+		]/* .slice(10, 12) as CitizenRegisterQuestionResponse[] */
 		return citizenRegistrationQuestionary
 	}
 }

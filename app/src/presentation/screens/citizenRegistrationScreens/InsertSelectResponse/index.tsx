@@ -11,6 +11,7 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { ButtonOptionsContainer, Container, InputContainer, OptionContainer, QuestionOptionsList } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -75,6 +76,13 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		} else {
 			saveResponseData(questionData, selectedOptions)
 		}
+
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
+	const skipQuestion = () => {
+		saveResponseData(questionData, ['não se aplica']) // MODEL use Case
 
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
@@ -159,17 +167,33 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 						</>
 					)}
 				/>
-				{!keyboardOpened && selectedOptions.length && (!lastElementHasSelected() || inputText) ? (
-					<ButtonOptionsContainer>
-						<PrimaryButton
-							color={theme.green3}
-							label={'continuar'}
-							labelColor={theme.white3}
-							SvgIcon={CheckWhiteIcon}
-							onPress={saveQuestionResponse}
-						/>
-					</ButtonOptionsContainer>
-				) : null}
+				{
+					!keyboardOpened && selectedOptions.length && (!lastElementHasSelected() || inputText)
+						? (
+							<ButtonOptionsContainer>
+								<PrimaryButton
+									color={theme.green3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									SvgIcon={CheckWhiteIcon}
+									onPress={saveQuestionResponse}
+								/>
+							</ButtonOptionsContainer>
+						) : null
+				}
+				{
+					questionData.optional && !(!keyboardOpened && selectedOptions.length && (!lastElementHasSelected() || inputText) && questionData.optional)
+						? (
+							<ButtonOptionsContainer>
+								<PrimaryButton
+									color={theme.yellow3}
+									label={'não se aplica'}
+									SecondSvgIcon={DeniedWhiteIcon}
+									onPress={skipQuestion}
+								/>
+							</ButtonOptionsContainer>
+						) : null
+				}
 			</Container>
 		</ScreenContainer>
 	)

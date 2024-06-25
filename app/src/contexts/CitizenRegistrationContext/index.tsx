@@ -90,6 +90,8 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 			response: response,
 		}
 
+		console.log(registerData)
+
 		if (citizenRegistrationResponseData.find((citizenRegister) => citizenRegister.questionId === question.questionId)) {
 			return setCitizenRegistrationResponseData(citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister)))
 		}

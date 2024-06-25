@@ -10,6 +10,7 @@ import { InsertTextualResponseScreenProps } from '@routes/Stack/CitizenRegistrat
 
 import { Container, FormContent } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -50,6 +51,13 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 		saveResponseData(questionData, inputText)
 		const nextResponse = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextResponse)
+	}
+
+	const skipQuestion = () => {
+		saveResponseData(questionData, 'não se aplica') // MODEL use Case
+
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
 	}
 
 	const navigateToNextReponseScreen = (nextResponse: CitizenRegisterQuestionResponse | null) => {
@@ -96,6 +104,17 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 									onPress={selectInputedText}
 								/>
 							)
+						}
+						{
+							(!inputText && questionData.optional)
+								? (
+									<PrimaryButton
+										color={theme.yellow3}
+										label={'não se aplica'}
+										SecondSvgIcon={DeniedWhiteIcon}
+										onPress={skipQuestion}
+									/>
+								) : null
 						}
 					</FormContent>
 				</FormContainer>

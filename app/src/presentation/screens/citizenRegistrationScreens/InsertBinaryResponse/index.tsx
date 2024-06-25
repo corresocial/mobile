@@ -32,6 +32,13 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 		navigateToNextReponseScreen(nextQuestion)
 	}
 
+	const skipQuestion = () => {
+		saveResponseData(questionData, false) // MODEL use Case
+
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
 	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
 		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
 
@@ -68,6 +75,19 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 						onPress={() => selectBinaryOption(false)}
 					/>
 				</ButtonOptionsContainer>
+				{
+					questionData.optional
+						? (
+							<ButtonOptionsContainer>
+								<PrimaryButton
+									color={theme.yellow3}
+									label={'não se aplica'}
+									SecondSvgIcon={CheckWhiteIcon}
+									onPress={skipQuestion}
+								/>
+							</ButtonOptionsContainer>
+						) : <></>
+				}
 			</FormContainer>
 		</ScreenContainer>
 	)
