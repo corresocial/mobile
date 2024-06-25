@@ -19,3 +19,4 @@ export type WhoWeAreScreenProps = NativeStackScreenProps<CitizenRegistrationStac
 export type WhoWeAreIncomeScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAreIncome'>
 export type WhoWeAreCultureScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAreCulture'>
 export type WhoWeAreTransformationTempScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAreTransformation'>
+export type ChatMessagesCitizenRegisterScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'ChatMessagesCitizenRegister'>

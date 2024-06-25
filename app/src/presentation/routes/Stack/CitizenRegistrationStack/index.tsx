@@ -7,6 +7,7 @@ import { CitizenRegistrationProvider } from '@contexts/CitizenRegistrationContex
 import { CitizenRegistrationStackParamList } from './types'
 import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
+import { ChatMessages } from '@screens/chatScreens/ChatMessages'
 import { CitizenOfflineRegistrationList } from '@screens/citizenRegistrationScreens/CitizenOfflineRegistrationList'
 import { CitizenQuestionaryPreview } from '@screens/citizenRegistrationScreens/CitizenQuestionaryPreview'
 import { CitizenRegistrationHome } from '@screens/citizenRegistrationScreens/CitizenRegistrationHome'
@@ -58,6 +59,7 @@ export function CitizenRegistrationStack({ route, navigation }: any) {
 				<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />
 				<Stack.Screen name={'WhoWeAreCulture'} component={WhoWeAreCulture} />
 				<Stack.Screen name={'WhoWeAreTransformation'} component={WhoWeAreTransformationTemp} />
+				<Stack.Screen name={'ChatMessagesCitizenRegister'} component={ChatMessages as any} />
 			</Stack.Navigator>
 		</CitizenRegistrationProvider>
 	)

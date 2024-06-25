@@ -1,3 +1,4 @@
+import { Chat } from '@domain/chat/entity/types'
 import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { UserStackParamList } from '../UserStack/types'
@@ -20,4 +21,5 @@ export type CitizenRegistrationStackParamList = {
 	WhoWeAreIncome: undefined
 	WhoWeAreCulture: undefined
 	WhoWeAreTransformation: undefined
+	ChatMessagesCitizenRegister: { chat: Chat }
 } & UserStackParamList
