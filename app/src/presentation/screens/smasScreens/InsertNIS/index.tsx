@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/smas/entity/types'
 import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
@@ -45,6 +47,8 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 			const response = await getBenefitDataSmasByNis(NISValue.trim(), smasService)
 
 			const queryResult = treatSmasApiResponse(response, smasService)
+
+			sendEvent('smas_search', { smasService: smasService as any, smasResponse: queryResult.nisNotFound ? 'failed' : 'success' })
 
 			setIsLoading(false)
 			if (smasService === 'BEE') return navigation.navigate('QueryBeeByNISResult', { ...queryResult } as QueryBeeResult)

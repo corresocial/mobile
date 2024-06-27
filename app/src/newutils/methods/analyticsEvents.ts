@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 
 import { trackEvent } from '@aptabase/react-native'
 
-type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed'
+type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'smas_search'
 
 interface EventObject extends Record<string, string | number | boolean | undefined>{
 	// deviceId?: string
@@ -18,6 +18,8 @@ interface EventObject extends Record<string, string | number | boolean | undefin
 	impactReportValue?: number
 	deviceId?: string
 	appVersion?: string
+	smasResponse?: 'success' | 'failed'
+	smasService?: 'BEE' | 'PBF' | 'CADUNICO' | undefined
 }
 
 function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: boolean) {
