@@ -90,7 +90,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 							fontSize={16}
 							textIsValid={!!inputText}
 							multiline={questionData.questionType === 'textual'}
-							placeholder={'descreva seu post...'}
+							placeholder={'digite aqui...'}
 							keyboardType={questionData.questionType === 'textual' ? 'default' : 'numeric'}
 							onChangeText={changeInputField}
 						/>
