@@ -47,6 +47,8 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	}, [])
 
 	const startNewCitizenRegistration = () => {
+		console.log('Um novo cadastro foi iniciado!')
+
 		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
 		setCitizenRegistrationQuestionToRespond(citizenRegistrationQuestionary)
 		setCitizenRegistrationIdentifier(initialCitizenRegisterIdentifier)
@@ -90,8 +92,6 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 			response: response,
 		}
 
-		console.log(registerData)
-
 		if (citizenRegistrationResponseData.find((citizenRegister) => citizenRegister.questionId === question.questionId)) {
 			return setCitizenRegistrationResponseData(citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister)))
 		}
@@ -119,8 +119,6 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		const newObservation = { questionId: currentQuestionId, message }
 
 		const currentQuestion = citizenRegistrationResponseData.find((question) => question.questionId === currentQuestionId)
-
-		console.log(currentQuestion)
 
 		const newRegistrationResponses = citizenRegistrationResponseData.map((questionResponse) => (
 			currentQuestionId === questionResponse.questionId

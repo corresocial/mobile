@@ -12,15 +12,16 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface QuestionCardProps {
-	question: string;
-	questionType: CitizenRegisterQuestionResponse['questionType'];
-	answer?: CitizenRegisterQuestionResponse['response'];
+	question: string
+	questionType: CitizenRegisterQuestionResponse['questionType']
+	answer?: CitizenRegisterQuestionResponse['response']
+	onPress?: () => void
 }
 
-function QuestionCard({ question, questionType, answer }: QuestionCardProps) {
+function QuestionCard({ question, questionType, answer, onPress }: QuestionCardProps) {
 	function QuestionIcon() {
 		switch (questionType) {
 			case 'binary':
@@ -50,7 +51,7 @@ function QuestionCard({ question, questionType, answer }: QuestionCardProps) {
 	}
 
 	return (
-		<DefaultCardContainer>
+		<DefaultTouchableCardContainer onPress={onPress} pressionable>
 			<QuestionContainer>
 				<QuestionIcon />
 				<QuestionTitle>{question}</QuestionTitle>
@@ -71,7 +72,7 @@ function QuestionCard({ question, questionType, answer }: QuestionCardProps) {
 					</AnswerContainer>
 				)
 			}
-		</DefaultCardContainer >
+		</DefaultTouchableCardContainer >
 	)
 }
 

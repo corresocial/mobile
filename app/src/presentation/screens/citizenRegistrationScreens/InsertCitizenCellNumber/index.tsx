@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
@@ -26,7 +26,7 @@ import { Loader } from '@components/Loader'
 const citizenUseCases = new CitizenRegisterUseCases()
 
 export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCellNumberScreenProps) {
-	const { saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
+	const { citizenRegistrationIdentifier, saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
 
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
@@ -39,6 +39,18 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
 	}
+
+	useEffect(() => {
+		if (citizenRegistrationIdentifier.cellNumber) {
+			const dddMatch = citizenRegistrationIdentifier.cellNumber.match(/(?<=\+55)\d{2}/)
+			const numberMatch = citizenRegistrationIdentifier.cellNumber.match(/\d{9}$/)
+
+			if (!dddMatch || !numberMatch) return
+			// Extrair e definir os valores
+			setDDD(dddMatch[0])
+			setCellNumber(numberMatch[0])
+		}
+	}, [citizenRegistrationIdentifier.cellNumber]) // Dependência ajustada para evitar dependências vazias
 
 	const validateDDD = (text: string) => {
 		setInvalidDDDAfterSubmit(false)
@@ -76,7 +88,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 				})
 
 				setLoaderIsVisible(false)
-				navigation.navigate('InsertCitizenName')
+				navigation.replace('InsertCitizenName')
 			}
 		} catch (error) {
 			console.log(error)
@@ -86,7 +98,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 
 	const skipScreen = () => {
 		saveCitizenRegistrationIdentifier({ citizenHasAccount: false })
-		navigation.navigate('InsertCitizenName')
+		navigation.replace('InsertCitizenName')
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -110,6 +122,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 				<InputsContainer>
 					<DefaultInput
 						value={DDD}
+						defaultValue={citizenRegistrationIdentifier.cellNumber}
 						relativeWidth={'30%'}
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}

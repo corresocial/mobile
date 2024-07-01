@@ -64,11 +64,11 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 		if (nextResponse === null) return navigation.navigate('FinishCitizenRegistration')
 
 		switch (nextResponse?.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextResponse })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextResponse })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextResponse })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextResponse })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextResponse })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextResponse })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextResponse })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextResponse })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextResponse })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextResponse })
 		}
 	}
 

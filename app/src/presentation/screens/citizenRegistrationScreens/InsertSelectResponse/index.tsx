@@ -92,11 +92,11 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
