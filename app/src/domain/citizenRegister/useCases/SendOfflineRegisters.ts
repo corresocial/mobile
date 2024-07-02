@@ -3,6 +3,7 @@ import { UseCase } from '@domain/shared/interfaces/UseCase'
 
 import { CitizenRegisterEntity } from '../model/entities/types'
 
+import { CitizenRegisterUseCases } from '../adapter/CitizenRegisterUseCases'
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
 
@@ -24,10 +25,12 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 	async exec(): Output { // TEST
 		const offlineRegisters = await this.localRepository.getOfflineCitizenRegisters()
 
+		const citizenUserCases = new CitizenRegisterUseCases()
+
 		Promise.all(
 			offlineRegisters.map(async (register: CitizenRegisterEntity) => {
 				try {
-					await this.remoteRepository.createCitizenRegister(register)
+					await citizenUserCases.createCitizenRegister({} as any, register)
 					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {
 					console.log(error)

@@ -39,7 +39,6 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const registerIsStored = !!(route.params && route.params.registerData)
 	const hasResponsesFromRoute = (route.params && route.params.registerData && route.params.registerData && route.params.registerData.responses && route.params.registerData.responses.length)
 	const registerData = route.params?.registerData || citizenRegistrationIdentifier
-	console.log(registerData)
 	const citizenRegisterResponses = hasResponsesFromRoute
 		? route.params.registerData.responses
 		: citizenRegistrationResponseData // citizenUseCases.getCitizenRegistrationQuestionary()
