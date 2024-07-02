@@ -51,7 +51,7 @@ function QuestionCard({ question, questionType, answer, onPress }: QuestionCardP
 	}
 
 	return (
-		<DefaultTouchableCardContainer onPress={onPress} pressionable>
+		<DefaultTouchableCardContainer onPress={onPress} pressionable={!!onPress}>
 			<QuestionContainer>
 				<QuestionIcon />
 				<QuestionTitle>{question}</QuestionTitle>

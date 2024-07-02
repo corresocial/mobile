@@ -58,6 +58,12 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const setRemoteUserOnLocal = async (uid?: string, refreshMode?: boolean) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId)
+
+			// Alert.alert('userData', userData as any)
+			// if (!userData) {
+			// 	userData = await localStorage.getLocalUserData() as UserEntity
+			// }
+
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
 				refreshMode ? await loadUserPosts(userData.userId, true) : await loadUserPosts(userData.userId, false, true)
 				setUserDataContext({ ...userData })

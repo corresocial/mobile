@@ -39,6 +39,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const registerIsStored = !!(route.params && route.params.registerData)
 	const hasResponsesFromRoute = (route.params && route.params.registerData && route.params.registerData && route.params.registerData.responses && route.params.registerData.responses.length)
 	const registerData = route.params?.registerData || citizenRegistrationIdentifier
+	console.log(registerData)
 	const citizenRegisterResponses = hasResponsesFromRoute
 		? route.params.registerData.responses
 		: citizenRegistrationResponseData // citizenUseCases.getCitizenRegistrationQuestionary()
@@ -56,6 +57,10 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 			if (!registerIsStored) return
 
 			setLoaderIsVisible(true)
+			setTimeout(() => {
+				return setLoaderIsVisible(false)
+			}, 10000)
+
 			await citizenUseCases.createCitizenRegister(userDataContext, registerData as CitizenRegisterEntity)
 			await deleteCitizenRegister(registerData?.citizenRegisterId)
 			setLoaderIsVisible(false)
@@ -110,7 +115,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 				question={item.question}
 				answer={item.response || ''}
 				questionType={item.questionType}
-				onPress={() => navigateToNextReponseScreen(item)}
+				onPress={!registerIsStored ? () => navigateToNextReponseScreen(item) : undefined}
 			/>
 		)
 	}
@@ -168,14 +173,14 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 								question={'gostaria de deixar o seu telefone para contato?'}
 								answer={registerData?.cellNumber}
 								questionType={'textual'}
-								onPress={() => navigation.navigate('InsertCitizenCellNumber')}
+								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenCellNumber') : undefined}
 							/>
 							<VerticalSpacing />
 							<QuestionCard
 								question={'Como você se chama?'}
 								answer={registerData?.name}
 								questionType={'textual'}
-								onPress={() => navigation.navigate('InsertCitizenName')}
+								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenName') : undefined}
 							/>
 							<VerticalSpacing />
 

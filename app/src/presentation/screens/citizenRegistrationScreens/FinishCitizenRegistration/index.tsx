@@ -3,22 +3,17 @@ import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
-import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
 import { FinishCitizenRegistrationScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
-import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
-import { useLocationService } from '@services/location/useLocationService'
-import { structureAddress } from '@utils-ui/location/addressFormatter'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { ButtonOptionsContainer } from './styles'
 import MapPointerWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import SendFileWhiteIcon from '@assets/icons/sendFile-white.svg'
-import { generateGeohashes } from '@common/generateGeohashes'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { FormContainer } from '@components/_containers/FormContainer'
@@ -27,9 +22,6 @@ import { CustomModal } from '@components/_modals/CustomModal'
 import { WithoutNetworkConnectionAlert } from '@components/_modals/WithoutNetworkConnectionAlert'
 import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 import { Loader } from '@components/Loader'
-
-const { getCurrentLocation } = useLocationService()
-const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
@@ -43,11 +35,6 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 	const [isLoading, setIsLoading] = useState(false)
 
 	const theme = useTheme()
-
-	// console.log({
-	// 	...citizenRegistrationIdentifier,
-	// 	responses: citizenRegistrationResponseData
-	// })
 
 	const checkLocationPermissions = async () => {
 		const { granted } = await Location.getForegroundPermissionsAsync()
@@ -78,22 +65,9 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 
 			const hasValidNetworkConnection = await checkNetworkStatus()
 
-			const currentCoordinates = await getCurrentLocation() // MODEL
-			const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
-			const completeAddress = structureAddress(currentLocation)
-			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
-
 			const citizenRegisterData = {
 				...citizenRegistrationIdentifier,
-				responses: citizenRegistrationResponseData,
-				location: {
-					...currentLocation,
-					...geohashObject,
-					coordinates: {
-						latitude: currentCoordinates.coords.latitude,
-						longitude: currentCoordinates.coords.longitude
-					}
-				} as CitizenRegisterEntity['location']
+				responses: citizenRegistrationResponseData
 			}
 
 			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)
@@ -148,7 +122,10 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				title={'não foi possível enviar as respostas'}
 				message={'houve um erro de conexão e as respostas foram armazenadas no dispositivo, você pode tentar novamente agora ou posteriormente quando houver uma conexão mais estável'}
 				highlightedWords={['armazenadas', 'no', 'dispositivo,']}
-				onPressButton={() => setTimeoutModalIsVisible(false)}
+				onPressButton={() => {
+					setTimeoutModalIsVisible(false)
+					navigation.navigate('CitizenRegistrationHome')
+				}}
 			/>
 			<CitizenRegistrationHeader
 				message={'cadastro cidadão finalidado!'}
