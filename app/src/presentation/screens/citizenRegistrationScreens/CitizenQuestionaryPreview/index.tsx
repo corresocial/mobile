@@ -23,7 +23,6 @@ import { QuestionCard } from '@components/_cards/QuestionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { CitizenQuestionHeader } from '@components/CitizenQuestionHeader'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const citizenUseCases = new CitizenRegisterUseCases()
@@ -70,7 +69,8 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const deleteCitizenRegister = async (registerId?: string) => {
 		try {
 			if (!registerIsStored) {
-				console.log('Remover do contexto em progresso')
+				citizenUseCases.removeCitizenRegistrationInProgress()
+				startNewCitizenRegistration()
 				return
 			}
 
@@ -134,7 +134,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 					ignorePlatform
 					onBackPress={() => console.log('Voltando para home')}
 				/>
-				<HeaderActionsContainer isEditMode={!registerIsStored}>
+				<HeaderActionsContainer>
 					<PrimaryButton
 						label={registerIsStored ? 'enviar' : 'responder'}
 						highlightedWords={[registerIsStored ? 'enviar' : 'responder']}

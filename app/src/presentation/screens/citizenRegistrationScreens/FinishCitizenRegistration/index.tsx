@@ -97,6 +97,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			}
 
 			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)
+			await citizenUseCases.removeCitizenRegistrationInProgress()
 
 			if (!hasValidNetworkConnection) {
 				setIsLoading(false)

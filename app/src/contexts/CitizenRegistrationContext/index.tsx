@@ -46,10 +46,21 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		return () => subscription.remove()
 	}, [])
 
-	const startNewCitizenRegistration = () => {
+	const startNewCitizenRegistration = async () => {
 		console.log('Um novo cadastro foi iniciado!')
 
 		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
+
+		const citizenRegistrationInProgress = await citizenUseCases.getCitizenRegistrationInProgress()
+		if (citizenRegistrationInProgress) {
+			setCitizenRegistrationQuestionToRespond(citizenRegistrationQuestionary)
+			setCitizenRegistrationIdentifier({ ...citizenRegistrationInProgress })
+			citizenRegistrationInProgress
+				&& citizenRegistrationInProgress.responses
+				&& setCitizenRegistrationResponseData(citizenRegistrationInProgress.responses)
+			return
+		}
+
 		setCitizenRegistrationQuestionToRespond(citizenRegistrationQuestionary)
 		setCitizenRegistrationIdentifier(initialCitizenRegisterIdentifier)
 
@@ -92,11 +103,19 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 			response: response,
 		}
 
-		if (citizenRegistrationResponseData.find((citizenRegister) => citizenRegister.questionId === question.questionId)) {
-			return setCitizenRegistrationResponseData(citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister)))
-		}
+		const isExisting = citizenRegistrationResponseData.some(
+			(citizenRegister) => citizenRegister.questionId === question.questionId
+		)
 
-		setCitizenRegistrationResponseData([...citizenRegistrationResponseData, registerData])
+		const updatedResponses = isExisting
+			? citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister))
+			: [...citizenRegistrationResponseData, registerData]
+
+		citizenUseCases.saveCitizenRegistrationProgress({
+			...citizenRegistrationIdentifier,
+			responses: updatedResponses,
+		})
+		setCitizenRegistrationResponseData(updatedResponses)
 	}
 
 	const getObservations = () => {

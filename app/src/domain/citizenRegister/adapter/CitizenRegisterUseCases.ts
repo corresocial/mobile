@@ -13,9 +13,12 @@ import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenReg
 import { CitizenHasAccountOnApp } from '../useCases/CitizenHasAccountOnApp'
 import { CreateCitizenRegister } from '../useCases/CreateCitizenRegister'
 import { DeleteOfflineCitizenRegister } from '../useCases/DeleteOfflineCitizenRegister'
+import { GetCitizenRegistrationInProgress } from '../useCases/GetCitizenRegistrationInProgress'
 import { GetCitizenRegistrationQuestionary } from '../useCases/GetCitizenRegistrationQuestionary'
 import { GetOfflineCitizenRegisters } from '../useCases/GetOfflineCitizenRegisters'
+import { RemoveCitizenRegistrationInProgress } from '../useCases/RemoveCitizenRegistrationInProgress'
 import { SaveCitizenRegisterOffline } from '../useCases/SaveCitizenRegisterOffline'
+import { SaveCitizenRegistrationProgress } from '../useCases/SaveCitizenRegistrationProgress'
 import { SendOfflineRegisters } from '../useCases/SendOfflineRegisters'
 
 interface FinanceUseCasesProps {
@@ -34,6 +37,10 @@ export class CitizenRegisterUseCases {
 
 	getCitizenRegistrationQuestionary() {
 		return new GetCitizenRegistrationQuestionary().exec()
+	}
+
+	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) { // MODEL
+		return new CitizenHasAccountOnApp(useCloudFunctionService).exec(cellNumber)
 	}
 
 	createCitizenRegister(currentUser: UserEntity, citizenRegisterData: CitizenRegisterEntityOptional) {
@@ -56,7 +63,15 @@ export class CitizenRegisterUseCases {
 		return new DeleteOfflineCitizenRegister(this.localRepository).exec(citizenRegisterId)
 	}
 
-	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) { // MODEL
-		return new CitizenHasAccountOnApp(useCloudFunctionService).exec(cellNumber)
+	saveCitizenRegistrationProgress(citizenRegisterData: CitizenRegisterEntityOptional) {
+		return new SaveCitizenRegistrationProgress(this.localRepository).exec(citizenRegisterData)
+	}
+
+	getCitizenRegistrationInProgress() {
+		return new GetCitizenRegistrationInProgress(this.localRepository).exec()
+	}
+
+	removeCitizenRegistrationInProgress() {
+		return new RemoveCitizenRegistrationInProgress(this.localRepository).exec()
 	}
 }

@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterEntity, CitizenRegisterEntityOptional } from '@domain/citizenRegister/model/entities/types'
 import { CitizenRegisterLocalRepositoryInterface } from '@domain/citizenRegister/provider/CitizenRegisterLocalRepositoryInterface'
 
-import { LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY } from '@data/shared/storageKeys/localStorageKeys'
+import { LOCAL_OFFLINE_CITIZEN_REGISTERS_KEY, LOCAL_OFFLINE_CITIZEN_REGISTRATION_PROGRESS_KEY } from '@data/shared/storageKeys/localStorageKeys'
 import { JSONMethods } from '@data/shared/utils/JSONMethods'
 
 export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepositoryInterface {
@@ -52,5 +52,32 @@ export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepos
 		const citizenRegisters = storedRegisters.filter((register: CitizenRegisterEntity) => register.citizenRegisterId !== citizenRegisterId)
 		await this.updateOfflineCitizenRegisters(citizenRegisters, true)
 		return citizenRegisters
+	}
+
+	// Questionário em progresso
+
+	async updateCitizenRegistrationInProgress(citizenRegister: CitizenRegisterEntityOptional): Promise<void> {
+		try {
+			if (!citizenRegister) {
+				throw new Error('Não foram fornecidos dados de cadastro para atualizar')
+			}
+			const JsonData = JSONMethods.convertToJson(citizenRegister || {})
+			await AsyncStorage.setItem(LOCAL_OFFLINE_CITIZEN_REGISTRATION_PROGRESS_KEY, JsonData)
+		} catch (error: any) {
+			console.log(error)
+			throw new Error(error)
+		}
+	}
+
+	async getCitizenRegistrationProgressData(): Promise<CitizenRegisterEntity> {
+		const storagedDataJSON = await AsyncStorage.getItem(LOCAL_OFFLINE_CITIZEN_REGISTRATION_PROGRESS_KEY)
+		return storagedDataJSON
+			? JSONMethods.convertFromJson(storagedDataJSON)
+			: null
+	}
+
+	async removeCitizenRegistrationInProgress() {
+		const res = await AsyncStorage.removeItem(LOCAL_OFFLINE_CITIZEN_REGISTRATION_PROGRESS_KEY)
+		console.log(res)
 	}
 }
