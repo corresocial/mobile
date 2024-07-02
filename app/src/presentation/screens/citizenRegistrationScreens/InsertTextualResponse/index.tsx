@@ -61,7 +61,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 	}
 
 	const navigateToNextReponseScreen = (nextResponse: CitizenRegisterQuestionResponse | null) => {
-		if (nextResponse === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextResponse === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextResponse?.questionType) {
 			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextResponse })

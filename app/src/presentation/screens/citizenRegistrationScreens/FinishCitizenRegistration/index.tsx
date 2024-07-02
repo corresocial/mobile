@@ -1,7 +1,9 @@
 import * as Location from 'expo-location' // REFACTOR Centralizar request permissions
 import React, { useState } from 'react'
+import { Alert } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { CitizenRegisterModel } from '@domain/citizenRegister/adapter/CitizenRegisterModel'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
 
 import { useAuthContext } from '@contexts/AuthContext'
@@ -68,6 +70,15 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			const citizenRegisterData = {
 				...citizenRegistrationIdentifier,
 				responses: citizenRegistrationResponseData
+			}
+
+			try {
+				const citizenModel = new CitizenRegisterModel()
+				new citizenModel.CitizenRegisterResponses(citizenRegisterData.responses || []).data()
+				if (!citizenRegisterData.name) throw new Error('O nome do cidadão é obrigatório')
+			} catch (error) {
+				Alert.alert('Ops!', 'Volte e verifique se todas as questões obrigatórias foram respondidadas!')
+				throw error
 			}
 
 			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)

@@ -29,7 +29,7 @@ const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPreviewScreenProps) {
 	const { userDataContext } = useAuthContext()
-	const { citizenRegistrationResponseData, citizenRegistrationIdentifier, startNewCitizenRegistration } = useCitizenRegistrationContext()
+	const { citizenRegistrationResponseData, citizenRegistrationIdentifier, startNewCitizenRegistration, getNextUnansweredRequiredQuestion } = useCitizenRegistrationContext()
 	const { setLoaderIsVisible } = useLoaderContext()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -48,7 +48,13 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	}, [])
 
 	const startCitizenRegistration = () => {
-		navigation.navigate('InsertCitizenCellNumber')
+		const nextQuestion = getNextUnansweredRequiredQuestion()
+		console.log(nextQuestion)
+		if (nextQuestion?.questionId === '2') {
+			return navigation.navigate('InsertCitizenCellNumber')
+		}
+
+		navigateToNextReponseScreen(nextQuestion as CitizenRegisterQuestionResponse)
 	}
 
 	const saveCitizenRegister = async () => {
@@ -114,6 +120,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 				question={item.question}
 				answer={item.response || ''}
 				questionType={item.questionType}
+				optional={item.optional}
 				onPress={!registerIsStored ? () => navigateToNextReponseScreen(item) : undefined}
 			/>
 		)
@@ -136,7 +143,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 					text={'questionário cidadão'}
 					highlightedWords={['cidadão']}
 					ignorePlatform
-					onBackPress={() => console.log('Voltando para home')}
+					onBackPress={() => navigation.goBack()}
 				/>
 				<HeaderActionsContainer>
 					<PrimaryButton
@@ -172,6 +179,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 								question={'gostaria de deixar o seu telefone para contato?'}
 								answer={registerData?.cellNumber}
 								questionType={'textual'}
+								optional
 								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenCellNumber') : undefined}
 							/>
 							<VerticalSpacing />

@@ -40,7 +40,7 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextQuestion === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
 			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextQuestion })

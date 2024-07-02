@@ -32,7 +32,6 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 
 	async exec(citizenRegisterData: Input): Output { // TEST
 		let location = {}
-
 		if (citizenRegisterData.location && !citizenRegisterData.location.city) {
 			const currentCoordinates = await getCurrentLocation()
 			const geohashObject = this.googleMapsService.generateGeohashes(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)

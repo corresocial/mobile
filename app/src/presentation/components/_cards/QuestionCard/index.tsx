@@ -18,10 +18,11 @@ interface QuestionCardProps {
 	question: string
 	questionType: CitizenRegisterQuestionResponse['questionType']
 	answer?: CitizenRegisterQuestionResponse['response']
+	optional?: boolean
 	onPress?: () => void
 }
 
-function QuestionCard({ question, questionType, answer, onPress }: QuestionCardProps) {
+function QuestionCard({ question, questionType, optional, answer, onPress }: QuestionCardProps) {
 	function QuestionIcon() {
 		switch (questionType) {
 			case 'binary':
@@ -54,7 +55,7 @@ function QuestionCard({ question, questionType, answer, onPress }: QuestionCardP
 		<DefaultTouchableCardContainer onPress={onPress} pressionable={!!onPress}>
 			<QuestionContainer>
 				<QuestionIcon />
-				<QuestionTitle>{question}</QuestionTitle>
+				<QuestionTitle>{`${question}${!optional ? '*' : ''}`}</QuestionTitle>
 			</QuestionContainer>
 			{
 				answer && (

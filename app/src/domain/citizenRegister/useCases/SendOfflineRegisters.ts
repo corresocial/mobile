@@ -31,7 +31,7 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 			offlineRegisters.map(async (register: CitizenRegisterEntity) => {
 				try {
 					await citizenUserCases.createCitizenRegister({} as any, register)
-					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
+					// await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {
 					console.log(error)
 					console.log(`Falha ao enviar o registro de ${register.name}`)

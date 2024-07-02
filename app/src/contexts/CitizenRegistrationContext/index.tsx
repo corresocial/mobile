@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import * as Battery from 'expo-battery'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -83,6 +84,38 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		return citizenRegistrationQuestionToRespond[nextIndex]
 	}
 
+	const getNextUnansweredRequiredQuestion = (): CitizenRegisterQuestionResponse | undefined => {
+		for (const response of citizenRegistrationResponseData) {
+			if (!isAnswered(response)) return response
+		}
+		return undefined
+	}
+
+	const isAnswered = (response: CitizenRegisterQuestionResponse): boolean => {
+		const { questionType, response: responseValue, multiSelect } = response
+
+		if (responseValue === undefined || responseValue === null) return false
+
+		switch (questionType) {
+			case 'textual':
+				return typeof responseValue === 'string' && responseValue.trim() !== ''
+			case 'numerical':
+				return typeof responseValue === 'string' && responseValue !== ''
+			case 'binary':
+				return typeof responseValue === 'boolean'
+			case 'select':
+				if (multiSelect) {
+					return Array.isArray(responseValue) && responseValue.length > 0 && responseValue.every((option) => option.trim() !== '')
+				}
+				return Array.isArray(responseValue) && responseValue.length > 0 && responseValue.every((option) => option.trim() !== '')
+
+			case 'satisfaction':
+				return typeof responseValue === 'number' && responseValue >= 1 && responseValue <= 5
+			default:
+				return false
+		}
+	}
+
 	const getResponseProgress = (questionId: string) => {
 		setCurrentQuestionId(questionId)
 
@@ -91,8 +124,8 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		return [(numberOfResponses + 1) - (numberOfResponses - currentQuestionIndex), numberOfResponses]
 	}
 
-	const saveResponseData = (question: CitizenRegisterQuestionResponse, response: CitizenRegisterQuestionResponse['response'], specificResponse?: string) => {
-		const extraInfo = specificResponse ? { specificResponse: specificResponse } : {}
+	const saveResponseData = async (question: CitizenRegisterQuestionResponse, response: CitizenRegisterQuestionResponse['response'], specificResponse?: string) => {
+		const extraInfo = specificResponse ? { specificResponse: specificResponse } : { specificResponse: '' }
 		const currentQuestion = citizenRegistrationResponseData.find((q) => q.questionId === question.questionId)
 
 		if (!currentQuestion) return
@@ -111,7 +144,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 			? citizenRegistrationResponseData.map((citizenRegister) => (citizenRegister.questionId === question.questionId ? registerData : citizenRegister))
 			: [...citizenRegistrationResponseData, registerData]
 
-		citizenUseCases.saveCitizenRegistrationProgress({
+		await citizenUseCases.saveCitizenRegistrationProgress({
 			...citizenRegistrationIdentifier,
 			responses: updatedResponses,
 		})
@@ -136,9 +169,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 
 	const addNewObservation = (message: string) => {
 		const newObservation = { questionId: currentQuestionId, message }
-
 		const currentQuestion = citizenRegistrationResponseData.find((question) => question.questionId === currentQuestionId)
-
 		const newRegistrationResponses = citizenRegistrationResponseData.map((questionResponse) => (
 			currentQuestionId === questionResponse.questionId
 				? { ...currentQuestion, observations: [...(questionResponse.observations || []), newObservation] }
@@ -167,6 +198,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		startNewCitizenRegistration,
 		saveCitizenRegistrationIdentifier,
 		getNextQuestion,
+		getNextUnansweredRequiredQuestion,
 		getResponseProgress,
 		saveResponseData,
 		showQuestionObservations
