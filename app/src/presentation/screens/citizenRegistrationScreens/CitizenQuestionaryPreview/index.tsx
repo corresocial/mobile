@@ -49,11 +49,9 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 
 	const startCitizenRegistration = () => {
 		const nextQuestion = getNextUnansweredRequiredQuestion()
-		console.log(nextQuestion)
 		if (nextQuestion?.questionId === '2') {
 			return navigation.navigate('InsertCitizenCellNumber')
 		}
-
 		navigateToNextReponseScreen(nextQuestion as CitizenRegisterQuestionResponse)
 	}
 
