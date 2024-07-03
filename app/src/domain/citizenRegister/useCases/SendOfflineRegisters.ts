@@ -1,3 +1,5 @@
+import { Alert } from 'react-native'
+
 import { Class } from '@domain/shared/interfaces/Class'
 import { UseCase } from '@domain/shared/interfaces/UseCase'
 
@@ -33,7 +35,7 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 			offlineRegisters.map(async (register: CitizenRegisterEntity) => {
 				try {
 					// REFACTOR Não deve ser importado diretamente aqui
-					new CreateCitizenRegister(CitizenRegisterRemoteRepository, GoogleMapsService, {} as any).exec(register)
+					await new CreateCitizenRegister(CitizenRegisterRemoteRepository, GoogleMapsService, {} as any).exec(register)
 					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {
 					console.log(error)
