@@ -51,6 +51,7 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 			await citizenUseCases.sendOfflineRegisters()
 			await loadOfflineRegisters()
 			setLoaderIsVisible(false)
+			navigation.goBack()
 		} catch (error) {
 			console.log(error)
 			setLoaderIsVisible(false)

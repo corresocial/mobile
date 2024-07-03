@@ -25,13 +25,13 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 	async exec(): Output { // TEST
 		const offlineRegisters = await this.localRepository.getOfflineCitizenRegisters()
 
-		const citizenUserCases = new CitizenRegisterUseCases()
+		const citizenUserCases = new CitizenRegisterUseCases() // CURRENT Está renderizando ao editar casos de uso
 
 		Promise.all(
 			offlineRegisters.map(async (register: CitizenRegisterEntity) => {
 				try {
 					await citizenUserCases.createCitizenRegister({} as any, register)
-					// await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
+					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {
 					console.log(error)
 					console.log(`Falha ao enviar o registro de ${register.name}`)

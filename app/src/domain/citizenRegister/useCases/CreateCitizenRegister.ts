@@ -5,12 +5,9 @@ import { UserEntity } from '@domain/user/entity/types'
 import { CitizenRegisterEntity, CitizenRegisterEntityOptional } from '../model/entities/types'
 
 import { GoogleMapsServiceInterfaceClass } from '@services/googleMaps/GoogleMapsService'
-import { useLocationService } from '@services/location/useLocationService'
 
 import { CitizenRegister } from '../model/entities/CitizenRegister'
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
-
-const { getCurrentLocation } = useLocationService() // CURRENT Não deve ficar aqui
 
 type Input = CitizenRegisterEntityOptional
 type Output = Promise<CitizenRegisterEntity>
@@ -32,29 +29,36 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 
 	async exec(citizenRegisterData: Input): Output { // TEST
 		let location = {}
-		if (citizenRegisterData.location && !citizenRegisterData.location.city) {
-			const currentCoordinates = await getCurrentLocation()
-			const geohashObject = this.googleMapsService.generateGeohashes(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
-			const currentLocation = await this.googleMapsService.getReverseGeocode(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
+		if (!citizenRegisterData.location || (citizenRegisterData && citizenRegisterData.location && !(citizenRegisterData.location as any).city)) {
+			const coordinates = citizenRegisterData.location && citizenRegisterData.location.coordinates
+				? citizenRegisterData.location?.coordinates
+				: { latitude: 0, longitude: 0 }
+
+			const geohashObject = this.googleMapsService.generateGeohashes(coordinates.latitude, coordinates.longitude)
+			const currentLocation = await this.googleMapsService.getReverseGeocode(coordinates.latitude, coordinates.longitude)
 
 			location = {
 				...currentLocation,
 				...geohashObject,
 				coordinates: {
-					latitude: currentCoordinates.coords.latitude,
-					longitude: currentCoordinates.coords.longitude
+					latitude: coordinates.latitude,
+					longitude: coordinates.longitude
 				}
 			} as CitizenRegisterEntity['location']
 		}
 
 		const newCitizenRegister = {
 			...citizenRegisterData,
-			...location,
+			location,
 			name: citizenRegisterData.name || 'cidadão',
 			censusTakerId: citizenRegisterData.censusTakerId ? citizenRegisterData.censusTakerId : this.currentUser.userId || '',
 			censusTakerName: citizenRegisterData.censusTakerName ? citizenRegisterData.censusTakerName : this.currentUser.name || '',
-			createdAt: new Date(),
+			createdAt: citizenRegisterData.createdAt || new Date()
 		} as CitizenRegisterEntity
+
+		// console.log('newCitizenRegister')
+		// console.log(newCitizenRegister)
+		// console.log(newCitizenRegister.createdAt)
 
 		const { data } = new CitizenRegister(newCitizenRegister, true)
 		const savedCitizenRegister = await this.remoteRepository.createCitizenRegister(data)

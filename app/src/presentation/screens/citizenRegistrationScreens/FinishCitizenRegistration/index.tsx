@@ -11,6 +11,7 @@ import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationCont
 
 import { FinishCitizenRegistrationScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
+import { useLocationService } from '@services/location/useLocationService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { ButtonOptionsContainer } from './styles'
@@ -57,6 +58,8 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 	}
 
 	const submitResponses = async () => {
+		const { getCurrentLocation } = useLocationService()
+
 		try {
 			setIsLoading(true)
 			if (!hasLocationPermissions) {
@@ -65,12 +68,26 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				if (!hasPermission) return
 			}
 
+			const location = await getCurrentLocation()
+
 			const hasValidNetworkConnection = await checkNetworkStatus()
 
 			const citizenRegisterData = {
 				...citizenRegistrationIdentifier,
+				createdAt: new Date(),
+				location: {
+					coordinates: {
+						latitude: location.coords.latitude,
+						longitude: location.coords.longitude
+					}
+				} as any,
 				responses: citizenRegistrationResponseData
 			}
+
+			// console.log('offline register')
+			// console.log(citizenRegisterData)
+			// console.log(citizenRegisterData.createdAt)
+			// console.log('------------------')
 
 			try {
 				const citizenModel = new CitizenRegisterModel()

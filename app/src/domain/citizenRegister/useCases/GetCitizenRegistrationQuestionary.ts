@@ -370,6 +370,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				response: '',
 				questionType: 'select',
 				multiSelect: true,
+				allowOtherOptions: true,
 				options: [
 					'Alimentos',
 					'Vestuário',
@@ -430,7 +431,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Outros (especificar)'
 				]
 			}
-		]/* .slice(10, 13) as CitizenRegisterQuestionResponse[] */
+		].slice(10, 11) as CitizenRegisterQuestionResponse[]
 		return citizenRegistrationQuestionary
 	}
 }
