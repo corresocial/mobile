@@ -52,7 +52,7 @@ function InsertSatisfactionResponse({ route, navigation }: InsertSatisfactionRes
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange1}>
 			<CitizenRegistrationHeader
-				message={questionData.question}
+				message={`${questionData.questionId} - ${questionData.question}`}
 				progress={responseProgress}
 				navigateBackwards={navigateBackwards}
 			/>

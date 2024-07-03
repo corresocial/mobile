@@ -143,7 +143,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		<ScreenContainer topSafeAreaColor={theme.orange1}>
 			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 				<CitizenRegistrationHeader
-					message={questionData.question}
+					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}
 					navigateBackwards={navigateBackwards}
 				/>

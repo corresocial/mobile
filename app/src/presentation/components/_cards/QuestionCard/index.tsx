@@ -14,7 +14,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
-interface QuestionCardProps {
+interface QuestionCardProps { // REFACTOR Refatorar componente para aceitar o objeto "CitizenRegisterQuestionResponse"
+	questionId: string
 	question: string
 	questionType: CitizenRegisterQuestionResponse['questionType']
 	answer?: CitizenRegisterQuestionResponse['response']
@@ -22,7 +23,7 @@ interface QuestionCardProps {
 	onPress?: () => void
 }
 
-function QuestionCard({ question, questionType, optional, answer, onPress }: QuestionCardProps) {
+function QuestionCard({ questionId, question, questionType, optional, answer, onPress }: QuestionCardProps) {
 	function QuestionIcon() {
 		switch (questionType) {
 			case 'binary':
@@ -55,7 +56,7 @@ function QuestionCard({ question, questionType, optional, answer, onPress }: Que
 		<DefaultTouchableCardContainer onPress={onPress} pressionable={!!onPress}>
 			<QuestionContainer>
 				<QuestionIcon />
-				<QuestionTitle>{`${question}${!optional ? '*' : ''}`}</QuestionTitle>
+				<QuestionTitle>{`${questionId} - ${question}${!optional ? '*' : ''}`}</QuestionTitle>
 			</QuestionContainer>
 			{
 				answer && (

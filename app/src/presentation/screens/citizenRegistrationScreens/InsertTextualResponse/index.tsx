@@ -76,7 +76,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<ScreenContainer topSafeAreaColor={theme.orange1}>
 				<CitizenRegistrationHeader
-					message={questionData.question}
+					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}
 					navigateBackwards={navigateBackwards}
 				/>

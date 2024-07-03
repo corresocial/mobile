@@ -84,11 +84,11 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 		return citizenRegistrationQuestionToRespond[nextIndex]
 	}
 
-	const getNextUnansweredRequiredQuestion = (): CitizenRegisterQuestionResponse | undefined => {
+	const getNextUnansweredRequiredQuestion = (): CitizenRegisterQuestionResponse | null => {
 		for (const response of citizenRegistrationResponseData) {
 			if (!isAnswered(response)) return response
 		}
-		return undefined
+		return null
 	}
 
 	const isAnswered = (response: CitizenRegisterQuestionResponse): boolean => {

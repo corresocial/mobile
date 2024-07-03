@@ -75,8 +75,8 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 				initialValue={citizenRegistrationIdentifier.name}
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
-				customTitle={'Como você se chama?'}
-				customHighlight={['nome', 'completo?']}
+				customTitle={'2 - Como você se chama?'}
+				customHighlight={['2', 'Como', 'completo?']}
 				inputPlaceholder={'escreva seu nome aqui...'}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateName}

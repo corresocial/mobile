@@ -49,7 +49,8 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 
 	const startCitizenRegistration = () => {
 		const nextQuestion = getNextUnansweredRequiredQuestion()
-		if (nextQuestion?.questionId === '2') {
+
+		if (nextQuestion?.questionId === '3') { // Primeira questão que pertence ao fluxo
 			return navigation.navigate('InsertCitizenCellNumber')
 		}
 		navigateToNextReponseScreen(nextQuestion as CitizenRegisterQuestionResponse)
@@ -115,6 +116,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const renderQuestion = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
 		return (
 			<QuestionCard
+				questionId={item.questionId}
 				question={item.question}
 				answer={item.response || ''}
 				questionType={item.questionType}
@@ -166,7 +168,6 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 				</HeaderActionsContainer>
 			</HeaderContainer>
 			<Body>
-
 				<QuestionsList
 					data={citizenRegisterResponses}
 					renderItem={renderQuestion as ListRenderItem<unknown>}
@@ -174,7 +175,8 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 						<>
 							<VerticalSpacing height={2} />
 							<QuestionCard
-								question={'gostaria de deixar o seu telefone para contato?'}
+								questionId={'1'}
+								question={'Gostaria de deixar o seu telefone para contato?'}
 								answer={registerData?.cellNumber}
 								questionType={'textual'}
 								optional
@@ -182,6 +184,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 							/>
 							<VerticalSpacing />
 							<QuestionCard
+								questionId={'2'}
 								question={'Como você se chama?'}
 								answer={registerData?.name}
 								questionType={'textual'}
