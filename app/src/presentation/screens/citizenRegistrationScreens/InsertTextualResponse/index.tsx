@@ -25,9 +25,14 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 	const theme = useTheme()
 
 	const [inputText, setInputText] = useState<string>('')
+	const [responseProgress, setResponseProgress] = useState([0, 0])
 
 	const { questionData } = route.params
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	useEffect(() => {
 		const questionIndex = citizenRegistrationResponseData.findIndex((res) => res.questionId === questionData.questionId)

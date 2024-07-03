@@ -25,6 +25,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	const { citizenRegistrationResponseData, getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
 
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+	const [responseProgress, setResponseProgress] = useState([0, 0])
 
 	const theme = useTheme()
 
@@ -35,7 +36,11 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 
 	const { questionData } = route.params
 	const { multiSelect } = questionData
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	useEffect(() => {
 		const handleKeyboardDidShow = () => setKeyboardOpened(true)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
@@ -21,8 +21,14 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 
 	const theme = useTheme()
 
+	const [responseProgress, setResponseProgress] = useState([0, 0])
+
 	const { questionData } = route.params
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
 
