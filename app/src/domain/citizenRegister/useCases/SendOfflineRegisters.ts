@@ -1,5 +1,3 @@
-import { Alert } from 'react-native'
-
 import { Class } from '@domain/shared/interfaces/Class'
 import { UseCase } from '@domain/shared/interfaces/UseCase'
 
