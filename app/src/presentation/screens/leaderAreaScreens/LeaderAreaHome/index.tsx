@@ -93,6 +93,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange2}>
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<HeaderButtonsContainer>
 				<HeaderSection>
 					<OptionButton

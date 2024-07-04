@@ -191,15 +191,27 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				highlightedButtonAction={isAuthor() ? downloadPollResults : alreadyResponded ? () => { } : respondPoll}
 				inactiveHighlightedButton={alreadyResponded}
 				HeaderFooter={isAuthor() && (
-					<SmallButton
-						label={'baixar respostas individuais'}
-						labelColor={theme.white3}
-						color={theme.green3}
-						SvgIcon={DownloadWhiteIcon}
-						relativeWidth={'98%'}
-						height={relativeScreenWidth(12)}
-						onPress={downloadIndividualAnswers}
-					/>
+					<>
+						<SmallButton
+							label={'baixar respostas individuais'}
+							labelColor={theme.white3}
+							color={theme.green3}
+							SvgIcon={DownloadWhiteIcon}
+							relativeWidth={'98%'}
+							height={relativeScreenWidth(12)}
+							onPress={downloadIndividualAnswers}
+						/>
+						<VerticalSpacing />
+						<SmallButton
+							label={'responder enquete'}
+							labelColor={theme.black4}
+							color={theme.yellow3}
+							SvgIcon={DocumentWhiteIcon}
+							relativeWidth={'98%'}
+							height={relativeScreenWidth(12)}
+							onPress={respondPoll}
+						/>
+					</>
 				)}
 			>
 				<PostPopOver

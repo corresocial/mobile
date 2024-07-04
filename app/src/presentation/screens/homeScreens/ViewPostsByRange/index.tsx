@@ -152,43 +152,37 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		<ScreenContainer infinityBottom>
 			<Container >
 				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<Header>
+					<DefaultPostViewHeader
+						ignorePlatform
+						text={getRelativeTitle()}
+						highlightedWords={['perto', 'cidade', 'país', 'recentes']}
+						onBackPress={() => navigation.goBack()}
+					/>
+					<InputContainer>
+						<SearchInput
+							value={searchText}
+							placeholder={'pesquisar'}
+							returnKeyType={'search'}
+							onChangeText={(text: string) => setSearchText(text)}
+							onPressKeyboardSubmit={navigateToResultScreen}
+						/>
+					</InputContainer>
+				</Header>
 				<Body
 					style={{ backgroundColor: getRelativeBackgroundColor() }}
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				>
 					{
-						(postsByRange && postsByRange.length)
-							? (
-								<>
-									<FlatListPosts
-										data={postsByRange}
-										renderItem={renderPostItem as any}
-										headerComponent={() => (
-											<Header>
-												<DefaultPostViewHeader
-													text={getRelativeTitle()}
-													highlightedWords={['perto', 'cidade', 'país', 'recentes']}
-													ignorePlatform
-													onBackPress={() => navigation.goBack()}
-												/>
-												<VerticalSpacing/>
-											</Header>
-										)}
-										stickyHeaderComponent={() => (
-											<InputContainer>
-												<SearchInput
-													value={searchText}
-													placeholder={'pesquisar'}
-													returnKeyType={'search'}
-													onChangeText={(text: string) => setSearchText(text)}
-													onPressKeyboardSubmit={navigateToResultScreen}
-												/>
-											</InputContainer>
-										)}
-									/>
-								</>
-							)
-							: <></>
+						(postsByRange && postsByRange.length) && (
+							<FlatListPosts
+								data={postsByRange}
+								renderItem={renderPostItem as any}
+								headerComponent={() => (
+									<VerticalSpacing />
+								)}
+							/>
+						)
 					}
 				</Body>
 			</Container>

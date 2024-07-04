@@ -10,6 +10,7 @@ import { usePollRepository } from '@data/poll/usePollRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { PollReviewScreenProps } from '@routes/Stack/PollStack/screenProps'
 import { PollStackParamList } from '@routes/Stack/PollStack/types'
@@ -37,6 +38,7 @@ const { createNewPoll } = usePollDomain()
 function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR Mudar nome para postReview
 	const { editDataContext, setEditDataOnContext } = useContext(EditContext)
 	const { userDataContext } = useContext(AuthContext)
+	const { pollRegisterDataContext } = usePollRegisterContext()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -58,11 +60,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 	}
 
 	const getQuestionList = (): PollQuestion[] => {
-		if (editDataContext.unsaved && editDataContext.unsaved.questions) {
-			return (editDataContext.unsaved.questions || [])
-		}
-
-		return pollData.questions as PollQuestion[]
+		return pollRegisterDataContext.questions || pollData.questions as PollQuestion[]
 	}
 
 	const savePoll = async () => {
