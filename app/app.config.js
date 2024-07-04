@@ -5,7 +5,7 @@ export default {
 		owner: 'corresocial',
 		scheme: 'com.corresocial.corresocial', // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
-		version: '0.8.0',
+		version: '0.9.0',
 		orientation: 'portrait',
 		userInterfaceStyle: 'light',
 		icon: './assets/icon.png',
@@ -97,7 +97,7 @@ export default {
 		],
 		ios: {
 			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
-			buildNumber: '61',
+			buildNumber: '62',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -119,7 +119,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 61,
+			versionCode: 62,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
