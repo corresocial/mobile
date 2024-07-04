@@ -43,6 +43,9 @@
 			"@components/*": [
 				"./src/presentation/components/*"
 			],
+			"@newComponents/*": [
+				"./src/presentation/newComponents/*"
+			],
 			"@adapters/*": [
 				"./src/presentation/adapters/*"
 			],
