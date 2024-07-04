@@ -11,6 +11,12 @@ async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInter
 		}
 	}
 
+	const localUserData = await localStorage.getLocalUserData()
+
+	if (localUserData) {
+		return localUserData
+	}
+
 	console.log('Nenhum usuário local localizado')
 	return false
 }

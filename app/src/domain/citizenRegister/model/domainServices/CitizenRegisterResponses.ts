@@ -1,6 +1,6 @@
 import { CitizenRegisterQuestionResponse } from '../entities/types'
 
-import { CitizenRegisterResponse } from './CitizenRegisterResponse'
+import { CitizenRegisterResponse } from '../entities/CitizenRegisterResponse'
 
 export class CitizenRegisterResponses {
 	readonly questionResponses: CitizenRegisterResponse[]
@@ -11,6 +11,17 @@ export class CitizenRegisterResponses {
 
 	getByQuestionId(questionId: string): CitizenRegisterResponse | undefined {
 		return this.questionResponses.find((response) => response.questionId.value === questionId)
+	}
+
+	data(): CitizenRegisterQuestionResponse[] {
+		const allResponses: CitizenRegisterQuestionResponse[] = []
+
+		this.questionResponses.forEach((response) => {
+			const responseObject = response.data()
+			allResponses.push(responseObject)
+		})
+
+		return allResponses
 	}
 
 	// add(response: CitizenRegisterQuestionResponse): CitizenRegisterResponses {

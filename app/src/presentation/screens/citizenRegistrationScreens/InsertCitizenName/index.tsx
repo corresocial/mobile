@@ -16,7 +16,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 const citizenRegisterModel = new CitizenRegisterModel()
 
 function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
-	const { citizenRegistrationQuestionToRespond, saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
+	const { citizenRegistrationQuestionToRespond, citizenRegistrationIdentifier, saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -56,14 +56,14 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextQuestion === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
@@ -72,10 +72,11 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<PostInputText // REFACTOR Deve mudar de nome, sendo usado não só nos posts
 				multiline
+				initialValue={citizenRegistrationIdentifier.name}
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
-				customTitle={'Como você se chama?'}
-				customHighlight={['nome', 'completo?']}
+				customTitle={'2 - Como você se chama?'}
+				customHighlight={['2', 'Como', 'completo?']}
 				inputPlaceholder={'escreva seu nome aqui...'}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateName}

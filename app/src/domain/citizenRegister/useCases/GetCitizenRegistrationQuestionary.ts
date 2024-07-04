@@ -9,370 +9,232 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 	exec(): Output { // TEST
 		const citizenRegistrationQuestionary: CitizenRegisterQuestionResponse[] = [
 			{
-				questionId: '1',
-				question: 'Qual a sua idade?',
-				questionType: 'numerical',
-				response: ''
-			},
-			{
-				questionId: '2',
-				question: 'Qual a sua cor/etnia?',
-				questionType: 'select',
-				multiSelect: false,
-				options: ['Preta', 'Parda', 'Branca', 'Amarelo', 'Indígena', 'Não sei responder'],
-				response: []
-			},
-			{
 				questionId: '3',
-				question: 'Indique seu sexo/gênero:',
-				questionType: 'select',
-				multiSelect: false,
-				options: ['Mulher', 'Homem', 'Nenhuma das alternativas', 'Não sei responder'],
-				response: []
+				question: 'Qual é a sua idade?',
+				response: '',
+				questionType: 'numerical'
 			},
 			{
 				questionId: '4',
-				question: 'Você possui filhos?',
+				question: 'Qual é a sua cor?',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
-				options: ['Não tenho filhos', 'Um(a) filho(a)', 'Dois filhos', 'Três filhos', 'Mais de três filhos'],
-				response: []
+				options: [
+					'Preta',
+					'Parda',
+					'Branca',
+					'Amarela',
+					'Indígena',
+					'Não Sei Responder'
+				]
 			},
 			{
 				questionId: '5',
-				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos?',
-				questionType: 'binary',
-				optional: true,
-				response: ''
+				question: 'Indique seu sexo',
+				response: '',
+				questionType: 'select',
+				options: [
+					'Mulher',
+					'Homem'
+				]
 			},
 			{
 				questionId: '6',
-				question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
-				questionType: 'select',
-				multiSelect: true,
-				optional: true,
-				options: [
-					'Falta de recursos financeiros',
-					'Falta de acesso a serviços de saúde',
-					'Falta de acesso à educação de qualidade',
-					'Falta de atividades de lazer adequadas',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
+				question: 'Você é PcD (Pessoa com Deficiência)?',
+				response: '',
+				questionType: 'binary'
 			},
 			{
 				questionId: '7',
-				question: 'Há quanto tempo mora no bairro atual?',
+				question: 'Qual é o seu Estado civil?',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
 				options: [
-					'menos de 1 ano',
-					'entre 1 a 3 anos',
-					'de 4 a 7 anos',
-					'entre 7 e 10 anos',
-					'mais de 10 anos'
-				],
-				response: []
+					'Casada(o)',
+					'União estável',
+					'Solteira(o)',
+					'Viúva(o)'
+				]
 			},
 			{
 				questionId: '8',
-				question: 'Qual o seu estado civil?',
+				question: 'Indique sua escolaridade:',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
-				options: ['Casada(o)', 'União estável', 'Solteira(o)', 'Viúva(o)'],
-				response: []
-			},
-			{
-				questionId: '9',
-				question: 'Indique a sua Escolaridade:',
-				questionType: 'select',
-				multiSelect: false,
 				options: [
+					'Sem escolaridade',
 					'Ensino fundamental incompleto',
 					'Ensino fundamental completo',
 					'Ensino médio incompleto',
 					'Ensino médio completo',
 					'Ensino superior incompleto',
 					'Ensino superior completo'
-				],
-				response: []
+				]
+			},
+			{
+				questionId: '9',
+				question: 'Você possui filhos?',
+				response: '',
+				questionType: 'select',
+				options: [
+					'Não tenho filhos',
+					'Um(a) filho(a)',
+					'Dois filhos',
+					'Três filhos',
+					'Mais de três filhos'
+				]
 			},
 			{
 				questionId: '10',
-				question: 'Atualmente você está estudando ou fazendo algum curso?',
+				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos?',
+				response: '',
 				questionType: 'binary',
-				response: ''
+				optional: true,
 			},
 			{
 				questionId: '11',
-				question: 'Se sim, qual?',
-				questionType: 'textual',
+				question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
+				response: '',
+				questionType: 'select',
+				multiSelect: true,
+				allowOtherOptions: true,
 				optional: true,
-				response: ''
+				options: [
+					'Falta de recursos financeiros',
+					'Falta de acesso a serviços de saúde',
+					'Falta de acesso à educação de qualidade',
+					'Falta de atividades de lazer adequadas',
+					'Demandas de Pessoa com Deficiência',
+					'Outros (especificar)'
+				]
 			},
 			{
 				questionId: '12',
-				question: 'Em relação ao emprego, qual a sua situação atual?',
+				question: 'Há quanto tempo você mora no bairro atual?',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
+				options: [
+					'Menos de 1 ano',
+					'Entre 1 a 3 anos',
+					'De 4 a 7 anos',
+					'Entre 7 e 10 anos',
+					'Mais de 10 anos'
+				]
+			},
+			{
+				questionId: '13',
+				question: 'Qual faixa de renda mensal sua família se enquadra?',
+				response: '',
+				questionType: 'select',
+				options: [
+					'Até R$ 600,00',
+					'Entre R$ 600,00 e R$ 1.100',
+					'Entre R$ 1.200 e R$ 1.400',
+					'Entre R$ 1.400 e R$ 2.100',
+					'Entre R$ 2.200 e R$ 3.000',
+					'Acima de R$ 3.000'
+				]
+			},
+			{
+				questionId: '14',
+				question: 'Em relação ao emprego, qual é a sua situação atual?',
+				response: '',
+				questionType: 'select',
 				options: [
 					'Empregado(a) com carteira assinada',
 					'Empregado(a) sem carteira assinada',
 					'Autônomo(a)',
 					'Desempregado(a)',
 					'Aposentado(a)'
-				],
-				response: []
-			},
-			{
-				questionId: '13',
-				question: 'Se está trabalhando atualmente, com que você trabalha?',
-				questionType: 'textual',
-				optional: true,
-				response: ''
-			},
-			{
-				questionId: '14',
-				question: 'Em qual área você possui experiência? (marque todas que se aplicam)',
-				questionType: 'select',
-				multiSelect: true,
-				options: [
-					'Serviços Gerais (limpeza, manutenção)',
-					'Vendas (comércio varejista)',
-					'Serviços Domésticos (diarista, cuidador de idosos)',
-					'Agricultura (trabalho rural)',
-					'Alimentação (restaurantes, lanchonetes)',
-					'Construção Civil',
-					'Trabalhos manuais (costura, artesanato)',
-					'Transporte (motorista, entregador)',
-					'Outra (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
+				]
 			},
 			{
 				questionId: '15',
-				question: 'Em qual faixa de renda mensal sua família se enquadra?',
+				question: 'Se está trabalhando atualmente, com que você trabalha?',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
+				multiSelect: true,
+				allowOtherOptions: true,
+				optional: true,
 				options: [
-					'Até R$ 600,00',
-					'Entre R$ 600,00 e R$ 1.100',
-					'Entre R$1.200 e R$ 1.400',
-					'Entre R$ 1.400 e R$ 2.100',
-					'Entre R$ 2.200 e R$ 3.000',
-					'Acima de R$ 3.000'
-				],
-				response: []
+					'Mecânica',
+					'Manutenção elétrica',
+					'Construção civil',
+					'Serviços gerais (limpeza, manutenção)',
+					'Vendas (ambulante, lojas)',
+					'Serviços domésticos',
+					'Motorista (uber, táxi, entregas)',
+					'Segurança (vigilante, porteiro)',
+					'Artesanato',
+					'Outros, especifique'
+				]
 			},
 			{
 				questionId: '16',
-				question: 'Qual a situação da sua moradia?',
+				question: 'Em qual área você possui experiência? (Marque todas que se aplicam)',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
+				multiSelect: true,
+				allowOtherOptions: true,
 				options: [
-					'Imóvel próprio',
-					'Imóvel Financiado',
-					'Imóvel Alugado',
-					'Imóvel alugado por programa de moradia social',
-					'Imóvel Cedido',
-					'Imóvel Irregular/Ocupação'
-				],
-				response: []
+					'Serviços Gerais (limpeza, manutenção)',
+					'Vendas (comércio varejista)',
+					'Agricultura (trabalho rural)',
+					'Alimentação (restaurantes, lanchonetes)',
+					'Construção Civil',
+					'Trabalhos manuais (Costura, artesanato)',
+					'Transporte (motorista, entregador)',
+					'Outra'
+				]
 			},
 			{
 				questionId: '17',
-				question: 'Quantas pessoas moram com você?',
+				question: 'Qual é a situação da sua moradia?',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
+				options: [
+					'Imóvel próprio',
+					'Imóvel financiado',
+					'Imóvel alugado',
+					'Imóvel alugado por programa de moradia social',
+					'Imóvel cedido',
+					'Imóvel irregular/ocupação'
+				]
+			},
+			{
+				questionId: '18',
+				question: 'Quantas pessoas moram com você?',
+				response: '',
+				questionType: 'select',
+				allowOtherOptions: true,
 				options: [
 					'Moro sozinho(a)',
 					'Com mais 1 pessoa',
 					'Com mais 2 pessoas',
 					'Com mais 3 pessoas',
 					'Com mais 4 pessoas',
-					'Com mais de 4 pessoas (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
-			},
-			{
-				questionId: '18',
-				question: 'Possui acesso à internet em casa?',
-				questionType: 'binary',
-				response: ''
+					'Com mais de 4 pessoas, especificar'
+				]
 			},
 			{
 				questionId: '19',
-				question: 'Quais são os principais motivos para você acessar a internet? (Marque todas as opções que se aplicam)',
-				questionType: 'select',
-				multiSelect: true,
-				options: [
-					'Busca por informações',
-					'Redes sociais',
-					'Entretenimento (vídeos, músicas)',
-					'Comunicação (e-mail, mensagens)',
-					'Educação (cursos online, pesquisa escolar)',
-					'Compras online',
-					'Trabalho ou atividade profissional',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
+				question: 'Atualmente você está estudando ou fazendo algum curso?',
+				response: '',
+				questionType: 'binary'
 			},
 			{
 				questionId: '20',
-				question: 'Quais aplicativos você costuma utilizar mais? (marque todos que se aplicam)',
-				questionType: 'select',
-				multiSelect: true,
-				options: [
-					'Tiktok',
-					'Youtube',
-					'WhatsApp',
-					'Ifood',
-					'Facebook',
-					'Instagram',
-					'Aplicativos de transporte (Uber, 99)',
-					'Jogos',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
+				question: 'Se sim, qual?',
+				response: '',
+				optional: true,
+				questionType: 'textual'
 			},
 			{
 				questionId: '21',
-				question: 'Atualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo?',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '22',
-				question: 'Se sim, Qual/Quais?',
-				questionType: 'textual',
-				optional: true,
-				response: ''
-			},
-			{
-				questionId: '23',
-				question: 'Você já recebeu informações sobre programas sociais disponíveis na sua região? (Exemplo: viu divulgação em algum local, ouviu de alguém e/ou foi orientado por algum funcionário público)',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '24',
-				question: 'Você já foi atrás de informações sobre benefícios sociais, seja para você ou para alguém do seu convívio?',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '25',
-				question: 'Possui Cadastro Único(CadÚnico)?',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '26',
-				question: 'Já ocorreu de perder o prazo para acesso a algum benefício?',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '27',
-				question: 'Recebeu doações nos últimos 4 meses?',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '28',
-				question: 'Se sim, qual tipo de doação? (marque todas que se aplicam)',
+				question: 'Em qual área você gostaria de trabalhar?',
+				response: '',
 				questionType: 'select',
-				multiSelect: true,
-				options: [
-					'Alimentos',
-					'Vestuário',
-					'Móvel',
-					'Outros (especifique)'
-				],
 				allowOtherOptions: true,
-				optional: true,
-				response: []
-			},
-			{
-				questionId: '29',
-				question: 'Qual é o seu principal meio de transporte para se locomover na cidade?',
-				questionType: 'select',
-				multiSelect: false,
-				options: [
-					'Carro',
-					'Transporte público (ônibus)',
-					'Bicicleta',
-					'A pé',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
-			},
-			{
-				questionId: '30',
-				question: 'Com que frequência você utiliza o transporte público?',
-				questionType: 'select',
-				multiSelect: false,
-				options: [
-					'Todos os dias',
-					'Algumas vezes por semana',
-					'Raramente',
-					'Nunca'
-				],
-				response: []
-			},
-			{
-				questionId: '31',
-				question: 'Qual é a sua principal dificuldade ao se locomover pela cidade?',
-				questionType: 'select',
-				multiSelect: false,
-				options: [
-					'Comprometimento da renda',
-					'Falta de infraestrutura para pedestres e ciclistas',
-					'Falta de pontualidade e qualidade no transporte público',
-					'Falta de segurança',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
-			},
-			{
-				questionId: '32',
-				question: 'Você já deixou de realizar alguma atividade por dificuldades de locomoção na cidade? (Exemplo: falta de dinheiro para passagem)',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '33',
-				question: 'Você ou alguém da sua família já participou de programas de capacitação profissional ou de acesso ao mercado de trabalho nos últimos 2 anos?',
-				questionType: 'binary',
-				optional: true,
-				response: ''
-			},
-			{
-				questionId: '34',
-				question: 'Se sim, qual foi o principal aprendizado que teve com a participação nesses programas? (Marque todas as que se aplicam)',
-				questionType: 'select',
-				multiSelect: true,
-				options: [
-					'Adquiriu novas habilidades ou conhecimentos',
-					'Melhorou suas chances de conseguir emprego',
-					'Conseguiu um emprego ou trabalho remunerado',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
-			},
-			{
-				questionId: '35',
-				question: 'Em qual área você gostaria de trabalhar? (Escolha apenas uma opção)',
-				questionType: 'select',
-				multiSelect: false,
 				options: [
 					'Tecnologia da Informação',
 					'Saúde',
@@ -387,18 +249,39 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Indústria e Manufatura',
 					'Direito e Advocacia',
 					'Finanças e Contabilidade',
-					'Rec Recursos Humanos',
+					'Recursos Humanos',
 					'Comunicação e Mídia',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
+					'Outros (especificar)'
+				]
 			},
 			{
-				questionId: '36',
+				questionId: '22',
+				question: 'Você ou alguém da sua família já participou de programas de capacitação profissional ou de acesso ao mercado de trabalho nos últimos 2 anos?',
+				response: '',
+				questionType: 'binary'
+			},
+			{
+				questionId: '23',
+				question: 'Se sim, qual foi o principal aprendizado que teve com a participação nesses programas? (Marque todas as que se aplicam)',
+				response: '',
+				questionType: 'select',
+				allowOtherOptions: true,
+				optional: true,
+				multiSelect: true,
+				options: [
+					'Adquiriu novas habilidades ou conhecimentos',
+					'Melhorou suas chances de conseguir emprego',
+					'Conseguiu um emprego ou trabalho remunerado',
+					'Outros (especificar)'
+				]
+			},
+			{
+				questionId: '24',
 				question: 'Quais das seguintes oportunidades você considera importante buscar para melhorar sua condição de vida? (Marque todas as opções que se aplicam)',
+				response: '',
 				questionType: 'select',
 				multiSelect: true,
+				allowOtherOptions: true,
 				options: [
 					'Trabalho com carteira assinada',
 					'Curso profissionalizante',
@@ -406,124 +289,151 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Acesso a programas de capacitação e qualificação profissional',
 					'Acesso a programas de apoio ao empreendedorismo',
 					'Acesso a programas de moradia popular',
-					'Outros (especifique)'
-				],
-				allowOtherOptions: true,
-				response: []
+					'Outros (especificar)'
+				]
 			},
 			{
-				questionId: '37',
-				question: 'Caso tenha acesso a alguma dessas oportunidades, você tem condições de se locomover até o local ? (Por exemplo, até uma entrevista ou curso)',
-				questionType: 'binary',
-				response: ''
-			},
-			{
-				questionId: '38',
+				questionId: '25',
 				question: 'Você tem interesse em fazer cursos profissionalizantes?',
-				questionType: 'binary',
-				response: ''
+				response: '',
+				questionType: 'binary'
 			},
 			{
-				questionId: '39',
-				question: 'Se sim, qual seria a sua disponibilidade para fazer os cursos?',
+				questionId: '26',
+				question: 'Se sim, qual seria a sua disponibilidade para fazer cursos ou trabalhar? (Marque todas que se aplicam)',
+				response: '',
 				questionType: 'select',
-				multiSelect: false,
-				options: ['Manhã', 'Tarde', 'Noite', 'Finais de semana'],
 				optional: true,
-				response: []
-			},
-			{
-				questionId: '40',
-				question: 'Quais as principais necessidades do seu núcleo familiar ou pessoas com quem mora?',
-				questionType: 'select',
-				multiSelect: true,
-				options: ['Emprego/renda', 'Educação', 'Saúde', 'Segurança', 'Cultura e Lazer'],
-				response: []
-			},
-			{
-				questionId: '41',
-				question: 'Quais das seguintes atividades você costuma realizar regularmente em sua comunidade? (Marque todas as opções que se aplicam)',
-				questionType: 'select',
 				multiSelect: true,
 				options: [
-					'Futebol',
-					'Dança',
-					'Lutas como Boxe, Muay Thai, Capoeira e etc.',
-					'Batalha de rima',
-					'Grafite',
-					'Leitura',
-					'Caminhadas',
-					'Assistir filmes ou séries',
-					'Jogos online',
-					'Jogos de tabuleiro',
-					'Participo de coral e/ou banda',
-					'Artesanato, costura, pintura, etc.',
-					'Outros (especifique)'
-				],
+					'Manhã',
+					'Tarde',
+					'Noite',
+					'Finais de semana'
+				]
+			},
+			{
+				questionId: '27',
+				question: 'Possui Cadastro Único?',
+				response: '',
+				questionType: 'binary'
+			},
+			{
+				questionId: '28',
+				question: 'Atualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo Federal, Estadual e/ou da prefeitura?',
+				response: '',
+				questionType: 'binary'
+			},
+			{
+				questionId: '29',
+				question: 'Se sim, qual/Quais?',
+				response: '',
+				questionType: 'select',
+				multiSelect: true,
 				allowOtherOptions: true,
-				response: []
+				optional: true,
+				options: [
+					'Bolsa-família',
+					'Tarifa Social de Energia Elétrica',
+					'Benefício de Prestação Continuada (BPC)',
+					'Programa Nacional de Acesso ao Ensino Técnico e Emprego (Pronatec)',
+					'Cartão Reforma',
+					'Benefício Eventual Emergencial Monetário',
+					'Benefício Eventual Não Monetário',
+					'Auxílio Natalidade',
+					'Auxílio Moradia Emergencial',
+					'Programa Estadual de Transferência de Renda',
+					'Programa Municipal de Transferência de Renda – Londrina Cidadã',
+					'Outro (especificar)'
+				]
 			},
 			{
-				questionId: '42',
-				question: 'Como você descreveria a qualidade de vida na sua comunidade?',
-				questionType: 'satisfaction',
-				response: ''
+				questionId: '30',
+				question: 'Você já recebeu informações sobre programas sociais disponíveis na sua região? (Exemplo: viu divulgação em algum local, ouviu de alguém e/ou foi orientado por algum funcionário público)',
+				response: '',
+				questionType: 'binary'
 			},
 			{
-				questionId: '43',
-				question: 'Como você avalia a sua Alimentação?',
-				questionType: 'satisfaction',
-				response: ''
+				questionId: '31',
+				question: 'Você já foi atrás de informações sobre benefícios sociais, seja para você ou para alguém do seu convívio?',
+				response: '',
+				questionType: 'binary'
 			},
 			{
-				questionId: '44',
-				question: 'Como avalia as condições da sua Moradia?',
-				questionType: 'satisfaction',
-				response: ''
+				questionId: '32',
+				question: 'Recebeu doações nos últimos 4 meses?',
+				response: '',
+				questionType: 'binary'
 			},
 			{
-				questionId: '45',
-				question: 'Como avalia a situação de Emprego/renda?',
-				questionType: 'satisfaction',
-				response: ''
+				questionId: '33',
+				question: 'Se sim, qual tipo de doação? (marque todas que se aplicam)',
+				response: '',
+				questionType: 'select',
+				multiSelect: true,
+				optional: true,
+				allowOtherOptions: true,
+				options: [
+					'Alimentos',
+					'Vestuário',
+					'Móvel',
+					'Outros; Qual?'
+				]
 			},
 			{
-				questionId: '46',
-				question: 'Em relação ao acesso a Educação?',
-				questionType: 'satisfaction',
-				response: ''
+				questionId: '34',
+				question: 'Qual é o seu principal meio de transporte para se locomover na cidade?',
+				response: '',
+				questionType: 'select',
+				allowOtherOptions: true,
+				multiSelect: false,
+				options: [
+					'Carro',
+					'Transporte público (ônibus)',
+					'Bicicleta',
+					'A pé',
+					'Outros (especificar)'
+				]
 			},
 			{
-				questionId: '47',
-				question: 'Como avalia o acesso a Saúde?',
-				questionType: 'satisfaction',
-				response: ''
+				questionId: '35',
+				question: 'Qual é a sua principal dificuldade ao se locomover pela cidade?',
+				response: '',
+				questionType: 'select',
+				allowOtherOptions: true,
+				multiSelect: false,
+				options: [
+					'Comprometimento da renda',
+					'Falta de infraestrutura para pedestres e ciclistas',
+					'Falta de linhas no transporte público (trajeto ou horários)',
+					'Falta de segurança',
+					'Outros (especificar)'
+				]
 			},
 			{
-				questionId: '48',
-				question: 'Como sente que esta a Segurança?',
-				questionType: 'satisfaction',
-				response: ''
-			},
-			{
-				questionId: '49',
-				question: 'Como avalia o seu acesso a atividades culturais e de lazer?',
-				questionType: 'satisfaction',
-				response: ''
-			},
-			{
-				questionId: '50',
-				question: 'Como está a situação do Saneamento?',
-				questionType: 'satisfaction',
-				response: ''
-			},
-			{
-				questionId: '51',
-				question: 'Caso queira citar alguma outra questão (especificar):',
-				questionType: 'textual',
-				response: ''
+				questionId: '36',
+				question: 'Qual destes tipos de eventos culturais você mais gosta de participar? (Marque todas que se aplicam)',
+				response: '',
+				questionType: 'select',
+				multiSelect: true,
+				allowOtherOptions: true,
+				options: [
+					'Shows de música ao vivo',
+					'Peças de teatro',
+					'Artes visuais (pintura, grafite, etc)',
+					'Festivais de cinema',
+					'Dança (bailes, espetáculos de dança, etc.)',
+					'Feiras de literatura',
+					'Eventos gastronômicos',
+					'Festas tradicionais/culturais',
+					'Palestras e workshops culturais',
+					'Eventos de Hip Hop (batalhas, shows, etc)',
+					'Feiras de artesanato',
+					'Atividades religiosas',
+					'Outros (especificar)'
+				]
 			}
-		]/* .slice(10, 12) as CitizenRegisterQuestionResponse[] */
+		]/* .slice(10, 11) as CitizenRegisterQuestionResponse[] */
 		return citizenRegistrationQuestionary
 	}
 }

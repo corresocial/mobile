@@ -7,6 +7,7 @@ export interface CitizenRegistrationProviderProps {
 }
 
 export interface CitizenRegistrationIdentifier {
+	citizenRegisterId?: string
 	name?: string
 	cellNumber?: string
 	citizenHasAccount?: boolean
@@ -19,6 +20,7 @@ export interface CitizenRegistrationContextType {
 	startNewCitizenRegistration(): void
 	saveCitizenRegistrationIdentifier(data: CitizenRegistrationIdentifier): void
 	getNextQuestion(lastQuestion: CitizenRegisterQuestionResponse): CitizenRegisterQuestionResponse | null
+	getNextUnansweredRequiredQuestion(): CitizenRegisterQuestionResponse | null
 	getResponseProgress(currentQuestionId: string | number): number[]
 	saveResponseData(question: CitizenRegisterQuestionResponse, response: CitizenRegisterQuestionResponse['response'], specificResponse?: string): void
 

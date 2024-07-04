@@ -22,9 +22,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 
 function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenProps) {
-	const { getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
+	const { citizenRegistrationResponseData, getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
 
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+	const [responseProgress, setResponseProgress] = useState([0, 0])
 
 	const theme = useTheme()
 
@@ -35,7 +36,11 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 
 	const { questionData } = route.params
 	const { multiSelect } = questionData
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	useEffect(() => {
 		const handleKeyboardDidShow = () => setKeyboardOpened(true)
@@ -52,6 +57,17 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 			removeAllKeyboardEventListeners()
 		}
 	}, [navigation])
+
+	useEffect(() => {
+		console.log(route.params.questionData)
+
+		const questionIndex = citizenRegistrationResponseData.findIndex((res) => res.questionId === questionData.questionId)
+		if (questionIndex < 0) return
+		const questionResponse = citizenRegistrationResponseData[questionIndex].response || []
+		if (questionResponse) {
+			setSelectedOptions(questionResponse as string[])
+		}
+	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -89,14 +105,14 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextQuestion === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
@@ -132,7 +148,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		<ScreenContainer topSafeAreaColor={theme.orange1}>
 			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 				<CitizenRegistrationHeader
-					message={questionData.question}
+					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}
 					navigateBackwards={navigateBackwards}
 				/>

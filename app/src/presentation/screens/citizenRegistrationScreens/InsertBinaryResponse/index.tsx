@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
@@ -21,8 +21,14 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 
 	const theme = useTheme()
 
+	const [responseProgress, setResponseProgress] = useState([0, 0])
+
 	const { questionData } = route.params
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -40,21 +46,21 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 	}
 
 	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextQuestion === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange1}>
 			<CitizenRegistrationHeader
-				message={questionData.question}
+				message={`${questionData.questionId} - ${questionData.question}`}
 				progress={responseProgress}
 				navigateBackwards={navigateBackwards}
 			/>

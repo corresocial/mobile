@@ -19,7 +19,7 @@ export const OptionContainer = styled.View`
 
 export const ButtonOptionsContainer = styled.View`
 	width: 100%;
-	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(30)}px;
+	padding: ${relativeScreenDensity(15)}px ${relativeScreenDensity(25)}px;
 	align-items: center;
 `
 

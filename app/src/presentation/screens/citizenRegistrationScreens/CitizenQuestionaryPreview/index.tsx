@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ListRenderItem } from 'react-native'
+import { ListRenderItem, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
@@ -29,31 +29,42 @@ const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPreviewScreenProps) {
 	const { userDataContext } = useAuthContext()
-	const { startNewCitizenRegistration } = useCitizenRegistrationContext()
+	const { citizenRegistrationResponseData, citizenRegistrationIdentifier, startNewCitizenRegistration, getNextUnansweredRequiredQuestion } = useCitizenRegistrationContext()
 	const { setLoaderIsVisible } = useLoaderContext()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	const theme = useTheme()
 
-	const editMode = !!(route.params && route.params.registerData)
+	const registerIsStored = !!(route.params && route.params.registerData)
 	const hasResponsesFromRoute = (route.params && route.params.registerData && route.params.registerData && route.params.registerData.responses && route.params.registerData.responses.length)
-	const registerData = route.params?.registerData
+	const registerData = route.params?.registerData || citizenRegistrationIdentifier
 	const citizenRegisterResponses = hasResponsesFromRoute
 		? route.params.registerData.responses
-		: citizenUseCases.getCitizenRegistrationQuestionary()
+		: citizenRegistrationResponseData // citizenUseCases.getCitizenRegistrationQuestionary()
 
 	useEffect(() => {
 		startNewCitizenRegistration()
 	}, [])
 
 	const startCitizenRegistration = () => {
-		navigation.navigate('InsertCitizenCellNumber')
+		const nextQuestion = getNextUnansweredRequiredQuestion()
+
+		if (nextQuestion?.questionId === '3') { // Primeira questão que pertence ao fluxo
+			return navigation.navigate('InsertCitizenCellNumber')
+		}
+		navigateToNextReponseScreen(nextQuestion as CitizenRegisterQuestionResponse)
 	}
 
 	const saveCitizenRegister = async () => {
 		try {
+			if (!registerIsStored) return
+
 			setLoaderIsVisible(true)
+			setTimeout(() => {
+				return setLoaderIsVisible(false)
+			}, 10000)
+
 			await citizenUseCases.createCitizenRegister(userDataContext, registerData as CitizenRegisterEntity)
 			await deleteCitizenRegister(registerData?.citizenRegisterId)
 			setLoaderIsVisible(false)
@@ -66,10 +77,15 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 
 	const deleteCitizenRegister = async (registerId?: string) => {
 		try {
-			if (!editMode) return
+			if (!registerIsStored) {
+				citizenUseCases.removeCitizenRegistrationInProgress()
+				startNewCitizenRegistration()
+				return
+			}
+
 			!registerId && setLoaderIsVisible(true)
-			const { citizenRegisterId } = route.params.registerData
-			await citizenUseCases.deleteOfflineCitizenRegister(registerId || citizenRegisterId)
+			const citizenRegisterId = route.params && route.params.registerData && route.params.registerData.citizenRegisterId
+			await citizenUseCases.deleteOfflineCitizenRegister(registerId || citizenRegisterId as string)
 			!registerId && setLoaderIsVisible(false)
 			navigation.goBack()
 		} catch (error) {
@@ -82,18 +98,37 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
 
+	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
+		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+
+		switch (nextQuestion.questionType) {
+			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': {
+				navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+				break
+			}
+		}
+	}
+
 	const renderQuestion = ({ item }: FlatListItem<CitizenRegisterQuestionResponse>) => {
 		return (
 			<QuestionCard
+				questionId={item.questionId}
 				question={item.question}
-				answer={editMode ? item.response : ''}
+				answer={item.response || ''}
 				questionType={item.questionType}
+				optional={item.optional}
+				onPress={!registerIsStored ? () => navigateToNextReponseScreen(item) : undefined}
 			/>
 		)
 	}
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom >
+			<StatusBar barStyle={'dark-content'} />
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'apagar'}
@@ -110,10 +145,10 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 					ignorePlatform
 					onBackPress={() => navigation.goBack()}
 				/>
-				<HeaderActionsContainer isEditMode={editMode}>
+				<HeaderActionsContainer>
 					<PrimaryButton
-						label={editMode ? 'enviar' : 'responder'}
-						highlightedWords={[editMode ? 'enviar' : 'responder']}
+						label={registerIsStored ? 'enviar' : 'responder'}
+						highlightedWords={[registerIsStored ? 'enviar' : 'responder']}
 						color={theme.green3}
 						fontSize={14}
 						SecondSvgIcon={EditCitizenIcon}
@@ -121,55 +156,42 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 						minHeight={45}
 						relativeHeight={relativeScreenDensity(45)}
 						labelColor={theme.white3}
-						onPress={editMode ? saveCitizenRegister : startCitizenRegistration}
+						onPress={registerIsStored ? saveCitizenRegister : startCitizenRegistration}
 					/>
-					{
-						editMode && (
-							<SmallButton
-								relativeWidth={relativeScreenDensity(45)}
-								height={relativeScreenDensity(45)}
-								SvgIcon={trashIcon}
-								onPress={toggleDefaultConfirmationModalVisibility}
-								color={theme.red3}
-							/>
-						)
-					}
-
+					<SmallButton
+						relativeWidth={relativeScreenDensity(45)}
+						height={relativeScreenDensity(45)}
+						SvgIcon={trashIcon}
+						onPress={toggleDefaultConfirmationModalVisibility}
+						color={theme.red3}
+					/>
 				</HeaderActionsContainer>
 			</HeaderContainer>
 			<Body>
-
 				<QuestionsList
 					data={citizenRegisterResponses}
 					renderItem={renderQuestion as ListRenderItem<unknown>}
 					ListHeaderComponent={(
 						<>
 							<VerticalSpacing height={2} />
-							{
-								editMode && registerData?.name && (
-									<>
-										<QuestionCard
-											question={'Como você se chama?'}
-											answer={registerData?.name}
-											questionType={'textual'}
-										/>
-										<VerticalSpacing />
-									</>
-								)
-							}
+							<QuestionCard
+								questionId={'1'}
+								question={'Gostaria de deixar o seu telefone para contato?'}
+								answer={registerData?.cellNumber}
+								questionType={'textual'}
+								optional
+								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenCellNumber') : undefined}
+							/>
+							<VerticalSpacing />
+							<QuestionCard
+								questionId={'2'}
+								question={'Como você se chama?'}
+								answer={registerData?.name}
+								questionType={'textual'}
+								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenName') : undefined}
+							/>
+							<VerticalSpacing />
 
-							{
-								editMode && registerData?.cellNumber && (
-									<>
-										<QuestionCard
-											question={'gostaria de deixar o seu telefone para contato?'}
-											answer={registerData?.cellNumber}
-											questionType={'textual'}
-										/>
-										<VerticalSpacing />
-									</>
-								)
-							}
 						</>
 					)}
 					ItemSeparatorComponent={() => <VerticalSpacing />}

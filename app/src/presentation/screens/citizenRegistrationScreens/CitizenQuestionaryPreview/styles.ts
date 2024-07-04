@@ -9,12 +9,8 @@ export const HeaderContainer = styled.View`
 	gap: ${relativeScreenDensity(20)}px;
 `
 
-interface HeaderActionsContainerProps {
-	isEditMode: boolean
-}
-
-export const HeaderActionsContainer = styled.View<HeaderActionsContainerProps>`
-	width: ${({ isEditMode }) => (isEditMode ? '85%' : '100%')};
+export const HeaderActionsContainer = styled.View`
+	width: 85%;
 	padding-left: ${relativeScreenDensity(10)}px;
 	flex-direction: row;
 	align-items: center;

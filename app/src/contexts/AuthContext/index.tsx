@@ -15,6 +15,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContextType, AuthProviderProps } from './types'
 
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
+import { getNetworkStatus } from '@utils/deviceNetwork'
 
 const { syncWithRemoteUser } = useUserDomain()
 const { getPostsByOwner } = usePostDomain()
@@ -58,8 +59,12 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const setRemoteUserOnLocal = async (uid?: string, refreshMode?: boolean) => {
 		try {
 			const userData = await syncWithRemoteUser(useUserRepository, uid || userDataContext.userId)
+
+			const status = await getNetworkStatus()
+			const hasNetworkConnection = status.isConnected && status.isInternetReachable
+
 			if (userData && typeof userData && Object.keys(userData).length > 1) {
-				refreshMode ? await loadUserPosts(userData.userId, true) : await loadUserPosts(userData.userId, false, true)
+				refreshMode && hasNetworkConnection ? await loadUserPosts(userData.userId, true) : await loadUserPosts(userData.userId, false, true)
 				setUserDataContext({ ...userData })
 				return true
 			}

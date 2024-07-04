@@ -1,24 +1,22 @@
 import * as Location from 'expo-location' // REFACTOR Centralizar request permissions
 import React, { useState } from 'react'
+import { Alert } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { CitizenRegisterModel } from '@domain/citizenRegister/adapter/CitizenRegisterModel'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
-import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
 import { FinishCitizenRegistrationScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 
-import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
-import { structureAddress } from '@utils-ui/location/addressFormatter'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { ButtonOptionsContainer } from './styles'
 import MapPointerWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import SendFileWhiteIcon from '@assets/icons/sendFile-white.svg'
-import { generateGeohashes } from '@common/generateGeohashes'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { FormContainer } from '@components/_containers/FormContainer'
@@ -27,9 +25,6 @@ import { CustomModal } from '@components/_modals/CustomModal'
 import { WithoutNetworkConnectionAlert } from '@components/_modals/WithoutNetworkConnectionAlert'
 import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 import { Loader } from '@components/Loader'
-
-const { getCurrentLocation } = useLocationService()
-const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
@@ -43,11 +38,6 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 	const [isLoading, setIsLoading] = useState(false)
 
 	const theme = useTheme()
-
-	// console.log({
-	// 	...citizenRegistrationIdentifier,
-	// 	responses: citizenRegistrationResponseData
-	// })
 
 	const checkLocationPermissions = async () => {
 		const { granted } = await Location.getForegroundPermissionsAsync()
@@ -68,6 +58,8 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 	}
 
 	const submitResponses = async () => {
+		const { getCurrentLocation } = useLocationService()
+
 		try {
 			setIsLoading(true)
 			if (!hasLocationPermissions) {
@@ -76,27 +68,38 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				if (!hasPermission) return
 			}
 
-			const hasValidNetworkConnection = await checkNetworkStatus()
+			const location = await getCurrentLocation()
 
-			const currentCoordinates = await getCurrentLocation() // MODEL
-			const currentLocation = await getReverseGeocodeByMapsApi(currentCoordinates.coords.latitude, currentCoordinates.coords.longitude)
-			const completeAddress = structureAddress(currentLocation)
-			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
+			const hasValidNetworkConnection = await checkNetworkStatus()
 
 			const citizenRegisterData = {
 				...citizenRegistrationIdentifier,
-				responses: citizenRegistrationResponseData,
+				createdAt: new Date(),
 				location: {
-					...currentLocation,
-					...geohashObject,
 					coordinates: {
-						latitude: currentCoordinates.coords.latitude,
-						longitude: currentCoordinates.coords.longitude
+						latitude: location.coords.latitude,
+						longitude: location.coords.longitude
 					}
-				} as CitizenRegisterEntity['location']
+				} as any,
+				responses: citizenRegistrationResponseData
+			}
+
+			// console.log('offline register')
+			// console.log(citizenRegisterData)
+			// console.log(citizenRegisterData.createdAt)
+			// console.log('------------------')
+
+			try {
+				const citizenModel = new CitizenRegisterModel()
+				new citizenModel.CitizenRegisterResponses(citizenRegisterData.responses || []).data()
+				if (!citizenRegisterData.name) throw new Error('O nome do cidadão é obrigatório')
+			} catch (error) {
+				Alert.alert('Ops!', 'Volte e verifique se todas as questões obrigatórias foram respondidadas!')
+				throw error
 			}
 
 			const offlineRegisterId = await citizenUseCases.saveCitizenRegisterOffline(userDataContext, citizenRegisterData)
+			await citizenUseCases.removeCitizenRegistrationInProgress()
 
 			if (!hasValidNetworkConnection) {
 				setIsLoading(false)
@@ -147,7 +150,10 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				title={'não foi possível enviar as respostas'}
 				message={'houve um erro de conexão e as respostas foram armazenadas no dispositivo, você pode tentar novamente agora ou posteriormente quando houver uma conexão mais estável'}
 				highlightedWords={['armazenadas', 'no', 'dispositivo,']}
-				onPressButton={() => setTimeoutModalIsVisible(false)}
+				onPressButton={() => {
+					setTimeoutModalIsVisible(false)
+					navigation.navigate('CitizenRegistrationHome')
+				}}
 			/>
 			<CitizenRegistrationHeader
 				message={'cadastro cidadão finalidado!'}

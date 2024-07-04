@@ -1,4 +1,4 @@
-import { CitizenRegisterResponses } from '@domain/citizenRegister/model/entities/CitizenRegisterResponses'
+import { CitizenRegisterResponses } from '@domain/citizenRegister/model/domainServices/CitizenRegisterResponses'
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 const mockResponses: CitizenRegisterQuestionResponse[] = [
