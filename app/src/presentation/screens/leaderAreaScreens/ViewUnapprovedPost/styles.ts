@@ -14,7 +14,7 @@ export const Container = styled.View<BackgroundProps>`
 export const Body = styled.View<BackgroundProps>`
 	flex: 1;
 	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
-	padding: 0px ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 	gap: ${relativeScreenDensity(9)}px;
 `
 

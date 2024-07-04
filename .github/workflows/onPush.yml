@@ -14,11 +14,13 @@ jobs:
     steps:
       - name: Setup repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        # with:
+        #   fetch-depth: 0
 
       - name: Check commit patterns
         uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: .commitlintrc.mjs
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

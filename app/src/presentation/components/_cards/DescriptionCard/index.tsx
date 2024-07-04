@@ -12,7 +12,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
-// import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DescriptionCardProps {
 	title?: string

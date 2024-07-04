@@ -18,4 +18,5 @@ export type LeaderAreaStackParamList = {
 	ViewVacancyPostLeaderArea: { postData: VacancyEntity, redirectedPostId: string }
 	ViewSocialImpactPostLeaderArea: { postData: SocialImpactEntity, redirectedPostId: string }
 	ViewCulturePostLeaderArea: { postData: CultureEntity, redirectedPostId: string }
+	CitizenRegistrationArea: undefined
 } & UserStackParamList

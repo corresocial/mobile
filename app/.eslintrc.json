@@ -1,4 +1,10 @@
 {
+	"env": {
+		"es2021": true,
+		"node": true,
+		"jest": true /* ,
+		"jest/globals": true */ // Crachando o import helpers
+	},
 	"extends": [
 		"airbnb"
 	],
@@ -121,12 +127,14 @@
 				]
 			}
 		],
+		"lines-between-class-members": "off",
 		"linebreak-style": "off",
 		"no-trailing-spaces": "off",
 		"no-multiple-empty-lines": "warn",
 		"max-len": "off",
 		"no-multi-spaces": "warn",
 		"key-spacing": "warn",
+		"class-methods-use-this": "off",
 		"semi": [
 			"warn",
 			"never"

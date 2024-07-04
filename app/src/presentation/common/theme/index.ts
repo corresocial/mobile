@@ -56,7 +56,7 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 		orange1: 'rgba(250, 153, 56, 0.7)',
 		orange2: 'rgba(250, 153, 56, 0.9)',
 
-		red: 'rgba(232, 79, 48, 0.7)',
+		red: 'rgba(232, 79, 48, 0.9)',
 		green: 'rgba(18, 161, 89, 0.7)',
 		purple3: 'rgba(153, 71, 235, 0.25)',
 		yellow3: 'rgba(251, 206, 55, 0.25)',

@@ -21,7 +21,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenProps) {
-	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
@@ -29,7 +29,7 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 
 	const { questionData } = route.params
 	const { multiSelect } = questionData
-	const responseProgress = getResponseProgess(questionData.questionId)
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 

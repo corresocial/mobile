@@ -12,7 +12,7 @@ import { DefaultCardContainer } from '@components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProps) {
+function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScreenProps) {
 	const navigateToHelpUs = () => {
 		navigation.navigate('Configurations')
 		navigation.navigate('HelpUs')
