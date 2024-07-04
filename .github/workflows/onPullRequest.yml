@@ -16,8 +16,9 @@ jobs:
     steps:
       - name: Setup repository
         uses: actions/checkout@v3
-        # with:
-        #   fetch-depth: 0
+        with:
+          token: ${{ secrets.ORG_GITHUB_TOKEN }}
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
