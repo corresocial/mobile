@@ -3,7 +3,7 @@ export default {
 	expo: {
 		name: 'corre',
 		owner: 'corresocial',
-		scheme: 'com.corresocial.corresocial', // Scheme abstrato que é usado para as duas plataformas
+		scheme: ['com.corresocial.corresocial', 'corre'], // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
 		version: '0.9.0',
 		orientation: 'portrait',
@@ -104,7 +104,7 @@ export default {
 				NSPhotoLibraryUsageDescription: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.',
 				NSFaceIDUsageDescription: 'Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.',
 				CFBundleURLTypes: [
-					{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial'] }
+					{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial', 'corre'] }
 				]
 			},
 			supportsTablet: true,
