@@ -154,11 +154,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId,
-					{ email: linkedUser.email || '' }
+					{ email: linkedUser.email ? linkedUser.email : '' }
 				)
 
-				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
-				navigateToLinkResultScreen(true, linkedUser.email)
+				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email ? linkedUser.email : '' })
+				navigateToLinkResultScreen(true, linkedUser.email ? linkedUser.email : '')
 			} else {
 				await promptAsyncGoogle()
 			}
@@ -207,7 +207,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
-				accountIdentifier={userPrivateContacts.email || ''}
+				accountIdentifier={userPrivateContacts ? userPrivateContacts.email : ''}
 				registerMethod
 				linking
 				hasError={hasError}

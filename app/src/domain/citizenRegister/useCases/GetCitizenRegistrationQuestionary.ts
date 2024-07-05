@@ -389,6 +389,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				multiSelect: false,
 				options: [
 					'Carro',
+					'Moto',
 					'Transporte público (ônibus)',
 					'Bicicleta',
 					'A pé',
