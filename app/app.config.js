@@ -119,7 +119,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 62,
+			versionCode: 63,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
