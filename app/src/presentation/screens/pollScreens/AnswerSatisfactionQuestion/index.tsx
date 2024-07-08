@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion, SatisfactionType } from '@domain/poll/entity/types'
@@ -23,12 +24,12 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQuestionScreenProps) {
-	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const { questionData } = route.params
-	const responseProgress = getResponseProgess(questionData.questionId)
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -52,6 +53,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized

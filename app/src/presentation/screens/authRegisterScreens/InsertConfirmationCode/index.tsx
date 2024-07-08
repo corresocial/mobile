@@ -127,7 +127,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		}
 		return false
 	}
-
 	const sendConfirmationCode = async () => {
 		try {
 			setIsLoading(true)
@@ -147,7 +146,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				setIsLoading(false)
 				if (!userHasAccount) {
 					setUserRegisterDataOnContext({ ...userAuthData, userId })
-					navigation.navigate('InsertName') // TODO Negar volta
+					navigation.navigate('InsertName')
 					return
 				}
 

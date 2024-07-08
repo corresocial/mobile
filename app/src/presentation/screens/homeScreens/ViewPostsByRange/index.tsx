@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
-import uuid from 'react-uuid'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -19,6 +18,7 @@ import { theme } from '@common/theme'
 import { PetitionCard } from '@components/_cards/PetitionCard'
 import { PollCard } from '@components/_cards/PollCard'
 import { PostCard } from '@components/_cards/PostCard'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
@@ -111,10 +111,11 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 		switch (itemType) {
 			case 'post': return (
-				<ContainerPadding key={uuid()}>
+				<ContainerPadding key={item.postId}>
 					<PostCard
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
 						onPress={() => viewPostDetails(item)}
 					/>
@@ -122,7 +123,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 			)
 
 			case 'poll': return (
-				<ContainerPadding key={uuid()}>
+				<ContainerPadding key={item.pollId}>
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -133,7 +134,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 				</ContainerPadding>
 			)
 			case 'petition': return (
-				<ContainerPadding key={uuid()}>
+				<ContainerPadding key={item.petitionId}>
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -148,43 +149,44 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	}
 
 	return (
-		<Container >
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<Header>
-				<DefaultPostViewHeader
-					text={getRelativeTitle()}
-					highlightedWords={['perto', 'cidade', 'país', 'recentes']}
-					onBackPress={() => navigation.goBack()}
-				/>
-				<InputContainer>
-					<SearchInput
-						value={searchText}
-						placeholder={'pesquisar'}
-						returnKeyType={'search'}
-						onChangeText={(text: string) => setSearchText(text)}
-						onPressKeyboardSubmit={navigateToResultScreen}
+		<ScreenContainer infinityBottom>
+			<Container >
+				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<Header>
+					<DefaultPostViewHeader
+						ignorePlatform
+						text={getRelativeTitle()}
+						highlightedWords={['perto', 'cidade', 'país', 'recentes']}
+						onBackPress={() => navigation.goBack()}
 					/>
-				</InputContainer>
-			</Header>
-			<Body
-				style={{ backgroundColor: getRelativeBackgroundColor() }}
-				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			>
-				{
-					(postsByRange && postsByRange.length)
-						? (
-							<>
-								<FlatListPosts
-									data={postsByRange}
-									renderItem={renderPostItem as any} // TODO Type
-									headerComponent={() => <VerticalSpacing />}
-								/>
-							</>
+					<InputContainer>
+						<SearchInput
+							value={searchText}
+							placeholder={'pesquisar'}
+							returnKeyType={'search'}
+							onChangeText={(text: string) => setSearchText(text)}
+							onPressKeyboardSubmit={navigateToResultScreen}
+						/>
+					</InputContainer>
+				</Header>
+				<Body
+					style={{ backgroundColor: getRelativeBackgroundColor() }}
+					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				>
+					{
+						(postsByRange && postsByRange.length) && (
+							<FlatListPosts
+								data={postsByRange}
+								renderItem={renderPostItem as any}
+								headerComponent={() => (
+									<VerticalSpacing />
+								)}
+							/>
 						)
-						: <></>
-				}
-			</Body>
-		</Container>
+					}
+				</Body>
+			</Container>
+		</ScreenContainer>
 	)
 }
 

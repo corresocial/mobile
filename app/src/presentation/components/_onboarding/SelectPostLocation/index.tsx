@@ -81,7 +81,6 @@ function SelectPostLocation({
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
-
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {

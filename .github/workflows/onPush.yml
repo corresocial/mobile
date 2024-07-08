@@ -1,0 +1,37 @@
+name: Check environment
+
+on:
+  push:
+    branches-ignore:
+      - 'test/*'
+
+jobs:
+  check-environment:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Setup repository
+        uses: actions/checkout@v3
+        # with:
+        #   fetch-depth: 0
+
+      - name: Check commit patterns
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: .commitlintrc.mjs
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run lint
+        run: npm run format
+
+      # - name: Run tests
+      #   run: npm test

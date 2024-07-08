@@ -20,7 +20,7 @@ import DocumentWhiteIcon from '@assets/icons/document-white.svg'
 import DownloadWhiteIcon from '@assets/icons/download-white.svg'
 import QuestionWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -191,15 +191,27 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				highlightedButtonAction={isAuthor() ? downloadPollResults : alreadyResponded ? () => { } : respondPoll}
 				inactiveHighlightedButton={alreadyResponded}
 				HeaderFooter={isAuthor() && (
-					<SmallButton
-						label={'baixar respostas individuais'}
-						labelColor={theme.white3}
-						color={theme.green3}
-						SvgIcon={DownloadWhiteIcon}
-						relativeWidth={'98%'}
-						height={relativeScreenWidth(12)}
-						onPress={downloadIndividualAnswers}
-					/>
+					<>
+						<SmallButton
+							label={'baixar respostas individuais'}
+							labelColor={theme.white3}
+							color={theme.green3}
+							SvgIcon={DownloadWhiteIcon}
+							relativeWidth={'98%'}
+							height={relativeScreenWidth(12)}
+							onPress={downloadIndividualAnswers}
+						/>
+						<VerticalSpacing />
+						<SmallButton
+							label={'responder enquete'}
+							labelColor={theme.black4}
+							color={theme.yellow3}
+							SvgIcon={DocumentWhiteIcon}
+							relativeWidth={'98%'}
+							height={relativeScreenWidth(12)}
+							onPress={respondPoll}
+						/>
+					</>
 				)}
 			>
 				<PostPopOver
@@ -221,7 +233,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 				</PostPopOver>
 			</PostHeader>
 			<Body>
-				<VerticalSpacing height={relativeScreenHeight(2)} />
+				<VerticalSpacing height={2} />
 				<DescriptionCard
 					text={pollData.description}
 				/>
@@ -237,7 +249,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 					locationView={'public'}
 				/>
 				{renderQuestions()}
-				<VerticalSpacing height={relativeScreenHeight(5)} />
+				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
 		</>
 	)

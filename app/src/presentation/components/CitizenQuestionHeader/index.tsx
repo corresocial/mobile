@@ -1,0 +1,32 @@
+import React from 'react'
+
+import { ButtonArea, ButtonsContainer, HeaderContainer } from './styles'
+import ChatIcon from '@assets/icons/chat-outlined.svg'
+import PaperIcon from '@assets/icons/paperList-outlined.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
+
+import { BackButton } from '@components/_buttons/BackButton'
+
+interface CitizenQuestionHeaderProps {
+	onBackPressed: () => void
+	openChat: () => void
+	openNotePad: () => void
+}
+
+function CitizenQuestionHeader({ onBackPressed, openChat, openNotePad }: CitizenQuestionHeaderProps) {
+	return (
+		<HeaderContainer>
+			<BackButton onPress={onBackPressed} />
+			<ButtonsContainer>
+				<ButtonArea activeOpacity={0.5} onPress={openChat}>
+					<ChatIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
+				</ButtonArea>
+				<ButtonArea activeOpacity={0.5} onPress={openNotePad}>
+					<PaperIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
+				</ButtonArea>
+			</ButtonsContainer>
+		</HeaderContainer>
+	)
+}
+
+export { CitizenQuestionHeader }

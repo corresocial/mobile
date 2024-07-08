@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
-
 import { sendEvent } from '@newutils/methods/analyticsEvents'
+import { useUtils } from '@newutils/useUtils'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
+
+import { useAlertContext } from '@contexts/AlertContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -36,27 +37,26 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
-const { updateUserRepository } = useUserDomain()
+const { getObjectDifferences } = useUtils()
+
 const { updatePost, savePost } = usePostDomain()
 
 const { localStorage: localPostStorage } = usePostRepository()
 
 type UserContextFragment = {
-	userDataContext: UserEntity;
-	setUserDataOnContext: (data: UserEntityOptional) => void;
+	userDataContext: UserEntity
+	setUserDataOnContext: (data: UserEntityOptional) => void
 }
 
 type EditContextFragment = {
-	setEditDataOnContext: (data: any) => void;
-	editDataContext: {
-		unsaved: any;
-		saved: any;
-	};
-	clearUnsavedEditContext: () => void;
+	setEditDataOnContext: (data: any) => void
+	editDataContext: {unsaved: any, saved: any}
+	clearUnsavedEditContext: () => void
 }
 
 interface EditPostProps {
 	initialPostData: PostEntity
+	approvedPostData?: PostEntity
 	owner: PostEntity['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
@@ -74,6 +74,7 @@ interface EditPostProps {
 
 function EditPost({
 	initialPostData,
+	approvedPostData,
 	owner,
 	backgroundColor,
 	unsavedPost,
@@ -88,6 +89,9 @@ function EditPost({
 	showShareModal,
 	getPostField
 }: EditPostProps) {
+	const { addUserPost, updateUserPost } = useAuthContext()
+	const { showWaitingApproveModal } = useAlertContext()
+
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -112,31 +116,34 @@ function EditPost({
 	const editPostData = async () => {
 		if (!editDataContext.unsaved) return
 
-		const postDataToSave: PostEntity = { ...initialPostData, ...editDataContext.unsaved }
-
 		try {
+			const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, { ...initialPostData, ...editDataContext.unsaved })
+			console.log(dataChanges)
+			if (!dataChanges) return
+
 			setIsLoading(true)
 
-			const { updatedUserPosts, picturesUrlUploaded } = await updatePost(
+			const postWithUnapprovedData = {
+				...approvedPostData,
+				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
+			}
+
+			const { /* updatedUserPosts, */ picturesUrl } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
-				postDataToSave,
-				editDataContext.unsaved.picturesUrl || [],
-				editDataContext.unsaved.videosUrl || []
+				postWithUnapprovedData as PostEntity,
+				editDataContext.unsaved.picturesUrl || []
 			)
 
-			await updateUserRepository(
-				useUserRepository,
-				userDataContext,
-				{ posts: updatedUserPosts || [] }
-			)
+			// REFACTOR Atualizar em user.posts localmente
 
-			updateUserContext({ ...userDataContext }, updatedUserPosts)
-			changeStateOfEditedFields([...picturesUrlUploaded])
-
+			updateUserPost(postWithUnapprovedData as PostEntity)
+			changeStateOfEditedFields(picturesUrl)
 			setIsLoading(false)
+
+			showWaitingApproveModal()
 			navigateBackwards()
 		} catch (error: any) {
 			console.log(error)
@@ -148,17 +155,23 @@ function EditPost({
 	const savePostData = async () => {
 		try {
 			const hasValidConnection = await checkNetworkStatus()
-
-			const postDataToSave = {
-				...initialPostData,
-				...editDataContext.unsaved,
-				completed: false,
-			} as PostEntity
-
 			if (offlinePost && !hasValidConnection) return
 
+			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved, completed: false } as PostEntity
+			const { createdAt, postType, macroCategory, ...unapprovedData } = postDataToSave
+			const postWithUnapprovedData = {
+				...approvedPostData,
+				owner,
+				createdAt,
+				postType,
+				macroCategory,
+				updatedAt: new Date(),
+				completed: false,
+				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
+			} as PostEntity
+
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
-				await localPostStorage.saveOfflinePost({ ...postDataToSave, owner })
+				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
 				navigateToProfile && navigateToProfile()
 				return
 			}
@@ -176,31 +189,25 @@ function EditPost({
 				}, 30000)
 			}
 
-			const { newPost, updatedUserPosts } = await savePost(
+			const { newPost/* , updatedUserPosts */ } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
-				{ ...postDataToSave, owner },
+				postWithUnapprovedData,
 				editDataContext.unsaved.picturesUrl || [],
 				notifyUsersEnabled
 			)
 
-			await updateUserRepository(
-				useUserRepository,
-				{ ...userDataContext },
-				{ posts: updatedUserPosts || [] }
-			)
-
-			updateUserContext({ ...userDataContext }, updatedUserPosts)
+			addUserPost(newPost)
+			// REFACTOR salvar em user.posts localmente
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
-
 			sendEvent('user_posted', { postType: getPostField('postType') })
 
-			showShareModal(true, getShortText(newPost.description, 70), newPost.postId)
+			showWaitingApproveModal()
 			navigateToPostView(newPost)
 
 			setIsLoading(false)
@@ -215,9 +222,9 @@ function EditPost({
 		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
-	const changeStateOfEditedFields = (uploadedPictures?: string[], uploadedVideos?: string[]) => {
+	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
 		let newEditState
-		if (uploadedPictures) {
+		if (uploadedPictures && uploadedPictures.length) {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
 		} else {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
@@ -229,10 +236,6 @@ function EditPost({
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
-	}
-
-	const updateUserContext = (user: UserEntity, updatedUserPosts?: PostEntity[]) => {
-		userContext.setUserDataOnContext({ ...user, posts: updatedUserPosts })
 	}
 
 	const cancelAllChangesAndGoBack = () => {
@@ -340,7 +343,7 @@ function EditPost({
 				{
 					hasError && (
 						<>
-							<VerticalSpacing height={relativeScreenHeight(2)} />
+							<VerticalSpacing height={2} />
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
@@ -354,7 +357,7 @@ function EditPost({
 					)
 				}
 				{
-					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
+					(getObjectDifferences(initialPostData, editDataContext.unsaved) || unsavedPost) && (
 						isLoading && !hasError
 							? <Loader />
 							: (
@@ -384,7 +387,7 @@ function EditPost({
 										fontSize={13}
 										SecondSvgIcon={getHeaderButtonIcon()}
 										svgIconScale={['50%', '30%']}
-										minHeight={relativeScreenHeight(4)}
+										minHeight={relativeScreenHeight(5)}
 										relativeHeight={relativeScreenHeight(6)}
 										relativeWidth={userHasGovernmentProfileSeal() && unsavedPost ? '55%' : '100%'}
 										onPress={getHeaderButtonHandler()}
@@ -405,6 +408,7 @@ function EditPost({
 							<PostCardContainer backgroundColor={backgroundColor} hasError={hasError}>
 								<PostCard
 									owner={owner}
+									isOwner={owner.userId === userDataContext.userId}
 									post={presentationPostCardData}
 									onPress={() => { }}
 								/>
@@ -418,7 +422,7 @@ function EditPost({
 				}
 				<BodyPadding backgroundColor={backgroundColor} hasError={hasError} >
 					{children}
-					<VerticalSpacing height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</BodyPadding >
 			</Body>
 		</Container>

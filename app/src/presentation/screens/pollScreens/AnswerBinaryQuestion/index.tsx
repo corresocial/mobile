@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
@@ -20,12 +21,12 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenProps) {
-	const { getNextQuestion, getResponseProgess, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const { questionData } = route.params
-	const responseProgress = getResponseProgess(questionData.questionId)
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -49,6 +50,7 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized

@@ -86,7 +86,7 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 						onSelect={() => savePostCategory('others')}
 					/>
 				</SelectButtonsContainer>
-				<VerticalSpacing height={relativeScreenHeight(4)} />
+				<VerticalSpacing height={4} />
 			</ScrollView>
 		</Container>
 	)

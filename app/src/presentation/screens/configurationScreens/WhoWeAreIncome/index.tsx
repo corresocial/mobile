@@ -5,7 +5,6 @@ import { WhoWeAreIncomeScreenProps } from '@routes/Stack/ProfileStack/screenProp
 
 import { Body, Container, Header, Title, ButtonContainer, Description, ContainerContent } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -28,11 +27,11 @@ function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 				<DefaultCardContainer flex={1} >
 					<ContainerContent>
 						<Title>{'gerar renda.'}</Title>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'vamos até favelas e digitalizamos seus moradores, seus trabalhos e vagas'}
 						</Description>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'trabalhamos para que essas pessoas tenham mais visibilidade e consigam se colocar no mercado de trabalho com dignidade.'}
 						</Description>

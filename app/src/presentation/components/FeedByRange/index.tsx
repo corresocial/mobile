@@ -1,5 +1,4 @@
 import React from 'react'
-import uuid from 'react-uuid'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -11,7 +10,6 @@ import { Container, PostCardContainer } from './styles'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
 import { PollCard } from '@components/_cards/PollCard'
@@ -24,6 +22,7 @@ import { WithoutPostsMessage } from '../WithoutPostsMessage'
 interface FeedByRangeProps {
 	searchEnded?: boolean
 	backgroundColor?: string
+	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
@@ -35,6 +34,7 @@ interface FeedByRangeProps {
 function FeedByRange({
 	searchEnded,
 	backgroundColor,
+	searchEnded,
 	filteredFeedPosts,
 	children,
 	viewPostsByRange,
@@ -85,10 +85,11 @@ function FeedByRange({
 
 		switch (itemType) {
 			case 'post': return (
-				<PostCardContainer key={uuid()}>
+				<PostCardContainer key={item.postId}>
 					<PostCard
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
 						onPress={() => goToPostView(item)}
 					/>
@@ -97,7 +98,7 @@ function FeedByRange({
 			)
 
 			case 'poll': return (
-				<PostCardContainer key={uuid()}>
+				<PostCardContainer key={item.pollId}>
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -108,8 +109,9 @@ function FeedByRange({
 					<VerticalSpacing />
 				</PostCardContainer>
 			)
+
 			case 'petition': return (
-				<PostCardContainer key={uuid()}>
+				<PostCardContainer key={item.petitionId}>
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -177,7 +179,7 @@ function FeedByRange({
 						</>
 					) : <></>
 			}
-			<VerticalSpacing height={relativeScreenHeight(10)} />
+			<VerticalSpacing height={10} />
 			{
 				!hasAnyPost() && searchEnded && (
 					<WithoutPostsMessage

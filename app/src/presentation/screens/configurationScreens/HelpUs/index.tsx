@@ -15,7 +15,6 @@ import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
-import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {
 	const shareMessage = () => {
@@ -45,7 +44,6 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<VerticalSpacing height={relativeScreenHeight(3)} />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={16}

@@ -38,7 +38,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
@@ -130,6 +130,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 
@@ -142,7 +143,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const checkChangeLocationAlertIsRequired = () => {
-		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
+		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
 		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
@@ -195,6 +196,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'socialImpact' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.pink2}
 				unsavedPost={unsavedPost}

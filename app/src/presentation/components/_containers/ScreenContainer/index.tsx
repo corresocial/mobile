@@ -10,22 +10,40 @@ interface ScreenContainerProps {
 	justifyContent?: ViewStyle['justifyContent']
 	alignItems?: ViewStyle['alignItems']
 	withPadding?: boolean
+	infinityBottom?: boolean
 }
 
 function ScreenContainer({ ...props }: ScreenContainerProps) {
 	return (
 		<>
 			<SafeAreaViewContainer safeAreaColor={props.topSafeAreaColor} withoutFlex />
-			<SafeAreaViewContainer safeAreaColor={props.bottomSafeAreaColor}>
-				<StatusBar backgroundColor={props.topSafeAreaColor} />
-				<Container
-					justifyContent={props.justifyContent}
-					alignItems={props.alignItems}
-					withPadding={!!props.withPadding}
-				>
-					{props.children}
-				</Container>
-			</SafeAreaViewContainer>
+			{
+				!props.infinityBottom
+					? (
+						<SafeAreaViewContainer safeAreaColor={props.bottomSafeAreaColor}>
+							<StatusBar backgroundColor={props.topSafeAreaColor} barStyle={'dark-content'} />
+							<Container
+								justifyContent={props.justifyContent}
+								alignItems={props.alignItems}
+								withPadding={!!props.withPadding}
+							>
+								{props.children}
+							</Container>
+						</SafeAreaViewContainer>
+					)
+					: (
+						<>
+							<StatusBar backgroundColor={props.topSafeAreaColor} />
+							<Container
+								justifyContent={props.justifyContent}
+								alignItems={props.alignItems}
+								withPadding={!!props.withPadding}
+							>
+								{props.children}
+							</Container>
+						</>
+					)
+			}
 		</>
 	)
 }

@@ -31,7 +31,7 @@ const initialValue: PollRegisterContextType = {
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
 	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
-	getResponseProgess: (currentQuestionId: string | number) => [0, 1],
+	getResponseProgress: (currentQuestionId: string | number) => [0, 1],
 	getNextQuestion: (lastQuestion: PollQuestion) => ({} as PollQuestion),
 	pollToRespond: { questions: [] as PollQuestion[] } as PollEntity,
 	pollResponseData: [{
@@ -57,7 +57,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	}
 
 	const setPollQuestionRegisterDataOnContext = async (data: PollQuestionOptional) => {
-		// console.log({ ...pollQuestionRegisterDataContext, ...data })
+		console.log({ ...pollQuestionRegisterDataContext, ...data })
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
@@ -69,6 +69,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 			questionType,
 			...selectOptions
 		}
+		console.log(newQuestion)
 
 		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
 		clearPollRegisterQuestionData()
@@ -96,7 +97,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		setPollResponseData(pollResponseMapper)
 	}
 
-	const getResponseProgess = (currentQuestionId: string | number) => {
+	const getResponseProgress = (currentQuestionId: string | number) => {
 		const numberOfResponses = pollResponseData.length
 		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === currentQuestionId)
 		return [numberOfResponses - (numberOfResponses - currentQuestionIndex) + 1, numberOfResponses]
@@ -135,7 +136,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		pollToRespond,
 		pollResponseData,
 		savePollToRespondOnContext,
-		getResponseProgess,
+		getResponseProgress,
 		getNextQuestion,
 		saveResponseData
 	}), [

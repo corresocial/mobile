@@ -2,7 +2,7 @@ import { doc, getDoc } from 'firebase/firestore'
 
 import { UserEntity } from '@domain/user/entity/types'
 
-import { USER_COLLECTION } from '@data/remoteStorageKeys'
+import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

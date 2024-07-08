@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore'
 
 import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 
-import { POST_COLLECTION } from '@data/remoteStorageKeys'
+import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

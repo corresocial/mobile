@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ListRenderItem, RefreshControl } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -15,9 +16,10 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { ViewPetitionListScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { CardContainer, Container, Header, PetitionList } from './styles'
 import FormHearthWhiteIcon from '@assets/icons/formHearth-white.svg'
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
@@ -27,6 +29,10 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 const { getPetitionsByOwner } = usePetitionDomain()
 
 const { executeCachedRequest } = useCacheRepository()
+
+const { getNewDate } = UiUtils()
+
+const { getLastItem } = useUtils()
 
 export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 	const { userDataContext } = useAuthContext()
@@ -47,27 +53,26 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 			if (listIsOver && !refresh) return
 
 			refresh && setIsLoading(true)
-			refresh && queryClient.removeQueries({ queryKey: ['petitions', userDataContext.userId] })
 
-			const lastPetition = !refresh && (petitions && petitions.length) ? petitions[petitions.length - 1] : undefined
+			const lastPetition = !refresh && (petitions && petitions.length) ? getLastItem(petitions) : undefined
 
-			const queryKey = ['petitions', userDataContext.userId, lastPetition?.petitionId]
-			const userPetitions = await executeCachedRequest(
+			const queryKey = ['user.petitions', userDataContext.userId, lastPetition?.petitionId]
+			let userPetitions: PetitionEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 5, lastPetition),
+				() => getPetitionsByOwner(usePetitionRepository, userDataContext.userId, 10, lastPetition),
 				refresh
 			)
+			userPetitions = userPetitions.map((p: PetitionEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
-			console.log(userPetitions.length)
-
-			if (!userPetitions.length) {
+			if (!userPetitions || (userPetitions && !userPetitions.length)
+				|| (lastPetition && userPetitions && userPetitions.length && (lastPetition.petitionId === getLastItem(userPetitions)?.petitionId))) {
 				refresh && setIsLoading(false)
-				setListIsOver(true)
-				return
+				return setListIsOver(true)
 			}
 
 			if (refresh) {
+				queryClient.removeQueries({ queryKey: ['user.petitions', userDataContext.userId] })
 				setPetitions([...userPetitions])
 				setListIsOver(false)
 			} else {
@@ -106,7 +111,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} bottomSafeAreaColor={theme.purple2}>
+		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -123,18 +128,18 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					data={petitions}
 					renderItem={renderPetition as ListRenderItem<unknown>}
 					onEndReached={loadMorePetitions}
-					onEndReachedThreshold={0.2}
+					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl
+							tintColor={theme.black4}
+							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 							refreshing={isLoading}
 							onRefresh={() => loadPetitions(true)}
-							colors={[theme.white3]}
-							size={relativeScreenDensity(20)}
 						/>
 					)}
 					ListHeaderComponent={() => <VerticalSpacing/>}
 					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(10)}/>}
+					ListFooterComponent={() => <VerticalSpacing bottomNavigatorSpace/>}
 				/>
 			</Container>
 		</ScreenContainer>

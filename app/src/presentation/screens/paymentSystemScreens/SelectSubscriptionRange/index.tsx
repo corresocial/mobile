@@ -27,7 +27,7 @@ const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
-	const { userDataContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
 	const { stripeProductsPlans, subscriptionHasActive } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
@@ -73,7 +73,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}
 
 	const userHasAnyPost = () => {
-		return userDataContext.posts && userDataContext.posts.length
+		return userPostsContext && userPostsContext.length
 	}
 
 	const postRangeHasSelected = (postRange: PostRange) => {
@@ -85,6 +85,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 

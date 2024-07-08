@@ -135,6 +135,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									(currentPostOnSubscription && postReview) && (
 										<PostCard
 											owner={currentPostOnSubscription && currentPostOnSubscription.owner as PostEntityCommonFields['owner']}
+											isOwner
 											post={currentPostOnSubscription}
 											onPress={() => { }}
 										/>

@@ -6,11 +6,11 @@ import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMetho
 import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
-import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
+import { PostRange } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 import { SubscriptionPlan, UserSubscription } from '@domain/user/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
-import { usePostRepository } from '@data/post/usePostRepository'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
@@ -21,10 +21,10 @@ import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertMod
 
 import { getEnvVars } from '../../infrastructure/environment'
 import { dateHasExpired } from '../../presentation/common/auxiliaryFunctions'
-import { AuthContext } from '../AuthContext'
+import { useAuthContext } from '../AuthContext'
 import { SubscriptionContext } from '../SubscriptionContext'
 
-const { remoteStorage } = usePostRepository()
+const { updateLocationDataOnPosts } = usePostDomain()
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -90,7 +90,7 @@ const axiosConfig = { headers: { ...defaultAxiosHeader } }
 
 export function StripeProvider({ children }: StripeContextProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, updateUserPost, getLastUserPost } = useAuthContext()
 
 	const queryClient = useQueryClient()
 	const { executeCachedRequest } = useCacheRepository()
@@ -116,12 +116,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const stripeProducts = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => getStripeProducts()
+				async () => getStripeProducts()
 			)
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
-			console.log('STRIPE: Produtos do Stripe obtidos com sucesso!')
+			// console.log('STRIPE: Produtos do Stripe obtidos com sucesso!')
 		} catch (error) {
 			console.error('Erro ao obter os produtos do Stripe:', error)
 		}
@@ -271,7 +271,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				showSubscriptionAlertWithCustomMessage(numberOfExpiredDays as number)
 				setSubscriptionHasActive(false)
 			} else {
-				console.log('STRIPE: Fatura em dia')
+				// console.log('STRIPE: Assinatura em dia')
 				setSubscriptionHasActive(true)
 			}
 		} catch (err: any) {
@@ -319,28 +319,15 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
 		const lastUserPost = getLastUserPost()
 
-		const owner: PostEntityOptional['owner'] = {
-			userId: userDataContext.userId,
-			name: userDataContext.name,
-			profilePictureUrl: userDataContext.profilePictureUrl
-		}
-
 		if (!lastUserPost) return
-		const userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-			owner,
-			userDataContext.posts || [],
-			{
-				range: 'near',
-				location: lastUserPost.location
-			},
+		const userPostsUpdated = await updateLocationDataOnPosts(
+			userDataContext.userId,
+			{ range: 'near', location: lastUserPost.location },
 			true
-		) || []
+		)
 
-		updateUserContext(userSubscription, userPostsUpdated as PostEntity[])
-	}
-
-	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostEntity[] | []) => {
-		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
+		updateUserPost(userPostsUpdated)
+		setUserDataOnContext({ subscription: { ...userSubscription } })
 	}
 
 	// Abstrair ˆˆˆ

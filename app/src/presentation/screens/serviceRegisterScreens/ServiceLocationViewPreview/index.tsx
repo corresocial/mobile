@@ -89,7 +89,7 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={getPostRange()}
 				placeName={getPlaceName()}
-				placeColor={theme.transparence.green3}
+				placeColor={theme.transparence.green}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

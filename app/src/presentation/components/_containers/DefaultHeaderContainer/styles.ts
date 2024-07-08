@@ -20,5 +20,4 @@ export const Container = styled(Animated.View) <ContainerProps>`
 export const FooterTextArea = styled.View`
 	background-color: ${({ theme }) => theme.white3};
  	padding: ${RFValue(10)}px;
-	borderBottomWidth: 0px;
 `

@@ -18,7 +18,6 @@ import { InsertSelectOptions } from '@screens/pollScreens/InsertPollSelectOption
 import { InsertPollTitle } from '@screens/pollScreens/InsertPollTitle'
 import { PollReview } from '@screens/pollScreens/PollReview'
 import { SelectNumberOfSelections } from '@screens/pollScreens/SelectNumberOfSelections'
-import { SelectPollQuestionType } from '@screens/pollScreens/SelectPollQuestionType'
 import { SelectPollRange } from '@screens/pollScreens/SelectPollRange'
 import { ViewPoll } from '@screens/pollScreens/ViewPoll'
 
@@ -38,7 +37,6 @@ export function PollStack() {
 				<Stack.Screen name={'InsertPollTitle'} component={InsertPollTitle} />
 				<Stack.Screen name={'InsertPollDescription'} component={InsertPollDescription} />
 				<Stack.Screen name={'InsertPollQuestions'} component={InsertPollQuestions} />
-				<Stack.Screen name={'SelectPollQuestionType'} component={SelectPollQuestionType} />
 				<Stack.Screen name={'SelectNumberOfSelections'} component={SelectNumberOfSelections} />
 				<Stack.Screen name={'InsertPollSelectOptions'} component={InsertSelectOptions} />
 				<Stack.Screen name={'SelectPollRange'} component={SelectPollRange} />

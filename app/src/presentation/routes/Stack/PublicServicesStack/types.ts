@@ -14,4 +14,5 @@ export type PublicServiceStackParamList = {
 	QueryBeeByNISResult: QueryBeeResult
 	QueryPbfByNISResult: QueryPbfResult
 	QueryCadunicoByNISResult: QueryCadunicoResult
+	NotificationPublicServicesSettingsPublicServices: undefined
 } & UserStackParamList

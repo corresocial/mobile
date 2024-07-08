@@ -1,6 +1,6 @@
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
 
-import { POLL_COLLECTION } from '@data/remoteStorageKeys'
+import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

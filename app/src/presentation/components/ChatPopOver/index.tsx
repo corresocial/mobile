@@ -65,7 +65,7 @@ function ChatPopOver({
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing />
 					<PrimaryButton
 						color={theme.red3}
 						label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}

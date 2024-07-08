@@ -52,15 +52,16 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	green4: '#0E7943',
 	green5: '#09512D',
 
-	transparence: {
+	transparence: { // REFACTOR TODO Renomear opacidades sem o numeral
 		orange1: 'rgba(250, 153, 56, 0.7)',
 		orange2: 'rgba(250, 153, 56, 0.9)',
 
+		red: 'rgba(232, 79, 48, 0.9)',
+		green: 'rgba(18, 161, 89, 0.7)',
 		purple3: 'rgba(153, 71, 235, 0.25)',
-		green3: 'rgba(18, 161, 89, 0.25)',
 		yellow3: 'rgba(251, 206, 55, 0.25)',
 		blue3: 'rgba(48, 140, 232, 0.25)',
-		pink3: 'rgba(232, 48, 110, 0.25)'
+		pink3: 'rgba(232, 48, 110, 0.25)',
 	},
 
 	fonts: {

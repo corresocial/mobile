@@ -37,7 +37,6 @@ interface PortraitImageProps extends ImageProps {
 export const PortraitImage = styled(Image) <PortraitImageProps>`
 	width: 100%;
 	height: 100%;
-	resize-mode: ${({ resizeMode }) => resizeMode || 'cover'};
 	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(9))}px;
 `
 
@@ -74,4 +73,10 @@ export const VideoIndicatorContainer = styled.View`
 	position: absolute;
 	bottom: ${RFValue(15)}px;
 	left: ${RFValue(15)}px;
+`
+
+export const RightBottomIndicatorContainer = styled.View`
+	position: absolute;
+	bottom: 0%;
+	right: 0%;
 `

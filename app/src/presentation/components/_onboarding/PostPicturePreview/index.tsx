@@ -45,14 +45,11 @@ function PostPicturePreview({
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
-	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
-
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
 		currentPictures.push(uri)
 		setMediaIndexSelected(picturesPack.length)
 		setPicturesPack(currentPictures)
-		setHasSelectedMedia(true)
 	}
 
 	const deleteCurrentPicture = () => {
@@ -74,16 +71,12 @@ function PostPicturePreview({
 
 	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
 		const currentPictures = [...picturesPack]
-		// const currentVideos = [...videosPack]
 
 		mediaSelected.forEach((media: Asset) => {
 			currentPictures.push(media.uri)
-			// media.mediaType === 'photo' ? currentPictures.push(media.uri) : currentVideos.push(media.uri)
 		})
 
 		setPicturesPack(currentPictures)
-		setHasSelectedMedia(true)
-		// setVideosPack(currentVideos)
 	}
 
 	const savePictures = async (picturesUri: string[]) => {
@@ -94,11 +87,6 @@ function PostPicturePreview({
 	const compressPicturesUris = async (picturesUri: string[]) => {
 		return Promise.all(picturesUri.map(async (uri) => compressImage(uri)))
 	}
-
-	// const mediaSelectionHandler = (index: number, isVideo: boolean) => {
-	// 	setMediaIndexSelected(index)
-	//  setIsVideoSelected(isVideo)
-	// }
 
 	return (
 		<Container>
@@ -127,7 +115,6 @@ function PostPicturePreview({
 					/>
 				)
 			}
-
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
@@ -139,7 +126,7 @@ function PostPicturePreview({
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={18}
-						message={(hasSelectedMedia ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
+						message={(picturesPack.length ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
 						highlightedWords={['gostou?', 'novas', 'fotos!']}
 					/>
 				</TopArea>
@@ -152,7 +139,7 @@ function PostPicturePreview({
 						deleteCurrentPicture={deleteCurrentPicture}
 						editCurrentPicture={editCurrentPicture}
 					/>
-					<VerticalSpacing height={relativeScreenWidth(7)} />
+					<VerticalSpacing height={5} />
 				</PicturePreviewContainer>
 				<HorizontalListPicturesContainer>
 					<HorizontalListPictures

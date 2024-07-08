@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore'
 
 import { PollEntityOptional } from '@domain/poll/entity/types'
 
-import { POLL_COLLECTION } from '@data/remoteStorageKeys'
+import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
