@@ -41,14 +41,12 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 		}
 	}
 
-	const saveNIS = async (NISValue: string) => {
+	const searchByNIS = async (NISValue: string) => {
 		try {
 			setIsLoading(true)
 			const response = await getBenefitDataSmasByNis(NISValue.trim(), smasService)
 
 			const queryResult = treatSmasApiResponse(response, smasService)
-
-			sendEvent('smas_search', { smasService: smasService as any, smasResponse: queryResult.nisNotFound ? 'failed' : 'success' })
 
 			setIsLoading(false)
 			if (smasService === 'BEE') return navigation.navigate('QueryBeeByNISResult', { ...queryResult } as QueryBeeResult)
@@ -56,6 +54,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 			if (smasService === 'CADUNICO') return navigation.navigate('QueryCadunicoByNISResult', { ...queryResult, NIS: NISValue } as QueryCadunicoResult)
 		} catch (error) {
 			setIsLoading(false)
+			sendEvent('smas_search', { smasService: smasService as any, smasResponse: 'failed' })
 			console.log(error)
 		}
 	}
@@ -96,7 +95,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 				validationColor={theme.pink1}
 				validateInputText={validateNIS}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveNIS}
+				saveTextData={searchByNIS}
 			>
 				<PrimaryButton
 					label={'não sei meu NIS'}
