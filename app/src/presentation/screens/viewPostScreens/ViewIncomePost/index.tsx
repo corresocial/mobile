@@ -350,8 +350,8 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon/></TouchableOpacity>}
-					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon/></TouchableOpacity>}
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>

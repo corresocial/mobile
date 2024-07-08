@@ -24,7 +24,7 @@ async function logoutUserDM(
 		await auth.signOut()
 	} catch (error: any) {
 		console.log(error)
-		throw new Error(error)
+		// throw new Error(error)
 	}
 }
 

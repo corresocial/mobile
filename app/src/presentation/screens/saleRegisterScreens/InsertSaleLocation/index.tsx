@@ -19,6 +19,7 @@ import { LocationChangeConfirmationModal } from '@components/_modals/LocationCha
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
+
 const { structureAddress } = UiLocationUtils()
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
@@ -98,6 +99,10 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 		})
 	}
 
+	const getInitialMapViewPosition = () => {
+		return editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
@@ -112,7 +117,8 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 			<SelectPostLocation
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
+				initialValue={getInitialMapViewPosition()}
+				// initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>

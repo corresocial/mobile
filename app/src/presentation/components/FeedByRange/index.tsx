@@ -22,6 +22,7 @@ import { WithoutPostsMessage } from '../WithoutPostsMessage'
 interface FeedByRangeProps {
 	searchEnded?: boolean
 	backgroundColor?: string
+	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
@@ -33,6 +34,7 @@ interface FeedByRangeProps {
 function FeedByRange({
 	searchEnded,
 	backgroundColor,
+	searchEnded,
 	filteredFeedPosts,
 	children,
 	viewPostsByRange,
