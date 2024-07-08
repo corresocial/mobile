@@ -224,7 +224,9 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'income'
 			})
 		}, 50)
 	}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
-
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
 
 import { PostEntity } from '@domain/post/entity/types'
@@ -205,6 +205,7 @@ function EditPost({
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
+			sendEvent('user_posted', { postType: getPostField('postType') })
 
 			showWaitingApproveModal()
 			navigateToPostView(newPost)

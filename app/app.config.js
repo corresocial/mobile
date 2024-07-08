@@ -136,7 +136,8 @@ export default {
 				'android.permission.READ_EXTERNAL_STORAGE',
 				'android.permission.USE_FINGERPRINT',
 				'android.permission.FOREGROUND_SERVICE',
-				'android.permission.CAMERA'
+				'android.permission.CAMERA',
+				'android.permission.INTERNET'
 			],
 			config: {
 				googleMaps: {

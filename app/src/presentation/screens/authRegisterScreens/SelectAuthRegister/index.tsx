@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, Platform, StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
@@ -62,6 +64,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
+		sendEvent('opened_auth_screen', { authType: 'login' }, true)
 		if (Platform.OS === 'ios') {
 			navigation.navigate('InsertCellNumber', { newUser: false })
 			return
@@ -70,6 +73,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToRegisterFlow = () => {
+		sendEvent('opened_auth_screen', { authType: 'register' }, true)
 		navigation.navigate('AcceptTermsAndConditions')
 	}
 

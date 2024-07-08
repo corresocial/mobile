@@ -2,6 +2,8 @@ import * as Updates from 'expo-updates'
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { UserEntity } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -124,8 +126,12 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			if (hasLocalUser) {
 				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
 				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
+				
+				sendEvent('opened_auth_screen', { authType: 'login' }, true)
 
 				await setRemoteUserOnLocal(localUser.userId, localUser)
+
+				sendEvent('user_authed', { authType: 'login' }, true)
 
 				if (route.params?.screen) {
 					console.log(route.params.screen)
