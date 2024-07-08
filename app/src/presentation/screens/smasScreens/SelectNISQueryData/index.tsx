@@ -60,9 +60,9 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 					/>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
-			< FormContainer backgroundColor={theme.white3}>
+			<FormContainer backgroundColor={theme.white3}>
 				{
-					!smasDataContext.motherName && (
+					!smasDataContext.motherName ? (
 						<PrimaryButton
 							color={theme.green3}
 							label={'nome da mãe'}
@@ -70,10 +70,10 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 							SecondSvgIcon={DescriptionWhiteIcon}
 							onPress={() => navigateToInputScreen('InsertMotherNameNIS')}
 						/>
-					)
+					) : <></>
 				}
 				{
-					!smasDataContext.dateOfBirth && (
+					!smasDataContext.dateOfBirth ? (
 						<PrimaryButton
 							color={theme.green3}
 							label={'data de nascimento'}
@@ -81,10 +81,10 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 							SecondSvgIcon={CalendarTodayWhiteIcon}
 							onPress={() => navigateToInputScreen('InsertDateOfBirthNIS')}
 						/>
-					)
+					) : <></>
 				}
 				{
-					!smasDataContext.anonymizedCpf && (
+					!smasDataContext.anonymizedCpf ? (
 						<PrimaryButton
 							color={theme.green3}
 							label={'CPF anonimizado'}
@@ -93,7 +93,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 							svgIconScale={['35%', '30%']}
 							onPress={() => navigateToInputScreen('InsertAnonymizedCpfNIS')}
 						/>
-					)
+					) : <></>
 				}
 			</FormContainer>
 		</Container>

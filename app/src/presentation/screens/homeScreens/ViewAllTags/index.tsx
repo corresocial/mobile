@@ -11,7 +11,6 @@ import { ViewAllTagsScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Body, Container, Header, InputContainer } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { CategoryCard } from '@components/_cards/CategoryCard'
@@ -110,7 +109,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFiltredCategories()}
 						</SelectButtonsContainer>
-						<VerticalSpacing height={relativeScreenHeight(10)} />
+						<VerticalSpacing height={10} />
 					</ScrollView>
 				</Body>
 			</KeyboardAvoidingView>

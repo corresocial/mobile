@@ -3,8 +3,12 @@ import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-export const Container = styled.View`
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
+interface ContainerProps {
+	ignorePlatform?: boolean
+}
+
+export const Container = styled.View<ContainerProps>`
+	padding-top: ${({ ignorePlatform }) => (ignorePlatform ? 0 : Platform.OS === 'ios' ? Constants.statusBarHeight : 0)}px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;

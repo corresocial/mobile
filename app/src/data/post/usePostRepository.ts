@@ -3,12 +3,16 @@ import { PostRepositoryInterface } from './PostRepositoryInterface'
 import { createPost } from './remoteStorage/createPost'
 import { createPostWithCustomId } from './remoteStorage/createPostWithCustomId'
 import { deletePost } from './remoteStorage/deletePost'
-import { deletePostPictures } from './remoteStorage/deletePostPictures'
+import { deletePostMedias } from './remoteStorage/deletePostMedias'
 import { getPostById } from './remoteStorage/getPostById'
+import { getPostIdsByUser } from './remoteStorage/getPostIdsByUser'
+import { getPostsByUser } from './remoteStorage/getPostsByUser'
+import { getUnapprovedPosts } from './remoteStorage/getUnapprovedPosts'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
 import { updateOwnerDataOnPosts } from './remoteStorage/updateOwnerDataOnPosts'
 import { updatePostData } from './remoteStorage/updatePostData'
-import { updateRangeAndLocationOnPosts } from './remoteStorage/updateRangeAndLocationOnPosts'
+import { updatePostsList } from './remoteStorage/updatePosts'
+import { uploadPostMedias } from './remoteStorage/uploadPostMedias'
 
 function usePostRepository(): PostRepositoryInterface {
 	return {
@@ -25,6 +29,9 @@ function usePostRepository(): PostRepositoryInterface {
 		remoteStorage: {
 			// GET
 			getPostById: getPostById,
+			getPostsByUser: getPostsByUser,
+			getPostIdsByUser: getPostIdsByUser,
+			getUnapprovedPosts: getUnapprovedPosts,
 
 			// POST
 			createPost: createPost,
@@ -33,12 +40,15 @@ function usePostRepository(): PostRepositoryInterface {
 			// UPDATE
 			updatePostData: updatePostData,
 			markPostAsComplete: markPostAsComplete,
+			updatePostsList: updatePostsList,
 			updateOwnerDataOnPosts: updateOwnerDataOnPosts,
-			updateRangeAndLocationOnPosts: updateRangeAndLocationOnPosts,
 
 			// DELETE
 			deletePost: deletePost,
-			deletePostPictures: deletePostPictures
+			deletePostMedias: deletePostMedias,
+
+			// UPLOAD
+			uploadPostMedias: uploadPostMedias
 		}
 	}
 }

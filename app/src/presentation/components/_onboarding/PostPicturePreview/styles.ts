@@ -10,6 +10,8 @@ export const PicturePreviewContainer = styled.View`
     padding: 0px ${RFValue(15)}px;
     justify-content: flex-end;
     align-items: center;
+	width: 100%;
+	height: 100%;
 `
 
 export const TopArea = styled.View`
@@ -23,4 +25,12 @@ export const TopArea = styled.View`
 export const HorizontalListPicturesContainer = styled.View`
 	flex-direction: row;
 	justify-content: center;
+`
+
+export const ButtonsContainer = styled.View`
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	padding: ${RFValue(10)}px ${RFValue(20)}px;
 `

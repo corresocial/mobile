@@ -1,9 +1,11 @@
 import { PrivateUserEntity, UserEntity, UserEntityOptional } from '@domain/user/entity/types'
 
+import { StorageFolder } from './remoteRepository/uploadUserMedia'
+
 interface UserRepositoryInterface {
 	localStorage: {
 		getLocalUserData: () => Promise<UserEntity | null>
-		saveLocalUserData: (data: UserEntity) => Promise<boolean>
+		saveLocalUserData: (data: UserEntityOptional) => Promise<boolean>
 		clearLocalUserData: () => Promise<boolean>
 		hasValidLocalUser: () => Promise<boolean>
 	}
@@ -13,18 +15,23 @@ interface UserRepositoryInterface {
 		getUserData: (userId: string) => Promise<UserEntity | null>
 		getPrivateContacts: (userId: string) => Promise<PrivateUserEntity['contacts'] | null>
 		getPrivateLocation: (userId: string) => Promise<PrivateUserEntity['location'] | null>
+		getUnapprovedProfiles(maxDocs?: number, lastDoc?: UserEntity | any): Promise<UserEntity[]>
 
 		userExists: (userId: string) => Promise<boolean>
 		// POST
+		saveUserData: (userId: string, data: UserEntityOptional) => Promise<void>
 
 		// UPDATE
-		updateUserData: (userId: string, data: UserEntityOptional) => Promise<boolean>
+		updateUserData: (userId: string, data: UserEntityOptional, merge?: boolean) => Promise<boolean>
 		updatePrivateContacts: (userId: string, data: PrivateUserEntity['contacts']) => Promise<boolean>
 		updatePrivateLocation: (userId: string, data: PrivateUserEntity['location']) => Promise<boolean>
 
 		// DELETE
 		deleteUserData: (userId: string) => Promise<boolean>
 		deleteUserProfilePicture: (profilePictures: string[]) => Promise<boolean>
+
+		// UPLOAD
+		uploadUserMedia: (mediaUri: string[], folder: StorageFolder) => Promise<string[]>
 	}
 }
 

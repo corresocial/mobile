@@ -67,10 +67,10 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 			<PostInputText
 				contextTitle={'consultar seu NIS'}
 				contextHighlightedWords={['NIS']}
-				customTitle={'precisamos do nome completo da sua mãe'}
-				customHighlight={['nome', 'completo', 'mãe']}
+				customTitle={'precisamos do nome completo da sua mãe, sem acentos'}
+				customHighlight={['nome', 'completo', 'mãe,', 'sem', 'acentos']}
 				backgroundColor={theme.pink2}
-				height={'50%'}
+				height={'55%'}
 				isLoading={isLoading}
 				inputPlaceholder={'ex: Maria Candida'}
 				keyboardOpened={keyboardOpened}

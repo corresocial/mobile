@@ -37,7 +37,6 @@ interface PortraitImageProps extends ImageProps {
 export const PortraitImage = styled(Image) <PortraitImageProps>`
 	width: 100%;
 	height: 100%;
-	resize-mode: ${({ resizeMode }) => resizeMode || 'cover'};
 	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(9))}px;
 `
 
@@ -54,7 +53,30 @@ export const DeleteItemArea = styled.TouchableOpacity`
     justify-content: center;
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
-    padding:  ${relativeScreenWidth(2.5)}px;
-    bottom:  ${relativeScreenWidth(2)}px;;
-    right:  ${relativeScreenWidth(2)}px;;
+    padding: ${relativeScreenWidth(2.5)}px;
+    bottom: ${relativeScreenWidth(2)}px;
+    right: ${relativeScreenWidth(2)}px;
+`
+
+export const EditItemArea = styled.TouchableOpacity`
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: ${relativeScreenWidth(14)}px;
+    height: ${relativeScreenWidth(14)}px;
+    padding: ${relativeScreenWidth(2.5)}px;
+    bottom: ${relativeScreenWidth(2)}px;
+    right: ${relativeScreenWidth(16)}px;
+`
+
+export const VideoIndicatorContainer = styled.View`
+	position: absolute;
+	bottom: ${RFValue(15)}px;
+	left: ${RFValue(15)}px;
+`
+
+export const RightBottomIndicatorContainer = styled.View`
+	position: absolute;
+	bottom: 0%;
+	right: 0%;
 `

@@ -20,3 +20,9 @@ export const MessageTitle = styled.Text`
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.black4};
 `
+
+export const RedirectLink = styled.Text`
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
+	font-size: ${RFValue(14)}px;
+	color: ${({ theme }) => theme.orange3};
+`

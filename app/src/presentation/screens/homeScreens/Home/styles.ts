@@ -1,24 +1,21 @@
-import Constants from 'expo-constants'
-import { Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
+	width: 100%;
+	overflow: hidden;
 	background-color: ${({ theme }) => theme.orange2};
 `
 
 export const DropdownContainer = styled.View`
-	padding: 0px ${RFValue(10)}px;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
-	margin-top: ${RFValue(5)}px;
-`
-
-export const RecentPostsContainer = styled.ScrollView`
-	flex: 1;
+	z-index: 2;
+	background-color: ${({ theme }) => theme.orange2};
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const ContainerPadding = styled.View`
-	padding: 0px ${RFValue(10)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 	align-items: flex-end;
 `

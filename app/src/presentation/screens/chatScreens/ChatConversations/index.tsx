@@ -28,7 +28,7 @@ import {
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import LoupIcon from '@assets/icons/loup-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -287,7 +287,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 													showsVerticalScrollIndicator={false}
 													ItemSeparatorComponent={() => <VerticalSpacing />}
 													ListHeaderComponent={<VerticalSpacing />}
-													ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
+													ListFooterComponent={<VerticalSpacing height={10} />}
 												/>
 											</>
 										) : <></>

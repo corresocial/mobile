@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
@@ -7,24 +8,25 @@ import { getShortText } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
-// import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DescriptionCardProps {
 	title?: string
-	text: string
+	text?: string
 	hightligtedWords?: string[]
 	textFontSize?: number
 	children?: React.ReactChild
+	CustomHeaderIcon?: React.FC<SvgProps>
 	onEdit?: () => void
 }
 
-function DescriptionCard({ title, text, hightligtedWords, children, textFontSize = 14, onEdit }: DescriptionCardProps) {
+function DescriptionCard({ title, text, hightligtedWords, children, CustomHeaderIcon, textFontSize = 14, onEdit }: DescriptionCardProps) {
 	const sumarizedSubscriptionSize = 200
 
-	const showResizeLabel = text.length >= sumarizedSubscriptionSize
+	const showResizeLabel = (text || '').length >= sumarizedSubscriptionSize
 
 	const [descriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
 
@@ -48,20 +50,25 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 				<DefaultHeaderTitle
 					title={title || 'descrição do post'}
 					highlightedWords={hightligtedWords || ['descrição']}
-					SvgIcon={DescriptionWhiteIcon}
-					dimensions={28}
+					SvgIcon={CustomHeaderIcon || DescriptionWhiteIcon}
+					dimensions={25}
 				/>
 			</EditHeaderContainer>
-			<LongText style={{ fontSize: RFValue(textFontSize) }}>
-				<HyperlinkContainer
-					text={descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
-					linkStyle={linkStyle}
-					fontSize={textFontSize}
-				>
-					{descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
-				</HyperlinkContainer>
-				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
-			</LongText>
+			{text && (
+				<>
+					<VerticalSpacing height={5} relativeDensity />
+					<LongText style={{ fontSize: RFValue(textFontSize) }}>
+						<HyperlinkContainer
+							text={descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+							linkStyle={linkStyle}
+							fontSize={textFontSize}
+						>
+							{descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+						</HyperlinkContainer>
+						{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
+					</LongText>
+				</>
+			)}
 			{children}
 		</DefaultTouchableCardContainer>
 	)

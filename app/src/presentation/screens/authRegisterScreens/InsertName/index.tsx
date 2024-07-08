@@ -17,8 +17,8 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 
-function InsertName({ navigation, route }: InsertNameScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+function InsertName({ navigation }: InsertNameScreenProps) {
+	const { setUserRegisterDataOnContext } = useContext(AuthContext)
 
 	const [inputName, setInputName] = useState<string>('')
 	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
@@ -40,22 +40,12 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	useEffect(() => {
 		if (!alreadyLoaded) {
-			getUserName()
 			setAlreadyLoaded(true)
 		}
 
 		const validation = validateName(inputName)
 		setInputNameIsValid(validation)
 	}, [inputName])
-
-	const getUserName = async () => {
-		const name = userDataContext.name || ''
-		setInputName(name)
-	}
-
-	const getUserProfilePicture = async () => {
-		return userDataContext.profilePictureUrl || []
-	}
 
 	const validateName = (text: string) => {
 		const isValid = (text)?.trim().length >= 1
@@ -66,32 +56,11 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		return false
 	}
 
-	const getRouteParams = () => ({
-		...route.params
-	})
-
 	const sendUserDataToNextScreen = async () => {
 		const userNameIsValid = validateName(inputName)
 		if (userNameIsValid) {
-			const userData = getRouteParams()
-			const profilePictureUrl = await getUserProfilePicture()
-
-			if (profilePictureUrl.length) {
-				navigation.navigate('InsertProfilePicture', {
-					...userData,
-					userName: inputName.trim(),
-					profilePictureUrl
-				})
-				return navigation.navigate('ProfilePicturePreview', {
-					...userData,
-					userName: inputName.trim(),
-					profilePictureUrl
-				})
-			}
-			navigation.navigate('InsertProfilePicture', {
-				...userData,
-				userName: inputName.trim()
-			})
+			setUserRegisterDataOnContext({ name: inputName.trim() })
+			navigation.navigate('InsertProfilePicture')
 		} else {
 			!userNameIsValid && setInvaliNameAfterSubmit(true)
 		}
@@ -111,6 +80,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
+					fontSize={16}
 					message={
 						someInvalidFieldSubimitted()
 							? 'não deu!\nparece que este nome é \nmuito curto '
@@ -148,8 +118,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						&& (
 							<PrimaryButton
 								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								flexDirection={'row-reverse'}
-								SvgIcon={CheckWhiteIcon}
+								SecondSvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
 								label={'continuar'}
 								highlightedWords={['continuar']}

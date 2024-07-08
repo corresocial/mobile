@@ -5,19 +5,22 @@ import { Container } from './styles'
 
 interface FormContainerProps {
 	children: ReactElement | ReactElement[] | React.ReactElement[]
-	backgroundColor?: string,
+	backgroundColor?: string
 	justifyContent?: ViewStyle['justifyContent']
+	withoutPaddingTop?: boolean
 }
 
 function FormContainer({
 	children,
 	backgroundColor,
-	justifyContent
+	justifyContent,
+	withoutPaddingTop,
 }: FormContainerProps) {
 	return (
 		<Container
 			backgroundColor={backgroundColor}
 			justifyContent={justifyContent}
+			withoutPaddingTop={withoutPaddingTop}
 		>
 			{children}
 		</Container>

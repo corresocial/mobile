@@ -11,3 +11,4 @@ export type InsertConfirmationCodeScreenProps = NativeStackScreenProps<AuthRegis
 export type InsertNameScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertName'>
 export type InsertProfilePictureScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertProfilePicture'>
 export type ProfilePicturePreviewScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'ProfilePicturePreview'>
+export type UserStackScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'UserStack'>

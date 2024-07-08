@@ -1,6 +1,6 @@
 import { LocationServiceInterface } from './LocationServiceInterface'
 import { convertGeocodeToAddress } from './methods/geocodeConverter'
-import { getCoordinatesByIpAddress } from './methods/getCoordinatesByIpAddress'
+import { getCoordinatesByIpAddress } from './methods/getCoordinateByIpAddress'
 import { getCurrentLocation } from './methods/getCurrentLocation'
 
 function useLocationService(): LocationServiceInterface {

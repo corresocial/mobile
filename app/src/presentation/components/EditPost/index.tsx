@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
-import { getDownloadURL } from 'firebase/storage'
+import { useUtils } from '@newutils/useUtils'
 
-import { postLocationChangedDM } from '@domain/post/core/postLocationChangedDM'
-import { PostType, PostEntity } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
 
-import { uploadImage } from '@data/imageStorage/uploadPicture'
 import { usePostRepository } from '@data/post/usePostRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
 
-import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
+import { useAlertContext } from '@contexts/AlertContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -40,30 +37,26 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
 
-const { updateUserRepository } = useUserDomain()
-const { updatePostData } = usePostDomain()
+const { getObjectDifferences } = useUtils()
 
-const { localStorage } = useUserRepository()
-const { localStorage: localPostStorage, remoteStorage } = usePostRepository()
+const { updatePost, savePost } = usePostDomain()
 
-const { notifyUsersOnLocation } = useCloudFunctionService()
+const { localStorage: localPostStorage } = usePostRepository()
 
 type UserContextFragment = {
-	userDataContext: UserEntity;
-	setUserDataOnContext: (data: UserEntityOptional) => void;
+	userDataContext: UserEntity
+	setUserDataOnContext: (data: UserEntityOptional) => void
 }
 
 type EditContextFragment = {
-	setEditDataOnContext: (data: any) => void;
-	editDataContext: {
-		unsaved: any;
-		saved: any;
-	};
-	clearUnsavedEditContext: () => void;
+	setEditDataOnContext: (data: any) => void
+	editDataContext: {unsaved: any, saved: any}
+	clearUnsavedEditContext: () => void
 }
 
 interface EditPostProps {
 	initialPostData: PostEntity
+	approvedPostData?: PostEntity
 	owner: PostEntity['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
@@ -81,6 +74,7 @@ interface EditPostProps {
 
 function EditPost({
 	initialPostData,
+	approvedPostData,
 	owner,
 	backgroundColor,
 	unsavedPost,
@@ -95,6 +89,9 @@ function EditPost({
 	showShareModal,
 	getPostField
 }: EditPostProps) {
+	const { addUserPost, updateUserPost } = useAuthContext()
+	const { showWaitingApproveModal } = useAlertContext()
+
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
@@ -116,38 +113,37 @@ function EditPost({
 		return !!networkStatus.isConnected && !!networkStatus.isInternetReachable
 	}
 
-	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostEntity[]) => {
-		const userPosts = updatedLocationPosts || userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== initialPostData.postId) || []
-	}
-
-	const editPost = async () => {
+	const editPostData = async () => {
 		if (!editDataContext.unsaved) return
 
-		const postDataToSave: PostEntity = { ...initialPostData, ...editDataContext.unsaved }
-
 		try {
+			const dataChanges = getObjectDifferences<PostEntity>(approvedPostData as PostEntity, { ...initialPostData, ...editDataContext.unsaved })
+			console.log(dataChanges)
+			if (!dataChanges) return
+
 			setIsLoading(true)
 
-			const { updatedUserPosts, picturesUrlUploaded } = await updatePostData(
+			const postWithUnapprovedData = {
+				...approvedPostData,
+				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
+			}
+
+			const { /* updatedUserPosts, */ picturesUrl } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
-				postDataToSave,
+				postWithUnapprovedData as PostEntity,
 				editDataContext.unsaved.picturesUrl || []
 			)
 
-			await updateUserRepository(
-				useUserRepository,
-				userDataContext,
-				{ posts: updatedUserPosts || [] }
-			)
+			// REFACTOR Atualizar em user.posts localmente
 
-			updateUserContext(updatedUserPosts)
-			changeStateOfEditedFields([...picturesUrlUploaded])
-
+			updateUserPost(postWithUnapprovedData as PostEntity)
+			changeStateOfEditedFields(picturesUrl)
 			setIsLoading(false)
+
+			showWaitingApproveModal()
 			navigateBackwards()
 		} catch (error: any) {
 			console.log(error)
@@ -156,202 +152,66 @@ function EditPost({
 		}
 	}
 
-	const extractPostPictures = (postData: PostEntity) => postData.picturesUrl as string[] || []
-
-	const getLocalUser = () => userDataContext
-
-	const savePost = async () => {
-		const hasValidConnection = await checkNetworkStatus()
-
-		const postData = { ...initialPostData, completed: false, ...editDataContext.unsaved } as PostEntity
-
-		if (offlinePost && !hasValidConnection) return
-
-		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
-			await localPostStorage.saveOfflinePost({ ...postData, owner })
-			navigateToProfile && navigateToProfile()
-			return
-		}
-
-		await localPostStorage.saveOfflinePost({ ...postData, owner })
-
-		const postPictures = extractPostPictures(postData)
-
-		setHasError(false)
-		setIsLoading(true)
-
-		let timeoutId: any
-		if (!offlinePost) {
-			timeoutId = setTimeout(() => {
-				setIsLoading(false)
-				setHasError(false)
-				toggleOfflinePostAlertModal()
-				setNetworkConnectionIsValid(false)
-			}, 30000)
-		}
-
+	const savePostData = async () => {
 		try {
-			let userPostsUpdated: PostEntity[] = []
+			const hasValidConnection = await checkNetworkStatus()
+			if (offlinePost && !hasValidConnection) return
 
-			// REFACTOR Não deve ficar aqui
-			const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
-				userDataContext.subscription?.subscriptionRange,
-				initialPostData,
-				editDataContext.unsaved
-			)
+			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved, completed: false } as PostEntity
+			const { createdAt, postType, macroCategory, ...unapprovedData } = postDataToSave
+			const postWithUnapprovedData = {
+				...approvedPostData,
+				owner,
+				createdAt,
+				postType,
+				macroCategory,
+				updatedAt: new Date(),
+				completed: false,
+				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
+			} as PostEntity
 
-			if (postLocationIsOutsideSubscriptionRange) {
-				console.log(`localização ou range mudaram: ${postLocationIsOutsideSubscriptionRange}`)
-				userPostsUpdated = await remoteStorage.updateRangeAndLocationOnPosts(
-					owner,
-					getUserPostsWithoutEdited(),
-					{
-						range: getPostField('range'),
-						location: getPostField('location')
-					}
-				)
-			}
-
-			const localUser = { ...getLocalUser() }
-			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
-
-			if (!postPictures.length) {
-				const postId = await remoteStorage.createPost(postData, localUser, postData.postType as PostType) // REFACTOR remote as
-				if (!postId) throw new Error('Não foi possível identificar o post')
-
-				userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
-
-				await updateUserPost(
-					localUser,
-					postId,
-					postData,
-					userPostsUpdated
-				)
-
-				clearTimeout(timeoutId)
-				deleteOfflinePostByDescription(postData.description)
-				if (notifyUsersEnabled) {
-					await notifyUsersOnLocation({
-						state: postData.location.state as string,
-						city: postData.location.city as string,
-						district: postData.location.district as string,
-						postRange: postData.range as NotifyUsersByLocationParams['postRange']
-					}, {
-						postDescription: postData.description,
-						userId: localUser.userId,
-						userName: localUser.name
-					})
-				}
-
+			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
+				navigateToProfile && navigateToProfile()
 				return
 			}
 
-			const picturePostsUrls: string[] = []
-			postPictures.forEach(async (postPicture, index) => {
-				uploadImage(postPicture, 'posts').then(
-					({ uploadTask, blob }: any) => {
-						uploadTask.on(
-							'state_change',
-							() => { },
-							(err: any) => {
-								throw new Error(err)
-							},
-							() => {
-								getDownloadURL(uploadTask.snapshot.ref)
-									.then(
-										async (downloadURL) => {
-											blob.close()
-											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === postPictures.length) {
-												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
+			setHasError(false)
+			setIsLoading(true)
 
-												const postId = await remoteStorage.createPost(postDataWithPicturesUrl, localUser, postData.postType)
-												if (!postId) throw new Error('Não foi possível identificar o post')
-
-												await updateUserPost(
-													localUser,
-													postId,
-													postDataWithPicturesUrl,
-													userPostsUpdated
-												)
-
-												clearTimeout(timeoutId)
-												deleteOfflinePostByDescription(postData.description)
-
-												if (notifyUsersEnabled) {
-													await notifyUsersOnLocation({
-														state: postData.location.state as string,
-														city: postData.location.city as string,
-														district: postData.location.district as string,
-														postRange: postData.range as NotifyUsersByLocationParams['postRange']
-													}, {
-														postDescription: postData.description,
-														userId: localUser.userId,
-														userName: localUser.name
-													})
-												}
-
-												setIsLoading(false)
-											}
-										},
-									)
-							},
-						)
-					},
-				)
-			})
-		} catch (err) {
-			console.log(err)
-			Alert.alert('Error', 'First went wrong')
-			setIsLoading(false)
-			setHasError(true)
-		}
-	}
-
-	const updateUserPost = async (
-		localUser: UserEntity,
-		postId: string,
-		postData: PostEntity,
-		postsUpdated: PostEntity[] = []
-	) => {
-		try {
-			const postDataToSave = {
-				...postData,
-				postId,
-				postType: postData.postType,
-				createdAt: new Date()
+			let timeoutId: any
+			if (!offlinePost) {
+				timeoutId = setTimeout(() => {
+					setIsLoading(false)
+					setHasError(false)
+					toggleOfflinePostAlertModal()
+					setNetworkConnectionIsValid(false)
+				}, 30000)
 			}
 
-			await updateUserRepository(
-				useUserRepository,
-				userDataContext,
-				{ posts: [...postsUpdated, postDataToSave] }
+			const { newPost/* , updatedUserPosts */ } = await savePost(
+				usePostRepository,
+				useCloudFunctionService,
+				userDataContext.subscription?.subscriptionRange,
+				userDataContext.posts || [],
+				initialPostData,
+				postWithUnapprovedData,
+				editDataContext.unsaved.picturesUrl || [],
+				notifyUsersEnabled
 			)
 
-			const localUserPosts = localUser.posts ? [...localUser.posts] as PostEntity[] : []
-			userContext.setUserDataOnContext({
-				...localUser,
-				tourPerformed: true,
-				posts: [
-					...localUserPosts,
-					{ ...postDataToSave, owner } as PostEntity
-				],
-			})
-			localStorage.saveLocalUserData({
-				...localUser,
-				tourPerformed: true,
-				posts: [
-					...localUserPosts,
-					{ ...postDataToSave, owner }
-				],
-			})
+			addUserPost(newPost)
+			// REFACTOR salvar em user.posts localmente
+
+			clearTimeout(timeoutId)
+			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
+
+			showWaitingApproveModal()
+			navigateToPostView(newPost)
 
 			setIsLoading(false)
-			showShareModal(true, getShortText(postDataToSave.description, 70), postDataToSave.postId)
-			navigateToPostView({ ...postDataToSave, owner })
-		} catch (err: any) {
+		} catch (err) {
 			console.log(err)
-			Alert.alert('Error', 'Second went wrong')
 			setIsLoading(false)
 			setHasError(true)
 		}
@@ -363,7 +223,7 @@ function EditPost({
 
 	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
 		let newEditState
-		if (uploadedPictures) {
+		if (uploadedPictures && uploadedPictures.length) {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
 		} else {
 			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
@@ -372,31 +232,10 @@ function EditPost({
 		editContext.setEditDataOnContext(newEditState)
 	}
 
-	/* 	const allPicturesAlreadyUploaded = () => {
-		return editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')).length === editDataContext.unsaved.picturesUrl.length
-	} */
-
 	const userHasGovernmentProfileSeal = () => {
 		return userDataContext.verified
 			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
 	}
-
-	const updateUserContext = (updatedUserPosts?: PostEntity[]) => {
-		userContext.setUserDataOnContext({ posts: updatedUserPosts })
-	}
-
-	/* const updateUserContext = (postAfterEdit: PostEntity | false, updatedLocationPosts?: PostEntity[] | []) => {
-		const allPosts = updatedLocationPosts && updatedLocationPosts.length ? [...updatedLocationPosts] : [...getUserPostsWithoutEdited()]
-
-		userContext.setUserDataOnContext({
-			posts: postAfterEdit
-				? [
-					...allPosts,
-					postAfterEdit
-				]
-				: [...allPosts]
-		} as UserEntity)
-	} */
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
@@ -419,7 +258,7 @@ function EditPost({
 		setNotifyUsersEnabled(!notifyUsersEnabled)
 	}
 
-	const userSubscribeIsValid = () => {
+	const userSubscribeIsValid = () => { // REFACTOR domain
 		if (getPostField('range') === 'city' && getPostField('postType') === 'socialImpact') return true
 
 		if (!userDataContext.subscription) {
@@ -463,7 +302,7 @@ function EditPost({
 		if (!userSubscribeIsValid()) {
 			return navigateToSubscriptionContext
 		}
-		return unsavedPost ? savePost : editPost
+		return unsavedPost ? savePostData : editPostData
 	}
 
 	const presentationPostCardData = {
@@ -503,7 +342,7 @@ function EditPost({
 				{
 					hasError && (
 						<>
-							<VerticalSpacing height={relativeScreenHeight(2)} />
+							<VerticalSpacing height={2} />
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
@@ -517,7 +356,7 @@ function EditPost({
 					)
 				}
 				{
-					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
+					(getObjectDifferences(initialPostData, editDataContext.unsaved) || unsavedPost) && (
 						isLoading && !hasError
 							? <Loader />
 							: (
@@ -532,7 +371,7 @@ function EditPost({
 												fontSize={12}
 												SecondSvgIcon={BellWhiteIcon}
 												svgIconScale={['70%', '30%']}
-												minHeight={relativeScreenHeight(4)}
+												minHeight={relativeScreenHeight(5)}
 												relativeHeight={relativeScreenHeight(6)}
 												relativeWidth={'40%'}
 												onPress={toggleNotifyUsers}
@@ -547,7 +386,7 @@ function EditPost({
 										fontSize={13}
 										SecondSvgIcon={getHeaderButtonIcon()}
 										svgIconScale={['50%', '30%']}
-										minHeight={relativeScreenHeight(4)}
+										minHeight={relativeScreenHeight(5)}
 										relativeHeight={relativeScreenHeight(6)}
 										relativeWidth={userHasGovernmentProfileSeal() && unsavedPost ? '55%' : '100%'}
 										onPress={getHeaderButtonHandler()}
@@ -568,6 +407,7 @@ function EditPost({
 							<PostCardContainer backgroundColor={backgroundColor} hasError={hasError}>
 								<PostCard
 									owner={owner}
+									isOwner={owner.userId === userDataContext.userId}
 									post={presentationPostCardData}
 									onPress={() => { }}
 								/>
@@ -581,7 +421,7 @@ function EditPost({
 				}
 				<BodyPadding backgroundColor={backgroundColor} hasError={hasError} >
 					{children}
-					<VerticalSpacing height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing bottomNavigatorSpace />
 				</BodyPadding >
 			</Body>
 		</Container>

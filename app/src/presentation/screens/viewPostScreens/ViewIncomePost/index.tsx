@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostEntityOptional, SaleCategories, IncomeEntity } from '@domain/post/entity/types'
+import { SaleCategories, IncomeEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -13,6 +15,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewIncomePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { SaleStackParamList } from '@routes/Stack/SaleStack/types'
+import { ServiceStackParamList } from '@routes/Stack/ServiceStack/types'
 import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -21,6 +25,7 @@ import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
@@ -42,6 +47,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -56,22 +63,25 @@ const { sendImpactReport } = useImpactReportDomain()
 
 const { textHasOnlyNumbers, convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
+const { mergeObjects } = useUtils()
 
 function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<IncomeEntity>(route.params?.postData || null)
+	const [approvedPostData, setApprovedPostData] = useState<IncomeEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -84,10 +94,34 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as IncomeEntity)
+			setApprovedPostData(post as IncomeEntity)
 			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		setPostLoaded(true)
+		mergeUnapprovedPostData()
 	})
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
+
+	const canRenderWaitingApproveIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!postData || !postData.owner) { return false }
@@ -109,27 +143,30 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
+
 		if (postData.macroCategory === 'sale') {
-			return navigation.navigate('EditSalePost', { postData: { ...postData, ...editDataContext.saved } })
+			return navigation.navigate('SaleStack' as any, {
+				screen: 'EditSalePostReview' as keyof SaleStackParamList,
+				params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+			})
 		}
 
-		navigation.navigate('EditServicePost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('ServiceStack' as any, {
+			screen: 'EditServicePostReview' as keyof ServiceStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+		})
 	}
 
 	const markAsCompleted = async (impactValue: string) => {
 		try {
-			const updatedPostData = { ...postData, completed: !isCompleted }
-			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+			const updatedUserPost = { ...postData, completed: !isCompleted }
 
-			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(postData.postId, postData, !isCompleted)
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergeArrayPosts(userPostsContext, updatedUserPost) })
 
-			setUserDataOnContext({ posts: mergedPosts })
-			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
-
+			updateUserPost(updatedUserPost)
 			setPostOptionsIsOpen(false)
-
 			!isCompleted && saveImpactReport(impactValue)
-
 			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
@@ -144,25 +181,9 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		toggleImpactReportSuccessModalVisibility()
 	}
 
-	const deleteRemotePost = async () => {
-		setIsLoading(true)
-		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostPictures(getPostField('picturesUrl') || [])
-
-		await removePostOnContext()
-		setIsLoading(false)
+	const deletePost = async () => {
+		await removeUserPost(postData)
 		backToPreviousScreen()
-	}
-
-	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter(
-			(post: PostEntityOptional) => post.postId !== postData.postId
-		)
-		setUserDataOnContext({
-			...userDataContext,
-			posts: postsWithoutDeletedPost,
-		})
 	}
 
 	const backToPreviousScreen = () => {
@@ -259,6 +280,14 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
@@ -278,7 +307,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
-				onPressButton={deleteRemotePost}
+				onPressButton={deletePost}
 			/>
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
@@ -288,6 +317,14 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
+			/>
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={toggleWaitingApproveModalVisibility}
+			/>
+			<RejectModal // REJECT
+				visibility={rejectModalIsVisible}
+				closeModal={toggleRejectModalVisibility}
 			/>
 			<StatusBar
 				backgroundColor={theme.white3}
@@ -313,6 +350,8 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -352,7 +391,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
@@ -411,6 +449,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={getPostField('picturesUrl')}
+								videosUrl={getPostField('videosUrl')}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>

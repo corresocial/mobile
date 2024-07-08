@@ -5,7 +5,6 @@ import { WhoWeAreTransformationScreenProps } from '@routes/Stack/ProfileStack/sc
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -13,7 +12,7 @@ import { DefaultCardContainer } from '@components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProps) {
+function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScreenProps) {
 	const navigateToHelpUs = () => {
 		navigation.navigate('Configurations')
 		navigation.navigate('HelpUs')
@@ -33,11 +32,11 @@ function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProp
 				<DefaultCardContainer flex={1}>
 					<ContainerContent>
 						<Title>{'transformação'}</Title>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'colhemos dados em entrevistas, encontros com moradores e enquetes para criar planos de ação e priorizar melhorias nas comunidades de baixa renda.'}
 						</Description>
-						<VerticalSpacing height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={3} />
 						<Description>
 							{'tudo gerido por líderes locais, que entendem a realidade de onde vem!'}
 						</Description>

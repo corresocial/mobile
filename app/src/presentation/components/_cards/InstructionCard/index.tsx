@@ -1,8 +1,8 @@
 import React from 'react'
-import { ViewStyle } from 'react-native'
+import { Linking, TouchableOpacity, ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, Message, MessageTitle } from './styles'
+import { Container, Message, MessageTitle, RedirectLink } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
@@ -10,6 +10,8 @@ interface InstructionCardProps {
 	message: string
 	title?: string
 	highlightedWords?: string[]
+	redirectLink?: string
+	redirectLinkLabel?: string
 	backgroundColor?: string
 	padding?: number
 	fontSize?: number
@@ -23,6 +25,8 @@ function InstructionCard({
 	message,
 	title,
 	highlightedWords,
+	redirectLink,
+	redirectLinkLabel,
 	backgroundColor,
 	padding = 15,
 	fontSize,
@@ -51,6 +55,11 @@ function InstructionCard({
 				{showMessageWithHighlight(message, highlightedWords)}
 			</Message>
 			{children}
+			{redirectLink && redirectLinkLabel && (
+				<TouchableOpacity onPress={() => Linking.openURL(redirectLink)}>
+					<RedirectLink>{redirectLinkLabel}</RedirectLink>
+				</TouchableOpacity>
+			)}
 		</Container>
 	)
 }

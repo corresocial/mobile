@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { ChatContext } from '@contexts/ChatContext'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { QueryCadunicoByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
@@ -19,8 +21,9 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
+const { smasNisHasLinkedWithUser } = useSmasDomain()
+
 function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResultScreenProps) {
-	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { status, serverError, nisNotFound, lastUpdate } = route.params
@@ -34,15 +37,19 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings')
+		navigation.navigate('NotificationPublicServicesSettingsPublicServices')
 	}
 
 	const navigateToQueryNIS = () => {
 		navigation.navigate('InsertNameNIS')
 	}
 
+	const smasNotificationIsEnable = async (nis?: string) => {
+		return smasNisHasLinkedWithUser(nis || '', useSmasRepository)
+	}
+
 	const handleContinueButton = async () => {
-		if (await chatUserHasTokenNotification()) {
+		if (await smasNotificationIsEnable()) {
 			return backToInitialStackScreen()
 		}
 
@@ -51,13 +58,13 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 
 	const getCustomResponseText = () => {
 		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
-		if (nisNotFound) return 'opa! \n\ntem algo de errado com esse NIS'
+		if (nisNotFound) return 'opa! \n\ntem algo de errado com esse NIS \n\nconsulte o aplicativo do Cadastro Único \n\nou entre em contato com o CRAS mais próximo da sua residência\n'
 		return `Desde a data deste sistema ${lastUpdate}, o cadastro consta como ${status.toUpperCase()}. \n\nCaso já tenha comparecido a uma unidade após esta data, ligue para central: \n\n (43) 33780476`
 	}
 
 	const getResponseHighlightedWords = () => {
 		if (serverError) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
-		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS']
+		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS', 'Cadastro', 'Único', 'CRAS']
 		return [status.toUpperCase(), 'ligue', lastUpdate, 'para', 'central:', '(43)', '33780476']
 	}
 
@@ -69,7 +76,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 				affirmativeConfigButton
 				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
 				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
-				closeModal={backToInitialStackScreen}
+				closeModal={() => setNotificationModalIsVisible(false)}
 				onCloseModal={() => setNotificationModalIsVisible(false)}
 				onPressButton={navigateToConfigScreen}
 			/>
@@ -94,6 +101,8 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 						fontSize={16}
 						message={getCustomResponseText()}
 						highlightedWords={getResponseHighlightedWords()}
+						redirectLink={'https://play.google.com/store/apps/details?id=br.gov.dataprev.meucadunico&hl=pt_BR'}
+						redirectLinkLabel={'Aplicativo Cadastro Único'}
 					/>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>

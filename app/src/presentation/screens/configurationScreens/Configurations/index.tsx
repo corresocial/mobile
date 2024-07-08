@@ -1,9 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { useChatDomain } from '@domain/chat/useChatDomain'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -24,7 +27,7 @@ import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import EyeDashedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
-// import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
+import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
@@ -41,10 +44,14 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const { logoutUser } = useUserDomain()
 
+const { clearCache } = useCacheRepository()
+
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
+
+	const queryClient = useQueryClient()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
@@ -61,9 +68,10 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				removeChatListeners,
 				userDataContext.userId
 			)
+			clearCache(queryClient)
 			navigateToInitialScreen()
 		} catch (err) {
-			// Alert.alert(JSON.stringify(err))
+			console.log(err)
 		}
 	}
 
@@ -155,7 +163,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					onPress={() => navigateToScreen('NotificationSettings')}
 				/>
 				<VerticalSpacing />
-				{/* <OptionButton // SMAS
+				<OptionButton
 					label={'serviços públicos'}
 					highlightedWords={['serviços', 'públicos']}
 					labelSize={18}
@@ -166,7 +174,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
 				/>
-				<VerticalSpacing /> */}
+				<VerticalSpacing />
 				<OptionButton
 					label={'métodos de login'}
 					highlightedWords={['métodos', 'de', 'login']}
@@ -260,7 +268,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					SvgIcon={XWhiteIcon}
 					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
-				<VerticalSpacing height={relativeScreenHeight(8)} />
+				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
 		</Container >
 	)

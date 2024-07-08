@@ -1,19 +1,39 @@
 import { PostEntity, PostRange } from '@domain/post/entity/types'
 
+export type UserAuthData = {
+	cellNumber: string
+	verificationCodeId?: string
+}
+
+export type UserRegisterData = {
+	cellNumber: string
+	verificationCodeId?: string
+	email: string
+	name?: string
+	profilePictureUri?: string
+	userId?: string
+}
+
 export type UserEntityOptional = Partial<UserEntity>
 export type UserEntity = {
 	userId: string
 	name: string
 	description?: string
 	profilePictureUrl?: string[]
-	tourPerformed?: boolean
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostEntity[]
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
+	unapprovedData?: UserEntityOptional & { reject?: boolean, owner?: UserOwner }
 	private?: PrivateUserEntity
+}
+
+export type UserOwner = { // REFACTOR Adicionar tipagem às postagens
+	userId: string
+	name: string
+	profilePictureUrl?: string[]
 }
 
 export type SocialMedia = {
@@ -60,3 +80,5 @@ export type PrivateUserEntity = {
 		visibleToGovernment: boolean
 	}
 }
+
+export type CompleteUser = UserEntity & PrivateUserEntity

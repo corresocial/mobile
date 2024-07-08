@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -29,5 +29,5 @@ export const OptionsArea = styled.View`
 export const Body = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.pink2};
-	padding: 0px ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 `

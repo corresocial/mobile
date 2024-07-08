@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore'
 
 import { ImpactReport } from '@domain/impactReport/entity/types'
 
-import { IMPACT_REPORT_COLLECTION } from '@data/remoteStorageKeys'
+import { IMPACT_REPORT_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 

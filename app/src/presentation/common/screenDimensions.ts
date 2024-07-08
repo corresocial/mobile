@@ -1,4 +1,5 @@
-import { Dimensions, StatusBar } from 'react-native'
+import { Dimensions, Platform, StatusBar } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 const screenWidth = Dimensions.get('window').width
 const screenHeight = Dimensions.get('window').height
@@ -14,10 +15,21 @@ const relativeScreenHeight = (percentage: number) => {
 	return (percentage / 100) * screenHeight
 }
 
+const relativeScreenDensity = (value: number) => {
+	if (!value) return 50
+	return RFValue(value)
+}
+
+const platformIsAndroid = Platform.OS === 'android'
+const platformIsIOS = Platform.OS === 'ios'
+
 export {
 	screenWidth,
 	screenHeight,
 	statusBarHeight,
 	relativeScreenWidth,
-	relativeScreenHeight
+	relativeScreenHeight,
+	relativeScreenDensity,
+	platformIsAndroid,
+	platformIsIOS
 }

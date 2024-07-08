@@ -26,5 +26,5 @@ export type VacancyStackParamList = {
 	InsertVacancyEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertVacancyStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertVacancyEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditVacancyPostReview: { postData: VacancyEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditVacancyPostReview: { postData: VacancyEntity, approvedPostData: VacancyEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

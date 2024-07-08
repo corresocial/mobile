@@ -6,6 +6,7 @@ import { Coordinates, LatLong } from '@domain/post/entity/types'
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
@@ -28,14 +29,15 @@ import { Loader } from '@components/Loader'
 
 import { CustomMapView } from '../../CustomMapView'
 
-const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
+const { getCurrentLocation, convertGeocodeToAddress, getCoordinatesByIpAddress } = useLocationService()
+const { searchAddressByText } = useGoogleMapsService()
 const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
 	latitude: -13.890303625634541,
 	latitudeDelta: 3.54596047458735,
 	longitude: -51.92523987963795,
-	longitudeDelta: 3.99996047466992,
+	longitudeDelta: 3.99996047466992
 }
 
 const defaultDeltaCoordinates = {
@@ -46,6 +48,8 @@ const defaultDeltaCoordinates = {
 interface SelectPostLocationProps {
 	backgroundColor: string
 	validationColor: string
+	customTitle?: string
+	customTitleHighligh?: string[]
 	initialValue?: LatLong
 	isLoading?: boolean
 	headerDescription?: string
@@ -57,6 +61,8 @@ interface SelectPostLocationProps {
 function SelectPostLocation({
 	backgroundColor,
 	validationColor,
+	customTitle,
+	customTitleHighligh,
 	initialValue,
 	headerDescription,
 	headerDescriptionHighlightedWords,
@@ -69,7 +75,6 @@ function SelectPostLocation({
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(initialRegion)
 	const [address, setAddress] = useState('')
-	const { getCoordinatesByIpAddress } = useLocationService()
 
 	const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({
 		width: 0, height: 0, x: 0, y: 0
@@ -94,9 +99,6 @@ function SelectPostLocation({
 
 	const getIpAddressCoodinates = async () => {
 		const coordinates = await getCoordinatesByIpAddress()
-
-		console.log('coordinates from IP')
-		console.log(coordinates)
 
 		if (coordinates) {
 			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
@@ -147,7 +149,7 @@ function SelectPostLocation({
 		const permission = await requestLocationPermission()
 		if (!permission) return
 
-		const addressGeolocation = await Location.geocodeAsync(address)
+		const addressGeolocation = await searchAddressByText(address)
 
 		if (!addressGeolocation.length) {
 			setInvalidAddressAfterSubmit(true)
@@ -156,8 +158,8 @@ function SelectPostLocation({
 		}
 
 		const geolocationCoordinates = {
-			latitude: addressGeolocation[0].latitude,
-			longitude: addressGeolocation[0].longitude,
+			latitude: addressGeolocation[0].lat,
+			longitude: addressGeolocation[0].lon,
 		}
 
 		setMarkerCoordinate({
@@ -166,8 +168,8 @@ function SelectPostLocation({
 		})
 
 		convertAndStructureGeocodeAddress(
-			addressGeolocation[0].latitude,
-			addressGeolocation[0].longitude
+			addressGeolocation[0].lat,
+			addressGeolocation[0].lon
 		)
 
 		setValidAddress(true)
@@ -198,8 +200,8 @@ function SelectPostLocation({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					message={'qual é o endereço?'}
-					highlightedWords={['endereço']}
+					message={customTitle || 'qual é o endereço?'}
+					highlightedWords={customTitleHighligh || ['endereço']}
 					fontSize={16}
 				>
 					{
@@ -240,14 +242,13 @@ function SelectPostLocation({
 					<PrimaryButton
 						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
-						flexDirection={'row-reverse'}
 						color={theme.white3}
 						label={'   usar minha localização'}
 						highlightedWords={['minha', 'localização']}
 						labelColor={theme.black4}
 						fontSize={16}
-						SvgIcon={MapPointWhiteIcon}
-						svgIconScale={['60%', '15%']}
+						SecondSvgIcon={MapPointWhiteIcon}
+						svgIconScale={['50%', '15%']}
 						onPress={getCurrentPositionCoordinated}
 					/>
 				</MyLocationButtonContainer>
@@ -267,11 +268,10 @@ function SelectPostLocation({
 								? <Loader />
 								: (
 									<PrimaryButton
-										flexDirection={'row-reverse'}
 										color={theme.green3}
 										label={'continuar'}
 										labelColor={theme.white3}
-										SvgIcon={CheckWhiteIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveLocation(markerCoordinate)}
 									/>
 								)

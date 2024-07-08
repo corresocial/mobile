@@ -46,7 +46,6 @@ function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreen
 			navigation.navigate('InsertCellNumber', { newUser: true })
 			return
 		}
-
 		navigation.navigate('SelectAuthMethod', { newUser: true })
 	}
 

@@ -39,7 +39,7 @@ const { getTextualAddress } = UiLocationUtils()
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
@@ -70,6 +70,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		return picturesUrl
 	}
 
+	/* const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	} */
+
 	const formatCategoryAndTags = () => {
 		const category: SaleCategories = getPostField('category')
 		const tags = getPostField('tags')
@@ -97,12 +103,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigateToPostView(post, navigation)
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => { // TODO tipar com tipos de rotas
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
-		}
+		/* if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
+		} */
 
 		if (initialValue === 'location') {
 			value = {
@@ -111,19 +117,24 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			}
 		}
 
-		navigation.push(customStack || 'SaleStack' as any, { // TODO Type
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		if (customStack) {
+			return navigation.push(customStack || 'SaleStack' as any, { // TODO Type
+				screen: screenName,
+				params: {
+					editMode: true,
+					initialValue: value
+				}
+			})
+		}
+
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 
@@ -136,7 +147,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const checkChangeLocationAlertIsRequired = () => {
-		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
+		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectLocationView', 'location')
 
 		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
@@ -173,8 +184,6 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext
 	}
 
-	console.log(editDataContext.unsaved)
-
 	return (
 		<>
 			<LocationChangeConfirmationModal
@@ -190,6 +199,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			/>
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'sale' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}

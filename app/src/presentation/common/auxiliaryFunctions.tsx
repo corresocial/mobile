@@ -7,7 +7,7 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 	if (!highlightedWords) return message
 
 	const words = message.split(/ /gi)
-	const commonSymbols = [',', '.', '?']
+	const commonSymbols = ['.'] // old, foram removidos a vírgula e a interrogação
 
 	const messageHighlighted = words.map((word: string, index: number) => {
 		let wordWithoutSymbols = word

@@ -22,7 +22,7 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
 function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationScreenProps) {
-	const { userDataContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,7 +35,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 
 	const userSubscriptionIsCity = () => userDataContext.subscription?.subscriptionRange === 'city'
 
-	const userHasSomePost = () => userDataContext.posts && userDataContext.posts.length > 0
+	const userHasSomePost = () => userPostsContext && userPostsContext.length > 0
 
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false

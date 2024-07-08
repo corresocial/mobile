@@ -141,8 +141,8 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				/>
 				<SubscriptionButtonContainer>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
+					<VerticalSpacing />
 				</SubscriptionButtonContainer>
-				<VerticalSpacing />
 			</Container >
 		</>
 	)

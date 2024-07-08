@@ -39,7 +39,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
@@ -118,19 +118,24 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			}
 		}
 
-		navigation.push(customStack || 'VacancyStack' as any, { // TODO Type
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		if (customStack) {
+			return navigation.push(customStack || 'VacancyStack' as any, { // TODO Type
+				screen: screenName,
+				params: {
+					editMode: true,
+					initialValue: value
+				}
+			})
+		}
+
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectVacancyLocationView', 'location')
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 
@@ -143,7 +148,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const checkChangeLocationAlertIsRequired = () => {
-		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectVacancyLocationView', 'location')
+		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectVacancyLocationView', 'location')
 
 		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
@@ -196,6 +201,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'vacancy' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
@@ -245,7 +251,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				<VerticalSpacing />
 				<VacancyPurposeCard
 					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
-					onEdit={() => { // TODO Refatorar: Temporário tudante a transição de estrutura de dados
+					onEdit={() => { // TODO Refatorar: Temporário durante a transição de estrutura de dados
 						getPostField('vacancyPurpose' as any)
 							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
 							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')

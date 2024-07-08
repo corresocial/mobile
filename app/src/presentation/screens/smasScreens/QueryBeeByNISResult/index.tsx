@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { ChatContext } from '@contexts/ChatContext'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { QueryBeeByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
@@ -19,8 +21,9 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
+const { smasNisHasLinkedWithUser } = useSmasDomain()
+
 function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenProps) {
-	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { nisNotFound, serverError, benefitRequested, benefitGranted, inAnalysis, grantDate, expectedDate } = route.params
@@ -34,11 +37,15 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings')
+		navigation.navigate('NotificationPublicServicesSettingsPublicServices')
+	}
+
+	const smasNotificationIsEnable = async (nis?: string) => {
+		return smasNisHasLinkedWithUser(nis || '', useSmasRepository)
 	}
 
 	const handleContinueButton = async () => {
-		if (await chatUserHasTokenNotification()) {
+		if (await smasNotificationIsEnable()) {
 			return backToInitialStackScreen()
 		}
 
@@ -59,7 +66,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const getBenefitStatusMessage = () => {
 		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
-		if (nisNotFound) return 'opa! \n\ntem algo errado com esse NIS'
+		if (nisNotFound) return 'opa! \n\ntem algo errado com esse NIS \n\nentre em contato com o CRAS mais próximo da sua residência \n\nou tente uma das alternativas abaixo'
 		if (!benefitRequested) return 'solicitação não foi localizada'
 		if (inAnalysis) return 'sua solicitação ainda está sendo analisada'
 		if (!benefitGranted) return 'não foi concedido'
@@ -69,7 +76,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	const getBenefitStatusMessageHighlighted = () => {
 		if (serverError) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
-		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS']
+		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS', 'CRAS', 'alternativas']
 		if (!benefitRequested) return ['solicitação', 'não', 'foi', 'localizada']
 		if (inAnalysis) return ['ainda', 'está', 'sendo', 'analisada']
 		if (!benefitGranted) return ['não foi concedido']
@@ -89,7 +96,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 				affirmativeConfigButton
 				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
 				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
-				closeModal={backToInitialStackScreen}
+				closeModal={() => setNotificationModalIsVisible(false)}
 				onCloseModal={() => setNotificationModalIsVisible(false)}
 				onPressButton={navigateToConfigScreen}
 			/>

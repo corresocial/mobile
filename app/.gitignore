@@ -1,8 +1,12 @@
 node_modules/
 .env
 google-services.json
+GoogleService-Info.plist
+coverage/**/*
 .expo/
 dist/
+android/
+ios/
 npm-debug.*
 *.jks
 *.p8

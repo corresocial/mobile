@@ -42,12 +42,13 @@ const { generateGoogleAuthCredential, linkAuthProvider, unlinkAuthProvider } = u
 const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
-const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
+const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const keys = {
+		clientId: AUTH_CLIENT_ID,
 		expoClientId: AUTH_EXPO_CLIENT_ID,
 		androidClientId: AUTH_ANDROID_CLIENT_ID,
 		iosClientId: AUTH_IOS_CLIENT_ID
@@ -56,9 +57,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const [tokenGoogle, setTokenGoogle] = useState<string | undefined>()
 	const [userPrivateContacts, setUserPrivateContacts] = useState<PrivateUserEntity['contacts']>({ cellNumber: '', email: '' })
 	// eslint-disable-next-line no-unused-vars
-	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
-		projectNameForProxy: '@corresocial/corresocial'
-	})
+	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
@@ -95,7 +94,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [response, tokenGoogle])
 
 	const canRemoveEntryMethod = () => {
-		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email && Platform.OS === 'android'
 	}
 
 	const editPhoneProvider = () => {
@@ -137,13 +136,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const editGoogleProvider = async () => {
-		/* const registredGoogleEmail = userPrivateContacts.email
-
-		if (registredGoogleEmail) {
-			if (!canRemoveEntryMethod()) return
-			return toggleUnlinkGoogleConfirmationModalVisibility()
-		} */
-
 		await linkGoogleProvider()
 	}
 
@@ -153,7 +145,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			setHasError(false)
 
 			if (tokenGoogle) {
-				if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+				if (!tokenGoogle) return await promptAsyncGoogle()
 
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
 				const linkedUser: UserCredential['user'] = await linkAuthProvider(googleCredential)
@@ -162,13 +154,13 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId,
-					{ email: linkedUser.email || '' }
+					{ email: linkedUser.email ? linkedUser.email : '' }
 				)
 
-				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
-				navigateToLinkResultScreen(true, linkedUser.email)
+				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email ? linkedUser.email : '' })
+				navigateToLinkResultScreen(true, linkedUser.email ? linkedUser.email : '')
 			} else {
-				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+				await promptAsyncGoogle()
 			}
 		} catch (error: any) {
 			console.log(error)
@@ -195,8 +187,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const getFormatedCellNumber = () => {
-		if (!userPrivateContacts.cellNumber) return ''
-		const numbetWithoutCountryCode = userPrivateContacts.cellNumber.slice(3)
+		if (!userPrivateContacts || !userPrivateContacts.cellNumber) return ''
+		const numbetWithoutCountryCode = userPrivateContacts && userPrivateContacts.cellNumber ? userPrivateContacts.cellNumber.slice(3) : ''
 		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
 		return numberWithDDDSpace
 	}
@@ -215,7 +207,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
-				accountIdentifier={userPrivateContacts.email || ''}
+				accountIdentifier={userPrivateContacts ? userPrivateContacts.email : ''}
 				registerMethod
 				linking
 				hasError={hasError}
@@ -251,7 +243,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								<VerticalSpacing />
 								<EditCard
 									title={'número de telefone'}
-									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts && userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={getFormatedCellNumber()}
 									pressionable

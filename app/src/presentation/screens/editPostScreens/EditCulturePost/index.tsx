@@ -39,7 +39,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 
@@ -125,19 +125,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 			}
 		}
 
-		navigation.navigate('CultureStack', {
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectCultureLocationView', 'location')
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 
@@ -150,7 +145,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const checkChangeLocationAlertIsRequired = () => {
-		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectCultureLocationView', 'location')
+		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectCultureLocationView', 'location')
 
 		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
@@ -193,6 +188,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 			/>
 			<EditPost
 				initialPostData={{ ...postData, postType: 'culture' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.blue2}
 				unsavedPost={unsavedPost}

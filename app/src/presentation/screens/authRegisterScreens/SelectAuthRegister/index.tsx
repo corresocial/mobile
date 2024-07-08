@@ -10,8 +10,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
+import { showBuildInfo } from '@utils/showBuildInfo'
 
-import { Container, CarouselItemContainer, Slogan } from './styles'
+import { Container, CarouselItemContainer, Slogan, EasterEgg } from './styles'
 import Logo from '@assets/icons/logo.svg'
 import PhoneDeviceWhiteIcon from '@assets/icons/phoneDevice-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -65,8 +66,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 			navigation.navigate('InsertCellNumber', { newUser: false })
 			return
 		}
-
-		navigation.navigate('SelectAuthMethod', { newUser: false })
+		navigation.navigate('SelectAuthMethod')
 	}
 
 	const navigateToRegisterFlow = () => {
@@ -83,7 +83,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 				index: 0,
 				routes: [{
 					name: 'UserStack',
-					params: { tourPerformed: !!localUser.tourPerformed }
+					params: { newUser: false }
 				}],
 			})
 		} catch (err) {
@@ -158,6 +158,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 					leftSideWidth={'25%'}
 					onPress={navigateToRegisterFlow}
 				/>
+				<EasterEgg onPress={showBuildInfo} />
 			</FormContainer>
 		</Container>
 	)

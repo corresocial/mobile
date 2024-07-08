@@ -4,11 +4,24 @@
 		"promptToConfigurePushNotifications": false
 	},
 	"build": {
+		"development-build": {
+			"developmentClient": true,
+			"distribution": "internal",
+			"ios": {
+				"simulator": true,
+				"resourceClass": "m-medium"
+			},
+			"android": {
+				"buildType": "apk"
+			},
+			"channel": "development-build"
+		},
 		"development": {
 			"developmentClient": false,
 			"distribution": "internal",
 			"ios": {
-				"resourceClass": "m1-medium"
+				"simulator": true,
+				"resourceClass": "m-medium"
 			},
 			"android": {
 				"buildType": "apk"
@@ -17,7 +30,7 @@
 		},
 		"staging": {
 			"ios": {
-				"resourceClass": "m1-medium"
+				"resourceClass": "m-medium"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
@@ -26,12 +39,12 @@
 		},
 		"production": {
 			"ios": {
-				"resourceClass": "m1-medium"
+				"resourceClass": "m-medium"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.6.3"
+			"channel": "v0.9.0"
 		}
 	},
 	"submit": {

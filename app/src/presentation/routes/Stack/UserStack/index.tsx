@@ -11,6 +11,9 @@ import { SubscriptionProvider } from '@contexts/SubscriptionContext'
 
 import { UserStackParamList } from './types'
 
+import { ContactUs } from '@screens/configurationScreens/ContactUs'
+import { ContactUsInsertMessage } from '@screens/configurationScreens/ContactUsInsertMessage'
+import { ContactUsSuccess } from '@screens/configurationScreens/ContactUsSuccess'
 import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { WelcomeNewUser } from '@screens/homeScreens/WelcomeNewUser'
 import { EditCurrentSubscription } from '@screens/paymentSystemScreens/EditCurrentSubscription'
@@ -25,6 +28,8 @@ import { OfflinePostsManagement } from '@screens/profileScreens/OfflinePostsMana
 
 import { HomeTab } from '../../Tabs/HomeTab'
 import { CultureStack } from '../CultureStack'
+import { PetitionStack } from '../PetitionStack'
+import { PollStack } from '../PollStack'
 import { SaleStack } from '../SaleStack'
 import { ServiceStack } from '../ServiceStack'
 import { SocialImpactStack } from '../SocialImpactStack'
@@ -33,7 +38,7 @@ import { VacancyStack } from '../VacancyStack'
 const Stack = createStackNavigator<UserStackParamList>()
 
 export function UserStack({ route }: any) {
-	const tourPerformed = (route.params && route.params.tourPerformed) || false
+	const newUser = (route.params && route.params.newUser) || false
 
 	return (
 		<ChatProvider>
@@ -43,7 +48,7 @@ export function UserStack({ route }: any) {
 						<StripeProvider>
 							<LocationProvider>
 								<Stack.Navigator
-									initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
+									initialRouteName={newUser ? 'WelcomeNewUser' : 'HomeTab'}
 									screenOptions={{
 										headerShown: false,
 										gestureEnabled: true,
@@ -61,8 +66,15 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
 									<Stack.Screen name={'CultureStack'} component={CultureStack} />
 									<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
+									<Stack.Screen name={'PollStack'} component={PollStack} />
+									<Stack.Screen name={'PetitionStack'} component={PetitionStack} />
 
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
+
+									{/* TODO Type */}
+									<Stack.Screen name={'ContactUsUserStack'} component={ContactUs as any} />
+									<Stack.Screen name={'ContactUsInsertMessageUserStack'} component={ContactUsInsertMessage as any} />
+									<Stack.Screen name={'ContactUsSuccessUserStack'} component={ContactUsSuccess as any} />
 
 									<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
 									<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />

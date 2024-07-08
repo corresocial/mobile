@@ -27,11 +27,11 @@ interface PopOverProps {
 	title?: string
 	isAdmin?: boolean
 	popoverVisibility: boolean
-	buttonLabel: string
+	buttonLabel?: string
 	children: React.ReactChild
 	reportUser?: () => void
-	onPressVerify: (label: VerifiedLabelName) => void
-	setFreeTrialToProfile: (subscriptionPlan: PostRange) => void
+	onPressVerify?: (label: VerifiedLabelName) => void
+	setFreeTrialToProfile?: (subscriptionPlan: PostRange) => void
 	goToConfig?: () => void
 	closePopover: () => void
 }
@@ -73,7 +73,7 @@ function PopOver({
 	const selectPlan = async (plan: PostRange) => {
 		toggleSelectSubscriptionPlanModal()
 		closePopover()
-		setFreeTrialToProfile(plan)
+		setFreeTrialToProfile && setFreeTrialToProfile(plan)
 	}
 
 	const toggleSelectSubscriptionPlanModal = () => {
@@ -99,21 +99,21 @@ function PopOver({
 				visibility={verifyUserModal}
 				title={'verificar perfil'}
 				subject={'verificar'}
-				onPressButton={() => onPressVerify('default')}
+				onPressButton={() => onPressVerify && onPressVerify('default')}
 				closeModal={toggleVerifyUserModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={verifyImpactUserModal}
 				title={'tornar de impacto'}
 				subject={'tornar de impacto'}
-				onPressButton={() => onPressVerify('impact')}
+				onPressButton={() => onPressVerify && onPressVerify('impact')}
 				closeModal={toggleVerifyImpactUserModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={verifyGovernmentProfileModal}
 				title={'tornar governamental'}
 				subject={'conceder perfil governamental para'}
-				onPressButton={() => onPressVerify('government')}
+				onPressButton={() => onPressVerify && onPressVerify('government')}
 				closeModal={toggleVerifyGovernmentProfileModal}
 			/>
 			<VerifyUserConfirmationModal
@@ -149,64 +149,76 @@ function PopOver({
 							/>
 						)
 					}
-					<VerticalSpacing height={RFValue(5)} />
-					<PrimaryButton
-						color={theme.red3}
-						SvgIcon={DeniedWhiteIcon}
-						label={buttonLabel}
-						highlightedWords={[buttonLabel.split(' ')[0]]}
-						labelColor={theme.white3}
-						fontSize={14}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={reportUser && reportUser}
-					/>
-					<VerticalSpacing height={RFValue(5)} />
-					<PrimaryButton
-						color={theme.green3}
-						SecondSvgIcon={VerifiedLabel}
-						label={'verificar perfil'}
-						highlightedWords={['verificar']}
-						labelColor={theme.white3}
-						fontSize={14}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={toggleVerifyUserModal}
-					/>
-					<VerticalSpacing height={RFValue(5)} />
-					<PrimaryButton
-						color={theme.pink3}
-						SecondSvgIcon={ImpactLabel}
-						label={'tornar de impacto'}
-						highlightedWords={['tornar', 'impacto']}
-						labelColor={theme.white3}
-						fontSize={14}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={toggleVerifyImpactUserModal}
-					/>
+					<VerticalSpacing />
 					{
-						isAdmin && (
+						reportUser && (
 							<>
-								<VerticalSpacing height={RFValue(5)} />
 								<PrimaryButton
-									color={theme.purple3}
-									SecondSvgIcon={CityWhiteIcon}
-									label={'tornar governamental'}
-									highlightedWords={['governamental']}
+									color={theme.red3}
+									SvgIcon={DeniedWhiteIcon}
+									label={buttonLabel || 'botão'}
+									highlightedWords={[buttonLabel ? buttonLabel.split(' ')[0] : 'botão']}
 									labelColor={theme.white3}
 									fontSize={14}
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
-									onPress={toggleVerifyGovernmentProfileModal}
+									onPress={reportUser}
 								/>
+								<VerticalSpacing/>
 							</>
 						)
 					}
 					{
-						isAdmin && (
+						onPressVerify && (
 							<>
-								<VerticalSpacing height={RFValue(5)} />
+								<PrimaryButton
+									color={theme.green3}
+									SecondSvgIcon={VerifiedLabel}
+									label={'verificar perfil'}
+									highlightedWords={['verificar']}
+									labelColor={theme.white3}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={toggleVerifyUserModal}
+								/>
+								<VerticalSpacing/>
+								<PrimaryButton
+									color={theme.pink3}
+									SecondSvgIcon={ImpactLabel}
+									label={'tornar de impacto'}
+									highlightedWords={['tornar', 'impacto']}
+									labelColor={theme.white3}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={toggleVerifyImpactUserModal}
+								/>
+								{
+									isAdmin && (
+										<>
+											<VerticalSpacing/>
+											<PrimaryButton
+												color={theme.purple3}
+												SecondSvgIcon={CityWhiteIcon}
+												label={'tornar governamental'}
+												highlightedWords={['governamental']}
+												labelColor={theme.white3}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={toggleVerifyGovernmentProfileModal}
+											/>
+										</>
+									)
+								}
+							</>
+						)
+					}
+					{
+						isAdmin && setFreeTrialToProfile && (
+							<>
+								<VerticalSpacing/>
 								<PrimaryButton
 									color={theme.blue3}
 									SecondSvgIcon={HanOnMoneyWhiteIcon}

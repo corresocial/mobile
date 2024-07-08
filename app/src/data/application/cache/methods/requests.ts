@@ -3,20 +3,17 @@ import { QueryClient } from '@tanstack/react-query'
 const defaultCachePersistence = 86400000 // 1 dia
 
 async function executeCachedRequest(cacheClient: QueryClient, cacheKey: any[], fetchMethod: any, refresh?: boolean) {
-	if (refresh) console.log('REFRESHED')
+	if (refresh) console.log('REFRESHED =>', cacheKey[0], cacheKey[1] || '')
 
 	if (!refresh) {
 		const cachedData = cacheClient.getQueryData(cacheKey)
 		if (cachedData) {
-			// Alert.alert('CACHED DATA', JSON.stringify(cachedData))
-			// Alert.alert('CACHED KEY', JSON.stringify(cacheKey))
-			console.log('CACHED')
+			console.log('CACHED =>', cacheKey[0], cacheKey[1] || '')
 			return cachedData
 		}
 	}
 
-	// Alert.alert('FETCHED KEY', JSON.stringify(cacheKey))
-	console.log('FETCHED')
+	console.log('FETCHED =>', cacheKey[0], cacheKey[1] || '')
 	const data = await fetchMethod()
 	cacheClient.setQueryData(cacheKey, data)
 	return data

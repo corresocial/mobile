@@ -1,26 +1,20 @@
 import { addDoc, collection } from 'firebase/firestore'
 
-import { PostEntityOptional, PostType } from '@domain/post/entity/types'
-import { UserEntityOptional } from '@domain/user/entity/types'
+import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 
-import { POST_COLLECTION } from '@data/remoteStorageKeys'
+import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
-async function createPost(post: PostEntityOptional, user: UserEntityOptional, postType: PostType) {
+async function createPost(post: PostEntityOptional) {
 	try {
-		const docRef = await addDoc(collection(firestore, POST_COLLECTION), {
-			...post,
-			postType,
-			createdAt: new Date(),
-			owner: {
-				userId: user.userId,
-				name: user.name,
-				profilePictureUrl: user.profilePictureUrl ? user.profilePictureUrl : [],
-			},
-		})
+		const collectionRef = collection(firestore, POST_COLLECTION)
 
-		return docRef.id
+		const postData = { ...post, createdAt: new Date() }
+
+		const docRef = await addDoc(collectionRef, postData)
+
+		return { ...postData, postId: docRef.id } as PostEntity
 	} catch (error) {
 		console.log(error)
 		return null

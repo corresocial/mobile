@@ -13,6 +13,7 @@ interface ConainerBottomProps {
 	relativeWidth: string | number
 	height: number
 	rounded: boolean
+	halfRounded: boolean
 }
 
 export const ContainerBottom = styled.View<ConainerBottomProps>`
@@ -24,7 +25,7 @@ export const ContainerBottom = styled.View<ConainerBottomProps>`
 	background-color: ${({ theme }) => theme.black4};
 	height: ${({ height }) => height}px;
 	width: ${({ relativeWidth }) => (typeof (relativeWidth) === 'string' ? relativeWidth : `${relativeWidth}px`)};
-	border-radius: ${({ rounded, height }) => (rounded ? height / 2 : RFValue(12))}px;
+	border-radius: ${({ halfRounded, rounded, height }) => (rounded ? height / 2 : halfRounded ? RFValue(25) : RFValue(12))}px;
 `
 
 interface ConainerSurfaceProps {
@@ -32,6 +33,7 @@ interface ConainerSurfaceProps {
 	flexDirection: ViewStyle['flexDirection']
 	buttonPressed: boolean
 	rounded: boolean
+	halfRounded: boolean
 }
 
 export const ContainerSurface = styled.View<ConainerSurfaceProps>`
@@ -45,7 +47,7 @@ export const ContainerSurface = styled.View<ConainerSurfaceProps>`
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
 	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
-	border-radius: ${({ rounded }) => (rounded ? 500 : RFValue(12))}px;
+	border-radius: ${({ halfRounded, rounded }) => (rounded ? 800 : halfRounded ? RFValue(25) : RFValue(12))}px;
 `
 
 export const ButtonLabel = styled.Text`

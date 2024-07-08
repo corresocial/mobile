@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { ChatContext } from '@contexts/ChatContext'
+import { useSmasDomain } from '@domain/smas/useSmasDomain'
+
+import { useSmasRepository } from '@data/smas/useSmasRepository'
 
 import { QueryPbfByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
@@ -17,8 +19,9 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
+const { smasNisHasLinkedWithUser } = useSmasDomain()
+
 function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenProps) {
-	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { status, NIS, nisNotFound, serverError, familyBagName, familyBagValue } = route.params
@@ -32,11 +35,15 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 
 	const navigateToConfigScreen = () => {
 		setNotificationModalIsVisible(false)
-		navigation.navigate('NotificationSettings')
+		navigation.navigate('NotificationPublicServicesSettingsPublicServices')
+	}
+
+	const smasNotificationIsEnable = async (nis?: string) => {
+		return smasNisHasLinkedWithUser(nis || '', useSmasRepository)
 	}
 
 	const handleContinueButton = async () => {
-		if (await chatUserHasTokenNotification()) {
+		if (await smasNotificationIsEnable()) {
 			return backToInitialStackScreen()
 		}
 
@@ -45,9 +52,9 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 
 	const getCustomResponseText = () => {
 		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
-		if (nisNotFound) return `este NIS(${NIS}) não consta na folha de pagamento de Londrina \n\nconsulte o aplicativo do bolsa família \n\nlink`
+		if (nisNotFound) return `este NIS(${NIS}) não consta na folha de pagamento de Londrina \n\nconsulte o aplicativo do bolsa família \n`
 		if (status === 'Liberado') return `benefício ${status.toUpperCase()} no valor de: ${familyBagValue} para ${familyBagName}, ao NIS ${NIS}`
-		if (status === 'Bloqueado' || status === 'Suspenso') return `benefício ${status.toUpperCase()} \n\n ${familyBagName} \n ${NIS} \n\nconsulte o aplicativo do bolsa família \n\nlink`
+		if (status === 'Bloqueado' || status === 'Suspenso') return `benefício ${status.toUpperCase()} \n\n ${familyBagName} \n ${NIS} \n\nconsulte o aplicativo do bolsa família \n`
 
 		return 'não foi possível identificar o estado do seu benefício'
 	}
@@ -69,7 +76,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 				affirmativeConfigButton
 				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
 				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
-				closeModal={backToInitialStackScreen}
+				closeModal={() => setNotificationModalIsVisible(false)}
 				onCloseModal={() => setNotificationModalIsVisible(false)}
 				onPressButton={navigateToConfigScreen}
 			/>
@@ -94,6 +101,8 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 						fontSize={16}
 						message={getCustomResponseText()}
 						highlightedWords={getResponseHighlightedWords()}
+						redirectLink={nisNotFound || status === 'Bloqueado' || status === 'Suspenso' ? 'https://play.google.com/store/apps/details?id=br.gov.caixa.bolsafamilia&hl=pt_BR' : ''}
+						redirectLinkLabel={'Aplicativo Bolsa Família'}
 					/>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>

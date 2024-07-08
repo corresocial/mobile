@@ -4,8 +4,9 @@ import styled from 'styled-components/native'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps {
-    backgroundColor?: string
-    justifyContent?: ViewStyle['justifyContent']
+	backgroundColor?: string
+	justifyContent?: ViewStyle['justifyContent']
+	withoutPaddingTop?: boolean
 }
 
 export const Container = styled.View<ContainerProps>`
@@ -13,7 +14,9 @@ export const Container = styled.View<ContainerProps>`
 	justify-content: ${({ justifyContent }) => justifyContent || 'space-around'};
 
     flex: 1;
+	width: 100%;
     padding:  ${relativeScreenWidth(6)}px;
+    padding-top:  ${({ withoutPaddingTop }) => (withoutPaddingTop ? 0 : relativeScreenWidth(5))}px;
     align-items: center;
     overflow: hidden;
 `

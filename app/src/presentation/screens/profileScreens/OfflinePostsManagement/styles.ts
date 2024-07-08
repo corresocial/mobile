@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const PostPadding = styled.View`
 	padding: 0px ${relativeScreenWidth(2)}px;
@@ -31,6 +31,6 @@ export const Body = styled.View<BodyProps>`
 
 export const SaveButtonContainer = styled.View`
 	width: 100%;
-	padding: 0px ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
  `

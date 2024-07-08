@@ -1,14 +1,14 @@
 import { Camera, CameraType, FlashMode } from 'expo-camera'
-import * as ImageManipulator from 'expo-image-manipulator'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState, useRef } from 'react'
 import { ActivityIndicator, Modal, StatusBar, View } from 'react-native'
+
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
 	CameraContainer,
 	CameraControlsContainer,
 	Container,
-	FlashButtonContainer,
 	Footer,
 	NotPermissionContainer,
 	NotPermissionText,
@@ -16,7 +16,6 @@ import {
 	ContainerIcon,
 
 } from './styles'
-import AddPictureOutlined from '@assets/icons/addPicture-outlined.svg'
 import CameraFlashOutlined from '@assets/icons/cameraFlash-outlined.svg'
 import CameraFlashOnOutlined from '@assets/icons/cameraFlashOn-outlined.svg'
 import CameraToggleOutlined from '@assets/icons/cameraToggle-outlined.svg'
@@ -25,6 +24,8 @@ import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { TakePictureCameraButton } from '@components/_buttons/TakePictureCameraButton'
+
+const { compressImage } = UiUtils()
 
 interface CustomCameraModalProps {
 	cameraOpened: boolean;
@@ -79,41 +80,10 @@ function CustomCameraModal({
 		)
 	}
 
-	const openGalery = async () => {
-		if (!mediaLibrayHasPermission) {
-			await getMediaLibraryPermissions()
-			return
-		}
-
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [1, 1]
-		})
-
-		if (!result.canceled) {
-			const imageUri = result.assets[0].uri
-
-			const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
-				imageUri,
-				[{ resize: { height: 1080, width: 1080 } }],
-				{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-			)
-
-			setPictureUri(compressedUri)
-			onClose()
-		}
-	}
-
 	const takePicture = async () => {
 		if (cameraRef.current !== null) {
 			const { uri: imageUri } = await cameraRef.current.takePictureAsync()
-
-			const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
-				imageUri,
-				[{ resize: { height: 1080, width: 1080 } }],
-				{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
-			)
+			const compressedUri = await compressImage(imageUri)
 
 			setPictureUri(compressedUri)
 			onClose()
@@ -165,25 +135,16 @@ function CustomCameraModal({
 						/>
 					</CameraContainer>
 					<View style={{ width: '100%' }}>
-						<FlashButtonContainer>
-							<ContainerIcon onPress={toggleFlashMode}>
-								{
-									flashMode === FlashMode.torch
-										? <CameraFlashOnOutlined height={'100%'} width={'100%'} />
-										: <CameraFlashOutlined height={'100%'} width={'100%'} />
-								}
-
-							</ContainerIcon>
-						</FlashButtonContainer>
 						<Body>
 							<CameraControlsContainer>
-								<ContainerIcon
-									opacity={mediaLibrayHasPermission ? 1 : 0.4}
-									onPress={openGalery}
-								>
-									<AddPictureOutlined height={'100%'} width={'100%'} />
-								</ContainerIcon>
+								<ContainerIcon onPress={toggleFlashMode}>
+									{
+										flashMode === FlashMode.torch
+											? <CameraFlashOnOutlined height={'100%'} width={'100%'} />
+											: <CameraFlashOutlined height={'100%'} width={'100%'} />
+									}
 
+								</ContainerIcon>
 								<TakePictureCameraButton onPress={takePicture} />
 
 								<ContainerIcon onPress={toggleCameraType}>
@@ -192,7 +153,7 @@ function CustomCameraModal({
 							</CameraControlsContainer>
 						</Body>
 						<Footer>
-							<ContainerIcon onPress={onClose}>
+							<ContainerIcon onPress={onClose} >
 								<XButtonOutlined height={'100%'} width={'100%'} />
 							</ContainerIcon>
 						</Footer>

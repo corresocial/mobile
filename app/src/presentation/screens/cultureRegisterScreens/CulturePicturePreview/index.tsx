@@ -14,9 +14,9 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const savePictures = (picturesUri: string[]) => {
+	const saveMedia = (picturesUrl: string[]) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl: picturesUri })
+			addNewUnsavedFieldToEditContext({ picturesUrl })
 			navigation.goBack()
 		}
 	}
@@ -26,10 +26,9 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.blue2}
-				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
-				savePictures={savePictures}
+				saveMedia={saveMedia}
 			/>
 		</>
 	)

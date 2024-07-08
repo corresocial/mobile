@@ -4,6 +4,7 @@ import { PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { GeocodeAddress } from '@services/googleMaps/types/maps'
 
+// REFACTOR regra de negócios
 const structureAddress = (geocodeAddress: GeocodeAddress, latitude?: number, longitude?: number) => ({
 	country: geocodeAddress.country || '',
 	state: geocodeAddress.state || '',

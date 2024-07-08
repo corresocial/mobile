@@ -1,5 +1,14 @@
 import React from 'react'
 
+export interface AlertModalContent {
+	visibility: boolean
+	title: string
+	type: 'info' | 'warn' | 'error'
+	text: string
+	handleSuccessMethod: any
+	handleAlternativeMethod: any
+}
+
 export interface AlertProviderProps {
 	children: React.ReactNode
 }
@@ -16,4 +25,5 @@ export interface AlertContextProps {
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => void
 	showAlertNotificationModal: () => void
 	showNewHomePresentationModal: () => void
+	showWaitingApproveModal: () => void
 }

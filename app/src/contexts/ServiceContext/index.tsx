@@ -27,8 +27,8 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost = getLastUserPost() || {}
-		if (!Object.keys(lastUserPost).length) return
+		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return
 
 		setServiceDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',

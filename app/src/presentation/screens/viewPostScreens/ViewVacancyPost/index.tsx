@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { VacancyCategories, VacancyEntityOptional, VacancyEntity } from '@domain/post/entity/types'
@@ -13,6 +15,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
 import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -27,6 +30,7 @@ import {
 	UserAndValueContainer,
 } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
@@ -49,6 +53,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -64,22 +70,25 @@ const { sendImpactReport } = useImpactReportDomain()
 
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
+const { mergeObjects } = useUtils()
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<VacancyEntity>(route.params?.postData || null)
+	const [approvedPostData, setApprovedPostData] = useState<VacancyEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -92,10 +101,34 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as VacancyEntity)
-			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+			setApprovedPostData(post as VacancyEntity)
+			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		setPostLoaded(true)
+		mergeUnapprovedPostData()
 	})
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
+
+	const canRenderWaitingApproveIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -116,18 +149,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const markAsCompleted = async (impactValue: string) => {
 		try {
-			const updatedPostData = { ...postData, completed: !isCompleted }
-			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+			const updatedUserPost = { ...postData, completed: !isCompleted }
 
-			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(postData.postId, postData, !isCompleted)
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergeArrayPosts(userPostsContext, updatedUserPost) })
 
-			setUserDataOnContext({ posts: mergedPosts })
-			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
-
+			updateUserPost(updatedUserPost)
 			setPostOptionsIsOpen(false)
-
 			!isCompleted && saveImpactReport(impactValue)
-
 			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
@@ -142,23 +171,17 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		toggleImpactReportSuccessModalVisibility()
 	}
 
-	const deleteRemotePost = async () => {
-		setIsLoading(true)
-		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await removePostOnContext()
-		setIsLoading(false)
+	const deletePost = async () => {
+		await removeUserPost(postData)
 		backToPreviousScreen()
-	}
-
-	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditVacancyPost', { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('VacancyStack' as any, {
+			screen: 'EditVacancyPostReview' as keyof VacancyStackParamList,
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData }
+		})
 	}
 
 	const backToPreviousScreen = () => {
@@ -253,6 +276,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
@@ -272,7 +303,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
-				onPressButton={deleteRemotePost}
+				onPressButton={deletePost}
 			/>
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
@@ -282,6 +313,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
+			/>
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={toggleWaitingApproveModalVisibility}
+			/>
+			<RejectModal // REJECT
+				visibility={rejectModalIsVisible}
+				closeModal={toggleRejectModalVisibility}
 			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
@@ -300,6 +339,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -342,7 +383,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						isLoading={isLoading}
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
@@ -389,6 +429,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={getPostField('picturesUrl')}
+								videosUrl={getPostField('videosUrl')}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>

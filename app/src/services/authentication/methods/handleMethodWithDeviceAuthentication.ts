@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as LocalAuthentication from 'expo-local-authentication'
 
 async function handleMethodWithDeviceAuthentication(secureMethod: any) {
@@ -6,6 +7,13 @@ async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 			cancelLabel: 'cancelLabel',
 			promptMessage: 'Confirme sua identidade',
 			requireConfirmation: false
+		}
+
+		const hasDeviceAuthRegistered = await LocalAuthentication.getEnrolledLevelAsync()
+
+		if (!hasDeviceAuthRegistered || __DEV__) {
+			const result: boolean = await secureMethod()
+			return result
 		}
 
 		const hasAuth = await LocalAuthentication.authenticateAsync(config)

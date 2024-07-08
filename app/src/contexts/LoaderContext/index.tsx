@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState, useCallback } from 'react'
+import React, { createContext, useMemo, useState, useCallback, useContext } from 'react'
 import { View } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -55,4 +55,6 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 	)
 }
 
-export { LoaderProvider, LoaderContext }
+const useLoaderContext = () => useContext(LoaderContext)
+
+export { LoaderProvider, useLoaderContext, LoaderContext }

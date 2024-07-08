@@ -49,8 +49,8 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 			<PostInputText
 				contextTitle={'consultar seu NIS'}
 				contextHighlightedWords={['NIS']}
-				customTitle={'nos informe seu nome completo sem acentos'}
-				customHighlight={['nome', 'completo', 'sem', 'acentos']}
+				customTitle={'nos informe seu nome completo, sem acentos'}
+				customHighlight={['nome', 'completo,', 'sem', 'acentos']}
 				backgroundColor={theme.pink2}
 				height={'50%'}
 				inputPlaceholder={'ex: Joao Pereira'}

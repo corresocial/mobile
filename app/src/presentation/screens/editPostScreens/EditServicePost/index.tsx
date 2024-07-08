@@ -38,7 +38,7 @@ const { getTextualAddress } = UiLocationUtils()
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setCurrentPostDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
@@ -110,19 +110,24 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			}
 		}
 
-		navigation.push(customStack || 'ServiceStack' as any, { // TODO Type
-			screen: screenName,
-			params: {
-				editMode: true,
-				initialValue: value
-			}
-		})
+		if (customStack) {
+			return navigation.push(customStack || 'ServiceStack' as any, { // TODO Type
+				screen: screenName,
+				params: {
+					editMode: true,
+					initialValue: value
+				}
+			})
+		}
+
+		navigation.push(screenName, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
 
 	const getLastPostAddress = () => {
 		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return ''
 		return getTextualAddress(lastUserPost.location)
 	}
 
@@ -135,7 +140,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const checkChangeLocationAlertIsRequired = () => {
-		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
+		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectLocationView', 'location')
 
 		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
@@ -188,6 +193,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'service' }}
+				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}

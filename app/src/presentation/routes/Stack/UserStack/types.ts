@@ -2,6 +2,9 @@ import { StackNavigationProp } from '@react-navigation/stack'
 
 import { PostRange } from '@domain/post/entity/types'
 
+import { DiscordContactUsType } from '@services/discord/types/contactUs'
+import { ReportedTarget } from '@services/notion/types/contactUs'
+
 export type UserStackNavigationProps = StackNavigationProp<UserStackParamList>
 
 export type UserStackParamList = {
@@ -19,6 +22,12 @@ export type UserStackParamList = {
 	VacancyStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	CultureStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SocialImpactStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
+	PollStack: undefined
+	PetitionStack: undefined
+
+	ContactUsUserStack: undefined
+	ContactUsInsertMessageUserStack: { title: string, contactUsType: DiscordContactUsType, reportedType?: ReportedTarget, reportedId?: string }
+	ContactUsSuccessUserStack: { reportType: ReportedTarget } | undefined
 
 	// Assinatura
 	SelectSubscriptionRange: { postReview: boolean } | undefined

@@ -2,7 +2,7 @@ import { doc, updateDoc, setDoc } from 'firebase/firestore'
 
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
-import { USER_COLLECTION } from '@data/remoteStorageKeys'
+import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
 import { firestore } from '@infrastructure/firebase/index'
 
@@ -12,8 +12,6 @@ async function updatePrivateLocation(userId: string, data: PrivateUserEntity['lo
 			const docRef = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
 			await updateDoc(docRef, { ...data })
 		} catch (error) {
-			console.log(error)
-
 			const collectionRef = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
 			await setDoc(collectionRef, { ...data })
 		}

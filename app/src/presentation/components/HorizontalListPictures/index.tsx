@@ -8,49 +8,77 @@ import {
 	PicturePortrait,
 	Picture,
 } from './styles'
-import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
-import { SmallButton } from '@components/_buttons/SmallButton'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface HorizontalListPicturesProps {
 	picturesUri: string[]
+	videosUri?: string[]
 	pictureUriSelected: number
-	onSelectPicture: (index: number) => void
-	openCamera: () => void
+	onSelectMedia: (index: number) => void
 }
 
-function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPicture, openCamera }: HorizontalListPicturesProps) {
-	const renderPictures = () => picturesUri.map((pictureUri, index) => (
+function HorizontalListPictures({ picturesUri, videosUri = [], pictureUriSelected, onSelectMedia }: HorizontalListPicturesProps) {
+	const renderPictures = () => picturesUri.map((pictureUri, index) => {
+		return (
+			<PictureItemButtom
+				activeOpacity={1}
+				pictureSelected={pictureUriSelected === index}
+				key={uuid()}
+				onPress={() => onSelectMedia(index)}
+			>
+				<PicturePortrait pictureSelected={pictureUriSelected === index}>
+					<Picture
+						source={{ uri: pictureUri }}
+						width={100}
+						height={100}
+					/>
+					{/* <PortraitImage
+						source={{ uri: pictureUri }}
+						recyclingKey={pictureUri}
+						placeholderContentFit={'contain'}
+						resizeMode={'cover'}
+						cachePolicy={'memory-disk'}
+						transition={300}
+					/> */}
+				</PicturePortrait>
+			</PictureItemButtom>
+		)
+	})
+
+	/* const renderVideosPictures = () => videosUri.map((videoUri, index) => (
 		<PictureItemButtom
 			activeOpacity={1}
-			pictureSelected={pictureUriSelected === index}
+			pictureSelected={pictureUriSelected === index && isVideoSelected}
 			key={uuid()}
-			onPress={() => onSelectPicture(index)}
+			onPress={() => pictureSelectionHandler(index, true)}
 		>
-			<PicturePortrait pictureSelected={pictureUriSelected === index}>
+			<PicturePortrait pictureSelected={pictureUriSelected === index && isVideoSelected}>
 				<Picture
-					source={{ uri: pictureUri }}
+					resizeMode={'cover'}
+					source={{ uri: videoUri }}
 					width={100}
 					height={100}
 				/>
 			</PicturePortrait>
 		</PictureItemButtom>
-	))
+	)) */
+
+	// const renderMedias = () => {
+	// 	const renderData = []
+	// 	/* const videoElements = renderVideosPictures()
+	// 	renderData.push(...videoElements) */
+	// 	const pictureElements = renderPictures()
+	// 	renderData.push(...pictureElements)
+	// 	return renderData
+	// }
 
 	return (
 		<Container >
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<HorizontalSpacing width={relativeScreenWidth(4)} />
 				<Container>
-					<SmallButton
-						onPress={openCamera}
-						relativeWidth={relativeScreenWidth(20)}
-						height={relativeScreenWidth(20)}
-						SvgIcon={AddPictureWhiteIcon}
-						svgScale={['50%', '50%']}
-					/>
 					<HorizontalSpacing />
 					{renderPictures()}
 				</Container>

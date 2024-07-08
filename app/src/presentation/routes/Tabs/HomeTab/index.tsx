@@ -7,16 +7,19 @@ import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AlertContext } from '@contexts/AlertContext'
+import { useAuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { HomeTabParamList } from './types'
+import { LeaderAreaStack } from '@routes/Stack/LeaderAreaStack'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
+import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { Post } from '@screens/postScreens/Post'
@@ -33,6 +36,7 @@ type HomeTabProps = {
 }
 
 export function HomeTab({ route, navigation }: HomeTabProps) {
+	const { userDataContext } = useAuthContext()
 	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
 	const { notificationState } = useContext(AlertContext)
 
@@ -45,6 +49,8 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		})
 		return unsubscribe
 	})
+
+	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
 
 	const renderHomeIcon = (focused: boolean) => (
 		focused
@@ -62,6 +68,12 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		focused
 			? <ChatWhiteIcon height={'50%'} width={'100%'} />
 			: <ChatWhiteIcon height={'40%'} width={'100%'} />
+	)
+
+	const renderLeaderAreaIcon = (focused: boolean) => (
+		focused
+			? <LeaderSealIcon height={'60%'} width={'100%'} />
+			: <LeaderSealIcon height={'50%'} width={'100%'} />
 	)
 
 	const renderProfileIcon = (focused: boolean) => (
@@ -93,7 +105,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				tabBarStyle: {
 					flex: 1,
 					position: 'absolute',
-					height: Platform.OS === 'ios' ? relativeScreenHeight(10) : relativeScreenHeight(8),
+					height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
 					borderTopColor: theme.black4,
 					borderTopWidth: 5,
 					marginBottom: 0,
@@ -101,7 +113,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				},
 				tabBarItemStyle: Platform.OS === 'ios' && {
 					flex: 1,
-					height: relativeScreenHeight(6.5)
+					height: relativeScreenDensity(50)
 				},
 				tabBarBadgeStyle: {
 					borderRadius: 5,
@@ -136,6 +148,18 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					tabBarBadge: getChatNotification()
 				}}
 			/>
+			{
+				currentUserIsLeader() && (
+					<Tab.Screen
+						name={'LeaderAreaStack'}
+						component={LeaderAreaStack}
+						options={{
+							tabBarIcon: ({ focused }) => renderLeaderAreaIcon(focused)
+						}}
+					/>
+				)
+			}
+
 			<Tab.Screen
 				name={'ProfileStack'}
 				component={ProfileStack}

@@ -149,12 +149,10 @@ function PostDaysOfWeek({
 					? (
 						<FloatButtonContainer>
 							<PrimaryButton
-								flexDirection={'row-reverse'}
 								color={theme.green3}
 								label={'continuar'}
 								labelColor={theme.white3}
-								SvgIcon={CheckWhiteIcon}
-								svgIconScale={['30%', '15%']}
+								SecondSvgIcon={CheckWhiteIcon}
 								onPress={() => savePostDaysOfWeek(selectedDays)}
 							/>
 						</FloatButtonContainer>
