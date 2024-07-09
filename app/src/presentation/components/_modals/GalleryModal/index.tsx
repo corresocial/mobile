@@ -1,4 +1,4 @@
-import { ResizeMode } from 'expo-av'
+import { ResizeMode, Video } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
@@ -38,10 +38,11 @@ interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
 	showGallery: boolean,
+	initialIndex?: number,
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIndex = 0, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
@@ -57,6 +58,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
+	const videoRefs = useRef<{ [key: number]: Video | null }>({})
 
 	useEffect(() => {
 		if (showGallery) {
@@ -70,7 +72,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 				}
 				setIsLoading(false)
 			}
-			setCurrentIndex(0)
+			setCurrentIndex(initialIndex)
 			enableRotation()
 			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
 				setIsLandscapeMode((orientationInfo.orientation !== 1))
@@ -80,6 +82,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
+			handleVideoPause(currentIndex)
 			disableRotation()
 			setIsLoading(true)
 		}
@@ -113,6 +116,13 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 	const mediaUrls = [...videosUrl, ...picturesUrl]
 	const hideArrows = (picturesUrl && videosUrl) && ((picturesUrl.length + videosUrl.length) < 2)
 
+	const handleVideoPause = (index: number) => {
+		const currentVideoRef = videoRefs.current[index]
+		if (currentVideoRef) {
+			currentVideoRef.pauseAsync()
+		}
+	}
+
 	const goToNext = (direction: number) => {
 		const length = (picturesUrl.length + videosUrl.length) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
@@ -130,6 +140,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 	}
 
 	const handleThumbnailPressed = (id: number) => {
+		handleVideoPause(currentIndex)
 		setCurrentIndex(id)
 		goToIndex(id)
 	}
@@ -164,7 +175,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 		</ImageContainer>
 	)
 
-	const renderVideo = (uri: string) => (
+	const renderVideo = (uri: string, index: number) => (
 		<VideoContainer>
 			<VideoView
 				isLandScapeMode={isLandscapeMode}
@@ -172,15 +183,18 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 				resizeMode={ResizeMode.CONTAIN}
 				isLooping
 				useNativeControls
+				ref={(el) => {
+					videoRefs.current[index] = el
+				}}
 			/>
 
 		</VideoContainer>
 	)
 
-	const renderMedia = (uri: string) => {
+	const renderMedia = (uri: string, index: number) => {
 		const mediaType = checkMediaType(uri)
 		if (mediaType === 'video') {
-			return renderVideo(uri)
+			return renderVideo(uri, index)
 		}
 		return renderPicture(uri)
 	}
@@ -204,8 +218,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 					width={screenSizes.width}
 					height={screenSizes.height}
 					data={mediaUrls}
-					onSnapToItem={(id) => setCurrentIndex(id)}
-					renderItem={({ item }) => renderMedia(item)}
+					onSnapToItem={(id) => {
+						handleVideoPause(currentIndex)
+						setCurrentIndex(id)
+					}}
+					renderItem={({ item, index }) => renderMedia(item, index)}
 				>
 				</Carousel>
 			</GalleryContainer>
@@ -263,5 +280,3 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 }
 
 export { GalleryModal }
-
-// TODO Videos
