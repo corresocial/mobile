@@ -1,15 +1,16 @@
+import { relativeScreenDensity } from '@common/screenDimensions'
 import styled from 'styled-components/native'
 
 interface ContainerProps{
-    width: number
-    height: number
+    width: number | string
+    height: number | string
 }
 
 export const Container = styled.View<ContainerProps>`
     align-items: center;
     justify-content: center;
-    width: ${({ width }) => width}px;
-    height:  ${({ height }) => height}px;
+    width: ${({ width }) => (typeof width === 'string' ? width : `${relativeScreenDensity(width)}px`)};
+    height:  ${({ height }) => (typeof height === 'string' ? height : `${relativeScreenDensity(height)}px`)};
 `
 
 export const TouchableContainer = styled.TouchableOpacity<ContainerProps>`
