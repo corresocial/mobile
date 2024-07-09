@@ -1,7 +1,6 @@
 {
-
 	"name": "corre",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"scripts": {
 		"start": "expo start",
 		"test": "jest --detectOpenHandles",
@@ -24,7 +23,9 @@
 		"build-ios-prod": "eas build --platform ios --profile production"
 	},
 	"dependencies": {
-    	 "@aptabase/react-native": "^0.3.9"
+		"@aptabase/react-native": "^0.3.9",
+		"expo-av": "~13.4.1",
+		"react-native-compressor": "^1.8.24",
 		"@expo-google-fonts/arvo": "^0.2.2",
 		"@gorhom/bottom-sheet": "^4.6.3",
 		"@likashefqet/react-native-image-zoom": "^2.2.0",

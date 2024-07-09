@@ -4,6 +4,8 @@ import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import {
 	CarouselActiveIndicatorItem,
 	CarouselInactiveIndicatorItem,
@@ -14,6 +16,8 @@ import FullscreenIcon from '@assets/icons/fullscreen-white.svg'
 import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 
 import { PhotoPortrait } from '../PhotoPortrait'
+
+const { checkMediaType } = UiUtils()
 
 interface ImageCarouselProps {
 	marginVertical?: number
@@ -38,13 +42,13 @@ function ImageCarousel({
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-	const renderCarouselIndicators = () => [...picturesUrl].map((_, index) => (
+	const renderCarouselIndicators = () => [...videosThumbnails, ...picturesUrl].map((_, index) => (
 		index === currentCarouselIndex
 			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
-	const getCarouselPictures = () => [...picturesUrl].map((url) => (
+	const getCarouselPictures = () => [...videosThumbnails, ...picturesUrl].map((url) => (
 		<View
 			style={{
 				width: '100%',
@@ -61,7 +65,7 @@ function ImageCarousel({
 				pictureUri={url}
 				maxWidth={relativeWidth}
 				resizeMode={'cover'}
-				videoIndicator={url.includes('videosThumbnails')}
+				videoIndicator={checkMediaType(url) === 'video'}
 			/>
 		</View>
 	))

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
+
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
 
@@ -50,7 +51,7 @@ type UserContextFragment = {
 
 type EditContextFragment = {
 	setEditDataOnContext: (data: any) => void
-	editDataContext: {unsaved: any, saved: any}
+	editDataContext: { unsaved: any, saved: any }
 	clearUnsavedEditContext: () => void
 }
 
@@ -128,19 +129,18 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
 			}
 
-			const { /* updatedUserPosts, */ picturesUrl } = await updatePost(
+			const { picturesUrlUploaded, videosUrlUploaded } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
 				userDataContext.posts || [],
 				initialPostData,
 				postWithUnapprovedData as PostEntity,
-				editDataContext.unsaved.picturesUrl || []
+				editDataContext.unsaved.picturesUrl || [],
+				editDataContext.unsaved.videosUrl || [],
 			)
 
-			// REFACTOR Atualizar em user.posts localmente
-
 			updateUserPost(postWithUnapprovedData as PostEntity)
-			changeStateOfEditedFields(picturesUrl)
+			changeStateOfEditedFields(picturesUrlUploaded || [], videosUrlUploaded || [])
 			setIsLoading(false)
 
 			showWaitingApproveModal()
@@ -189,7 +189,7 @@ function EditPost({
 				}, 30000)
 			}
 
-			const { newPost/* , updatedUserPosts */ } = await savePost(
+			const { newPost } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
@@ -197,6 +197,7 @@ function EditPost({
 				initialPostData,
 				postWithUnapprovedData,
 				editDataContext.unsaved.picturesUrl || [],
+				editDataContext.unsaved.videosUrl || [],
 				notifyUsersEnabled
 			)
 
@@ -222,12 +223,14 @@ function EditPost({
 		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
-	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
-		let newEditState
-		if (uploadedPictures && uploadedPictures.length) {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
-		} else {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+	const changeStateOfEditedFields = (uploadedPictures: string[], uploadedVideos: string[]) => {
+		const newEditState = {
+			saved: {
+				...editDataContext.saved,
+				...editDataContext.unsaved,
+				picturesUrl: [...uploadedPictures],
+				videosUrl: [...uploadedVideos]
+			}, unsaved: {}
 		}
 
 		editContext.setEditDataOnContext(newEditState)

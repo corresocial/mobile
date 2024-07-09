@@ -98,3 +98,25 @@ export const ActivityIndicatorBg = styled.View`
     padding: 2px;
     border-radius: 100px;
 `
+
+export const InvalidAssetContainer = styled.View`
+    z-index: 1;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    flex: 1; 
+    width: 100%;
+    bottom: ${relativeScreenWidth(25)}px;
+`
+
+export const InvalidAssetAlert = styled.View`
+    background-color: ${({ theme }) => theme.white3};
+    padding: ${RFValue(15)}px;;
+    border-radius: ${RFValue(10)}px;
+`
+
+export const InvalidDurationText = styled.Text`
+    font-size: ${RFValue(14)}px;
+    text-align: center;
+	font-family: Arvo_700Bold;
+`

@@ -449,7 +449,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					}
 					<VerticalSpacing />
 					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
 							<>
 								<GalleryModal
 									picturesUrl={getPostField('picturesUrl')}
@@ -463,12 +463,12 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								>
 									<ImageCarousel
 										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
 										indicatorColor={theme.blue1}
 										square
 										showFullscreenIcon
 									/>
 								</TouchableOpacity>
-
 							</>
 						)
 					}

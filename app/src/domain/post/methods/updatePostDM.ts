@@ -10,13 +10,16 @@ import { mediaUrlUpdatedDM } from '../core/mediaUrlUpdatedDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
 import { updateLocationDataOnPostsDM } from './updateLocationDataOnPostsDM'
 
+type MediaUploaded = { picturesUrl: string[], videosUrl: string[] }
+
 async function updatePostDM(
 	usePostRepository: () => PostRepositoryInterface,
 	userSubscriptionRange: UserSubscription['subscriptionRange'],
 	userPosts: PostEntity[],
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
-	unsavedPostPictures: string[]
+	unsavedPostPictures: string[],
+	unsavedPostVideos: string[] // CURRENT inserir no fluxo
 ) {
 	const { remoteStorage } = usePostRepository()
 
@@ -49,12 +52,25 @@ async function updatePostDM(
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
 
-	const postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl || [] } : {}
+	console.log(mediaUrlUpdatedDM(unsavedPostPictures) ? 'Vídeos atualizadas' : 'Vídeos não atualizadas')
+
+	let newPostVideosUrl: string[] = unsavedPostVideos || []
+	if (mediaUrlUpdatedDM(unsavedPostVideos)) {
+		const videosNotUploaded = (unsavedPostVideos || []).filter((url: string) => !url.includes('https://')) || []
+		const videosAlreadyUploaded = (unsavedPostVideos || []).filter((url: string) => url.includes('https://')) || []
+
+		const uploadedVideosUrl = await remoteStorage.uploadPostMedias(videosNotUploaded, 'videos')
+		newPostVideosUrl = [...videosAlreadyUploaded, ...uploadedVideosUrl] || []
+	}
+
+	// 	// Tratamento de videos  v ///////////////////////////////////////////////
+
+	let postMediasUploaded = newPostPicturesUrl && newPostPicturesUrl.length ? { picturesUrl: newPostPicturesUrl || [] } : {} as MediaUploaded
+	postMediasUploaded = newPostVideosUrl && newPostVideosUrl.length ? { videosUrl: newPostVideosUrl, ...postMediasUploaded } : {} as MediaUploaded
 
 	const newPostWithUploadedMedia = {
 		...newPostData,
 		unapprovedData: { ...(newPostData.unapprovedData || {}), ...postMediasUploaded },
-		// videosUrl: newPostVideosUrl
 	} as PostEntity
 
 	userPostsUpdated = userPostsUpdated && userPostsUpdated.length ? userPostsUpdated : getUneditedPostsDM(userPosts, newPostWithUploadedMedia)
@@ -66,7 +82,6 @@ async function updatePostDM(
 	return {
 		updatedUserPosts: [...userPostsUpdated, newPostDesnormalized as PostEntity],
 		...postMediasUploaded,
-		// videosUrlUploaded: newPostVideosUrl
 	}
 }
 

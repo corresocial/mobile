@@ -15,6 +15,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContextType, AuthProviderProps } from './types'
 
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 const { syncWithRemoteUser } = useUserDomain()
@@ -24,6 +25,8 @@ const { remoteStorage } = usePostRepository()
 const { executeCachedRequest } = useCacheRepository()
 
 const { mergeObjects, getLastItem } = useUtils()
+
+const { sortPostsByCreatedData } = UiPostUtils()
 
 const initialValue: AuthContextType = {
 	userDataContext: {

@@ -71,6 +71,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		return picturesUrl
 	}
 
+	const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	}
+
 	const formatCategoryAndTags = () => {
 		const category: VacancyCategories = getPostField('category')
 		const tags = getPostField('tags')
@@ -107,8 +113,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyEntity, customStack?: string) => {
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
+		if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
 		}
 
 		if (initialValue === 'location') {
@@ -230,10 +236,10 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={getPicturesUrl()}
+					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
 					indicatorColor={theme.green1}
 					carousel
-					pressionable={arrayIsEmpty(getPicturesUrl())}
+					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
