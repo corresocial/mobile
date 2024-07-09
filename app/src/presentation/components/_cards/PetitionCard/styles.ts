@@ -48,12 +48,13 @@ export const ButtonContainer = styled.View`
 `
 
 export const TitleContainer = styled.View`
+	width: 100%;
 	padding: 0px ${relativeScreenDensity(6)}px;
 	overflow: hidden;
 `
 
 export const Title = styled.Text`
-	text-align: center;
+	text-align: left;
 	font-family: Arvo_700Bold;
 	font-size: ${relativeScreenDensity(15)}px;
 `

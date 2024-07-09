@@ -19,7 +19,6 @@ import { socialImpactCategories } from '@utils/postsCategories/socialImpactCateg
 import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 import { Body, Container, Header, InputContainer } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { CategoryCard } from '@components/_cards/CategoryCard'
@@ -163,7 +162,6 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 			category: '',
 			tag: ''
 		}
-		setSearchText('')
 
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
@@ -184,6 +182,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
 						onSubmitEditing={() => { }}
@@ -197,7 +196,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFilteredCategories()}
 						</SelectButtonsContainer>
-						<VerticalSpacing height={relativeScreenHeight(10)} />
+						<VerticalSpacing height={10} />
 					</ScrollView>
 				</Body>
 			</KeyboardAvoidingView>

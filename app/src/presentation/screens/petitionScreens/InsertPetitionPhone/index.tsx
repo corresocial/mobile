@@ -1,7 +1,12 @@
 import React, { useRef, useState } from 'react'
 import { StatusBar, Platform, TextInput } from 'react-native'
 
+import { ExtraIdentificationRequest } from '@domain/petition/entity/types'
+
+import { usePetitionContext } from '@contexts/PetitionContext'
+
 import { InsertPetitionPhoneScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
 
 import { Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -16,6 +21,8 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 
 export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneScreenProps) {
+	const { setPetitionSignatureOnContext, petitionSignatureDataWithoutResponse } = usePetitionContext()
+
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
 
@@ -41,7 +48,7 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 
 	const someInvalidFieldSubimitted = () => invalidDDDAfterSubmit || invalidCellNumberAfterSubmit
 
-	const navigateToNextScreen = async () => {
+	const saveCellNumber = async () => {
 		setInvalidDDDAfterSubmit(false)
 		setInvalidCellNumberAfterSubmit(false)
 
@@ -53,8 +60,18 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 
 		if (DDDIsValid && cellNumberIsValid) {
 			const fullCellNumber = `+55${DDD}${cellNumber}`
-			console.log(fullCellNumber)
-			navigation.navigate('FinishPetitionSignature')
+			setPetitionSignatureOnContext({ cellNumber: fullCellNumber })
+			navigateToNextScreen('telefone')
+		}
+	}
+
+	const navigateToNextScreen = (currentInfo: ExtraIdentificationRequest) => {
+		const nextQuestions = petitionSignatureDataWithoutResponse()?.filter((info) => info !== currentInfo)
+		if (!nextQuestions || !nextQuestions.length) return navigation.navigate('FinishPetitionSignature')
+		switch (nextQuestions[0]) { 								// TODO Type
+			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
+			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
+			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })
 		}
 	}
 
@@ -111,13 +128,12 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 				</InputsContainer>
 				<PrimaryButton
 					color={theme.green3}
-					flexDirection={'row-reverse'}
-					SvgIcon={CheckWhiteIcon}
+					SecondSvgIcon={CheckWhiteIcon}
 					labelColor={theme.white3}
 					label={'continuar'}
 					highlightedWords={['continuar']}
 					startsHidden
-					onPress={navigateToNextScreen}
+					onPress={saveCellNumber}
 				/>
 			</FormContainer>
 		</Container>

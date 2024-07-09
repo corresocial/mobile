@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { CultureCategories, CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
@@ -11,7 +13,6 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { LoaderContext } from '@contexts/LoaderContext'
 
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/screenProps'
@@ -21,7 +22,11 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
-import { Body, Container } from './styles'
+import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
+import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -40,24 +45,27 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
 import { Loader } from '@components/Loader'
-import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
+import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
 const { localStorage } = useUserRepository()
 const { remoteStorage } = usePostRepository()
 const { sendImpactReport } = useImpactReportDomain()
 
-const { convertTextToNumber, arrayIsEmpty } = UiUtils()
+const { convertTextToNumber, arrayIsEmpty, formatRelativeDate } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
+const { mergeObjects } = useUtils()
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
@@ -66,9 +74,12 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<CultureEntity>(route.params.postData || null)
+	const [approvedPostData, setApprovedPostData] = useState<CultureEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -77,14 +88,38 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		}
 	}, [])
 
-	const getPost = (async () => {
+	const getPost = async () => {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as CultureEntity)
+			setApprovedPostData(post as CultureEntity)
 			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
+		setIsCompleted(!!(postData && postData.completed))
 		setPostLoaded(true)
-	})
+		mergeUnapprovedPostData()
+	}
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
+
+	const canRenderWaitingApproveIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!postData || !postData.owner) return false
@@ -100,18 +135,14 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const markAsCompleted = async (impactValue: string) => {
 		try {
-			const updatedPostData: CultureEntity = { ...postData, completed: !isCompleted }
-			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+			const updatedUserPost = { ...postData, completed: !isCompleted }
 
-			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(postData.postId, postData, !isCompleted)
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergeArrayPosts(userPostsContext, updatedUserPost) })
 
-			setUserDataOnContext({ posts: mergedPosts })
-			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
-
+			updateUserPost(updatedUserPost)
 			setPostOptionsIsOpen(false)
-
 			!isCompleted && saveImpactReport(impactValue)
-
 			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
@@ -126,32 +157,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		toggleImpactReportSuccessModalVisibility()
 	}
 
-	const deleteRemotePost = async () => {
-		try {
-			setLoaderIsVisible(true)
-
-			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-			await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
-			await removePostOnContext()
-
-			setLoaderIsVisible(false)
-			backToPreviousScreen()
-		} catch (error) {
-			setLoaderIsVisible(false)
-		}
-	}
-
-	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
+	const deletePost = async () => {
+		await removeUserPost(postData)
+		backToPreviousScreen()
 	}
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
 		navigation.navigate('CultureStack' as any, {
 			screen: 'EditCulturePostReview' as keyof CultureStackParamList,
-			params: { postData: { ...postData, ...editDataContext.saved } }
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 		})
 	}
 
@@ -193,9 +208,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'culture'
 			})
 		}, 50)
+	}
+
+	const renderFormatedPostDateTime = () => {
+		const formatedDate = formatRelativeDate(postData.createdAt || '')
+		return formatedDate
 	}
 
 	const reportPost = () => {
@@ -247,6 +269,14 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
@@ -266,7 +296,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
-				onPressButton={deleteRemotePost}
+				onPressButton={deletePost}
 			/>
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
@@ -277,8 +307,91 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={toggleWaitingApproveModalVisibility}
+			/>
+			<RejectModal // REJECT
+				visibility={rejectModalIsVisible}
+				closeModal={toggleRejectModalVisibility}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<PostHeader
+			<Header>
+				<DefaultPostViewHeader
+					onBackPress={() => navigation.goBack()}
+					text={getPostField('description')}
+				/>
+				<VerticalSpacing />
+				<UserAndValueContainer>
+					<SmallUserIdentification
+						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
+						postDate={renderFormatedPostDateTime()}
+						userNameFontSize={14}
+						profilePictureUrl={getProfilePictureUrl()}
+						pictureDimensions={45}
+						width={'60%'}
+						navigateToProfile={navigateToProfile}
+					/>
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
+				</UserAndValueContainer>
+				<VerticalSpacing />
+				<OptionsArea>
+					{
+						!isAuthor && (
+							<SmallButton
+								color={theme.white3}
+								SvgIcon={ShareWhiteIcon}
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
+								onPress={sharePost}
+							/>
+						)
+					}
+					{
+						isCompleted
+							? (
+								<SmallButton
+									label={'post foi concluído'}
+									labelColor={theme.black4}
+									SvgIcon={DeniedWhiteIcon}
+									relativeWidth={'80%'}
+									height={relativeScreenWidth(12)}
+									onPress={() => { }}
+								/>
+							)
+							: (
+								<SmallButton
+									color={theme.green3}
+									label={isAuthor ? 'compartilhar' : 'conversar'}
+									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
+									relativeWidth={isAuthor ? '80%' : '63%'}
+									height={relativeScreenWidth(12)}
+									onPress={isAuthor ? sharePost : openChat}
+								/>
+							)
+					}
+					<PostPopOver
+						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
+						popoverVisibility={postOptionsIsOpen}
+						closePopover={() => setPostOptionsIsOpen(false)}
+						isAuthor={isAuthor || false}
+						isCompleted={isCompleted}
+						goToComplaint={reportPost}
+						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
+						editPost={goToEditPost}
+						deletePost={toggleDefaultConfirmationModalVisibility}
+					>
+						<SmallButton
+							SvgIcon={ThreeDotsWhiteIcon}
+							relativeWidth={relativeScreenWidth(12)}
+							height={relativeScreenWidth(12)}
+							onPress={() => setPostOptionsIsOpen(true)}
+						/>
+					</PostPopOver>
+				</OptionsArea>
+			</Header>
+			{/* <PostHeader
 				title={getPostField('description')}
 				isAuthor={isAuthor}
 				isCompleted={isCompleted}
@@ -306,7 +419,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						onPress={() => setPostOptionsIsOpen(true)}
 					/>
 				</PostPopOver>
-			</PostHeader>
+			</PostHeader> */}
 
 			<ScrollView showsVerticalScrollIndicator={false} >
 				<VerticalSpacing />

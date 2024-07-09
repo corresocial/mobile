@@ -55,8 +55,8 @@ function InsertPetitionDescription({ route, navigation }: InsertPetitionDescript
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
 				customTitle={'adicione uma descrição sobre o seu abaixo assinado'}
-				customHighlight={['descrição', 'abaixo', 'enquete']}
-				inputPlaceholder={'descreva sua enquete...'}
+				customHighlight={['descrição', 'abaixo', 'assinado']}
+				inputPlaceholder={'descreva seu abaixo assinado...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validatePetitionDescription}

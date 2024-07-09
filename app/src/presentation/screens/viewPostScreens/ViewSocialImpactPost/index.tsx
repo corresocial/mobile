@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
 
+import { useUtils } from '@newutils/useUtils'
+
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostEntityOptional, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
+import { SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -22,6 +24,7 @@ import { socialImpactCategories } from '@utils/postsCategories/socialImpactCateg
 
 import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
@@ -41,6 +44,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
+import { RejectModal } from '@components/_modals/RejectModal'
+import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -56,8 +61,10 @@ const { sendImpactReport } = useImpactReportDomain()
 const { convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
 
+const { mergeObjects } = useUtils()
+
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
@@ -66,10 +73,13 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
+	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 
-	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
+	const [postLoaded, setPostLoaded] = useState(false)
+	const [approvedPostData, setApprovedPostData] = useState<SocialImpactEntity>(route.params?.postData || null)
 
 	useEffect(() => {
 		getPost()
@@ -78,14 +88,38 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		}
 	}, [])
 
-	const getPost = (async () => {
+	const getPost = async () => {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
 			setPostData(post as SocialImpactEntity)
-			setIsCompleted(!!(post && post.completed)) // TODO type post.completed
+			setApprovedPostData(post as SocialImpactEntity)
+			setIsCompleted(!!(post && post.completed))
+			setPostLoaded(true)
+			return
 		}
 		setPostLoaded(true)
-	})
+		setIsCompleted(!!(postData && postData.completed))
+		mergeUnapprovedPostData()
+	}
+
+	const mergeUnapprovedPostData = () => {
+		if (canRenderUnapprovedData()) {
+			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
+			setPostData(mergedPost)
+		}
+	}
+
+	const canRenderUnapprovedData = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData
+	}
+
+	const canRenderWaitingApproveIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
+	}
 
 	const loggedUserIsOwner = () => {
 		if (!postData || !postData.owner) return false
@@ -107,18 +141,14 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const markAsCompleted = async (impactValue: string) => {
 		try {
-			const updatedPostData = { ...postData, completed: !isCompleted }
-			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+			const updatedUserPost = { ...postData, completed: !isCompleted }
 
-			remoteStorage.markPostAsComplete(userDataContext.userId, postData.postId, updatedPostData, mergedPosts || [])
+			remoteStorage.markPostAsComplete(postData.postId, postData, !isCompleted)
+			localStorage.saveLocalUserData({ ...userDataContext, posts: mergeArrayPosts(userPostsContext, updatedUserPost) })
 
-			setUserDataOnContext({ posts: mergedPosts })
-			localStorage.saveLocalUserData({ ...userDataContext, posts: mergedPosts })
-
+			updateUserPost(updatedUserPost)
 			setPostOptionsIsOpen(false)
-
 			!isCompleted && saveImpactReport(impactValue)
-
 			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
@@ -133,18 +163,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		toggleImpactReportSuccessModalVisibility()
 	}
 
-	const deleteRemotePost = async () => {
-		await remoteStorage.deletePost(postData.postId, postData.owner.userId)
-		await remoteStorage.deletePostMedias(getPostField('picturesUrl') || [], 'pictures')
-
-		await removePostOnContext()
+	const deletePost = async () => {
+		await removeUserPost(postData)
 		backToPreviousScreen()
-	}
-
-	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostEntityOptional) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 
 	const backToPreviousScreen = () => {
@@ -156,7 +177,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		setPostOptionsIsOpen(false)
 		navigation.navigate('SocialImpactStack' as any, {
 			screen: 'EditSocialImpactPostReview' as keyof SocialImpactStackParamList,
-			params: { postData: { ...postData, ...editDataContext.saved } }
+			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 		})
 	}
 
@@ -193,7 +214,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'socialImpact'
 			})
 		}, 50)
 	}
@@ -247,6 +270,14 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
+	const toggleWaitingApproveModalVisibility = () => {
+		setWaitingApproveModalIsVisible(!waitingApproveModalIsVisible)
+	}
+
+	const toggleRejectModalVisibility = () => {
+		setRejectModalIsVisible(!rejectModalIsVisible)
+	}
+
 	const openGallery = () => setGaleryIsVisible(true)
 
 	const closeGalery = () => setGaleryIsVisible(false)
@@ -266,7 +297,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
-				onPressButton={deleteRemotePost}
+				onPressButton={deletePost}
 			/>
 			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
@@ -276,6 +307,21 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
+			/>
+
+			<WaitingApproveModal // APPROVE
+				visibility={waitingApproveModalIsVisible}
+				closeModal={toggleWaitingApproveModalVisibility}
+			/>
+			<RejectModal // REJECT
+				visibility={rejectModalIsVisible}
+				closeModal={toggleRejectModalVisibility}
+			/>
+			<GalleryModal
+				picturesUrl={getPostField('picturesUrl')}
+				videosUrl={getPostField('videosUrl')}
+				showGallery={galeryIsVisible}
+				onClose={closeGalery}
 			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
@@ -294,6 +340,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -309,10 +357,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						)
 					}
 					{
-						isCompleted
+						isCompleted || (canRenderUnapprovedData() && !approvedPostData.description) // Só existirá descrição nesse objeto se a postagem houver sido aprovada ao menos uma vez
 							? (
 								<SmallButton
-									label={'post foi concluído'}
+									label={approvedPostData.description ? 'post foi concluído' : 'compartilhar'}
 									labelColor={theme.black4}
 									SvgIcon={DeniedWhiteIcon}
 									relativeWidth={'80%'}
@@ -354,7 +402,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			<ScrollView showsVerticalScrollIndicator={false}	>
 				<VerticalSpacing />
 				<HorizontalTagList
-					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					tags={[getCategoryLabel(), ...(getPostField('tags') || [])]}
 					selectedColor={theme.pink1}
 				/>
 				<Body>

@@ -27,6 +27,7 @@ import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface CustomModalProps {
 	visibility: boolean
+	overlayColor?: 'success' | 'error' | 'info'
 	title?: string
 	titleHighlightedWords?: string[]
 	titleAlign?: TextStyle['textAlign']
@@ -72,6 +73,7 @@ interface CustomModalProps {
 }
 
 function CustomModal({
+	overlayColor,
 	visibility,
 	title,
 	titleHighlightedWords,
@@ -105,6 +107,15 @@ function CustomModal({
 
 	const iconStyle = { marginLeft: -RFValue(8), marginRight: RFValue(15) }
 
+	const getRelativeStatusBarColor = () => {
+		switch (overlayColor) {
+			case 'error': return theme.transparence.red
+			case 'info': return theme.transparence.blue3
+			case 'success': return theme.transparence.green
+			default: return theme.transparence.orange1
+		}
+	}
+
 	return (
 		<Modal
 			transparent
@@ -112,8 +123,11 @@ function CustomModal({
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />}
-			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={getRelativeStatusBarColor()} barStyle={'dark-content'} />}
+			<Container
+				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				overlayColor={overlayColor}
+			>
 				<TouchCloseArea onPress={closeModal}></TouchCloseArea>
 				<Content>
 					<ContentInner>
@@ -139,7 +153,6 @@ function CustomModal({
 							}
 						</Header>
 						{children}
-
 						{
 							firstParagraph && (
 								<Description
@@ -178,11 +191,13 @@ function CustomModal({
 										defaultBackgroundColor={theme.white2}
 										validBackgroundColor={theme.orange1}
 										fontSize={15}
+										multiline
+										numberOfLines={5}
 										keyboardType={customInput.keyboardType || 'email-address'}
 										placeholder={customInput.placeholder}
 										validateText={customInput.validateText}
 										value={textInput}
-										onChangeText={(text: string) => setTextInput(text.trim().toLowerCase())}
+										onChangeText={setTextInput}
 									/>
 									<VerticalSpacing/>
 								</>

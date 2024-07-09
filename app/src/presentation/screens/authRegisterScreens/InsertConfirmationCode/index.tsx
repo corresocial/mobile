@@ -127,7 +127,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		}
 		return false
 	}
-
 	const sendConfirmationCode = async () => {
 		try {
 			setIsLoading(true)
@@ -147,7 +146,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				setIsLoading(false)
 				if (!userHasAccount) {
 					setUserRegisterDataOnContext({ ...userAuthData, userId })
-					navigation.navigate('InsertName') // TODO Negar volta
+					navigation.navigate('InsertName')
 					return
 				}
 
@@ -291,8 +290,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 							: allInputCodesIsValid() && !expiredCodeAfterSubmit && (
 								<PrimaryButton
 									color={theme.green3}
-									flexDirection={'row-reverse'}
-									SvgIcon={CheckWhiteIcon}
+									SecondSvgIcon={CheckWhiteIcon}
 									labelColor={theme.white3}
 									label={'continuar'}
 									highlightedWords={['continuar']}

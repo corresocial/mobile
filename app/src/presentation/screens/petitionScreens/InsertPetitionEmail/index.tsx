@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { useEditContext } from '@contexts/EditContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionEmailScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
@@ -13,14 +13,9 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
-	const { setPetitionSignatureOnContext } = usePetitionContext()
-	const { clearEditContext } = useEditContext()
+	const { setPetitionSignatureOnContext, petitionSignatureDataWithoutResponse } = usePetitionContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	useEffect(() => {
-		clearEditContext()
-	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -32,13 +27,23 @@ function InsertPetitionEmail({ navigation }: InsertPetitionEmailScreenProps) {
 	}, [navigation])
 
 	const validatePetitionEmail = (text: string) => {
-		const isValid = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/.test(text)
+		const isValid = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{3,}$/.test(text)
 		return (isValid && !keyboardOpened)
 	}
 
 	const savePetitionEmail = (inputText: string) => {
 		setPetitionSignatureOnContext({ email: inputText })
-		navigation.navigate('InsertPetitionRG')
+		navigateToNextScreen()
+	}
+
+	const navigateToNextScreen = () => {
+		const nextQuestions = petitionSignatureDataWithoutResponse()
+		if (!nextQuestions) return navigation.navigate('FinishPetitionSignature')
+		switch (nextQuestions[0]) { 	// TODO Type
+			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
+			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
+			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })
+		}
 	}
 
 	return (

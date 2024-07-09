@@ -19,10 +19,11 @@ import { LocationChangeConfirmationModal } from '@components/_modals/LocationCha
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
+
 const { structureAddress } = UiLocationUtils()
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
-	const { userDataContext, getLastUserPost } = useContext(AuthContext)
+	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
 	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,7 +36,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 
 	const userSubscriptionIsCity = () => userDataContext.subscription?.subscriptionRange === 'city'
 
-	const userHasSomePost = () => userDataContext.posts && userDataContext.posts.length > 0
+	const userHasSomePost = () => userPostsContext && userPostsContext.length > 0
 
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false
@@ -98,6 +99,10 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 		})
 	}
 
+	const getInitialMapViewPosition = () => {
+		return editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
@@ -112,7 +117,8 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 			<SelectPostLocation
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
+				initialValue={getInitialMapViewPosition()}
+				// initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>

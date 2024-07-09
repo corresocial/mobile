@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { PostEntityOptional } from '@domain/post/entity/types'
 
-import { LOCAL_OFFLINE_POSTS_REPOSITORY_KEY } from '@data/localStorageKeys'
+import { LOCAL_OFFLINE_POSTS_REPOSITORY_KEY } from '@data/shared/storageKeys/localStorageKeys'
 
 async function getOfflinePosts() {
 	try {

@@ -26,11 +26,8 @@ function CultureProvider({ children }: CultureProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const userPosts = userDataContext.posts || []
-		if (!userPosts || (userPosts && !userPosts.length)) return
-
-		const lastUserPost = getLastUserPost() || {}
-		if (!Object.keys(lastUserPost).length) return
+		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return
 
 		setCultureDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',

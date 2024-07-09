@@ -30,7 +30,7 @@ function LinkCard({ title, links = [], onEdit }: LinkCardProps) {
 				activeOpacity={0.6}
 				onPress={() => openLink(link)}
 			>
-				<TextLink>{link}</TextLink>
+				<TextLink numberOfLines={1}>{link}</TextLink>
 			</LinkContainer>
 		))
 	}

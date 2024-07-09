@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import {
@@ -10,6 +9,7 @@ import {
 	TouchableContainer,
 } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface SmallButtonProps {
@@ -24,6 +24,7 @@ interface SmallButtonProps {
 	secondSvgScale?: [height: string, width: string]
 	relativeWidth?: string | number
 	height?: number
+	textMarginTop?: boolean
 	rounded?: boolean
 	halfRounded?: boolean
 	flexDirection?: ViewStyle['flexDirection']
@@ -45,6 +46,7 @@ function SmallButton({
 	relativeWidth = '100%',
 	height = 30,
 	rounded = false,
+	textMarginTop = false,
 	halfRounded = false,
 	flexDirection = 'row',
 	onPress,
@@ -94,17 +96,18 @@ function SmallButton({
 					}
 					{
 						!!SecondSvgIcon && (
-							<SecondSvgIcon height={secondSvgScale[0]} width={secondSvgScale[1]} style={{ marginTop: RFValue(4) }} />
+							<SecondSvgIcon height={secondSvgScale[0]} width={secondSvgScale[1]} style={{ marginTop: relativeScreenDensity(4) }} />
 						)
 					}
 					{
 						label && (
 							<ButtonLabel
 								style={{
-									fontSize: RFValue(fontSize),
-									marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
+									fontSize: relativeScreenDensity(fontSize),
+									marginLeft: label && flexDirection === 'row' ? relativeScreenDensity(8) : 0,
 									fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
-									color: labelColor
+									color: labelColor,
+									marginTop: textMarginTop ? relativeScreenDensity(5) : 0
 								}}
 							>
 								{showMessageWithHighlight(label, highlightedWords)}

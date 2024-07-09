@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { LOCAL_USER_REPOSITORY_KEY } from '@data/localStorageKeys'
+import { LOCAL_USER_REPOSITORY_KEY } from '@data/shared/storageKeys/localStorageKeys'
 
 async function clearLocalUserData() {
 	try {

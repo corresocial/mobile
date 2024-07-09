@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -13,7 +15,6 @@ import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack
 import { Container } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import xWhiteIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -67,6 +68,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const navigateToHome = () => {
+		sendEvent('user_authed', { authType: 'login' }, true)
 		navigation.navigate('UserStack', { newUser: true })
 	}
 
@@ -110,11 +112,10 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 									highlightedWords={['não']}
 									onPress={saveUserData}
 								/>
-								<VerticalSpacing height={relativeScreenHeight(5)} />
+								<VerticalSpacing height={5} />
 								<PrimaryButton
 									color={theme.green3}
-									flexDirection={'row-reverse'}
-									SvgIcon={AddPictureWhiteIcon}
+									SecondSvgIcon={AddPictureWhiteIcon}
 									svgIconScale={['50%', '25%']}
 									labelColor={theme.white3}
 									label={'opa, claro!'}

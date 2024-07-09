@@ -17,6 +17,8 @@ export type ViewPostsByRangeScreenProps = NativeStackScreenProps<HomeStackParamL
 export type ViewAllCategoriesScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllCategories'>
 export type ViewPostsByTagScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByTag'>
 export type SearchResultScreenProps = NativeStackScreenProps<HomeStackParamList, 'SearchResult'>
+
 export type ProfileHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ProfileHome'>
+export type SocialMediaManagementHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'SocialMediaManagementHome'>
 
 export type PublicServicesStackScreenProps = NativeStackScreenProps<HomeStackParamList, 'PublicServicesStack'>

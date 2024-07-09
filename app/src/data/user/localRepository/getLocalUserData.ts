@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { UserEntity } from '@domain/user/entity/types'
 
-import { LOCAL_USER_REPOSITORY_KEY } from '@data/localStorageKeys'
+import { LOCAL_USER_REPOSITORY_KEY } from '@data/shared/storageKeys/localStorageKeys'
 
 async function getLocalUserData() { // REFACTOR Isso deveria ter um id?
 	try {

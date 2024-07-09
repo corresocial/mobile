@@ -5,7 +5,7 @@ import { PollEntity } from '@domain/poll/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { SelectPollRangeScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -15,7 +15,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectPollRange({ route, navigation }: SelectPollRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setPollDataOnContext } = useContext(PollRegisterContext)
+	const { setPollDataOnContext } = usePollRegisterContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -41,7 +41,7 @@ function SelectPollRange({ route, navigation }: SelectPollRangeScreenProps) {
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePollRange}
-				progress={[3, 3]}
+				progress={[4, 4]}
 			/>
 		</>
 	)

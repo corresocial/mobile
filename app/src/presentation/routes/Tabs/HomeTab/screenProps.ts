@@ -8,3 +8,4 @@ export type HomeStackTabScreenProps = BottomTabScreenProps<HomeTabParamList, 'Ho
 export type PostTabScreenProps = BottomTabScreenProps<HomeTabParamList, 'Post'>
 export type ChatStackTabScreenProps = BottomTabScreenProps<HomeTabParamList, 'ChatStack'>
 export type ProfileStackTabScreenProps = BottomTabScreenProps<HomeTabParamList, 'ProfileStack'>
+export type LeaderAreaStackTabScreenProps = BottomTabScreenProps<HomeTabParamList, 'LeaderAreaStack'>

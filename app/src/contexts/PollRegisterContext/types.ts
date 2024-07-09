@@ -11,12 +11,13 @@ export type PollRegisterContextType = {
 	setPollDataOnContext: (data: PollEntityOptional) => void
 
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => void,
-	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => void
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options?: string[], multiSelect?: boolean) => void
 	removeQuestionFromRegisterContext: (questionId: string) => void
 
 	pollToRespond: PollEntity,
 	pollResponseData: PollResponse[]
 	savePollToRespondOnContext: (currentPoll: PollEntity) => void
+	getResponseProgress: (currentQuestionId: string | number) => number[]
 	getNextQuestion: (lastQuestion: PollQuestion) => PollQuestion | null
-	saveResponseData: (question: PollQuestion, response: string | number | boolean) => void
+	saveResponseData: (question: PollQuestion, response: string | string[] | number | boolean) => void
 }

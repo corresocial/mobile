@@ -29,6 +29,7 @@ interface PostHeaderProps {
 	owner: UserOwner
 	highlightedButtonText?: string
 	highlightedButtonIcon?: React.FC<SvgProps>
+	inactiveHighlightedButton?: boolean
 	children?: React.ReactNode
 	HeaderFooter?: ReactElement<any, string | JSXElementConstructor<any>> | undefined | false,
 	navigateToProfile: () => void
@@ -44,6 +45,7 @@ function PostHeader({
 	owner,
 	highlightedButtonText,
 	highlightedButtonIcon,
+	inactiveHighlightedButton,
 	children,
 	HeaderFooter,
 	navigateToProfile,
@@ -111,8 +113,9 @@ function PostHeader({
 						)
 						: (
 							<SmallButton
-								color={theme.green3}
+								color={inactiveHighlightedButton ? theme.white3 : theme.green3}
 								label={highlightedButtonText || (isAuthor ? 'compartilhar' : 'conversar')}
+								labelColor={inactiveHighlightedButton ? theme.black4 : theme.white3}
 								SvgIcon={highlightedButtonIcon || (isAuthor ? ShareWhiteIcon : ChatWhiteIcon)}
 								relativeWidth={isAuthor ? hasCustomHighlightedButton ? '65%' : '80%' : '63%'}
 								height={relativeScreenWidth(12)}

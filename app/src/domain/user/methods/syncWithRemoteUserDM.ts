@@ -1,8 +1,6 @@
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { UserEntity } from '../entity/types'
-
-async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInterface, userId?: string, localUserData?: UserEntity) {
+async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInterface, userId?: string) {
 	const { localStorage, remoteStorage } = useUserRepository()
 
 	if (userId) {
@@ -11,13 +9,12 @@ async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInter
 			await localStorage.saveLocalUserData({ ...currentUser })
 			return { ...currentUser }
 		}
-
-		return { ...localUserData } as UserEntity
 	}
 
-	if (localUserData?.userId && localUserData?.userId === userId) {
-		const currentUser = { ...localUserData } as UserEntity
-		return currentUser
+	const localUserData = await localStorage.getLocalUserData()
+
+	if (localUserData) {
+		return localUserData
 	}
 
 	console.log('Nenhum usuário local localizado')

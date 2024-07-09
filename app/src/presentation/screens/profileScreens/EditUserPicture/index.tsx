@@ -2,7 +2,6 @@ import ImageEditor from 'expo-image-cropper'
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { EditUserPictureScreenProps } from '@routes/Stack/ProfileStack/screenProps'
@@ -27,7 +26,6 @@ import { PhotoPortrait } from '@components/PhotoPortrait'
 const { compressImage } = UiUtils()
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
@@ -43,9 +41,10 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const saveUserPicture = async () => {
-		const areEquals = userDataContext.profilePictureUrl && (userDataContext.profilePictureUrl[0] === profilePictureUrl)
+		const areEquals = route.params.profilePictureUrl === profilePictureUrl
 		if (!areEquals) {
-			const compressedUrl = await compressImage(profilePictureUrl)
+			const compressedUrl = profilePictureUrl ? [await compressImage(profilePictureUrl)] : []
+			console.log({ profilePictureUrl: compressedUrl })
 			addNewUnsavedFieldToEditContext({ profilePictureUrl: compressedUrl })
 		}
 		navigation.goBack()
@@ -131,14 +130,13 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					onPress={() => { setCameraModalVisibility(true) }}
 				/>
 				<SmallButton
-					flexDirection={'row-reverse'}
 					relativeWidth={relativeScreenWidth(35)}
 					height={relativeScreenWidth(20)}
 					color={theme.green3}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
 					halfRounded
-					onPress={async () => saveUserPicture()}
+					onPress={saveUserPicture}
 				/>
 			</ButtonsContainer>
 		</Container>

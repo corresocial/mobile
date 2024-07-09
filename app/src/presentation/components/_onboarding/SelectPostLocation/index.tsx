@@ -6,6 +6,7 @@ import { Coordinates, LatLong } from '@domain/post/entity/types'
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
+import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
@@ -28,8 +29,8 @@ import { Loader } from '@components/Loader'
 
 import { CustomMapView } from '../../CustomMapView'
 
-const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
-const { getCoordinatesByIpAddress } = useLocationService()
+const { getCurrentLocation, convertGeocodeToAddress, getCoordinatesByIpAddress } = useLocationService()
+const { searchAddressByText } = useGoogleMapsService()
 const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
@@ -80,7 +81,6 @@ function SelectPostLocation({
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
-
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -149,7 +149,7 @@ function SelectPostLocation({
 		const permission = await requestLocationPermission()
 		if (!permission) return
 
-		const addressGeolocation = await Location.geocodeAsync(address)
+		const addressGeolocation = await searchAddressByText(address)
 
 		if (!addressGeolocation.length) {
 			setInvalidAddressAfterSubmit(true)
@@ -158,8 +158,8 @@ function SelectPostLocation({
 		}
 
 		const geolocationCoordinates = {
-			latitude: addressGeolocation[0].latitude,
-			longitude: addressGeolocation[0].longitude,
+			latitude: addressGeolocation[0].lat,
+			longitude: addressGeolocation[0].lon,
 		}
 
 		setMarkerCoordinate({
@@ -168,8 +168,8 @@ function SelectPostLocation({
 		})
 
 		convertAndStructureGeocodeAddress(
-			addressGeolocation[0].latitude,
-			addressGeolocation[0].longitude
+			addressGeolocation[0].lat,
+			addressGeolocation[0].lon
 		)
 
 		setValidAddress(true)
@@ -242,14 +242,13 @@ function SelectPostLocation({
 					<PrimaryButton
 						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
-						flexDirection={'row-reverse'}
 						color={theme.white3}
 						label={'   usar minha localização'}
 						highlightedWords={['minha', 'localização']}
 						labelColor={theme.black4}
 						fontSize={16}
-						SvgIcon={MapPointWhiteIcon}
-						svgIconScale={['60%', '15%']}
+						SecondSvgIcon={MapPointWhiteIcon}
+						svgIconScale={['50%', '15%']}
 						onPress={getCurrentPositionCoordinated}
 					/>
 				</MyLocationButtonContainer>
@@ -269,11 +268,10 @@ function SelectPostLocation({
 								? <Loader />
 								: (
 									<PrimaryButton
-										flexDirection={'row-reverse'}
 										color={theme.green3}
 										label={'continuar'}
 										labelColor={theme.white3}
-										SvgIcon={CheckWhiteIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveLocation(markerCoordinate)}
 									/>
 								)

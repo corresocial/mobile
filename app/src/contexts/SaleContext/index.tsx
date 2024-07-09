@@ -27,11 +27,8 @@ function SaleProvider({ children }: SaleProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const userPosts = userDataContext.posts || []
-		if (!userPosts || (userPosts && !userPosts.length)) return
-
-		const lastUserPost = getLastUserPost() || {}
-		if (!Object.keys(lastUserPost).length) return
+		const lastUserPost = getLastUserPost()
+		if (!lastUserPost) return
 
 		setSaleDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',

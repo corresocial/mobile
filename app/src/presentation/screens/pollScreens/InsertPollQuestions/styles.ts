@@ -8,3 +8,7 @@ export const Container = styled.KeyboardAvoidingView`
 export const ButtonsContainer = styled.View`
     width: 100%;
 `
+
+export const QuestionList = styled.FlatList`
+	width: 100%;
+`

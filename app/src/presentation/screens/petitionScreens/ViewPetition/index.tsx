@@ -1,11 +1,16 @@
-import React, { useContext, useState } from 'react'
-import { Alert, TouchableOpacity } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { TouchableOpacity } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
+import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
+
+import { usePetitionRepository } from '@data/petition/usePetitionRepository'
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
+import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { ViewPetitionScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
@@ -15,7 +20,8 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { Body } from './styles'
 import DocumentPencilWhiteIcon from '@assets/icons/documentPencil-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { share, shareFile } from '@common/share'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DescriptionCard } from '@components/_cards/DescriptionCard'
@@ -26,98 +32,75 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ImageCarousel } from '@components/ImageCarousel'
+import { Loader } from '@components/Loader'
 import { PostHeader } from '@components/PostHeader'
 import { PostPopOver } from '@components/PostPopOver'
 
+const { getPetitionData, generatePetitionResultsReport, markPetitionAsCompleted, deletePetitionData } = usePetitionDomain()
+
+const { remoteStorage } = useUserRepository()
+
 const { arrayIsEmpty } = UiUtils()
 
-function ViewPetition({ navigation }: ViewPetitionScreenProps) {
+function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { userDataContext } = useContext(AuthContext)
+	const { savePetitionToRespondOnContext, setPetitionSignatureOnContext } = usePetitionContext()
 
 	const theme = useTheme()
 
+	const [petitionData, setPetitionData] = useState<PetitionEntity>(route.params?.petitionData || {} as PetitionEntity)
 	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
-
-	const petitionData: PetitionEntity = {
-		petitionId: 'idDeTeste',
-		title: 'abaixo assinado sobre a assinatura de abaixo assinados',
-		description: 'petição sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa enquete sobre o bairro dalapa',
-		location: {
-			city: 'Londrina',
-			country: 'Brasil',
-			district: 'Centro',
-			number: '50',
-			geohashNearby: [''],
-			postalCode: '696969',
-			state: 'Parana',
-			street: 'Rua das flores',
-			coordinates: {
-				latitude: -34.923,
-				longitude: -53.923
-			},
-		},
-		range: 'near',
-		owner: {
-			userId: 'PusOCJGtL6cSrAhN8oePaUybLR42',
-			name: 'dev que deve',
-			profilePictureUrl: userDataContext.profilePictureUrl
-		},
-		picturesUrl: ['https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg'],
-		createdAt: new Date(),
-		privateResponses: [],
-		extraIdentificationRequest: ['rg'],
-		idUsersResponded: [],
-	}
 
 	const [postOptionsIsOpen, setPetitionOptionsIsOpen] = useState(false)
 	const [deleteConfirmationModalIsVisible, setDeleteConfirmationModalIsVisible] = useState(false)
 
-	const isAuthor = userDataContext.userId !== petitionData.owner.userId // TODO Remover comparação
+	const isAuthor = () => userDataContext.userId === petitionData.owner.userId
 	const isCompleted = false
 
+	useEffect(() => {
+		getData()
+
+		const unsubscribe = navigation.addListener('focus', () => {
+			setPetitionSignatureOnContext({})
+		})
+		return unsubscribe
+	}, [])
+
+	const getData = (async () => {
+		if (route.params.petitionId && !route.params.petitionData) {
+			const petition = await getPetitionData(usePetitionRepository, route.params.petitionId)
+			petition && setPetitionData(petition)
+		}
+	})
+
 	const navigateToProfile = () => {
-		if (isAuthor) return navigation.navigate('Profile' as any)
+		if (isAuthor()) return navigation.navigate('Profile' as any)
 		navigation.navigate('ProfileHome' as any, { userId: petitionData.owner.userId })// TODO Type
 	}
 
 	const sharePost = () => {
-		Alert.alert('Método de compartilhamento ainda não foi implementado!')
-		// share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${petitionData.petitionId}`)
+		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
-	const respondPetition = () => {
+	const respondPetition = async () => {
 		navigation.navigate('InsertPetitionFullName')
+		const userAuthIdentification = await checkRegisteredAuthInfo()
 
-		console.log('assinar')
-		// savePetitionToRespondOnContext(petitionData)
-		// navigateToNextReponseScreen(petitionData.questions[0])
+		setPetitionSignatureOnContext({ ...userAuthIdentification })
+		savePetitionToRespondOnContext(petitionData)
 	}
 
-	/* const navigateToNextReponseScreen = (nextQuestion: PetitionQuestion) => {
-		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.navigate('PetitionStack' as any, { // TODO Type
-				screen: 'AnswerBinaryQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-			case 'satisfaction': return navigation.navigate('PetitionStack' as any, {
-				screen: 'AnswerSatisfactionQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-			case 'textual': return navigation.navigate('PetitionStack' as any, {
-				screen: 'AnswerTextualQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-			case 'numerical': return navigation.navigate('PetitionStack' as any, {
-				screen: 'AnswerTextualQuestion' as keyof PetitionStackParamList,
-				params: { questionData: nextQuestion }
-			})
-		}
-	} */
+	const checkRegisteredAuthInfo = async () => {
+		const privateUserContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
+		const phoneIdentification = privateUserContacts?.cellNumber ? { cellNumber: privateUserContacts?.cellNumber } : {}
+		const emailIdentification = privateUserContacts?.email ? { email: privateUserContacts?.email } : {}
+		return { ...phoneIdentification, ...emailIdentification }
+	}
 
 	const downloadPetitionResults = async () => {
-		/* const reportHtmlContent = await generatePetitionResultsReport(usePetitionRepository, petitionData)
-		shareFile(reportHtmlContent) */
+		const reportHtmlContent = await generatePetitionResultsReport(usePetitionRepository, petitionData)
+		shareFile(reportHtmlContent)
 	}
 
 	const reportPost = () => {
@@ -133,16 +116,16 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 	}
 
 	const markAsCompleted = async () => {
-		/* setPetitionOptionsIsOpen(false)
-		await markPetitionAsCompleted(usePetitionRepository, petitionData.petitionId) */
+		setPetitionOptionsIsOpen(false)
+		await markPetitionAsCompleted(usePetitionRepository, petitionData.petitionId)
 	}
 
 	const deletePetition = async () => {
-		/* setPetitionOptionsIsOpen(false)
+		setPetitionOptionsIsOpen(false)
 		setLoaderIsVisible(true)
 		await deletePetitionData(usePetitionRepository, petitionData.petitionId)
 		setLoaderIsVisible(false)
-		navigation.goBack() */
+		navigation.goBack()
 	}
 
 	const toggleDefaultConfirmationModalVisibility = async () => {
@@ -158,12 +141,20 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 		return documentsRequired.map((identification: string, i: number) => `${i === 0 ? '' : '\n   '}●   ${identification}`)
 	}
 
+	if (!petitionData || !Object.keys(petitionData).length) {
+		return (
+			<Loader flex />
+		)
+	}
+
+	const alreadyResponded = petitionData.idUsersResponded?.includes(userDataContext.userId)
+
 	return (
 		<>
 			<DefaultConfirmationModal
 				visibility={deleteConfirmationModalIsVisible}
-				title={'apagar enquete'}
-				text={`você tem certeza que deseja apagar a enquete ${petitionData.title}`}
+				title={'apagar abaixo assinado'}
+				text={`você tem certeza que deseja apagar o abaixo assinado ${petitionData.title}`}
 				highlightedWords={(petitionData.title || '').split(' ')}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
@@ -171,22 +162,34 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 			/>
 			<PostHeader
 				title={petitionData.title}
-				isAuthor={isAuthor}
+				isAuthor={isAuthor()}
 				isCompleted={isCompleted}
 				owner={petitionData.owner}
 				createdAt={petitionData.createdAt}
 				navigateToProfile={navigateToProfile}
 				sharePost={sharePost}
-				highlightedButtonText={isAuthor ? 'baixar resultados' : 'assinar'}
+				highlightedButtonText={isAuthor() ? 'baixar resultados' : alreadyResponded ? 'já assinado' : 'assinar'}
 				highlightedButtonIcon={DocumentPencilWhiteIcon}
-				highlightedButtonAction={isAuthor ? downloadPetitionResults : respondPetition}
+				highlightedButtonAction={isAuthor() ? downloadPetitionResults : alreadyResponded ? () => { } : respondPetition}
+				inactiveHighlightedButton={alreadyResponded}
+				HeaderFooter={isAuthor() && (
+					<SmallButton
+						label={'responder abaixo assinado'}
+						labelColor={theme.black4}
+						color={theme.yellow3}
+						SvgIcon={DocumentPencilWhiteIcon}
+						relativeWidth={'98%'}
+						height={relativeScreenWidth(12)}
+						onPress={respondPetition}
+					/>
+				)}
 			>
 				<PostPopOver
 					postTitle={petitionData.title}
 					popoverVisibility={postOptionsIsOpen}
 					closePopover={() => setPetitionOptionsIsOpen(false)}
-					isAuthor={isAuthor}
-					isCompleted={isCompleted}
+					isAuthor={isAuthor()}
+					isCompleted={petitionData.completed}
 					goToComplaint={reportPost}
 					markAsCompleted={markAsCompleted}
 					deletePost={toggleDefaultConfirmationModalVisibility}
@@ -200,7 +203,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 				</PostPopOver>
 			</PostHeader>
 			<Body>
-				<VerticalSpacing height={relativeScreenHeight(2)} />
+				<VerticalSpacing height={2} />
 				<DescriptionCard
 					title={'descrição'}
 					text={petitionData.description}
@@ -211,6 +214,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 						<>
 							<GalleryModal
 								picturesUrl={petitionData.picturesUrl || []}
+								videosUrl={[]}
 								showGallery={galeryIsVisible}
 								onClose={closeGalery}
 							/>
@@ -235,7 +239,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 				/>
 				<VerticalSpacing />
 				<PostRangeCard
-					title={'alcance da enquete'}
+					title={'alcance do abaixo assinado'}
 					postRange={petitionData.range}
 				/>
 				<VerticalSpacing />
@@ -244,7 +248,7 @@ function ViewPetition({ navigation }: ViewPetitionScreenProps) {
 					location={petitionData.location}
 					locationView={'public'}
 				/>
-				<VerticalSpacing height={relativeScreenHeight(5)} />
+				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
 		</>
 	)

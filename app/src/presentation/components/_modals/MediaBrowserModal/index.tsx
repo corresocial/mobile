@@ -52,13 +52,19 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	useEffect(() => {
 		if (showMediaBrowser && albums.length === 0) loadAlbums()
-	}, [showMediaBrowser])
+	}, [showMediaBrowser, permissionResponse])
+
+	const withoutAccessPermissions = () => {
+		if (Platform.OS === 'ios') {
+			return !permissionResponse?.granted || permissionResponse?.accessPrivileges !== 'all'
+		}
+		return !permissionResponse?.granted
+	}
 
 	const loadAlbums = async () => {
-		if (permissionResponse?.status !== 'granted') {
-			await requestPermission()
+		if (withoutAccessPermissions()) {
+			return requestPermission()
 		}
-
 		const fetchedAlbums = await MediaLibrary.getAlbumsAsync({ includeSmartAlbums: true })
 		const manipulatedAlbums = await manipulateAlbums(fetchedAlbums as AlbumType[])
 
@@ -223,7 +229,6 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 					(mediaSelected.length > 0) && (
 						<ConfirmSelectionButton>
 							<SmallButton
-								flexDirection={'row-reverse'}
 								relativeWidth={relativeScreenWidth(20)}
 								height={relativeScreenWidth(13)}
 								color={theme.green3}
@@ -272,11 +277,10 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 				</HeaderTextContent>
 			</MediaBrowserHeader>
 			{albumSelected ? renderAlbumPhotos() : renderAlbums()}
-
 			{
-				!permissionResponse?.granted && (
+				withoutAccessPermissions() && (
 					<NotPermissionText>
-						{'Você não permitiu o uso da câmera ou galeria, você precisa ir em configurações "corre." e permitir.'}
+						{'Você não permitiu o uso da câmera ou galeria, você precisa ir em configurações "corre." e permitir acesso total'}
 					</NotPermissionText>
 				)
 			}

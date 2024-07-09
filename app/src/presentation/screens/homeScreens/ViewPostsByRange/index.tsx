@@ -1,20 +1,24 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+import { PetitionEntity } from '@domain/petition/entity/types'
+import { PollEntity } from '@domain/poll/entity/types'
+import { PostEntityOptional, PostEntityCommonFields, PostEntity } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToLeaderPostsView, navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
+import { PetitionCard } from '@components/_cards/PetitionCard'
+import { PollCard } from '@components/_cards/PollCard'
 import { PostCard } from '@components/_cards/PostCard'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
@@ -30,12 +34,12 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { postRange, postType, searchByRange } = route.params
 
 	const getFilteredPostsBySearch = () => {
-		const { postsByRange } = route.params
+		const posts = route.params.postsByRange as PostEntity[] & PollEntity[] & PetitionEntity[]
 
 		if (searchText) {
-			return postsByRange.filter((post) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length)
+			return posts.filter((post) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length || !!({ ...post, title: (post as any).title || '' } as any).title.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
-		return postsByRange
+		return posts
 	}
 
 	const postsByRange = getFilteredPostsBySearch()
@@ -91,58 +95,98 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
-	const renderPostItem = (item: PostEntityOptional) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner as PostEntityCommonFields['owner']}
-				navigateToProfile={navigateToProfile}
-				onPress={() => viewPostDetails(item)}
-			/>
-		</ContainerPadding>
-	)
+	const viewLeaderPostsDetails = (leaderPostData: PollEntity & PetitionEntity) => {
+		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
+	}
+
+	const getItemType = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+		if (item.postId) return 'post'
+		if (item.pollId) return 'poll'
+		if (item.petitionId) return 'petition'
+		return ''
+	}
+
+	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+		const itemType = getItemType(item)
+
+		switch (itemType) {
+			case 'post': return (
+				<ContainerPadding key={item.postId}>
+					<PostCard
+						post={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
+						navigateToProfile={navigateToProfile}
+						onPress={() => viewPostDetails(item)}
+					/>
+				</ContainerPadding>
+			)
+
+			case 'poll': return (
+				<ContainerPadding key={item.pollId}>
+					<PollCard
+						pollData={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
+						navigateToProfile={navigateToProfile}
+						onPress={() => viewLeaderPostsDetails && viewLeaderPostsDetails(item)}
+					/>
+				</ContainerPadding>
+			)
+			case 'petition': return (
+				<ContainerPadding key={item.petitionId}>
+					<PetitionCard
+						petitionData={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={userDataContext.userId === item.owner.userId}
+						navigateToProfile={navigateToProfile}
+						onPress={() => viewLeaderPostsDetails && viewLeaderPostsDetails(item)}
+					/>
+				</ContainerPadding>
+			)
+			default: return <></>
+		}
+	}
 
 	return (
-		<Container >
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<Header>
-				<DefaultPostViewHeader
-					text={getRelativeTitle()}
-					highlightedWords={['perto', 'cidade', 'país', 'recentes']}
-					onBackPress={() => navigation.goBack()}
-				/>
-				<InputContainer>
-					<SearchInput
-						value={searchText}
-						placeholder={'pesquisar'}
-						returnKeyType={'search'}
-						onChangeText={(text: string) => setSearchText(text)}
-						onPressKeyboardSubmit={navigateToResultScreen}
+		<ScreenContainer infinityBottom>
+			<Container >
+				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<Header>
+					<DefaultPostViewHeader
+						ignorePlatform
+						text={getRelativeTitle()}
+						highlightedWords={['perto', 'cidade', 'país', 'recentes']}
+						onBackPress={() => navigation.goBack()}
 					/>
-				</InputContainer>
-			</Header>
-			<Body
-				style={{ backgroundColor: getRelativeBackgroundColor() }}
-				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			>
-				{
-					(postsByRange && postsByRange.length)
-						? (
-							<>
-								<FlatListPosts
-									data={postsByRange}
-									renderItem={renderPostItem}
-									headerComponent={() => (
-										<VerticalSpacing />
-									)}
-								/>
-							</>
+					<InputContainer>
+						<SearchInput
+							value={searchText}
+							placeholder={'pesquisar'}
+							returnKeyType={'search'}
+							onChangeText={(text: string) => setSearchText(text)}
+							onPressKeyboardSubmit={navigateToResultScreen}
+						/>
+					</InputContainer>
+				</Header>
+				<Body
+					style={{ backgroundColor: getRelativeBackgroundColor() }}
+					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				>
+					{
+						(postsByRange && postsByRange.length) && (
+							<FlatListPosts
+								data={postsByRange}
+								renderItem={renderPostItem as any}
+								headerComponent={() => (
+									<VerticalSpacing />
+								)}
+							/>
 						)
-						: <></>
-				}
-				<VerticalSpacing height={relativeScreenHeight(8)} />
-			</Body>
-		</Container>
+					}
+				</Body>
+			</Container>
+		</ScreenContainer>
 	)
 }
 

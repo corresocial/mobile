@@ -13,3 +13,4 @@ export type QueryNISResultScreenProps = NativeStackScreenProps<PublicServiceStac
 export type QueryBeeByNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryBeeByNISResult'>
 export type QueryPbfByNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryPbfByNISResult'>
 export type QueryCadunicoByNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryCadunicoByNISResult'>
+export type NotificationPublicServicesSettingsPublicServicesScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'NotificationPublicServicesSettingsPublicServices'>

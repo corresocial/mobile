@@ -1,7 +1,7 @@
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
 
@@ -60,6 +60,7 @@ const {
 	hasBlockedUserOnConversation,
 } = useChatDomain()
 
+// https://www.youtube.com/watch?v=fpAlf1vPCE4
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { chatDataContext } = useContext(ChatContext)
@@ -147,8 +148,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			await registerNewChat(currentChat)
 			await setChatIdForUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
 			// startChatMessagesListener(currentChat.chatId, messagesListenerCallback)	// abordagem listener
+			sendEvent('chat_started', { chatType: route.params.via, postType: route.params.postType })
 		}
-
+		console.log(route.params.via, ' saSD ', route.params.postType)
 		const authenticatedUserId = userDataContext.userId
 
 		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
@@ -353,7 +355,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 							errorSending={false}
 							sendAgain={() => console.log('sendAgain')}
 						/>
-						<VerticalSpacing height={RFValue(3)} />
+						<VerticalSpacing height={3} relativeDensity/>
 					</>
 				)}
 				ListHeaderComponent={() => (

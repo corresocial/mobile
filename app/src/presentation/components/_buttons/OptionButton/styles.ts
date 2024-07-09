@@ -1,6 +1,7 @@
 import * as Animatable from 'react-native-animatable'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const TouchableContainer = styled.TouchableWithoutFeedback`
     width: 100%;
@@ -11,7 +12,7 @@ export const ContainerBottom = styled(Animatable.View as any)`
     width: 98%;
 	align-self: flex-end;
     flex-direction: row;
-    border-radius: ${RFValue(20)}px;
+    border-radius: ${relativeScreenDensity(20)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -21,11 +22,11 @@ export const ContainerSurface = styled.View`
 	height: 100%;
 	flex-direction: row;
     background-color: ${({ theme }) => theme.white3};
-    border: ${RFValue(3.5)}px solid black;
-    border-radius:${RFValue(20)}px;
+    border: ${relativeScreenDensity(3.5)}px solid black;
+    border-radius:${relativeScreenDensity(20)}px;
     position: absolute;
     overflow: hidden;
-	left: ${-RFValue(8)}px;
+	left: ${-relativeScreenDensity(8)}px;
 `
 
 export const LeftArea = styled.View`
@@ -33,7 +34,7 @@ export const LeftArea = styled.View`
     height: 101%;
     align-items: center;
     justify-content: center;
-	border-right-width: ${RFValue(3.5)}px;
+	border-right-width: ${relativeScreenDensity(3.5)}px;
 	border-color: ${({ theme }) => theme.black4};
 `
 
@@ -44,20 +45,20 @@ interface LeftSideTextProps {
 export const LeftSideText = styled.Text<LeftSideTextProps>`
 	text-align: center;
 	color: ${({ theme, leftSideTextColor }) => leftSideTextColor || theme.white3};
-	font-size: ${RFValue(12)}px;
+	font-size: ${relativeScreenDensity(12)}px;
 	font-family: Arvo_400Regular;
 `
 
 export const LabelDescriptionArea = styled.View`
     flex: 1;
-    padding: ${RFValue(12)}px ${RFValue(12)}px;
+    padding: ${relativeScreenDensity(10)}px;
     height: 100%;
     justify-content: space-around;
 `
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: ${RFValue(20)}px;
+    font-size: ${relativeScreenDensity(20)}px;
     font-family: Arvo_400Regular;
 `
 
@@ -74,7 +75,7 @@ export const ShortDescription = styled.Text<ShortDescriptionProps>`
 	width: 100%;
 	align-self: center;
 	text-align: center;
-	font-size: ${({ fontSize }) => (fontSize || RFValue(11))}px;
+	font-size: ${({ fontSize }) => (fontSize || relativeScreenDensity(11))}px;
 	margin-top: 3%;
     color: ${({ theme }) => theme.black4};
     font-family: Arvo_400Regular;

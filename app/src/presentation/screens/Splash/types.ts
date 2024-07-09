@@ -1,1 +1,1 @@
-export type PostKey = 'income' | 'culture' | 'socialimpact' | 'vacancy'
+export type PostKey = 'income' | 'culture' | 'socialImpact' | 'vacancy'

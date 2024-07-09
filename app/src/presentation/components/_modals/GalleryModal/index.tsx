@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { trackEvent } from '@aptabase/react-native'
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
@@ -117,6 +118,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, onClose }
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
+		trackEvent('foi_para_o_próximo', { direction })
 	}
 
 	const goToIndex = (index: number, noAnimation?: boolean) => {

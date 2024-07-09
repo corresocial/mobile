@@ -160,7 +160,6 @@ function PostPicturePreview({
 			return compressVideo(uri)
 		}))
 	}
-
 	return (
 		<Container>
 			<MediaBrowserModal
@@ -188,7 +187,6 @@ function PostPicturePreview({
 					/>
 				)
 			}
-
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
@@ -200,7 +198,7 @@ function PostPicturePreview({
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						fontSize={18}
-						message={(hasSelectedMedia ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
+						message={(mediaPack.length ? 'eaí, gostou?' : 'adiciona a sua foto aí!')}
 						highlightedWords={['gostou?', 'novas', 'fotos!']}
 					/>
 				</TopArea>
@@ -226,8 +224,8 @@ function PostPicturePreview({
 						)
 					}
 
-					<VerticalSpacing height={relativeScreenWidth(7)} />
-				</PicturePreviewContainer>
+					<VerticalSpacing height={5} />
+				</PicturePreviewContainer >
 				<HorizontalListPicturesContainer>
 					<HorizontalListPictures
 						mediaAssets={mediaPack}
@@ -235,7 +233,7 @@ function PostPicturePreview({
 						onSelectMedia={setMediaIndexSelected}
 					/>
 				</HorizontalListPicturesContainer>
-			</DefaultHeaderContainer>
+			</DefaultHeaderContainer >
 			<ButtonsContainer>
 				<SmallButton
 					onPress={() => { setMediaBrowserOpened(true) }}
@@ -252,7 +250,6 @@ function PostPicturePreview({
 					svgScale={['100%', '100%']}
 				/>
 				<SmallButton
-					flexDirection={'row-reverse'}
 					relativeWidth={relativeScreenWidth(35)}
 					height={relativeScreenWidth(20)}
 					color={theme.green3}
@@ -261,7 +258,7 @@ function PostPicturePreview({
 					onPress={savePictures}
 				/>
 			</ButtonsContainer>
-		</Container>
+		</Container >
 	)
 }
 

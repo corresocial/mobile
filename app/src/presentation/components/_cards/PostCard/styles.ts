@@ -2,11 +2,11 @@ import { ImageBackground, ImageBackgroundProps } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
 	width: 98%;
-	height: ${relativeScreenHeight(16)}px;
+	height: ${relativeScreenDensity(120)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(23)}px;
     position: relative;
@@ -45,14 +45,12 @@ interface SideMediaProps extends ImageBackgroundProps {
 export const SideMedia = styled(ImageBackground) <SideMediaProps>`
 	width: 100%;
 	height: 100%;
-	resize-mode: contain;
 	align-items: center;
 	justify-content: ${({ hasMedia }) => (hasMedia ? 'flex-end' : 'center')};
 	flex: 1;
 `
 
 export const SaleValueContainer = styled.View`
-	background-color: red;
 	border-width: ${RFValue(2)}px;
 	border-right-width: ${RFValue(5)}px;
 	border-color: ${({ theme }) => theme.black4};
@@ -94,7 +92,7 @@ export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
 
 export const RightAreaLimits = styled.View`
 	flex: 1;
-	justify-content: center; // space-around?
+	justify-content: center; // TODO space-around?
 	overflow: hidden;
 `
 
@@ -105,4 +103,19 @@ export const VideoIconContainer = styled.View`
 	position: absolute;
 	justify-content: center;
 	align-items: center;
+`
+
+interface WaitingApproveIconContainerProps {
+	hasValues?: boolean
+	hasPicture?: boolean
+}
+
+export const WaitingApproveIconContainer = styled.View<WaitingApproveIconContainerProps>`
+	flex: 1;
+	flex-direction: column;
+	justify-content:center;
+	${({ hasValues, hasPicture }) => `
+		justify-content: ${(!hasValues ? (hasPicture ? 'flex-start ' : 'center') : 'flex-start')};
+	`}
+	padding: ${relativeScreenDensity(5)}px 0px;
 `

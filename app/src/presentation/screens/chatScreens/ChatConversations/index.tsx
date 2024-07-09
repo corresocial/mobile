@@ -28,7 +28,7 @@ import {
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import LoupIcon from '@assets/icons/loup-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -223,7 +223,6 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 										height={relativeScreenWidth(12)}
 										color={theme.white3}
 										onPress={() => {
-											setSearchText('')
 											hideSearchInput()
 										}}
 										SvgIcon={AngleLeftWhiteIcon}
@@ -234,6 +233,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 									placeholder={'pesquisar conversas...'}
 									returnKeyType={'search'}
 									relativeWidth={'80%'}
+									clearOnSubmit
 									searchInputRef={searchInputRef}
 									onChangeText={(text: string) => onChangeSearchText(text)}
 								/>
@@ -287,7 +287,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 													showsVerticalScrollIndicator={false}
 													ItemSeparatorComponent={() => <VerticalSpacing />}
 													ListHeaderComponent={<VerticalSpacing />}
-													ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
+													ListFooterComponent={<VerticalSpacing height={10} />}
 												/>
 											</>
 										) : <></>

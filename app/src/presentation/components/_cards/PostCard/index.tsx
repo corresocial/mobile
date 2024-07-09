@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React, { useEffect, useState } from 'react'
 
-import { PostEntityOptional } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -18,8 +17,11 @@ import {
 	SideMedia,
 	Title,
 	TitleContainer,
+	WaitingApproveIconContainer,
 	VideoIconContainer
 } from './styles'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
@@ -32,15 +34,24 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 const { formatRelativeDate, arrayIsEmpty, checkMediaType } = UiUtils()
 
 interface PostCardProps {
-	post: PostEntityOptional | any
+	post: PostEntity | any // TODO Type
 	owner: UserOwner
+	isOwner: boolean
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }
 
-function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
+function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }: PostCardProps) {
+	const [post, setPost] = useState<PostEntity | any>(postData)
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
-	const defineLabelColor = (lightColor?: boolean) => {
+
+	useEffect(() => {
+		if (isOwner) {
+			setPost({ ...(postData || {}), ...(postData.unapprovedData || {}) } as PostEntity)
+		}
+	}, [postData, isOwner])
+
+	const getRelativeColor = (lightColor?: boolean) => {
 		switch (post.postType) {
 			case 'income': return lightColor ? theme.green1 : theme.green3
 			case 'socialImpact': return lightColor ? theme.pink1 : theme.pink3
@@ -73,6 +84,8 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 		return owner.profilePictureUrl[0]
 	}
 
+	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
+
 	function pressingButton() {
 		setButtomPressed(true)
 	}
@@ -94,7 +107,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 		return !arrayIsEmpty(post.videosUrl)
 	}
 
-	function hasMedia(): boolean {
+	function hasMedia(): boolean { // CURRENT usar com enable LeftArea
 		return hasPictures() || hasVideos()
 	}
 
@@ -126,8 +139,8 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
 				<LeftArea
-					hasMediaOrSaleValue={hasMedia() || post.saleValue || post.exchangeValue}
-					backgroundColor={defineLabelColor(true)}
+					hasMediaOrSaleValue={enableLeftAreaSpacing()}
+					backgroundColor={getRelativeColor(true)}
 				>
 					{
 						<SideMedia
@@ -142,8 +155,22 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 							{
 								checkMediaType(getMediaSource()) === 'video' && (
 									<VideoIconContainer>
-										<VideoCameraIcon/>
+										<VideoCameraIcon />
 									</VideoIconContainer>
+								)
+							}
+							{
+								postData.unapprovedData && isOwner && (
+									<WaitingApproveIconContainer
+										hasValues={post.saleValue || post.exchangeValue}
+										hasPicture={!arrayIsEmpty(post.picturesUrl)}
+									>
+										{
+											postData.unapprovedData.reject
+												? <DeniedWhiteIcon />
+												: <ClockArrowWhiteIcon />
+										}
+									</WaitingApproveIconContainer>
 								)
 							}
 							{
@@ -161,18 +188,18 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										{(hasMedia()) && <VerticalSpacing height={RFValue(8)} />}
+										{(!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue) && <VerticalSpacing />}
 									</>
 								)
 							}
-						</SideMedia>
+						</SideMedia >
 					}
-				</LeftArea>
-				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
-				<RightArea hasMediaOrSaleValue={hasMedia() || post.saleValue || post.exchangeValue}>
+				</LeftArea >
+				<LeftSideLabel style={{ backgroundColor: getRelativeColor() }} />
+				<RightArea hasMediaOrSaleValue={enableLeftAreaSpacing()}>
 					<RightAreaLimits>
 						<TitleContainer>
-							<Title numberOfLines={post.description ? 3 : 2}>
+							<Title numberOfLines={3}>
 								{post.description}
 							</Title>
 						</TitleContainer>

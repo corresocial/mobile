@@ -2,9 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { ExtraIdentificationRequest } from '@domain/petition/entity/types'
+
 import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { InsertPetitionCPFScreenProps } from '@routes/Stack/PetitionStack/screenProps'
+import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -16,7 +19,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 const { validateCPF } = UiUtils()
 
 function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
-	const { setPetitionSignatureOnContext } = usePetitionContext()
+	const { setPetitionSignatureOnContext, petitionSignatureDataWithoutResponse } = usePetitionContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -31,7 +34,17 @@ function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
 
 	const savePetitionCPF = (inputText: string) => {
 		setPetitionSignatureOnContext({ cpf: inputText })
-		navigation.navigate('InsertPetitionPhone')
+		navigateToNextScreen('cpf')
+	}
+
+	const navigateToNextScreen = (currentInfo: ExtraIdentificationRequest) => {
+		const nextQuestions = petitionSignatureDataWithoutResponse()?.filter((info) => info !== currentInfo)
+		if (!nextQuestions || !nextQuestions.length) return navigation.navigate('FinishPetitionSignature')
+		switch (nextQuestions[0]) { 								// TODO Type
+			case 'cpf': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionCPF' as keyof PetitionStackParamList })
+			case 'rg': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionRG' as keyof PetitionStackParamList })
+			case 'telefone': return navigation.navigate('PetitionStack' as any, { screen: 'InsertPetitionPhone' as keyof PetitionStackParamList })
+		}
 	}
 
 	return (
@@ -39,6 +52,7 @@ function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
+				initialValue={'71296082008'}
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
 				customTitle={'qual é o seu CPF?'}

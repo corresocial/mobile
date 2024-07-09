@@ -23,7 +23,6 @@ import { SelectSubsciptionPaymentMethod } from '@screens/paymentSystemScreens/Se
 import { SelectSubscriptionPlan } from '@screens/paymentSystemScreens/SelectSubscriptionPlan'
 import { SelectSubscriptionRange } from '@screens/paymentSystemScreens/SelectSubscriptionRange'
 import { SubscriptionPaymentResult } from '@screens/paymentSystemScreens/SubscriptionPaymentResult'
-import { SelectLeaderPostType } from '@screens/postScreens/SelectLeaderPostType'
 import { SelectPostType } from '@screens/postScreens/SelectPostType'
 import { OfflinePostsManagement } from '@screens/profileScreens/OfflinePostsManagement'
 
@@ -61,7 +60,6 @@ export function UserStack({ route }: any) {
 
 									{/* Rever a possibilidade de migrar para postStack se o custo de acesso não for grande */}
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
-									<Stack.Screen name={'SelectLeaderPostType'} component={SelectLeaderPostType} />
 									<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
 									<Stack.Screen name={'SaleStack'} component={SaleStack} />

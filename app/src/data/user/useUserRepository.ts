@@ -6,6 +6,7 @@ import { deleteUserData } from './remoteRepository/deleteUserData'
 import { deleteUserProfilePicture } from './remoteRepository/deleteUserProfilePicture'
 import { getPrivateContacts } from './remoteRepository/getPrivateContacts'
 import { getPrivateLocation } from './remoteRepository/getPrivateLocation'
+import { getUnapprovedProfiles } from './remoteRepository/getUnapprovedProfiles'
 import { getUserData } from './remoteRepository/getUserData'
 import { saveUserData } from './remoteRepository/saveUserData'
 import { updatePrivateContacts } from './remoteRepository/updatePrivateContacts'
@@ -29,6 +30,7 @@ function useUserRepository(): UserRepositoryInterface {
 			getUserData: getUserData,
 			getPrivateContacts: getPrivateContacts,
 			getPrivateLocation: getPrivateLocation,
+			getUnapprovedProfiles: getUnapprovedProfiles,
 
 			userExists: userExists,
 

@@ -2,6 +2,8 @@ import ImageEditor from 'expo-image-cropper'
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { UserRegisterData } from '@domain/user/entity/types'
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -75,6 +77,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const navigateToHome = async () => {
+		sendEvent('user_authed', { authType: 'login' }, true)
 		return navigation.navigate('UserStack', { newUser: true })
 	}
 
@@ -152,7 +155,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									onPress={() => { setCameraModalVisibility(true) }}
 								/>
 								<SmallButton
-									flexDirection={'row-reverse'}
 									relativeWidth={relativeScreenWidth(35)}
 									height={relativeScreenWidth(20)}
 									color={theme.green3}

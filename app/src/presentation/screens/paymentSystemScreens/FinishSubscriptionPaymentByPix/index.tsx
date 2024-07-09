@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Clipboard } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { FinishSubscriptionPaymentByPixScreenProps } from '@routes/Stack/UserStack/screenProps'
@@ -87,6 +89,7 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 			await updateUserSubscription(userSubscription)
 
 			setIsLoading(false)
+			sendEvent('user_subscribed', { subscriptionType: 'paid', subscriptionRange: subscriptionRange })
 			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, postReview: !!route.params?.postReview })
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)

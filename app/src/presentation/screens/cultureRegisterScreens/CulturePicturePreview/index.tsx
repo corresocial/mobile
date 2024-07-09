@@ -19,6 +19,7 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
+
 			navigation.goBack()
 		}
 	}

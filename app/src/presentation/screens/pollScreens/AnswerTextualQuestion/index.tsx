@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Platform } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Platform, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion } from '@domain/poll/entity/types'
@@ -22,14 +22,23 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScreenProps) {
-	const { getNextQuestion, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, pollResponseData, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
-	const [inputText, setInputText] = useState('')
+	const [inputText, setInputText] = useState<string>('')
 
 	const { questionData } = route.params
-	// const responseProgress = [1, 3]
+	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const questionIndex = pollResponseData.findIndex((res) => res.questionId === questionData.questionId)
+		if (questionIndex < 0) return
+		const questionResponse = pollResponseData[questionIndex].response || ''
+		if (questionResponse) {
+			setInputText(String(questionResponse))
+		}
+	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -41,7 +50,6 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 	}
 
 	const selectInputedText = () => {
-		console.log(`reponse: ${inputText}`)
 		saveResponseData(questionData, inputText)
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
@@ -55,11 +63,13 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
 			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
 			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+			case 'select': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
 		}
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
@@ -73,7 +83,7 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 						message={questionData.question}
 						highlightedWords={questionData ? questionData.question.split(' ') : []}
 					>
-						{/* <ProgressBar value={responseProgress[0]} range={responseProgress[1]} /> */}
+						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>
 				</InstructionContainer>
 			</DefaultHeaderContainer>
@@ -82,9 +92,10 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 					<DefaultInput
 						value={inputText}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.purple3}
+						validBackgroundColor={theme.purple1}
 						lastInput
 						fontSize={16}
+						textIsValid={!!inputText}
 						multiline={questionData.questionType === 'textual'}
 						placeholder={'descreva seu post...'}
 						keyboardType={questionData.questionType === 'textual' ? 'default' : 'numeric'}

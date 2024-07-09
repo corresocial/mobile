@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PollQuestion, SatisfactionType } from '@domain/poll/entity/types'
@@ -23,17 +24,16 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '@components/ProgressBar'
 
 function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQuestionScreenProps) {
-	const { getNextQuestion, saveResponseData } = usePollRegisterContext()
+	const { getNextQuestion, getResponseProgress, saveResponseData } = usePollRegisterContext()
 
 	const theme = useTheme()
 
 	const { questionData } = route.params
-	// const responseProgress = [1, 3]
+	const responseProgress = getResponseProgress(questionData.questionId)
 
 	const navigateBackwards = () => navigation.goBack()
 
 	const selectSatisfactionOption = (value: SatisfactionType) => {
-		console.log(`reponse: ${value}`)
 		saveResponseData(questionData, value)
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
@@ -47,11 +47,13 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 			case 'satisfaction': return navigation.push('AnswerSatisfactionQuestion', { questionData: nextQuestion })
 			case 'textual': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
 			case 'numerical': return navigation.push('AnswerTextualQuestion', { questionData: nextQuestion })
+			case 'select': return navigation.push('AnswerSelectQuestion', { questionData: nextQuestion })
 		}
 	}
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized
@@ -65,7 +67,7 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 						message={questionData.question || ''}
 						highlightedWords={questionData.question ? questionData.question.split(' ') : []}
 					>
-						{/* <ProgressBar value={responseProgress[0]} range={responseProgress[1]} /> */}
+						<ProgressBar value={responseProgress[0]} range={responseProgress[1]} />
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>

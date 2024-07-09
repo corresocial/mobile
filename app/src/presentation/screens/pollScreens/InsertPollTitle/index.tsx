@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { PollRegisterContext } from '@contexts/PollRegisterContext'
+import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollTitleScreenProps } from '@routes/Stack/PollStack/screenProps'
 
@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
-	const { setPollDataOnContext } = useContext(PollRegisterContext)
+	const { setPollDataOnContext } = usePollRegisterContext()
 	const { addNewUnsavedFieldToEditContext, clearEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -62,7 +62,7 @@ function InsertPollTitle({ route, navigation }: InsertPollTitleScreenProps) {
 				customHighlight={['título', 'enquete']}
 				inputPlaceholder={'ex: serviços da prefeitura...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				// progress={[1, 3]}
+				progress={[1, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validatePollTitle}
 				navigateBackwards={() => navigation.goBack()}

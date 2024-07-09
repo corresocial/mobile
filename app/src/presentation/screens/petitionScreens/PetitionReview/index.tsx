@@ -2,7 +2,10 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
+import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
 import { UserOwner } from '@domain/user/entity/types'
+
+import { usePetitionRepository } from '@data/petition/usePetitionRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { useEditContext } from '@contexts/EditContext'
@@ -29,6 +32,8 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { Loader } from '@components/Loader'
+
+const { createNewPetition } = usePetitionDomain()
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -62,30 +67,28 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 	}
 
 	const savePetition = async () => {
-		console.log(newPetitionDataState)
 		try {
-			// setIsLoading(true)
+			setIsLoading(true)
 
-			// await createNewPetition(usePetitionRepository, { ...newPetitionDataState, owner: petitionOwner })
+			await createNewPetition(usePetitionRepository, { ...newPetitionDataState, owner: petitionOwner })
 
-			// changeStateOfEditedFields()
-			// navigateToSelectPostTypeScreen()
-			// setIsLoading(false)
+			changeStateOfEditedFields()
+			navigateToSelectPostTypeScreen()
+			setIsLoading(false)
 		} catch (error) {
 			console.log(error)
 			setIsLoading(false)
 		}
 	}
 
-	// const navigateToSelectPostTypeScreen = () => {
-	// 	navigation.goBack()
-	// 	navigation.goBack()
-	// }
+	const navigateToSelectPostTypeScreen = () => {
+		navigation.goBack()
+	}
 
-	// const changeStateOfEditedFields = () => {
-	// 	const newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
-	// 	setEditDataOnContext(newEditState)
-	// }
+	const changeStateOfEditedFields = () => { // REFACTOR Centralizar no contexto
+		const newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+		setEditDataOnContext(newEditState)
+	}
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !unsavedPetition) {
@@ -119,7 +122,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')}?`}
+				text={`você tem certeza que deseja descartar as alterações realizadas no abaixo assinado ${getPetitionField('title')} ?`}
 				highlightedWords={[...getPetitionField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
@@ -168,12 +171,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 							<PostCardContainer backgroundColor={backgroundColor}>
 								<PetitionCard
 									owner={petitionOwner}
-									petitionData={{
-										...newPetitionDataState,
-										createdAt: new Date(),
-										title: 'Abaixo assinado para decidir os investimetos da praça da sé',
-										picturesUrl: ['https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg']
-									}}
+									petitionData={{ ...newPetitionDataState, createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>
@@ -228,7 +226,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 						onEdit={() => navigateToEditScreen('InsertPetitionLocation', 'location')}
 					/>
 					<VerticalSpacing />
-					<VerticalSpacing height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing height={1.5} />
 				</BodyPadding >
 			</Body>
 		</Container>

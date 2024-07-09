@@ -1,10 +1,12 @@
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
-import { RefreshControl } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
+import { PetitionEntity } from '@domain/petition/entity/types'
+import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -14,7 +16,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToLeaderPostsView, navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
@@ -25,10 +27,11 @@ import { useLocationService } from '@services/location/useLocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { getMostRecentAddress } from '@utils/maps/recentAddresses'
 
-import { Container, DropdownContainer, RecentPostsContainer } from './styles'
+import { Container, DropdownContainer } from './styles'
 import { generateGeohashes } from '@common/generateGeohashes'
 import { theme } from '@common/theme'
 
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { AdsCarousel } from '@components/AdsCarousel'
 import { FeedByRange } from '@components/FeedByRange'
@@ -126,6 +129,8 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
+			searchParams = { ...searchParams, searchLeaderPosts: true }
+
 			const { userId } = userDataContext
 			const queryKey = ['home.feed', searchParams, userId]
 			const remoteFeedPosts = await executeCachedRequest(
@@ -135,13 +140,22 @@ function Home({ navigation }: HomeScreenProps) {
 				refresh
 			)
 
+			/* console.log('--------------------------------------')
+			console.log('NEAR')
+			remoteFeedPosts?.nearby.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
+			console.log('CITY')
+			remoteFeedPosts?.city.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
+			console.log('COUNTRY')
+			remoteFeedPosts?.country.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
+			console.log('--------------------------------------')
+ */
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext({
 				searchParams: searchParams as FeedSearchParams,
-				feedPosts: remoteFeedPosts,
+				feedPosts: remoteFeedPosts, // Mandar só postagens e deixar as enquetes e abaixos
 				lastRefreshInMilliseconds: Date.now(),
 			})
 		} catch (err) {
@@ -264,6 +278,10 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
+	const viewLeaderPostsDetails = (leaderPostData: PollEntity & PetitionEntity) => {
+		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
+	}
+
 	const navigateToPostCategories = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
@@ -282,7 +300,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		const rangeConfig = {
+		const rangeConfig = { // Filtrar enquetes e abaixos
 			near: { postsByRange: feedPosts.nearby, postRange: 'near' as PostRange },
 			city: { postsByRange: feedPosts.city, postRange: 'city' as PostRange },
 			country: { postsByRange: feedPosts.country, postRange: 'country' as PostRange }
@@ -303,75 +321,88 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
-	/* const navigateToEditUserLocation = () => { // SMAS
+	const navigateToEditUserLocation = () => {
 		navigation.navigate('EditProfile' as any, { user: userDataContext })
 		navigation.navigate('EditUserLocation' as any, { initialCoordinates: null })
-	} */
+	}
 
-	/* const navigateToPublicServices = () => { // SMAS
+	const navigateToPublicServices = () => {
 		navigation.navigate('PublicServicesStack')
-	} */
+	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
-		<Container>
-			<FocusAwareStatusBar
-				backgroundColor={theme.orange2}
-				barStyle={'dark-content'}
-			/>
-			<SubscriptionPresentationModal
-				visibility={subscriptionModalIsVisible}
-				profilePictureUri={profilePictureUrl}
-				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={navigateToSelectSubscriptionRange}
-			/>
-			<DropdownContainer>
-				<LocationNearDropdown
-					selectedAddress={selectedAddress}
-					recentAddresses={recentAddresses}
-					addressSuggestions={addressSuggestions}
-					selectAddress={setSelectedAddress}
-					saveRecentAddresses={saveRecentAddresses}
-					clearAddressSuggestions={clearAddressSuggestions}
-					findNearPosts={findFeedPosts}
-					findAddressSuggestions={findAddressSuggestions}
-				/>
-			</DropdownContainer>
-			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
-			<RecentPostsContainer
-				showsVerticalScrollIndicator={false}
-				refreshControl={(
-					<RefreshControl
-						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-						refreshing={feedIsUpdating}
-						progressBackgroundColor={theme.white3}
-						onRefresh={refreshFeedPosts}
-					/>
-				)}
-			>
-				<AdsCarousel
-					onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
-				// onPressUserLocationAd={navigateToEditUserLocation} // SMAS
-				/>
-				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
-					<RequestLocation
-						getLocationPermissions={() => {
-							requestPermissions()
-							findFeedPosts('', true)
-						}}
-					/>
-				)}
-				<FeedByRange
-					searchEnded={searchEnded}
+		<ScreenContainer topSafeAreaColor={theme.orange2}>
+			<Container>
+				<FocusAwareStatusBar
 					backgroundColor={theme.orange2}
-					filteredFeedPosts={feedPosts}
-					viewPostsByRange={viewPostsByRange}
-					navigateToProfile={navigateToProfile}
-					goToPostView={viewPostDetails}
+					barStyle={'dark-content'}
 				/>
-			</RecentPostsContainer>
-		</Container>
+				<SubscriptionPresentationModal
+					visibility={subscriptionModalIsVisible}
+					profilePictureUri={profilePictureUrl}
+					closeModal={() => setSubscriptionModalIsVisible(false)}
+					onPressButton={navigateToSelectSubscriptionRange}
+				/>
+				<DropdownContainer>
+					<LocationNearDropdown
+						selectedAddress={selectedAddress}
+						recentAddresses={recentAddresses}
+						addressSuggestions={addressSuggestions}
+						selectAddress={setSelectedAddress}
+						saveRecentAddresses={saveRecentAddresses}
+						clearAddressSuggestions={clearAddressSuggestions}
+						findNearPosts={findFeedPosts}
+						findAddressSuggestions={findAddressSuggestions}
+					/>
+				</DropdownContainer>
+				<FlatList
+					style={{ flex: 1, width: '100%', overflow: 'visible' }}
+					showsVerticalScrollIndicator={false}
+					data={[1]}
+					renderItem={(() => {}) as any}
+					refreshControl={(
+						<RefreshControl
+							tintColor={theme.black4}
+							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							refreshing={feedIsUpdating}
+							progressBackgroundColor={theme.white3}
+							onRefresh={refreshFeedPosts}
+						/>
+					)}
+					ListHeaderComponent={(
+						<>
+							<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+							<AdsCarousel
+								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
+								onPressPublicServicesAd={navigateToPublicServices}
+								onPressUserLocationAd={navigateToEditUserLocation}
+							/>
+							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
+								<RequestLocation
+									getLocationPermissions={() => {
+										requestPermissions()
+										findFeedPosts('', true)
+									}}
+								/>
+							)}
+						</>
+					)}
+					CellRendererComponent={() => (
+						<FeedByRange
+							searchEnded={searchEnded}
+							backgroundColor={theme.orange2}
+							filteredFeedPosts={feedPosts}
+							viewPostsByRange={viewPostsByRange}
+							navigateToProfile={navigateToProfile}
+							goToPostView={viewPostDetails}
+							goToLeaderPostsView={viewLeaderPostsDetails}
+						/>
+					)}
+				/>
+			</Container>
+		</ScreenContainer>
 	)
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import uuid from 'react-uuid'
 
-import { PostType, PostEntityOptional } from '@domain/post/entity/types'
+import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
@@ -15,9 +15,9 @@ import { FilterButton } from '@components/_buttons/FilterButton'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface PostFilterProps {
-	posts: PostEntityOptional[],
+	posts: PostEntity[],
 	setHasPostFilter: React.Dispatch<React.SetStateAction<boolean>>,
-	setFilteredPosts: React.Dispatch<React.SetStateAction<PostEntityOptional[]>>
+	setFilteredPosts: React.Dispatch<React.SetStateAction<PostEntity[]>>
 }
 
 function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterProps) {

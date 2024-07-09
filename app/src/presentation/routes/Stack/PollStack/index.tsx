@@ -8,14 +8,16 @@ import { PollStackParamList } from './types'
 
 import { AnswerBinaryQuestion } from '@screens/pollScreens/AnswerBinaryQuestion'
 import { AnswerSatisfactionQuestion } from '@screens/pollScreens/AnswerSatisfactionQuestion'
+import { AnswerSelectQuestion } from '@screens/pollScreens/AnswerSelectQuestion'
 import { AnswerTextualQuestion } from '@screens/pollScreens/AnswerTextualQuestion'
 import { FinishedPollResponse } from '@screens/pollScreens/FinishedPollResponse'
 import { InsertPollDescription } from '@screens/pollScreens/InsertPollDescription'
 import { InsertPollLocation } from '@screens/pollScreens/InsertPollLocation'
 import { InsertPollQuestions } from '@screens/pollScreens/InsertPollQuestions'
+import { InsertSelectOptions } from '@screens/pollScreens/InsertPollSelectOptions'
 import { InsertPollTitle } from '@screens/pollScreens/InsertPollTitle'
 import { PollReview } from '@screens/pollScreens/PollReview'
-import { SelectPollQuestionType } from '@screens/pollScreens/SelectPollQuestionType'
+import { SelectNumberOfSelections } from '@screens/pollScreens/SelectNumberOfSelections'
 import { SelectPollRange } from '@screens/pollScreens/SelectPollRange'
 import { ViewPoll } from '@screens/pollScreens/ViewPoll'
 
@@ -35,7 +37,8 @@ export function PollStack() {
 				<Stack.Screen name={'InsertPollTitle'} component={InsertPollTitle} />
 				<Stack.Screen name={'InsertPollDescription'} component={InsertPollDescription} />
 				<Stack.Screen name={'InsertPollQuestions'} component={InsertPollQuestions} />
-				<Stack.Screen name={'SelectPollQuestionType'} component={SelectPollQuestionType} />
+				<Stack.Screen name={'SelectNumberOfSelections'} component={SelectNumberOfSelections} />
+				<Stack.Screen name={'InsertPollSelectOptions'} component={InsertSelectOptions} />
 				<Stack.Screen name={'SelectPollRange'} component={SelectPollRange} />
 				<Stack.Screen name={'InsertPollLocation'} component={InsertPollLocation} />
 
@@ -45,6 +48,7 @@ export function PollStack() {
 				<Stack.Screen name={'AnswerSatisfactionQuestion'} component={AnswerSatisfactionQuestion} />
 				<Stack.Screen name={'AnswerBinaryQuestion'} component={AnswerBinaryQuestion} />
 				<Stack.Screen name={'AnswerTextualQuestion'} component={AnswerTextualQuestion} />
+				<Stack.Screen name={'AnswerSelectQuestion'} component={AnswerSelectQuestion} />
 				<Stack.Screen name={'FinishedPollResponse'} component={FinishedPollResponse} />
 			</Stack.Navigator>
 		</PollRegisterProvider>

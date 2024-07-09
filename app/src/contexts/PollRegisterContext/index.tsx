@@ -27,18 +27,19 @@ const initialValue: PollRegisterContextType = {
 	} as PollEntity,
 	setPollDataOnContext: (data: PollEntityOptional) => { },
 	setPollQuestionRegisterDataOnContext: (data: PollQuestionOptional) => { },
-	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType']) => { },
+	setRegisteredQuestionOnPollDataContext: (questionType: PollQuestion['questionType'], options?: string[], multiSelect?: boolean) => { },
 	removeQuestionFromRegisterContext: (questionId: string) => { },
 
 	savePollToRespondOnContext: (currentPoll: PollEntity) => { },
+	getResponseProgress: (currentQuestionId: string | number) => [0, 1],
 	getNextQuestion: (lastQuestion: PollQuestion) => ({} as PollQuestion),
 	pollToRespond: { questions: [] as PollQuestion[] } as PollEntity,
 	pollResponseData: [{
 		questionId: '',
-		response: '' as string | number | boolean,
+		response: '' as string[] | string | number | boolean,
 		questionType: 'textual' as PollQuestion['questionType']
 	}],
-	saveResponseData: (question: PollQuestion, response: string | number | boolean) => { }
+	saveResponseData: (question: PollQuestion, response: string | string[] | number | boolean) => { }
 }
 
 const PollRegisterContext = createContext<PollRegisterContextType>(initialValue)
@@ -56,16 +57,19 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	}
 
 	const setPollQuestionRegisterDataOnContext = async (data: PollQuestionOptional) => {
-		// console.log({ ...pollQuestionRegisterDataContext, ...data })
+		console.log({ ...pollQuestionRegisterDataContext, ...data })
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
-	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType']) => {
+	const setRegisteredQuestionOnPollDataContext = (questionType: PollQuestion['questionType'], options?: string[], multiSelect?: boolean) => {
+		const selectOptions = options ? { options, multiSelect: !!multiSelect } : {}
 		const newQuestion: PollQuestion = {
 			questionId: uuid(),
 			question: pollQuestionRegisterDataContext.question,
-			questionType
+			questionType,
+			...selectOptions
 		}
+		console.log(newQuestion)
 
 		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
 		clearPollRegisterQuestionData()
@@ -82,22 +86,32 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 
 	const savePollToRespondOnContext = (currentPoll: PollEntity) => {
 		setPollToRespond(currentPoll)
-		setPollResponseData([])
+
+		const pollResponseMapper = currentPoll.questions.map((question) => {
+			return {
+				questionId: question.questionId,
+				response: '',
+				questionType: question.questionType
+			}
+		})
+		setPollResponseData(pollResponseMapper)
 	}
 
-	// Está recebendo como parâmetro porque chamar os 2 métodos não estava dando tempo de atualizar o state
+	const getResponseProgress = (currentQuestionId: string | number) => {
+		const numberOfResponses = pollResponseData.length
+		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === currentQuestionId)
+		return [numberOfResponses - (numberOfResponses - currentQuestionIndex) + 1, numberOfResponses]
+	}
+
 	const getNextQuestion = (lastQuestion: PollQuestion) => {
-		const lastQuestionId = lastQuestion ? [lastQuestion.questionId] : []
-
-		const respondedQuestions = [...pollResponseData.map((poll) => poll.questionId), ...lastQuestionId]
-
-		const unrespondedQuestions = pollToRespond.questions.filter((question) => !respondedQuestions.includes(question.questionId))
-
-		if (unrespondedQuestions.length === 0) return null
-		return unrespondedQuestions[0]
+		const lastQuestionId = lastQuestion ? lastQuestion.questionId : ''
+		const currentQuestionIndex = pollResponseData.findIndex(({ questionId }) => questionId === lastQuestionId)
+		const nextIndex = currentQuestionIndex + 1
+		if (nextIndex >= pollResponseData.length) return null
+		return pollToRespond.questions[nextIndex]
 	}
 
-	const saveResponseData = (question: PollQuestion, response: string | number | boolean) => {
+	const saveResponseData = (question: PollQuestion, response: string | string[] | number | boolean) => {
 		const pollData: PollResponse = {
 			questionId: question.questionId,
 			response,
@@ -122,6 +136,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 		pollToRespond,
 		pollResponseData,
 		savePollToRespondOnContext,
+		getResponseProgress,
 		getNextQuestion,
 		saveResponseData
 	}), [
@@ -139,6 +154,5 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 }
 
 const usePollRegisterContext = () => useContext(PollRegisterContext)
-export { usePollRegisterContext }
 
-export { PollRegisterProvider, PollRegisterContext }
+export { PollRegisterProvider, usePollRegisterContext }

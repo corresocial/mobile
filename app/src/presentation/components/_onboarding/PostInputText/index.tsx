@@ -162,11 +162,10 @@ function PostInputText({
 							: inputTextIsValid && !keyboardOpened
 								? (
 									<PrimaryButton
-										flexDirection={'row-reverse'}
 										color={theme.green3}
 										label={'continuar'}
 										labelColor={theme.white3}
-										SvgIcon={CheckWhiteIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveTextData(inputText.trim())}
 									/>
 								)

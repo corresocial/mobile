@@ -14,7 +14,6 @@ import { useAuthenticationService } from '@services/authentication/useAuthentica
 import { Container } from './styles'
 import GoogleWhiteIcon from '@assets/icons/google-white.svg'
 import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -174,7 +173,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 									labelColor={theme.white3}
 									onPress={performSigninWithCellNumber}
 								/>
-								<VerticalSpacing height={relativeScreenHeight(5)} />
+								<VerticalSpacing height={5} />
 								<PrimaryButton
 									color={theme.white3}
 									SecondSvgIcon={GoogleWhiteIcon}

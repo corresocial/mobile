@@ -1,7 +1,7 @@
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { UserCredential } from 'firebase/auth'
 
@@ -94,7 +94,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}, [response, tokenGoogle])
 
 	const canRemoveEntryMethod = () => {
-		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email && Platform.OS === 'android'
 	}
 
 	const editPhoneProvider = () => {
@@ -154,11 +154,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId,
-					{ email: linkedUser.email || '' }
+					{ email: linkedUser.email ? linkedUser.email : '' }
 				)
 
-				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
-				navigateToLinkResultScreen(true, linkedUser.email)
+				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email ? linkedUser.email : '' })
+				navigateToLinkResultScreen(true, linkedUser.email ? linkedUser.email : '')
 			} else {
 				await promptAsyncGoogle()
 			}
@@ -187,8 +187,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const getFormatedCellNumber = () => {
-		if (!userPrivateContacts.cellNumber) return ''
-		const numbetWithoutCountryCode = userPrivateContacts.cellNumber.slice(3)
+		if (!userPrivateContacts || !userPrivateContacts.cellNumber) return ''
+		const numbetWithoutCountryCode = userPrivateContacts && userPrivateContacts.cellNumber ? userPrivateContacts.cellNumber.slice(3) : ''
 		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
 		return numberWithDDDSpace
 	}
@@ -207,7 +207,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
-				accountIdentifier={userPrivateContacts.email || ''}
+				accountIdentifier={userPrivateContacts ? userPrivateContacts.email : ''}
 				registerMethod
 				linking
 				hasError={hasError}
@@ -243,20 +243,24 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								<VerticalSpacing />
 								<EditCard
 									title={'número de telefone'}
-									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts && userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={getFormatedCellNumber()}
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
-								<EditCard
-									title={'conta google'}
-									RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
-									SecondSvgIcon={GoogleWhiteIcon}
-									value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
-									pressionable
-									onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
-								/>
+								{
+									Platform.OS === 'android' && (
+										<EditCard
+											title={'conta google'}
+											RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+											SecondSvgIcon={GoogleWhiteIcon}
+											value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
+											pressionable
+											onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
+										/>
+									)
+								}
 								<VerticalSpacing />
 							</>
 						)
