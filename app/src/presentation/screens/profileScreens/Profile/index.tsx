@@ -3,7 +3,6 @@ import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 're
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
-
 import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 

@@ -20,7 +20,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
-	searchEnded?: boolean
 	backgroundColor?: string
 	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
@@ -34,7 +33,6 @@ interface FeedByRangeProps {
 function FeedByRange({
 	searchEnded,
 	backgroundColor,
-	searchEnded,
 	filteredFeedPosts,
 	children,
 	viewPostsByRange,

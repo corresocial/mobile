@@ -51,8 +51,6 @@ function PostPicturePreview({
 	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
-	const [hasSelectedMedia, setHasSelectedMedia] = useState<boolean>(false)
-
 	useLayoutEffect(() => {
 		setThumbnailsOnVideos()
 	}, [])
@@ -92,7 +90,7 @@ function PostPicturePreview({
 		})
 		setMediaPack(currentMedia)
 		setMediaIndexSelected(mediaPack.length)
-		setHasSelectedMedia(true)
+		// setHasSelectedMedia(true)
 	}
 
 	const deleteCurrentMedia = () => {
@@ -121,7 +119,7 @@ function PostPicturePreview({
 		})
 
 		setMediaPack(currentMedia)
-		setHasSelectedMedia(true)
+		// setHasSelectedMedia(true)
 	}
 
 	const savePictures = async () => {
