@@ -84,7 +84,19 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		return owner.profilePictureUrl[0]
 	}
 
-	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
+	function hasPictures(): boolean {
+		return !arrayIsEmpty(post.picturesUrl)
+	}
+
+	function hasVideos(): boolean {
+		return !arrayIsEmpty(post.videosUrl)
+	}
+
+	function hasMedia(): boolean {
+		return hasPictures() || hasVideos()
+	}
+
+	const enableLeftAreaSpacing = () => hasMedia() || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -97,18 +109,6 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 	function releaseButton() {
 		setButtomPressed(false)
 		onPress()
-	}
-
-	function hasPictures(): boolean {
-		return !arrayIsEmpty(post.picturesUrl)
-	}
-
-	function hasVideos(): boolean {
-		return !arrayIsEmpty(post.videosUrl)
-	}
-
-	function hasMedia(): boolean { // CURRENT usar com enable LeftArea
-		return hasPictures() || hasVideos()
 	}
 
 	function getMediaSource(): string {

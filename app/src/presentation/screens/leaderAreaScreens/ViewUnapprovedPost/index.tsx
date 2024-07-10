@@ -443,7 +443,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						(getPostField('eventPlaceModality') || getPostField('locationView') || getPostField('location')) && (
 							<LocationViewCard
 								online={getPostField('workplace') === 'homeoffice'}
-								locationView={getPostField('locationView')}
+								locationView={'public'}
 								withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 								location={getPostField('location')}
 							/>

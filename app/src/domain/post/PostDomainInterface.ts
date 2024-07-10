@@ -12,7 +12,7 @@ interface PostDomainInterface {
 	getUnapprovedPosts(usePostRepository: () => PostRepositoryInterface, pageSize?: number, lastPost?: PostEntity | any): Promise<PostEntity[] | void>
 	getPostsByOwner(usePostRepository: () => PostRepositoryInterface, userId: string, pageSize?: number, lastPost?: PostEntity, completed?: boolean): Promise<PostEntity[]>
 
-	updatePost( // CURRENT Check Methods UPDATE
+	updatePost(
 		usePostRepository: () => PostRepositoryInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
 		userPosts: PostEntity[],

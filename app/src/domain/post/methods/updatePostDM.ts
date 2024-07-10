@@ -19,7 +19,7 @@ async function updatePostDM(
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
 	unsavedPostPictures: string[],
-	unsavedPostVideos: string[] // CURRENT inserir no fluxo
+	unsavedPostVideos: string[]
 ) {
 	const { remoteStorage } = usePostRepository()
 
@@ -29,7 +29,8 @@ async function updatePostDM(
 		newPostData
 	)
 
-	let userPostsUpdated: PostEntity[] = []
+	let userPostsUpdated: PostEntity[] = [] // CURRENT Não está atualizando as outras localização out range
+	console.log('postLocationIsOutsideSubscriptionRange', postLocationIsOutsideSubscriptionRange)
 	if (postLocationIsOutsideSubscriptionRange) {
 		await updateLocationDataOnPostsDM(
 			storedPostData.owner.userId,
