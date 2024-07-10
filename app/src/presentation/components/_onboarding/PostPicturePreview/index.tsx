@@ -114,14 +114,11 @@ function PostPicturePreview({
 			} as MediaAsset
 		})
 
-		console.log([...mediaPack, ...currentMedia])
 		setMediaPack([...mediaPack, ...currentMedia])
 		setMediaIndexSelected(mediaPack.length)
 	}
 
 	const savePictures = async () => {
-		console.log('savePictures')
-		console.log(initialValue)
 		setLoaderIsVisible(true)
 		const picturesUri: string[] = []
 		const videosUri: string[] = []
