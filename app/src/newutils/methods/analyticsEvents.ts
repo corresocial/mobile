@@ -29,7 +29,7 @@ function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: 
 			eventData.deviceId = Application.androidId as string
 		}
 		eventData.appVersion = Application.nativeBuildVersion as string
-		trackEvent(eventName, eventData as any)
+		// trackEvent(eventName, eventData as any)
 	} catch (error) {
 		console.log('Erro ao enviar analytics para o Aptabase')
 		console.log(error)
