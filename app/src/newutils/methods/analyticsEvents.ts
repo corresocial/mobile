@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable keyword-spacing */
 import * as Application from 'expo-application'
 import { Platform } from 'react-native'
 
@@ -24,12 +26,14 @@ interface EventObject extends Record<string, string | number | boolean | undefin
 
 function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: boolean) {
 	try {
+		if (__DEV__) return
+
 		const eventData = value
 		if (sendWithDeviceId && Platform.OS === 'android') {
 			eventData.deviceId = Application.androidId as string
 		}
 		eventData.appVersion = Application.nativeBuildVersion as string
-		// trackEvent(eventName, eventData as any)
+		trackEvent(eventName, eventData as any)
 	} catch (error) {
 		console.log('Erro ao enviar analytics para o Aptabase')
 		console.log(error)

@@ -1,6 +1,6 @@
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
@@ -55,9 +55,6 @@ function PostPicturePreview({
 		setThumbnailsOnVideos()
 	}, [])
 
-	useEffect(() => {
-	}, [initialValue])
-
 	const setThumbnailsOnVideos = async () => {
 		const hasVideos = (initialValue || []).find((media) => media && media.mediaType === 'video')
 		if (hasVideos) {
@@ -90,7 +87,6 @@ function PostPicturePreview({
 		})
 		setMediaPack(currentMedia)
 		setMediaIndexSelected(mediaPack.length)
-		// setHasSelectedMedia(true)
 	}
 
 	const deleteCurrentMedia = () => {
@@ -118,8 +114,9 @@ function PostPicturePreview({
 			} as MediaAsset
 		})
 
-		setMediaPack(currentMedia)
-		// setHasSelectedMedia(true)
+		console.log([...mediaPack, ...currentMedia])
+		setMediaPack([...mediaPack, ...currentMedia])
+		setMediaIndexSelected(mediaPack.length)
 	}
 
 	const savePictures = async () => {

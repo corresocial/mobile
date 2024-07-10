@@ -129,18 +129,17 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
 			}
 
-			const { picturesUrlUploaded, videosUrlUploaded } = await updatePost(
+			const { newPost, picturesUrl, videosUrl } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
-				userDataContext.posts || [],
 				initialPostData,
 				postWithUnapprovedData as PostEntity,
 				editDataContext.unsaved.picturesUrl || [],
 				editDataContext.unsaved.videosUrl || [],
 			)
 
-			updateUserPost(postWithUnapprovedData as PostEntity)
-			changeStateOfEditedFields(picturesUrlUploaded || [], videosUrlUploaded || [])
+			updateUserPost(newPost as PostEntity)
+			changeStateOfEditedFields(picturesUrl || [], videosUrl || [])
 			setIsLoading(false)
 
 			showWaitingApproveModal()
@@ -170,6 +169,9 @@ function EditPost({
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
 
+			console.log('postWithUnapprovedData')
+			console.log(postWithUnapprovedData)
+
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
 				navigateToProfile && navigateToProfile()
@@ -193,23 +195,20 @@ function EditPost({
 				usePostRepository,
 				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
-				userDataContext.posts || [],
 				initialPostData,
 				postWithUnapprovedData,
 				editDataContext.unsaved.picturesUrl || [],
-				editDataContext.unsaved.videosUrl || [],
 				notifyUsersEnabled
 			)
 
 			addUserPost(newPost)
-			// REFACTOR salvar em user.posts localmente
 
 			clearTimeout(timeoutId)
 			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
 			sendEvent('user_posted', { postType: getPostField('postType') })
 
 			showWaitingApproveModal()
-			navigateToPostView(newPost)
+			// navigateToPostView(newPost)
 
 			setIsLoading(false)
 		} catch (err) {
