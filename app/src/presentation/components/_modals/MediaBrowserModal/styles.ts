@@ -104,14 +104,14 @@ export const InvalidAssetContainer = styled.View`
     position: absolute;
     align-items: center;
     justify-content: center;
-    flex: 1; 
+    flex: 1;
     width: 100%;
     bottom: ${relativeScreenWidth(25)}px;
 `
 
 export const InvalidAssetAlert = styled.View`
     background-color: ${({ theme }) => theme.white3};
-    padding: ${RFValue(15)}px;;
+    padding: ${RFValue(15)}px;
     border-radius: ${RFValue(10)}px;
 `
 

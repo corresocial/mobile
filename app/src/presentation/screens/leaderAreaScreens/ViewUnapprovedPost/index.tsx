@@ -384,7 +384,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						)
 					}
 					{
-						!arrayIsEmpty(getPostField('picturesUrl'))
+						!arrayIsEmpty(getPostField('picturesUrl')) || !arrayIsEmpty(getPostField('videosUrl'))
 							? (
 								<>
 									<GalleryModal
@@ -399,6 +399,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 									>
 										<ImageCarousel
 											picturesUrl={getPostField('picturesUrl') || []}
+											videosThumbnails={getPostField('videosUrl') || []}
 											indicatorColor={theme.blue1}
 											square
 											showFullscreenIcon
@@ -416,7 +417,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					}
 					{
 						getPostField('range') && (
-							<PostRangeCard postRange={getPostField('range')}/>
+							<PostRangeCard postRange={getPostField('range')} />
 						)
 					}
 					{
@@ -487,12 +488,12 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					{
 						(
 							getPostField('exhibitionFrequency')
-						|| getPostField('daysOfWeek', true)
-						|| getPostField('startDate', true)
-						|| getPostField('endDate', true)
-						|| getPostField('startHour', true)
-						|| getPostField('endHour', true)
-						|| getPostField('repeat')
+							|| getPostField('daysOfWeek', true)
+							|| getPostField('startDate', true)
+							|| getPostField('endDate', true)
+							|| getPostField('startHour', true)
+							|| getPostField('endHour', true)
+							|| getPostField('repeat')
 						) && (
 							<DateTimeCard
 								weekDaysfrequency={getPostField('exhibitionFrequency')}
@@ -519,7 +520,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 							/>
 						)
 					}
-					<VerticalSpacing bottomNavigatorSpace/>
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container >

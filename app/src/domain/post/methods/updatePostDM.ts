@@ -52,7 +52,7 @@ async function updatePostDM(
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
 
-	console.log(mediaUrlUpdatedDM(unsavedPostPictures) ? 'Vídeos atualizadas' : 'Vídeos não atualizadas')
+	console.log(mediaUrlUpdatedDM(unsavedPostVideos) ? 'Vídeos atualizadas' : 'Vídeos não atualizadas')
 
 	let newPostVideosUrl: string[] = unsavedPostVideos || []
 	if (mediaUrlUpdatedDM(unsavedPostVideos)) {
