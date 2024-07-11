@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { IconName } from '@assets/icons/iconMap/types'
 
 import { ButtonText, Container, ContainerBackground } from './styles'
-import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { IconComponent } from '../IconComponent'
