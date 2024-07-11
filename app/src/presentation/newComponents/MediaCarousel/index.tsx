@@ -51,7 +51,7 @@ function MediaCarousel({
 				borderWidth: 0,
 			}}
 		>
-			<PhotoPortrait // CURRENT Reformatar componente, não está renderizando vídeos
+			<PhotoPortrait // CURRENT Reformatar componente, não está renderizando vídeos, correção somente após merge com a branch de vídeos
 				borderWidth={0}
 				borderRightWidth={0}
 				height={'100%'}
