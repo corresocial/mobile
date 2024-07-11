@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     width: 100%;
@@ -10,21 +10,22 @@ export const Container = styled.View`
 export const DividerView = styled.View`
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding: ${(relativeScreenDensity(6))}px ${(relativeScreenDensity(20))}px;
+    justify-content: space-between;
+    padding: ${(relativeScreenDensity(6))}px ${(relativeScreenWidth(5))}px;
     border-radius: ${(relativeScreenDensity(16))}px;
     width: 100%;
     background-color: ${({ theme }) => theme.colors.white[3]};
 
-`   
+`
 
 export const TextArea = styled.View`
     flex-direction: column;
-    width: 50%;
+	background-color: blue;
 `
 
 export const ButtonArea = styled.View`
-    width: 50%;
+	background-color:red;
+	width: 40%;
 `
 
 export const Title = styled.Text`
