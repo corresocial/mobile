@@ -2,7 +2,7 @@ import { FC } from "react";
 import { SvgProps } from "react-native-svg";
 
 export type IconVariation = 'default' | 'outlined' | 'white'
-export type IconName = 'x' | 'check'
+export type IconName = 'x' | 'check' | 'arrowRight' | 'arrowLeft'
 
 export type Icon = {
     default: FC<SvgProps>
