@@ -70,6 +70,7 @@ declare module 'styled-components' {
 			black: Tonality
 			orange: Tonality
 			purple: Tonality
+			blue: Tonality
 			red: Tonality
 			pink: Tonality
 			yellow: Tonality

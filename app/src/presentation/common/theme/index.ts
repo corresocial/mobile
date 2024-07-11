@@ -86,6 +86,12 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 			3: '#FF599E',
 			4: '#D9005A',
 		},
+		blue: {
+			1: '#B2E5FF',
+			2: '#66CCFF',
+			3: '#1AB2FF',
+			4: '#0080BF',
+		},
 		purple: {
 			1: '#F2CCFF',
 			2: '#E699FF',
