@@ -19,7 +19,7 @@ interface StandardButtonProps{
 	onPress: () => void
 }
 
-function StandardButton({ text, textTheme = 'light', icon, heightPreset = 'medium', relativeHeight, relativeWidth = '100%', backgroundColor = theme.colors.white[3], reversed, onPress }: StandardButtonProps) {
+function StandardButton({ text, textTheme = 'dark', icon, heightPreset = 'medium', relativeHeight, relativeWidth = '100%', backgroundColor = theme.colors.white[3], reversed, onPress }: StandardButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -49,8 +49,6 @@ function StandardButton({ text, textTheme = 'light', icon, heightPreset = 'mediu
 		}
 	}
 
-	console.log(icon && !!text)
-
 	return (
 		<ContainerBackground isIconButton={!!(icon && !text)} relativeWidth={relativeWidth} relativeHeight={getButtonHeight()}>
 			<ContainerSurface
@@ -63,7 +61,7 @@ function StandardButton({ text, textTheme = 'light', icon, heightPreset = 'mediu
 				flexDirection={reversed ? 'row-reverse' : 'row'}
 			>
 				{
-					icon && <IconComponent relativeWidth={'60%'} iconName={icon}/>
+					icon && <IconComponent relativeWidth={'50%'} relativeHeight={'60%'} iconName={icon}/>
 				}
 				{
 					text && <ButtonText textTheme={textTheme}>{text}</ButtonText>

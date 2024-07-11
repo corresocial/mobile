@@ -1,8 +1,8 @@
-import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface ContainerBackgroundProps {
 	relativeWidth: string | number
@@ -44,7 +44,7 @@ export const ContainerSurface = styled.TouchableOpacity<ContainerSurfaceProps>`
 	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
 	border-radius: ${relativeScreenDensity(20)}px;
-	gap: ${relativeScreenDensity(10)}px;
+	gap: ${relativeScreenDensity(2)}px;
 `
 
 interface ButtonTextProps{
