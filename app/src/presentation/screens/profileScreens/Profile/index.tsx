@@ -1,8 +1,13 @@
 import React from 'react'
+import { ScrollView, View } from 'react-native'
+
+import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { MapView } from '@newComponents/MapView'
 import { PostInfo } from '@newComponents/PostInfo'
 
 function Profile() {
@@ -14,13 +19,17 @@ function Profile() {
 				<SmallButton
 					relativeWidth={300}
 					onPress={() => { }}
-					label={'Section 01'}
+					label={'New components'}
 					labelColor={'black'}
 				/>
 			)}
 			thirdSecton={(
-				<>
-					{/* <PostInfo
+				<View >
+					<ScrollView
+						contentContainerStyle={{ position: 'relative' }}
+						showsVerticalScrollIndicator={false}
+					>
+						{/* <PostInfo
 						type={'placeModality'}
 						value={'presential'}
 					/>
@@ -35,7 +44,7 @@ function Profile() {
 						value={'Descrição corre.social descrição descrita descrição descrita descrição descrita descrição descrita Descrição descrita Descrição descrita Descrição descrita Descrição descrita Descrição descrita Descrição descrita Descrição descrita Descrição descrita Descrição descrita '}
 					/>
 					<VerticalSpacing /> */}
-					{/* <PostInfo
+						{/* <PostInfo
 						type={'price'}
 						value={{ saleValue: '100', exchangeValue: 'batata' }}
 					/>
@@ -47,7 +56,7 @@ function Profile() {
 						type={'price'}
 						value={{ exchangeValue: 'batata' }}
 					/> */}
-					{/* <PostInfo
+						{/* <PostInfo
 						type={'price'}
 						value={{ saleValue: '100' }}
 					/>
@@ -67,7 +76,7 @@ function Profile() {
 							endTime: new Date().setHours(20 as any)
 						}}
 					/> */}
-					{/* <VerticalSpacing />
+						{/* <VerticalSpacing />
 					<PostInfo
 						type={'macroCategory'}
 						value={'event'}
@@ -77,7 +86,56 @@ function Profile() {
 						type={'link'}
 						value={['corre.corresocial.com', 'link.link.com']}
 					/> */}
-				</>
+						<MapView
+							online={false}
+							locationView={'public'}
+							location={{
+								city: 'Londrina',
+								coordinates: { latitude: -23.3219834, longitude: -51.1673385 },
+								country: 'Brasil',
+								district: 'Centro',
+								geohashNearby: [],
+								number: '4554',
+								postalCode: '76596-000',
+								state: 'Paraná',
+								street: 'Rua do corredor'
+							}}
+						/>
+						<VerticalSpacing />
+						<MapView
+							online={false}
+							locationView={'approximate'}
+							location={{
+								city: 'Londrina',
+								coordinates: { latitude: -23.3219834, longitude: -51.1673385 },
+								country: 'Brasil',
+								district: 'Centro',
+								geohashNearby: [],
+								number: '4554',
+								postalCode: '76596-000',
+								state: 'Paraná',
+								street: 'Rua do corredor'
+							}}
+						/>
+						<VerticalSpacing />
+						<MapView
+							online={false}
+							locationView={'private'}
+							location={{
+								city: 'Londrina',
+								coordinates: { latitude: -23.3219834, longitude: -51.1673385 },
+								country: 'Brasil',
+								district: 'Centro',
+								geohashNearby: [],
+								number: '4554',
+								postalCode: '76596-000',
+								state: 'Paraná',
+								street: 'Rua do corredor'
+							}}
+						/>
+						<VerticalSpacing bottomNavigatorSpace />
+					</ScrollView>
+				</View>
 			)}
 		>
 		</ScreenContainer>

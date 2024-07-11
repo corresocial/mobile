@@ -1,6 +1,5 @@
 import React, { ReactNode, useState } from 'react'
-import { Linking, Text } from 'react-native'
-import DateTimePicker from 'react-native-modal-datetime-picker'
+import { Linking } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { DaysOfWeek, EventRepeatType, PlaceModalityType, WeekdaysFrequency } from '@domain/post/entity/types'
@@ -140,7 +139,6 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			formattedValue.push(`${priceValue.saleValue ? ' ou' : ''} troco por ${priceValue.exchangeValue}`)
 		}
 
-		console.log(formattedValue)
 		return formattedValue
 	}
 
@@ -200,9 +198,9 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		PlaceModality
 		SaleOrExchangeCard - price
 		DateTimeCard
+		LocationViewCard
 
 		ImageCarousel
-		LocationViewCard
 	*/
 
 	const getStyleByType = (): CurrentStyle => {

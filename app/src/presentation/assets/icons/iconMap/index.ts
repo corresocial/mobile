@@ -11,6 +11,7 @@ import ColorPalet from '@assets/icons/colorPalet-white.svg'
 import Calendar from '@assets/icons/calendar.svg'
 import Books from '@assets/icons/books-white.svg'
 import Pin from '@assets/icons/pin-white.svg'
+import MapPoint from '@assets/icons/mapPoint.svg'
 import ComputerAndPhone from '@assets/icons/computerAndPhone.svg'
 import HandOnPerson from '@assets/icons/handOnPerson.svg'
 import Clock from '@assets/icons/clock.svg'
@@ -62,6 +63,9 @@ const icons: IconMap = {
 	},
 	clock: {
 		default: Clock
+	},
+	mapPoint: {
+		default: MapPoint
 	}
 }
 
