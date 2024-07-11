@@ -10,7 +10,7 @@ interface IconComponentProps{
     iconName: IconName
     iconVariation?: IconVariation
     relativeWidth?: number | string
-    relativeHeight?: number
+    relativeHeight?: number | string
 	activeOpacity?: number
     onPress?: () => void
 }

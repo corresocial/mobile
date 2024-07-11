@@ -1,5 +1,6 @@
-import { relativeScreenDensity } from '@common/screenDimensions'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface ContainerProps{
     width: number | string
