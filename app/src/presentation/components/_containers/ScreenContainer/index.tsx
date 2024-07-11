@@ -6,7 +6,7 @@ import { Container, FirstSection, SafeAreaViewContainer, SecondSection, ThirdSec
 export type ScreenContainerTones = 'white' | 'white' | 'orange' | 'blue' | 'purple' | 'pink' | 'green'
 
 interface ScreenContainerProps {
-	children: React.ReactElement | React.ReactElement[]
+	children?: React.ReactElement | React.ReactElement[]
 	firstSection?: ReactNode
 	secondSection?: ReactNode
 	thirdSecton?: ReactNode
@@ -19,6 +19,7 @@ interface ScreenContainerProps {
 	infinityBottom?: boolean
 }
 
+/** Este componente não aceita `children` e `componentes de section` ao mesmo tempo */
 function ScreenContainer({ ...props }: ScreenContainerProps) {
 	return (
 		<>
@@ -36,7 +37,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 								withPadding={!!props.enableScreenPadding}
 							>
 								{
-									props.firstSection && (
+									props.firstSection && !props.children && (
 										<FirstSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -46,7 +47,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.secondSection && (
+									props.secondSection && !props.children && (
 										<SecondSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -56,7 +57,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.thirdSecton && (
+									props.thirdSecton && !props.children && (
 										<ThirdSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -82,7 +83,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 								withPadding={!!props.enableScreenPadding}
 							>
 								{
-									props.firstSection && (
+									props.firstSection && !props.children && (
 										<FirstSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -92,7 +93,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.secondSection && (
+									props.secondSection && !props.children && (
 										<SecondSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -102,7 +103,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.thirdSecton && (
+									props.thirdSecton && !props.children && (
 										<ThirdSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}

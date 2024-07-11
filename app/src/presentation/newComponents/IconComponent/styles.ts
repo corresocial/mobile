@@ -1,8 +1,8 @@
 import styled from 'styled-components/native'
 
-interface ContainerProps{
-    width: number
-    height: number
+interface ContainerProps {
+	width: number
+	height: number
 }
 
 export const Container = styled.View<ContainerProps>`

@@ -2,10 +2,10 @@ import React from 'react'
 
 import { ButtonArea, Container, DividerView, SubTitle, TextArea, Title } from './styles'
 
-interface InfoDividerProps{
-    title: string | number
-    subTitle?: string
-    onPress?: () => void
+interface InfoDividerProps {
+	title: string | number
+	subTitle?: string
+	onPress?: () => void
 }
 
 function InfoDivider({ title, subTitle, onPress }: InfoDividerProps) {

@@ -136,7 +136,8 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 			1: relativeScreenDensity(10),
 			2: relativeScreenDensity(12),
 			3: relativeScreenDensity(14),
-			4: relativeScreenDensity(18)
+			4: relativeScreenDensity(16),
+			5: relativeScreenDensity(18)
 		},
 		nunito: {
 			1: relativeScreenDensity(10),
