@@ -35,7 +35,7 @@ WebBrowser.maybeCompleteAuthSession()
 const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
-	const { setUserRegisterDataOnContext, performQuickSingin } = useAuthContext()
+	const { setUserRegisterDataOnContext, performQuickSignin } = useAuthContext()
 
 	const newUser = route.params?.newUser
 
@@ -121,7 +121,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const performLoginOnApp = async (user?: { userId: string }) => {
 		const { userId } = user || authenticatedUser
-		await performQuickSingin(userId, false) // CURRENT Sigin tá escrito errado
+		await performQuickSignin(userId, false)
 	}
 
 	const toggleSocialLoginAlertModalVisibility = () => {

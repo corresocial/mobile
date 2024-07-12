@@ -33,7 +33,7 @@ const { remoteStorage } = useUserRepository()
 const { phoneVerificationCodeIsValid } = useUserDomain()
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { userAuthData, setUserRegisterDataOnContext, performQuickSingin } = useAuthContext()
+	const { userAuthData, setUserRegisterDataOnContext, performQuickSignin } = useAuthContext()
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -153,7 +153,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					return navigation.navigate('InsertName')
 				}
 
-				await performQuickSingin(userId, false)
+				await performQuickSignin(userId, false)
 			} else {
 				!completeCodeIsValid && setInvalidCodeAfterSubmit(true)
 			}

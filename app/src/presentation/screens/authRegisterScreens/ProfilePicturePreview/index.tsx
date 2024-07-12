@@ -34,7 +34,7 @@ const { uploadUserMedia, createNewUser } = useUserDomain()
 const { compressImage } = UiUtils()
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { userRegistrationData, performQuickSingin } = useAuthContext()
+	const { userRegistrationData, performQuickSignin } = useAuthContext()
 
 	const [profilePictureUrl, setProfilePictureUri] = useState<string>('')
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
@@ -66,7 +66,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 			setIsLoading(false)
 
-			performQuickSingin(createdUser?.userId, false)
+			performQuickSignin(createdUser?.userId, false)
 		} catch (err) {
 			console.log(err)
 		} finally {

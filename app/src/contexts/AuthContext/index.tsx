@@ -43,7 +43,7 @@ const initialValue: AuthContextType = {
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
 	setUserRegisterDataOnContext: () => null,
-	performQuickSingin: (userId?: string, requireAuth?: boolean, noRedirect?: boolean) => Promise.resolve(true),
+	performQuickSignin: (userId?: string, requireAuth?: boolean, noRedirect?: boolean) => Promise.resolve(true),
 	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
 	addUserPost: (postData: PostEntity) => { },
@@ -77,7 +77,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}, [])
 
 	// REFACTOR Quick signin virar um caso de uso
-	const performQuickSingin = async (userId: string, requireAuth = true, noRedirect = false) => {
+	const performQuickSignin = async (userId: string, requireAuth = true, noRedirect = false) => {
 		try {
 			const authenticatedUser = requireAuth
 				? await handleMethodWithDeviceAuthentication(async () => {
@@ -224,7 +224,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserAuthDataOnContext,
 		userRegistrationData,
 		setUserRegisterDataOnContext,
-		performQuickSingin,
+		performQuickSignin,
 		loadUserPosts,
 		getLastUserPost,
 		addUserPost,

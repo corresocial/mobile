@@ -36,7 +36,7 @@ const presentationTexts = [
 const { localStorage } = useUserRepository()
 
 function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps) {
-	const { performQuickSingin } = useContext(AuthContext)
+	const { performQuickSignin } = useContext(AuthContext)
 
 	const [localUser, setLocalUser] = useState<UserEntity | null>()
 
@@ -82,7 +82,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	const redirectToApp = async () => {
 		try {
 			if (localUser?.userId) {
-				await performQuickSingin(localUser.userId)
+				await performQuickSignin(localUser.userId)
 			}
 		} catch (err) {
 			console.log(err)

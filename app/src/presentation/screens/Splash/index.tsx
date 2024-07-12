@@ -23,7 +23,7 @@ import { CustomModal } from '@components/_modals/CustomModal'
 const { checkCacheImageValidation } = useCacheRepository()
 
 function Splash({ route, navigation }: SplashScreenProps) {
-	const { performQuickSingin } = useAuthContext()
+	const { performQuickSignin } = useAuthContext()
 	const { navigateToAuthScreen } = useAuthNavigation()
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
@@ -61,7 +61,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			}
 		} catch (error: any) {
 			console.log(error)
-			performQuickSingin()
+			performQuickSignin()
 		}
 	}
 
@@ -103,9 +103,9 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
 	}
 
-	const redirectToApp = async () => { // CURRENT Corrigie deeplink
+	const redirectToApp = async () => {
 		try {
-			const authenticated = await performQuickSingin('', true, true)
+			const authenticated = await performQuickSignin('', true, true)
 			if (!authenticated) return navigateToAuthScreen()
 
 			if (route.params?.screen) {

@@ -16,7 +16,7 @@ export type AuthContextType = {
 	setUserAuthDataOnContext: (data: Partial<UserAuthData>) => void
 	userRegistrationData: UserRegisterData
 	setUserRegisterDataOnContext: (data: Partial<UserRegisterData>) => void
-	performQuickSingin(userId?: string, requireAuth?: boolean, noRedirect?: boolean): Promise<boolean>
+	performQuickSignin(userId?: string, requireAuth?: boolean, noRedirect?: boolean): Promise<boolean>
 
 	getLastUserPost: () => PostEntity | null
 	loadUserPosts: (userId?: string, refresh?: boolean) => Promise<PostEntity[] | void>

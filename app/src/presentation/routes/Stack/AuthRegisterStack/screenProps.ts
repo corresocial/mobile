@@ -9,6 +9,5 @@ export type SelectAuthMethodScreenProps = NativeStackScreenProps<AuthRegisterSta
 export type InsertCellNumberScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertCellNumber'>
 export type InsertConfirmationCodeScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertConfirmationCode'>
 export type InsertNameScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertName'>
-export type InsertProfilePictureScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertProfilePicture'>
 export type ProfilePicturePreviewScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'ProfilePicturePreview'>
 export type UserStackScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'UserStack'>
