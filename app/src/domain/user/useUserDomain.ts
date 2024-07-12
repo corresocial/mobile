@@ -11,6 +11,7 @@ import { syncWithRemoteUserDM } from './methods/syncWithRemoteUserDM'
 import { updateUserRepositoryDM } from './methods/updateUserRepositoriesDM'
 import { updateUserSubscriptionDataDM } from './methods/updateUserSubscriptionDataDm'
 import { uploadUserMediaDM } from './methods/uploadUserMediaDM'
+import { userExistsDM } from './methods/userExistsDM'
 import { UserDomainInterface } from './UserDomainInterface'
 
 function useUserDomain(): UserDomainInterface {
@@ -19,6 +20,7 @@ function useUserDomain(): UserDomainInterface {
 		getLocalUserDataWithDeviceAuth: getLocalUserDataWithDeviceAuthDM,
 		getLocalUserData: getLocalUserDataDM,
 		getUnapprovedProfiles: getUnapprovedProfilesDM,
+		userExists: userExistsDM,
 
 		requestPhoneVerificationCode: requestPhoneVerificationCodeDM,
 		phoneVerificationCodeIsValid: phoneVerificationCodeIsValidDM,

@@ -165,7 +165,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const loadMoreUserPosts = async () => {
 		const loadedPosts = getUserPosts(true)
-		console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
+		// console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
 		if (loadedPosts && loadedPosts.length) {
 			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false)
 		}

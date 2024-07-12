@@ -55,7 +55,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 	}
 
 	const loadMorePosts = async () => {
-		console.log('currentLoadedPosts =>', completedPosts && completedPosts.length)
+		// console.log('currentLoadedPosts =>', completedPosts && completedPosts.length)
 		if (completedPosts && completedPosts.length) {
 			const posts = await loadRemoteUserPosts()
 			posts && posts.length && setCompletedPosts([...posts])
@@ -80,7 +80,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 			posts = posts.map((p: PostEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
 
 			if (!posts || (posts && !posts.length)
-					|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
+				|| (lastPost && posts && posts.length && (lastPost.postId === getLastItem(posts)?.postId))) {
 				setPostListIsOver(true)
 			}
 

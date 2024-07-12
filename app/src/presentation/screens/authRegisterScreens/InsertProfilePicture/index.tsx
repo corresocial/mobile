@@ -27,6 +27,7 @@ import { Loader } from '@components/Loader'
 
 const { createNewUser } = useUserDomain()
 
+// CURRENT Remover tela e suas ocorrências VERIFICAR
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 	const { userRegistrationData, setRemoteUserOnLocal } = useAuthContext()
 

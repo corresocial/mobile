@@ -1,21 +1,16 @@
 import * as Updates from 'expo-updates'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 
-import { UserEntity } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
-
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-
-import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
+import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
 import { Container, LogoContainer } from './styles'
 import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
@@ -25,13 +20,11 @@ import { theme } from '@common/theme'
 
 import { CustomModal } from '@components/_modals/CustomModal'
 
-const { getLocalUserData, getLocalUserDataWithDeviceAuth } = useUserDomain()
-const { localStorage } = useUserRepository()
+const { checkCacheImageValidation } = useCacheRepository()
 
 function Splash({ route, navigation }: SplashScreenProps) {
-	const { checkCacheImageValidation } = useCacheRepository()
-
-	const { setRemoteUserOnLocal } = useContext(AuthContext)
+	const { performQuickSingin } = useAuthContext()
+	const { navigateToAuthScreen } = useAuthNavigation()
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
@@ -45,6 +38,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 		checkCacheImageValidation()
 		checkUpdates()
+		sendEvent('opened_auth_screen', { authType: 'login' }, true)
 	}, [])
 
 	const checkUpdates = async () => {
@@ -67,18 +61,8 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			}
 		} catch (error: any) {
 			console.log(error)
-			redirectToApp()
+			performQuickSingin()
 		}
-	}
-
-	const navigateToInitialScreen = (userData: UserEntity | null) => {
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'SelectAuthRegister',
-				params: { userId: userData?.userId || '', userName: userData?.name || '' }
-			}],
-		})
 	}
 
 	const navigateToProfile = (id: string) => {
@@ -88,13 +72,13 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				name: 'UserStack' as any,
 			}],
 		})
-		navigation.navigate('UserStack', { // TODO userStack
+		navigation.navigate('UserStack', {
 			screen: 'HomeTab',
 			params: {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate('ProfileHome' as any, { userId: id }) // TODO type
+		navigation.navigate('ProfileHome' as any, { userId: id })
 	}
 
 	const navigateToPost = (id: string, postType: PostKey) => {
@@ -119,44 +103,25 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
 	}
 
-	const redirectToApp = async () => {
+	const redirectToApp = async () => { // CURRENT Corrigie deeplink
 		try {
-			const hasLocalUser = await localStorage.hasValidLocalUser()
+			const authenticated = await performQuickSingin('', true, true)
+			if (!authenticated) return navigateToAuthScreen()
 
-			if (hasLocalUser) {
-				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
-				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
-				
-				sendEvent('opened_auth_screen', { authType: 'login' }, true)
-
-				await setRemoteUserOnLocal(localUser.userId, localUser)
-
-				sendEvent('user_authed', { authType: 'login' }, true)
-
-				if (route.params?.screen) {
-					console.log(route.params.screen)
-					switch (route.params.screen) {
-						case 'profile': {
-							return navigateToProfile(route.params.id)
-						}
-						case 'post': {
-							return navigateToPost(route.params.id, route.params.postType as PostKey)
-						}
+			if (route.params?.screen) {
+				console.log(route.params.screen)
+				switch (route.params.screen) {
+					case 'profile': {
+						return navigateToProfile(route.params.id)
+					}
+					case 'post': {
+						return navigateToPost(route.params.id, route.params.postType as PostKey)
 					}
 				}
-
-				navigation.reset({
-					index: 0,
-					routes: [{ name: 'UserStack' }]
-				})
-			} else {
-				const storedUser = await getLocalUserData(useUserRepository)
-				navigateToInitialScreen(storedUser)
 			}
 		} catch (error) {
 			console.log(error)
-			const storedUser = await getLocalUserData(useUserRepository)
-			navigateToInitialScreen(storedUser)
+			await navigateToAuthScreen()
 		}
 	}
 

@@ -6,6 +6,8 @@ import { UserCredential } from 'firebase/auth'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
+import { useUserRepository } from '@data/user/useUserRepository'
+
 import { useAuthContext } from '@contexts/AuthContext'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
@@ -26,10 +28,12 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
+const { remoteStorage } = useUserRepository()
+
 const { phoneVerificationCodeIsValid } = useUserDomain()
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { userAuthData, setUserRegisterDataOnContext, setRemoteUserOnLocal } = useAuthContext()
+	const { userAuthData, setUserRegisterDataOnContext, performQuickSingin } = useAuthContext()
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -136,24 +140,20 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 			if (completeCodeIsValid) {
 				const { verificationCodeId } = userAuthData
-				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId!, completeCode)
 
+				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId!, completeCode)
 				const userId = await extractUserIdentification(userCredential)
-				const userHasAccount = await setRemoteUserOnLocal(userId)
+				const userHasAccount = await remoteStorage.userExists(userId) // CURRENT Sò verificar se existe conta
 
 				console.log(`userHasAccount: ${userHasAccount}`)
 
 				setIsLoading(false)
 				if (!userHasAccount) {
 					setUserRegisterDataOnContext({ ...userAuthData, userId })
-					navigation.navigate('InsertName')
-					return
+					return navigation.navigate('InsertName')
 				}
 
-				navigation.reset({
-					index: 0,
-					routes: [{ name: 'UserStack' }]
-				})
+				await performQuickSingin(userId, false)
 			} else {
 				!completeCodeIsValid && setInvalidCodeAfterSubmit(true)
 			}
