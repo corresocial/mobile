@@ -89,7 +89,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			if (noRedirect) return authenticatedUser
 
-			if (authenticatedUser) return navigateToHome()
+			if (authenticatedUser) {
+				navigateToHome()
+				return authenticatedUser
+			}
+
 			return navigateToAuthScreen()
 		} catch (error) {
 			console.log(error)

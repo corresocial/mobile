@@ -1,8 +1,7 @@
+/* eslint-disable no-undef */
 import * as Updates from 'expo-updates'
 import React, { useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
-
-import { sendEvent } from '@newutils/methods/analyticsEvents'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -36,9 +35,8 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			useNativeDriver: false
 		}).start()
 
-		checkCacheImageValidation()
 		checkUpdates()
-		sendEvent('opened_auth_screen', { authType: 'login' }, true)
+		checkCacheImageValidation()
 	}, [])
 
 	const checkUpdates = async () => {
@@ -46,7 +44,6 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}
 
 	const hasUpdates = async () => {
-		// eslint-disable-next-line no-undef
 		if (__DEV__) return { isAvailable: false }
 		return Updates.checkForUpdateAsync()
 	}
@@ -54,14 +51,16 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	async function onFetchUpdateAsync() {
 		try {
 			const update = await hasUpdates()
+
 			if (update.isAvailable) {
-				setConfirmationModalIsVisible(true)
-			} else {
-				redirectToApp()
+				await Updates.fetchUpdateAsync()
+				return setConfirmationModalIsVisible(true)
 			}
+
+			return redirectToApp()
 		} catch (error: any) {
 			console.log(error)
-			performQuickSignin()
+			redirectToApp()
 		}
 	}
 
@@ -105,11 +104,11 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 	const redirectToApp = async () => {
 		try {
-			const authenticated = await performQuickSignin('', true, true)
+			const hasDeeplink = !!route.params?.screen
+			const authenticated = await performQuickSignin('', true, hasDeeplink)
 			if (!authenticated) return navigateToAuthScreen()
 
-			if (route.params?.screen) {
-				console.log(route.params.screen)
+			if (hasDeeplink) {
 				switch (route.params.screen) {
 					case 'profile': {
 						return navigateToProfile(route.params.id)
@@ -117,11 +116,12 @@ function Splash({ route, navigation }: SplashScreenProps) {
 					case 'post': {
 						return navigateToPost(route.params.id, route.params.postType as PostKey)
 					}
+					default: return navigateToAuthScreen()
 				}
 			}
 		} catch (error) {
 			console.log(error)
-			await navigateToAuthScreen()
+			return navigateToAuthScreen()
 		}
 	}
 
@@ -141,7 +141,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				}}
 				affirmativeButton={{
 					label: 'atualizar',
-					onPress: Updates.reloadAsync
+					onPress: async () => Updates.reloadAsync()
 				}}
 			/>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
