@@ -34,7 +34,7 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 const { formatRelativeDate, arrayIsEmpty, checkMediaType } = UiUtils()
 
 interface PostCardProps {
-	post: PostEntity | any // TODO Type
+	post: PostEntity
 	owner: UserOwner
 	isOwner: boolean
 	navigateToProfile?: (userId: string) => void

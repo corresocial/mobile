@@ -22,10 +22,12 @@ async function startUserChatIdsListenerDM(userId: Id, callback: (chatIds: Id[], 
 		callback(filteredChatIds, userChats)
 	}
 
+	if (!userId) return
+
 	if (await existsOnDatabase(userId)) {
 		startUserChatIdsListener(userId, listenerCallback)
 	} else {
-		console.log(`Esse usuário não existe: ${userId}`)
+		console.log(`[chat] Esse usuário não existe: ${userId}`)
 	}
 }
 

@@ -15,6 +15,7 @@ interface UserDomainInterface {
 	getLocalUserDataWithDeviceAuth: (useUserRepository: () => UserRepositoryInterface, useAuthenticationService: () => AuthenticationServiceInterface) => Promise<UserEntity | null>
 	getLocalUserData: (useUserRepository: () => UserRepositoryInterface) => Promise<UserEntity | null>
 	getUnapprovedProfiles(useUserRepository: () => UserRepositoryInterface, pageSize?: number, lastUser?: UserEntity | any): Promise<UserEntity[] | void>
+	userExists(useUserRepository: () => UserRepositoryInterface, userId?: string): Promise<boolean>
 
 	requestPhoneVerificationCode: (useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string, recaptchaVerifier: ApplicationVerifier | any) => Promise<string>
 	phoneVerificationCodeIsValid: (useAuthenticationService: () => AuthenticationServiceInterface, verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
