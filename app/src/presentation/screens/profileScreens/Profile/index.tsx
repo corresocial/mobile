@@ -549,7 +549,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 											}
 											<TouchableOpacity
 												activeOpacity={0.9}
-												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : toggleWaitingApproveModalVisibility}
+												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : canRenderWaitingApproveIndicator() ? toggleWaitingApproveModalVisibility : () => { }}
 											>
 												<PhotoPortrait
 													height={isLoggedUser ? RFValue(95) : RFValue(65)}
