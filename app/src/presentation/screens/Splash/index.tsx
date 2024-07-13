@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
+import * as Application from 'expo-application'
 import * as Updates from 'expo-updates'
 import React, { useEffect, useState } from 'react'
-import { Animated, StatusBar } from 'react-native'
+import { Animated, Linking, Platform, StatusBar } from 'react-native'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -27,6 +28,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
+	const [storeUpdateModalIsVisible, setStoreUpdateModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
@@ -40,7 +42,27 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}, [])
 
 	const checkUpdates = async () => {
-		await onFetchUpdateAsync()
+		const otaUpdated = await onFetchUpdateAsync()
+		otaUpdated && await checkStoreUpdates()
+
+		console.log('checkUpdates')
+	}
+
+	const checkStoreUpdates = async () => {
+		if (!__DEV__) {
+			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
+			if (mandatoryVersion.nativeApplicationVersion > (Application.nativeApplicationVersion || '55.55.55')
+				|| mandatoryVersion.nativeBuildVersion > (Application.nativeBuildVersion || '5000')) {
+				return setStoreUpdateModalIsVisible(true)
+			}
+		}
+
+		return redirectToApp()
+	}
+
+	const navigateToStore = () => {
+		if (Platform.OS === 'android') return Linking.openURL('https://play.google.com/store/apps/details?id=com.corresocial.corresocial')
+		if (Platform.OS === 'ios') return Linking.openURL('https://apps.apple.com/br/app/corre/id1661370868')
 	}
 
 	const hasUpdates = async () => {
@@ -57,7 +79,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				return setConfirmationModalIsVisible(true)
 			}
 
-			return redirectToApp()
+			return true
 		} catch (error: any) {
 			console.log(error)
 			redirectToApp()
@@ -142,6 +164,22 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				affirmativeButton={{
 					label: 'atualizar',
 					onPress: async () => Updates.reloadAsync()
+				}}
+			/>
+			<CustomModal
+				visibility={storeUpdateModalIsVisible}
+				title={'atualizar app na loja'}
+				TitleIcon={SmartphoneWhiteIcon}
+				withoutStatusBar
+				closeModal={() => { }}
+				firstParagraph={{
+					text: 'seu app precisa ser atualizado',
+					textAlign: 'center',
+					fontSize: 15
+				}}
+				affirmativeButton={{
+					label: 'atualizar',
+					onPress: navigateToStore
 				}}
 			/>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
