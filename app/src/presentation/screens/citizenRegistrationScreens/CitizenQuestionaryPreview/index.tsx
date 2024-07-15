@@ -12,13 +12,14 @@ import { useLoaderContext } from '@contexts/LoaderContext'
 import { CitizenQuestionaryPreviewScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { Body, HeaderActionsContainer, HeaderContainer, QuestionsList } from './styles'
+import { Body, HeaderActionsContainer, HeaderContainer, QuestionsList, ToggleButtonContainer } from './styles'
 import EditCitizenIcon from '@assets/icons/editCitizen-white.svg'
 import trashIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
 import { QuestionCard } from '@components/_cards/QuestionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
@@ -33,6 +34,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const { setLoaderIsVisible } = useLoaderContext()
 
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+	const [presentationIsVisible, setPresentationIsVisible] = useState(false)
 
 	const theme = useTheme()
 
@@ -173,6 +175,28 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 					renderItem={renderQuestion as ListRenderItem<unknown>}
 					ListHeaderComponent={(
 						<>
+							<VerticalSpacing height={2} />
+							<ToggleButtonContainer>
+								<SmallButton
+									relativeWidth={'65%'}
+									label={`${presentationIsVisible ? 'Esconder' : 'Exibir'} apresentação`}
+									labelColor={theme.black4}
+									onPress={() => setPresentationIsVisible(!presentationIsVisible)}
+								/>
+							</ToggleButtonContainer>
+							{
+								presentationIsVisible && (
+									<>
+										<VerticalSpacing height={2} />
+										<InstructionCard
+											message={'Olá! Sou [seu nome] e estou representando o CORRE., nossa missão é conectar a periferia a um futuro melhor e para isso estamos fazendo uma pesquisa com apoio [nome da liderança/instituição local] para entender melhor as necessidades locais. Sua participação é essencial e todas as informações serão confidenciais. Você pode nos ajudar?'}
+											highlightedWords={['CORRE.,', 'missão', 'é', 'conectar', 'a', 'periferia', 'um', 'futuro', 'melhor', 'entender', 'necessidades', 'locais', 'todas', 'as', 'informações', 'serão', 'confidenciais']}
+											borderLeftWidth={5}
+											fontSize={15}
+										/>
+									</>
+								)
+							}
 							<VerticalSpacing height={2} />
 							<QuestionCard
 								questionId={'1'}

@@ -74,7 +74,6 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			}
 
 			let location = citizenRegistrationIdentifier.location || undefined
-			console.log(location)
 			if (!location || (location && !location.coordinates)) {
 				const currentLocation = await getCurrentLocation()
 				location = {
@@ -122,7 +121,6 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				setTimeoutModalIsVisible(true)
 			}, 20000) // Se durar mais que 20 segundos
 
-			console.log(citizenRegisterData.location)
 			await citizenUseCases.createCitizenRegister(userDataContext, citizenRegisterData)
 			clearTimeout(timeoutId)
 
@@ -167,7 +165,8 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				}}
 			/>
 			<CitizenRegistrationHeader
-				message={'cadastro cidadão finalidado!'}
+				message={'Cadastro cidadão finalizado!'}
+				congratulationMessage
 				customHeaderHeight={'60%'}
 				navigateBackwards={() => navigation.goBack()}
 			/>
