@@ -185,7 +185,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 							<VerticalSpacing />
 							<QuestionCard
 								questionId={'2'}
-								question={'Como você se chama?'}
+								question={'Qual é o seu nome?'}
 								answer={registerData?.name}
 								questionType={'textual'}
 								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenName') : undefined}
