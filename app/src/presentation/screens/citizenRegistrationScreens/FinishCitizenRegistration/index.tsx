@@ -5,6 +5,7 @@ import { useTheme } from 'styled-components'
 
 import { CitizenRegisterModel } from '@domain/citizenRegister/adapter/CitizenRegisterModel'
 import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
+import { CitizenRegisterLocation } from '@domain/citizenRegister/model/entities/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
@@ -57,6 +58,10 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 		return !!networkStatus.isConnected && !!networkStatus.isInternetReachable
 	}
 
+	const editLocation = async () => {
+		navigation.navigate('InsertCitizenRegisterLocation', { initialCoordinates: citizenRegistrationIdentifier.location?.coordinates })
+	}
+
 	const submitResponses = async () => {
 		const { getCurrentLocation } = useLocationService()
 
@@ -68,19 +73,24 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				if (!hasPermission) return
 			}
 
-			const location = await getCurrentLocation()
+			let location = citizenRegistrationIdentifier.location || undefined
+			console.log(location)
+			if (!location || (location && !location.coordinates)) {
+				const currentLocation = await getCurrentLocation()
+				location = {
+					coordinates: {
+						latitude: currentLocation.coords.latitude,
+						longitude: currentLocation.coords.longitude
+					}
+				} as CitizenRegisterLocation
+			}
 
 			const hasValidNetworkConnection = await checkNetworkStatus()
 
 			const citizenRegisterData = {
 				...citizenRegistrationIdentifier,
 				createdAt: new Date(),
-				location: {
-					coordinates: {
-						latitude: location.coords.latitude,
-						longitude: location.coords.longitude
-					}
-				} as any,
+				location,
 				responses: citizenRegistrationResponseData
 			}
 
@@ -112,6 +122,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				setTimeoutModalIsVisible(true)
 			}, 20000) // Se durar mais que 20 segundos
 
+			console.log(citizenRegisterData.location)
 			await citizenUseCases.createCitizenRegister(userDataContext, citizenRegisterData)
 			clearTimeout(timeoutId)
 
@@ -167,13 +178,21 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 							? (
 								<Loader flex />
 							) : (
-								<PrimaryButton
-									color={theme.green3}
-									label={'enviar respostas'}
-									labelColor={theme.white3}
-									SecondSvgIcon={SendFileWhiteIcon}
-									onPress={submitResponses}
-								/>
+								<>
+									<PrimaryButton
+										color={theme.yellow3}
+										label={'usar outra localização'}
+										SecondSvgIcon={MapPointerWhiteIcon}
+										onPress={editLocation}
+									/>
+									<PrimaryButton
+										color={theme.green3}
+										label={'enviar respostas'}
+										labelColor={theme.white3}
+										SecondSvgIcon={SendFileWhiteIcon}
+										onPress={submitResponses}
+									/>
+								</>
 							)
 					}
 				</ButtonOptionsContainer>

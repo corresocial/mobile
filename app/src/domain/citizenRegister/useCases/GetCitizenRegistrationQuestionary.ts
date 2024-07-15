@@ -434,7 +434,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Outros (especificar)'
 				]
 			}
-		]/* .slice(10, 11) as CitizenRegisterQuestionResponse[] */
+		].slice(10, 11) as CitizenRegisterQuestionResponse[]
 		return citizenRegistrationQuestionary
 	}
 }
