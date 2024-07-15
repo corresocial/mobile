@@ -33,7 +33,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 
 	const validateName = (text: string) => {
 		try {
-			const validName = new citizenRegisterModel.UserName(text, true).value
+			const validName = new citizenRegisterModel.UserName(text).value
 			return !!(validName && !keyboardOpened)
 		} catch (error) {
 			return false
