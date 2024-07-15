@@ -1,6 +1,7 @@
 import { IconMap } from "./types"
 
 import X from '@assets/icons/x.svg'
+
 import Check from '@assets/icons/check-white.svg'
 import Description from '@assets/icons/description-white.svg'
 import Cash from '@assets/icons/cash.svg'
@@ -20,6 +21,10 @@ import Clock from '@assets/icons/clock.svg'
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"
 // Para ícones especiais "icon-outlined.svg" ou "icon-red-outlined.svg" ou "icon-red-outlined.svg"
+
+import ArrowRight from '@assets/icons/angleRight-white.svg'
+
+import ArrowLeft from '@assets/icons/angleLeft-white.svg'
 
 const icons: IconMap = {
 	x: {
@@ -66,6 +71,12 @@ const icons: IconMap = {
 	},
 	mapPoint: {
 		default: MapPoint
+  },
+	arrowRight: {
+		default: ArrowRight
+	},
+	arrowLeft: {
+		default: ArrowLeft
 	}
 }
 

@@ -5,13 +5,12 @@ import { IconName, IconVariation } from '@assets/icons/iconMap/types'
 
 import { Container, TouchableContainer } from './styles'
 import { icons } from '@assets/icons/iconMap'
-import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface IconComponentProps {
 	iconName: IconName
 	iconVariation?: IconVariation
-	relativeWidth?: number
-	relativeHeight?: number
+	relativeWidth?: number | string
+	relativeHeight?: number | string
 	activeOpacity?: number
 	onPress?: () => void
 }
@@ -24,9 +23,6 @@ function IconComponent({ iconName, iconVariation = 'default', relativeWidth = 20
 
 	const Icon: FC<SvgProps> | undefined = icons[iconName][iconVariation]
 
-	const width = relativeScreenDensity(relativeWidth) // CURRENT ACeitar porcentagem
-	const height = relativeScreenDensity(relativeHeight ?? relativeWidth)
-
 	if (!Icon) {
 		console.warn('Icone ou variação não encontrados')
 		return null
@@ -36,8 +32,8 @@ function IconComponent({ iconName, iconVariation = 'default', relativeWidth = 20
 		onPress ? (
 			<TouchableContainer
 				activeOpacity={activeOpacity}
-				width={width}
-				height={height}
+				width={relativeWidth}
+				height={relativeHeight ?? relativeWidth}
 				onPress={onPress}
 			>
 				<Icon
@@ -47,8 +43,8 @@ function IconComponent({ iconName, iconVariation = 'default', relativeWidth = 20
 			</TouchableContainer>
 		) : (
 			<Container
-				width={width}
-				height={height}
+				width={relativeWidth}
+				height={relativeHeight ?? relativeWidth}
 			>
 				<Icon
 					width={'100%'}

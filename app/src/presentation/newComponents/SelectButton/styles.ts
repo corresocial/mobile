@@ -1,14 +1,15 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps{
-    width: number | null
+    width: number | string
+	height: number | string
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-    height: ${(relativeScreenHeight(6))}px;
-    width: ${({ width }) => (width ? `${width}px` : 'auto')};
+    height: ${({ height }) => (typeof height === 'string' ? height : `${relativeScreenDensity(height)}px`)};
+    width: ${({ width }) => (typeof width === 'string' ? width : `${relativeScreenWidth(width)}px`)};
 `
 
 interface ContainerBackgroundProps{
@@ -23,14 +24,14 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: ${(relativeScreenDensity(2))}px ${(relativeScreenDensity(40))}px;
+    padding: ${(relativeScreenDensity(2))}px ${(relativeScreenDensity(25))}px;
     background-color: ${(props) => (props.selected ? props.selectedColor : props.theme.white3)};
     border-radius: ${(relativeScreenDensity(100))}px;
-    gap: ${(relativeScreenDensity(10))}px;
+    gap: ${(relativeScreenDensity(6))}px;
 `
 
 export const ButtonText = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
-    font-family: ${({ theme }) => theme.fonts.nunitoSemiBold}; 
-    font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px; 
+    font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
+    font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
 `
