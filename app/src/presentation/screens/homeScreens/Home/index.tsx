@@ -361,7 +361,7 @@ function Home({ navigation }: HomeScreenProps) {
 					style={{ flex: 1, width: '100%', overflow: 'visible' }}
 					showsVerticalScrollIndicator={false}
 					data={[1]}
-					renderItem={(() => {}) as any}
+					renderItem={(() => { }) as any}
 					refreshControl={(
 						<RefreshControl
 							tintColor={theme.black4}

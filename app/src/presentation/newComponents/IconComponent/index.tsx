@@ -6,20 +6,25 @@ import { IconName, IconVariation } from '@assets/icons/iconMap/types'
 import { Container, TouchableContainer } from './styles'
 import { icons } from '@assets/icons/iconMap'
 
-interface IconComponentProps{
-    iconName: IconName
-    iconVariation?: IconVariation
-    relativeWidth?: number | string
-    relativeHeight?: number | string
+interface IconComponentProps {
+	iconName: IconName
+	iconVariation?: IconVariation
+	relativeWidth?: number | string
+	relativeHeight?: number | string
 	activeOpacity?: number
-    onPress?: () => void
+	onPress?: () => void
 }
 
 function IconComponent({ iconName, iconVariation = 'default', relativeWidth = 20, relativeHeight, activeOpacity = 0.5, onPress }: IconComponentProps) {
+	if (!iconName) {
+		console.warn('Nome do ícone não encontrado')
+		return null
+	}
+
 	const Icon: FC<SvgProps> | undefined = icons[iconName][iconVariation]
 
 	if (!Icon) {
-		console.warn('ícone não encontrado')
+		console.warn('Icone ou variação não encontrados')
 		return null
 	}
 

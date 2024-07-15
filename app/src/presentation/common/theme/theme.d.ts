@@ -70,6 +70,7 @@ declare module 'styled-components' {
 			black: Tonality
 			orange: Tonality
 			purple: Tonality
+			blue: Tonality
 			red: Tonality
 			pink: Tonality
 			yellow: Tonality
@@ -101,6 +102,7 @@ declare module 'styled-components' {
 				2: number
 				3: number
 				4: number
+				5: number
 			}
 
 			nunito: {

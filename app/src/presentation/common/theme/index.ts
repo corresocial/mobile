@@ -86,6 +86,12 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 			3: '#FF599E',
 			4: '#D9005A',
 		},
+		blue: {
+			1: '#B2E5FF',
+			2: '#66CCFF',
+			3: '#1AB2FF',
+			4: '#0080BF',
+		},
 		purple: {
 			1: '#F2CCFF',
 			2: '#E699FF',
@@ -130,7 +136,8 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 			1: relativeScreenDensity(10),
 			2: relativeScreenDensity(12),
 			3: relativeScreenDensity(14),
-			4: relativeScreenDensity(18)
+			4: relativeScreenDensity(16),
+			5: relativeScreenDensity(18)
 		},
 		nunito: {
 			1: relativeScreenDensity(10),

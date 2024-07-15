@@ -2,15 +2,17 @@ import { FC } from "react";
 import { SvgProps } from "react-native-svg";
 
 export type IconVariation = 'default' | 'outlined' | 'white'
-export type IconName = 'x' | 'check' | 'arrowRight' | 'arrowLeft'
+export type IconName = 'x' | 'check' | 'description' | 'cash' | 'clip' | 'colorPalet' | 'clock' |
+	'calendarEveryday' | 'books' | 'pin' | 'handOnPerson' | 'computerAndPhone' | 'exchange' | 'chat' |
+	'mapPoint' | 'arrowRight' | 'arrowLeft'
 
 export type Icon = {
-    default: FC<SvgProps>
-    outlined?: FC<SvgProps>
-    white?: FC<SvgProps>
+	default: FC<SvgProps>
+	outlined?: FC<SvgProps>
+	white?: FC<SvgProps>
 }
 
 export type IconMap = {
-    [key in IconName]: Icon;
+	[key in IconName]: Icon;
 }
 

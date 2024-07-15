@@ -1,33 +1,78 @@
-import React from 'react'
-import { StatusBar, ViewStyle } from 'react-native'
+import React, { ReactNode } from 'react'
+import { StatusBar } from 'react-native'
 
-import { Container, SafeAreaViewContainer } from './styles'
+import { Container, FirstSection, SafeAreaViewContainer, SecondSection, ThirdSection } from './styles'
+
+export type ScreenContainerTones = 'white' | 'white' | 'orange' | 'blue' | 'purple' | 'pink' | 'green'
 
 interface ScreenContainerProps {
-	children: React.ReactElement | React.ReactElement[]
+	children?: React.ReactElement | React.ReactElement[]
+	firstSection?: ReactNode
+	secondSection?: ReactNode
+	thirdSecton?: ReactNode
+	tone?: ScreenContainerTones
+	enableScreenPadding?: boolean
+	enableSectionPadding?: boolean
 	topSafeAreaColor?: string
 	bottomSafeAreaColor?: string
-	justifyContent?: ViewStyle['justifyContent']
-	alignItems?: ViewStyle['alignItems']
 	withPadding?: boolean
 	infinityBottom?: boolean
 }
 
+/** Este componente não aceita `children` e `componentes de section` ao mesmo tempo */
 function ScreenContainer({ ...props }: ScreenContainerProps) {
 	return (
 		<>
-			<SafeAreaViewContainer safeAreaColor={props.topSafeAreaColor} withoutFlex />
+			<SafeAreaViewContainer
+				safeAreaColor={props.topSafeAreaColor}
+				tone={props.tone}
+				withoutFlex
+			/>
 			{
 				!props.infinityBottom
 					? (
 						<SafeAreaViewContainer safeAreaColor={props.bottomSafeAreaColor}>
 							<StatusBar backgroundColor={props.topSafeAreaColor} />
 							<Container
-								justifyContent={props.justifyContent}
-								alignItems={props.alignItems}
-								withPadding={!!props.withPadding}
+								withPadding={!!props.enableScreenPadding}
 							>
-								{props.children}
+								{
+									props.firstSection && !props.children && (
+										<FirstSection
+											tone={props.tone}
+											withPadding={!!props.enableSectionPadding}
+										>
+											{props.firstSection}
+										</FirstSection>
+									)
+								}
+								{
+									props.secondSection && !props.children && (
+										<SecondSection
+											tone={props.tone}
+											withPadding={!!props.enableSectionPadding}
+										>
+											{props.secondSection}
+										</SecondSection>
+									)
+								}
+								{
+									props.thirdSecton && !props.children && (
+										<ThirdSection
+											tone={props.tone}
+											withPadding={!!props.enableSectionPadding}
+										>
+											{props.thirdSecton}
+										</ThirdSection>
+									)
+								}
+								{
+									!(props.firstSection
+										&& props.secondSection
+										&& props.thirdSecton) && props.children && (
+										props.children
+									)
+								}
 							</Container>
 						</SafeAreaViewContainer>
 					)
@@ -35,11 +80,45 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 						<>
 							<StatusBar backgroundColor={props.topSafeAreaColor} />
 							<Container
-								justifyContent={props.justifyContent}
-								alignItems={props.alignItems}
-								withPadding={!!props.withPadding}
+								withPadding={!!props.enableScreenPadding}
 							>
-								{props.children}
+								{
+									props.firstSection && !props.children && (
+										<FirstSection
+											tone={props.tone}
+											withPadding={!!props.enableSectionPadding}
+										>
+											{props.firstSection}
+										</FirstSection>
+									)
+								}
+								{
+									props.secondSection && !props.children && (
+										<SecondSection
+											tone={props.tone}
+											withPadding={!!props.enableSectionPadding}
+										>
+											{props.secondSection}
+										</SecondSection>
+									)
+								}
+								{
+									props.thirdSecton && !props.children && (
+										<ThirdSection
+											tone={props.tone}
+											withPadding={!!props.enableSectionPadding}
+										>
+											{props.thirdSecton}
+										</ThirdSection>
+									)
+								}
+								{
+									!(props.firstSection
+										&& props.secondSection
+										&& props.thirdSecton) && props.children && (
+										props.children
+									)
+								}
 							</Container>
 						</>
 					)
@@ -49,9 +128,9 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 }
 
 ScreenContainer.defaultProps = {
-	topSafeAreaColor: 'white',
-	justifyContent: 'space-between',
-	alignItems: 'center',
+	tone: 'default',
+	enableScreenPadding: false,
+	enableSectionPadding: false,
 	withPadding: false
 }
 

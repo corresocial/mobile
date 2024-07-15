@@ -29,7 +29,7 @@ export const ButtonArea = styled.View`
 `
 
 export const Title = styled.Text`
-    font-family: Arvo_700Bold;
+    font-family: Arvo_700Bold; // CURRENT Importar com theme
     font-size: ${(relativeScreenDensity(18))}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

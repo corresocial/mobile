@@ -330,8 +330,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon/></TouchableOpacity>}
-					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon/></TouchableOpacity>}
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -466,7 +466,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 										showFullscreenIcon
 									/>
 								</TouchableOpacity>
-
 							</>
 						)
 					}
