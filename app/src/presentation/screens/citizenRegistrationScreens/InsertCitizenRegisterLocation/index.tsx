@@ -67,7 +67,7 @@ function InsertCitizenRegisterLocation({ route, navigation }: InsertCitizenRegis
 		console.log(currentLocation)
 		if (currentLocation) return currentLocation.coordinates
 
-		// return { latitude: 11, longitude: 11 }
+		return { latitude: -23.311682, longitude: -51.154543 }
 	}
 
 	return (
