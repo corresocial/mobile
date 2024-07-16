@@ -115,6 +115,11 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					flex: 1,
 					height: relativeScreenDensity(50)
 				},
+				tabBarIconStyle: {
+					overflow: 'hidden',
+					height: relativeScreenDensity(50),
+					width: '100%'
+				},
 				tabBarBadgeStyle: {
 					borderRadius: 5,
 					backgroundColor: theme.pink3,
