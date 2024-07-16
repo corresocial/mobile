@@ -14,13 +14,15 @@ import {
 	RightAreaLimits,
 	SaleValueContainer,
 	SaleValueContainerInner,
-	SidePicture,
+	SideMedia,
 	Title,
 	TitleContainer,
-	WaitingApproveIconContainer
+	WaitingApproveIconContainer,
+	VideoIconContainer
 } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -29,10 +31,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 
-const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { formatRelativeDate, arrayIsEmpty, checkMediaType } = UiUtils()
 
 interface PostCardProps {
-	post: PostEntity | any // TODO Type
+	post: PostEntity
 	owner: UserOwner
 	isOwner: boolean
 	navigateToProfile?: (userId: string) => void
@@ -82,7 +84,19 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		return owner.profilePictureUrl[0]
 	}
 
-	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
+	function hasPictures(): boolean {
+		return !arrayIsEmpty(post.picturesUrl)
+	}
+
+	function hasVideos(): boolean {
+		return !arrayIsEmpty(post.videosUrl)
+	}
+
+	function hasMedia(): boolean {
+		return hasPictures() || hasVideos()
+	}
+
+	const enableLeftAreaSpacing = () => hasMedia() || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -95,6 +109,12 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 	function releaseButton() {
 		setButtomPressed(false)
 		onPress()
+	}
+
+	function getMediaSource(): string {
+		return post && (
+			(post.videosUrl && post.videosUrl[0])
+			|| (post.picturesUrl && post.picturesUrl[0]))
 	}
 
 	const getRelativeBlurhash = () => {
@@ -119,19 +139,26 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
 				<LeftArea
-					hasPictureOrSaleValue={enableLeftAreaSpacing()}
+					hasMediaOrSaleValue={enableLeftAreaSpacing()}
 					backgroundColor={getRelativeColor(true)}
 				>
 					{
-						<SidePicture
-							hasPicture={!arrayIsEmpty(post.picturesUrl)}
-							source={!arrayIsEmpty(post.picturesUrl) ? { uri: post.picturesUrl[0] } : {}}
-							recyclingKey={!arrayIsEmpty(post.picturesUrl) ? post.picturesUrl[0] : ''}
+						<SideMedia
+							hasMedia={hasMedia()}
+							source={hasMedia() ? { uri: getMediaSource() } : {}}
+							recyclingKey={hasMedia() ? getMediaSource() : ''}
 							placeholder={blurhash}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
 							transition={300}
 						>
+							{
+								checkMediaType(getMediaSource()) === 'video' && (
+									<VideoIconContainer>
+										<VideoCameraIcon />
+									</VideoIconContainer>
+								)
+							}
 							{
 								postData.unapprovedData && isOwner && (
 									<WaitingApproveIconContainer
@@ -165,11 +192,11 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 									</>
 								)
 							}
-						</SidePicture>
+						</SideMedia >
 					}
-				</LeftArea>
+				</LeftArea >
 				<LeftSideLabel style={{ backgroundColor: getRelativeColor() }} />
-				<RightArea hasPictureOrSaleValue={enableLeftAreaSpacing()}>
+				<RightArea hasMediaOrSaleValue={enableLeftAreaSpacing()}>
 					<RightAreaLimits>
 						<TitleContainer>
 							<Title numberOfLines={3}>

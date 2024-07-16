@@ -5,7 +5,7 @@ export default {
 		owner: 'corresocial',
 		scheme: ['com.corresocial.corresocial', 'corre'], // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
-		version: '0.9.0',
+		version: '0.9.1',
 		orientation: 'portrait',
 		userInterfaceStyle: 'light',
 		icon: './assets/icon.png',
@@ -27,6 +27,8 @@ export default {
 			]
 		},
 		plugins: [
+			'react-native-compressor',
+			'expo-av',
 			[
 				'expo-updates',
 				{
@@ -97,7 +99,7 @@ export default {
 		],
 		ios: {
 			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
-			buildNumber: '62',
+			buildNumber: '64',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -119,7 +121,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 63,
+			versionCode: 64,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
@@ -136,7 +138,8 @@ export default {
 				'android.permission.READ_EXTERNAL_STORAGE',
 				'android.permission.USE_FINGERPRINT',
 				'android.permission.FOREGROUND_SERVICE',
-				'android.permission.CAMERA'
+				'android.permission.CAMERA',
+				'android.permission.INTERNET'
 			],
 			config: {
 				googleMaps: {

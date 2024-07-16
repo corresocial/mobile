@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -164,7 +165,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const loadMoreUserPosts = async () => {
 		const loadedPosts = getUserPosts(true)
-		console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
+		// console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
 		if (loadedPosts && loadedPosts.length) {
 			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false)
 		}
@@ -279,7 +280,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 						profilePictureUrl: getProfilePicture() || '',
 					},
 					messages: {},
-				} as Chat
+				} as Chat,
+				via: 'profile'
 			})
 		}, 50)
 	}
@@ -383,7 +385,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			priceId,
 			() => loadRemoteProfileData(false, true)
 		)
-		// user.userId && await loadRemoteProfileData(user.userId)
+
+		sendEvent('user_subscribed', { subscriptionType: 'free', subscriptionRange: plan })
 	}
 
 	const hasAnyVerifiedUser = () => {

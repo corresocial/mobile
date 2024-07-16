@@ -6,7 +6,6 @@ export type AuthRegisterStackParamList = {
 	InsertCellNumber: { newUser?: boolean } | undefined
 	InsertConfirmationCode: undefined
 	InsertName: undefined
-	InsertProfilePicture: undefined
 	ProfilePicturePreview: undefined
 
 	UserStack: { newUser: boolean } | undefined

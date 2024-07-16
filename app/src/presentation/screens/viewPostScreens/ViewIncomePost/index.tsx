@@ -224,7 +224,9 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'income'
 			})
 		}, 50)
 	}
@@ -350,8 +352,8 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon/></TouchableOpacity>}
-					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon/></TouchableOpacity>}
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -445,27 +447,30 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						)
 					}
 					<VerticalSpacing />
-					{!arrayIsEmpty(getPostField('picturesUrl')) && (
-						<>
-							<GalleryModal
-								picturesUrl={getPostField('picturesUrl')}
-								videosUrl={getPostField('videosUrl')}
-								showGallery={galeryIsVisible}
-								onClose={closeGalery}
-							/>
-							<TouchableOpacity
-								activeOpacity={1}
-								onPress={openGallery}
-							>
-								<ImageCarousel
-									picturesUrl={getPostField('picturesUrl') || []}
-									indicatorColor={theme.green1}
-									square
-									showFullscreenIcon
+					{
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
+							<>
+								<GalleryModal
+									picturesUrl={getPostField('picturesUrl')}
+									videosUrl={getPostField('videosUrl')}
+									showGallery={galeryIsVisible}
+									onClose={closeGalery}
 								/>
-							</TouchableOpacity>
-						</>
-					)}
+								<TouchableOpacity
+									activeOpacity={1}
+									onPress={openGallery}
+								>
+									<ImageCarousel
+										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
+										indicatorColor={theme.green1}
+										square
+										showFullscreenIcon
+									/>
+								</TouchableOpacity>
+							</>
+						)
+					}
 
 					{
 						(getPostField('saleValue') || getPostField('exchangeValue')) && (

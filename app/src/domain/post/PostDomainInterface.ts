@@ -15,11 +15,11 @@ interface PostDomainInterface {
 	updatePost(
 		usePostRepository: () => PostRepositoryInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
-		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
-		newPostPicturesUri: string[]
-	): Promise<{ updatedUserPosts: PostEntity[], picturesUrl?: string[] }>
+		newPostPicturesUri: string[],
+		unsavedPostVideos: string[]
+	): Promise<{ newPost: PostEntity, picturesUrl: string[], videosUrl: string[] }>
 	updateOwnerDataOnPosts(
 		usePostRepository: () => PostRepositoryInterface,
 		ownerData: Partial<PostEntityOptional['owner']>
@@ -29,12 +29,11 @@ interface PostDomainInterface {
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
-		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
 		unsavedPostPictures: string[],
 		notifyUsersByLocation?: boolean
-	): Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	): Promise<{ newPost: PostEntity }>
 	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 }

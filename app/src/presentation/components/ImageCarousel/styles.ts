@@ -38,7 +38,7 @@ export const CarouselInactiveIndicatorItem = styled.View<CarouseIndicatorItemPro
 
 export const FullScreenIconContainer = styled.View`
     position: absolute;
-    top: 4%;
-    right: 5%;
+    top: ${RFValue(15)}px;
+	right: ${RFValue(15)}px;
     z-index: 1;
 `

@@ -208,7 +208,9 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'culture'
 			})
 		}, 50)
 	}
@@ -330,8 +332,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon/></TouchableOpacity>}
-					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon/></TouchableOpacity>}
+					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
+					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
 				</UserAndValueContainer>
 				<VerticalSpacing />
 				<OptionsArea>
@@ -447,7 +449,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					}
 					<VerticalSpacing />
 					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
 							<>
 								<GalleryModal
 									picturesUrl={getPostField('picturesUrl')}
@@ -461,12 +463,12 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								>
 									<ImageCarousel
 										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
 										indicatorColor={theme.blue1}
 										square
 										showFullscreenIcon
 									/>
 								</TouchableOpacity>
-
 							</>
 						)
 					}
