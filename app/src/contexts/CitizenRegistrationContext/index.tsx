@@ -17,7 +17,8 @@ const citizenUseCases = new CitizenRegisterUseCases()
 const initialCitizenRegisterIdentifier: CitizenRegistrationIdentifier = {
 	cellNumber: '',
 	name: '',
-	citizenHasAccount: false
+	citizenHasAccount: false,
+	location: {} as CitizenRegistrationIdentifier['location']
 }
 
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {

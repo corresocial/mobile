@@ -33,7 +33,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 
 	const validateName = (text: string) => {
 		try {
-			const validName = new citizenRegisterModel.UserName(text, true).value
+			const validName = new citizenRegisterModel.UserName(text).value
 			return !!(validName && !keyboardOpened)
 		} catch (error) {
 			return false
@@ -42,7 +42,7 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 
 	const saveName = async (inputText: string) => {
 		try {
-			const validName = new citizenRegisterModel.UserName(inputText, true).value
+			const validName = new citizenRegisterModel.UserName(inputText).value
 			saveCitizenRegistrationIdentifier({ name: validName })
 			startCitizenQuestionary()
 		} catch (error) {
@@ -75,8 +75,8 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 				initialValue={citizenRegistrationIdentifier.name}
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
-				customTitle={'2 - Como você se chama?'}
-				customHighlight={['2', 'Como', 'completo?']}
+				customTitle={'2 - Qual é o seu nome?'}
+				customHighlight={['2', 'nome?']}
 				inputPlaceholder={'escreva seu nome aqui...'}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateName}

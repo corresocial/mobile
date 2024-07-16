@@ -13,6 +13,7 @@ export type InsertBinaryResponseScreenProps = NativeStackScreenProps<CitizenRegi
 export type InsertSatisfactionResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertSatisfactionResponse'>
 export type InsertTextualResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertTextualResponse'>
 export type InsertSelectResponseScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertSelectResponse'>
+export type InsertCitizenRegisterLocationScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'InsertCitizenRegisterLocation'>
 export type FinishCitizenRegistrationScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'FinishCitizenRegistration'>
 
 export type WhoWeAreScreenProps = NativeStackScreenProps<CitizenRegistrationStackParamList, 'WhoWeAre'>

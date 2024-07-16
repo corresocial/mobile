@@ -46,7 +46,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '7',
-				question: 'Qual é o seu Estado civil?',
+				question: 'Qual é o seu Estado Civil?',
 				response: '',
 				questionType: 'select',
 				options: [
@@ -58,7 +58,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '8',
-				question: 'Indique sua escolaridade:',
+				question: 'Indique a sua escolaridade:',
 				response: '',
 				questionType: 'select',
 				options: [
@@ -231,7 +231,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '21',
-				question: 'Em qual área você gostaria de trabalhar?',
+				question: 'Em qual área você gostaria de trabalhar? (Escolha apenas uma opção)',
 				response: '',
 				questionType: 'select',
 				allowOtherOptions: true,
@@ -256,13 +256,13 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '22',
-				question: 'Você ou alguém da sua família já participou de programas de capacitação profissional ou de acesso ao mercado de trabalho nos últimos 2 anos?',
+				question: 'Você ou alguém da sua família já participou de algum curso profissionalizante nos últimos anos?',
 				response: '',
 				questionType: 'binary'
 			},
 			{
 				questionId: '23',
-				question: 'Se sim, qual foi o principal aprendizado que teve com a participação nesses programas? (Marque todas as que se aplicam)',
+				question: 'Se sim, qual foi o principal aprendizado que teve com a participação nesse curso? (Marque todas as que se aplicam)',
 				response: '',
 				questionType: 'select',
 				allowOtherOptions: true,
@@ -300,7 +300,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '26',
-				question: 'Se sim, qual seria a sua disponibilidade para fazer cursos ou trabalhar? (Marque todas que se aplicam)',
+				question: 'Se sim, qual seria a sua disponibilidade para fazer cursos? (Marque todas que se aplicam)',
 				response: '',
 				questionType: 'select',
 				optional: true,
@@ -320,13 +320,13 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '28',
-				question: 'Atualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo Federal, Estadual e/ou da prefeitura?',
+				question: 'AtuaAtualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo Federal, Estadual e/ou da prefeitura?',
 				response: '',
 				questionType: 'binary'
 			},
 			{
 				questionId: '29',
-				question: 'Se sim, qual/Quais?',
+				question: 'Se sim, qual/quais?',
 				response: '',
 				questionType: 'select',
 				multiSelect: true,
