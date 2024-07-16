@@ -113,10 +113,11 @@ const ObservationsBottomSheet = forwardRef(({
 		<BottomSheetModal
 			ref={bottomSheetModalRef}
 			index={0}
-			snapPoints={[relativeScreenHeight(50), relativeScreenHeight(80)]}
+			snapPoints={[relativeScreenHeight(50), relativeScreenHeight(85)]}
 			handleComponent={renderCustomHeader}
 			backgroundStyle={bottomSheetBackgroundStyle}
 			backdropComponent={getBackgropBottomSheet}
+			enableContentPanningGesture={false}
 		>
 			<BottomSheetView>
 				<BottomSheetViewContainer>
@@ -138,6 +139,7 @@ const ObservationsBottomSheet = forwardRef(({
 					</InputsContainer>
 					<ObservationsFlatList
 						data={observations}
+						nestedScrollEnabled
 						renderItem={renderObservationCard as ListRenderItem<unknown>}
 						ListHeaderComponent={<VerticalSpacing height={2} />}
 						ItemSeparatorComponent={() => <VerticalSpacing />}
