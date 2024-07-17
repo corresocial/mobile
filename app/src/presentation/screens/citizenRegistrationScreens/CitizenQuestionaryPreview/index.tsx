@@ -80,7 +80,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const deleteCitizenRegister = async (registerId?: string) => {
 		try {
 			if (!registerIsStored) {
-				citizenUseCases.removeCitizenRegistrationInProgress()
+				await citizenUseCases.removeCitizenRegistrationInProgress()
 				startNewCitizenRegistration()
 				return
 			}
