@@ -49,7 +49,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	}, [])
 
 	const startNewCitizenRegistration = async () => {
-		console.log('Um novo cadastro foi iniciado!')
+		console.log('[citizenRegister]: Um novo cadastro foi iniciado!')
 
 		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
 
