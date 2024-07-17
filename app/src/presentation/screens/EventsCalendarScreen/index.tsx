@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
+import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks } from 'date-fns'
 
 import { CultureEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 
-import { Visualizations } from './types'
+import { Direction, Visualizations } from './types'
 import { EventsCalendarScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
+import { formatDate, formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
 
 import { BottomNavigator, EventsContainer, EventsFlatList, FlatListBottomPadding } from './styles'
 import { theme } from '@common/theme'
@@ -31,14 +32,38 @@ const { getWeekdayName, getMonthName } = useUtils()
 function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) {
 	const [events, setEvents] = useState<any[]>()
 	const [visualization, setVisualization] = useState<Visualizations>('day')
-	const [weekDaySelected, setWeekDaySelected] = useState<number>(new Date().getDay())
-	const [daySelected, setDaySelected] = useState<number>(new Date().getDate())
-	const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth())
-	const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear())
+	const [currentDate, setCurrentDate] = useState<Date>(new Date(2024, 6, 20))
 
 	useEffect(() => {
 		getPosts()
 	}, [])
+
+	const paginatorHandler = (direction: Direction) => {
+		let newCurrentDate = currentDate
+
+		switch (visualization) {
+			case 'day': {
+				newCurrentDate = direction === 'next'
+					? addDays(currentDate, 1)
+					: subDays(currentDate, 1)
+				break
+			}
+			case 'week': {
+				newCurrentDate = direction === 'next'
+					? addWeeks(currentDate, 1)
+					: subWeeks(currentDate, 1)
+				break
+			}
+			case 'month': {
+				newCurrentDate = direction === 'next'
+					? addMonths(currentDate, 1)
+					: subMonths(currentDate, 1)
+				break
+			}
+		}
+
+		setCurrentDate(newCurrentDate)
+	}
 
 	const getPosts = async () => {
 		const fetchedEvents = await getEventPosts(usePostRepository, 'event', 10, null, true)
@@ -46,8 +71,6 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 	}
 
 	const getFilteredEvents = (): any[] => {
-		const currentDate = new Date(daySelected, monthSelected, yearSelected)
-
 		switch (visualization) {
 			case 'day': return separateEventsByHour(getEventsByDay())
 			case 'month': return getEventsByDay()
@@ -56,7 +79,6 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 	}
 
 	const getEventsByDay = () => {
-		const currentDate = new Date(new Date().setDate(20))
 		const auxDate = currentDate
 		const startInMs = new Date(auxDate.setHours(0, 0, 0, 0)).getTime()
 		const endInMs = new Date(auxDate.setHours(23, 59, 59, 999)).getTime()
@@ -113,6 +135,22 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 		}
 	}
 
+	const getPaginatorSubtitle = () => {
+		switch (visualization) {
+			case 'day': return `${getMonthName(currentDate.getMonth())} ${currentDate.getDate()} - ${getWeekdayName(currentDate.getDay())}`
+			case 'week': return 'Semana'
+			case 'month': return 'Mês'
+		}
+	}
+
+	const getPaginatorItem = (direction: Direction) => {
+		switch (visualization) {
+			case 'day': return `${direction === 'next' ? addDays(currentDate, 1).getDate() : subDays(currentDate, 1).getDate()}`
+			case 'week': return 'Semana'
+			case 'month': return 'Mês'
+		}
+	}
+
 	const renderEventCard = ({ item, index }: FlatListItem<any>) => { // CURRENT Type
 		if (!item.postId) {
 			return <InfoDivider title={getDividerTitle(item.date)} subTitle={`${item.numberOfEvents} eventos`} />
@@ -134,11 +172,12 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 			secondSection={(
 				<PaginatorHeader
 					title={getVisualizationLabel()}
-					subTitle={`${getMonthName(monthSelected)} ${daySelected} - ${getWeekdayName(weekDaySelected)}`}
-					highlitedWords={[`${getMonthName(monthSelected)}`, `${daySelected}`]}
-					onNext={() => console.log('pressed next')}
-					onPrev={() => console.log('pressed prev')}
-					value={daySelected}
+					subTitle={getPaginatorSubtitle()}
+					highlitedWords={[`${getMonthName(currentDate.getMonth())}`, `${currentDate.getDate()}`]}
+					onNext={() => paginatorHandler('next')}
+					onPrev={() => paginatorHandler('prev')}
+					previousItem={getPaginatorItem('prev')}
+					nextItem={getPaginatorItem('next')}
 				/>
 			)}
 			thirdSecton={(

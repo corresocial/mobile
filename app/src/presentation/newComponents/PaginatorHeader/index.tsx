@@ -6,7 +6,7 @@ import { theme } from '@common/theme'
 
 import { StandardButton } from '@newComponents/StandardButton'
 
-interface PaginatorHeaderProps{
+interface PaginatorHeaderProps {
 	color?: string
 	title: string
 	value?: number
@@ -31,11 +31,11 @@ function PaginatorHeader({ color = 'transparent', title, value, previousItem, ne
 		<Container color={color}>
 			<ButtonContainer>
 				<StandardButton
-					text={`${getNextItem() ?? nextItem}`}
+					text={`${getPreviousItem() ?? previousItem}`}
 					heightPreset={'small'}
 					backgroundColor={theme.colors.white[3]}
 					icon={'arrowLeft'}
-					onPress={onNext}
+					onPress={onPrev}
 				/>
 			</ButtonContainer>
 			<InfoContainer>
@@ -50,12 +50,12 @@ function PaginatorHeader({ color = 'transparent', title, value, previousItem, ne
 			</InfoContainer>
 			<ButtonContainer>
 				<StandardButton
-					text={`${getPreviousItem() ?? nextItem}`}
+					text={`${getNextItem() ?? nextItem}`}
 					heightPreset={'small'}
 					backgroundColor={theme.colors.white[3]}
 					reversed
 					icon={'arrowRight'}
-					onPress={onPrev}
+					onPress={onNext}
 				/>
 			</ButtonContainer>
 		</Container>

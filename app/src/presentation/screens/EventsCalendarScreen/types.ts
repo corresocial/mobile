@@ -5,3 +5,5 @@ export type Divider = {
 	numberOfEvents: number
 	button?: boolean
 }
+
+export type Direction = 'next' | 'prev'
