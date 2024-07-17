@@ -286,7 +286,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Trabalho com carteira assinada',
 					'Curso profissionalizante',
 					'Concluir os estudos básicos (ensino fundamental e médio)',
-					'Acesso a programas de capacitação e qualificação profissional',
+					'Cursinho pré-vestibular',
 					'Acesso a programas de apoio ao empreendedorismo',
 					'Acesso a programas de moradia popular',
 					'Outros (especificar)'
