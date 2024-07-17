@@ -24,4 +24,5 @@ export type CultureStackParamList = {
 	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
 	EditCulturePostReview: { postData: CultureEntity, approvedPostData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EventsCalendar: undefined
 } & UserStackParamList
