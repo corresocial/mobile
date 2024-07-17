@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
 
-import { Container, InnerContainer } from './styles'
+import { PostEntity } from '@domain/post/entity/types'
+
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
+
+import { Container, EventDataContainer, ImageContainer, InnerContainer, PostDescription, PostDescriptionContainer, OwnerDataContainer, OwnerProfilePicture, OwnerTextGroup, OwnerName, PostDate, PostImage, PriceLabel } from './styles'
+
+const { formatRelativeDate } = UiUtils()
 
 interface EventCardProps{
-	postData: object // temporary
+	// post: PostEntity
+	post: any
 	colapsed?: boolean
 	onPress?: () => void
 }
 
-function EventCard({ postData, colapsed, onPress }: EventCardProps) {
+function EventCard({ post, colapsed = false, onPress }: EventCardProps) {
 	const [buttonPressed, setButtonPressed] = useState(false)
 
 	const pressingButton = () => {
@@ -24,15 +32,40 @@ function EventCard({ postData, colapsed, onPress }: EventCardProps) {
 		onPress?.()
 	}
 
+	const getOwnerPicture = (): string => {
+		return 'eee'
+		// return post.owner.profilePictureUrl?.[0] || defaultUserProfilePicture
+	}
+
 	return (
 		<Container
 			activeOpacity={1}
 			onPressIn={pressingButton}
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
+			colapsed={colapsed}
 		>
-			<InnerContainer buttonPressed={buttonPressed}>
-
+			<InnerContainer colapsed={colapsed} buttonPressed={buttonPressed}>
+				<ImageContainer hasImage={!!post.picturesUrl?.[0]} colapsed={colapsed}>
+					{ post.picturesUrl?.[0] && <PostImage resizeMode={'cover'} source={{ uri: post.picturesUrl?.[0] }}/> }
+					{ !colapsed && <PriceLabel hasImage={!!post.picturesUrl?.[0]}>{'gratuito'}</PriceLabel> }
+				</ImageContainer>
+				<EventDataContainer colapsed={colapsed}>
+					<PostDescriptionContainer colapsed={colapsed}>
+						<PostDescription colapsed={colapsed} numberOfLines={colapsed && post.picturesUrl?.[0] ? 5 : 2}>{post.description}</PostDescription>
+					</PostDescriptionContainer>
+					{
+						!colapsed && (
+							<OwnerDataContainer>
+								<OwnerProfilePicture source={{ uri: getOwnerPicture() }}/>
+								<OwnerTextGroup>
+									<OwnerName>{'eu'}</OwnerName>
+									<PostDate>{`postado em ${formatRelativeDate(post.createdAt)}`}</PostDate>
+								</OwnerTextGroup>
+							</OwnerDataContainer>
+						)
+					}
+				</EventDataContainer>
 			</InnerContainer>
 		</Container>
 	)
