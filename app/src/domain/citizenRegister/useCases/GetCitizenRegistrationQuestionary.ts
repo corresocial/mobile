@@ -320,7 +320,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			},
 			{
 				questionId: '28',
-				question: 'AtuaAtualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo Federal, Estadual e/ou da prefeitura?',
+				question: 'Atualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo Federal, Estadual e/ou da prefeitura?',
 				response: '',
 				questionType: 'binary'
 			},
@@ -404,7 +404,8 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 				allowOtherOptions: true,
 				multiSelect: false,
 				options: [
-					'Comprometimento da renda',
+					'Preço da passagem',
+					'Preço da gasolina',
 					'Falta de infraestrutura para pedestres e ciclistas',
 					'Falta de linhas no transporte público (trajeto ou horários)',
 					'Falta de segurança',
