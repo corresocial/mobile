@@ -3,6 +3,7 @@ import { UserSubscription } from '@domain/user/entity/types'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity, PostEntityOptional } from './entity/types'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
@@ -37,6 +38,8 @@ interface PostDomainInterface {
 	): Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
 	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
+
+	getEventPosts(usePostRepository: () => PostRepositoryInterface, macroCategory: MacroCategoriesType, maxDocs: number, lastDoc: PostEntity | null, allPosts: boolean): Promise<PostEntity[]>
 }
 
 export { PostDomainInterface }

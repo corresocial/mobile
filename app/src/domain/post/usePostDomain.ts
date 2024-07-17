@@ -1,4 +1,5 @@
 import { approvePostDM } from './methods/approvePostDM'
+import { getEventPosts } from './methods/getEventPosts'
 import { getPostsByOwnerDM } from './methods/getPostsByOwnerDM'
 import { getUnapprovedPostsDM } from './methods/getUnapprovedPostsDM'
 import { rejectPostDM } from './methods/rejectPostDM'
@@ -20,7 +21,9 @@ function usePostDomain(): PostDomainInterface {
 		rejectPost: rejectPostDM,
 
 		updatePost: updatePostDM,
-		updateLocationDataOnPosts: updateLocationDataOnPostsDM
+		updateLocationDataOnPosts: updateLocationDataOnPostsDM,
+
+		getEventPosts: getEventPosts
 	}
 }
 

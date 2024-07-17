@@ -1,5 +1,7 @@
 import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
+
 import { StorageFolder } from './remoteStorage/uploadPostMedias'
 
 interface PostRepositoryInterface {
@@ -18,6 +20,7 @@ interface PostRepositoryInterface {
 		getPostsByUser(userId: string, maxDocs?: number, lastDoc?: PostEntity | null, completed?: boolean, allPosts?: boolean): Promise<PostEntity[]>
 		getPostIdsByUser(userId: string): Promise<string[]>
 		getUnapprovedPosts(maxDocs?: number, lastDoc?: PostEntity | any): Promise<PostEntity[]>
+		getPostsByMacroCategory: (macroCategory: MacroCategoriesType, maxDocs: number, lastDoc: PostEntity | null, allPosts: boolean) => Promise<PostEntity[]>
 
 		createPost: (post: PostEntityOptional) => Promise<PostEntity | null>
 		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
