@@ -8,6 +8,7 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertLinkValueScreenProps } from '@routes/Stack/ProfileStack/screenProps'
@@ -24,14 +25,16 @@ import { HeaderLinkCard } from '@components/_cards/HeaderLinkCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { Loader } from '@components/Loader'
 
 const { updateUserRepository } = useUserDomain()
 
-const { getArrayObjectDifferences } = useUtils()
+const { getArrayObjectDifferences, mergeArraysByKey } = useUtils()
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
+	const { showWaitingApproveModal } = useAlertContext()
 
 	const initialLinkValue = route.params.socialMedia ? route.params.socialMedia.link.replace(socialMediaUrl(route.params.socialMedia.title, ''), '') : ''
 
@@ -79,7 +82,10 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 		try {
 			const socialMediaData = await getSocialMediaData()
-			console.log(socialMediaData)
+
+			if (userDataContext.unapprovedData && userDataContext.unapprovedData.socialMedias && userDataContext.unapprovedData.socialMedias.length) {
+				socialMediaData.socialMedias = mergeArraysByKey(socialMediaData.socialMedias, userDataContext.unapprovedData.socialMedias, 'title') as SocialMedia[]
+			}
 
 			if (!(getArrayObjectDifferences(userDataContext.socialMedias || [], socialMediaData.socialMedias) || []).length) {
 				return navigation.navigate('SocialMediaManagement', { isAuthor: true })
@@ -88,10 +94,11 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			await updateUserRepository(
 				useUserRepository,
 				userDataContext,
-				{ unapprovedData: socialMediaData }
+				{ unapprovedData: { socialMedias: mergeArraysByKey(userDataContext.unapprovedData?.socialMedias || [], [{ title: route.params.socialMedia.title, link: linkValue } as SocialMedia] || [], 'title') as SocialMedia[] } }
 			)
-			setUserDataOnContext({ unapprovedData: socialMediaData })
 
+			setUserDataOnContext({ unapprovedData: socialMediaData })
+			showWaitingApproveModal()
 			navigation.navigate('SocialMediaManagement', { isAuthor: true })
 		} catch (err) {
 			console.log(err)
@@ -147,6 +154,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
+				justifyContent={'space-between'}
 				backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2}
 			>
 				<BackButton onPress={navigateBackwards} />
@@ -156,6 +164,14 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						value={invalidLinkValueAfterSubmit ? 'insira um link válido' : isDefaultSocialMedia(route.params.socialMedia.title) ? 'cola o seu @ aí pra gente' : 'cola o seu link aí pra gente'}
 					/>
 				</HeaderLinkCardContainer>
+				<HorizontalSpacing />
+				{/* <SmallButton
+					relativeWidth={relativeScreenWidth(11)}
+					height={relativeScreenWidth(11)}
+					color={theme.red3}
+					SvgIcon={TrashWhiteIcon}
+					onPress={'deleteLink'}
+				/> */}
 			</DefaultHeaderContainer>
 			<FormContainer >
 				<InputsContainer>
