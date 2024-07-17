@@ -21,7 +21,7 @@ export const CardHeader = styled.View`
 
 export const TextAddress = styled.Text`
 	font-size: ${relativeScreenDensity(12)}px;
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	padding:${relativeScreenDensity(10)}px;
 `
 
