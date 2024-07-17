@@ -105,8 +105,6 @@ function PostPicturePreview({
 	}
 
 	const mediaBrowserHandler = async (mediaSelected: Asset[]) => {
-		console.log(mediaSelected)
-
 		const currentMedia = mediaSelected.map((media: Asset) => {
 			return { url: media.uri, mediaType: media.mediaType, videoThumbnail: (media as any).videoThumbnail! } as MediaAsset
 		})
@@ -229,8 +227,7 @@ function PostPicturePreview({
 					svgScale={['70%', '70%']}
 				/>
 				<SmallButton
-					// onPress={() => { setCameraOpened(true) }}
-					onPress={() => console.log(mediaPack)}
+					onPress={() => { setCameraOpened(true) }}
 					relativeWidth={relativeScreenWidth(20)}
 					height={relativeScreenWidth(20)}
 					SvgIcon={NewPhotoWhiteIcon}

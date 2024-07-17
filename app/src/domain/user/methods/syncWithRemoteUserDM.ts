@@ -3,7 +3,7 @@ import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 async function syncWithRemoteUserDM(useUserRepository: () => UserRepositoryInterface, userId?: string) {
 	const { localStorage, remoteStorage } = useUserRepository()
 
-	console.log('[user] sync', userId)
+	console.log('[auth]: sync', userId)
 	if (userId) {
 		const currentUser = await remoteStorage.getUserData(userId)
 		if (currentUser && currentUser.userId) {

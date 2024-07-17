@@ -65,9 +65,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const { navigateToHome, navigateToAuthScreen } = useAuthNavigation()
 
 	useEffect(() => {
-		console.log('Sessão inciada!')
+		console.log('[auth]: Sessão inciada!')
 		const unsubscribe = auth.onAuthStateChanged(async (user) => {
-			console.log(user ? 'Usuário logado!' : 'Usuário não logado!')
+			console.log(user ? '[auth]: Usuário logado!' : '[auth]: Usuário não logado!')
 			const hasValidLocalUser = await localStorage.hasValidLocalUser()
 			if (user && hasValidLocalUser) return
 			if (!user) return navigateToAuthScreen()

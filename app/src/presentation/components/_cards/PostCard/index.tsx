@@ -170,7 +170,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 							transition={200}
 						>
 							{
-								checkMediaType(getMediaSource()) === 'video' && (
+								(checkMediaType(getMediaSource()) === 'video' || postCover) && (
 									<VideoIconContainer>
 										<VideoCameraIcon />
 									</VideoIconContainer>

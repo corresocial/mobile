@@ -44,8 +44,6 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	const checkUpdates = async () => {
 		const otaUpdated = await onFetchUpdateAsync()
 		otaUpdated && await checkStoreUpdates()
-
-		console.log('checkUpdates')
 	}
 
 	const checkStoreUpdates = async () => {
