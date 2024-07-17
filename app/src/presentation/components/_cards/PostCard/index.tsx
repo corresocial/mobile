@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
 
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
@@ -43,6 +45,7 @@ interface PostCardProps {
 
 function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }: PostCardProps) {
 	const [post, setPost] = useState<PostEntity | any>(postData)
+	const [postCover, setPostCover] = useState('')
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -50,6 +53,19 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 			setPost({ ...(postData || {}), ...(postData.unapprovedData || {}) } as PostEntity)
 		}
 	}, [postData, isOwner])
+
+	useEffect(() => {
+		hasMedia() && loadThumbnails()
+	}, [])
+
+	const loadThumbnails = async () => {
+		const coverAsset = getMediaSource()
+		const assetIsVideo = checkMediaType(coverAsset) === 'video'
+		if (assetIsVideo && Platform.OS === 'ios') {
+			const thumb = await generateVideoThumbnails(coverAsset || '') as string
+			setPostCover(thumb)
+		}
+	}
 
 	const getRelativeColor = (lightColor?: boolean) => {
 		switch (post.postType) {
@@ -112,9 +128,10 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 	}
 
 	function getMediaSource(): string {
+		if (postCover) return postCover
 		return post && (
-			(post.videosUrl && post.videosUrl[0])
-			|| (post.picturesUrl && post.picturesUrl[0]))
+			(post.picturesUrl && post.picturesUrl[0])
+			|| (post.videosUrl && post.videosUrl[0]))
 	}
 
 	const getRelativeBlurhash = () => {
@@ -150,7 +167,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 							placeholder={blurhash}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
-							transition={300}
+							transition={200}
 						>
 							{
 								checkMediaType(getMediaSource()) === 'video' && (

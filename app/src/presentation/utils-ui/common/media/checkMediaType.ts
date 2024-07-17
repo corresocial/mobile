@@ -1,4 +1,4 @@
-function checkMediaType(uri: string) {
+function checkMediaType(uri: string): 'picture' | 'video' | '' {
 	const picturesExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'bpm']
 	const videoExtensions = ['mp4', 'mov', 'avi', 'mkv', 'webm']
 

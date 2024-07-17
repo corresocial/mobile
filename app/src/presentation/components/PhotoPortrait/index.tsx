@@ -94,7 +94,7 @@ function PhotoPortrait({
 									contentFit={resizeMode}
 									cachePolicy={'memory-disk'}
 									circle={circle}
-								// transition={300}
+								// transition={200}
 								/>
 							)
 							: <Loader flex animationScale={50} />
