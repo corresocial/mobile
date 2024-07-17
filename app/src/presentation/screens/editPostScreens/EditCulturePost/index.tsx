@@ -223,7 +223,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
+					profilePicturesUrl={[...getPicturesUrl()]}
+					videosUrl={[...getVideosUrl()]}
 					indicatorColor={theme.blue1}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}

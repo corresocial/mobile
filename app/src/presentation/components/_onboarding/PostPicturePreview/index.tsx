@@ -29,7 +29,6 @@ import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
 
 const { compressImage, compressVideo } = UiUtils()
-
 interface PostPicturePreviewProps {
 	backgroundColor: string
 	initialValue?: MediaAsset[]
@@ -58,21 +57,23 @@ function PostPicturePreview({
 	const setThumbnailsOnVideos = async () => {
 		const hasVideos = (initialValue || []).find((media) => media && media.mediaType === 'video')
 		if (hasVideos) {
-			console.log('tem vídeos')
 			const newMediaPack = await generateThumb()
 			setMediaPack(newMediaPack)
 		} else {
-			console.log('não tem vídeos')
 			setMediaPack(initialValue || [])
 		}
 	}
 
-	const generateThumb = async () => {
+	const generateThumb = async (customMedia?: MediaAsset[]) => {
 		return Promise.all(
-			mediaPack.map(async (media) => {
+			(customMedia || mediaPack).map(async (media) => {
 				if (media.mediaType === 'video') {
-					const videoThumbnail = await generateVideoThumbnails(media.url) as string
-					return { ...media, videoThumbnail: videoThumbnail }
+					try {
+						const videoThumbnail = await generateVideoThumbnails(media.url) as string
+						return { ...media, videoThumbnail: videoThumbnail }
+					} catch (error) {
+						console.log(error)
+					}
 				}
 				return media
 			})
@@ -81,10 +82,7 @@ function PostPicturePreview({
 
 	const setPictureUri = (uri: string) => {
 		const currentMedia = [...mediaPack]
-		currentMedia.push({
-			url: uri,
-			mediaType: 'photo'
-		})
+		currentMedia.push({ url: uri, mediaType: 'photo' })
 		setMediaPack(currentMedia)
 		setMediaIndexSelected(mediaPack.length)
 	}
@@ -106,12 +104,11 @@ function PostPicturePreview({
 		setImageCropperOpened(false)
 	}
 
-	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
+	const mediaBrowserHandler = async (mediaSelected: Asset[]) => {
+		console.log(mediaSelected)
+
 		const currentMedia = mediaSelected.map((media: Asset) => {
-			return {
-				url: media.uri,
-				mediaType: media.mediaType
-			} as MediaAsset
+			return { url: media.uri, mediaType: media.mediaType, videoThumbnail: (media as any).videoThumbnail! } as MediaAsset
 		})
 
 		setMediaPack([...mediaPack, ...currentMedia])
@@ -148,6 +145,7 @@ function PostPicturePreview({
 			return compressVideo(uri)
 		}))
 	}
+
 	return (
 		<Container>
 			<MediaBrowserModal
@@ -231,7 +229,8 @@ function PostPicturePreview({
 					svgScale={['70%', '70%']}
 				/>
 				<SmallButton
-					onPress={() => { setCameraOpened(true) }}
+					// onPress={() => { setCameraOpened(true) }}
+					onPress={() => console.log(mediaPack)}
 					relativeWidth={relativeScreenWidth(20)}
 					height={relativeScreenWidth(20)}
 					SvgIcon={NewPhotoWhiteIcon}

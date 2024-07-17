@@ -84,7 +84,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 	const getOnlyAlbumsWithPhotos = async (currentAlbums: AlbumType[]) => { // TODO Type
 		const allAlbums = await Promise.all(
 			currentAlbums.map(async (album: AlbumType) => {
-				if (await firstAssetIsPhotoType(album.id)) { // Essa função verifica se há imagens no album, o nome não está muito bom
+				if (await firstAssetIsPhotoType(album.id)) { // Essa função veIrifica se há imagens no album, o nome não está muito bom
 					const [firstAsset] = await getFirstAssetInAlbum(album.id)
 					return { ...album, thumbnail: firstAsset.uri }
 				}
@@ -161,19 +161,30 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 		}, 4000)
 	}
 
-	const assetSelectionHandler = (item: Asset) => {
+	const mediaHasSelected = (item: Asset) => {
+		return !!(mediaSelected.find((asset) => asset.id === item.id))
+	}
+
+	const assetSelectionHandler = async (item: Asset) => {
 		if (item.duration > videoDurationLimit) {
 			invalidDurationPopUp()
 			return
 		}
-		const isItemSelected = mediaSelected.includes(item)
+
+		let customAsset = { ...item }
+		if (Platform.OS === 'ios') {
+			const assetInfo = await MediaLibrary.getAssetInfoAsync(item.id)
+			customAsset = { ...item, uri: assetInfo.localUri, videoThumbnail: item.uri, } as Asset
+		}
+
 		let itemsSelected = []
-		if (isItemSelected) {
-			itemsSelected = mediaSelected.filter((asset) => asset !== item)
+		if (mediaHasSelected(item)) {
+			itemsSelected = mediaSelected.filter((asset) => asset.id !== customAsset.id)
 		} else {
 			if (mediaSelected.length >= maxImages) return
-			itemsSelected = [...mediaSelected, item]
+			itemsSelected = [...mediaSelected, customAsset]
 		}
+
 		setMediaSelected(itemsSelected)
 	}
 
@@ -215,7 +226,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 						data={media}
 						renderItem={({ item }: any) => (
 							<MediaThumbnail
-								active={mediaSelected.includes(item)}
+								active={mediaHasSelected(item)}
 								mediaAsset={item}
 								onSelection={assetSelectionHandler}
 							/>
@@ -228,13 +239,9 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 				{
 
 					isContentLoading && (
-
 						<ActivityIndicatorContainer isLoadingMore={arrayIsEmpty(media)}>
 							<ActivityIndicatorBg>
-								<ActivityIndicator
-									size={'large'}
-									color={theme.orange4}
-								/>
+								<ActivityIndicator size={'large'} color={theme.orange4} />
 							</ActivityIndicatorBg>
 						</ActivityIndicatorContainer>
 					)
@@ -265,12 +272,12 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 				showInvalidDurationText && (
 					<InvalidAssetContainer>
 						<InvalidAssetAlert>
-							<InvalidDurationText>{`Seu vídeo tem mais que ${videoDurationLimit / 60} minutos` }</InvalidDurationText>
+							<InvalidDurationText>{`Seu vídeo tem mais que ${videoDurationLimit / 60} minutos`}</InvalidDurationText>
 						</InvalidAssetAlert>
 					</InvalidAssetContainer>
 				)
 			}
-			
+
 			<StatusBar backgroundColor={theme.white3} />
 			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
 				{

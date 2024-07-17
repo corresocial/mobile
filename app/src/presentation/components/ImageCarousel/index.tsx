@@ -37,7 +37,7 @@ function ImageCarousel({
 	relativeWidth = relativeScreenWidth(94),
 	square,
 	showFullscreenIcon,
-	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'],
+	picturesUrl = [],
 	videosThumbnails = []
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
@@ -65,7 +65,7 @@ function ImageCarousel({
 				pictureUri={url}
 				maxWidth={relativeWidth}
 				resizeMode={'cover'}
-				videoIndicator={checkMediaType(url) === 'video'}
+				videoIndicator={checkMediaType(url) === 'video' || videosThumbnails.includes(url)}
 			/>
 		</View>
 	))
@@ -92,10 +92,7 @@ function ImageCarousel({
 				width={screenWidth}
 				height={relativeScreenHeight(28)}
 				autoPlayInterval={3000}
-				style={{
-					width: '100%',
-					height: '100%'
-				}}
+				style={{ width: '100%', height: '100%' }}
 				loop
 				enabled={(picturesUrl.length + videosThumbnails.length) !== 1}
 				renderItem={({ item, index }) => item}

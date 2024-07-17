@@ -1,5 +1,9 @@
 import { ImageContentFit } from 'expo-image'
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
+import { Platform } from 'react-native'
+
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, DeleteItemArea, EditItemArea, RightBottomIndicatorContainer, NoPhotoContainer, PortraitImage, VideoIndicatorContainer } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
@@ -8,11 +12,13 @@ import EditWhiteIcon from '@assets/icons/edit-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
-import UserShadow from '@assets/imgs/userShadow.jpg'
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { Loader } from '@components/Loader'
+
+const { checkMediaType } = UiUtils()
 
 interface PhotoPortraitProps {
 	width: number | string
@@ -45,6 +51,27 @@ function PhotoPortrait({
 	deleteCurrentPicture,
 	editCurrentPicture
 }: PhotoPortraitProps) {
+	const [videoThumbnail, setVideoUrlThumbnail] = useState('')
+	const [loadingThumbnail, setLoadingThumbnail] = useState(false)
+
+	useLayoutEffect(() => {
+		setThumbnailsOnVideos()
+	}, [])
+
+	const setThumbnailsOnVideos = async () => {
+		if (Platform.OS === 'ios' && checkMediaType(pictureUri) === 'video') {
+			try {
+				setLoadingThumbnail(true)
+				const thumb = await generateVideoThumbnails(pictureUri || '') as string
+				setLoadingThumbnail(false)
+				setVideoUrlThumbnail(thumb)
+			} catch (error) {
+				console.log(error)
+				setLoadingThumbnail(false)
+			}
+		}
+	}
+
 	return (
 		<Container
 			circle={circle}
@@ -57,16 +84,20 @@ function PhotoPortrait({
 			{
 				pictureUri
 					? (
-						<PortraitImage
-							source={{ uri: pictureUri }}
-							recyclingKey={pictureUri}
-							placeholder={UserShadow}
-							placeholderContentFit={'contain'}
-							contentFit={resizeMode}
-							cachePolicy={'memory-disk'}
-							circle={circle}
-							transition={300}
-						/>
+						!loadingThumbnail
+							? (
+								<PortraitImage
+									source={{ uri: videoThumbnail || pictureUri }}
+									recyclingKey={pictureUri}
+									// placeholder={UserShadow} // CURRENT Verificar comportamento na home
+									placeholderContentFit={'contain'}
+									contentFit={resizeMode}
+									cachePolicy={'memory-disk'}
+									circle={circle}
+								// transition={300}
+								/>
+							)
+							: <Loader flex animationScale={50} />
 					)
 					: (
 						<NoPhotoContainer>
