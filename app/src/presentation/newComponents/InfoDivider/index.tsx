@@ -7,7 +7,7 @@ import { StandardButton } from '@newComponents/StandardButton'
 interface InfoDividerProps{
     title: string | number
     subTitle?: string
-	  buttonTitle?: string
+	buttonTitle?: string
     onPress?: () => void
 }
 
