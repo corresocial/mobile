@@ -37,11 +37,11 @@ interface SectionProps extends ContainerProps {
 export const Container = styled.View<ContainerProps>`
     flex: 1;
 	width: 100%;
-    justify-content: space-between;
     align-items: center;
 	overflow: hidden;
 	background-color: ${({ theme }) => theme.white3};
     padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(15) : 0)}px;
+
 `
 
 const SectionCommon = styled.View`
