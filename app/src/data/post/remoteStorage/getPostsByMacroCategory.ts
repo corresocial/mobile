@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
+import { collection, getDocs, orderBy, query, where, Timestamp } from 'firebase/firestore'
 
 import { PostEntity } from '@domain/post/entity/types'
 
@@ -17,15 +17,14 @@ export async function getPostsByMacroCategory(macroCategory: MacroCategoriesType
 		const postsByMacroCategoryQuery = query(
 			collectionRef,
 			where('macroCategory', '==', macroCategory),
-			where('startDate', '>=', start.getTime()),
-			where('startDate', '<=', end.getTime()),
+			where('startDate', '>=', Timestamp.fromDate(start)),
+			where('startDate', '<=', Timestamp.fromDate(end)),
 			orderBy('startDate', 'desc'),
-
 		)
 
-		console.log(start, '<- start')
-		console.log(end, '<- end')
-		console.log(start.getTime, end.getTime(), '<- tests')
+		// console.log(start, '<- start')
+		// console.log(end, '<- end')
+		// console.log(start.getTime(), end.getTime(), '<- tests')
 
 		const postsSnap = await getDocs(postsByMacroCategoryQuery)
 		return postsSnap.docs.map((doc) => ({ postId: doc.id, ...doc.data() } as PostEntity))
