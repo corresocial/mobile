@@ -7,7 +7,7 @@ import { theme } from '@common/theme'
 import { StandardButton } from '@newComponents/StandardButton'
 
 interface PaginatorHeaderProps{
-	color: string
+	color?: string
 	title: string
 	value?: number
 	previousItem?: string
@@ -18,7 +18,7 @@ interface PaginatorHeaderProps{
 	onPrev: () => void
 }
 
-function PaginatorHeader({ color, title, value, previousItem, nextItem, subTitle, highlitedWords, onNext, onPrev }: PaginatorHeaderProps) {
+function PaginatorHeader({ color = 'transparent', title, value, previousItem, nextItem, subTitle, highlitedWords, onNext, onPrev }: PaginatorHeaderProps) {
 	const getPreviousItem = (): number | null => {
 		return value ? value - 1 : null
 	}
