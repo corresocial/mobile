@@ -10,18 +10,18 @@ import { StandardButton } from '@newComponents/StandardButton'
 
 interface ContextHeaderProps{
 	title: string
-	color: string
+	color?: string
 	icon?: IconName
 	onBack?: () => void
 	onClose?: () => void
 }
 
-function ContextHeader({ title, color, icon, onBack, onClose }: ContextHeaderProps) {
+function ContextHeader({ title, color = 'transparent', icon, onBack, onClose }: ContextHeaderProps) {
 	return (
 		<Container color={color}>
 			{ onBack && <StandardButton icon={'arrowLeft'} onPress={onBack}/>}
 			{ onClose && <StandardButton icon={'x'} backgroundColor={theme.colors.red[3]} onPress={onClose}/>}
-			{ icon && <IconComponent iconName={icon}/>}
+			{ icon && <IconComponent relativeWidth={35} relativeHeight={35} iconName={icon}/>}
 			<Title>{title}</Title>
 		</Container>
 	)

@@ -7,11 +7,12 @@ interface ContainerProps{
 }
 
 export const Container = styled.View<ContainerProps>`
+	width: 100%;
 	flex-direction: row;
 	justify-content: start;
 	align-items: center;
 	padding: ${relativeScreenDensity(10)}px;
-	gap: ${relativeScreenWidth(3)}px;
+	gap: ${relativeScreenWidth(2)}px;
 	background-color: ${({ color }) => color};
 `
 
