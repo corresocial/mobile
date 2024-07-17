@@ -15,10 +15,11 @@ interface SelectButtonProps{
     relativeWidth?: number | string
 	relativeHeight?: number | string
     selectionColor?: string
+	manualSelection?: boolean
     onPress: () => void
 }
 
-function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 0, relativeHeight = 50, selectionColor = theme.colors.orange[1], onPress }: SelectButtonProps) {
+function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 0, relativeHeight = 50, selectionColor = theme.colors.orange[1], manualSelection, onPress }: SelectButtonProps) {
 	const [buttonSelected, setButtonSelected] = useState<boolean>(selected)
 
 	const buttonPressHandler = () => {
@@ -28,7 +29,7 @@ function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 
 
 	return (
 		<Container width={relativeWidth} height={relativeHeight} activeOpacity={1} onPress={buttonPressHandler}>
-			<ContainerBackground selectedColor={selectionColor} selected={buttonSelected} reversed={reversed}>
+			<ContainerBackground selectedColor={selectionColor} selected={manualSelection ? selected : buttonSelected} reversed={reversed}>
 				{
 					icon && <IconComponent iconName={icon}/>
 				}
