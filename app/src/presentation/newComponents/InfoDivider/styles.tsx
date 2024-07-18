@@ -22,8 +22,8 @@ export const TextArea = styled.View`
 `
 
 export const ButtonArea = styled.View`
-	background-color:red;
-	width: 40%;
+	width: 35%;
+    flex-direction: row-reverse;
 `
 
 export const Title = styled.Text`

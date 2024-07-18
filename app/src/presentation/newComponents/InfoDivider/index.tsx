@@ -1,17 +1,20 @@
 import React from 'react'
 
+import { IconName } from '@assets/icons/iconMap/types'
+
 import { ButtonArea, Container, DividerView, SubTitle, TextArea, Title } from './styles'
 
 import { StandardButton } from '@newComponents/StandardButton'
 
-interface InfoDividerProps{
-    title: string | number
-    subTitle?: string
+interface InfoDividerProps {
+	title: string | number
+	icon?: IconName
+	subTitle?: string
 	buttonTitle?: string
-    onPress?: () => void
+	onPress?: () => void
 }
 
-function InfoDivider({ title, subTitle, buttonTitle, onPress }: InfoDividerProps) {
+function InfoDivider({ title, icon, subTitle, buttonTitle, onPress }: InfoDividerProps) {
 	return (
 		<Container>
 			<DividerView>
@@ -29,7 +32,16 @@ function InfoDivider({ title, subTitle, buttonTitle, onPress }: InfoDividerProps
 				</TextArea>
 				<ButtonArea>
 					{
-						onPress && <StandardButton heightPreset={'small'} relativeWidth={'90%'} onPress={onPress} icon={'check'} text={buttonTitle ?? undefined}/>
+						onPress && (
+							<StandardButton
+								text={buttonTitle ?? undefined}
+								heightPreset={'small'}
+								relativeWidth={'90%'}
+								icon={icon}
+								reversed
+								onPress={onPress}
+							/>
+						)
 					}
 				</ButtonArea>
 			</DividerView>

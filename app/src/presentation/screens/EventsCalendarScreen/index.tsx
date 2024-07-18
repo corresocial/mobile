@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
-import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks } from 'date-fns'
+import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks, startOfWeek, endOfWeek } from 'date-fns'
 
 import { CultureEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
+import { formatDate } from '@domain/shared/utils/datetime'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 
@@ -31,7 +32,7 @@ const { getWeekdayName, getMonthName } = useUtils()
 
 function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) {
 	const [events, setEvents] = useState<any[]>()
-	const [visualization, setVisualization] = useState<Visualizations>('day')
+	const [visualization, setVisualization] = useState<Visualizations>('week')
 	const [currentDate, setCurrentDate] = useState<Date>(new Date(2024, 6, 20))
 
 	useEffect(() => {
@@ -73,9 +74,38 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 	const getFilteredEvents = (): any[] => {
 		switch (visualization) {
 			case 'day': return separateEventsByHour(getEventsByDay())
+			case 'week': return separateEventsByDay(getEventsByWeek())
 			case 'month': return getEventsByDay()
-			case 'week': return getEventsByDay()
 		}
+	}
+
+	const separateEventsByDay = (weekEvents: CultureEntity[]) => {
+		const groupedEvents = [] as any
+		let auxDay = 0
+
+		weekEvents?.reverse().forEach((event) => {
+			const date = getNewDate(event.startDate)
+			const eventDay = date.getDate()
+
+			if (eventDay > auxDay) {
+				groupedEvents.push({
+					date: new Date(date.setHours(eventDay)),
+					numberOfEvents: getNumberOfPostsByDay(weekEvents, eventDay),
+					buttonAction: () => infoDividerHandler('day', date)
+				})
+				groupedEvents.push(event)
+				auxDay = eventDay
+			} else {
+				groupedEvents.push(event)
+			}
+		})
+
+		return groupedEvents
+	}
+
+	const infoDividerHandler = (calendarVisualization: Visualizations, date: Date) => {
+		setVisualization(calendarVisualization)
+		setCurrentDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
 	}
 
 	const getEventsByDay = () => {
@@ -89,6 +119,19 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 		})
 
 		return eventsByDay
+	}
+
+	const getEventsByWeek = () => {
+		const auxDate = currentDate
+		const startInMs = new Date(startOfWeek(auxDate)).getTime()
+		const endInMs = new Date(endOfWeek(auxDate)).getTime()
+
+		const eventsByWeek = (events || []).filter((event: CultureEntity) => {
+			const eventDate = getNewDate(event.startDate).getTime()
+			return (eventDate > startInMs && eventDate < endInMs)
+		})
+
+		return eventsByWeek
 	}
 
 	const separateEventsByHour = (dayEvents: CultureEntity[]) => {
@@ -119,6 +162,14 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 		}).length
 	}
 
+	const getNumberOfPostsByDay = (dayEvents: CultureEntity[], day: number) => {
+		return dayEvents?.filter((event: CultureEntity) => {
+			const date = getNewDate(event.startDate)
+			const eventHour = date.getDate()
+			return eventHour === day
+		}).length
+	}
+
 	const getVisualizationLabel = (): string => {
 		switch (visualization) {
 			case 'day': return 'Dia'
@@ -130,7 +181,7 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 	const getDividerTitle = (date: Date) => {
 		switch (visualization) {
 			case 'day': return `${formatHour(new Date(date.setMinutes(0)))}h`
-			case 'week': return 'Semana'
+			case 'week': return `${getWeekdayName(date.getDay())} ${formatDate(new Date(date))}`
 			case 'month': return 'Mês'
 		}
 	}
@@ -138,22 +189,30 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 	const getPaginatorSubtitle = () => {
 		switch (visualization) {
 			case 'day': return `${getMonthName(currentDate.getMonth())} ${currentDate.getDate()} - ${getWeekdayName(currentDate.getDay())}`
-			case 'week': return 'Semana'
+			case 'week': return `${getMonthName(currentDate.getMonth())} dia ${startOfWeek(currentDate).getDate()} - ${endOfWeek(currentDate).getDate()}`
 			case 'month': return 'Mês'
 		}
 	}
 
 	const getPaginatorItem = (direction: Direction) => {
 		switch (visualization) {
-			case 'day': return `${direction === 'next' ? addDays(currentDate, 1).getDate() : subDays(currentDate, 1).getDate()}`
-			case 'week': return 'Semana'
+			case 'day': return direction === 'next' ? `${addDays(currentDate, 1).getDate()}` : `${subDays(currentDate, 1).getDate()}`
+			case 'week': return direction === 'next' ? `${startOfWeek(new Date(addWeeks(currentDate, 1))).getDate()} - ${endOfWeek(new Date(addWeeks(currentDate, 1))).getDate()}` : `${startOfWeek(new Date(subWeeks(currentDate, 1))).getDate()} - ${endOfWeek(new Date(subWeeks(currentDate, 1))).getDate()}`
 			case 'month': return 'Mês'
 		}
 	}
 
-	const renderEventCard = ({ item, index }: FlatListItem<any>) => { // CURRENT Type
+	const renderEventCard = ({ item }: FlatListItem<any>) => { // CURRENT Type
 		if (!item.postId) {
-			return <InfoDivider title={getDividerTitle(item.date)} subTitle={`${item.numberOfEvents} eventos`} />
+			return (
+				<InfoDivider
+					title={getDividerTitle(item.date)}
+					subTitle={`${item.numberOfEvents} eventos`}
+					icon={'calendarEveryday'}
+					buttonTitle={'ver dia'}
+					onPress={item.buttonAction ? item.buttonAction : undefined}
+				/>
+			)
 		}
 		return <EventCard post={item} />
 	}

@@ -8,26 +8,25 @@ interface ContainerProps {
 
 export const Container = styled.View<ContainerProps>`
 	height: ${relativeScreenDensity(60)}px;
+	width: 100%;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
 	flex-direction: row;
 	background-color: ${({ color }) => color};
+	padding: 0px ${relativeScreenDensity(10)}px;
+`
+
+export const ButtonContainer = styled.View`
+	height: 100%;
+	width: 22%;
+	justify-content: center;
 `
 
 export const InfoContainer = styled.View`
 	height: 100%;
-	width: 50%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-`
-
-export const ButtonContainer = styled.View`
-	padding: ${relativeScreenDensity(10)}px;
-	height: 100%;
-	width: 25%;
-	align-items: center;
-	justify-content: center;
 `
 
 export const Title = styled.Text`
