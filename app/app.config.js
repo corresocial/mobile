@@ -44,7 +44,7 @@ export default {
 					android: {
 						compileSdkVersion: 34,
 						targetSdkVersion: 34,
-						// buildToolsVersion: '31.0.0',
+						buildToolsVersion: '31.0.0',
 						enableProguardInReleaseBuilds: true,
 						extraProguardRules: '-keep public class com.horcrux.svg.** {*;}'
 					}
