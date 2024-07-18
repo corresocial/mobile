@@ -22,7 +22,7 @@ export const TextArea = styled.View`
 `
 
 export const ButtonArea = styled.View`
-	width: 35%;
+	width: 40%;
     flex-direction: row-reverse;
 `
 

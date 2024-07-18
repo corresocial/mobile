@@ -23,3 +23,11 @@ export const BottomNavigator = styled.View`
 	align-items: center;
 	border-top-width: ${relativeScreenDensity(2.5)}px;
 `
+
+export const ColapsedEventGroup = styled.View`
+	flex-direction: row;
+	width: 100%;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: ${relativeScreenDensity(8)}px 0px;
+`

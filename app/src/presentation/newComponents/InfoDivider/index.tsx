@@ -36,7 +36,6 @@ function InfoDivider({ title, icon, subTitle, buttonTitle, onPress }: InfoDivide
 							<StandardButton
 								text={buttonTitle ?? undefined}
 								heightPreset={'small'}
-								relativeWidth={'90%'}
 								icon={icon}
 								reversed
 								onPress={onPress}

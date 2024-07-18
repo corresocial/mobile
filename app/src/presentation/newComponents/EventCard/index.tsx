@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 
-import { CultureEntity, PostEntity } from '@domain/post/entity/types'
-import { formatDate, formatHour } from '@domain/shared/utils/datetime'
+import { CultureEntity } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
-import { Container, EventDataContainer, ImageContainer, InnerContainer, PostDescription, PostDescriptionContainer, OwnerDataContainer, OwnerProfilePicture, OwnerTextGroup, OwnerName, PostDate, PostImage, PriceLabel } from './styles'
+import { Container, EventDataContainer, ImageContainer, InnerContainer, PostDescription, PostDescriptionContainer, OwnerDataContainer, OwnerProfilePicture, OwnerTextGroup, OwnerName, PostDate, PostImage, PriceLabel, PriceLabelContainer } from './styles'
 
 const { formatRelativeDate } = UiUtils()
 
@@ -47,13 +46,15 @@ function EventCard({ post, colapsed = false, onPress }: EventCardProps) {
 			<InnerContainer colapsed={colapsed} buttonPressed={buttonPressed}>
 				<ImageContainer hasImage={!!post.picturesUrl?.[0]} colapsed={colapsed}>
 					{post.picturesUrl?.[0] && <PostImage resizeMode={'cover'} source={{ uri: post.picturesUrl?.[0] }} />}
-					{!colapsed && <PriceLabel hasImage={!!post.picturesUrl?.[0]}>{post.entryValue ?? 'gratuito'}</PriceLabel>}
+					{!colapsed && (
+						<PriceLabelContainer hasImage={!!post.picturesUrl?.[0]}>
+							<PriceLabel>{post.entryValue ?? 'gratuito'}</PriceLabel>
+						</PriceLabelContainer>
+					)}
 				</ImageContainer>
 				<EventDataContainer colapsed={colapsed}>
 					<PostDescriptionContainer colapsed={colapsed}>
-						<PostDescription colapsed={colapsed} numberOfLines={colapsed && post.picturesUrl?.[0] ? 5 : 2}>{post.description}</PostDescription>
-						<PostDescription colapsed={colapsed} numberOfLines={colapsed && post.picturesUrl?.[0] ? 5 : 2}>{`${formatDate(post.startDate as any)}` || 'data'}</PostDescription>
-						<PostDescription colapsed={colapsed} numberOfLines={colapsed && post.picturesUrl?.[0] ? 5 : 2}>{`${formatHour(post.startDate as any)}` || 'data'}</PostDescription>
+						<PostDescription colapsed={colapsed} numberOfLines={colapsed && !post.picturesUrl?.[0] ? 5 : 2}>{post.description}</PostDescription>
 					</PostDescriptionContainer>
 					{
 						!colapsed && (

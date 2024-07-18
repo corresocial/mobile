@@ -16,7 +16,7 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
 
-import { BottomNavigator, EventsContainer, EventsFlatList } from './styles'
+import { BottomNavigator, ColapsedEventGroup, EventsContainer, EventsFlatList } from './styles'
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -242,8 +242,46 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 		setCurrentDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
 	}
 
-	const renderEventCard = ({ item }: FlatListItem<any>) => { // CURRENT Type
+	const getEventsByWeekCustomized = (date: Date) => {
+		const startInMs = new Date(startOfWeek(date)).getTime()
+		const endInMs = new Date(endOfWeek(date)).getTime()
+
+		const eventsByWeek = (events || []).filter((event: CultureEntity) => {
+			const eventDate = getNewDate(event.startDate).getTime()
+			return (eventDate > startInMs && eventDate < endInMs)
+		})
+
+		return eventsByWeek
+	}
+
+	const renderPostsByWeek = (date: Date) => {
+		const eventsWeek = getEventsByWeekCustomized(date).splice(0, 4)
+		return eventsWeek.map((event) => {
+			return <EventCard post={event} colapsed />
+		})
+	}
+
+	const renderEventCard = ({ item, index }: FlatListItem<any>) => { // CURRENT Type
+		if (visualization === 'month' && item.postId) return
 		if (!item.postId) {
+			if (visualization === 'month') {
+				return (
+					<>
+						<InfoDivider
+							title={getDividerTitle(item.date)}
+							subTitle={`${item.numberOfEvents} eventos`}
+							icon={'calendarEveryday'}
+							buttonTitle={'ver semana'}
+							onPress={item.buttonAction ? item.buttonAction : undefined}
+						/>
+						<VerticalSpacing />
+						<ColapsedEventGroup >
+							{renderPostsByWeek(item.date)}
+						</ColapsedEventGroup >
+					</>
+				)
+			}
+
 			return (
 				<InfoDivider
 					title={getDividerTitle(item.date)}
@@ -254,6 +292,7 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 				/>
 			)
 		}
+
 		return <EventCard post={item} />
 	}
 
@@ -287,7 +326,7 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 							renderItem={renderEventCard as ListRenderItem<unknown>}
 							showsVerticalScrollIndicator={false}
 							ListHeaderComponent={<VerticalSpacing />}
-							ItemSeparatorComponent={() => <VerticalSpacing />}
+							ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}
 							ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 						/>
 					</EventsContainer>

@@ -33,17 +33,17 @@ interface ContainerSurfaceProps {
 
 export const ContainerSurface = styled.TouchableOpacity<ContainerSurfaceProps>`
 	height: 100%;
+	width: 100%;
     align-items: center;
     justify-content: center;
-    width: 100%;
     border: ${relativeScreenDensity(2)}px solid black;
-    position: absolute;
 	right: ${relativeScreenDensity(5)}px;
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
 	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
 	border-radius: ${relativeScreenDensity(17)}px;
 	gap: ${relativeScreenDensity(5)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 interface ButtonTextProps {

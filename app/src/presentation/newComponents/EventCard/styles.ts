@@ -1,21 +1,21 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-interface ContainerProps{
+interface ContainerProps {
 	colapsed: boolean
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-	width: ${({ colapsed }) => (colapsed ? `${relativeScreenHeight(18)}px` : '98%')};
-	height: ${relativeScreenHeight(18)}px;
+	width: ${({ colapsed }) => (colapsed ? `${relativeScreenWidth(44)}px` : '98%')};
+	height: ${relativeScreenWidth(30)}px;
     background-color: ${({ theme }) => theme.black4};
-    border-radius: ${relativeScreenDensity(30)}px;
+    border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
-interface InnerContainerProps{
+interface InnerContainerProps {
 	buttonPressed: boolean
 	colapsed: boolean
 }
@@ -26,49 +26,52 @@ export const InnerContainer = styled.View<InnerContainerProps>`
 	flex-direction: ${({ colapsed }) => (colapsed ? 'column' : 'row')};
 	align-items: center;
 	background-color: ${({ theme }) => theme.colors.blue[3]};
-	margin-left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.7) : 0)}px;
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.colors.black[4]};
-    border-radius: ${relativeScreenDensity(30)}px;
+	margin-left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
+    border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.colors.black[4]};
+    border-radius: ${relativeScreenDensity(25)}px;
     position: absolute;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(2)}px;
+	left: ${-relativeScreenWidth(1.5)}px;
 	gap: ${({ colapsed }) => (colapsed ? relativeScreenWidth(1) : relativeScreenWidth(2))}px;
 `
 
-interface EventDataContainerProps{
+interface EventDataContainerProps {
 	colapsed: boolean
 }
 
 export const EventDataContainer = styled.View<EventDataContainerProps>`
+	flex: 1;
 	height: 100%;
-	width: 72%;
+	width: ${({ colapsed }) => (colapsed ? '100%' : 'auto')};
 	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenWidth(2)}px;
 	flex-direction: column;
-	justify-content: ${({ colapsed }) => (colapsed ? 'start' : 'center')};
-	align-items: start;
+	justify-content: center;
+	align-items: ${({ colapsed }) => (colapsed ? 'center' : 'start')};
 	gap: ${relativeScreenWidth(2)}px;
 `
 
-interface PriceLabelProps{
+interface PriceLabelContainerProps {
 	hasImage: boolean
 }
 
-export const PriceLabel = styled.Text<PriceLabelProps>`
+export const PriceLabelContainer = styled.View<PriceLabelContainerProps>`
 	position: absolute;
 	z-index: 1;
 	background-color: ${({ theme }) => theme.colors.white[3]};
-	width: 80%;
 	bottom: ${({ hasImage }) => (hasImage ? '10%' : '43%')};
-	padding: ${relativeScreenDensity(2)}px;
+	padding: ${relativeScreenDensity(2)}px ${relativeScreenDensity(5)}px;
 	text-align: center;
 	border-radius: ${relativeScreenDensity(20)}px;
+`
+
+export const PriceLabel = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme }) => theme.fontSizes.arvo[2]}px;
+	font-size: ${({ theme }) => theme.fontSizes.arvo[1]}px;
 	color: ${({ theme }) => theme.colors.black[4]};
 `
 
-interface ImageContainerProps{
+interface ImageContainerProps {
 	hasImage: boolean
 	colapsed: boolean
 }
@@ -86,22 +89,24 @@ export const PostImage = styled.Image`
 	width: 100%;
 `
 
-interface PostDescriptionProps{
+interface PostDescriptionProps {
 	colapsed: boolean
 }
 
 export const PostDescription = styled.Text<PostDescriptionProps>`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme, colapsed }) => theme.fontSizes.arvo[colapsed ? 2 : 3]}px;
+	/* font-size: ${({ theme, colapsed }) => theme.fontSizes.arvo[colapsed ? 2 : 3]}px; */
+	// CURRENT Utilizar theme.fontSizes
+	font-size: ${relativeScreenDensity(11)}px;
 `
 
-interface PostDescriptionContainerProps{
+interface PostDescriptionContainerProps {
 	colapsed: boolean
 }
 
 export const PostDescriptionContainer = styled.View<PostDescriptionContainerProps>`
 	justify-content: center;
-	padding: ${({ colapsed }) => (colapsed ? 0 : relativeScreenWidth(2))}px ${relativeScreenWidth(2)}px;
+	padding: ${({ colapsed }) => (colapsed ? 0 : relativeScreenDensity(2))}px ${relativeScreenDensity(5)}px;
 	border-left-style: solid;
 	border-left-width: ${({ colapsed }) => relativeScreenWidth(colapsed ? 0 : 0.5)}px;
 	border-left-color: ${({ theme }) => theme.black4};
