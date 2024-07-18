@@ -25,7 +25,7 @@ const {
 	removeNotificationListener
 } = useChatDomain()
 
-const initialValue : ChatContextType = {
+const initialValue: ChatContextType = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
 	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),
@@ -54,7 +54,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 		loadChatFromCache()
 		initUserInstance(userDataContext.userId)
 		initPushNotificationService()
-	}, [])
+	}, [userDataContext.userId])
 
 	const loadChatFromCache = async () => { // REFACTOR Migrar para @data
 		const cachedChat = await queryClient.getQueryData(chatConversationsKCacheKey) as Chat[]
