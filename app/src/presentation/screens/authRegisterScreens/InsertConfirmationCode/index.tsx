@@ -143,7 +143,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 				const userCredential = await phoneVerificationCodeIsValid(useAuthenticationService, verificationCodeId!, completeCode)
 				const userId = await extractUserIdentification(userCredential)
-				const userHasAccount = await remoteStorage.userExists(userId) // CURRENT Sò verificar se existe conta
+				const userHasAccount = await remoteStorage.userExists(userId)
 
 				console.log(`userHasAccount: ${userHasAccount}`)
 

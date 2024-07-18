@@ -89,7 +89,7 @@ function PhotoPortrait({
 								<PortraitImage
 									source={{ uri: videoThumbnail || pictureUri }}
 									recyclingKey={pictureUri}
-									// placeholder={UserShadow} // CURRENT Verificar comportamento na home
+									// placeholder={UserShadow}
 									placeholderContentFit={'contain'}
 									contentFit={resizeMode}
 									cachePolicy={'memory-disk'}

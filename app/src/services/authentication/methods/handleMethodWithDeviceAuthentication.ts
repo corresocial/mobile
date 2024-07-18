@@ -11,7 +11,7 @@ async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 
 		const hasDeviceAuthRegistered = await LocalAuthentication.getEnrolledLevelAsync()
 
-		if (!hasDeviceAuthRegistered/*  || __DEV__ */) { // CURRENT REmove commentario
+		if (!hasDeviceAuthRegistered || __DEV__) {
 			const result: boolean = await secureMethod()
 			return result
 		}
