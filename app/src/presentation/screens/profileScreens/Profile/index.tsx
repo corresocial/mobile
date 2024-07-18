@@ -674,6 +674,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 										</OptionsArea>
 									</ProfileHeader>
 								</DefaultHeaderContainer>
+								<VerticalSpacing />
 								{
 									!!numberOfOfflinePostsStored && isLoggedUser && (
 										<PostPadding>

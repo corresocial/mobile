@@ -82,6 +82,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		const category: CultureCategories = getPostField('category')
 		const tags = getPostField('tags')
 
+		if (!cultureCategories[category]) return ''
+
 		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 

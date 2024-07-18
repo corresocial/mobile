@@ -2,12 +2,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { PostEntityOptional, PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
-import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { usePostRepository } from '@data/post/usePostRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -30,12 +30,11 @@ import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
 const { savePost } = usePostDomain()
-const { updateUserRepository } = useUserDomain()
 
 const { localStorage: localPostsStorage } = usePostRepository()
 
-function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProps) {
+	const { userDataContext, addUserPost } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [offlinePosts, setOfflinePosts] = useState<PostEntityOptional[]>([])
@@ -49,6 +48,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 
 	const loadOfflinePosts = async () => {
 		const storedOfflinePosts = await localPostsStorage.getOfflinePosts()
+		console.log(storedOfflinePosts)
 
 		if (!storedOfflinePosts || !storedOfflinePosts.length) {
 			navigation.goBack()
@@ -56,10 +56,6 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 
 		setOfflinePosts(storedOfflinePosts)
 	}
-
-	const extractPostPictures = (postData: PostEntity) => postData.picturesUrl as string[] || []
-
-	const getLocalUser = () => userDataContext
 
 	const checkNetworkStatus = async () => {
 		const networkStatus = await getNetworkStatus()
@@ -74,59 +70,36 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		const hasValidConnection = await checkNetworkStatus()
 		if (!hasValidConnection) return
 
-		const savedPosts = []
-
 		try {
 			for await (const post of offlinePosts as PostEntity[]) {
-				const currentPost = await saveAndReturnPost(post, savedPosts)
-				await localPostsStorage.deleteOfflinePostByDescription(post.description)
-				savedPosts.push(currentPost)
+				await savePostData(post)
 			}
-
 			navigation.goBack()
 		} catch (err) {
 			setHasError(true)
 		}
 	}
 
-	async function saveAndReturnPost(post: any, savedPosts: any) {
-		const currentPost = await savePostData(post, savedPosts)
-		return currentPost
-	}
-
-	const savePostData = async (postData: PostEntity, currentBatchPosts: PostEntity[] = []) => {
-		const postPictures = extractPostPictures(postData)
-
+	const savePostData = async (postData: PostEntity) => {
 		setHasError(false)
 		setIsLoading(true)
 
 		try {
-			const localUser = { ...getLocalUser() }
-			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
-
-			const localUserPosts = localUser.posts ? localUser.posts : []
-
 			const { newPost } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
-				localUser.posts || [],
 				postData,
 				postData,
-				postPictures
+				postData.unapprovedData?.picturesUrl || []
 			)
 
-			const newUserPosts = [...localUserPosts, newPost]
+			localPostsStorage.deleteOfflinePostByDescription(postData.unapprovedData?.description || '')
 
-			await updateUserRepository(
-				useUserRepository,
-				{ ...userDataContext },
-				{ posts: newUserPosts }
-			)
+			addUserPost(newPost)
+			sendEvent('user_posted', { postType: newPost.postType })
 
-			setUserDataOnContext({ posts: newUserPosts })
-
-			localPostsStorage.deleteOfflinePostByDescription(postData.description)
+			setIsLoading(false)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
@@ -153,14 +126,17 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		return 'near'
 	}
 
-	const renderPostItem = (item: PostEntityOptional) => (
-		<PostCard
-			post={{ ...item, createdAt: new Date() }}
-			owner={item.owner as PostEntityCommonFields['owner']}
-			isOwner={userDataContext.userId === item.owner?.userId}
-			onPress={() => naigateToReviewPost(item)}
-		/>
-	)
+	const renderPostItem = (item: PostEntity) => {
+		if (!item) return <></>
+		return (
+			<PostCard
+				post={{ ...item, createdAt: new Date() }}
+				owner={item.owner as PostEntityCommonFields['owner']}
+				isOwner={userDataContext.userId === item.owner?.userId}
+				onPress={() => naigateToReviewPost({ ...item, ...item.unapprovedData } as PostEntity)}
+			/>
+		)
+	}
 
 	const getActionButtonLabel = () => {
 		if (hasError) return 'tentar novamente'
@@ -218,10 +194,8 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 				{
 					<FlatListPosts
 						data={offlinePosts}
-						renderItem={renderPostItem}
-						headerComponent={() => (
-							<VerticalSpacing />
-						)}
+						renderItem={renderPostItem as any}
+						headerComponent={() => <VerticalSpacing />}
 					/>
 				}
 			</Body>

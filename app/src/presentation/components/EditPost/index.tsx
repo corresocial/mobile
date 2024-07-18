@@ -204,11 +204,11 @@ function EditPost({
 			addUserPost(newPost)
 
 			clearTimeout(timeoutId)
-			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
+			offlinePost && deleteOfflinePostByDescription(postDataToSave.unapprovedData?.description || '')
 			sendEvent('user_posted', { postType: getPostField('postType') })
 
-			showWaitingApproveModal()
-			// navigateToPostView(newPost)
+			!offlinePost && showWaitingApproveModal()
+			offlinePost ? navigateBackwards() : navigateToPostView(newPost)
 
 			setIsLoading(false)
 		} catch (err) {
