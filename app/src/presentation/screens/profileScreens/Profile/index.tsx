@@ -674,10 +674,10 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 										</OptionsArea>
 									</ProfileHeader>
 								</DefaultHeaderContainer>
-								<VerticalSpacing />
 								{
 									!!numberOfOfflinePostsStored && isLoggedUser && (
 										<PostPadding>
+											<VerticalSpacing />
 											<OptionButton
 												label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
 												shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
