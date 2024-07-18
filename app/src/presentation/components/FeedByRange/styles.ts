@@ -5,7 +5,7 @@ interface ContainerProps {
 	backgroundColor?: string
 }
 
-export const Container = styled.View<ContainerProps>`
+export const Container = styled.ScrollView<ContainerProps>`
 	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
 `
 
