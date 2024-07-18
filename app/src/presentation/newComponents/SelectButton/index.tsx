@@ -7,19 +7,19 @@ import { theme } from '@common/theme'
 
 import { IconComponent } from '../IconComponent'
 
-interface SelectButtonProps{
-    text: string
-    icon?: IconName
-    reversed?: boolean
-    selected?: boolean
-    relativeWidth?: number | string
+interface SelectButtonProps {
+	text: string
+	icon?: IconName
+	reversed?: boolean
+	selected?: boolean
+	relativeWidth?: number | string
 	relativeHeight?: number | string
-    selectionColor?: string
+	selectionColor?: string
 	manualSelection?: boolean
-    onPress: () => void
+	onPress: () => void
 }
 
-function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 0, relativeHeight = 50, selectionColor = theme.colors.orange[1], manualSelection, onPress }: SelectButtonProps) {
+function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 0, relativeHeight = 35, selectionColor = theme.colors.orange[1], manualSelection, onPress }: SelectButtonProps) {
 	const [buttonSelected, setButtonSelected] = useState<boolean>(selected)
 
 	const buttonPressHandler = () => {
@@ -31,7 +31,7 @@ function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 
 		<Container width={relativeWidth} height={relativeHeight} activeOpacity={1} onPress={buttonPressHandler}>
 			<ContainerBackground selectedColor={selectionColor} selected={manualSelection ? selected : buttonSelected} reversed={reversed}>
 				{
-					icon && <IconComponent iconName={icon}/>
+					icon && <IconComponent iconName={icon} relativeHeight={25} relativeWidth={25} />
 				}
 				<ButtonText>{text}</ButtonText>
 			</ContainerBackground>

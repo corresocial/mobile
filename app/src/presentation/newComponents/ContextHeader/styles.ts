@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-interface ContainerProps{
+interface ContainerProps {
 	color: string
 }
 

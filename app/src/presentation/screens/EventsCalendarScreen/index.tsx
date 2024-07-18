@@ -13,9 +13,9 @@ import { Direction, Visualizations } from './types'
 import { EventsCalendarScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { formatDate, formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
+import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
 
-import { BottomNavigator, EventsContainer, EventsFlatList, FlatListBottomPadding } from './styles'
+import { BottomNavigator, EventsContainer, EventsFlatList } from './styles'
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -186,15 +186,17 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 						<EventsFlatList
 							data={getFilteredEvents()}
 							renderItem={renderEventCard as ListRenderItem<unknown>}
+							showsVerticalScrollIndicator={false}
+							ListHeaderComponent={<VerticalSpacing />}
 							ItemSeparatorComponent={() => <VerticalSpacing />}
-							ListFooterComponent={<FlatListBottomPadding />}
+							ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 						/>
 					</EventsContainer>
 					<BottomNavigator>
 						<SelectButton
 							manualSelection
 							selected={visualization === 'day'}
-							selectionColor={theme.colors.blue[3]}
+							selectionColor={theme.colors.blue[2]}
 							relativeWidth={30}
 							icon={'calendarEveryday'}
 							text={'dia'}
@@ -203,7 +205,7 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 						<SelectButton
 							manualSelection
 							selected={visualization === 'week'}
-							selectionColor={theme.colors.blue[3]}
+							selectionColor={theme.colors.blue[2]}
 							relativeWidth={30}
 							icon={'calendarEveryday'}
 							text={'semana'}
@@ -212,7 +214,7 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 						<SelectButton
 							manualSelection
 							selected={visualization === 'month'}
-							selectionColor={theme.colors.blue[3]}
+							selectionColor={theme.colors.blue[2]}
 							relativeWidth={30}
 							icon={'calendarEveryday'}
 							text={'mês'}

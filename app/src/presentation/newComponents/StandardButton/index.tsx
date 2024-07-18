@@ -7,7 +7,7 @@ import { theme } from '@common/theme'
 
 import { IconComponent } from '@newComponents/IconComponent'
 
-interface StandardButtonProps{
+interface StandardButtonProps {
 	text?: string
 	textTheme?: 'light' | 'dark'
 	icon?: IconName
@@ -40,9 +40,9 @@ function StandardButton({ text, textTheme = 'dark', icon, heightPreset = 'medium
 
 	const getHeightPreset = (): number => {
 		switch (heightPreset) {
-			case 'medium':
-				return 45
 			case 'small':
+				return 32
+			case 'medium':
 				return 40
 			case 'large':
 				return 50
@@ -61,7 +61,7 @@ function StandardButton({ text, textTheme = 'dark', icon, heightPreset = 'medium
 				flexDirection={reversed ? 'row-reverse' : 'row'}
 			>
 				{
-					icon && <IconComponent relativeWidth={'50%'} relativeHeight={'60%'} iconName={icon}/>
+					icon && <IconComponent relativeHeight={'60%'} iconName={icon} />
 				}
 				{
 					text && <ButtonText textTheme={textTheme}>{text}</ButtonText>

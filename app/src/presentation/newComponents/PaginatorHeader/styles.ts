@@ -1,13 +1,13 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
-interface ContainerProps{
+interface ContainerProps {
 	color: string
 }
 
 export const Container = styled.View<ContainerProps>`
-	height: ${relativeScreenHeight(10)}px;
+	height: ${relativeScreenDensity(60)}px;
 	align-items: center;
 	justify-content: space-around;
 	flex-direction: row;
@@ -22,14 +22,10 @@ export const InfoContainer = styled.View`
 	align-items: center;
 `
 
-export const SubTitleContainer = styled.Text`
-	font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
-`
-
 export const ButtonContainer = styled.View`
+	padding: ${relativeScreenDensity(10)}px;
 	height: 100%;
 	width: 25%;
-	padding: ${relativeScreenWidth(2)}px;
 	align-items: center;
 	justify-content: center;
 `
@@ -37,5 +33,9 @@ export const ButtonContainer = styled.View`
 export const Title = styled.Text`
 	color: ${({ theme }) => theme.black5};
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.arvo[4])}px;
+	font-size: ${({ theme }) => theme.fontSizes.arvo[5]}px;
+`
+
+export const SubTitle = styled.Text`
+	font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
 `

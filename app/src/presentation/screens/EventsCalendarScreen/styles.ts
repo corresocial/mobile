@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const EventsContainer = styled.View`
 	height: 100%;
@@ -9,21 +9,17 @@ export const EventsContainer = styled.View`
 
 export const EventsFlatList = styled.FlatList`
 	width: 100%;
-	padding: ${relativeScreenHeight(1)}px ${relativeScreenWidth(2)}px;
-`
-
-export const FlatListBottomPadding = styled.View`
-	height: ${relativeScreenHeight(20)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const BottomNavigator = styled.View`
 	position: absolute;
 	bottom: 0px;
 	background-color: ${({ theme }) => theme.colors.white[3]};
-	height: ${relativeScreenHeight(10)}px;
+	height: ${relativeScreenDensity(50)}px;
 	width: 100%;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	border-top-width: ${relativeScreenHeight(0.3)}px;
+	border-top-width: ${relativeScreenDensity(2.5)}px;
 `

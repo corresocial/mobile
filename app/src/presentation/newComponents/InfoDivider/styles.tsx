@@ -1,20 +1,17 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
     width: 100%;
-    padding: 0 ${(relativeScreenDensity(6))}px;
-	margin-top: ${(relativeScreenDensity(10))}px;
-	margin-bottom: ${(relativeScreenDensity(10))}px;
 `
 
 export const DividerView = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: ${(relativeScreenDensity(12))}px ${(relativeScreenWidth(5))}px;
-    border-radius: ${(relativeScreenDensity(16))}px;
+    padding: ${(relativeScreenDensity(7))}px  ${(relativeScreenDensity(15))}px;
+    border-radius: ${(relativeScreenDensity(15))}px;
     width: 100%;
     background-color: ${({ theme }) => theme.colors.white[3]};
 
@@ -30,13 +27,13 @@ export const ButtonArea = styled.View`
 `
 
 export const Title = styled.Text`
-    font-family: ${({ theme }) => theme.fonts.arvoBold}; // CURRENT Importar com theme
-    font-size: ${(relativeScreenDensity(18))}px;
+    font-family: ${({ theme }) => theme.fonts.arvoBold};
+    font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const SubTitle = styled.Text`
     font-family: ${({ theme }) => theme.fonts.arvoRegular};
-    font-size: ${(relativeScreenDensity(12))}px;
+    font-size: ${({ theme }) => theme.fontSizes.arvo[2]}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

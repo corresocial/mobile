@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ButtonContainer, Container, InfoContainer, SubTitleContainer, Title } from './styles'
+import { ButtonContainer, Container, InfoContainer, Title, SubTitle } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
@@ -42,9 +42,9 @@ function PaginatorHeader({ color = 'transparent', title, value, previousItem, ne
 				<Title>{title}</Title>
 				{
 					subTitle && (
-						<SubTitleContainer>
+						<SubTitle>
 							{showMessageWithHighlight(subTitle, highlitedWords)}
-						</SubTitleContainer>
+						</SubTitle>
 					)
 				}
 			</InfoContainer>

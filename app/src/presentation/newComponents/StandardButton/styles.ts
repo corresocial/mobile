@@ -1,5 +1,4 @@
 import { ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
@@ -14,7 +13,7 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	margin-left: ${RFValue(6)}px;
+	margin-left: ${relativeScreenDensity(6)}px;
 	position: relative;
 	background-color: ${({ theme }) => theme.black4};
 	height: ${({ relativeHeight }) => (typeof relativeHeight === 'string' ? relativeHeight : `${relativeScreenDensity(relativeHeight)}px`)};
@@ -23,7 +22,7 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
 			? `${relativeScreenDensity(props.relativeHeight)}px` : typeof props.relativeWidth === 'string'
 				? props.relativeWidth : `${relativeScreenDensity(props.relativeWidth)}px`
 	)};
-	border-radius: ${relativeScreenDensity(20)}px;
+	border-radius: ${relativeScreenDensity(17)}px;
 `
 
 interface ContainerSurfaceProps {
@@ -37,22 +36,22 @@ export const ContainerSurface = styled.TouchableOpacity<ContainerSurfaceProps>`
     align-items: center;
     justify-content: center;
     width: 100%;
-    border: ${RFValue(2.5)}px solid black;
+    border: ${relativeScreenDensity(2)}px solid black;
     position: absolute;
-	right: ${RFValue(5)}px;
+	right: ${relativeScreenDensity(5)}px;
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
 	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
-	border-radius: ${relativeScreenDensity(20)}px;
-	gap: ${relativeScreenDensity(2)}px;
+	border-radius: ${relativeScreenDensity(17)}px;
+	gap: ${relativeScreenDensity(5)}px;
 `
 
-interface ButtonTextProps{
-    textTheme: 'light' | 'dark'
+interface ButtonTextProps {
+	textTheme: 'light' | 'dark'
 }
 
 export const ButtonText = styled.Text<ButtonTextProps>`
-    font-family: ${({ theme }) => theme.fonts.arvoRegular};
-    font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
+    font-family: ${({ theme }) => theme.fonts.arvoBold};
+    font-size: ${({ theme }) => theme.fontSizes.arvo[2]}px;
     color: ${({ textTheme, theme }) => (textTheme === 'light' ? theme.colors.white[3] : theme.colors.black[4])};
 `
