@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ListRenderItem } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
-import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks, startOfWeek, endOfWeek } from 'date-fns'
+import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks, startOfWeek, endOfWeek, getWeekOfMonth } from 'date-fns'
 
 import { CultureEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
@@ -30,14 +30,153 @@ import { SelectButton } from '@newComponents/SelectButton'
 const { getEventPosts } = usePostDomain()
 const { getWeekdayName, getMonthName } = useUtils()
 
-function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) {
+function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 	const [events, setEvents] = useState<any[]>()
-	const [visualization, setVisualization] = useState<Visualizations>('week')
-	const [currentDate, setCurrentDate] = useState<Date>(new Date(2024, 6, 20))
+	const [visualization, setVisualization] = useState<Visualizations>('month')
+	const [currentDate, setCurrentDate] = useState<Date>(new Date())
 
 	useEffect(() => {
 		getPosts()
 	}, [])
+
+	const getPosts = async () => {
+		const fetchedEvents = await getEventPosts(usePostRepository, 'event', 10, null, true)
+		setEvents(fetchedEvents)
+	}
+
+	const getFilteredEvents = (): any[] => {
+		switch (visualization) {
+			case 'day': return separateEventsByHour(getEventsByDay())
+			case 'week': return separateEventsByDay(getEventsByWeek())
+			case 'month': return separateEventsByWeek(getEventsByMonth())
+		}
+	}
+
+	const getEventsByDay = () => {
+		const startInMs = new Date(currentDate.setHours(0, 0, 0, 0)).getTime()
+		const endInMs = new Date(currentDate.setHours(23, 59, 59, 999)).getTime()
+
+		const eventsByDay = (events || []).filter((event: CultureEntity) => {
+			const eventDate = getNewDate(event.startDate).getTime()
+			return (eventDate > startInMs && eventDate < endInMs)
+		})
+
+		return eventsByDay
+	}
+
+	const getEventsByWeek = () => {
+		const startInMs = new Date(startOfWeek(currentDate)).getTime()
+		const endInMs = new Date(endOfWeek(currentDate)).getTime()
+
+		const eventsByWeek = (events || []).filter((event: CultureEntity) => {
+			const eventDate = getNewDate(event.startDate).getTime()
+			return (eventDate > startInMs && eventDate < endInMs)
+		})
+
+		return eventsByWeek
+	}
+
+	const getEventsByMonth = () => {
+		const eventsByMonth = (events || []).filter((event: CultureEntity) => {
+			const eventDate = getNewDate(event.startDate)
+			return (eventDate.getMonth() === currentDate.getMonth() && eventDate.getFullYear() === currentDate.getFullYear())
+		})
+
+		return eventsByMonth
+	}
+
+	const separateEventsByHour = (dayEvents: CultureEntity[]) => {
+		const groupedEvents = [] as any
+		let auxHour = 0
+
+		dayEvents?.reverse().forEach((event) => {
+			const date = getNewDate(event.startDate)
+			const eventHour = date.getHours()
+
+			if (eventHour > auxHour) {
+				groupedEvents.push({ date: new Date(date.setHours(eventHour)), numberOfEvents: getNumberOfPostsByHour(dayEvents, eventHour) })
+				groupedEvents.push(event)
+				auxHour = eventHour
+			} else {
+				groupedEvents.push(event)
+			}
+		})
+
+		return groupedEvents
+	}
+
+	const separateEventsByDay = (weekEvents: CultureEntity[]) => {
+		const groupedEvents = [] as any
+		let auxDay = 0
+
+		weekEvents?.reverse().forEach((event) => {
+			const date = getNewDate(event.startDate)
+			const eventDay = date.getDate()
+
+			if (eventDay > auxDay) {
+				groupedEvents.push({
+					date: new Date(date.setHours(eventDay)),
+					numberOfEvents: getNumberOfPostsByDay(weekEvents, eventDay),
+					buttonAction: () => infoDividerHandler('day', date)
+				})
+				groupedEvents.push(event)
+				auxDay = eventDay
+			} else {
+				groupedEvents.push(event)
+			}
+		})
+
+		return groupedEvents
+	}
+
+	const separateEventsByWeek = (monthEvents?: CultureEntity[]) => {
+		if (!monthEvents) return []
+		const groupedEvents = [] as any
+		let auxWeek = 0
+
+		monthEvents?.reverse().forEach((event) => {
+			const date = getNewDate(event.startDate)
+			const eventWeek = getWeekOfMonth(date)
+
+			if (eventWeek > auxWeek) {
+				groupedEvents.push({
+					date: date,
+					numberOfEvents: getNumberOfPostsByWeek(monthEvents, eventWeek),
+					buttonAction: () => infoDividerHandler('week', date)
+				})
+				groupedEvents.push(event)
+				auxWeek = eventWeek
+			} else {
+				groupedEvents.push(event)
+			}
+		})
+
+		return groupedEvents
+	}
+
+	const getNumberOfPostsByHour = (dayEvents: CultureEntity[], hour: number) => {
+		return dayEvents?.filter((event: CultureEntity) => {
+			const date = getNewDate(event.startDate)
+			const eventHour = date.getHours()
+			return eventHour === hour
+		}).length
+	}
+
+	const getNumberOfPostsByDay = (weekEvents: CultureEntity[], day: number) => {
+		return weekEvents?.filter((event: CultureEntity) => {
+			const date = getNewDate(event.startDate)
+			const eventDay = date.getDate()
+			return eventDay === day
+		}).length
+	}
+
+	const getNumberOfPostsByWeek = (monthEvents: CultureEntity[], week: number) => {
+		return monthEvents?.filter((event: CultureEntity) => {
+			const date = getNewDate(event.startDate)
+			const eventWeek = getWeekOfMonth(date)
+			return eventWeek === week
+		}).length
+	}
 
 	const paginatorHandler = (direction: Direction) => {
 		let newCurrentDate = currentDate
@@ -66,110 +205,6 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 		setCurrentDate(newCurrentDate)
 	}
 
-	const getPosts = async () => {
-		const fetchedEvents = await getEventPosts(usePostRepository, 'event', 10, null, true)
-		setEvents(fetchedEvents)
-	}
-
-	const getFilteredEvents = (): any[] => {
-		switch (visualization) {
-			case 'day': return separateEventsByHour(getEventsByDay())
-			case 'week': return separateEventsByDay(getEventsByWeek())
-			case 'month': return getEventsByDay()
-		}
-	}
-
-	const separateEventsByDay = (weekEvents: CultureEntity[]) => {
-		const groupedEvents = [] as any
-		let auxDay = 0
-
-		weekEvents?.reverse().forEach((event) => {
-			const date = getNewDate(event.startDate)
-			const eventDay = date.getDate()
-
-			if (eventDay > auxDay) {
-				groupedEvents.push({
-					date: new Date(date.setHours(eventDay)),
-					numberOfEvents: getNumberOfPostsByDay(weekEvents, eventDay),
-					buttonAction: () => infoDividerHandler('day', date)
-				})
-				groupedEvents.push(event)
-				auxDay = eventDay
-			} else {
-				groupedEvents.push(event)
-			}
-		})
-
-		return groupedEvents
-	}
-
-	const infoDividerHandler = (calendarVisualization: Visualizations, date: Date) => {
-		setVisualization(calendarVisualization)
-		setCurrentDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
-	}
-
-	const getEventsByDay = () => {
-		const auxDate = currentDate
-		const startInMs = new Date(auxDate.setHours(0, 0, 0, 0)).getTime()
-		const endInMs = new Date(auxDate.setHours(23, 59, 59, 999)).getTime()
-
-		const eventsByDay = (events || []).filter((event: CultureEntity) => {
-			const eventDate = getNewDate(event.startDate).getTime()
-			return (eventDate > startInMs && eventDate < endInMs)
-		})
-
-		return eventsByDay
-	}
-
-	const getEventsByWeek = () => {
-		const auxDate = currentDate
-		const startInMs = new Date(startOfWeek(auxDate)).getTime()
-		const endInMs = new Date(endOfWeek(auxDate)).getTime()
-
-		const eventsByWeek = (events || []).filter((event: CultureEntity) => {
-			const eventDate = getNewDate(event.startDate).getTime()
-			return (eventDate > startInMs && eventDate < endInMs)
-		})
-
-		return eventsByWeek
-	}
-
-	const separateEventsByHour = (dayEvents: CultureEntity[]) => {
-		const groupedEvents = [] as any
-		let auxHour = 0
-
-		dayEvents?.reverse().forEach((event) => {
-			const date = getNewDate(event.startDate)
-			const eventHour = date.getHours()
-
-			if (eventHour > auxHour) {
-				groupedEvents.push({ date: new Date(date.setHours(eventHour)), numberOfEvents: getNumberOfPostsByHour(dayEvents, eventHour) })
-				groupedEvents.push(event)
-				auxHour = eventHour
-			} else {
-				groupedEvents.push(event)
-			}
-		})
-
-		return groupedEvents
-	}
-
-	const getNumberOfPostsByHour = (dayEvents: CultureEntity[], hour: number) => {
-		return dayEvents?.filter((event: CultureEntity) => {
-			const date = getNewDate(event.startDate)
-			const eventHour = date.getHours()
-			return eventHour === hour
-		}).length
-	}
-
-	const getNumberOfPostsByDay = (dayEvents: CultureEntity[], day: number) => {
-		return dayEvents?.filter((event: CultureEntity) => {
-			const date = getNewDate(event.startDate)
-			const eventHour = date.getDate()
-			return eventHour === day
-		}).length
-	}
-
 	const getVisualizationLabel = (): string => {
 		switch (visualization) {
 			case 'day': return 'Dia'
@@ -182,7 +217,7 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 		switch (visualization) {
 			case 'day': return `${formatHour(new Date(date.setMinutes(0)))}h`
 			case 'week': return `${getWeekdayName(date.getDay())} ${formatDate(new Date(date))}`
-			case 'month': return 'Mês'
+			case 'month': return `Semana ${startOfWeek(date).getDate()} - ${endOfWeek(date).getDate()}`
 		}
 	}
 
@@ -190,16 +225,21 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 		switch (visualization) {
 			case 'day': return `${getMonthName(currentDate.getMonth())} ${currentDate.getDate()} - ${getWeekdayName(currentDate.getDay())}`
 			case 'week': return `${getMonthName(currentDate.getMonth())} dia ${startOfWeek(currentDate).getDate()} - ${endOfWeek(currentDate).getDate()}`
-			case 'month': return 'Mês'
+			case 'month': return `${getMonthName(currentDate.getMonth())}`
 		}
 	}
 
 	const getPaginatorItem = (direction: Direction) => {
 		switch (visualization) {
-			case 'day': return direction === 'next' ? `${addDays(currentDate, 1).getDate()}` : `${subDays(currentDate, 1).getDate()}`
-			case 'week': return direction === 'next' ? `${startOfWeek(new Date(addWeeks(currentDate, 1))).getDate()} - ${endOfWeek(new Date(addWeeks(currentDate, 1))).getDate()}` : `${startOfWeek(new Date(subWeeks(currentDate, 1))).getDate()} - ${endOfWeek(new Date(subWeeks(currentDate, 1))).getDate()}`
-			case 'month': return 'Mês'
+			case 'day': return direction === 'next' ? `${addDays(currentDate, 1).getDate()} ` : `${subDays(currentDate, 1).getDate()}`
+			case 'week': return direction === 'next' ? `${startOfWeek(addWeeks(currentDate, 1)).getDate()} - ${endOfWeek(addWeeks(currentDate, 1)).getDate()} ` : `${startOfWeek(subWeeks(currentDate, 1)).getDate()} - ${endOfWeek(subWeeks(currentDate, 1)).getDate()}`
+			case 'month': return direction === 'next' ? `${getMonthName(addMonths(currentDate, 1).getMonth())}` : `${getMonthName(subMonths(currentDate, 1).getMonth())}`
 		}
+	}
+
+	const infoDividerHandler = (calendarVisualization: Visualizations, date: Date) => {
+		setVisualization(calendarVisualization)
+		setCurrentDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()))
 	}
 
 	const renderEventCard = ({ item }: FlatListItem<any>) => { // CURRENT Type
@@ -209,7 +249,7 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 					title={getDividerTitle(item.date)}
 					subTitle={`${item.numberOfEvents} eventos`}
 					icon={'calendarEveryday'}
-					buttonTitle={'ver dia'}
+					buttonTitle={visualization === 'week' ? 'ver dia' : 'ver semana'}
 					onPress={item.buttonAction ? item.buttonAction : undefined}
 				/>
 			)
@@ -232,7 +272,7 @@ function EventsCalendarScreen({ route, navigation }: EventsCalendarScreenProps) 
 				<PaginatorHeader
 					title={getVisualizationLabel()}
 					subTitle={getPaginatorSubtitle()}
-					highlitedWords={[`${getMonthName(currentDate.getMonth())}`, `${currentDate.getDate()}`]}
+					highlitedWords={[`${getMonthName(currentDate.getMonth())} `, `${currentDate.getDate()} `]}
 					onNext={() => paginatorHandler('next')}
 					onPrev={() => paginatorHandler('prev')}
 					previousItem={getPaginatorItem('prev')}
