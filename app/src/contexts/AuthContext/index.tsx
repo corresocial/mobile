@@ -1,5 +1,6 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -13,7 +14,10 @@ import { usePostRepository } from '@data/post/usePostRepository'
 import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContextType, AuthProviderProps } from './types'
+import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
+import { auth } from '@infrastructure/firebase'
+import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
@@ -21,9 +25,11 @@ const { syncWithRemoteUser } = useUserDomain()
 const { getPostsByOwner } = usePostDomain()
 
 const { remoteStorage } = usePostRepository()
+const { localStorage } = useUserRepository()
 const { executeCachedRequest } = useCacheRepository()
 
 const { mergeObjects, getLastItem } = useUtils()
+const { handleMethodWithDeviceAuthentication } = useAuthenticationService()
 
 const initialValue: AuthContextType = {
 	userDataContext: {
@@ -37,6 +43,7 @@ const initialValue: AuthContextType = {
 	setUserAuthDataOnContext: () => null,
 	userRegistrationData: { cellNumber: '', email: '' },
 	setUserRegisterDataOnContext: () => null,
+	performQuickSignin: (userId?: string, requireAuth?: boolean, noRedirect?: boolean) => Promise.resolve(true),
 	loadUserPosts: (userId?: string, refresh?: boolean, loadedPosts?: PostEntity[]) => Promise.resolve([] as PostEntity[]),
 	getLastUserPost: () => ({} || null) as PostEntity,
 	addUserPost: (postData: PostEntity) => { },
@@ -55,6 +62,44 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const [postListIsOver, setPostListIsOver] = useState(false)
 
 	const queryClient = useQueryClient()
+	const { navigateToHome, navigateToAuthScreen } = useAuthNavigation()
+
+	useEffect(() => {
+		console.log('[auth]: Sessão inciada!')
+		const unsubscribe = auth.onAuthStateChanged(async (user) => {
+			console.log(user ? '[auth]: Usuário logado!' : '[auth]: Usuário não logado!')
+			const hasValidLocalUser = await localStorage.hasValidLocalUser()
+			if (user && hasValidLocalUser) return
+			if (!user) return navigateToAuthScreen()
+		})
+
+		return unsubscribe
+	}, [])
+
+	// REFACTOR Quick signin virar um caso de uso
+	const performQuickSignin = async (userId: string, requireAuth = true, noRedirect = false) => {
+		try {
+			const authenticatedUser = requireAuth
+				? await handleMethodWithDeviceAuthentication(async () => {
+					return setRemoteUserOnLocal(userId || auth.currentUser?.uid, true)
+				})
+				: setRemoteUserOnLocal(userId || auth.currentUser?.uid, true)
+
+			sendEvent('user_authed', { authType: 'login' }, true)
+
+			if (noRedirect) return authenticatedUser
+
+			if (authenticatedUser) {
+				navigateToHome()
+				return authenticatedUser
+			}
+
+			return navigateToAuthScreen()
+		} catch (error) {
+			console.log(error)
+			navigateToAuthScreen()
+		}
+	}
 
 	const setRemoteUserOnLocal = async (uid?: string, refreshMode?: boolean) => {
 		try {
@@ -183,6 +228,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setUserAuthDataOnContext,
 		userRegistrationData,
 		setUserRegisterDataOnContext,
+		performQuickSignin,
 		loadUserPosts,
 		getLastUserPost,
 		addUserPost,

@@ -12,31 +12,28 @@ interface PostDomainInterface {
 	getUnapprovedPosts(usePostRepository: () => PostRepositoryInterface, pageSize?: number, lastPost?: PostEntity | any): Promise<PostEntity[] | void>
 	getPostsByOwner(usePostRepository: () => PostRepositoryInterface, userId: string, pageSize?: number, lastPost?: PostEntity, completed?: boolean): Promise<PostEntity[]>
 
-	updatePost( // CURRENT Check Methods UPDATE
+	updatePost(
 		usePostRepository: () => PostRepositoryInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
-		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
 		newPostPicturesUri: string[],
 		unsavedPostVideos: string[]
-	): Promise<{ updatedUserPosts: PostEntity[], picturesUrlUploaded: string[], videosUrlUploaded: string[] }>
+	): Promise<{ newPost: PostEntity, picturesUrl: string[], videosUrl: string[] }>
 	updateOwnerDataOnPosts(
 		usePostRepository: () => PostRepositoryInterface,
 		ownerData: Partial<PostEntityOptional['owner']>
 	): Promise<boolean | void>
 	updateLocationDataOnPosts(userId: string, newPostRangeLocation: PostRangeLocation, subscriptionDowngrade?: boolean): Promise<PostEntity[]>
-	savePost( // CURRENT Check Methods SAVE
+	savePost(
 		usePostRepository: () => PostRepositoryInterface,
 		useCloudFunctionService: () => CloudFunctionServiceInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
-		userPosts: PostEntity[],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
 		unsavedPostPictures: string[],
-		unsavedPostVideos: string[],
 		notifyUsersByLocation?: boolean
-	): Promise<{ newPost: PostEntity, updatedUserPosts: PostEntity[], picturesUrlUploaded: string[] }>
+	): Promise<{ newPost: PostEntity }>
 	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 }

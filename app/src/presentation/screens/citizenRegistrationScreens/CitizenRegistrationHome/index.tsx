@@ -17,14 +17,12 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
-import { CustomModal } from '@components/_modals/CustomModal'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const citizenUseCases = new CitizenRegisterUseCases()
 
 function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenProps) {
 	const [numberOfOfflineCitizenRegisters, setNumberOfOfflineCitizenRegisters] = useState(0)
-	const [citizenRegisterPresentationModalIsVisible, setCitizenRegisterPresentationModalIsVisible] = useState(false)
 
 	const theme = useTheme()
 
@@ -53,29 +51,6 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 			topSafeAreaColor={theme.orange2}
 			bottomSafeAreaColor={theme.orange1}
 		>
-			<CustomModal
-				closeModal={() => setCitizenRegisterPresentationModalIsVisible(false)}
-				visibility={citizenRegisterPresentationModalIsVisible}
-				title={'Cadastro cidadão'}
-				closeButton
-				firstParagraph={{
-					text: 'Nossa missão no CORRE é conectar todos a um futuro melhor, promovendo ações de capacitação e emprego. Sua participação nesta pesquisa nos ajudará a entender as necessidades e realidades da sua comunidade, guiando nossas futuras ações.',
-					highlightedWords: ['missão', 'CORRE', 'conectar', 'todos', 'a', 'um', 'futuro', 'melhor,', 'necessidades', 'realidades', 'da', 'sua', 'comunidade,'],
-					fontSize: 16,
-					textAlign: 'center'
-				}}
-				secondParagraph={{
-					text: 'Suas respostas serão confidenciais. Não há respostas certas ou erradas, queremos apenas conhecer sua opinião e experiência para melhor entender os desafios da sua comunidade.',
-					highlightedWords: ['Suas', 'respostas', 'serão', 'confidenciais', 'entender', 'os', 'desafios', 'da', 'comunidade'],
-					fontSize: 16,
-					textAlign: 'center'
-				}}
-				affirmativeButton={{
-					label: 'vamos lá!',
-					onPress: () => setCitizenRegisterPresentationModalIsVisible(false)
-				}}
-			/>
-
 			<HeaderContainer>
 				<DefaultPostViewHeader
 					text={'cadastro cidadão'}
@@ -114,17 +89,6 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					SvgIcon={QuestionMarkWhiteIcon}
 					svgIconScale={['50%', '50%']}
 					onPress={() => navigation.navigate('WhoWeAre')}
-				/>
-				<OptionButton
-					label={'o que é cadastro cidadão?'}
-					highlightedWords={['cadastro', 'cidadão?']}
-					labelSize={15}
-					relativeHeight={relativeScreenDensity(80)}
-					leftSideWidth={'25%'}
-					leftSideColor={theme.orange3}
-					SvgIcon={QuestionMarkWhiteIcon}
-					svgIconScale={['50%', '50%']}
-					onPress={() => setCitizenRegisterPresentationModalIsVisible(true)}
 				/>
 				<OptionButton
 					label={'questionário'}

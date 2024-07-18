@@ -21,6 +21,16 @@ async function approvePostDM(usePostRepository: () => PostRepositoryInterface, p
 			await remoteStorage.deletePostMedias(picturesAlreadyUploadedToRemove, 'pictures')
 		}
 
+		const storedVideosUrl = postData.picturesUrl || []
+		const videosAlreadyUploadedToRemove = storedVideosUrl.filter(
+			(pictureUrl) => (newPostData && newPostData.picturesUrl && !newPostData.picturesUrl.includes(pictureUrl))
+				|| (newPostData.unapprovedData?.picturesUrl && !newPostData.unapprovedData?.picturesUrl.includes(pictureUrl))
+		)
+		console.log(videosAlreadyUploadedToRemove)
+		if (videosAlreadyUploadedToRemove.length) {
+			await remoteStorage.deletePostMedias(videosAlreadyUploadedToRemove, 'videos')
+		}
+
 		return newPostData
 	} catch (error) {
 		console.log(error)

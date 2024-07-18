@@ -18,4 +18,5 @@ export const ButtonContainer = styled.View`
 
 export const HeaderLinkCardContainer = styled.View`
     width: 85%;
+	justify-content: space-between;
 `

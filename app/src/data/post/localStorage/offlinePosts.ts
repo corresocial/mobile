@@ -54,7 +54,7 @@ async function deleteOfflinePostByDescription(description: string) {
 	try {
 		const storedPosts = await getOfflinePosts()
 
-		const filteredPosts = storedPosts.filter((post: PostEntityOptional) => post.description !== description)
+		const filteredPosts = storedPosts.filter((post: PostEntityOptional) => post.description !== description && post.unapprovedData?.description !== description)
 		await AsyncStorage.setItem(LOCAL_OFFLINE_POSTS_REPOSITORY_KEY, JSON.stringify(filteredPosts))
 		return true
 	} catch (error) {

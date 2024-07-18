@@ -60,7 +60,7 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 		const userNameIsValid = validateName(inputName)
 		if (userNameIsValid) {
 			setUserRegisterDataOnContext({ name: inputName.trim() })
-			navigation.navigate('InsertProfilePicture')
+			navigation.navigate('ProfilePicturePreview')
 		} else {
 			!userNameIsValid && setInvaliNameAfterSubmit(true)
 		}

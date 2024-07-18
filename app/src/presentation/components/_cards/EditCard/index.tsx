@@ -22,6 +22,7 @@ interface EditCardProps {
 	highlightedWords?: string[]
 	value?: string | (string | ReactElement)[]
 	profilePicturesUrl?: string[]
+	videosUrl?: string[]
 	valueBold?: boolean
 	pressionable?: boolean
 	indicatorColor?: string
@@ -39,6 +40,7 @@ function EditCard({
 	value = '',
 	valueBold,
 	profilePicturesUrl = [],
+	videosUrl = [],
 	indicatorColor,
 	carousel,
 	pressionable = true,
@@ -61,19 +63,19 @@ function EditCard({
 	}
 
 	const getHeaderRightIcon = () => {
-		return (!arrayIsEmpty(profilePicturesUrl) || value) ? RightIcon : PlusWhiteIcon
+		return (!arrayIsEmpty(videosUrl) || !arrayIsEmpty(profilePicturesUrl) || value) ? RightIcon : PlusWhiteIcon
 	}
 
 	return (
 		<DefaultTouchableCardContainer
-			withoutPadding={!!profilePicturesUrl.length}
+			withoutPadding={!!profilePicturesUrl.length || !!videosUrl.length}
 			pressionable={!!onEdit && pressionable}
 			onPress={onPress || onEdit}
 		>
 			<CardHeader
 				style={{
-					paddingHorizontal: profilePicturesUrl.length ? RFValue(15) : 0,
-					paddingVertical: profilePicturesUrl.length ? RFValue(10) : 0
+					paddingHorizontal: profilePicturesUrl.length || videosUrl.length ? RFValue(15) : 0,
+					paddingVertical: profilePicturesUrl.length || videosUrl.length ? RFValue(10) : 0
 				}}
 			>
 				<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
@@ -87,7 +89,7 @@ function EditCard({
 				</EditHeaderContainer>
 			</CardHeader>
 			{
-				!profilePicturesUrl.length
+				!profilePicturesUrl.length && !videosUrl.length
 					? (
 						<>
 							{
@@ -113,12 +115,13 @@ function EditCard({
 									? (
 										<ImageCarousel
 											picturesUrl={profilePicturesUrl}
+											videosThumbnails={videosUrl}
 											indicatorColor={indicatorColor}
 											relativeWidth={relativeScreenWidth(90)}
 											withoutBorder
 										/>
 									) : (
-										<ProfilePicture source={{ uri: profilePicturesUrl[0] || defaultUserProfilePicture }}/>
+										<ProfilePicture source={{ uri: profilePicturesUrl[0] || defaultUserProfilePicture }} />
 									)
 							}
 

@@ -165,7 +165,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const loadMoreUserPosts = async () => {
 		const loadedPosts = getUserPosts(true)
-		console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
+		// console.log('currentLoadedPosts =>', loadedPosts && loadedPosts.length)
 		if (loadedPosts && loadedPosts.length) {
 			isLoggedUser ? loadUserPosts() : await loadCurrentUserPosts(user.userId || '', false)
 		}
@@ -552,7 +552,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 											}
 											<TouchableOpacity
 												activeOpacity={0.9}
-												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : toggleWaitingApproveModalVisibility}
+												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : canRenderWaitingApproveIndicator() ? toggleWaitingApproveModalVisibility : () => { }}
 											>
 												<PhotoPortrait
 													height={isLoggedUser ? RFValue(95) : RFValue(65)}
@@ -674,6 +674,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 										</OptionsArea>
 									</ProfileHeader>
 								</DefaultHeaderContainer>
+								<VerticalSpacing />
 								{
 									!!numberOfOfflinePostsStored && isLoggedUser && (
 										<PostPadding>

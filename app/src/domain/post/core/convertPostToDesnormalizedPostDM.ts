@@ -1,6 +1,6 @@
-import { PostEntityOptional } from '../entity/types'
+import { PostEntity, PostEntityOptional } from '../entity/types'
 
-function convertPostToDesnormalizedPostDM(newPostData: PostEntityOptional | any): PostEntityOptional {
+function convertPostToDesnormalizedPostDM(newPostData: PostEntityOptional | any): PostEntity {
 	const filteredPostData = { ...newPostData }
 
 	delete filteredPostData.owner

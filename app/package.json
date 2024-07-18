@@ -3,6 +3,8 @@
 	"version": "0.9.1",
 	"scripts": {
 		"start": "expo start",
+		"expo": "npx expo start --go",
+		"dc": "npx expo start --dev-client",
 		"test": "jest --detectOpenHandles",
 		"android": "expo run:android",
 		"ios": "expo run:ios",
@@ -10,9 +12,6 @@
 		"eject": "expo eject",
 		"check": "eslint \"./src/**/*\"",
 		"format": "eslint \"./src/**/*\" --fix",
-		"update-dev": "eas update --branch development --message",
-		"update-staging": "eas update --branch staging --message",
-		"update-prod": "eas update --branch production --message",
 		"build-android-dev": "eas build --platform android --profile development",
 		"build-android-dev-local": "eas build --platform android --profile development --local",
 		"build-ios-dev": "eas build --platform ios --profile development",

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
 
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
@@ -34,7 +36,7 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 const { formatRelativeDate, arrayIsEmpty, checkMediaType } = UiUtils()
 
 interface PostCardProps {
-	post: PostEntity | any // TODO Type
+	post: PostEntity
 	owner: UserOwner
 	isOwner: boolean
 	navigateToProfile?: (userId: string) => void
@@ -43,6 +45,7 @@ interface PostCardProps {
 
 function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }: PostCardProps) {
 	const [post, setPost] = useState<PostEntity | any>(postData)
+	const [postCover, setPostCover] = useState('')
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -50,6 +53,19 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 			setPost({ ...(postData || {}), ...(postData.unapprovedData || {}) } as PostEntity)
 		}
 	}, [postData, isOwner])
+
+	useEffect(() => {
+		hasMedia() && loadThumbnails()
+	}, [])
+
+	const loadThumbnails = async () => {
+		const coverAsset = getMediaSource()
+		const assetIsVideo = checkMediaType(coverAsset) === 'video'
+		if (assetIsVideo && Platform.OS === 'ios') {
+			const thumb = await generateVideoThumbnails(coverAsset || '') as string
+			setPostCover(thumb)
+		}
+	}
 
 	const getRelativeColor = (lightColor?: boolean) => {
 		switch (post.postType) {
@@ -84,7 +100,19 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		return owner.profilePictureUrl[0]
 	}
 
-	const enableLeftAreaSpacing = () => !arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
+	function hasPictures(): boolean {
+		return !arrayIsEmpty(post.picturesUrl)
+	}
+
+	function hasVideos(): boolean {
+		return !arrayIsEmpty(post.videosUrl)
+	}
+
+	function hasMedia(): boolean {
+		return hasPictures() || hasVideos()
+	}
+
+	const enableLeftAreaSpacing = () => hasMedia() || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -99,22 +127,11 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		onPress()
 	}
 
-	function hasPictures(): boolean {
-		return !arrayIsEmpty(post.picturesUrl)
-	}
-
-	function hasVideos(): boolean {
-		return !arrayIsEmpty(post.videosUrl)
-	}
-
-	function hasMedia(): boolean { // CURRENT usar com enable LeftArea
-		return hasPictures() || hasVideos()
-	}
-
 	function getMediaSource(): string {
+		if (postCover) return postCover
 		return post && (
-			(post.videosUrl && post.videosUrl[0])
-			|| (post.picturesUrl && post.picturesUrl[0]))
+			(post.picturesUrl && post.picturesUrl[0])
+			|| (post.videosUrl && post.videosUrl[0]))
 	}
 
 	const getRelativeBlurhash = () => {
@@ -150,10 +167,10 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 							placeholder={blurhash}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
-							transition={300}
+							transition={200}
 						>
 							{
-								checkMediaType(getMediaSource()) === 'video' && (
+								(checkMediaType(getMediaSource()) === 'video' || postCover) && (
 									<VideoIconContainer>
 										<VideoCameraIcon />
 									</VideoIconContainer>

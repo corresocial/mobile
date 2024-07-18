@@ -17,7 +17,8 @@ const citizenUseCases = new CitizenRegisterUseCases()
 const initialCitizenRegisterIdentifier: CitizenRegistrationIdentifier = {
 	cellNumber: '',
 	name: '',
-	citizenHasAccount: false
+	citizenHasAccount: false,
+	location: {} as CitizenRegistrationIdentifier['location']
 }
 
 function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderProps) {
@@ -48,7 +49,7 @@ function CitizenRegistrationProvider({ children }: CitizenRegistrationProviderPr
 	}, [])
 
 	const startNewCitizenRegistration = async () => {
-		console.log('Um novo cadastro foi iniciado!')
+		console.log('[citizenRegister]: Um novo cadastro foi iniciado!')
 
 		const citizenRegistrationQuestionary = citizenUseCases.getCitizenRegistrationQuestionary()
 

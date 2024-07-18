@@ -1,6 +1,6 @@
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 
 import { LoaderContext } from '@contexts/LoaderContext'
 
@@ -29,7 +29,6 @@ import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
 
 const { compressImage, compressVideo } = UiUtils()
-
 interface PostPicturePreviewProps {
 	backgroundColor: string
 	initialValue?: MediaAsset[]
@@ -55,27 +54,26 @@ function PostPicturePreview({
 		setThumbnailsOnVideos()
 	}, [])
 
-	useEffect(() => {
-	}, [initialValue])
-
 	const setThumbnailsOnVideos = async () => {
 		const hasVideos = (initialValue || []).find((media) => media && media.mediaType === 'video')
 		if (hasVideos) {
-			console.log('tem vídeos')
 			const newMediaPack = await generateThumb()
 			setMediaPack(newMediaPack)
 		} else {
-			console.log('não tem vídeos')
 			setMediaPack(initialValue || [])
 		}
 	}
 
-	const generateThumb = async () => {
+	const generateThumb = async (customMedia?: MediaAsset[]) => {
 		return Promise.all(
-			mediaPack.map(async (media) => {
+			(customMedia || mediaPack).map(async (media) => {
 				if (media.mediaType === 'video') {
-					const videoThumbnail = await generateVideoThumbnails(media.url) as string
-					return { ...media, videoThumbnail: videoThumbnail }
+					try {
+						const videoThumbnail = await generateVideoThumbnails(media.url) as string
+						return { ...media, videoThumbnail: videoThumbnail }
+					} catch (error) {
+						console.log(error)
+					}
 				}
 				return media
 			})
@@ -84,13 +82,9 @@ function PostPicturePreview({
 
 	const setPictureUri = (uri: string) => {
 		const currentMedia = [...mediaPack]
-		currentMedia.push({
-			url: uri,
-			mediaType: 'photo'
-		})
+		currentMedia.push({ url: uri, mediaType: 'photo' })
 		setMediaPack(currentMedia)
 		setMediaIndexSelected(mediaPack.length)
-		// setHasSelectedMedia(true)
 	}
 
 	const deleteCurrentMedia = () => {
@@ -110,21 +104,16 @@ function PostPicturePreview({
 		setImageCropperOpened(false)
 	}
 
-	const mediaBrowserHandler = (mediaSelected: Asset[]) => {
+	const mediaBrowserHandler = async (mediaSelected: Asset[]) => {
 		const currentMedia = mediaSelected.map((media: Asset) => {
-			return {
-				url: media.uri,
-				mediaType: media.mediaType
-			} as MediaAsset
+			return { url: media.uri, mediaType: media.mediaType, videoThumbnail: (media as any).videoThumbnail! } as MediaAsset
 		})
 
-		setMediaPack(currentMedia)
-		// setHasSelectedMedia(true)
+		setMediaPack([...mediaPack, ...currentMedia])
+		setMediaIndexSelected(mediaPack.length)
 	}
 
 	const savePictures = async () => {
-		console.log('savePictures')
-		console.log(initialValue)
 		setLoaderIsVisible(true)
 		const picturesUri: string[] = []
 		const videosUri: string[] = []
@@ -154,6 +143,7 @@ function PostPicturePreview({
 			return compressVideo(uri)
 		}))
 	}
+
 	return (
 		<Container>
 			<MediaBrowserModal

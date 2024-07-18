@@ -14,13 +14,14 @@ import { ProgressBar } from '@components/ProgressBar'
 
 interface CitizenRegistrationHeaderProps {
 	message: string
+	congratulationMessage?: boolean
 	customHeaderHeight?: string
 	highlightedWords?: string[]
 	progress?: number[]
 	navigateBackwards: () => void
 }
 
-export function CitizenRegistrationHeader({ message, customHeaderHeight, highlightedWords, progress, navigateBackwards }: CitizenRegistrationHeaderProps) {
+export function CitizenRegistrationHeader({ message, congratulationMessage, customHeaderHeight, highlightedWords, progress, navigateBackwards }: CitizenRegistrationHeaderProps) {
 	const { showQuestionObservations } = useCitizenRegistrationContext()
 	// const { userDataContext } = useAuthContext()
 
@@ -80,6 +81,17 @@ export function CitizenRegistrationHeader({ message, customHeaderHeight, highlig
 						{progress && <ProgressBar value={progress[0]} range={progress[1]} />}
 					</InstructionCard>
 				</InstructionButtonContainer>
+				{
+					congratulationMessage ? (
+						<InstructionButtonContainer >
+							<InstructionCard
+								fontSize={16}
+								message={'Muito obrigado pela sua participação! Suas respostas vão nos ajudar a promover nossas ações no futuro. Baixe o nosso aplicativo CORRE.SOCIAL, para acessar mais informações e oportunidades. Ele é gratuito e está disponível na loja de aplicativos'}
+								highlightedWords={['Muito', 'obrigado', 'Baixe', 'nosso', 'aplicativo', 'CORRE.SOCIAL,', 'informações', 'oportunidades']}
+							/>
+						</InstructionButtonContainer>
+					) : <></>
+				}
 			</DefaultHeaderContainer>
 		</>
 	)

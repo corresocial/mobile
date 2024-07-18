@@ -82,6 +82,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		const category: CultureCategories = getPostField('category')
 		const tags = getPostField('tags')
 
+		if (!cultureCategories[category]) return ''
+
 		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
@@ -223,7 +225,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
+					profilePicturesUrl={[...getPicturesUrl()]}
+					videosUrl={[...getVideosUrl()]}
 					indicatorColor={theme.blue1}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}

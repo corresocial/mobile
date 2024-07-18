@@ -14,7 +14,6 @@ import { AcceptTermsAndConditions } from '@screens/authRegisterScreens/AcceptTer
 import { InsertCellNumber } from '@screens/authRegisterScreens/InsertCellNumber'
 import { InsertConfirmationCode } from '@screens/authRegisterScreens/InsertConfirmationCode'
 import { InsertName } from '@screens/authRegisterScreens/InsertName'
-import { InsertProfilePicture } from '@screens/authRegisterScreens/InsertProfilePicture'
 import { ProfilePicturePreview } from '@screens/authRegisterScreens/ProfilePicturePreview'
 import { SelectAuthMethod } from '@screens/authRegisterScreens/SelectAuthMethod'
 import { SelectAuthRegister } from '@screens/authRegisterScreens/SelectAuthRegister'
@@ -53,7 +52,6 @@ export function AuthRegisterStack() {
 					<Stack.Screen name={'InsertCellNumber'} component={InsertCellNumber} />
 					<Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
 					<Stack.Screen name={'InsertName'} component={InsertName} />
-					<Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
 					<Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
 
 					<Stack.Screen
