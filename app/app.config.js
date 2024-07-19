@@ -42,8 +42,8 @@ export default {
 						useFrameworks: 'static'
 					},
 					android: {
-						compileSdkVersion: 34,
-						targetSdkVersion: 34,
+						compileSdkVersion: 33,
+						targetSdkVersion: 33,
 						buildToolsVersion: '31.0.0',
 						enableProguardInReleaseBuilds: true,
 						extraProguardRules: '-keep public class com.horcrux.svg.** {*;}'
