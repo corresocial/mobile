@@ -11,6 +11,7 @@ export type HomeStackParamList = {
 	ViewVacancyPostHome: { postData: VacancyEntity, redirectedPostId: string }
 	ViewSocialImpactPostHome: { postData: SocialImpactEntity, redirectedPostId: string }
 	ViewCulturePostHome: { postData: CultureEntity, redirectedPostId: string }
+	PostViewHome: { postData: CultureEntity, redirectedPostId: string }
 
 	PostCategories: undefined
 	ViewPostsByPostType: { postType: PostType }

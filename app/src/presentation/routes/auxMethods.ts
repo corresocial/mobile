@@ -9,6 +9,10 @@ import { PollStackParamList } from './Stack/PollStack/types'
 import { StackLabelProps } from './types'
 
 const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => {
+	if (postData.macroCategory === 'event') {
+		return navigation.navigate(`PostView${stackLabel || ''}`, { postData })
+	}
+
 	switch (postData.postType) {
 		case 'income': {
 			if (postData.macroCategory === 'vacancy') return navigation.navigate(`ViewVacancyPost${stackLabel || ''}`, { postData })

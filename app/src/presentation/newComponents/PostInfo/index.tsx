@@ -145,8 +145,8 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	const getRelativeValueIcon = (priceValue: PriceValues): IconName => {
 		if (priceValue.saleValue === 'a combinar') { return 'chat' }
 		if (priceValue.exchangeValue && priceValue.saleValue) { return 'x' } // CURRENT Ver com Rafa ícone para isso, ícone que represente tanto venda quanto troca
-		if (priceValue.exchangeValue && !priceValue.saleValue) { return 'cash' }
-		if (!priceValue.exchangeValue && priceValue.saleValue) { return 'exchange' }
+		if (priceValue.exchangeValue && !priceValue.saleValue) { return 'exchange' }
+		if (!priceValue.exchangeValue && priceValue.saleValue) { return 'cash' }
 		return 'x'
 	}
 
