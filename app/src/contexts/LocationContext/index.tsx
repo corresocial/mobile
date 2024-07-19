@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { PostType } from '@domain/post/entity/types'
 
@@ -56,4 +56,6 @@ function LocationProvider({ children }: LocationProviderProps) {
 	)
 }
 
-export { LocationProvider, LocationContext }
+const useLocationContext = () => useContext(LocationContext)
+
+export { LocationProvider, LocationContext, useLocationContext }

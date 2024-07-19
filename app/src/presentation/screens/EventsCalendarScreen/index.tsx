@@ -5,10 +5,9 @@ import { useUtils } from '@newutils/useUtils'
 import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks, startOfWeek, endOfWeek, getWeekOfMonth } from 'date-fns'
 
 import { CultureEntity } from '@domain/post/entity/types'
-import { usePostDomain } from '@domain/post/usePostDomain'
 import { formatDate } from '@domain/shared/utils/datetime'
 
-import { usePostRepository } from '@data/post/usePostRepository'
+import { useLocationContext } from '@contexts/LocationContext'
 
 import { Direction, Visualizations } from './types'
 import { EventsCalendarScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -27,10 +26,11 @@ import { PaginatorHeader } from '@newComponents/PaginatorHeader'
 import { ScreenContainer } from '@newComponents/ScreenContainer'
 import { SelectButton } from '@newComponents/SelectButton'
 
-const { getEventPosts } = usePostDomain()
 const { getWeekdayName, getMonthName } = useUtils()
 
 function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
+	const { locationDataContext } = useLocationContext()
+
 	const [events, setEvents] = useState<any[]>()
 	const [visualization, setVisualization] = useState<Visualizations>('month')
 	const [currentDate, setCurrentDate] = useState<Date>(new Date())
@@ -40,7 +40,9 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 	}, [])
 
 	const getPosts = async () => {
-		const fetchedEvents = await getEventPosts(usePostRepository, 'event', 10, null, true)
+		const allPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country]
+		const fetchedEvents = allPosts.filter((post) => (post && post.macroCategory === 'event'))
+		// const fetchedEvents = await getEventPosts(usePostRepository, 'event', 10, null, true)
 		setEvents(fetchedEvents)
 	}
 
