@@ -199,14 +199,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 
 		if (macroCategory === 'event') {
-			navigation.navigate('CultureStack', {
-				screen: 'EventsCalendar',
-				params: {
-					editMode: false,
-					initialValue: undefined
-				}
-			})
-			return
+			return navigation.navigate('EventsCalendar')
 		}
 
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })

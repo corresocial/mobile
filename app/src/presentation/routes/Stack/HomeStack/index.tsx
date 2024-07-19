@@ -7,6 +7,7 @@ import { StateProvider } from '@contexts/StateContext'
 import { HomeStackParamList } from './types'
 import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
+import { EventsCalendar } from '@screens/EventsCalendar'
 import { Home } from '@screens/homeScreens/Home'
 import { PostCategories } from '@screens/homeScreens/PostCategories'
 import { PostCategoryDetails } from '@screens/homeScreens/PostCategoryDetails'
@@ -59,6 +60,7 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 				<Stack.Screen name={'ViewAllTags'} component={ViewAllTags} />
 				<Stack.Screen name={'ViewPostsByTag'} component={ViewPostsByTag} />
 				<Stack.Screen name={'SearchResult'} component={SearchResult} />
+				<Stack.Screen name={'EventsCalendar'} component={EventsCalendar} />
 				{/* REFACTOR */}
 				<Stack.Screen name={'ProfileHome'} component={Profile as any} />
 				<Stack.Screen name={'SocialMediaManagementHome'} component={SocialMediaManagement as any} />

@@ -20,6 +20,7 @@ export type HomeStackParamList = {
 	ViewPostsByTag: { currentTagSelected: string }
 	ViewPostsByRange: { postsByRange: PostEntity[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
 	SearchResult: { searchParams: Partial<FeedSearchParams>, categoryLabel?: string, searchByRange?: boolean }
+	EventsCalendar: undefined
 
 	ProfileHome: { userId: string, stackLabel?: string }
 	SocialMediaManagementHome: { socialMedias?: SocialMedia[], isAuthor?: boolean }

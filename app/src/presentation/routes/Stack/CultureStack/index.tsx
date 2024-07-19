@@ -27,7 +27,6 @@ import { SelectCultureTags } from '@screens/cultureRegisterScreens/SelectCulture
 import { SelectCultureType } from '@screens/cultureRegisterScreens/SelectCultureType'
 import { SelectEventRepeat } from '@screens/cultureRegisterScreens/SelectEventRepeat'
 import { EditCulturePost } from '@screens/editPostScreens/EditCulturePost'
-import { EventsCalendarScreen } from '@screens/EventsCalendarScreen'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -63,7 +62,6 @@ export function CultureStack() {
 				<Stack.Screen name={'InsertCultureEndDate'} component={InsertCultureEndDate} />
 				<Stack.Screen name={'InsertCultureEndHour'} component={InsertCultureEndHour} />
 				<Stack.Screen name={'EditCulturePostReview'} component={EditCulturePost} />
-				<Stack.Screen name={'EventsCalendar'} component={EventsCalendarScreen} />
 			</Stack.Navigator>
 		</CultureProvider>
 	)

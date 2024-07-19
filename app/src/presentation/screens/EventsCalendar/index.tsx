@@ -10,7 +10,8 @@ import { formatDate } from '@domain/shared/utils/datetime'
 import { useLocationContext } from '@contexts/LocationContext'
 
 import { Direction, Visualizations } from './types'
-import { EventsCalendarScreenProps } from '@routes/Stack/CultureStack/screenProps'
+import { navigateToPostView } from '@routes/auxMethods'
+import { EventsCalendarScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
 import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
@@ -28,11 +29,11 @@ import { SelectButton } from '@newComponents/SelectButton'
 
 const { getWeekdayName, getMonthName } = useUtils()
 
-function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
+function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 	const { locationDataContext } = useLocationContext()
 
 	const [events, setEvents] = useState<any[]>()
-	const [visualization, setVisualization] = useState<Visualizations>('month')
+	const [visualization, setVisualization] = useState<Visualizations>('week')
 	const [currentDate, setCurrentDate] = useState<Date>(new Date())
 
 	useEffect(() => {
@@ -259,7 +260,13 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 	const renderPostsByWeek = (date: Date) => {
 		const eventsWeek = getEventsByWeekCustomized(date).splice(0, 4)
 		return eventsWeek.map((event) => {
-			return <EventCard post={event} colapsed />
+			return (
+				<EventCard
+					post={event}
+					colapsed
+					onPress={() => navigateToPostView(event, navigation, 'Home')}
+				/>
+			)
 		})
 	}
 
@@ -295,7 +302,12 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 			)
 		}
 
-		return <EventCard post={item} />
+		return (
+			<EventCard
+				post={item}
+				onPress={() => navigateToPostView(item, navigation, 'Home')}
+			/>
+		)
 	}
 
 	return (
@@ -367,4 +379,4 @@ function EventsCalendarScreen({ navigation }: EventsCalendarScreenProps) {
 	)
 }
 
-export { EventsCalendarScreen }
+export { EventsCalendar }
