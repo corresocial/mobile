@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps {
 	color: string
@@ -17,16 +17,21 @@ export const Container = styled.View<ContainerProps>`
 `
 
 export const ButtonContainer = styled.View`
-	height: 100%;
-	width: 22%;
-	justify-content: center;
+	flex: 1;
+	justify-content: end ;
+	align-items: center;
 `
 
-export const InfoContainer = styled.View`
+interface InfoContainerProps {
+	width: string | number
+}
+
+export const InfoContainer = styled.View<InfoContainerProps>`
 	height: 100%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	width: ${({ width }) => (typeof (width) === 'string' ? width : `${relativeScreenWidth(width)}px`)};
 `
 
 export const Title = styled.Text`

@@ -14,11 +14,12 @@ interface PaginatorHeaderProps {
 	nextItem?: string
 	subTitle?: string
 	highlitedWords?: string[]
+	infoContainerWidth?: string | number
 	onNext: () => void
 	onPrev: () => void
 }
 
-function PaginatorHeader({ color = 'transparent', title, value, previousItem, nextItem, subTitle, highlitedWords, onNext, onPrev }: PaginatorHeaderProps) {
+function PaginatorHeader({ color = 'transparent', title, value, previousItem, nextItem, subTitle, highlitedWords, infoContainerWidth = '60%', onNext, onPrev }: PaginatorHeaderProps) {
 	const getPreviousItem = (): number | null => {
 		return value ? value - 1 : null
 	}
@@ -38,7 +39,7 @@ function PaginatorHeader({ color = 'transparent', title, value, previousItem, ne
 					onPress={onPrev}
 				/>
 			</ButtonContainer>
-			<InfoContainer>
+			<InfoContainer width={infoContainerWidth}>
 				<Title>{title}</Title>
 				{
 					subTitle && (
