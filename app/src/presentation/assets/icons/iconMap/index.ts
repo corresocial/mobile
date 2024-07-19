@@ -16,6 +16,7 @@ import MapPoint from '@assets/icons/mapPoint.svg'
 import ComputerAndPhone from '@assets/icons/computerAndPhone.svg'
 import HandOnPerson from '@assets/icons/handOnPerson.svg'
 import Clock from '@assets/icons/clock.svg'
+import StaringEyes from '@assets/icons/staring-eyes.svg'
 
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
@@ -71,12 +72,15 @@ const icons: IconMap = {
 	},
 	mapPoint: {
 		default: MapPoint
-  },
+	},
 	arrowRight: {
 		default: ArrowRight
 	},
 	arrowLeft: {
 		default: ArrowLeft
+	},
+	staringEyes: {
+		default: StaringEyes
 	}
 }
 
