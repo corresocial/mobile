@@ -16,11 +16,12 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
 
-import { BottomNavigator, ColapsedEventGroup, EventsContainer, EventsFlatList } from './styles'
+import { BottomNavigator, ColapsedEventGroup, EventsContainer, EventsFlatList, NoPostNotifierContainer } from './styles'
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ContextHeader } from '@newComponents/ContextHeader'
+import { EmptyPostsNotifier } from '@newComponents/EmptyPostsNotifier'
 import { EventCard } from '@newComponents/EventCard'
 import { InfoDivider } from '@newComponents/InfoDivider'
 import { PaginatorHeader } from '@newComponents/PaginatorHeader'
@@ -318,6 +319,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 				<ContextHeader
 					title={'Calendário de eventos'}
 					icon={'calendarEveryday'}
+					rightLabel={`${currentDate.getFullYear()}`}
 					onBack={() => navigation.goBack()}
 				/>
 			)}
@@ -326,6 +328,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 					title={getVisualizationLabel()}
 					subTitle={getPaginatorSubtitle()}
 					highlitedWords={[`${getMonthName(currentDate.getMonth())} `, `${currentDate.getDate()} `]}
+					infoContainerWidth={visualization === 'day' ? '60%' : visualization === 'week' ? '50%' : '30%'}
 					onNext={() => paginatorHandler('next')}
 					onPrev={() => paginatorHandler('prev')}
 					previousItem={getPaginatorItem('prev')}
@@ -338,6 +341,12 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 						<EventsFlatList
 							data={getFilteredEvents()}
 							renderItem={renderEventCard as ListRenderItem<unknown>}
+							ListEmptyComponent={(
+								<NoPostNotifierContainer>
+									<EmptyPostsNotifier text={'Parece que não tem nenhum evento por aqui'} />
+								</NoPostNotifierContainer>
+							)}
+							contentContainerStyle={({ height: '90%' })}
 							showsVerticalScrollIndicator={false}
 							ListHeaderComponent={<VerticalSpacing />}
 							ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}

@@ -31,3 +31,8 @@ export const ColapsedEventGroup = styled.View`
 	justify-content: space-between;
 	gap: ${relativeScreenDensity(8)}px 0px;
 `
+
+export const NoPostNotifierContainer = styled.View`
+	height: 100%;
+	width: 100%;
+`
