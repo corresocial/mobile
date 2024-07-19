@@ -1,17 +1,10 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-
-export const Container = styled.View`
-	flex: 1;
-	background-color: ${({ theme }) => theme.blue2};
-`
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
-	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3)}px;
 `
 
 export const UserAndValueContainer = styled.View`
@@ -28,6 +21,11 @@ export const OptionsArea = styled.View`
 
 export const Body = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.blue2};
-	padding: 0px ${relativeScreenDensity(10)}px;
+`
+
+export const GroupInfo = styled.View`
+	background-color: ${({ theme }) => theme.colors.white[3]};
+	padding: ${relativeScreenDensity(15)}px ${relativeScreenDensity(15)}px;
+	border-radius: ${relativeScreenDensity(15)}px;
+	gap: ${relativeScreenDensity(8)}px;
 `

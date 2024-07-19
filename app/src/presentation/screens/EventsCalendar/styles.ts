@@ -9,7 +9,6 @@ export const EventsContainer = styled.View`
 
 export const EventsFlatList = styled.FlatList`
 	width: 100%;
-	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const BottomNavigator = styled.View`

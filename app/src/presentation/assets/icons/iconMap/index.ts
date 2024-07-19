@@ -17,6 +17,8 @@ import ComputerAndPhone from '@assets/icons/computerAndPhone.svg'
 import HandOnPerson from '@assets/icons/handOnPerson.svg'
 import Clock from '@assets/icons/clock.svg'
 import StaringEyes from '@assets/icons/staring-eyes.svg'
+import ThreeDots from '@assets/icons/threeDots.svg'
+import Share from '@assets/icons/share-white.svg'
 
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
@@ -81,7 +83,13 @@ const icons: IconMap = {
 	},
 	staringEyes: {
 		default: StaringEyes
-	}
+	},
+	threeDots: {
+		default: ThreeDots
+	},
+	share: {
+		default: Share
+	},
 }
 
 export { icons }

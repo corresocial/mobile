@@ -2,12 +2,9 @@ import React, { useState } from 'react'
 
 import { CultureEntity } from '@domain/post/entity/types'
 
-import { UiUtils } from '@utils-ui/common/UiUtils'
-import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
+import { Container, EventDataContainer, ImageContainer, InnerContainer, PostDescription, PostDescriptionContainer, PostImage, PriceLabel, PriceLabelContainer } from './styles'
 
-import { Container, EventDataContainer, ImageContainer, InnerContainer, PostDescription, PostDescriptionContainer, OwnerDataContainer, OwnerProfilePicture, OwnerTextGroup, OwnerName, PostDate, PostImage, PriceLabel, PriceLabelContainer } from './styles'
-
-const { formatRelativeDate } = UiUtils()
+import { MiniUserIndentifier } from '@newComponents/MiniUserIdentifier'
 
 interface EventCardProps {
 	post: CultureEntity
@@ -29,10 +26,6 @@ function EventCard({ post, colapsed = false, onPress }: EventCardProps) {
 	const releaseButton = () => {
 		setButtonPressed(false)
 		onPress?.()
-	}
-
-	const getOwnerPicture = (): string => {
-		return post.owner.profilePictureUrl?.[0] || defaultUserProfilePicture
 	}
 
 	return (
@@ -58,13 +51,7 @@ function EventCard({ post, colapsed = false, onPress }: EventCardProps) {
 					</PostDescriptionContainer>
 					{
 						!colapsed && (
-							<OwnerDataContainer>
-								<OwnerProfilePicture source={{ uri: getOwnerPicture() }} />
-								<OwnerTextGroup>
-									<OwnerName>{'eu'}</OwnerName>
-									<PostDate>{`postado em ${formatRelativeDate(post.createdAt)}`}</PostDate>
-								</OwnerTextGroup>
-							</OwnerDataContainer>
+							<MiniUserIndentifier owner={post.owner} postedAt={post.createdAt} />
 						)
 					}
 				</EventDataContainer>

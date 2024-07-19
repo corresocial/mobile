@@ -44,7 +44,6 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 	const getPosts = async () => {
 		const allPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country]
 		const fetchedEvents = allPosts.filter((post) => (post && post.macroCategory === 'event'))
-		// const fetchedEvents = await getEventPosts(usePostRepository, 'event', 10, null, true)
 		setEvents(fetchedEvents)
 	}
 
@@ -315,6 +314,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		<ScreenContainer
 			topSafeAreaColor={theme.colors.blue[1]}
 			tone={'blue'}
+			enableSectionPadding
 			firstSection={(
 				<ContextHeader
 					title={'Calendário de eventos'}
@@ -336,23 +336,21 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 				/>
 			)}
 			thirdSecton={(
-				<>
-					<EventsContainer>
-						<EventsFlatList
-							data={getFilteredEvents()}
-							renderItem={renderEventCard as ListRenderItem<unknown>}
-							ListEmptyComponent={(
-								<NoPostNotifierContainer>
-									<EmptyPostsNotifier text={'Parece que não tem nenhum evento por aqui'} />
-								</NoPostNotifierContainer>
-							)}
-							contentContainerStyle={({ height: '90%' })}
-							showsVerticalScrollIndicator={false}
-							ListHeaderComponent={<VerticalSpacing />}
-							ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}
-							ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
-						/>
-					</EventsContainer>
+				<EventsContainer>
+					<EventsFlatList
+						data={getFilteredEvents()}
+						renderItem={renderEventCard as ListRenderItem<unknown>}
+						ListEmptyComponent={(
+							<NoPostNotifierContainer>
+								<EmptyPostsNotifier text={'Parece que não tem nenhum evento por aqui'} />
+							</NoPostNotifierContainer>
+						)}
+						contentContainerStyle={({ height: '90%' })}
+						showsVerticalScrollIndicator={false}
+						ListHeaderComponent={<VerticalSpacing />}
+						ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}
+						ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
+					/>
 					<BottomNavigator>
 						<SelectButton
 							manualSelection
@@ -382,7 +380,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 							onPress={() => setVisualization('month')}
 						/>
 					</BottomNavigator>
-				</>
+				</EventsContainer>
 			)}
 		/>
 	)

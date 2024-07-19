@@ -7,13 +7,12 @@ interface ContainerProps {
 }
 
 export const Container = styled.View<ContainerProps>`
-	height: ${relativeScreenDensity(60)}px;
+	height: ${relativeScreenDensity(25)}px;
 	width: 100%;
 	align-items: center;
 	justify-content: space-between;
 	flex-direction: row;
 	background-color: ${({ color }) => color};
-	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const ButtonContainer = styled.View`

@@ -14,12 +14,24 @@ interface StandardButtonProps {
 	heightPreset?: 'small' | 'medium' | 'large'
 	relativeHeight?: number | string
 	relativeWidth?: number | string
+	iconWidth?: number | string
+	iconHeight?: number | string
 	reversed?: boolean
 	backgroundColor?: string
 	onPress: () => void
 }
 
-function StandardButton({ text, textTheme = 'dark', icon, heightPreset = 'medium', relativeHeight, relativeWidth = '100%', backgroundColor = theme.colors.white[3], reversed, onPress }: StandardButtonProps) {
+function StandardButton({
+	text,
+	textTheme = 'dark',
+	icon, heightPreset = 'medium',
+	relativeHeight,
+	relativeWidth = '100%',
+	iconWidth,
+	iconHeight = '60%',
+	backgroundColor = theme.colors.white[3],
+	reversed, onPress
+}: StandardButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -61,7 +73,7 @@ function StandardButton({ text, textTheme = 'dark', icon, heightPreset = 'medium
 				flexDirection={reversed ? 'row-reverse' : 'row'}
 			>
 				{
-					icon && <IconComponent relativeHeight={'60%'} iconName={icon} />
+					icon && <IconComponent relativeHeight={iconHeight} relativeWidth={iconWidth} iconName={icon} />
 				}
 				{
 					text && <ButtonText textTheme={textTheme}>{text}</ButtonText>

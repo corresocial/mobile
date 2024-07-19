@@ -37,7 +37,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 								withPadding={!!props.enableScreenPadding}
 							>
 								{
-									props.firstSection && !props.children && (
+									props.firstSection && (
 										<FirstSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -47,7 +47,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.secondSection && !props.children && (
+									props.secondSection && (
 										<SecondSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -57,7 +57,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.thirdSecton && !props.children && (
+									props.thirdSecton && (
 										<ThirdSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -83,7 +83,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 								withPadding={!!props.enableScreenPadding}
 							>
 								{
-									props.firstSection && !props.children && (
+									props.firstSection && (
 										<FirstSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -93,7 +93,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.secondSection && !props.children && (
+									props.secondSection && (
 										<SecondSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}
@@ -103,7 +103,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
-									props.thirdSecton && !props.children && (
+									props.thirdSecton && (
 										<ThirdSection
 											tone={props.tone}
 											withPadding={!!props.enableSectionPadding}

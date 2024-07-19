@@ -51,17 +51,17 @@ export const SectionCommon = styled.View`
 `
 
 export const FirstSection = styled(SectionCommon) <SectionProps>`
-    padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(15) : 0)}px;
+    padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(10) : 0)}px;
 	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 1)};
 `
 
 export const SecondSection = styled(SectionCommon) <SectionProps>`
-    padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(15) : 0)}px;
+    padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(10) : 0)}px;
 	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 2)};
 `
 
 export const ThirdSection = styled(SectionCommon) <SectionProps>`
     flex: 1;
-    padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(15) : 0)}px;
+    padding: ${({ withPadding }) => (withPadding ? `0px ${relativeScreenDensity(10)}px` : 0)};
 	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 3)};
 `

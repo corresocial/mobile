@@ -11,9 +11,9 @@ export const Container = styled.View<ContainerProps>`
 	flex-direction: row;
 	justify-content: start;
 	align-items: center;
-	padding: ${relativeScreenDensity(10)}px;
 	gap: ${relativeScreenWidth(2)}px;
 	background-color: ${({ color }) => color};
+	align-self: flex-center;
 `
 
 export const Title = styled.Text`
@@ -24,6 +24,12 @@ export const Title = styled.Text`
 export const RightLabel = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes.arvo[4]}px;
-	text-align: right;
-	flex: 1;
+	text-align: center;
+`
+
+export const RightLabelContainer = styled.View`
+	background-color: ${({ theme }) => theme.colors.white[3]};
+	border-radius: ${relativeScreenDensity(10)}px;
+	padding: ${relativeScreenDensity(2)}px ${relativeScreenDensity(10)}px;
+	justify-self: flex-end;
 `

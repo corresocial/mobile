@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import { IconName } from '@assets/icons/iconMap/types'
 
-import { Container, RightLabel, Title } from './styles'
+import { Container, RightLabel, RightLabelContainer, Title } from './styles'
 import { theme } from '@common/theme'
 
 import { IconComponent } from '@newComponents/IconComponent'
 import { StandardButton } from '@newComponents/StandardButton'
 
 interface ContextHeaderProps {
-	title: string
+	title: string | ReactNode
 	color?: string
 	rightLabel?: string
 	icon?: IconName
@@ -23,8 +23,12 @@ function ContextHeader({ title, color = 'transparent', rightLabel, icon, onBack,
 			{onBack && <StandardButton icon={'arrowLeft'} onPress={onBack} />}
 			{onClose && <StandardButton icon={'x'} backgroundColor={theme.colors.red[3]} onPress={onClose} />}
 			{icon && <IconComponent relativeWidth={35} relativeHeight={35} iconName={icon} />}
-			<Title>{title}</Title>
-			{rightLabel && <RightLabel>{rightLabel}</RightLabel>}
+			{typeof (title) === 'string' ? <Title>{title}</Title> : title}
+			{rightLabel && (
+				<RightLabelContainer>
+					<RightLabel>{rightLabel}</RightLabel>
+				</RightLabelContainer>
+			)}
 		</Container>
 	)
 }

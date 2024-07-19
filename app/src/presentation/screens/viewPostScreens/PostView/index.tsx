@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureCategories, CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
+import { CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -20,47 +20,36 @@ import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
-import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
-import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
-import ChatWhiteIcon from '@assets/icons/chat-white.svg'
-import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
+import { Body, GroupInfo, Header, OptionsArea } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
-import ShareWhiteIcon from '@assets/icons/share-white.svg'
-import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
-import { CultureTypeCard } from '@components/_cards/CultureTypeCard'
-import { DateTimeCard } from '@components/_cards/DateTimeCard'
-import { DescriptionCard } from '@components/_cards/DescriptionCard'
-import { LinkCard } from '@components/_cards/LinkCard'
-import { LocationViewCard } from '@components/_cards/LocationViewCard'
-import { PlaceModality } from '@components/_cards/PlaceModalityCard'
-import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
+import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
-import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { RejectModal } from '@components/_modals/RejectModal'
 import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { HorizontalTagList } from '@components/HorizontalTagList'
-import { ImageCarousel } from '@components/ImageCarousel'
 import { Loader } from '@components/Loader'
 import { PostPopOver } from '@components/PostPopOver'
-import { SmallUserIdentification } from '@components/SmallUserIdentification'
+import { ContextHeader } from '@newComponents/ContextHeader'
+import { MapView } from '@newComponents/MapView'
+import { MediaView } from '@newComponents/MediaView'
+import { MiniUserIndentifier } from '@newComponents/MiniUserIdentifier'
 import { PostInfo } from '@newComponents/PostInfo'
+import { StandardButton } from '@newComponents/StandardButton'
 
 const { localStorage } = useUserRepository()
 const { remoteStorage } = usePostRepository()
 const { sendImpactReport } = useImpactReportDomain()
 
-const { convertTextToNumber, arrayIsEmpty, formatRelativeDate } = UiUtils()
+const { convertTextToNumber, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
 const { mergeObjects } = useUtils()
 
@@ -74,7 +63,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
 	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
-	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
 	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
 	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 
@@ -112,14 +100,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	const canRenderUnapprovedData = () => {
 		return loggedUserIsOwner() && postData && postData.unapprovedData
-	}
-
-	const canRenderWaitingApproveIndicator = () => {
-		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
-	}
-
-	const canRenderRejectIndicator = () => {
-		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
 	}
 
 	const loggedUserIsOwner = () => {
@@ -214,11 +194,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		}, 50)
 	}
 
-	const renderFormatedPostDateTime = () => {
-		const formatedDate = formatRelativeDate(postData.createdAt || '')
-		return formatedDate
-	}
-
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
 		navigation.navigate('ContactUsInsertMessage' as any, {
@@ -234,19 +209,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			return navigation.navigate('Profile' as any)
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
-	}
-
-	const getCategoryLabel = () => {
-		try {
-			const categoryField = getPostField('category') as CultureCategories
-			if (Object.keys(cultureCategories).includes(categoryField)) {
-				return cultureCategories[categoryField].label
-			}
-			return ''
-		} catch (err) {
-			console.log(err)
-			return ''
-		}
 	}
 
 	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => {
@@ -276,10 +238,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		setRejectModalIsVisible(!rejectModalIsVisible)
 	}
 
-	const openGallery = () => setGaleryIsVisible(true)
-
-	const closeGalery = () => setGaleryIsVisible(false)
-
 	if (!postLoaded) {
 		return (
 			<Loader flex />
@@ -287,7 +245,133 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	return (
-		<Container>
+		<ScreenContainer
+			tone={'blue'}
+			infinityBottom
+			enableSectionPadding
+			firstSection={(
+				<Header>
+					<ContextHeader
+						title={(
+							<MiniUserIndentifier
+								navigateToProfile={navigateToProfile}
+								owner={postData.owner}
+								postedAt={postData.createdAt}
+							/>
+						)}
+						onBack={() => navigation.goBack()}
+					/>
+					<VerticalSpacing />
+					<OptionsArea>
+						{
+							!isAuthor && (
+								<StandardButton
+									icon={'share'}
+									relativeWidth={relativeScreenWidth(12)}
+									onPress={sharePost}
+								/>
+							)
+						}
+						{
+							isCompleted
+								? (
+									<SmallButton
+										label={'post foi concluído'}
+										labelColor={theme.black4}
+										SvgIcon={DeniedWhiteIcon}
+										relativeWidth={'80%'}
+										height={relativeScreenWidth(12)}
+										onPress={() => { }}
+									/>
+								)
+								: (
+									<StandardButton
+										text={isAuthor ? 'compartilhar' : 'conversar'}
+										backgroundColor={theme.colors.green[4]}
+										icon={isAuthor ? 'share' : 'chat'}
+										iconHeight={30}
+										iconWidth={30}
+										textTheme={'light'}
+										relativeWidth={isAuthor ? '80%' : '63%'}
+										onPress={isAuthor ? sharePost : openChat}
+									/>
+								)
+						}
+						<PostPopOver
+							postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
+							popoverVisibility={postOptionsIsOpen}
+							closePopover={() => setPostOptionsIsOpen(false)}
+							isAuthor={isAuthor || false}
+							isCompleted={isCompleted}
+							goToComplaint={reportPost}
+							markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
+							editPost={goToEditPost}
+							deletePost={toggleDefaultConfirmationModalVisibility}
+						>
+							<StandardButton
+								icon={'threeDots'}
+								onPress={() => setPostOptionsIsOpen(true)}
+							/>
+						</PostPopOver>
+					</OptionsArea>
+				</Header>
+			)}
+			thirdSecton={(
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={{ width: '100%' }}
+				>
+					<Body>
+						<VerticalSpacing />
+						<GroupInfo>
+							<PostInfo
+								type={'description'}
+								value={'loren ipson loren ipson loren ipson loren ipson loren ipson loren ipson loren ipso'}
+							/>
+							<PostInfo
+								type={'macroCategory'}
+								value={getPostField('macroCategory')}
+							/>
+							<PostInfo
+								type={'placeModality'}
+								value={'presential'}
+							/>
+							<PostInfo
+								type={'price'}
+								value={{ saleValue: '100' }}
+							/>
+							<PostInfo
+								type={'link'}
+								value={getPostField('links') || ['https://sitedaora.com']}
+							/>
+							<PostInfo
+								type={'dateTime'}
+								value={{
+									weekDaysfrequency: 'everyday',
+									daysOfWeek: ['dom'],
+									repetition: 'everyDay',
+									startDate: new Date().setDate(22) as any,
+									endDate: new Date().setDate(15) as any,
+									startTime: new Date().setHours(5) as any,
+									endTime: new Date().setHours(20 as any)
+								}}
+							/>
+						</GroupInfo>
+						<VerticalSpacing />
+						<MapView
+							online={false}
+							locationView={'public'}
+							location={getPostField('location')}
+						/>
+						<VerticalSpacing />
+						<MediaView
+							picturesUrl={['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSo7-n3i4ozalW-D_kGWM-M34z5eCUv5vyYA&s']}
+						/>
+						<VerticalSpacing bottomNavigatorSpace />
+					</Body>
+				</ScrollView>
+			)}
+		>
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'apagar post'}
@@ -314,180 +398,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 				visibility={rejectModalIsVisible}
 				closeModal={toggleRejectModalVisibility}
 			/>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<Header>
-				<DefaultPostViewHeader
-					onBackPress={() => navigation.goBack()}
-					text={getPostField('description')}
-				/>
-				<VerticalSpacing />
-				<UserAndValueContainer>
-					<SmallUserIdentification
-						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
-						postDate={renderFormatedPostDateTime()}
-						userNameFontSize={14}
-						profilePictureUrl={getProfilePictureUrl()}
-						pictureDimensions={45}
-						width={'60%'}
-						navigateToProfile={navigateToProfile}
-					/>
-					{canRenderWaitingApproveIndicator() && <TouchableOpacity onPress={toggleWaitingApproveModalVisibility}><ClockArrowWhiteIcon /></TouchableOpacity>}
-					{canRenderRejectIndicator() && <TouchableOpacity onPress={toggleRejectModalVisibility}><DeniedWhiteIcon /></TouchableOpacity>}
-				</UserAndValueContainer>
-				<VerticalSpacing />
-				<OptionsArea>
-					{
-						!isAuthor && (
-							<SmallButton
-								color={theme.white3}
-								SvgIcon={ShareWhiteIcon}
-								relativeWidth={relativeScreenWidth(12)}
-								height={relativeScreenWidth(12)}
-								onPress={sharePost}
-							/>
-						)
-					}
-					{
-						isCompleted
-							? (
-								<SmallButton
-									label={'post foi concluído'}
-									labelColor={theme.black4}
-									SvgIcon={DeniedWhiteIcon}
-									relativeWidth={'80%'}
-									height={relativeScreenWidth(12)}
-									onPress={() => { }}
-								/>
-							)
-							: (
-								<SmallButton
-									color={theme.green3}
-									label={isAuthor ? 'compartilhar' : 'conversar'}
-									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
-									relativeWidth={isAuthor ? '80%' : '63%'}
-									height={relativeScreenWidth(12)}
-									onPress={isAuthor ? sharePost : openChat}
-								/>
-							)
-					}
-					<PostPopOver
-						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
-						popoverVisibility={postOptionsIsOpen}
-						closePopover={() => setPostOptionsIsOpen(false)}
-						isAuthor={isAuthor || false}
-						isCompleted={isCompleted}
-						goToComplaint={reportPost}
-						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
-						editPost={goToEditPost}
-						deletePost={toggleDefaultConfirmationModalVisibility}
-					>
-						<SmallButton
-							SvgIcon={ThreeDotsWhiteIcon}
-							relativeWidth={relativeScreenWidth(12)}
-							height={relativeScreenWidth(12)}
-							onPress={() => setPostOptionsIsOpen(true)}
-						/>
-					</PostPopOver>
-				</OptionsArea>
-			</Header>
-			<ScrollView showsVerticalScrollIndicator={false} >
-				<VerticalSpacing />
-				<HorizontalTagList
-					tags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedColor={theme.blue1}
-				/>
-				<Body>
-					<VerticalSpacing />
-					<PostInfo
-						type={'placeModality'}
-						value={'presential'}
-					/>
-					<CultureTypeCard
-						title={'tipo de cultura'}
-						macroCategory={getPostField('macroCategory')}
-					/>
-					<VerticalSpacing />
-					<DescriptionCard
-						text={getPostField('description')}
-					/>
-					{
-						!arrayIsEmpty(getPostField('links')) && (
-							<>
-								<VerticalSpacing />
-								<LinkCard
-									links={getPostField('links')}
-								/>
-							</>
-						)
-					}
-					<VerticalSpacing />
-					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
-							<>
-								<GalleryModal
-									picturesUrl={getPostField('picturesUrl')}
-									videosUrl={getPostField('videosUrl')}
-									showGallery={galeryIsVisible}
-									onClose={closeGalery}
-								/>
-								<TouchableOpacity
-									activeOpacity={1}
-									onPress={openGallery}
-								>
-									<ImageCarousel
-										picturesUrl={getPostField('picturesUrl') || []}
-										indicatorColor={theme.blue1}
-										square
-										showFullscreenIcon
-									/>
-								</TouchableOpacity>
-							</>
-						)
-					}
-					{
-						getPostField('eventPlaceModality') && (
-							<>
-								<PlaceModality
-									title={'como participar'}
-									hightligtedWords={['participar']}
-									placeModality={getPostField('eventPlaceModality')}
-								/>
-								<VerticalSpacing />
-							</>
-						)
-					}
-					{
-						getPostField('entryValue', true) && (
-							<>
-								<SaleOrExchangeCard
-									title={'custo de entrada'}
-									hightligtedWords={['custo', 'entrada']}
-									saleValue={getPostField('entryValue', true)}
-									isCulturePost
-								/>
-								<VerticalSpacing />
-							</>
-						)
-					}
-					<LocationViewCard
-						online={getPostField('eventPlaceModality') === 'online'}
-						locationView={getPostField('locationView')}
-						location={getPostField('location')}
-					/>
-					<VerticalSpacing />
-					<DateTimeCard
-						weekDaysfrequency={getPostField('exhibitionFrequency')}
-						daysOfWeek={getPostField('daysOfWeek', true)}
-						repetition={getPostField('repeat', true)}
-						startDate={getPostField('startDate', true)}
-						endDate={getPostField('endDate', true)}
-						startTime={getPostField('startHour', true)}
-						endTime={getPostField('endHour')}
-					/>
-					<VerticalSpacing bottomNavigatorSpace />
-				</Body>
-			</ScrollView>
-		</Container >
+		</ScreenContainer >
 	)
 }
 

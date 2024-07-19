@@ -111,32 +111,3 @@ export const PostDescriptionContainer = styled.View<PostDescriptionContainerProp
 	border-left-width: ${({ colapsed }) => relativeScreenWidth(colapsed ? 0 : 0.5)}px;
 	border-left-color: ${({ theme }) => theme.black4};
 `
-
-export const OwnerDataContainer = styled.View`
-	align-items: center;
-	flex-direction: row;
-	gap: ${relativeScreenWidth(2)}px;
-`
-
-export const OwnerProfilePicture = styled.Image`
-	width: ${relativeScreenWidth(11)}px;
-	height: ${relativeScreenWidth(11)}px;
-	border-width: ${relativeScreenDensity(2)}px;
-	border-color: ${({ theme }) => theme.black4};
-	border-radius: ${relativeScreenDensity(12)}px;
-`
-
-export const OwnerTextGroup = styled.View`
-	align-items: column;
-	justify-content: center;
-`
-
-export const OwnerName = styled.Text`
-	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme }) => theme.fontSizes.arvo[2]}px;
-`
-
-export const PostDate = styled.Text`
-	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-	font-size: ${({ theme }) => theme.fontSizes.arvo[1]}px;
-`
