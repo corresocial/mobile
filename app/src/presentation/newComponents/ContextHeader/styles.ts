@@ -20,3 +20,10 @@ export const Title = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
 `
+
+export const RightLabel = styled.Text`
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
+	font-size: ${({ theme }) => theme.fontSizes.arvo[4]}px;
+	text-align: right;
+	flex: 1;
+`
