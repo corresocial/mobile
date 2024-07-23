@@ -157,7 +157,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 	}
 
 	const hideThumbnailList = (): boolean => {
-		return hideElements || (!isShowingVideo() && isLandscapeMode) 
+		return hideElements || (!isShowingVideo() && isLandscapeMode)
 	}
 
 	const renderPicture = (uri: string) => (
@@ -183,6 +183,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 				resizeMode={ResizeMode.CONTAIN}
 				isLooping
 				useNativeControls
+				shouldPlay
 				ref={(el) => {
 					videoRefs.current[index] = el
 				}}
@@ -204,11 +205,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 			{
 				isLoading && (
 					<LoaderContainer>
-						<Loader/>
+						<Loader />
 					</LoaderContainer>
 				)
 			}
-			
+
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
@@ -259,11 +260,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 				)
 			}
 
-			<ThumbnailListContainer 
-				key={isLandscapeMode ? 'landscape' : 'portrait'} 
-				style={{ 
-					opacity: hideThumbnailList() ? 0 : 1, 
-					zIndex: hideThumbnailList() ? -1 : 1 
+			<ThumbnailListContainer
+				key={isLandscapeMode ? 'landscape' : 'portrait'}
+				style={{
+					opacity: hideThumbnailList() ? 0 : 1,
+					zIndex: hideThumbnailList() ? -1 : 1
 				}}
 			>
 				<ThumbnailList
