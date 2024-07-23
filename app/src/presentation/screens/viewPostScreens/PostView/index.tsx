@@ -36,6 +36,7 @@ import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSucces
 import { RejectModal } from '@components/_modals/RejectModal'
 import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { HorizontalTagList } from '@components/HorizontalTagList'
 import { Loader } from '@components/Loader'
 import { PostPopOver } from '@components/PostPopOver'
 import { ContextHeader } from '@newComponents/ContextHeader'
@@ -324,6 +325,10 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 					<Body>
 						<VerticalSpacing />
 						<GroupInfo>
+							<HorizontalTagList
+								tags={[getPostField('category'), ...getPostField('tags')]}
+								selectedColor={theme.blue1}
+							/>
 							<PostInfo
 								type={'description'}
 								value={'loren ipson loren ipson loren ipson loren ipson loren ipson loren ipson loren ipso'}
@@ -347,8 +352,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							<PostInfo
 								type={'dateTime'}
 								value={{
-									weekDaysfrequency: 'everyday',
-									daysOfWeek: ['dom'],
+									weekDaysfrequency: 'someday',
+									daysOfWeek: ['dom', 'seg'],
 									repetition: 'everyDay',
 									startDate: new Date().setDate(22) as any,
 									endDate: new Date().setDate(15) as any,
