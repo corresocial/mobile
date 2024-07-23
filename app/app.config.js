@@ -99,7 +99,7 @@ export default {
 		],
 		ios: {
 			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
-			buildNumber: '64',
+			buildNumber: '65',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -121,7 +121,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 64,
+			versionCode: 65,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
