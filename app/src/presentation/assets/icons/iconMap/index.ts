@@ -19,6 +19,8 @@ import Clock from '@assets/icons/clock.svg'
 import StaringEyes from '@assets/icons/staring-eyes.svg'
 import ThreeDots from '@assets/icons/threeDots.svg'
 import Share from '@assets/icons/share-white.svg'
+import UsedLabel from '@assets/icons/usedLabel-white.svg'
+import Gift from '@assets/icons/gift-white.svg'
 
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
@@ -89,6 +91,12 @@ const icons: IconMap = {
 	},
 	share: {
 		default: Share
+	},
+	usedLabel: {
+		default: UsedLabel
+	},
+	gift: {
+		default: Gift
 	},
 }
 

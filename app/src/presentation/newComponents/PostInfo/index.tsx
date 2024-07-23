@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { Linking } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { DaysOfWeek, EventRepeatType, PlaceModalityType, WeekdaysFrequency } from '@domain/post/entity/types'
+import { DaysOfWeek, EventRepeatType, ItemStatus, PlaceModalityType, WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { IconName } from '@assets/icons/iconMap/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
@@ -16,7 +16,7 @@ import { IconComponent } from '@newComponents/IconComponent'
 
 const { arrayIsEmpty, textHasOnlyNumbers, formatDate, formatHour } = UiUtils()
 
-export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime'
+export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus'
 
 type PriceValues = { saleValue?: string, exchangeValue?: string }
 type DateTimeInfos = {
@@ -32,7 +32,7 @@ type DateTimeInfos = {
 interface PostInfoProps {
 	type: PostInfoType
 	title?: string
-	value: string | string[] | MacroCategoriesType | PriceValues | DateTimeInfos
+	value: string | string[] | MacroCategoriesType | PriceValues | DateTimeInfos | ItemStatus
 	icon?: IconName
 }
 
@@ -189,20 +189,6 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		return dateTimeInfosToRender.join('\n')
 	}
 
-	/*
-		--- CARDS DE CULTURA ---
-
-		DescriptionCard - description
-		LinkCard - link
-		PostType - macroCategory
-		PlaceModality
-		SaleOrExchangeCard - price
-		DateTimeCard
-		LocationViewCard
-
-		ImageCarousel
-	*/
-
 	const getStyleByType = (): CurrentStyle => {
 		switch (type) {
 			case 'description': return {
@@ -249,6 +235,11 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 						{renderLinks(value as string[])}
 					</LinksContainer>
 				)
+			}
+			case 'productStatus': return {
+				title: 'Estado do produto:',
+				icon: value === 'new' ? 'gift' : 'usedLabel',
+				formattedValue: value === 'new' ? 'novo' : 'usado'
 			}
 			default: return {
 				title: 'Info:',

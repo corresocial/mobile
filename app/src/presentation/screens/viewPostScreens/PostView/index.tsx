@@ -338,6 +338,10 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 								value={getPostField('macroCategory')}
 							/>
 							<PostInfo
+								type={'productStatus'}
+								value={'used'}
+							/>
+							<PostInfo
 								type={'placeModality'}
 								value={'presential'}
 							/>
