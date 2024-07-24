@@ -10,8 +10,8 @@ import { ThemeProvider } from 'styled-components'
 
 import Aptabase from '@aptabase/react-native'
 import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
-import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -85,20 +85,20 @@ function App() {
 	})
 
 	return (
-		<NavigationContainer 
-			ref={navigationRef} 
-			linking={linking} 
+		<NavigationContainer
+			ref={navigationRef}
+			linking={linking}
 			onReady={() => {
 				routeNameRef.current = navigationRef.current.getCurrentRoute().name
 			}}
 			onStateChange={() => {
 				const previousRouteName = routeNameRef.current
 				const currentRouteName = navigationRef.current.getCurrentRoute().name
-		
+
 				if (previousRouteName !== currentRouteName) {
 					sendEvent('user_opened_screen', { screenName: currentRouteName })
 				}
-		
+
 				routeNameRef.current = currentRouteName
 			}}
 		>

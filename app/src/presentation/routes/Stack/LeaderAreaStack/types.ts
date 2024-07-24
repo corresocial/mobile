@@ -14,6 +14,8 @@ export type LeaderAreaStackParamList = {
 	ViewUnapprovedRegistersList: undefined
 
 	ProfileLeaderArea: { userId: string, stackLabel?: string }
+	SearchProfile: undefined
+
 	ViewIncomePostLeaderArea: { postData: IncomeEntity, redirectedPostId: string }
 	ViewVacancyPostLeaderArea: { postData: VacancyEntity, redirectedPostId: string }
 	ViewSocialImpactPostLeaderArea: { postData: SocialImpactEntity, redirectedPostId: string }

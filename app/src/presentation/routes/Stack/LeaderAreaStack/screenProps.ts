@@ -12,6 +12,8 @@ export type ViewUnapprovedProfileScreenProps = NativeStackScreenProps<LeaderArea
 export type ViewUnapprovedRegistersListScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewUnapprovedRegistersList'>
 
 export type ProfileLeaderAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ProfileLeaderArea'>
+export type SearchProfileScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'SearchProfile'>
+
 export type ViewIncomePostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewIncomePostLeaderArea'>
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewVacancyPostLeaderArea'>
 export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewSocialImpactPostLeaderArea'>

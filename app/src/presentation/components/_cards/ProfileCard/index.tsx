@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { CompleteUser } from '@domain/user/entity/types'
+import { UserEntity } from '@domain/user/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
@@ -23,13 +23,13 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 const { arrayIsEmpty } = UiUtils()
 
 interface ProfileCardProps {
-	userData: CompleteUser
+	userData: UserEntity
 	isOwner: boolean
 	onPress: () => void
 }
 
 function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
-	const [user, setUser] = useState<CompleteUser>(userData)
+	const [user, setUser] = useState<UserEntity>(userData)
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	useEffect(() => {
