@@ -11,6 +11,7 @@ import CityWhiteIcon from '@assets/icons/city-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import HanOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import ImpactLabel from '@assets/icons/impactLabel.svg'
+import QuestionaryWhiteIcon from '@assets/icons/questionary-white.svg'
 import VerifiedLabel from '@assets/icons/verifiedLabel.svg'
 import XIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -51,6 +52,7 @@ function PopOver({
 	const [verifyUserModal, setVerifyUserModal] = useState(false)
 	const [verifyImpactUserModal, setVerifyImpactUserModal] = useState(false)
 	const [verifyGovernmentProfileModal, setVerifyGovernmentProfileModal] = useState(false)
+	const [censusTakerProfileModal, setCensusTakerProfileModal] = useState(false)
 	const [freeTrielUserModal, setFreeTrielUserModal] = useState(false)
 	const [selectedSubscriptionPlanModal, setSelectSubscriptionPlanModal] = useState(false)
 
@@ -64,6 +66,10 @@ function PopOver({
 
 	const toggleVerifyGovernmentProfileModal = () => {
 		setVerifyGovernmentProfileModal(!verifyGovernmentProfileModal)
+	}
+
+	const toggleCensusTakerProfileModal = () => {
+		setCensusTakerProfileModal(!censusTakerProfileModal)
 	}
 
 	const toggleFreeTrialUserModal = () => {
@@ -107,6 +113,13 @@ function PopOver({
 				title={'tornar de impacto'}
 				subject={'tornar de impacto'}
 				onPressButton={() => onPressVerify && onPressVerify('impact')}
+				closeModal={toggleVerifyImpactUserModal}
+			/>
+			<VerifyUserConfirmationModal
+				visibility={censusTakerProfileModal}
+				title={'tornar coordenador'}
+				subject={'tornar coordenador'}
+				onPressButton={() => onPressVerify && onPressVerify('coordinator')}
 				closeModal={toggleVerifyImpactUserModal}
 			/>
 			<VerifyUserConfirmationModal
@@ -164,7 +177,7 @@ function PopOver({
 									relativeHeight={relativeScreenHeight(8)}
 									onPress={reportUser}
 								/>
-								<VerticalSpacing/>
+								<VerticalSpacing />
 							</>
 						)
 					}
@@ -182,7 +195,7 @@ function PopOver({
 									relativeHeight={relativeScreenHeight(8)}
 									onPress={toggleVerifyUserModal}
 								/>
-								<VerticalSpacing/>
+								<VerticalSpacing />
 								<PrimaryButton
 									color={theme.pink3}
 									SecondSvgIcon={ImpactLabel}
@@ -197,7 +210,7 @@ function PopOver({
 								{
 									isAdmin && (
 										<>
-											<VerticalSpacing/>
+											<VerticalSpacing />
 											<PrimaryButton
 												color={theme.purple3}
 												SecondSvgIcon={CityWhiteIcon}
@@ -218,7 +231,7 @@ function PopOver({
 					{
 						isAdmin && setFreeTrialToProfile && (
 							<>
-								<VerticalSpacing/>
+								<VerticalSpacing />
 								<PrimaryButton
 									color={theme.blue3}
 									SecondSvgIcon={HanOnMoneyWhiteIcon}
@@ -229,6 +242,17 @@ function PopOver({
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
 									onPress={toggleFreeTrialUserModal}
+								/>
+								<VerticalSpacing />
+								<PrimaryButton
+									color={theme.orange3}
+									SecondSvgIcon={QuestionaryWhiteIcon}
+									label={'tornar coordenador'}
+									highlightedWords={['coordenador']}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={toggleCensusTakerProfileModal}
 								/>
 							</>
 						)

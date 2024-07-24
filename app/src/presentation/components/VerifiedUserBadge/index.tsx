@@ -6,6 +6,7 @@ import { VerifiedLabelName } from '@domain/user/entity/types'
 import { BadgeLabel } from './styles'
 import ImpactBadge from '@assets/icons/impactLabel.svg'
 import LeaderBadgeIcon from '@assets/icons/leaderLabel.svg'
+import VerifiedCitizenRegistrationIcon from '@assets/icons/questionary-white.svg'
 import VerifiedBadgeIcon from '@assets/icons/verifiedLabel.svg'
 
 interface VerifiedUserBadgeProps {
@@ -31,6 +32,10 @@ function VerifiedUserBadge({ verifiedLabel }: VerifiedUserBadgeProps) {
 		government: {
 			icon: <VerifiedBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
 			description: 'perfil governamental',
+		},
+		coordinator: {
+			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			description: 'coordenador',
 		},
 	}
 

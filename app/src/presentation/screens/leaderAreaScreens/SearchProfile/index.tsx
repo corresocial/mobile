@@ -63,7 +63,7 @@ export function SearchProfile({ navigation }: SearchProfileScreenProps) {
 	}
 
 	const openProfile = (item: UserEntity) => {
-		navigation.navigate('ProfileLeaderArea', { userId: item.userId })
+		navigation.navigate('ProfileLeaderArea', { userId: item.userId, stackLabel: 'LeaderArea' })
 	}
 
 	const renderProfileItem = ({ item }: FlatListItem<UserEntity>) => {

@@ -41,7 +41,7 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default'
+export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default' | 'coordinator'
 
 export type VerifiedType = {
 	type: VerifiedLabelName

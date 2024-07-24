@@ -393,10 +393,11 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		return ((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
 	}
 
-	const getVerifiedUserType = () => {
+	const getVerifiedUserType = (): VerifiedLabelName | '' => {
 		if (verifiedUserTypeIs('default')) return 'default'
 		if (verifiedUserTypeIs('impact')) return 'impact'
 		if (verifiedUserTypeIs('leader')) return 'leader'
+		if (verifiedUserTypeIs('coordinator')) return 'coordinator'
 		if (verifiedUserTypeIs('government')) return 'government'
 		return ''
 	}
