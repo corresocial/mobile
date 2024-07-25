@@ -3,7 +3,11 @@ import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch'
 
 import { UserEntity } from '@domain/user/entity/types'
 
+import { getEnvVars } from '@infrastructure/environment'
+
 import { AlgoliaServiceInterface } from '../../domain/user/provider/AlgoliaServiceInterface'
+
+const { ALGOLIA_ID, ALGOLIA_KEY } = getEnvVars()
 
 type Record = {
 	readonly objectID?: string
@@ -19,8 +23,6 @@ export class AlgoliaService implements AlgoliaServiceInterface {
 	algoliaClient: SearchClient
 
 	constructor() {
-		const ALGOLIA_ID = '4IGE52ZG7N' as string
-		const ALGOLIA_KEY = 'f2ff51b4d536c1b67278c2c8a87b54c3' as string
 		const client = algoliasearch(ALGOLIA_ID, ALGOLIA_KEY)
 		this.algoliaClient = client
 	}
@@ -46,8 +48,6 @@ export class AlgoliaService implements AlgoliaServiceInterface {
 			const structuredData = this.removeAlgoliaExtraData(result, 'userId')
 			return [...acc, structuredData]
 		}, [] as UserEntity[])
-
-		console.log(results.nbHits)
 
 		return {
 			profiles,

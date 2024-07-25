@@ -12,6 +12,7 @@ import CityWhiteIcon from '@assets/icons/city-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import HanOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import ImpactLabel from '@assets/icons/impactLabel.svg'
+import LeaderWhiteIcon from '@assets/icons/leaderLabel.svg'
 import QuestionaryWhiteIcon from '@assets/icons/questionary-white.svg'
 import VerifiedLabel from '@assets/icons/verifiedLabel.svg'
 import XIcon from '@assets/icons/x-white.svg'
@@ -57,6 +58,7 @@ function PopOver({
 	const [verifyUserModal, setVerifyUserModal] = useState(false)
 	const [verifyImpactUserModal, setVerifyImpactUserModal] = useState(false)
 	const [verifyGovernmentProfileModal, setVerifyGovernmentProfileModal] = useState(false)
+	const [verifyLeaderProfileModal, setVerifyLeaderProfileModal] = useState(false)
 	const [censusTakerProfileModal, setCensusTakerProfileModal] = useState(false)
 	const [questionnaireAdministratorProfileModal, setQuestionnaireAdministratorProfileModal] = useState(false)
 	const [freeTrielUserModal, setFreeTrielUserModal] = useState(false)
@@ -72,6 +74,10 @@ function PopOver({
 
 	const toggleVerifyGovernmentProfileModal = () => {
 		setVerifyGovernmentProfileModal(!verifyGovernmentProfileModal)
+	}
+
+	const toggleVerifyLeaderProfileModal = () => {
+		setVerifyLeaderProfileModal(!verifyLeaderProfileModal)
 	}
 
 	const toggleCensusTakerProfileModal = () => {
@@ -143,6 +149,13 @@ function PopOver({
 				subject={'tornar aplicador de questionário'}
 				onPressButton={navigateToSearchProfile}
 				closeModal={toggleQuestionnaireAdministratorProfileModal}
+			/>
+			<VerifyUserConfirmationModal
+				visibility={verifyLeaderProfileModal}
+				title={'tornar líder'}
+				subject={'conceder perfil de líder para'}
+				onPressButton={() => onPressVerify && onPressVerify('leader')}
+				closeModal={toggleVerifyLeaderProfileModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={verifyGovernmentProfileModal}
@@ -232,6 +245,17 @@ function PopOver({
 								{
 									isAdmin && (
 										<>
+											<VerticalSpacing />
+											<PrimaryButton
+												color={theme.orange3}
+												SecondSvgIcon={LeaderWhiteIcon}
+												label={'tornar líder'}
+												highlightedWords={['líder']}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={toggleVerifyLeaderProfileModal}
+											/>
 											<VerticalSpacing />
 											<PrimaryButton
 												color={theme.purple3}

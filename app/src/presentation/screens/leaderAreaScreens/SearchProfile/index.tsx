@@ -4,8 +4,6 @@ import { ListRenderItem, ActivityIndicator } from 'react-native'
 import { UserUseCases } from '@domain/user/adapter/UserUseCases'
 import { UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
-import { useUserRepository } from '@data/user/useUserRepository'
-
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
@@ -21,8 +19,6 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-
-const { remoteStorage } = useUserRepository()
 
 const userUseCases = new UserUseCases()
 
@@ -56,6 +52,8 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 		}
 	}
 
+	// CURRENT Texto indicando que é para selecionar um usuário para ser o coordenador
+
 	const handleEndReached = () => {
 		if (!loadingMore && profileList.length < numberOfHits) {
 			setLoadingMore(true)
@@ -82,18 +80,13 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName, profileId: string, coordinatorId: string) => {
-		if (profileId && userDataContext.userId) {
-			const verifiedObject = {
-				verified: {
-					type: label,
-					by: userDataContext.userId,
-					at: new Date(),
-					name: userDataContext.name || '',
-					coordinatorId: coordinatorId
-				}
-			}
-
-			await remoteStorage.updateUserData(profileId, verifiedObject)
+		try {
+			setLoaderIsVisible(true)
+			await userUseCases.setVerificationBadge(userDataContext, label, profileId, coordinatorId)
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setLoaderIsVisible(false)
 		}
 	}
 

@@ -37,6 +37,10 @@ function VerifiedUserBadge({ verifiedLabel }: VerifiedUserBadgeProps) {
 			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
 			description: 'coordenador',
 		},
+		questionnaireAdministrator: {
+			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			description: 'aplicador de questionário',
+		},
 	}
 
 	const userBadge = userBadges[verifiedLabel]

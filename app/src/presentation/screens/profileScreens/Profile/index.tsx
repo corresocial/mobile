@@ -9,6 +9,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Chat } from '@domain/chat/entity/types'
 import { Id, PostEntityOptional, PostEntityCommonFields, PostRange, PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
+import { UserUseCases } from '@domain/user/adapter/UserUseCases'
 import { CompleteUser, SocialMedia, UserEntity, UserEntityOptional, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
@@ -88,6 +89,8 @@ const { getPostsByOwner } = usePostDomain()
 
 const { arrayIsEmpty, getNewDate } = UiUtils()
 const { mergeObjects, getLastItem } = useUtils()
+
+const userUseCases = new UserUseCases()
 
 function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -357,18 +360,13 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
 		setProfileOptionsIsOpen(false)
-		if (user.userId && userDataContext.userId) {
-			const verifiedObject = {
-				verified: {
-					type: label,
-					by: userDataContext.userId,
-					at: new Date(),
-					name: userDataContext.name || ''
-				}
-			}
-
-			await remoteStorage.updateUserData(user.userId, verifiedObject)
+		try {
+			await userUseCases.setVerificationBadge(userDataContext, label, user.userId as string)
 			user.userId && await loadRemoteProfileData(false, true)
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setLoaderIsVisible(false)
 		}
 	}
 
@@ -398,6 +396,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		if (verifiedUserTypeIs('impact')) return 'impact'
 		if (verifiedUserTypeIs('leader')) return 'leader'
 		if (verifiedUserTypeIs('coordinator')) return 'coordinator'
+		if (verifiedUserTypeIs('questionnaireAdministrator')) return 'questionnaireAdministrator'
 		if (verifiedUserTypeIs('government')) return 'government'
 		return ''
 	}
