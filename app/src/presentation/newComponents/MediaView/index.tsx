@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useTheme } from 'styled-components'
 
@@ -16,17 +16,28 @@ interface MediaViewProps {
 export function MediaView({ picturesUrl, videosUrl, onPress }: MediaViewProps) {
 	const theme = useTheme()
 
+	const [galeryIsVisible, setGaleryIsVisible] = useState(false)
+
+	const openGallery = () => setGaleryIsVisible(true)
+
+	const closeGallery = () => setGaleryIsVisible(false)
+
+	const mediaPressHandler = () => {
+		openGallery()
+		onPress?.()
+	}
+
 	return (
 		<Container>
 			<GalleryModal
 				picturesUrl={picturesUrl || []}
 				videosUrl={[]}
-				showGallery={false}
-				onClose={() => console.log('call method closeGallery(')}
+				showGallery={galeryIsVisible}
+				onClose={closeGallery}
 			/>
 			<TouchableOpacity
 				activeOpacity={1}
-				onPress={() => console.log('call method openGallery(')}
+				onPress={mediaPressHandler}
 			>
 				<MediaCarousel
 					picturesUrl={[...(picturesUrl || []), ...(picturesUrl || [])] || []}
