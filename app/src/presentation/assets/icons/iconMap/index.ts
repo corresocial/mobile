@@ -22,6 +22,18 @@ import Share from '@assets/icons/share-white.svg'
 import UsedLabel from '@assets/icons/usedLabel-white.svg'
 import Gift from '@assets/icons/gift-white.svg'
 
+import SalesCart from '@assets/icons/sale-white.svg'
+import Toolbox from '@assets/icons/service-white.svg'
+import Briefcase from '@assets/icons/vacancy-white.svg'
+
+import HandOnHeart from '@assets/icons/handOnHeart-white.svg'
+import HeartAndPerson from '@assets/icons/heartAndPerson-white.svg'
+import PaperInfo from '@assets/icons/paperInfo-white.svg'
+
+import CountryBrazil from '@assets/icons/brazil-white.svg'
+import City from '@assets/icons/city-white.svg'
+import PersonWalking from '@assets/icons/people-white.svg'
+
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"
@@ -98,6 +110,33 @@ const icons: IconMap = {
 	gift: {
 		default: Gift
 	},
+	salesCart: {
+		default: SalesCart
+	},
+	toolbox: {
+		default: Toolbox
+	},
+	briefcase: {
+		default: Briefcase
+	},
+	handOnHeart: {
+		default: HandOnHeart
+	},
+	heartAndPerson: {
+		default: HeartAndPerson
+	},
+	paperInfo: {
+		default: PaperInfo
+	},
+	personWalking: {
+		default: PersonWalking
+	},
+	city: {
+		default: City
+	},
+	countryBrazil: {
+		default: CountryBrazil
+	}
 }
 
 export { icons }
