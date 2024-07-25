@@ -40,7 +40,16 @@ export const Content = styled.View<ContentProps>`
 	gap: ${relativeScreenDensity(5)}px;
 `
 
+export const DateTimeContainer = styled.View`
+	flex-direction: column;
+`
+
 export const Value = styled(CommonText)`
+	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
+	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+`
+
+export const DateTimeLabel = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
 `

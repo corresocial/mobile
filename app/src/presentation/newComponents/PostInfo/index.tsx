@@ -2,23 +2,23 @@ import React, { ReactNode, useState } from 'react'
 import { Linking } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { DaysOfWeek, EventRepeatType, ItemStatus, PlaceModalityType, WeekdaysFrequency } from '@domain/post/entity/types'
+import { DaysOfWeek, DeliveryMethod, EventRepeatType, ItemStatus, PlaceModalityType, PostRange, WeekdaysFrequency } from '@domain/post/entity/types'
 
 import { IconName } from '@assets/icons/iconMap/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
-import { Container, Content, HyperlinkContainer, LinkContainer, LinksContainer, LongText, PriceLabel, SeeMoreLabel, TextLink, Title, Value } from './styles'
-import { getShortText } from '@common/auxiliaryFunctions'
+import { Container, Content, DateTimeContainer, DateTimeLabel, HyperlinkContainer, LinkContainer, LinksContainer, LongText, PriceLabel, SeeMoreLabel, TextLink, Title, Value } from './styles'
+import { getShortText, showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { IconComponent } from '@newComponents/IconComponent'
 
 const { arrayIsEmpty, textHasOnlyNumbers, formatDate, formatHour } = UiUtils()
 
-export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus'
+export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus' | 'range' | 'deliveryMethod'
 
-type PriceValues = { saleValue?: string, exchangeValue?: string }
+type PriceValues = { saleValue?: string, exchangeValue?: string, isEvent?: boolean }
 type DateTimeInfos = {
 	weekDaysfrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
@@ -32,7 +32,7 @@ type DateTimeInfos = {
 interface PostInfoProps {
 	type: PostInfoType
 	title?: string
-	value: string | string[] | MacroCategoriesType | PriceValues | DateTimeInfos | ItemStatus
+	value: string | string[] | MacroCategoriesType | PriceValues | DateTimeInfos | ItemStatus | DeliveryMethod | PostRange
 	icon?: IconName
 }
 
@@ -88,6 +88,12 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			case 'art': return 'arte'
 			case 'event': return 'evento'
 			case 'education': return 'educação'
+			case 'donation': return 'doação'
+			case 'informative': return 'informativo'
+			case 'iniciative': return 'iniciativa'
+			case 'sale': return 'venda'
+			case 'service': return 'serviço'
+			case 'vacancy': return 'vagas'
 			default: return 'indisponível'
 		}
 	}
@@ -97,6 +103,12 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			case 'art': return 'colorPalet'
 			case 'event': return 'calendarEveryday'
 			case 'education': return 'books'
+			case 'donation': return 'handOnHeart'
+			case 'informative': return 'paperInfo'
+			case 'iniciative': return 'heartAndPerson'
+			case 'sale': return 'salesCart'
+			case 'service': return 'toolbox'
+			case 'vacancy': return 'briefcase'
 			default: return 'x'
 		}
 	}
@@ -121,6 +133,13 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 
 	const getRelativePriceValueLabel = (priceValue: PriceValues) => {
 		const formattedValue = []
+
+		if (priceValue.isEvent && (priceValue.saleValue === '' || (!Number(priceValue.saleValue)))) {
+			formattedValue.push(
+				<PriceLabel bold>{'gratuito'}</PriceLabel>
+			)
+			return formattedValue
+		}
 
 		if (textHasOnlyNumbers(priceValue.saleValue)) {
 			formattedValue.push(
@@ -147,7 +166,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		if (priceValue.exchangeValue && priceValue.saleValue) { return 'x' } // CURRENT Ver com Rafa ícone para isso, ícone que represente tanto venda quanto troca
 		if (priceValue.exchangeValue && !priceValue.saleValue) { return 'exchange' }
 		if (!priceValue.exchangeValue && priceValue.saleValue) { return 'cash' }
-		return 'x'
+		return 'cash'
 	}
 
 	const listDaysOfWeek = (daysOfWeek: DaysOfWeek[]) => {
@@ -160,33 +179,139 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		const dateTimeInfosToRender = []
 
 		switch (dateTimeInfo.weekDaysfrequency) {
-			case 'today': dateTimeInfosToRender.push('só hoje'); break
-			case 'everyday': dateTimeInfosToRender.push('todos os dias'); break
-			case 'businessDay': dateTimeInfosToRender.push('seg à sex'); break
-			case 'someday': dateTimeInfosToRender.push(`${listDaysOfWeek(dateTimeInfo.daysOfWeek || [])}`); break
+			case 'today': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('só hoje', ['só', 'hoje'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'everyday': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('todos os dias', ['todos', 'os', 'dias'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'businessDay': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('seg à sex', ['seg', 'à', 'sex'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'someday': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight(
+							`${listDaysOfWeek(dateTimeInfo.daysOfWeek || [])}`,
+							listDaysOfWeek(dateTimeInfo.daysOfWeek || []).split(' ')
+						)}
+					</DateTimeLabel>
+				</>
+
+			); break
 		}
 
 		if (dateTimeInfo.startDate || dateTimeInfo.startTime) {
 			const startDate = dateTimeInfo.startDate ? formatDate(dateTimeInfo.startDate) : null
 			const startTime = dateTimeInfo.startTime ? formatHour(dateTimeInfo.startTime) : null
-			dateTimeInfosToRender.push(`começa dia ${startDate} ${startTime ? `${startDate ? 'às' : ''} ${startTime}` : ''}`)
+			dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight(
+							`começa${startDate ? ` dia ${startDate}` : ''} ${startTime ? `às ${startTime}` : ''}`,
+							[startDate ?? '', startTime ?? '']
+						)}
+					</DateTimeLabel>
+				</>
+			)
 		}
 
 		if (dateTimeInfo.endDate || dateTimeInfo.endTime) {
 			const endDate = dateTimeInfo.endDate ? formatDate(dateTimeInfo.endDate) : null
 			const endTime = dateTimeInfo.endTime ? formatHour(dateTimeInfo.endTime) : null
-			dateTimeInfosToRender.push(`começa dia ${endDate} ${endTime ? `${endDate ? 'às' : ''} ${endTime}` : ''}`)
+			dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight(
+							`termina${endDate ? ` dia ${endDate}` : ''} ${endTime ? `às ${endTime}` : ''}`,
+							[endDate ?? '', endTime ?? '']
+						)}
+					</DateTimeLabel>
+				</>
+			)
 		}
 
 		switch (dateTimeInfo.repetition) {
-			case 'unrepeatable': dateTimeInfosToRender.push('não se repete'); break
-			case 'everyDay': dateTimeInfosToRender.push('repete todos os dias'); break
-			case 'weekly': dateTimeInfosToRender.push('repete semanalmente'); break
-			case 'biweekly': dateTimeInfosToRender.push('repete a cada 15 dias'); break
-			case 'monthly': dateTimeInfosToRender.push('repete mensalmnte'); break
+			case 'unrepeatable': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('não se repete', ['não', 'se', 'repete'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'everyDay': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('repete todos os dias', ['repete', 'todos', 'os', 'dias'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'weekly': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('repete semanalmente', ['repete', 'semanalmente'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'biweekly': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('repete a cada 15 dias', ['repete', 'a', 'cada', '15', 'dias'])}
+					</DateTimeLabel>
+				</>
+			); break
+			case 'monthly': dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight('repete mensalmente', ['repete', 'mensalmente'])}
+					</DateTimeLabel>
+				</>
+			); break
 		}
 
-		return dateTimeInfosToRender.join('\n')
+		return (
+			<DateTimeContainer>
+				{dateTimeInfosToRender}
+			</DateTimeContainer>
+		)
+	}
+
+	const getFormattedDeliveryMethod = (delivery: DeliveryMethod) => {
+		switch (delivery) {
+			case 'unavailable': return 'comprador busca'
+			case 'city': return 'entrega na cidade'
+			case 'near': return 'entrega no bairro'
+			case 'country': return 'entrega no Brasil'
+		}
+	}
+
+	const getFormattedPostRange = (range: PostRange) => {
+		switch (range) {
+			case 'city': return 'cidade'
+			case 'near': return 'bairro'
+			case 'country': return 'Brasil'
+		}
+	}
+
+	const getRangeIcon = (range: DeliveryMethod | PostRange): IconName => {
+		switch (range) {
+			case 'unavailable': return 'personWalking'
+			case 'city': return 'city'
+			case 'country': return 'countryBrazil'
+			case 'near': return 'pin'
+		}
 	}
 
 	const getStyleByType = (): CurrentStyle => {
@@ -224,7 +349,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			}
 			case 'dateTime': return {
 				title: 'Quando vai ser:',
-				formattedValue: getRelativeWeekDaysfrequency(value as DateTimeInfos),
+				render: getRelativeWeekDaysfrequency(value as DateTimeInfos),
 				icon: 'clock'
 			}
 			case 'link': return {
@@ -240,6 +365,16 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 				title: 'Estado do produto:',
 				icon: value === 'new' ? 'gift' : 'usedLabel',
 				formattedValue: value === 'new' ? 'novo' : 'usado'
+			}
+			case 'range': return {
+				title: 'Alcance do post:',
+				icon: getRangeIcon(value as PostRange),
+				formattedValue: getFormattedPostRange(value as PostRange)
+			}
+			case 'deliveryMethod': return {
+				title: 'Método de entrega',
+				icon: getRangeIcon(value as DeliveryMethod),
+				formattedValue: getFormattedDeliveryMethod(value as DeliveryMethod)
 			}
 			default: return {
 				title: 'Info:',
