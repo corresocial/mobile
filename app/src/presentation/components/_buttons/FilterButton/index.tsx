@@ -56,7 +56,7 @@ function FilterButton({
 				<ContainerSurface
 					style={{
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-5) : 0
+						marginRight: selected ? RFValue(-5) : buttonPressed ? RFValue(-5) : 0
 					}}
 				>
 					<Label
