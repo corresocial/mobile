@@ -4,14 +4,16 @@ import { ListRenderItem, ActivityIndicator } from 'react-native'
 import { UserUseCases } from '@domain/user/adapter/UserUseCases'
 import { UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { SearchProfileScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { Body, Header, InputContainer, ProfileList } from './styles'
+import { Body, Header, InputContainer, ProfileList, TextInstruction } from './styles'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { ProfileCard } from '@components/_cards/ProfileCard'
@@ -25,12 +27,15 @@ const userUseCases = new UserUseCases()
 export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 	const { userDataContext } = useAuthContext()
 	const { setLoaderIsVisible } = useLoaderContext()
+	const { showDefaultAlertModal } = useAlertContext()
 
 	const [searchText, setSearchText] = React.useState('')
 	const [profileList, setProfileList] = React.useState<UserEntity[]>([])
 	const [pageNumber, setPageNumber] = React.useState(0)
 	const [numberOfHits, setNumberOfHits] = React.useState<number>(0)
 	const [loadingMore, setLoadingMore] = React.useState(false)
+
+	const isSearchSelect = (route.params?.verifiedLabel && route.params?.profileId)
 
 	const searchProfile = async (page: number) => {
 		try {
@@ -52,8 +57,6 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 		}
 	}
 
-	// CURRENT Texto indicando que é para selecionar um usuário para ser o coordenador
-
 	const handleEndReached = () => {
 		if (!loadingMore && profileList.length < numberOfHits) {
 			setLoadingMore(true)
@@ -66,13 +69,12 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 	}
 
 	const openProfile = async (item: UserEntity) => {
-		if (route.params?.verifiedLabel && route.params?.profileId) {
+		if (isSearchSelect) {
 			const label = route.params?.verifiedLabel
 			const { profileId } = route.params
 			const coordinatorId = item.userId
 
 			await verifyUserProfile(label, profileId, coordinatorId)
-			navigation.goBack()
 			return
 		}
 
@@ -83,8 +85,14 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 		try {
 			setLoaderIsVisible(true)
 			await userUseCases.setVerificationBadge(userDataContext, label, profileId, coordinatorId)
-		} catch (error) {
+			navigation.goBack()
+		} catch (error: any) {
 			console.log(error)
+			showDefaultAlertModal({
+				title: 'Ops!',
+				text: error.message || 'Houve um erro ao atribuir selo à este usuário!',
+				type: 'warn'
+			})
 		} finally {
 			setLoaderIsVisible(false)
 		}
@@ -110,12 +118,18 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 					ignorePlatform
 					onBackPress={() => navigation.goBack()}
 				/>
+				{isSearchSelect && (
+					<>
+						<VerticalSpacing />
+						<VerticalSpacing />
+						<TextInstruction>{showMessageWithHighlight('Selecione um perfil para ser o coordenador desse aplicador de questionário', ['coordenador', 'aplicador', 'de', 'questionário'])}</TextInstruction>
+					</>
+				)}
 				<InputContainer>
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
-						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={() => {
 							setPageNumber(0)

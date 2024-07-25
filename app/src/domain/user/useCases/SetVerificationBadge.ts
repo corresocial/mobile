@@ -24,7 +24,12 @@ export class SetVerificationBadge implements UseCase<Input, Output> {
 			throw new Error('Não foram fornecidos todos os parâmetros para conceder permissões à este usuário')
 		}
 
-		// CURRENT Verificar se o coordenador é coordenador
+		if (coordinatorId) {
+			const coordinator = await this.userRemoteRepository.getUserData(coordinatorId)
+			if (!(coordinator && coordinator.verified && coordinator.verified.type === 'coordinator')) {
+				throw new Error('O perfil selecionado não é um coordenador')
+			}
+		}
 
 		const verifiedObject = {
 			verified: {

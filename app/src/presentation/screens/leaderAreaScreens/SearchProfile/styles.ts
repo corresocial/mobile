@@ -9,10 +9,18 @@ export const Container = styled.View`
 
 export const Header = styled.View`
 	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
 	padding: ${relativeScreenDensity(12)}px;
 	padding-bottom: 0px;
+`
+
+export const TextInstruction = styled.Text`
+	color: ${({ theme }) => theme.black4};
+    font-size: ${relativeScreenDensity(14)}px;
+    font-family: Arvo_400Regular;
+	text-align: center;
 `
 
 export const InputContainer = styled.View`
