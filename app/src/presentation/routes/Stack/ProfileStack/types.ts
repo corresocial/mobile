@@ -46,4 +46,6 @@ export type ProfileStackParamList = {
 	UserDataConfigurations: undefined
 	NotificationSettings: undefined
 	NotificationPublicServicesSettings: undefined
+
+	PostView: any
 } & UserStackParamList

@@ -39,6 +39,7 @@ import { InsertLinkTitle } from '@screens/profileScreens/InsertLinkTitle'
 import { InsertLinkValue } from '@screens/profileScreens/InsertLinkValue'
 import { Profile } from '@screens/profileScreens/Profile'
 import { SocialMediaManagement } from '@screens/profileScreens/SocialMediaManagement'
+import { PostView } from '@screens/viewPostScreens/PostView'
 import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
 import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
 import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
@@ -103,6 +104,8 @@ export function ProfileStack({ route, navigation }: any) { // REFACTOR type rout
 				<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 				<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
 				<Stack.Screen name={'NotificationPublicServicesSettings'} component={NotificationPublicServicesSettings} />
+
+				<Stack.Screen name={'PostView'} component={PostView as any} />
 			</Stack.Navigator>
 		</StateProvider>
 	)
