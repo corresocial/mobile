@@ -2,7 +2,9 @@ import React from 'react'
 import { ListRenderItem, ActivityIndicator } from 'react-native'
 
 import { UserUseCases } from '@domain/user/adapter/UserUseCases'
-import { UserEntity } from '@domain/user/entity/types'
+import { UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
+
+import { useUserRepository } from '@data/user/useUserRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
@@ -20,9 +22,11 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
+const { remoteStorage } = useUserRepository()
+
 const userUseCases = new UserUseCases()
 
-export function SearchProfile({ navigation }: SearchProfileScreenProps) {
+export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 	const { userDataContext } = useAuthContext()
 	const { setLoaderIsVisible } = useLoaderContext()
 
@@ -34,10 +38,11 @@ export function SearchProfile({ navigation }: SearchProfileScreenProps) {
 
 	const searchProfile = async (page: number) => {
 		try {
-			profileList ? setLoadingMore(true) : setLoaderIsVisible(true)
+			pageNumber !== 0 ? setLoadingMore(true) : setLoaderIsVisible(true)
 			const { profiles, totalHits } = await userUseCases.searchProfile(searchText, pageNumber)
 
 			if (page === 0) {
+				setProfileList([]) // Garantindo que a lista atualizei
 				setProfileList(profiles)
 			} else {
 				setProfileList((prevProfiles) => [...prevProfiles, ...profiles])
@@ -62,8 +67,34 @@ export function SearchProfile({ navigation }: SearchProfileScreenProps) {
 		}
 	}
 
-	const openProfile = (item: UserEntity) => {
+	const openProfile = async (item: UserEntity) => {
+		if (route.params?.verifiedLabel && route.params?.profileId) {
+			const label = route.params?.verifiedLabel
+			const { profileId } = route.params
+			const coordinatorId = item.userId
+
+			await verifyUserProfile(label, profileId, coordinatorId)
+			navigation.goBack()
+			return
+		}
+
 		navigation.navigate('ProfileLeaderArea', { userId: item.userId, stackLabel: 'LeaderArea' })
+	}
+
+	const verifyUserProfile = async (label: VerifiedLabelName, profileId: string, coordinatorId: string) => {
+		if (profileId && userDataContext.userId) {
+			const verifiedObject = {
+				verified: {
+					type: label,
+					by: userDataContext.userId,
+					at: new Date(),
+					name: userDataContext.name || '',
+					coordinatorId: coordinatorId
+				}
+			}
+
+			await remoteStorage.updateUserData(profileId, verifiedObject)
+		}
 	}
 
 	const renderProfileItem = ({ item }: FlatListItem<UserEntity>) => {

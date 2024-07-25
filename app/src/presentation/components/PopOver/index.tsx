@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React, { LegacyRef, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
@@ -29,6 +30,7 @@ interface PopOverProps {
 	isAdmin?: boolean
 	popoverVisibility: boolean
 	buttonLabel?: string
+	profileId?: string
 	children: React.ReactChild
 	reportUser?: () => void
 	onPressVerify?: (label: VerifiedLabelName) => void
@@ -40,6 +42,7 @@ interface PopOverProps {
 function PopOver({
 	title,
 	isAdmin,
+	profileId,
 	popoverVisibility,
 	buttonLabel,
 	children,
@@ -49,10 +52,13 @@ function PopOver({
 	setFreeTrialToProfile,
 	closePopover
 }: PopOverProps) {
+	const navigation = useNavigation<any>()
+
 	const [verifyUserModal, setVerifyUserModal] = useState(false)
 	const [verifyImpactUserModal, setVerifyImpactUserModal] = useState(false)
 	const [verifyGovernmentProfileModal, setVerifyGovernmentProfileModal] = useState(false)
 	const [censusTakerProfileModal, setCensusTakerProfileModal] = useState(false)
+	const [questionnaireAdministratorProfileModal, setQuestionnaireAdministratorProfileModal] = useState(false)
 	const [freeTrielUserModal, setFreeTrielUserModal] = useState(false)
 	const [selectedSubscriptionPlanModal, setSelectSubscriptionPlanModal] = useState(false)
 
@@ -72,6 +78,10 @@ function PopOver({
 		setCensusTakerProfileModal(!censusTakerProfileModal)
 	}
 
+	const toggleQuestionnaireAdministratorProfileModal = () => {
+		setQuestionnaireAdministratorProfileModal(!questionnaireAdministratorProfileModal)
+	}
+
 	const toggleFreeTrialUserModal = () => {
 		setFreeTrielUserModal(!freeTrielUserModal)
 	}
@@ -84,6 +94,11 @@ function PopOver({
 
 	const toggleSelectSubscriptionPlanModal = () => {
 		setSelectSubscriptionPlanModal(!selectedSubscriptionPlanModal)
+	}
+
+	const navigateToSearchProfile = () => {
+		navigation.push('SearchProfile', { verifiedLabel: 'questionnaireAdministrator', profileId: profileId })
+		closePopover()
 	}
 
 	return (
@@ -120,7 +135,14 @@ function PopOver({
 				title={'tornar coordenador'}
 				subject={'tornar coordenador'}
 				onPressButton={() => onPressVerify && onPressVerify('coordinator')}
-				closeModal={toggleVerifyImpactUserModal}
+				closeModal={toggleCensusTakerProfileModal}
+			/>
+			<VerifyUserConfirmationModal
+				visibility={questionnaireAdministratorProfileModal}
+				title={'tornar aplicador de questionário'}
+				subject={'tornar aplicador de questionário'}
+				onPressButton={navigateToSearchProfile}
+				closeModal={toggleQuestionnaireAdministratorProfileModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={verifyGovernmentProfileModal}
@@ -222,6 +244,28 @@ function PopOver({
 												relativeHeight={relativeScreenHeight(8)}
 												onPress={toggleVerifyGovernmentProfileModal}
 											/>
+											<VerticalSpacing />
+											<PrimaryButton
+												color={theme.orange3}
+												SecondSvgIcon={QuestionaryWhiteIcon}
+												label={'tornar coordenador'}
+												highlightedWords={['coordenador']}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={toggleCensusTakerProfileModal}
+											/>
+											<VerticalSpacing />
+											<PrimaryButton
+												color={theme.orange3}
+												SecondSvgIcon={QuestionaryWhiteIcon}
+												label={'tornar aplicator de questionário'}
+												highlightedWords={['aplicator', 'questionário', 'de']}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={toggleQuestionnaireAdministratorProfileModal}
+											/>
 										</>
 									)
 								}
@@ -242,17 +286,6 @@ function PopOver({
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
 									onPress={toggleFreeTrialUserModal}
-								/>
-								<VerticalSpacing />
-								<PrimaryButton
-									color={theme.orange3}
-									SecondSvgIcon={QuestionaryWhiteIcon}
-									label={'tornar coordenador'}
-									highlightedWords={['coordenador']}
-									fontSize={14}
-									minHeight={20}
-									relativeHeight={relativeScreenHeight(8)}
-									onPress={toggleCensusTakerProfileModal}
 								/>
 							</>
 						)

@@ -416,12 +416,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		)
 	}
 
-	const userIsAdmin = () => {
-		return (
-			userDataContext.verified && userDataContext.verified.admin && (
-				(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription)
-		)
-	}
+	const userIsAdmin = () => userDataContext.verified && userDataContext.verified.admin
+	const userCanReceiveFreeTrial = () => (user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription
 
 	const renderUserVerifiedType = () => {
 		if (!hasAnyVerifiedUser()) return
@@ -657,11 +653,12 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												title={getUserField('name') as string}
 												isAdmin={userIsAdmin()}
 												buttonLabel={'denunciar perfil'}
+												profileId={user.userId || ''}
 												popoverVisibility={profileOptionsIsOpen}
 												closePopover={() => setProfileOptionsIsOpen(false)}
 												reportUser={reportUser}
 												onPressVerify={verifyUserProfile}
-												setFreeTrialToProfile={setFreeTrialToProfile}
+												setFreeTrialToProfile={userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
 											>
 												<SmallButton
 													color={theme.white3}
