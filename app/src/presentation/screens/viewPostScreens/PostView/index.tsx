@@ -5,7 +5,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
+import { CultureEntityOptional, CultureEntity, PostEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -31,15 +31,16 @@ import { theme } from '@common/theme'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
+import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { RejectModal } from '@components/_modals/RejectModal'
 import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { HorizontalTagList } from '@components/HorizontalTagList'
 import { Loader } from '@components/Loader'
 import { PostPopOver } from '@components/PostPopOver'
 import { ContextHeader } from '@newComponents/ContextHeader'
+import { HorizontalTagList } from '@newComponents/HorizontalTagList'
 import { MapView } from '@newComponents/MapView'
 import { MediaView } from '@newComponents/MediaView'
 import { MiniUserIndentifier } from '@newComponents/MiniUserIdentifier'
@@ -151,6 +152,9 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 		})
 	}
+
+	console.log('categoria: ', postData.category)
+	console.log('location: ', postData.range)
 
 	const backToPreviousScreen = () => {
 		setPostOptionsIsOpen(false)
@@ -327,7 +331,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<GroupInfo>
 							<HorizontalTagList
 								tags={[getPostField('category'), ...getPostField('tags')]}
-								selectedColor={theme.blue1}
+								selectedColor={theme.colors.blue[1]}
 							/>
 							<PostInfo
 								type={'description'}
@@ -335,7 +339,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							/>
 							<PostInfo
 								type={'macroCategory'}
-								value={getPostField('macroCategory')}
+								value={'service'}
 							/>
 							<PostInfo
 								type={'productStatus'}
@@ -347,7 +351,15 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							/>
 							<PostInfo
 								type={'price'}
-								value={{ saleValue: '100' }}
+								value={{ saleValue: '', isEvent: true }}
+							/>
+							<PostInfo
+								type={'deliveryMethod'}
+								value={'near'}
+							/>
+							<PostInfo
+								type={'range'}
+								value={'near'}
 							/>
 							<PostInfo
 								type={'link'}
@@ -360,7 +372,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									daysOfWeek: ['dom', 'seg'],
 									repetition: 'everyDay',
 									startDate: new Date().setDate(22) as any,
-									endDate: new Date().setDate(15) as any,
 									startTime: new Date().setHours(5) as any,
 									endTime: new Date().setHours(20 as any)
 								}}
