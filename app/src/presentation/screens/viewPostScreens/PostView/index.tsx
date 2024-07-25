@@ -5,7 +5,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureEntityOptional, CultureEntity, PostEntity } from '@domain/post/entity/types'
+import { CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -31,7 +31,6 @@ import { theme } from '@common/theme'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
-import { GalleryModal } from '@components/_modals/GalleryModal'
 import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { RejectModal } from '@components/_modals/RejectModal'
@@ -339,7 +338,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							/>
 							<PostInfo
 								type={'macroCategory'}
-								value={'service'}
+								value={'art'}
 							/>
 							<PostInfo
 								type={'productStatus'}

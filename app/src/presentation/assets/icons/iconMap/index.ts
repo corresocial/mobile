@@ -8,10 +8,10 @@ import Cash from '@assets/icons/cash.svg'
 import Chat from '@assets/icons/chat.svg'
 import Exchange from '@assets/icons/exchange.svg'
 import Clip from '@assets/icons/clip-white.svg'
-import ColorPalet from '@assets/icons/colorPalet-white.svg'
+import ColorPalet from '@assets/icons/colorPalet.svg'
 import Calendar from '@assets/icons/calendar.svg'
-import Books from '@assets/icons/books-white.svg'
-import Pin from '@assets/icons/pin-white.svg'
+import Books from '@assets/icons/books.svg'
+import Pin from '@assets/icons/pin.svg'
 import MapPoint from '@assets/icons/mapPoint.svg'
 import ComputerAndPhone from '@assets/icons/computerAndPhone.svg'
 import HandOnPerson from '@assets/icons/handOnPerson.svg'
@@ -19,21 +19,20 @@ import Clock from '@assets/icons/clock.svg'
 import StaringEyes from '@assets/icons/staring-eyes.svg'
 import ThreeDots from '@assets/icons/threeDots.svg'
 import Share from '@assets/icons/share-white.svg'
-import UsedLabel from '@assets/icons/usedLabel-white.svg'
+import UsedLabel from '@assets/icons/usedLabel.svg'
 import Gift from '@assets/icons/gift-white.svg'
 
 import SalesCart from '@assets/icons/sale-white.svg'
-import Toolbox from '@assets/icons/service-white.svg'
+import Toolbox from '@assets/icons/toolBox.svg'
 import Briefcase from '@assets/icons/vacancy-white.svg'
 
-import HandOnHeart from '@assets/icons/handOnHeart-white.svg'
-import HeartAndPerson from '@assets/icons/heartAndPerson-white.svg'
-import PaperInfo from '@assets/icons/paperInfo-white.svg'
+import HandOnHeart from '@assets/icons/handOnHeart.svg'
+import HeartAndPerson from '@assets/icons/heartAndPerson.svg'
+import PaperInfo from '@assets/icons/paperInfo.svg'
 
 import CountryBrazil from '@assets/icons/brazil-white.svg'
 import City from '@assets/icons/city-white.svg'
 import PersonWalking from '@assets/icons/people-white.svg'
-
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"
@@ -42,6 +41,7 @@ import PersonWalking from '@assets/icons/people-white.svg'
 import ArrowRight from '@assets/icons/angleRight-white.svg'
 
 import ArrowLeft from '@assets/icons/angleLeft-white.svg'
+
 
 const icons: IconMap = {
 	x: {

@@ -65,3 +65,8 @@ export const ThirdSection = styled(SectionCommon) <SectionProps>`
     padding: ${({ withPadding }) => (withPadding ? `0px ${relativeScreenDensity(10)}px` : 0)};
 	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 3)};
 `
+
+export const FooterSection = styled(SectionCommon) <SectionProps>`
+	padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(10) : 0)}px;
+	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 2)};
+`

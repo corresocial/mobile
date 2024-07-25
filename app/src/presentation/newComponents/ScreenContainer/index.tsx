@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Container, FirstSection, SafeAreaViewContainer, SecondSection, ThirdSection } from './styles'
+import { Container, FirstSection, FooterSection, SafeAreaViewContainer, SecondSection, ThirdSection } from './styles'
 
 export type ScreenContainerTones = 'white' | 'white' | 'orange' | 'blue' | 'purple' | 'pink' | 'green'
 
@@ -10,6 +10,7 @@ interface ScreenContainerProps {
 	firstSection?: ReactNode
 	secondSection?: ReactNode
 	thirdSecton?: ReactNode
+	footerSection?: ReactNode
 	tone?: ScreenContainerTones
 	enableScreenPadding?: boolean
 	enableSectionPadding?: boolean
@@ -67,6 +68,13 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 									)
 								}
 								{
+									props.footerSection && !props.children && (
+										<SecondSection tone={props.tone} >
+											{props.footerSection}
+										</SecondSection>
+									)
+								}
+								{
 									!(props.firstSection
 										&& props.secondSection
 										&& props.thirdSecton) && props.children && (
@@ -110,6 +118,13 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 										>
 											{props.thirdSecton}
 										</ThirdSection>
+									)
+								}
+								{
+									props.footerSection && !props.children && (
+										<FooterSection tone={props.tone} >
+											{props.footerSection}
+										</FooterSection>
 									)
 								}
 								{

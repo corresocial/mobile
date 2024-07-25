@@ -351,36 +351,38 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 						ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}
 						ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 					/>
-					<BottomNavigator>
-						<SelectButton
-							manualSelection
-							selected={visualization === 'day'}
-							selectionColor={theme.colors.blue[2]}
-							relativeWidth={30}
-							icon={'calendarEveryday'}
-							text={'dia'}
-							onPress={() => setVisualization('day')}
-						/>
-						<SelectButton
-							manualSelection
-							selected={visualization === 'week'}
-							selectionColor={theme.colors.blue[2]}
-							relativeWidth={30}
-							icon={'calendarEveryday'}
-							text={'semana'}
-							onPress={() => setVisualization('week')}
-						/>
-						<SelectButton
-							manualSelection
-							selected={visualization === 'month'}
-							selectionColor={theme.colors.blue[2]}
-							relativeWidth={30}
-							icon={'calendarEveryday'}
-							text={'mês'}
-							onPress={() => setVisualization('month')}
-						/>
-					</BottomNavigator>
 				</EventsContainer>
+			)}
+			footerSection={(
+				<BottomNavigator>
+					<SelectButton
+						manualSelection
+						selected={visualization === 'day'}
+						selectionColor={theme.colors.blue[2]}
+						relativeWidth={30}
+						icon={'calendarEveryday'}
+						text={'dia'}
+						onPress={() => setVisualization('day')}
+					/>
+					<SelectButton
+						manualSelection
+						selected={visualization === 'week'}
+						selectionColor={theme.colors.blue[2]}
+						relativeWidth={30}
+						icon={'calendarEveryday'}
+						text={'semana'}
+						onPress={() => setVisualization('week')}
+					/>
+					<SelectButton
+						manualSelection
+						selected={visualization === 'month'}
+						selectionColor={theme.colors.blue[2]}
+						relativeWidth={30}
+						icon={'calendarEveryday'}
+						text={'mês'}
+						onPress={() => setVisualization('month')}
+					/>
+				</BottomNavigator>
 			)}
 		/>
 	)
