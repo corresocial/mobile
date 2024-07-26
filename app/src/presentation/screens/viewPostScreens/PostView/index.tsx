@@ -163,9 +163,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		})
 	}
 
-	console.log('categoria: ', postData.category)
-	console.log('location: ', postData.range)
-
 	const backToPreviousScreen = () => {
 		setPostOptionsIsOpen(false)
 		navigation.goBack()
@@ -347,6 +344,9 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 				>
 					<Body>
 						<VerticalSpacing />
+						<MediaView
+							picturesUrl={['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSo7-n3i4ozalW-D_kGWM-M34z5eCUv5vyYA&s']}
+						/>
 						<GroupInfo>
 							<HorizontalTagList
 								tags={[getPostField('category', postType), ...getPostField('tags', postType)]}
@@ -354,58 +354,61 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							/>
 							<PostInfo
 								type={'description'}
-								value={'loren ipson loren ipson loren ipson loren ipson loren ipson loren ipson loren ipso'}
+								value={getPostField('description', postType)}
 							/>
 							<PostInfo
 								type={'macroCategory'}
-								value={'art'}
-							/>
-							<PostInfo
-								type={'productStatus'}
-								value={'used'}
-							/>
-							<PostInfo
-								type={'placeModality'}
-								value={'presential'}
+								value={getPostField('macroCategory', postType)}
 							/>
 							<PostInfo
 								type={'price'}
-								value={{ saleValue: '', isEvent: true }}
+								value={{
+									saleValue: getPostField('entryValue', 'culture') || getPostField('saleValue', 'income'),
+									exchangeValue: getPostField('exchangeValue', 'income'),
+									isEvent: !!getPostField('entryValue', 'culture')
+								}}
+							/>
+							<PostInfo
+								type={'productStatus'}
+								value={getPostField('itemStatus', 'income')}
 							/>
 							<PostInfo
 								type={'deliveryMethod'}
-								value={'near'}
-							/>
-							<PostInfo
-								type={'range'}
-								value={'near'}
+								value={getPostField('deliveryMethod', 'income')}
 							/>
 							<PostInfo
 								type={'link'}
-								value={getPostField('links', postType) || ['https://sitedaora.com']}
+								value={getPostField('links', postType)}
+							/>
+							<PostInfo
+								type={'placeModality'}
+								value={getPostField('exhibitionPlace', 'socialImpact')}
 							/>
 							<PostInfo
 								type={'dateTime'}
 								value={{
-									weekDaysfrequency: 'someday',
-									daysOfWeek: ['dom', 'seg'],
-									repetition: 'everyDay',
-									startDate: new Date().setDate(22) as any,
-									startTime: new Date().setHours(5) as any,
-									endTime: new Date().setHours(20 as any)
+									weekDaysfrequency: getPostField('attendanceFrequency', 'income'),
+									daysOfWeek: getPostField('daysOfWeek', 'income'),
+									repetition: getPostField('repeat', 'culture'),
+									startDate: getPostField('startDate', 'culture'),
+									endDate: getPostField('endDate', 'culture'),
+									startTime: getPostField('startHour', 'culture'),
+									endTime: getPostField('startHour', 'culture'),
 								}}
+							/>
+							<PostInfo
+								type={'range'}
+								value={getPostField('range', postType)}
 							/>
 						</GroupInfo>
 						<VerticalSpacing />
 						<MapView
-							online={false}
-							locationView={'public'}
+							online={getPostField('workplace', 'vacancy') === 'homeoffice' || getPostField('eventPlaceModality', 'culture') === 'online'}
+							locationView={getPostField('locationView', postType)}
 							location={getPostField('location', postType)}
 						/>
 						<VerticalSpacing />
-						<MediaView
-							picturesUrl={['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSo7-n3i4ozalW-D_kGWM-M34z5eCUv5vyYA&s']}
-						/>
+
 						<VerticalSpacing bottomNavigatorSpace />
 					</Body>
 				</ScrollView>

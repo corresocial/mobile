@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { Linking } from 'react-native'
 import { useTheme } from 'styled-components'
 
-import { DaysOfWeek, DeliveryMethod, EventRepeatType, ItemStatus, PlaceModalityType, PostRange, WeekdaysFrequency } from '@domain/post/entity/types'
+import { DaysOfWeek, DeliveryMethod, EventRepeatType, ItemStatus, PlaceModalityType, PostRange, WeekdaysFrequency, WorkplaceType } from '@domain/post/entity/types'
 
 import { IconName } from '@assets/icons/iconMap/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
@@ -113,21 +113,26 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		}
 	}
 
-	const getRelativePlaceModalityLabel = (placeModality: PlaceModalityType) => {
+	const getRelativePlaceModalityLabel = (placeModality: PlaceModalityType | WorkplaceType) => {
 		switch (placeModality) {
 			case 'presential': return 'presencial'
 			case 'online': return 'online'
 			case 'both': return 'online e presencial'
+			case 'homeoffice': return 'online e presencial'
+			case 'hybrid': return 'online e presencial'
+
 			default: return ''
 		}
 	}
 
-	const getRelativePlaceModalityIcon = (placeModality: PlaceModalityType): IconName => {
+	const getRelativePlaceModalityIcon = (placeModality: PlaceModalityType | WorkplaceType): IconName => {
 		switch (placeModality) {
 			case 'online': return 'computerAndPhone'
 			case 'presential': return 'handOnPerson'
-			case 'both': return 'x' // CURRENT Ver com Rafa um ícone para isso
-			default: return 'x'
+			case 'both': return 'computerAndPhone' // CURRENT Ver com Rafa um ícone para isso
+			case 'homeoffice': return 'computerAndPhone'
+			case 'hybrid': return 'computerAndPhone' // CURRENT Ver com Rafa um ícone para isso
+			default: return 'computerAndPhone'
 		}
 	}
 
@@ -163,7 +168,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 
 	const getRelativeValueIcon = (priceValue: PriceValues): IconName => {
 		if (priceValue.saleValue === 'a combinar') { return 'chat' }
-		if (priceValue.exchangeValue && priceValue.saleValue) { return 'x' } // CURRENT Ver com Rafa ícone para isso, ícone que represente tanto venda quanto troca
+		if (priceValue.exchangeValue && priceValue.saleValue) { return 'chat' } // CURRENT Ver com Rafa ícone para isso, ícone que represente tanto venda quanto troca
 		if (priceValue.exchangeValue && !priceValue.saleValue) { return 'exchange' }
 		if (!priceValue.exchangeValue && priceValue.saleValue) { return 'cash' }
 		return 'cash'
@@ -392,6 +397,33 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	}
 
 	const currentStyle = getStyleByType() as CurrentStyle
+
+	const postInfoValueIsValid = () => {
+		if (!value) return false
+		if (Array.isArray(value) && !value.length) return false
+		if (type === 'dateTime') {
+			const dateTime = value as DateTimeInfos
+			return (
+				dateTime.weekDaysfrequency
+				|| dateTime.daysOfWeek
+				|| dateTime.repetition
+				|| dateTime.startDate
+				|| dateTime.endDate
+				|| dateTime.startTime
+				|| dateTime.endTime
+			)
+		}
+		if (type === 'price') {
+			const price = value as PriceValues
+			if ((!price.exchangeValue || !price.saleValue) && !price.isEvent) return false
+		}
+
+		return true
+	}
+
+	if (!postInfoValueIsValid()) {
+		return <></>
+	}
 
 	return (
 		<Container>
