@@ -26,7 +26,7 @@ export class GetCitizenRegistrationsByCoordinatorResponsability implements UseCa
 			throw new Error('Não foi possível identificar o coordenador')
 		}
 
-		// CURRENT
+		// CURRENT remover comentário
 		// if (!(this.currentUser && this.currentUser.verified && this.currentUser.verified.type === 'coordinator')) {
 		// 	throw new Error('Você não tem permissão suficiente para acompanhar os cadastros dos aplicadores de questionário')
 		// }
