@@ -8,6 +8,7 @@ export type CitizenRegisterEntity = {
 	cellNumber: string
 	censusTakerName: string,
 	censusTakerId: string,
+	coordinatorId: string,
 	createdAt: Date
 	location: CitizenRegisterLocation
 	responses: CitizenRegisterQuestionResponse[]
