@@ -35,6 +35,7 @@ interface PopOverProps {
 	children: React.ReactChild
 	reportUser?: () => void
 	onPressVerify?: (label: VerifiedLabelName) => void
+	removeProfileVerification?: () => void
 	setFreeTrialToProfile?: (subscriptionPlan: PostRange) => void
 	goToConfig?: () => void
 	closePopover: () => void
@@ -49,6 +50,7 @@ function PopOver({
 	children,
 	reportUser,
 	onPressVerify,
+	removeProfileVerification,
 	goToConfig,
 	setFreeTrialToProfile,
 	closePopover
@@ -60,6 +62,7 @@ function PopOver({
 	const [verifyGovernmentProfileModal, setVerifyGovernmentProfileModal] = useState(false)
 	const [verifyLeaderProfileModal, setVerifyLeaderProfileModal] = useState(false)
 	const [censusTakerProfileModal, setCensusTakerProfileModal] = useState(false)
+	const [removeProfileBadgeModal, setRemoveProfileBadgeModal] = useState(false)
 	const [questionnaireAdministratorProfileModal, setQuestionnaireAdministratorProfileModal] = useState(false)
 	const [freeTrielUserModal, setFreeTrielUserModal] = useState(false)
 	const [selectedSubscriptionPlanModal, setSelectSubscriptionPlanModal] = useState(false)
@@ -86,6 +89,10 @@ function PopOver({
 
 	const toggleQuestionnaireAdministratorProfileModal = () => {
 		setQuestionnaireAdministratorProfileModal(!questionnaireAdministratorProfileModal)
+	}
+
+	const toggleRemoveProfileBadgeModal = () => {
+		setRemoveProfileBadgeModal(!removeProfileBadgeModal)
 	}
 
 	const toggleFreeTrialUserModal = () => {
@@ -163,6 +170,13 @@ function PopOver({
 				subject={'conceder perfil governamental para'}
 				onPressButton={() => onPressVerify && onPressVerify('government')}
 				closeModal={toggleVerifyGovernmentProfileModal}
+			/>
+			<VerifyUserConfirmationModal
+				visibility={removeProfileBadgeModal}
+				title={'remover verificação'}
+				subject={'remover o selo de verificação de'}
+				onPressButton={() => removeProfileVerification && removeProfileVerification()}
+				closeModal={toggleRemoveProfileBadgeModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={freeTrielUserModal}
@@ -247,17 +261,6 @@ function PopOver({
 										<>
 											<VerticalSpacing />
 											<PrimaryButton
-												color={theme.orange3}
-												SecondSvgIcon={LeaderWhiteIcon}
-												label={'tornar líder'}
-												highlightedWords={['líder']}
-												fontSize={14}
-												minHeight={20}
-												relativeHeight={relativeScreenHeight(8)}
-												onPress={toggleVerifyLeaderProfileModal}
-											/>
-											<VerticalSpacing />
-											<PrimaryButton
 												color={theme.purple3}
 												SecondSvgIcon={CityWhiteIcon}
 												label={'tornar governamental'}
@@ -268,6 +271,18 @@ function PopOver({
 												relativeHeight={relativeScreenHeight(8)}
 												onPress={toggleVerifyGovernmentProfileModal}
 											/>
+											<VerticalSpacing />
+											<PrimaryButton
+												color={theme.orange3}
+												SecondSvgIcon={LeaderWhiteIcon}
+												label={'tornar líder'}
+												highlightedWords={['líder']}
+												fontSize={14}
+												minHeight={20}
+												relativeHeight={relativeScreenHeight(8)}
+												onPress={toggleVerifyLeaderProfileModal}
+											/>
+
 											<VerticalSpacing />
 											<PrimaryButton
 												color={theme.orange3}
@@ -309,11 +324,23 @@ function PopOver({
 									fontSize={14}
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
-									onPress={toggleFreeTrialUserModal}
+									onPress={toggleRemoveProfileBadgeModal}
 								/>
 							</>
 						)
 					}
+					<VerticalSpacing />
+					<PrimaryButton
+						color={theme.red3}
+						SecondSvgIcon={DeniedWhiteIcon}
+						label={'remover verificação'}
+						highlightedWords={['verificação']}
+						labelColor={theme.white3}
+						fontSize={14}
+						minHeight={20}
+						relativeHeight={relativeScreenHeight(8)}
+						onPress={toggleRemoveProfileBadgeModal}
+					/>
 				</ContainerInner>
 			</Container>
 		</Popover >

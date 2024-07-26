@@ -8,6 +8,7 @@ import { UserEntity, VerifiedLabelName } from '../entity/types'
 import { AlgoliaService } from '@services/algolia/AlgoliaService'
 
 import { AlgoliaServiceInterface } from '../provider/AlgoliaServiceInterface'
+import { RemoveVerificationBadge } from '../useCases/RemoveVerificationBadge'
 import { SearchProfile } from '../useCases/SearchProfile'
 import { SetVerificationBadge } from '../useCases/SetVerificationBadge'
 
@@ -36,5 +37,9 @@ export class UserUseCases {
 			coordinatorId: coordinatorId
 		}
 		return new SetVerificationBadge(this.userRemoteRepository, currentUser).exec(props)
+	}
+
+	removeVerificationBadge(profileId: string) {
+		return new RemoveVerificationBadge(this.userRemoteRepository).exec({ profileId })
 	}
 }

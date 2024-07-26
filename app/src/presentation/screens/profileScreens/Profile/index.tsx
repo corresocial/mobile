@@ -370,6 +370,18 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		}
 	}
 
+	const removeProfileVerification = async () => {
+		setProfileOptionsIsOpen(false)
+		try {
+			await userUseCases.removeVerificationBadge(user.userId as string)
+			user.userId && await loadRemoteProfileData(false, true)
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setLoaderIsVisible(false)
+		}
+	}
+
 	const setFreeTrialToProfile = async (plan: PostRange) => {
 		if (!user.userId) return
 		const priceId = plan === 'country' ? stripeProductsPlans.countryMonthly.priceId : stripeProductsPlans.cityMonthly.priceId
@@ -657,6 +669,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												closePopover={() => setProfileOptionsIsOpen(false)}
 												reportUser={reportUser}
 												onPressVerify={verifyUserProfile}
+												removeProfileVerification={removeProfileVerification}
 												setFreeTrialToProfile={userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
 											>
 												<SmallButton

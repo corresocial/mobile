@@ -31,13 +31,15 @@ export class SetVerificationBadge implements UseCase<Input, Output> {
 			}
 		}
 
+		const coordinatorProp = coordinatorId ? { coordinatorId: coordinatorId || '' } : {}
+
 		const verifiedObject = {
 			verified: {
 				type: profileBadge,
 				by: this.currentUser.userId,
 				at: new Date(),
 				name: this.currentUser.name || '',
-				coordinatorId: coordinatorId || ''
+				...coordinatorProp
 			}
 		}
 
