@@ -18,6 +18,28 @@ export const HeaderActionsContainer = styled.View`
 	gap:${relativeScreenDensity(5)}px;
 `
 
+export const CreatorDataContainer = styled.View`
+    padding-left: ${relativeScreenDensity(7)}px;
+`
+
+export const CreatorContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+`
+
+export const InfoText = styled.Text`
+	font-size: ${relativeScreenDensity(12)}px;
+	color: ${({ theme }) => theme.black4};
+`
+
+export const CreatorNameText = styled(InfoText)`
+	font-family: Arvo_700Bold;
+`
+
+export const CreatedAtText = styled(InfoText)`
+	font-family: Arvo_400Regular;
+`
+
 export const Body = styled.View`
 	flex: 1;
 	width: 100%;

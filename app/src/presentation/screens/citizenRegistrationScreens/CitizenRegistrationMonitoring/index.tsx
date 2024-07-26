@@ -89,7 +89,7 @@ function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonito
 	}
 
 	const viewCitizenRegister = async (citizenRegister: CitizenRegisterEntity) => {
-		navigation.navigate('CitizenQuestionaryPreview', { registerData: citizenRegister })
+		navigation.navigate('CitizenQuestionaryPreview', { registerData: citizenRegister, coordinatorView: true })
 	}
 
 	const renderQuestionary = ({ item }: FlatListItem<CitizenRegisterEntity>) => {
