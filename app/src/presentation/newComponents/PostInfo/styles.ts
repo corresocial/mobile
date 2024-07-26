@@ -86,6 +86,7 @@ export const LinkContainer = styled.TouchableOpacity`
 `
 
 export const TextLink = styled(CommonText)`
+	width: 88%;
 	text-decoration: underline;
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 	color: ${({ theme }) => theme.colors.orange[3]};

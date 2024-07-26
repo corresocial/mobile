@@ -20,6 +20,9 @@ import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { cultureCategories } from '@utils/postsCategories/cultureCategories'
+import { incomeCategories } from '@utils/postsCategories/incomeCategories'
+import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
 import { Body, GroupContent, GroupInfo, Header, OptionsArea } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
@@ -283,6 +286,11 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		setRejectModalIsVisible(!rejectModalIsVisible)
 	}
 
+	const getPostCategory = () => {
+		const category = getPostField('category', postType)
+		return (({ ...cultureCategories, ...incomeCategories, ...socialImpactCategories } as any)[category] || { label: '' }).label
+	}
+
 	const getRelativePostTone = () => {
 		switch (postData.postType) {
 			case 'income':
@@ -387,10 +395,14 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<GroupInfo>
 							<VerticalSpacing height={7} relativeDensity />
 							<HorizontalTagList
-								tags={[getPostField('category', postType), ...getPostField('tags', postType)]}
+								tags={[getPostCategory(), ...getPostField('tags', postType)]}
 								selectedColor={theme.colors[getRelativePostTone()][1]}
 							/>
 							<GroupContent>
+								<PostInfo
+									type={'description'}
+									value={getPostField('description', postType)}
+								/>
 								<PostInfo
 									type={'macroCategory'}
 									value={getPostField('macroCategory', postType)}

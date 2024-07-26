@@ -30,8 +30,8 @@ import HandOnHeart from '@assets/icons/handOnHeart.svg'
 import HeartAndPerson from '@assets/icons/heartAndPerson.svg'
 import PaperInfo from '@assets/icons/paperInfo.svg'
 
-import CountryBrazil from '@assets/icons/brazil-white.svg'
-import City from '@assets/icons/city-white.svg'
+import CountryBrazil from '@assets/icons/brazil.svg'
+import City from '@assets/icons/city.svg'
 import PersonWalking from '@assets/icons/walkingPersonLeft.svg'
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
