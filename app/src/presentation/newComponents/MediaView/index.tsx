@@ -27,8 +27,6 @@ export function MediaView({ picturesUrl, videosUrl, onPress }: MediaViewProps) {
 		onPress?.()
 	}
 
-	console.log(picturesUrl, videosUrl)
-	console.log()
 	if ((!picturesUrl?.length && !videosUrl?.length)) return <></>
 
 	return (
