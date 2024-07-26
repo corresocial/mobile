@@ -25,7 +25,14 @@ export const Body = styled.View`
 
 export const GroupInfo = styled.View`
 	background-color: ${({ theme }) => theme.colors.white[3]};
-	padding: ${relativeScreenDensity(15)}px ${relativeScreenDensity(15)}px;
-	border-radius: ${relativeScreenDensity(15)}px;
 	gap: ${relativeScreenDensity(8)}px;
+	border-radius: ${relativeScreenDensity(15)}px;
+`
+
+export const GroupContent = styled.View`
+	background-color: ${({ theme }) => theme.colors.white[3]};
+	padding: ${relativeScreenDensity(15)}px ${relativeScreenDensity(15)}px;
+	padding-top: 0px;
+	gap: ${relativeScreenDensity(8)}px;
+	border-radius: ${relativeScreenDensity(15)}px;
 `

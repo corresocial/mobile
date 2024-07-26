@@ -2,10 +2,11 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { Container, ScrollView } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { FilterButton } from '@components/_buttons/FilterButton'
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface HorizontalTagListProps {
 	tags: string[]
@@ -35,6 +36,7 @@ function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
 		<Container >
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Container>
+					<HorizontalSpacing width={relativeScreenDensity(15)} />
 					{renderTags()}
 				</Container>
 			</ScrollView>
