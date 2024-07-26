@@ -324,7 +324,7 @@ function PopOver({
 									fontSize={14}
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
-									onPress={toggleRemoveProfileBadgeModal}
+									onPress={toggleSelectSubscriptionPlanModal}
 								/>
 							</>
 						)

@@ -53,7 +53,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 		: citizenRegistrationResponseData // citizenUseCases.getCitizenRegistrationQuestionary()
 
 	useEffect(() => {
-		startNewCitizenRegistration()
+		!coordinatorView && startNewCitizenRegistration()
 	}, [])
 
 	const startCitizenRegistration = () => {
@@ -201,51 +201,56 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 				<QuestionsList
 					data={citizenRegisterResponses}
 					renderItem={renderQuestion as ListRenderItem<unknown>}
-					ListHeaderComponent={!coordinatorView
-						? (
-							<>
-								<VerticalSpacing height={2} />
-								<ToggleButtonContainer>
-									<SmallButton
-										relativeWidth={'65%'}
-										label={`${presentationIsVisible ? 'Esconder' : 'Exibir'} apresentação`}
-										labelColor={theme.black4}
-										onPress={() => setPresentationIsVisible(!presentationIsVisible)}
-									/>
-								</ToggleButtonContainer>
-								{
-									presentationIsVisible && (
-										<>
-											<VerticalSpacing height={2} />
-											<InstructionCard
-												message={'Olá! Sou [seu nome] e estou representando o CORRE., nossa missão é conectar a periferia a um futuro melhor e para isso estamos fazendo uma pesquisa com apoio [nome da liderança/instituição local] para entender melhor as necessidades locais. Sua participação é essencial e todas as informações serão confidenciais. Você pode nos ajudar?'}
-												highlightedWords={['CORRE.,', 'missão', 'é', 'conectar', 'a', 'periferia', 'um', 'futuro', 'melhor', 'entender', 'necessidades', 'locais', 'todas', 'as', 'informações', 'serão', 'confidenciais']}
-												borderLeftWidth={5}
-												fontSize={15}
+					ListHeaderComponent={(
+						<>
+							{
+								!coordinatorView ? (
+									<>
+										<VerticalSpacing height={2} />
+										<ToggleButtonContainer>
+											<SmallButton
+												relativeWidth={'65%'}
+												label={`${presentationIsVisible ? 'Esconder' : 'Exibir'} apresentação`}
+												labelColor={theme.black4}
+												onPress={() => setPresentationIsVisible(!presentationIsVisible)}
 											/>
-										</>
-									)
-								}
-								<VerticalSpacing height={2} />
-								<QuestionCard
-									questionId={'1'}
-									question={'Gostaria de deixar o seu telefone para contato?'}
-									answer={registerData?.cellNumber}
-									questionType={'textual'}
-									optional
-									onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenCellNumber') : undefined}
-								/>
-								<VerticalSpacing />
-								<QuestionCard
-									questionId={'2'}
-									question={'Qual é o seu nome?'}
-									answer={registerData?.name}
-									questionType={'textual'}
-									onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenName') : undefined}
-								/>
-								<VerticalSpacing />
-							</>
-						) : <VerticalSpacing height={2} />}
+										</ToggleButtonContainer>
+										{
+											presentationIsVisible && (
+												<>
+													<VerticalSpacing height={2} />
+													<InstructionCard
+														message={'Olá! Sou [seu nome] e estou representando o CORRE., nossa missão é conectar a periferia a um futuro melhor e para isso estamos fazendo uma pesquisa com apoio [nome da liderança/instituição local] para entender melhor as necessidades locais. Sua participação é essencial e todas as informações serão confidenciais. Você pode nos ajudar?'}
+														highlightedWords={['CORRE.,', 'missão', 'é', 'conectar', 'a', 'periferia', 'um', 'futuro', 'melhor', 'entender', 'necessidades', 'locais', 'todas', 'as', 'informações', 'serão', 'confidenciais']}
+														borderLeftWidth={5}
+														fontSize={15}
+													/>
+												</>
+											)
+										}
+									</>
+								) : <></>
+							}
+							<VerticalSpacing height={2} />
+							<QuestionCard
+								questionId={'1'}
+								question={'Gostaria de deixar o seu telefone para contato?'}
+								answer={registerData?.cellNumber}
+								questionType={'textual'}
+								optional
+								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenCellNumber') : undefined}
+							/>
+							<VerticalSpacing />
+							<QuestionCard
+								questionId={'2'}
+								question={'Qual é o seu nome?'}
+								answer={registerData?.name}
+								questionType={'textual'}
+								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenName') : undefined}
+							/>
+							<VerticalSpacing />
+						</>
+					)}
 					ItemSeparatorComponent={() => <VerticalSpacing />}
 					ListFooterComponent={(
 						<>
