@@ -106,7 +106,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const navigateToPostView = (socialImpactPostData: PostEntityOptional) => {
-		navigation.navigate('ViewSocialImpactPost' as any, { postData: socialImpactPostData })
+		navigation.navigate('PostViewProfile' as any, { postData: socialImpactPostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactEntity) => {

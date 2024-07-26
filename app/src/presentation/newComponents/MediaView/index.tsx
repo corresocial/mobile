@@ -27,6 +27,8 @@ export function MediaView({ picturesUrl, videosUrl, onPress }: MediaViewProps) {
 		onPress?.()
 	}
 
+	if (!(picturesUrl?.length === 0 && videosUrl?.length === 0)) return <></>
+
 	return (
 		<Container>
 			<GalleryModal

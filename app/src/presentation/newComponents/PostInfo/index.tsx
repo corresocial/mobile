@@ -9,14 +9,14 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
-import { Container, Content, DateTimeContainer, DateTimeLabel, HyperlinkContainer, LinkContainer, LinksContainer, LongText, PriceLabel, SeeMoreLabel, TextLink, Title, Value } from './styles'
+import { Container, Content, ColumnContainer, DateTimeLabel, HyperlinkContainer, LinkContainer, LinksContainer, ListItem, LongText, PriceLabel, SeeMoreLabel, TextLink, Title, Value } from './styles'
 import { getShortText, showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { IconComponent } from '@newComponents/IconComponent'
 
 const { arrayIsEmpty, textHasOnlyNumbers, formatDate, formatHour } = UiUtils()
 
-export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus' | 'range' | 'deliveryMethod'
+export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus' | 'range' | 'deliveryMethod' | 'importantPoints'
 
 type PriceValues = { saleValue?: string, exchangeValue?: string, isEvent?: boolean }
 type DateTimeInfos = {
@@ -120,7 +120,6 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			case 'both': return 'online e presencial'
 			case 'homeoffice': return 'online e presencial'
 			case 'hybrid': return 'online e presencial'
-
 			default: return ''
 		}
 	}
@@ -287,9 +286,9 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		}
 
 		return (
-			<DateTimeContainer>
+			<ColumnContainer>
 				{dateTimeInfosToRender}
-			</DateTimeContainer>
+			</ColumnContainer>
 		)
 	}
 
@@ -317,6 +316,12 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			case 'country': return 'countryBrazil'
 			case 'near': return 'pin'
 		}
+	}
+
+	const getFormattedImportantPoints = (importantPoints: string[]) => {
+		return importantPoints && importantPoints.map((point) => {
+			return <ListItem>{`●  ${point}`}</ListItem>
+		})
 	}
 
 	const getStyleByType = (): CurrentStyle => {
@@ -377,9 +382,18 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 				formattedValue: getFormattedPostRange(value as PostRange)
 			}
 			case 'deliveryMethod': return {
-				title: 'Método de entrega',
+				title: 'Método de entrega:',
 				icon: getRangeIcon(value as DeliveryMethod),
 				formattedValue: getFormattedDeliveryMethod(value as DeliveryMethod)
+			}
+			case 'importantPoints': return {
+				title: 'Pontos importantes:',
+				render: (
+					<ColumnContainer>
+						{getFormattedImportantPoints(value as string[])}
+					</ColumnContainer>
+				),
+				icon: ''
 			}
 			default: return {
 				title: 'Info:',

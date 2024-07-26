@@ -32,7 +32,7 @@ import PaperInfo from '@assets/icons/paperInfo.svg'
 
 import CountryBrazil from '@assets/icons/brazil-white.svg'
 import City from '@assets/icons/city-white.svg'
-import PersonWalking from '@assets/icons/people-white.svg'
+import PersonWalking from '@assets/icons/walkingPersonLeft.svg'
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"

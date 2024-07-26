@@ -157,10 +157,34 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('CultureStack' as any, {
-			screen: 'EditCulturePostReview' as keyof CultureStackParamList,
-			params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
-		})
+
+		switch (postData.postType) {
+			case 'income': {
+				if (postData.macroCategory === 'vacancy') {
+					return navigation.navigate('VacancyStack' as any, {
+						screen: 'EditVacancyPostReview' as keyof CultureStackParamList,
+						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+					})
+				}
+
+				return navigation.navigate('IncomeStack' as any, {
+					screen: 'EditCulturePostReview' as keyof CultureStackParamList,
+					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+				})
+			}
+			case 'culture': {
+				return navigation.navigate('CultureStack' as any, {
+					screen: 'EditCulturePostReview' as keyof CultureStackParamList,
+					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+				})
+			}
+			case 'socialImpact': {
+				return navigation.navigate('SocialImpactStack' as any, {
+					screen: 'EditSocialImpactPostReview' as keyof CultureStackParamList,
+					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+				})
+			}
+		}
 	}
 
 	const backToPreviousScreen = () => {
@@ -259,6 +283,19 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		setRejectModalIsVisible(!rejectModalIsVisible)
 	}
 
+	const getRelativePostTone = () => {
+		switch (postData.postType) {
+			case 'income':
+				return 'green'
+			case 'culture':
+				return 'blue'
+			case 'socialImpact':
+				return 'pink'
+			default:
+				return 'orange'
+		}
+	}
+
 	if (!postLoaded) {
 		return (
 			<Loader flex />
@@ -267,7 +304,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	return (
 		<ScreenContainer
-			tone={'blue'}
+			tone={getRelativePostTone()}
 			infinityBottom
 			enableSectionPadding
 			firstSection={(
@@ -351,13 +388,9 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							<VerticalSpacing height={7} relativeDensity />
 							<HorizontalTagList
 								tags={[getPostField('category', postType), ...getPostField('tags', postType)]}
-								selectedColor={theme.colors.blue[1]}
+								selectedColor={theme.colors[getRelativePostTone()][1]}
 							/>
 							<GroupContent>
-								<PostInfo
-									type={'description'}
-									value={getPostField('description', postType)}
-								/>
 								<PostInfo
 									type={'macroCategory'}
 									value={getPostField('macroCategory', postType)}
@@ -383,8 +416,17 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									value={getPostField('links', postType)}
 								/>
 								<PostInfo
-									type={'placeModality'}
+									title={'Local de atuação'}
+									type={'range'}
 									value={getPostField('exhibitionPlace', 'socialImpact')}
+								/>
+								<PostInfo
+									type={'placeModality'}
+									value={getPostField('eventPlaceModality', 'culture') || getPostField('workplace', 'vacancy')}
+								/>
+								<PostInfo
+									type={'importantPoints'}
+									value={getPostField('importantPoints', 'vacancy')}
 								/>
 								<PostInfo
 									type={'dateTime'}

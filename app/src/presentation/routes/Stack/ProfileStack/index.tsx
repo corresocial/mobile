@@ -40,10 +40,6 @@ import { InsertLinkValue } from '@screens/profileScreens/InsertLinkValue'
 import { Profile } from '@screens/profileScreens/Profile'
 import { SocialMediaManagement } from '@screens/profileScreens/SocialMediaManagement'
 import { PostView } from '@screens/viewPostScreens/PostView'
-import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
-import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
-import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
-import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
 
 const Stack = createStackNavigator<ProfileStackParamList>()
 
@@ -65,11 +61,8 @@ export function ProfileStack({ route, navigation }: any) { // REFACTOR type rout
 				}}
 			>
 				<Stack.Screen name={'Profile'} component={Profile} />
-				<Stack.Screen name={'ViewIncomePost'} component={ViewIncomePost} />
-				<Stack.Screen name={'ViewVacancyPost'} component={ViewVacancyPost} />
-				<Stack.Screen name={'ViewSocialImpactPost'} component={ViewSocialImpactPost} />
-				<Stack.Screen name={'ViewCulturePost'} component={ViewCulturePost} />
-
+				{/* // CURRENT usar estratégia de tipagem dinêmica */}
+				<Stack.Screen name={'PostViewProfile'} component={PostView as any} />
 				{/* REFACTOR Erro de tipagem, typecasting? */}
 				<Stack.Screen name={'EditServicePost'} component={EditServicePost as any} />
 				<Stack.Screen name={'EditSalePost'} component={EditSalePost as any} />

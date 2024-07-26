@@ -9,18 +9,7 @@ import { PollStackParamList } from './Stack/PollStack/types'
 import { StackLabelProps } from './types'
 
 const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => {
-	if (postData.macroCategory === 'event') {
-		return navigation.navigate(`PostView${stackLabel || ''}`, { postData })
-	}
-
-	switch (postData.postType) {
-		case 'income': {
-			if (postData.macroCategory === 'vacancy') return navigation.navigate(`ViewVacancyPost${stackLabel || ''}`, { postData })
-			return navigation.navigate(`ViewIncomePost${stackLabel || ''}`, { postData })
-		}
-		case 'socialImpact': return navigation.navigate(`ViewSocialImpactPost${stackLabel || ''}`, { postData })
-		case 'culture': return navigation.navigate(`ViewCulturePost${stackLabel || ''}`, { postData })
-	}
+	return navigation.navigate(`PostView${stackLabel || ''}`, { postData })
 }
 
 const navigateToLeaderPostsView = (leaderPostData: PollEntity & PetitionEntity, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type

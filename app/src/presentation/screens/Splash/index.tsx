@@ -10,7 +10,6 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
@@ -95,13 +94,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: id }) // TODO type
 	}
 
-	const navigateToPost = (id: string, postType: PostKey) => {
-		const postPages = {
-			income: 'ViewIncomePostHome',
-			culture: 'ViewCulturePostHome',
-			socialImpact: 'ViewSocialImpactPostHome',
-			vacancy: 'ViewVacancyPostHome',
-		}
+	const navigateToPost = (id: string) => {
 		navigation.reset({
 			index: 0,
 			routes: [{
@@ -114,7 +107,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
+		navigation.navigate('PostViewHome' as any, { redirectedPostId: id })
 	}
 
 	const redirectToApp = async () => {
@@ -125,7 +118,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
 				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
 
-				await setRemoteUserOnLocal(localUser.userId, localUser)
+				await setRemoteUserOnLocal(localUser.userId, localUser as any)
 
 				if (route.params?.screen) {
 					console.log(route.params.screen)
@@ -134,7 +127,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 							return navigateToProfile(route.params.id)
 						}
 						case 'post': {
-							return navigateToPost(route.params.id, route.params.postType as PostKey)
+							return navigateToPost(route.params.id)
 						}
 					}
 				}

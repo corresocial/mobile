@@ -2,7 +2,7 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { Container, ScrollView } from './styles'
-import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { FilterButton } from '@components/_buttons/FilterButton'

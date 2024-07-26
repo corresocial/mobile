@@ -4,10 +4,6 @@ import { HomeStackParamList } from './types'
 
 export type HomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'Home'>
 
-export type ViewIncomePostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewIncomePostHome'>
-export type ViewVacancyPostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewVacancyPostHome'>
-export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewSocialImpactPostHome'>
-export type ViewCulturePostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewCulturePostHome'>
 export type PostViewHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostViewHome'>
 
 export type PostCategoriesScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostCategories'>

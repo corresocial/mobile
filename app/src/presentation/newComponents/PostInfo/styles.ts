@@ -29,6 +29,9 @@ export const Title = styled(CommonText) <TitleProps>`
 	${({ theme, titleLarge }) => titleLarge && `font-size: ${theme.fontSizes.arvo[4]}px};`}
 `
 
+export const ColumnContainer = styled.View`
+	flex-direction: column;
+`
 interface ContentProps {
 	enableIconSpace?: boolean
 }
@@ -38,10 +41,6 @@ export const Content = styled.View<ContentProps>`
 	flex-direction: row;
 	align-items: center;
 	gap: ${relativeScreenDensity(5)}px;
-`
-
-export const DateTimeContainer = styled.View`
-	flex-direction: column;
 `
 
 export const Value = styled(CommonText)`
@@ -100,5 +99,11 @@ interface PriceLabelProps {
 
 export const PriceLabel = styled.Text<PriceLabelProps>`
 	font-family: ${({ theme, bold }) => (bold ? theme.fonts.nunitoBold : theme.fonts.nunitoSemiBold)};
+	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+`
+
+export const ListItem = styled.Text`
+	padding-left: ${relativeScreenDensity(10)}px;
+	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
 `

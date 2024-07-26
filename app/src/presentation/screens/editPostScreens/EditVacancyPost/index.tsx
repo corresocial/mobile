@@ -76,7 +76,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		const tags = getPostField('tags')
 
 		try {
-			const categoryAndTagsText = `	●  ${incomeCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
+			const categoryAndTagsText = `	●  ${(incomeCategories[category] || { label: '' }).label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 			return categoryAndTagsText
 		} catch (err) {
 			console.log(err)
@@ -101,7 +101,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const navigateToPostView = (vacancyPostData: PostEntityOptional) => {
-		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
+		navigation.navigate('PostViewProfile' as any, { postData: vacancyPostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyEntity, customStack?: string) => {
