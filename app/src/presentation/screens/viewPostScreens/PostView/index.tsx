@@ -5,7 +5,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { CultureEntityOptional, CultureEntity } from '@domain/post/entity/types'
+import { PostEntity, IncomeEntity, CultureEntity, VacancyEntity, SocialImpactEntity } from '@domain/post/entity/types'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -68,8 +68,19 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 
 	const [postLoaded, setPostLoaded] = useState(false)
-	const [postData, setPostData] = useState<CultureEntity>(route.params.postData || null)
-	const [approvedPostData, setApprovedPostData] = useState<CultureEntity>(route.params?.postData || null)
+	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
+	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
+
+	const getPostType = () => {
+		if (postData) {
+			if (postData.postType === 'income') return 'income'
+			if (postData.postType === 'culture') return 'culture'
+			if (postData.postType === 'socialImpact') return 'socialImpact'
+			if (postData.macroCategory === 'vacancy') return 'vacancy'
+		}
+	}
+
+	const postType = getPostType()!
 
 	useEffect(() => {
 		getPost()
@@ -81,8 +92,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const getPost = async () => {
 		if (route.params.redirectedPostId) {
 			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
-			setPostData(post as CultureEntity)
-			setApprovedPostData(post as CultureEntity)
+			setPostData(post as PostEntity)
+			setApprovedPostData(post as PostEntity)
 			setIsCompleted(!!(post && post.completed))
 			setPostLoaded(true)
 			return
@@ -161,7 +172,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${getPostField('postId', postType)}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -215,9 +226,18 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
-	const getPostField = (fieldName: keyof CultureEntityOptional, allowNull?: boolean) => {
-		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
-		return editDataContext.saved[fieldName] || postData[fieldName]
+	type PostEntities = 'culture' | 'income' | 'vacancy' | 'socialImpact'
+	type PostTypes<T extends PostEntities> =
+		T extends 'income' ? IncomeEntity :
+		T extends 'culture' ? CultureEntity :
+		T extends 'vacancy' ? VacancyEntity :
+		T extends 'socialImpact' ? SocialImpactEntity :
+		any;
+
+	const getPostField = <T extends PostEntities>(fieldName: keyof PostTypes<T>, role: T, allowNull?: boolean) => {
+		const post = postData as PostTypes<T>
+		if (allowNull && editDataContext.saved[fieldName] === '' && post[fieldName]) return ''
+		return (editDataContext.saved[fieldName] || post[fieldName])
 	}
 
 	const toggleDefaultConfirmationModalVisibility = () => {
@@ -302,7 +322,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 								)
 						}
 						<PostPopOver
-							postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
+							postTitle={getShortText(getPostField('description', postType), 45) || 'publicação no corre.'}
 							popoverVisibility={postOptionsIsOpen}
 							closePopover={() => setPostOptionsIsOpen(false)}
 							isAuthor={isAuthor || false}
@@ -329,7 +349,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<VerticalSpacing />
 						<GroupInfo>
 							<HorizontalTagList
-								tags={[getPostField('category'), ...getPostField('tags')]}
+								tags={[getPostField('category', postType), ...getPostField('tags', postType)]}
 								selectedColor={theme.colors.blue[1]}
 							/>
 							<PostInfo
@@ -362,7 +382,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							/>
 							<PostInfo
 								type={'link'}
-								value={getPostField('links') || ['https://sitedaora.com']}
+								value={getPostField('links', postType) || ['https://sitedaora.com']}
 							/>
 							<PostInfo
 								type={'dateTime'}
@@ -380,7 +400,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<MapView
 							online={false}
 							locationView={'public'}
-							location={getPostField('location')}
+							location={getPostField('location', postType)}
 						/>
 						<VerticalSpacing />
 						<MediaView
@@ -394,8 +414,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'apagar post'}
-				text={`você tem certeza que deseja apagar o post ${getShortText(getPostField('description'), 70)}?`}
-				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
+				text={`você tem certeza que deseja apagar o post ${getShortText(getPostField('description', postType), 70)}?`}
+				highlightedWords={[...getShortText(getPostField('description', postType), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={deletePost}
