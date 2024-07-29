@@ -50,7 +50,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 		setHasNetworkConnection(status.isConnected && status.isInternetReachable)
 	}
 
-	const currentUserHasPermission = () => (
+	const currentUserHasPermissionToMonitoring = () => (
 		userDataContext.verified
 		&& (
 			userDataContext.verified.type === 'coordinator'
@@ -58,6 +58,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 			|| userDataContext.verified.admin
 		)
 	)
+
 	return (
 		<ScreenContainer
 			topSafeAreaColor={theme.orange2}
@@ -103,7 +104,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					onPress={() => navigation.navigate('CitizenQuestionaryPreview')}
 				/>
 				{
-					currentUserHasPermission() && (
+					currentUserHasPermissionToMonitoring() && (
 						<OptionButton
 							label={'monitorar aplicadores de questionário'}
 							highlightedWords={['aplicadores', 'de', 'questionário']}
