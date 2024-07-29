@@ -3,7 +3,7 @@ import { CultureEntity, Id, IncomeEntity, SocialImpactEntity, VacancyEntity } fr
 
 export type ChatStackParamList = {
 	ChatConversations: undefined
-	ChatMessages: { chat: Chat }
+	ChatMessages: { chat: Chat, via?: 'profile' | 'post', postType?: 'income' | 'socialImpact' | 'culture' }
 
 	ProfileChat: { userId: Id, stackLabel?: string }
 	ViewIncomePostChat: { postData: IncomeEntity }

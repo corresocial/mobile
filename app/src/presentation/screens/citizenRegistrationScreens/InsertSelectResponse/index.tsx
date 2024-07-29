@@ -12,7 +12,6 @@ import { FlatListItem } from 'src/presentation/types'
 import { ButtonOptionsContainer, Container, InputContainer, OptionContainer, QuestionOptionsList } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SelectButton } from '@components/_buttons/SelectButton'
@@ -47,20 +46,14 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		const handleKeyboardDidHide = () => setKeyboardOpened(false)
 
 		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow)
 			Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide)
 		})
 
-		return () => {
-			unsubscribe()
-			removeAllKeyboardEventListeners()
-		}
+		return unsubscribe
 	}, [navigation])
 
 	useEffect(() => {
-		console.log(route.params.questionData)
-
 		const questionIndex = citizenRegistrationResponseData.findIndex((res) => res.questionId === questionData.questionId)
 		if (questionIndex < 0) return
 		const questionResponse = citizenRegistrationResponseData[questionIndex].response || []
@@ -72,7 +65,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	const navigateBackwards = () => navigation.goBack()
 
 	const selectOption = (option: string) => {
-		if (questionData && questionData.options && questionData.options.length && questionData.options[questionData.options.length - 1] === option) {
+		if (questionData && questionData.allowOtherOptions && questionData.options && questionData.options.length && questionData.options[questionData.options.length - 1] === option) {
 			scrollOptionListToEnd()
 		}
 

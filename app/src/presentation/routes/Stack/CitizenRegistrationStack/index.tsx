@@ -15,6 +15,7 @@ import { FinishCitizenRegistration } from '@screens/citizenRegistrationScreens/F
 import { InsertBinaryResponse } from '@screens/citizenRegistrationScreens/InsertBinaryResponse'
 import { InsertCitizenCellNumber } from '@screens/citizenRegistrationScreens/InsertCitizenCellNumber'
 import { InsertCitizenName } from '@screens/citizenRegistrationScreens/InsertCitizenName'
+import { InsertCitizenRegisterLocation } from '@screens/citizenRegistrationScreens/InsertCitizenRegisterLocation'
 import { InsertSatisfactionResponse } from '@screens/citizenRegistrationScreens/InsertSatisfactionResponse'
 import { InsertSelectResponse } from '@screens/citizenRegistrationScreens/InsertSelectResponse'
 import { InsertTextualResponse } from '@screens/citizenRegistrationScreens/InsertTextualResponse'
@@ -53,6 +54,7 @@ export function CitizenRegistrationStack({ route, navigation }: any) {
 				<Stack.Screen name={'InsertSatisfactionResponse'} component={InsertSatisfactionResponse} />
 				<Stack.Screen name={'InsertTextualResponse'} component={InsertTextualResponse} />
 				<Stack.Screen name={'InsertSelectResponse'} component={InsertSelectResponse} />
+				<Stack.Screen name={'InsertCitizenRegisterLocation'} component={InsertCitizenRegisterLocation} />
 				<Stack.Screen name={'FinishCitizenRegistration'} component={FinishCitizenRegistration} />
 
 				<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />

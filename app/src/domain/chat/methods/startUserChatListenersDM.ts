@@ -12,7 +12,7 @@ async function startUserChatListenersDM(chatIds: Id[], callback: (chatId: Id, up
 		if (await existsOnDatabase(chatId)) {
 			startUserChatListener(chatId, callback)
 		} else {
-			console.log(`Esse chat não existe: ${chatId}`)
+			console.log(`[chat]: Essa conversa não existe: ${chatId}`)
 		}
 	})
 }

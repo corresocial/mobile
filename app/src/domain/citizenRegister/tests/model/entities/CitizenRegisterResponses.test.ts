@@ -1,32 +1,32 @@
-import { CitizenRegisterResponses } from '@domain/citizenRegister/model/domainServices/CitizenRegisterResponses'
-import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+// import { CitizenRegisterResponses } from '@domain/citizenRegister/model/domainServices/CitizenRegisterResponses'
+// import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
-const mockResponses: CitizenRegisterQuestionResponse[] = [
-	{
-		questionId: 'q1',
-		question: 'Qual é o seu nome?',
-		questionType: 'textual',
-		response: 'John Doe'
-	},
-	{
-		questionId: 'q2',
-		question: 'Quantos anos você tem?',
-		questionType: 'numerical',
-		response: 30
-	},
-	{
-		questionId: 'q3',
-		question: 'Você gosta de programar?',
-		questionType: 'binary',
-		response: true
-	}
-] as CitizenRegisterQuestionResponse[]
+// const mockResponses: CitizenRegisterQuestionResponse[] = [
+// 	{
+// 		questionId: 'q1',
+// 		question: 'Qual é o seu nome?',
+// 		questionType: 'textual',
+// 		response: 'John Doe'
+// 	},
+// 	{
+// 		questionId: 'q2',
+// 		question: 'Quantos anos você tem?',
+// 		questionType: 'numerical',
+// 		response: 30
+// 	},
+// 	{
+// 		questionId: 'q3',
+// 		question: 'Você gosta de programar?',
+// 		questionType: 'binary',
+// 		response: true
+// 	}
+// ] as CitizenRegisterQuestionResponse[]
 
 describe('CitizenRegisterResponses', () => {
-	let responses: CitizenRegisterResponses
+	// let responses: CitizenRegisterResponses
 
 	beforeEach(() => {
-		responses = new CitizenRegisterResponses(mockResponses)
+		// const responses = new CitizenRegisterResponses(mockResponses)
 	})
 
 	test('mock', () => {

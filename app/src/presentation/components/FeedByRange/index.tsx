@@ -20,7 +20,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
-	searchEnded?: boolean
 	backgroundColor?: string
 	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
@@ -34,7 +33,6 @@ interface FeedByRangeProps {
 function FeedByRange({
 	searchEnded,
 	backgroundColor,
-	searchEnded,
 	filteredFeedPosts,
 	children,
 	viewPostsByRange,
@@ -87,7 +85,7 @@ function FeedByRange({
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
 					<PostCard
-						post={item}
+						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
@@ -127,7 +125,7 @@ function FeedByRange({
 	}
 
 	return (
-		<Container backgroundColor={backgroundColor}>
+		<Container backgroundColor={backgroundColor} showsVerticalScrollIndicator={false}>
 			{children}
 			{
 				hasNearbyPosts()

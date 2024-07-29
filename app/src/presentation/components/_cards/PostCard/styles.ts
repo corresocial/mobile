@@ -27,26 +27,26 @@ export const ContainerInner = styled.View`
 
 interface SideAreaProps {
 	backgroundColor: string
-	hasPictureOrSaleValue: boolean
+	hasMediaOrSaleValue: boolean
 }
 
 export const LeftArea = styled.View<SideAreaProps>`
 	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange1};
-	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '32%' : `${0}px`)};
+	width: ${({ hasMediaOrSaleValue }) => (hasMediaOrSaleValue ? '32%' : `${0}px`)};
 	height: 100%;
 	flex: 1;
 	overflow: hidden;
 `
 
-interface SidePictureProps extends ImageBackgroundProps {
-	hasPicture: boolean
+interface SideMediaProps extends ImageBackgroundProps {
+	hasMedia: boolean
 }
 
-export const SidePicture = styled(ImageBackground) <SidePictureProps>`
+export const SideMedia = styled(ImageBackground) <SideMediaProps>`
 	width: 100%;
 	height: 100%;
 	align-items: center;
-	justify-content: ${({ hasPicture }) => (hasPicture ? 'flex-end' : 'center')};
+	justify-content: ${({ hasMedia }) => (hasMedia ? 'flex-end' : 'center')};
 	flex: 1;
 `
 
@@ -84,7 +84,7 @@ export const Title = styled.Text`
 `
 
 export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
-	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '67%' : '98%')};
+	width: ${({ hasMediaOrSaleValue }) => (hasMediaOrSaleValue ? '67%' : '98%')};
 	height: 100%;
 	background-color: ${({ theme }) => theme.white3};
 	padding: ${RFValue(7)}px ${RFValue(7)}px;
@@ -94,6 +94,15 @@ export const RightAreaLimits = styled.View`
 	flex: 1;
 	justify-content: center; // TODO space-around?
 	overflow: hidden;
+`
+
+export const VideoIconContainer = styled.View`
+	flex: 1;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
 `
 
 interface WaitingApproveIconContainerProps {

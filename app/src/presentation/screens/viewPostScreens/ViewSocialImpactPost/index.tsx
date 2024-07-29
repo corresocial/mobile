@@ -214,7 +214,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'socialImpact'
 			})
 		}, 50)
 	}
@@ -306,6 +308,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
+
 			<WaitingApproveModal // APPROVE
 				visibility={waitingApproveModalIsVisible}
 				closeModal={toggleWaitingApproveModalVisibility}
@@ -424,14 +427,21 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					}
 					<VerticalSpacing />
 					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
 							<>
+								<GalleryModal
+									picturesUrl={getPostField('picturesUrl')}
+									videosUrl={getPostField('videosUrl')}
+									showGallery={galeryIsVisible}
+									onClose={closeGalery}
+								/>
 								<TouchableOpacity
 									activeOpacity={1}
 									onPress={openGallery}
 								>
 									<ImageCarousel
 										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
 										indicatorColor={theme.pink1}
 										square
 										showFullscreenIcon

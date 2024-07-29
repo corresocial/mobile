@@ -1,6 +1,5 @@
 import * as MediaLibrary from 'expo-media-library'
 import { Asset, AssetRef } from 'expo-media-library'
-// import * as VideoThumbnails from 'expo-video-thumbnails'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
@@ -22,6 +21,9 @@ import {
 	ActivityIndicatorContainer,
 	ActivityIndicatorBg,
 	HeaderTextContent,
+	InvalidAssetAlert,
+	InvalidDurationText,
+	InvalidAssetContainer,
 
 } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -37,11 +39,12 @@ import { MediaThumbnail } from '@components/MediaThumbnail'
 interface MediaBrowserProps {
 	showMediaBrowser: boolean,
 	maxImages?: number,
+	videoDurationLimit?: number,
 	onClose: () => void,
 	onSelectionConfirmed: (mediaSelected: Asset[]) => void,
 }
 
-function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelectionConfirmed }: MediaBrowserProps) {
+function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimit = 180, onClose, onSelectionConfirmed }: MediaBrowserProps) {
 	const [albums, setAlbums] = useState<AlbumType[]>([])
 	const [media, setMedia] = useState<Asset[]>([])
 	const [cursor, setCursor] = useState<AssetRef | undefined>(undefined)
@@ -50,11 +53,10 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	const [permissionResponse, requestPermission] = MediaLibrary.usePermissions()
 	const [isContentLoading, setIsContentLoading] = useState(false)
+	const [showInvalidDurationText, setShowInvalidDurationText] = useState(false)
 
 	useEffect(() => {
-		if (showMediaBrowser) {
-			loadAlbums()
-		}
+		if (showMediaBrowser && albums.length === 0) loadAlbums()
 	}, [showMediaBrowser, permissionResponse])
 
 	const withoutAccessPermissions = () => {
@@ -82,14 +84,8 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 	const getOnlyAlbumsWithPhotos = async (currentAlbums: AlbumType[]) => { // TODO Type
 		const allAlbums = await Promise.all(
 			currentAlbums.map(async (album: AlbumType) => {
-				if (await firstAssetIsPhotoType(album.id)) { // Essa função verifica se há imagens no album, o nome não está muito bom
+				if (await firstAssetIsPhotoType(album.id)) { // Essa função veIrifica se há imagens no album, o nome não está muito bom
 					const [firstAsset] = await getFirstAssetInAlbum(album.id)
-
-					// if (firstAsset.mediaType === 'video') {
-					// 	const { uri } = await VideoThumbnails.getThumbnailAsync(firstAsset.uri, { time: 1000 })
-					// 	return { ...album, thumbnail: uri }
-					// }
-
 					return { ...album, thumbnail: firstAsset.uri }
 				}
 				return false
@@ -117,7 +113,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		const firstAsset = await MediaLibrary.getAssetsAsync({
 			first: 1,
 			sortBy: 'creationTime',
-			mediaType: ['photo'], // Tipo de mídia
+			mediaType: ['photo', 'video'], // Tipo de mídia
 			album: albumId
 		})
 
@@ -137,7 +133,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 			first: 30,
 			album: albumId,
 			sortBy: 'creationTime',
-			mediaType: ['photo'],
+			mediaType: ['photo', 'video'], // Tipo de mídia
 			after: cursor
 		})
 		setCursor(albumMedia.hasNextPage ? albumMedia.endCursor : '')
@@ -158,14 +154,35 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 		setMediaSelected([])
 	}
 
-	const assetSelectionHandler = (item: any) => {
-		const isItemSelected = mediaSelected.includes(item)
+	const invalidDurationPopUp = () => {
+		setShowInvalidDurationText(true)
+		setTimeout(() => {
+			setShowInvalidDurationText(false)
+		}, 4000)
+	}
+
+	const mediaHasSelected = (item: Asset) => {
+		return !!(mediaSelected.find((asset) => asset.id === item.id))
+	}
+
+	const assetSelectionHandler = async (item: Asset) => {
+		if (item.duration > videoDurationLimit) {
+			invalidDurationPopUp()
+			return
+		}
+
+		let customAsset = { ...item }
+		if (Platform.OS === 'ios') {
+			const assetInfo = await MediaLibrary.getAssetInfoAsync(item.id)
+			customAsset = { ...item, uri: assetInfo.localUri, videoThumbnail: item.uri, } as Asset
+		}
+
 		let itemsSelected = []
-		if (isItemSelected) {
-			itemsSelected = mediaSelected.filter((asset) => asset !== item)
+		if (mediaHasSelected(item)) {
+			itemsSelected = mediaSelected.filter((asset) => asset.id !== customAsset.id)
 		} else {
 			if (mediaSelected.length >= maxImages) return
-			itemsSelected = [...mediaSelected, item]
+			itemsSelected = [...mediaSelected, customAsset]
 		}
 
 		setMediaSelected(itemsSelected)
@@ -209,7 +226,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 						data={media}
 						renderItem={({ item }: any) => (
 							<MediaThumbnail
-								active={mediaSelected.includes(item)}
+								active={mediaHasSelected(item)}
 								mediaAsset={item}
 								onSelection={assetSelectionHandler}
 							/>
@@ -222,13 +239,9 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 				{
 
 					isContentLoading && (
-
 						<ActivityIndicatorContainer isLoadingMore={arrayIsEmpty(media)}>
 							<ActivityIndicatorBg>
-								<ActivityIndicator
-									size={'large'}
-									color={theme.orange4}
-								/>
+								<ActivityIndicator size={'large'} color={theme.orange4} />
 							</ActivityIndicatorBg>
 						</ActivityIndicatorContainer>
 					)
@@ -255,6 +268,16 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, onClose, onSelect
 
 	return (
 		<MediaBrowserModalContainer animationType={'slide'} visible={showMediaBrowser}>
+			{
+				showInvalidDurationText && (
+					<InvalidAssetContainer>
+						<InvalidAssetAlert>
+							<InvalidDurationText>{`Seu vídeo tem mais que ${videoDurationLimit / 60} minutos`}</InvalidDurationText>
+						</InvalidAssetAlert>
+					</InvalidAssetContainer>
+				)
+			}
+
 			<StatusBar backgroundColor={theme.white3} />
 			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
 				{

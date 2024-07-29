@@ -28,7 +28,7 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 	}
 
 	async exec(citizenRegisterData: Input): Output { // TEST
-		let location = {}
+		let location = citizenRegisterData.location || {}
 		if (!citizenRegisterData.location || (citizenRegisterData && citizenRegisterData.location && !(citizenRegisterData.location as any).city)) {
 			const coordinates = citizenRegisterData.location && citizenRegisterData.location.coordinates
 				? citizenRegisterData.location?.coordinates

@@ -1,6 +1,8 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
+import { MediaAsset } from 'src/presentation/types'
+
 import {
 	Container,
 	PictureItemButtom,
@@ -13,66 +15,32 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface HorizontalListPicturesProps {
-	picturesUri: string[]
-	videosUri?: string[]
-	pictureUriSelected: number
+	mediaAssets: MediaAsset[]
+	mediaUriSelected: number
 	onSelectMedia: (index: number) => void
 }
 
-function HorizontalListPictures({ picturesUri, videosUri = [], pictureUriSelected, onSelectMedia }: HorizontalListPicturesProps) {
-	const renderPictures = () => picturesUri.map((pictureUri, index) => {
+function HorizontalListPictures({ mediaAssets = [], mediaUriSelected, onSelectMedia }: HorizontalListPicturesProps) {
+	const renderPictures = () => mediaAssets.map((asset, index) => {
 		return (
 			<PictureItemButtom
 				activeOpacity={1}
-				pictureSelected={pictureUriSelected === index}
+				pictureSelected={mediaUriSelected === index}
 				key={uuid()}
 				onPress={() => onSelectMedia(index)}
 			>
-				<PicturePortrait pictureSelected={pictureUriSelected === index}>
+				<PicturePortrait pictureSelected={mediaUriSelected === index}>
 					<Picture
-						source={{ uri: pictureUri }}
-						width={100}
-						height={100}
-					/>
-					{/* <PortraitImage
-						source={{ uri: pictureUri }}
-						recyclingKey={pictureUri}
+						source={{ uri: asset.videoThumbnail || asset.url }}
 						placeholderContentFit={'contain'}
-						resizeMode={'cover'}
+						contentFit={'cover'}
 						cachePolicy={'memory-disk'}
-						transition={300}
-					/> */}
+						transition={200}
+					/>
 				</PicturePortrait>
 			</PictureItemButtom>
 		)
 	})
-
-	/* const renderVideosPictures = () => videosUri.map((videoUri, index) => (
-		<PictureItemButtom
-			activeOpacity={1}
-			pictureSelected={pictureUriSelected === index && isVideoSelected}
-			key={uuid()}
-			onPress={() => pictureSelectionHandler(index, true)}
-		>
-			<PicturePortrait pictureSelected={pictureUriSelected === index && isVideoSelected}>
-				<Picture
-					resizeMode={'cover'}
-					source={{ uri: videoUri }}
-					width={100}
-					height={100}
-				/>
-			</PicturePortrait>
-		</PictureItemButtom>
-	)) */
-
-	// const renderMedias = () => {
-	// 	const renderData = []
-	// 	/* const videoElements = renderVideosPictures()
-	// 	renderData.push(...videoElements) */
-	// 	const pictureElements = renderPictures()
-	// 	renderData.push(...pictureElements)
-	// 	return renderData
-	// }
 
 	return (
 		<Container >

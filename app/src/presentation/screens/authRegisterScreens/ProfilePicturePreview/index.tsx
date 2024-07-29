@@ -34,7 +34,7 @@ const { uploadUserMedia, createNewUser } = useUserDomain()
 const { compressImage } = UiUtils()
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { userRegistrationData, setRemoteUserOnLocal } = useAuthContext()
+	const { userRegistrationData, performQuickSignin } = useAuthContext()
 
 	const [profilePictureUrl, setProfilePictureUri] = useState<string>('')
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
@@ -62,20 +62,16 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				pictureUrl = await uploadUserMedia(useUserRepository, [compressedPictureUri], 'pictures')
 			}
 
-			await createNewUser(useUserRepository, { ...userData, profilePictureUrl: pictureUrl } as UserRegisterData)
-			await setRemoteUserOnLocal(userData.userId)
+			const createdUser = await createNewUser(useUserRepository, { ...userData, profilePictureUrl: pictureUrl } as UserRegisterData)
 
 			setIsLoading(false)
-			navigateToHome()
+
+			performQuickSignin(createdUser?.userId, false)
 		} catch (err) {
 			console.log(err)
 		} finally {
 			setIsLoading(false)
 		}
-	}
-
-	const navigateToHome = async () => {
-		return navigation.navigate('UserStack', { newUser: true })
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -111,7 +107,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				withoutPadding
 				flexDirection={'column'}
 				justifyContent={'space-around'}
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.green2}
 			>
 				<InstructionCardContainer>
 					<BackButton onPress={navigateBackwards} />

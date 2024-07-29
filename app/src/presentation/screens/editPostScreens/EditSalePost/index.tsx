@@ -70,11 +70,11 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		return picturesUrl
 	}
 
-	/* const getVideosUrl = () => {
+	const getVideosUrl = () => {
 		const videosUrl = getPostField('videosUrl')
 		if (arrayIsEmpty(videosUrl)) return []
 		return videosUrl
-	} */
+	}
 
 	const formatCategoryAndTags = () => {
 		const category: SaleCategories = getPostField('category')
@@ -106,9 +106,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => { // TODO tipar com tipos de rotas
 		let value = getPostField(initialValue, true)
 
-		/* if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+		if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
 			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
-		} */
+		}
 
 		if (initialValue === 'location') {
 			value = {
@@ -228,10 +228,10 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={getPicturesUrl()}
+					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
 					indicatorColor={theme.green1}
 					carousel
-					pressionable={arrayIsEmpty(getPicturesUrl())}
+					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

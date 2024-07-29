@@ -208,7 +208,9 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						profilePictureUrl: getProfilePictureUrl() || ''
 					},
 					messages: {}
-				} as Chat
+				} as Chat,
+				via: 'post',
+				postType: 'culture'
 			})
 		}, 50)
 	}
@@ -389,36 +391,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-			{/* <PostHeader
-				title={getPostField('description')}
-				isAuthor={isAuthor}
-				isCompleted={isCompleted}
-				owner={postData.owner}
-				createdAt={getPostField('createdAt')}
-				navigateToProfile={navigateToProfile}
-				highlightedButtonAction={openChat}
-				sharePost={sharePost}
-			>
-				<PostPopOver
-					postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
-					popoverVisibility={postOptionsIsOpen}
-					closePopover={() => setPostOptionsIsOpen(false)}
-					isAuthor={isAuthor || false}
-					isCompleted={isCompleted}
-					goToComplaint={reportPost}
-					markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted}
-					editPost={goToEditPost}
-					deletePost={toggleDefaultConfirmationModalVisibility}
-				>
-					<SmallButton
-						SvgIcon={ThreeDotsWhiteIcon}
-						relativeWidth={relativeScreenWidth(12)}
-						height={relativeScreenWidth(12)}
-						onPress={() => setPostOptionsIsOpen(true)}
-					/>
-				</PostPopOver>
-			</PostHeader> */}
-
 			<ScrollView showsVerticalScrollIndicator={false} >
 				<VerticalSpacing />
 				<HorizontalTagList
@@ -447,7 +419,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					}
 					<VerticalSpacing />
 					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
+						!(arrayIsEmpty(getPostField('picturesUrl')) && arrayIsEmpty(getPostField('videosUrl'))) && (
 							<>
 								<GalleryModal
 									picturesUrl={getPostField('picturesUrl')}
@@ -461,12 +433,12 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								>
 									<ImageCarousel
 										picturesUrl={getPostField('picturesUrl') || []}
+										videosThumbnails={getPostField('videosUrl') || []}
 										indicatorColor={theme.blue1}
 										square
 										showFullscreenIcon
 									/>
 								</TouchableOpacity>
-
 							</>
 						)
 					}

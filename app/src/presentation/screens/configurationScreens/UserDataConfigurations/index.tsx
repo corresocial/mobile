@@ -104,6 +104,8 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const performLogout = async () => {
 		try {
+			clearCache(queryClient)
+			// navigateToInitialScreen()
 			await logoutUser(
 				useUserRepository,
 				usePostRepository,
@@ -111,18 +113,9 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				removeChatListeners,
 				userDataContext.userId
 			)
-			clearCache(queryClient)
-			navigateToInitialScreen()
 		} catch (error: any) {
 			console.log(error)
 		}
-	}
-
-	const navigateToInitialScreen = () => {
-		navigation.reset({
-			index: 0,
-			routes: [{ name: 'SelectAuthRegister' as any }]
-		})
 	}
 
 	return (

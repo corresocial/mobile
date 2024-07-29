@@ -84,8 +84,8 @@ function PostInputText({
 				minHeight={relativeScreenHeight(28)}
 				relativeHeight={height || relativeScreenHeight(28)}
 				centralized
-				backgroundColor={backgroundColor}
 				flexDirection={'column'}
+				backgroundColor={backgroundColor}
 			>
 				{
 					contextTitle ? (
@@ -119,23 +119,23 @@ function PostInputText({
 							)
 						}
 					</InstructionCard>
+					{
+						skipScreen ? (
+							<>
+								<HorizontalSpacing />
+								<SmallButton
+									SvgIcon={TrashWhiteIcon}
+									color={theme.red3}
+									height={relativeScreenWidth(11)}
+									relativeWidth={relativeScreenWidth(11)}
+									svgScale={['60%', '60%']}
+									onPress={skipScreen}
+								/>
+							</>
+						)
+							: <></>
+					}
 				</InstructionButtonContainer>
-				{
-					skipScreen ? (
-						<>
-							<HorizontalSpacing />
-							<SmallButton
-								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
-								height={relativeScreenWidth(11)}
-								relativeWidth={relativeScreenWidth(11)}
-								svgScale={['60%', '60%']}
-								onPress={skipScreen}
-							/>
-						</>
-					)
-						: <></>
-				}
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}

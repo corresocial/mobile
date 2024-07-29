@@ -26,6 +26,11 @@ export const Body = styled.View`
 	background-color: ${({ theme }) => theme.orange2};
 `
 
+export const ToggleButtonContainer = styled.View`
+	width: 100%;
+	align-items: center;
+`
+
 export const QuestionsList = styled.FlatList`
 	flex: 1;
 `

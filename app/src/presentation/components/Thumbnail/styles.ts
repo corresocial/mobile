@@ -23,3 +23,13 @@ export const ThumbnailImage = styled.Image`
     height: 85%;
     border-radius: 16px;
 `
+
+export const VideoIcon = styled.View`
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+`

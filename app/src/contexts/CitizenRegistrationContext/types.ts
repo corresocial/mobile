@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 export interface CitizenRegistrationProviderProps {
 	children: ReactNode
@@ -11,6 +11,7 @@ export interface CitizenRegistrationIdentifier {
 	name?: string
 	cellNumber?: string
 	citizenHasAccount?: boolean
+	location?: CitizenRegisterEntity['location']
 }
 
 export interface CitizenRegistrationContextType {

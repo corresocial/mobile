@@ -1,8 +1,10 @@
 import { deleteObject, getMetadata, ref } from 'firebase/storage'
 
+import { StorageFolder } from '@data/user/remoteRepository/uploadUserMedia'
+
 import { storage } from '@infrastructure/firebase/index'
 
-async function deletePostMedias(postMedias: string[], storagePath: 'pictures') {
+async function deletePostMedias(postMedias: string[], storagePath: StorageFolder) {
 	try {
 		postMedias.map(async (mediaUrl: string) => {
 			const startIndex = mediaUrl.indexOf('posts%2F') + 8
