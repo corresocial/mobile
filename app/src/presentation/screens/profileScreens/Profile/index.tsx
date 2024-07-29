@@ -428,6 +428,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const userIsAdmin = () => userDataContext.verified && userDataContext.verified.admin
+	const userIsLeader = () => userDataContext.verified && userDataContext.verified.type === 'leader'
 	const userCanReceiveFreeTrial = () => (user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription
 
 	const renderUserVerifiedType = () => {
@@ -663,6 +664,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 											<PopOver
 												title={getUserField('name') as string}
 												isAdmin={userIsAdmin()}
+												isLeader={userIsLeader()}
 												buttonLabel={'denunciar perfil'}
 												profileId={user.userId || ''}
 												popoverVisibility={profileOptionsIsOpen}

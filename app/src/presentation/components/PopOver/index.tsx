@@ -29,6 +29,7 @@ import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 interface PopOverProps {
 	title?: string
 	isAdmin?: boolean
+	isLeader?: boolean
 	popoverVisibility: boolean
 	buttonLabel?: string
 	profileId?: string
@@ -44,6 +45,7 @@ interface PopOverProps {
 function PopOver({
 	title,
 	isAdmin,
+	isLeader,
 	profileId,
 	popoverVisibility,
 	buttonLabel,
@@ -231,7 +233,7 @@ function PopOver({
 						)
 					}
 					{
-						onPressVerify && (
+						(isLeader || isAdmin) && onPressVerify && (
 							<>
 								<PrimaryButton
 									color={theme.green3}
@@ -329,18 +331,24 @@ function PopOver({
 							</>
 						)
 					}
-					<VerticalSpacing />
-					<PrimaryButton
-						color={theme.red3}
-						SecondSvgIcon={DeniedWhiteIcon}
-						label={'remover verificação'}
-						highlightedWords={['verificação']}
-						labelColor={theme.white3}
-						fontSize={14}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={toggleRemoveProfileBadgeModal}
-					/>
+					{
+						(isLeader || isAdmin) && (
+							<>
+								<VerticalSpacing />
+								<PrimaryButton
+									color={theme.red3}
+									SecondSvgIcon={DeniedWhiteIcon}
+									label={'remover verificação'}
+									highlightedWords={['verificação']}
+									labelColor={theme.white3}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={toggleRemoveProfileBadgeModal}
+								/>
+							</>
+						)
+					}
 				</ContainerInner>
 			</Container>
 		</Popover >

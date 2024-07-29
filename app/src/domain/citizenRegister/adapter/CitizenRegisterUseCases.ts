@@ -44,7 +44,7 @@ export class CitizenRegisterUseCases {
 		return new GetCitizenRegistrationQuestionary().exec()
 	}
 
-	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) { // MODEL
+	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) {
 		return new CitizenHasAccountOnApp(useCloudFunctionService).exec(cellNumber)
 	}
 
