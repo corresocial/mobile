@@ -26,10 +26,20 @@ export class GetCitizenRegistrationsByCoordinatorResponsability implements UseCa
 			throw new Error('Não foi possível identificar o coordenador')
 		}
 
-		// CURRENT remover comentário
-		// if (!(this.currentUser && this.currentUser.verified && this.currentUser.verified.type === 'coordinator')) {
-		// 	throw new Error('Você não tem permissão suficiente para acompanhar os cadastros dos aplicadores de questionário')
-		// }
+		if (!(
+			this.currentUser && this.currentUser.verified
+			&& (
+				this.currentUser.verified.type === 'coordinator'
+				|| this.currentUser.verified.type === 'leader'
+				|| this.currentUser.verified.admin
+			)
+		)) {
+			throw new Error('Você não tem permissão suficiente para acompanhar os cadastros dos aplicadores de questionário')
+		}
+
+		if (this.currentUser.verified.admin || this.currentUser.verified.type === 'leader') {
+			return this.remoteRepository.getAllCitizenRegisters(maxDocs, lastCitizenRegister)
+		}
 
 		return this.remoteRepository.getCitizenRegistrationsByCoordinator(this.currentUser.userId, maxDocs, lastCitizenRegister)
 	}

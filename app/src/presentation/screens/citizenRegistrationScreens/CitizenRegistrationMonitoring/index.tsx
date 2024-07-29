@@ -11,6 +11,7 @@ import { getNewDate } from '@domain/shared/utils/datetime'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
@@ -32,6 +33,7 @@ const citizenUseCases = new CitizenRegisterUseCases()
 function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonitoringScreenProps) {
 	const { setLoaderIsVisible } = useLoaderContext()
 	const { userDataContext } = useAuthContext()
+	const { showDefaultAlertModal } = useAlertContext()
 
 	const theme = useTheme()
 	const queryClient = useQueryClient()
@@ -42,7 +44,7 @@ function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonito
 	const [listIsOver, setListIsOver] = useState(false)
 
 	useEffect(() => {
-		loadCitizenRegistrationByCoordinator(false, true)
+		loadCitizenRegistrationByCoordinator(true, true)
 	}, [])
 
 	const loadCitizenRegistrationByCoordinator = async (refresh?: boolean, firstLoad?: boolean) => {
@@ -58,7 +60,7 @@ function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonito
 			let citizenRegisters: CitizenRegisterEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
-				() => citizenUseCases.getCitizenRegistrationsByCoordinatorResponsability(userDataContext, 10, lastCitizenRegister),
+				() => citizenUseCases.getCitizenRegistrationsByCoordinatorResponsability(userDataContext, 10, lastCitizenRegister,),
 				refresh
 			)
 			citizenRegisters = citizenRegisters.map((p: CitizenRegisterEntity) => ({ ...p, createdAt: getNewDate(p.createdAt) }))
@@ -75,8 +77,13 @@ function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonito
 			} else {
 				setCitizenRecordsOfQuestionnaireAdministrators([...citizenRecordsOfQuestionnaireAdministrators, ...citizenRegisters])
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.log(error)
+			showDefaultAlertModal({
+				title: 'Ops!',
+				text: error && error.message ? error.message : 'Houve um erro ao atribuir selo à este usuário!',
+				type: 'warn'
+			})
 		} finally {
 			setLoaderIsVisible(false)
 			setIsLoadingMore(false)
