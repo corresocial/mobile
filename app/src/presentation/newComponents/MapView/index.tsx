@@ -88,8 +88,10 @@ function MapView({
 			district,
 			city,
 			state,
+			name,
+			number
 		} = location
-		return `${street && `${street}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
+		return `${name && `${name}, \n`}${street && `${street}, `}${number && `${number}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
 	}
 
 	const getAddressCoordinates = () => {

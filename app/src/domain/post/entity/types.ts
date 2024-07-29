@@ -167,6 +167,7 @@ export interface PostEntityCommonFields {
 	createdAt: Date
 	updatedAt: Date
 	location: {
+		name?: string
 		country: string
 		state: string
 		city: string

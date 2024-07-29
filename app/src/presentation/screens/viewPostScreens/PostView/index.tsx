@@ -288,7 +288,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	const getPostCategory = () => {
 		const category = getPostField('category', postType)
-		return (({ ...cultureCategories, ...incomeCategories, ...socialImpactCategories } as any)[category] || { label: '' }).label
+		return (({ ...cultureCategories, ...incomeCategories, ...socialImpactCategories } as any)[category] || { label: '' }).label || (category || '').toLowerCase()
 	}
 
 	const getRelativePostTone = () => {
@@ -449,7 +449,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 										startDate: getPostField('startDate', 'culture'),
 										endDate: getPostField('endDate', 'culture'),
 										startTime: getPostField('startHour', 'culture'),
-										endTime: getPostField('startHour', 'culture'),
+										endTime: getPostField('endHour', 'culture'),
 									}}
 								/>
 								<PostInfo
