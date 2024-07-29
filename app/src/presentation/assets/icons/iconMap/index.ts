@@ -34,6 +34,9 @@ import CountryBrazil from '@assets/icons/brazil.svg'
 import City from '@assets/icons/city.svg'
 import PersonWalking from '@assets/icons/walkingPersonLeft.svg'
 
+import Trade from '@assets/icons/trade.svg'
+import PersonAndGlobe from '@assets/icons/personAndGlobe.svg'
+
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"
 // Para ícones especiais "icon-outlined.svg" ou "icon-red-outlined.svg" ou "icon-red-outlined.svg"
@@ -136,6 +139,12 @@ const icons: IconMap = {
 	},
 	countryBrazil: {
 		default: CountryBrazil
+	},
+	personAndGlobe: {
+		default: PersonAndGlobe
+	},
+	trade: {
+		default: Trade
 	}
 }
 

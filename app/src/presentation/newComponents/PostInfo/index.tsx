@@ -128,9 +128,9 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		switch (placeModality) {
 			case 'online': return 'computerAndPhone'
 			case 'presential': return 'handOnPerson'
-			case 'both': return 'computerAndPhone' // CURRENT Ver com Rafa um ícone para isso
+			case 'both': return 'personAndGlobe'
 			case 'homeoffice': return 'computerAndPhone'
-			case 'hybrid': return 'computerAndPhone' // CURRENT Ver com Rafa um ícone para isso
+			case 'hybrid': return 'personAndGlobe'
 			default: return 'computerAndPhone'
 		}
 	}
@@ -170,7 +170,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 
 	const getRelativeValueIcon = (priceValue: PriceValues): IconName => {
 		if (priceValue.saleValue === 'a combinar') { return 'chat' }
-		if (priceValue.exchangeValue && priceValue.saleValue) { return 'chat' } // CURRENT Ver com Rafa ícone para isso, ícone que represente tanto venda quanto troca
+		if (priceValue.exchangeValue && priceValue.saleValue) { return 'trade' }
 		if (priceValue.exchangeValue && !priceValue.saleValue) { return 'exchange' }
 		if (!priceValue.exchangeValue && priceValue.saleValue) { return 'cash' }
 		return 'cash'
