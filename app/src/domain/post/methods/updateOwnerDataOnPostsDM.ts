@@ -1,10 +1,10 @@
-import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
+import { UserOwner } from '@domain/user/entity/types'
 
-import { PostEntityOptional } from '../entity/types'
+import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 async function updateOwnerDataOnPostsDM(
 	usePostRepository: () => PostRepositoryInterface,
-	ownerData: Partial<PostEntityOptional['owner']>
+	ownerData: Partial<UserOwner>
 ) {
 	try {
 		const { remoteStorage } = usePostRepository()

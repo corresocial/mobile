@@ -1,4 +1,5 @@
 import { PostType, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
+import { UserOwner } from '@domain/user/entity/types'
 
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
@@ -23,11 +24,11 @@ interface PostRepositoryInterface {
 		getPostsByMacroCategory: (macroCategory: MacroCategoriesType, maxDocs: number, lastDoc: PostEntity | null, allPosts: boolean) => Promise<PostEntity[]>
 
 		createPost: (post: PostEntityOptional) => Promise<PostEntity | null>
-		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: PostEntity['owner'], postType: PostType, customId: string) => Promise<string | boolean>
+		createPostWithCustomId: (postData: PostEntityOptional, ownerPost: UserOwner, postType: PostType, customId: string) => Promise<string | boolean>
 
 		updatePostData: (postId: string, data: PostEntityOptional, merge?: boolean) => Promise<boolean>
 		markPostAsComplete: (postId: string, postData: PostEntityOptional, state: boolean) => Promise<boolean>
-		updateOwnerDataOnPosts: (ownerPost: Partial<PostEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
+		updateOwnerDataOnPosts: (ownerPost: Partial<UserOwner>, userPostIds: string[]) => Promise<boolean>
 		updatePostsList: (userPosts: PostEntity[]) => Promise<boolean>
 
 		deletePost: (postId: string, userId: string) => Promise<boolean>

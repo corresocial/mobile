@@ -1,8 +1,8 @@
-import { UserSubscription } from '@domain/user/entity/types'
+import { UserOwner, UserSubscription } from '@domain/user/entity/types'
 
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
-import { PostEntity, PostEntityOptional } from './entity/types'
+import { PostEntity } from './entity/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
@@ -23,7 +23,7 @@ interface PostDomainInterface {
 	): Promise<{ updatedUserPosts: PostEntity[], picturesUrl?: string[] }>
 	updateOwnerDataOnPosts(
 		usePostRepository: () => PostRepositoryInterface,
-		ownerData: Partial<PostEntityOptional['owner']>
+		ownerData: Partial<UserOwner>
 	): Promise<boolean | void>
 	updateLocationDataOnPosts(userId: string, newPostRangeLocation: PostRangeLocation, subscriptionDowngrade?: boolean): Promise<PostEntity[]>
 	savePost(

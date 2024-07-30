@@ -1,3 +1,5 @@
+import { UserOwner } from '@domain/user/entity/types'
+
 export type PetitionEntityOptional = Partial<PetitionEntity>
 export type PetitionEntity = {
 	petitionId: string
@@ -13,12 +15,6 @@ export type PetitionEntity = {
 	videosUrl?: string[]
 	extraIdentificationRequest: ExtraIdentificationRequest[]
 	privateResponses?: PrivatePetitionResponse[]
-}
-
-export type UserOwner = {
-	userId: string
-	name: string
-	profilePictureUrl?: string[]
 }
 
 type PetitionRange = 'near' | 'city' | 'country'
