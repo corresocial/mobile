@@ -30,8 +30,8 @@ function MiniUserIndentifier({ owner, postedAt, navigateToProfile }: MiniUserInd
 				<OwnerProfilePicture source={{ uri: getOwnerPicture() }} />
 			</OwnerProfileTouchable>
 			<OwnerTextGroup>
-				<OwnerName>{owner.name}</OwnerName>
-				<PostDate>{`postado em ${formatRelativeDate(postedAt)}`}</PostDate>
+				<OwnerName numberOfLines={2}>{owner.name}</OwnerName>
+				<PostDate>{`${formatRelativeDate(postedAt)}`}</PostDate>
 			</OwnerTextGroup>
 		</OwnerDataContainer>
 	)

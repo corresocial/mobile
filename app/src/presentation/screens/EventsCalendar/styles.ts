@@ -28,7 +28,7 @@ export const ColapsedEventGroup = styled.View`
 	width: 100%;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	gap: ${relativeScreenDensity(8)}px 0px;
+	gap: ${relativeScreenDensity(8)}px;
 `
 
 export const NoPostNotifierContainer = styled.View`

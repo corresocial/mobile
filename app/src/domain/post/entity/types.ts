@@ -129,6 +129,7 @@ export interface VacancyEntity extends PostEntityCommonFields {
 
 export type CultureEntityOptional = Partial<CultureEntity>
 export interface CultureEntity extends PostEntityCommonFields {
+	externalEventId?: string
 	macroCategory: CultureType
 	eventPlaceModality?: PlaceModalityType
 	repeat?: EventRepeatType

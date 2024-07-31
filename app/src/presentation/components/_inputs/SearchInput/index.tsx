@@ -56,7 +56,7 @@ function SearchInput({
 				ref={searchInputRef}
 				value={value}
 				keyboardType={keyboardType || 'ascii-capable'}
-				placeholder={placeholder || 'buscar'}
+				placeholder={placeholder || 'pesquisar'}
 				placeholderTextColor={theme.black1}
 				returnKeyType={'search'}
 				onFocus={() => setFocused(true)}

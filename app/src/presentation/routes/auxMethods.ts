@@ -14,6 +14,7 @@ const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStac
 }
 
 const navigateToProfileView = (navigation: NativeStackNavigationProp<any>, userId?: string, stackLabel?: StackLabelProps | '', redirect?: string) => {
+	console.log('View')
 	if (redirect) return Linking.openURL(redirect)
 	navigation.navigate(`Profile${stackLabel}`, { userId, stackLabel })
 }

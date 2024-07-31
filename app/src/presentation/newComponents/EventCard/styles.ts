@@ -95,10 +95,10 @@ interface PostDescriptionProps {
 
 export const PostDescription = styled.Text<PostDescriptionProps>`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	/* font-size: ${({ theme, colapsed }) => theme.fontSizes.arvo[colapsed ? 2 : 3]}px; */
-	// CURRENT Utilizar theme.fontSizes
 	font-size: ${relativeScreenDensity(11)}px;
-`
+	`
+/* font-size: ${({ theme, colapsed }) => theme.fontSizes.arvo[colapsed ? 2 : 3]}px; */
+// CURRENT Utilizar theme.fontSizes
 
 interface PostDescriptionContainerProps {
 	colapsed: boolean

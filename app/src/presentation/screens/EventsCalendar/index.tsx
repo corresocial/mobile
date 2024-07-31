@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { ListRenderItem } from 'react-native'
+import { ListRenderItem, View } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks, startOfWeek, endOfWeek, getWeekOfMonth } from 'date-fns'
 
-import { CultureEntity } from '@domain/post/entity/types'
+import { CultureEntity, PostEntity } from '@domain/post/entity/types'
 import { formatDate } from '@domain/shared/utils/datetime'
 
 import { useLocationContext } from '@contexts/LocationContext'
 
 import { Direction, Visualizations } from './types'
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { EventsCalendarScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
@@ -19,6 +19,7 @@ import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
 import { BottomNavigator, ColapsedEventGroup, EventsContainer, EventsFlatList, NoPostNotifierContainer } from './styles'
 import { theme } from '@common/theme'
 
+import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ContextHeader } from '@newComponents/ContextHeader'
 import { EmptyPostsNotifier } from '@newComponents/EmptyPostsNotifier'
@@ -33,13 +34,21 @@ const { getWeekdayName, getMonthName } = useUtils()
 function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 	const { locationDataContext } = useLocationContext()
 
-	const [events, setEvents] = useState<any[]>()
-	const [visualization, setVisualization] = useState<Visualizations>('week')
 	const [currentDate, setCurrentDate] = useState<Date>(new Date())
+	const [events, setEvents] = useState<any[]>()
+	const [visualization, setVisualization] = useState<Visualizations>('day')
+	const [searchText, setSearchText] = useState('')
 
 	useEffect(() => {
 		getPosts()
 	}, [])
+
+	const [filteredEvents, setFilteredEvents] = useState<any>([])
+
+	useEffect(() => {
+		const filtered = getFilteredEvents()
+		setFilteredEvents(filtered)
+	}, [events, searchText, visualization, currentDate])
 
 	const getPosts = async () => {
 		const allPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country]
@@ -49,10 +58,15 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 
 	const getFilteredEvents = (): any[] => {
 		switch (visualization) {
-			case 'day': return separateEventsByHour(getEventsByDay())
-			case 'week': return separateEventsByDay(getEventsByWeek())
-			case 'month': return separateEventsByWeek(getEventsByMonth())
+			case 'day': return searchText.length <= 3 ? separateEventsByHour(getEventsByDay()) : separateEventsByHour(getEventsByDay().filter((event: PostEntity) => hasPostDescriptionMatch(event)))
+			case 'week': return searchText.length <= 3 ? separateEventsByDay(getEventsByWeek()) : separateEventsByDay(getEventsByWeek().filter((event: PostEntity) => hasPostDescriptionMatch(event)))
+			case 'month': return searchText.length <= 3 ? separateEventsByWeek(getEventsByMonth()) : separateEventsByWeek(getEventsByMonth().filter((event: PostEntity) => hasPostDescriptionMatch(event)))
 		}
+	}
+
+	const hasPostDescriptionMatch = (event: PostEntity) => {
+		if (!event || (event && !event.description)) return event
+		return !!event.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
 
 	const getEventsByDay = () => {
@@ -258,13 +272,17 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 	}
 
 	const renderPostsByWeek = (date: Date) => {
-		const eventsWeek = getEventsByWeekCustomized(date).splice(0, 4)
+		const eventsWeek = getEventsByWeekCustomized(date)
+			.filter((event) => searchText.length <= 3 || hasPostDescriptionMatch(event || ''))
+			.splice(0, 4)
+
 		return eventsWeek.map((event) => {
 			return (
 				<EventCard
 					post={event}
 					colapsed
 					onPress={() => navigateToPostView(event, navigation, 'Home')}
+					onProfilePress={(userId) => navigateToProfileView(navigation, userId, 'Home', event.owner.redirect)}
 				/>
 			)
 		})
@@ -275,7 +293,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		if (!item.postId) {
 			if (visualization === 'month') {
 				return (
-					<>
+					<View key={`divider-${index}${Date.now()}`}>
 						<InfoDivider
 							title={getDividerTitle(item.date)}
 							subTitle={`${item.numberOfEvents} eventos`}
@@ -287,7 +305,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 						<ColapsedEventGroup >
 							{renderPostsByWeek(item.date)}
 						</ColapsedEventGroup >
-					</>
+					</View>
 				)
 			}
 
@@ -306,6 +324,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 			<EventCard
 				post={item}
 				onPress={() => navigateToPostView(item, navigation, 'Home')}
+				onProfilePress={(userId) => navigateToProfileView(navigation, userId, 'Home', item.owner.redirect)}
 			/>
 		)
 	}
@@ -324,21 +343,29 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 				/>
 			)}
 			secondSection={(
-				<PaginatorHeader
-					title={getVisualizationLabel()}
-					subTitle={getPaginatorSubtitle()}
-					highlitedWords={[`${getMonthName(currentDate.getMonth())} `, `${currentDate.getDate()} `]}
-					infoContainerWidth={visualization === 'day' ? '60%' : visualization === 'week' ? '50%' : '30%'}
-					onNext={() => paginatorHandler('next')}
-					onPrev={() => paginatorHandler('prev')}
-					previousItem={getPaginatorItem('prev')}
-					nextItem={getPaginatorItem('next')}
-				/>
+				<>
+					<SearchInput
+						value={searchText}
+						onChangeText={setSearchText}
+					/>
+					<VerticalSpacing />
+					<VerticalSpacing />
+					<PaginatorHeader
+						title={getVisualizationLabel()}
+						subTitle={getPaginatorSubtitle()}
+						highlitedWords={[`${getMonthName(currentDate.getMonth())} `, `${currentDate.getDate()} `]}
+						infoContainerWidth={visualization === 'day' ? '60%' : visualization === 'week' ? '50%' : '30%'}
+						onNext={() => paginatorHandler('next')}
+						onPrev={() => paginatorHandler('prev')}
+						previousItem={getPaginatorItem('prev')}
+						nextItem={getPaginatorItem('next')}
+					/>
+				</>
 			)}
 			thirdSecton={(
 				<EventsContainer>
 					<EventsFlatList
-						data={getFilteredEvents()}
+						data={filteredEvents}
 						renderItem={renderEventCard as ListRenderItem<unknown>}
 						ListEmptyComponent={(
 							<NoPostNotifierContainer>

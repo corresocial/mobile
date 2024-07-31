@@ -20,6 +20,7 @@ export const OwnerProfilePicture = styled.Image`
 `
 
 export const OwnerTextGroup = styled.View`
+	flex: 1;
 	align-items: column;
 	justify-content: center;
 `

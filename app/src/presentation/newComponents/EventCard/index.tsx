@@ -4,15 +4,14 @@ import { CultureEntity } from '@domain/post/entity/types'
 
 import { Container, EventDataContainer, ImageContainer, InnerContainer, PostDescription, PostDescriptionContainer, PostImage, PriceLabel, PriceLabelContainer } from './styles'
 
-import { MiniUserIndentifier } from '@newComponents/MiniUserIdentifier'
-
 interface EventCardProps {
 	post: CultureEntity
 	colapsed?: boolean
 	onPress?: () => void
+	onProfilePress?: (userId: string) => void
 }
 
-function EventCard({ post, colapsed = false, onPress }: EventCardProps) {
+function EventCard({ post, colapsed = false, onPress, onProfilePress }: EventCardProps) {
 	const [buttonPressed, setButtonPressed] = useState(false)
 
 	const pressingButton = () => {
@@ -47,13 +46,17 @@ function EventCard({ post, colapsed = false, onPress }: EventCardProps) {
 				</ImageContainer>
 				<EventDataContainer colapsed={colapsed}>
 					<PostDescriptionContainer colapsed={colapsed}>
-						<PostDescription colapsed={colapsed} numberOfLines={colapsed && !post.picturesUrl?.[0] ? 5 : 2}>{post.description}</PostDescription>
+						<PostDescription colapsed={colapsed} numberOfLines={colapsed && !post.picturesUrl?.[0] ? 5 : 5}>{post.description}</PostDescription>
 					</PostDescriptionContainer>
-					{
+					{/* { // CURRENT Descomentar
 						!colapsed && (
-							<MiniUserIndentifier owner={post.owner} postedAt={post.createdAt} />
+							<MiniUserIndentifier
+								owner={post.owner}
+								postedAt={post.createdAt}
+								navigateToProfile={() => onProfilePress?.(post.owner.userId)}
+							/>
 						)
-					}
+					} */}
 				</EventDataContainer>
 			</InnerContainer>
 		</Container>

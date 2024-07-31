@@ -44,24 +44,25 @@ function FeedByRange({
 
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
+		const filteredItems = items.filter((item) => !item.externalEventId)
+		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)
+		return items.filter((item) => !item.externalEventId)
 	}
 
 	const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
+		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalEventId).length > 0 || filteredFeedPosts.city.filter((item: any) => !item.externalEventId).length > 0 || filteredFeedPosts.country.filter((item: any) => !item.externalEventId).length > 0)
 	}
 
 	const hasNearbyPosts = () => {
-		return (filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
+		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalEventId) && filteredFeedPosts.nearby.filter((item: any) => !item.externalEventId).length)
 	}
 
 	const hasCityPosts = () => {
-		return (filteredFeedPosts.city && filteredFeedPosts.city.length)
+		return (filteredFeedPosts.city.filter((item: any) => !item.externalEventId) && filteredFeedPosts.city.filter((item: any) => !item.externalEventId).length)
 	}
 
 	const hasCountryPosts = () => {
-		return (filteredFeedPosts.country && filteredFeedPosts.country.length)
+		return (filteredFeedPosts.country.filter((item: any) => !item.externalEventId) && filteredFeedPosts.country.filter((item: any) => !item.externalEventId).length)
 	}
 
 	const renderPosts = (range: keyof FeedPosts) => {

@@ -27,9 +27,11 @@ function FlatListPosts({
 	onEndReached,
 	onRefresh
 }: FlatListPostsProps) {
+	const filteredExternalEvents = data.filter((post: any) => !post.externalEventId)
+
 	return (
 		<FlatList
-			data={[0, ...data]}
+			data={[0, ...filteredExternalEvents]}
 			renderItem={({ item }) => renderItem(item as PostEntity)}
 			showsVerticalScrollIndicator={false}
 			CellRendererComponent={({ item }) => {
@@ -45,7 +47,7 @@ function FlatListPosts({
 			}}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace/>}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace />}
 			onEndReached={onEndReached}
 			// refreshControl={(
 			// 	<RefreshControl
