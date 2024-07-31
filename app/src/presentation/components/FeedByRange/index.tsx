@@ -25,7 +25,7 @@ interface FeedByRangeProps {
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
-	navigateToProfile: (userId: string) => void
+	navigateToProfile: (userId: string, redirect?: string) => void
 	goToPostView: (post: PostEntityOptional) => void
 	goToLeaderPostsView?: (post: PollEntity & PetitionEntity) => void
 }
@@ -88,7 +88,7 @@ function FeedByRange({
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						navigateToProfile={navigateToProfile}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onPress={() => goToPostView(item)}
 					/>
 					<VerticalSpacing />

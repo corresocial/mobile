@@ -8,7 +8,7 @@ import { FeedPosts, MacroCategory, PostType, PostEntityOptional, PostEntity, Pos
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
@@ -198,12 +198,11 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		return categoryList
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {

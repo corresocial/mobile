@@ -1,6 +1,8 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
+import { UserOwner } from '@domain/user/entity/types'
+
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { saleCategories } from '@utils/postsCategories/saleCategories'
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'
@@ -181,12 +183,10 @@ export interface PostEntityCommonFields {
 		}
 		geohashNearby: string[]
 	}
-	owner: {
-		userId: string
-		name: string
-		profilePictureUrl?: string[]
-	}
+	owner: UserOwner
 }
+
+// REFACTOR Remover quando encontrar novamente
 
 // [DEPRECATED] ---------------------
 

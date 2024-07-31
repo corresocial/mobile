@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView } from 'react-native'
+import { Linking, ScrollView } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 
@@ -246,6 +246,10 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId && !route.params.redirectedPostId) {
 			return navigation.navigate('Profile' as any)
+		}
+
+		if (postData.owner.redirect) {
+			return Linking.openURL(postData.owner.redirect)
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}

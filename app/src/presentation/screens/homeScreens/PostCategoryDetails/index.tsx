@@ -6,7 +6,7 @@ import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/t
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -133,12 +133,11 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle })
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const renderCategoryCard: ListRenderItem<string> = ({ item }) => (

@@ -14,6 +14,7 @@ import { EditContext } from '@contexts/EditContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewUnapprovedPostScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -112,10 +113,8 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const navigateToProfile = () => {
 		const ownerId = postData.owner.userId
-		if (userDataContext.userId === ownerId) {
-			return navigation.navigate('Profile' as any)
-		}
-		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
+		if (userDataContext.userId === ownerId) return navigateToProfileView(navigation)
+		navigateToProfileView(navigation, ownerId, 'LeaderArea', postData.owner.redirect)
 	}
 
 	const getCategoryLabel = () => {
@@ -416,7 +415,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					}
 					{
 						getPostField('range') && (
-							<PostRangeCard postRange={getPostField('range')}/>
+							<PostRangeCard postRange={getPostField('range')} />
 						)
 					}
 					{
@@ -487,12 +486,12 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					{
 						(
 							getPostField('exhibitionFrequency')
-						|| getPostField('daysOfWeek', true)
-						|| getPostField('startDate', true)
-						|| getPostField('endDate', true)
-						|| getPostField('startHour', true)
-						|| getPostField('endHour', true)
-						|| getPostField('repeat')
+							|| getPostField('daysOfWeek', true)
+							|| getPostField('startDate', true)
+							|| getPostField('endDate', true)
+							|| getPostField('startHour', true)
+							|| getPostField('endHour', true)
+							|| getPostField('repeat')
 						) && (
 							<DateTimeCard
 								weekDaysfrequency={getPostField('exhibitionFrequency')}
@@ -519,7 +518,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 							/>
 						)
 					}
-					<VerticalSpacing bottomNavigatorSpace/>
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container >

@@ -8,6 +8,7 @@ import { CompleteUser } from '@domain/user/entity/types'
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { LeaderAreaHomeScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
@@ -59,10 +60,8 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	const navigateToProfile = (postData: PostEntity) => {
 		const ownerId = postData.owner.userId
-		if (userDataContext.userId === ownerId) {
-			return navigation.navigate('Profile' as any)
-		}
-		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
+		if (userDataContext.userId === ownerId) return navigateToProfileView(navigation)
+		navigateToProfileView(navigation, ownerId, 'LeaderArea', postData.owner.redirect)
 	}
 
 	const renderUnapprovedPosts = ({ item }: FlatListItem<PostEntity & CompleteUser>) => {

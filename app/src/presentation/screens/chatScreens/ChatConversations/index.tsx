@@ -8,6 +8,7 @@ import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/screenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -169,6 +170,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 			userId: recipientUserId,
 			stackLabel: 'Chat'
 		})
+		navigateToProfileView(navigation, recipientUserId, 'Chat')
 	}
 
 	const renderConversationListItem = ({ item: conversation }: ListRenderItemInfo<Chat>) => {

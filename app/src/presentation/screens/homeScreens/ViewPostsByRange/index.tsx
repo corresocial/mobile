@@ -8,7 +8,7 @@ import { PostEntityOptional, PostEntityCommonFields, PostEntity } from '@domain/
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToLeaderPostsView, navigateToPostView } from '@routes/auxMethods'
+import { navigateToLeaderPostsView, navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
@@ -44,12 +44,11 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const postsByRange = getFilteredPostsBySearch()
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const navigateToResultScreen = () => {
@@ -116,7 +115,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						navigateToProfile={navigateToProfile}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onPress={() => viewPostDetails(item)}
 					/>
 				</ContainerPadding>
@@ -171,7 +170,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 													ignorePlatform
 													onBackPress={() => navigation.goBack()}
 												/>
-												<VerticalSpacing/>
+												<VerticalSpacing />
 											</Header>
 										)}
 										stickyHeaderComponent={() => (
