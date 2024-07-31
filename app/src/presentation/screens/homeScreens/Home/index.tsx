@@ -329,6 +329,10 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('PublicServicesStack')
 	}
 
+	const navigateToEventCalendar = () => {
+		navigation.navigate('EventsCalendar')
+	}
+
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
@@ -377,6 +381,7 @@ function Home({ navigation }: HomeScreenProps) {
 								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 								onPressPublicServicesAd={navigateToPublicServices}
 								onPressUserLocationAd={navigateToEditUserLocation}
+								onPressEventCalendarAd={navigateToEventCalendar}
 							/>
 							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 								<RequestLocation
