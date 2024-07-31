@@ -6,6 +6,7 @@ import { useUtils } from '@newutils/useUtils'
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
 import { PostEntity, IncomeEntity, CultureEntity, VacancyEntity, SocialImpactEntity } from '@domain/post/entity/types'
+import { usePostDomain } from '@domain/post/usePostDomain'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
 import { usePostRepository } from '@data/post/usePostRepository'
@@ -52,6 +53,7 @@ import { StandardButton } from '@newComponents/StandardButton'
 const { localStorage } = useUserRepository()
 const { remoteStorage } = usePostRepository()
 const { sendImpactReport } = useImpactReportDomain()
+const { updatePostPresenceList } = usePostDomain()
 
 const { convertTextToNumber, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
@@ -73,6 +75,10 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
 	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
+
+	useEffect(() => {
+		console.log(postData.presenceList, 'PRESENCE')
+	}, [postData])
 
 	const getPostType = () => {
 		if (postData) {
@@ -143,6 +149,16 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		} catch (err) {
 			console.log(err)
 		}
+	}
+
+	const testPresenceFunction = async () => {
+		const newPostData = await updatePostPresenceList(usePostRepository, postData, userDataContext.userId)
+		if (newPostData) {
+			setPostData(newPostData)
+		} else {
+			console.error('newPostData is undefined')
+		}
+		console.log('depois')
 	}
 
 	const saveImpactReport = async (impactValue: string) => {
@@ -339,9 +355,16 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									icon={'share'}
 									relativeWidth={relativeScreenWidth(12)}
 									onPress={sharePost}
+
 								/>
 							)
+
 						}
+						<StandardButton
+							icon={'arrowLeft'}
+							relativeWidth={relativeScreenWidth(12)}
+							onPress={testPresenceFunction}
+						/>
 						{
 							isCompleted
 								? (

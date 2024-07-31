@@ -7,6 +7,7 @@ import { savePostDM } from './methods/savePostDM'
 import { updateLocationDataOnPostsDM } from './methods/updateLocationDataOnPostsDM'
 import { updateOwnerDataOnPostsDM } from './methods/updateOwnerDataOnPostsDM'
 import { updatePostDM } from './methods/updatePostDM'
+import { updatePostPresenceList } from './methods/updatePostPresenceList'
 import { PostDomainInterface } from './PostDomainInterface'
 
 function usePostDomain(): PostDomainInterface {
@@ -23,7 +24,9 @@ function usePostDomain(): PostDomainInterface {
 		updatePost: updatePostDM,
 		updateLocationDataOnPosts: updateLocationDataOnPostsDM,
 
-		getEventPosts: getEventPosts
+		getEventPosts: getEventPosts,
+
+		updatePostPresenceList: updatePostPresenceList
 	}
 }
 

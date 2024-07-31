@@ -185,6 +185,7 @@ export interface PostEntityCommonFields {
 		geohashNearby: string[]
 	}
 	owner: UserOwner
+	presenceList?: string[]
 }
 
 // REFACTOR Remover quando encontrar novamente

@@ -40,6 +40,8 @@ interface PostDomainInterface {
 	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 
 	getEventPosts(usePostRepository: () => PostRepositoryInterface, macroCategory: MacroCategoriesType, maxDocs: number, lastDoc: PostEntity | null, allPosts: boolean): Promise<PostEntity[]>
+
+	updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postData: PostEntity, userId: string): Promise<PostEntity | undefined>
 }
 
 export { PostDomainInterface }
