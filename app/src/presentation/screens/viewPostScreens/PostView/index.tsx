@@ -151,7 +151,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		}
 	}
 
-	const testPresenceFunction = async () => {
+	const confirmPresence = async () => {
 		const newPostData = await updatePostPresenceList(usePostRepository, postData, userDataContext.userId)
 		if (newPostData) {
 			setPostData(newPostData)
@@ -360,11 +360,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							)
 
 						}
-						<StandardButton
-							icon={'arrowLeft'}
-							relativeWidth={relativeScreenWidth(12)}
-							onPress={testPresenceFunction}
-						/>
 						{
 							isCompleted
 								? (
@@ -378,16 +373,31 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									/>
 								)
 								: (
-									<StandardButton
-										text={isAuthor ? 'compartilhar' : 'conversar'}
-										backgroundColor={theme.colors.green[4]}
-										icon={isAuthor ? 'share' : 'chat'}
-										iconHeight={30}
-										iconWidth={30}
-										textTheme={'light'}
-										relativeWidth={isAuthor ? '80%' : '63%'}
-										onPress={isAuthor ? sharePost : openChat}
-									/>
+									(getPostField('macroCategory', 'culture') === 'event') ? (
+										<StandardButton
+											text={isAuthor ? 'compartilhar'
+												: postData.presenceList?.includes(userDataContext.userId)
+													? `${postData.presenceList.length} pessoas vão nesse evento!` : 'eu vou!'}
+											backgroundColor={theme.colors.green[4]}
+											icon={isAuthor ? 'share' : 'personWalking'}
+											iconHeight={30}
+											iconWidth={30}
+											textTheme={'light'}
+											relativeWidth={isAuthor ? '80%' : '63%'}
+											onPress={isAuthor ? sharePost : confirmPresence}
+										/>
+									) : (
+										<StandardButton
+											text={isAuthor ? 'compartilhar' : 'conversar'}
+											backgroundColor={theme.colors.green[4]}
+											icon={isAuthor ? 'share' : 'chat'}
+											iconHeight={30}
+											iconWidth={30}
+											textTheme={'light'}
+											relativeWidth={isAuthor ? '80%' : '63%'}
+											onPress={isAuthor ? sharePost : openChat}
+										/>
+									)
 								)
 						}
 						<PostPopOver
