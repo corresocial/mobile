@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { FeedPosts } from '@domain/post/entity/types'
+import { FeedPosts, PostEntity } from '@domain/post/entity/types'
 
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { CurrentCategory } from '@services/googleMaps/types/maps'
@@ -19,4 +19,5 @@ export type LocationData = {
 export type LocationContextType = {
 	locationDataContext: LocationData
 	setLocationDataOnContext: (data: Partial<LocationData>) => void
+	updatePostOnContext: (postData: PostEntity) => void
 }

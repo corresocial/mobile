@@ -26,6 +26,7 @@ export const OwnerTextGroup = styled.View`
 `
 
 export const OwnerName = styled.Text`
+	width: 80%;
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes.arvo[2]}px;
 `

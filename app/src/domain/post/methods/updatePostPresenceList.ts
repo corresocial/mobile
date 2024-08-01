@@ -2,28 +2,31 @@ import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from '../entity/types'
 
-async function updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postData: PostEntity, userId: string): Promise<PostEntity | undefined> {
+async function updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postId: string, userId: string): Promise<PostEntity | null> {
 	try {
-		// CURRENT Puxar lista atualizada
 		const { remoteStorage } = usePostRepository()
 
+		const postData = await remoteStorage.getPostById(postId)
+		if (!postData) return null
+
 		const setNewPresenceList = (): PostEntity => {
-			if (postData.presenceList?.includes(userId)) {
-				console.log('existe')
-				return { ...postData, presenceList: postData.presenceList?.filter((id) => id !== userId) }
+			let newPresenceList = postData.presenceList ?? []
+			if (newPresenceList.includes(userId)) {
+				newPresenceList = newPresenceList.filter((id) => id !== userId)
+			} else {
+				newPresenceList.push(userId)
 			}
-			console.log('não existe')
-			return { ...postData, presenceList: [...postData.presenceList ?? [], userId] }
+			return { ...postData, presenceList: newPresenceList } as PostEntity
 		}
 
 		const newPostData = setNewPresenceList()
 
-		await remoteStorage.updatePostData(postData.postId, newPostData)
+		await remoteStorage.updatePostData(postData.postId!, newPostData)
 		return newPostData
 	} catch (e) {
 		console.log(e)
 	}
-	return undefined
+	return null
 }
 
 export { updatePostPresenceList }

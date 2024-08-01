@@ -77,6 +77,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
 	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
 
+	const { updatePostOnContext } = useLocationContext()
+
 	useEffect(() => {
 		console.log(postData.presenceList, 'PRESENCE')
 	}, [postData])
@@ -152,12 +154,11 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		}
 	}
 
-	const { setLocationDataOnContext } = useLocationContext()
-
 	const confirmPresence = async () => {
-		const newPostData = await updatePostPresenceList(usePostRepository, postData, userDataContext.userId)
+		const newPostData = await updatePostPresenceList(usePostRepository, postData.postId, userDataContext.userId)
 		if (newPostData) {
 			setPostData(newPostData)
+			updatePostOnContext(newPostData)
 		} else {
 			console.error('newPostData is undefined')
 		}

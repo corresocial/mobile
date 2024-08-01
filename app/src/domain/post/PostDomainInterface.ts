@@ -41,7 +41,7 @@ interface PostDomainInterface {
 
 	getEventPosts(usePostRepository: () => PostRepositoryInterface, macroCategory: MacroCategoriesType, maxDocs: number, lastDoc: PostEntity | null, allPosts: boolean): Promise<PostEntity[]>
 
-	updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postData: PostEntity, userId: string): Promise<PostEntity | undefined>
+	updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postId: string, userId: string): Promise<PostEntity | null>
 }
 
 export { PostDomainInterface }
