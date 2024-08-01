@@ -4,6 +4,7 @@ import { PostEntity } from '../entity/types'
 
 async function updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postData: PostEntity, userId: string): Promise<PostEntity | undefined> {
 	try {
+		// CURRENT Puxar lista atualizada
 		const { remoteStorage } = usePostRepository()
 
 		const setNewPresenceList = (): PostEntity => {

@@ -91,7 +91,8 @@ function MapView({
 			name,
 			number
 		} = location
-		return `${name && `${name}, \n`}${street && `${street}, `}${number && `${number}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
+		// CURRENT Ajustar operadores
+		return `${name ? `${name} , \n` : ''}${street && `${street}, `}${number && `${number}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
 	}
 
 	const getAddressCoordinates = () => {

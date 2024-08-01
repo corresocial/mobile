@@ -14,6 +14,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
+import { useLocationContext } from '@contexts/LocationContext'
 
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { PostViewHomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
@@ -151,6 +152,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		}
 	}
 
+	const { setLocationDataOnContext } = useLocationContext()
+
 	const confirmPresence = async () => {
 		const newPostData = await updatePostPresenceList(usePostRepository, postData, userDataContext.userId)
 		if (newPostData) {
@@ -158,7 +161,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		} else {
 			console.error('newPostData is undefined')
 		}
-		console.log('depois')
 	}
 
 	const saveImpactReport = async (impactValue: string) => {
