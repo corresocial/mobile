@@ -16,7 +16,7 @@ import { IconComponent } from '@newComponents/IconComponent'
 
 const { arrayIsEmpty, textHasOnlyNumbers, formatDate, formatHour } = UiUtils()
 
-export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus' | 'range' | 'deliveryMethod' | 'importantPoints'
+export type PostInfoType = 'description' | 'price' | 'link' | 'macroCategory' | 'placeModality' | 'dateTime' | 'productStatus' | 'range' | 'deliveryMethod' | 'importantPoints' | 'presenceList'
 
 type PriceValues = { saleValue?: string, exchangeValue?: string, isEvent?: boolean }
 type DateTimeInfos = {
@@ -383,6 +383,11 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 				title: 'Alcance do post:',
 				icon: getRangeIcon(value as PostRange),
 				formattedValue: getFormattedPostRange(value as PostRange)
+			}
+			case 'presenceList': return {
+				title: 'Quantos vão:',
+				icon: 'twoPeopleHighFiving',
+				formattedValue: `${(value as string[] || []).length} ${(value as string[] || []).length === 1 ? 'pessoa' : 'pessoas'}`
 			}
 			case 'deliveryMethod': return {
 				title: 'Método de entrega:',

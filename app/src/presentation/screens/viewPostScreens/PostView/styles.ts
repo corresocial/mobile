@@ -36,3 +36,9 @@ export const GroupContent = styled.View`
 	gap: ${relativeScreenDensity(8)}px;
 	border-radius: ${relativeScreenDensity(15)}px;
 `
+
+export const ButtonContainer = styled.View`
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+`

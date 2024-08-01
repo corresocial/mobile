@@ -33,6 +33,7 @@ import PaperInfo from '@assets/icons/paperInfo.svg'
 import CountryBrazil from '@assets/icons/brazil.svg'
 import City from '@assets/icons/city.svg'
 import PersonWalking from '@assets/icons/walkingPersonLeft.svg'
+import TwoPeopleHighFiving from '@assets/icons/twoPeopleHighFiving.svg'
 
 import Trade from '@assets/icons/trade.svg'
 import PersonAndGlobe from '@assets/icons/personAndGlobe.svg'
@@ -145,6 +146,9 @@ const icons: IconMap = {
 	},
 	trade: {
 		default: Trade
+	},
+	twoPeopleHighFiving: {
+		default: TwoPeopleHighFiving
 	}
 }
 

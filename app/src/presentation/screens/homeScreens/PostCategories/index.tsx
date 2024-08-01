@@ -52,6 +52,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	useEffect(() => {
 		const posts = filterPostsByPostType()
 		setFeedPostsByTypeAndMacroCategory(posts)
+		setCurrentCategoryColorsOnContext()
 	}, [])
 
 	useEffect(() => {
@@ -65,6 +66,33 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 			setFilteredFeedPosts(posts)
 		}
 	}, [searchText])
+
+	const setCurrentCategoryColorsOnContext = () => {
+		const currentCategory = {
+			backgroundColor: getRelativeBackgroundColor(),
+			inactiveColor: getInactiveCardColor()
+		}
+
+		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
+	}
+
+	const getRelativeBackgroundColor = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return theme.green2
+			case 'culture': return theme.blue2
+			case 'socialImpact': return theme.pink2
+			default: return theme.orange2
+		}
+	}
+
+	const getInactiveCardColor = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return theme.green1
+			case 'culture': return theme.blue1
+			case 'socialImpact': return theme.pink1
+			default: return theme.orange1
+		}
+	}
 
 	const filterPostsByPostType = () => {
 		return {

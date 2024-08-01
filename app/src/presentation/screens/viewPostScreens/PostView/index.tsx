@@ -26,7 +26,7 @@ import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
-import { Body, GroupContent, GroupInfo, Header, OptionsArea } from './styles'
+import { Body, ButtonContainer, GroupContent, GroupInfo, Header, OptionsArea } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -63,6 +63,9 @@ const { mergeObjects } = useUtils()
 function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const { userDataContext, userPostsContext, updateUserPost, removeUserPost } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { locationDataContext, setLocationDataOnContext } = useLocationContext()
+
+	const [isLoadingMore, setIsLoadingMore] = useState(false)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)
@@ -76,8 +79,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
 	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
-
-	// const { updatePostOnContext } = useLocationContext()
 
 	useEffect(() => {
 		console.log(postData.presenceList, 'PRESENCE')
@@ -95,15 +96,15 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const postType = getPostType()!
 
 	useEffect(() => {
-		getPost()
+		getPost(!!(postData.macroCategory === 'event' && postData.postId))
 		return () => {
 			clearEditContext()
 		}
 	}, [])
 
-	const getPost = async () => {
-		if (route.params.redirectedPostId) {
-			const post = await remoteStorage.getPostById(route.params.redirectedPostId)
+	const getPost = async (refresh?: boolean) => {
+		if (route.params.redirectedPostId || refresh) {
+			const post = await remoteStorage.getPostById(refresh ? postData.postId : route.params.redirectedPostId)
 			setPostData(post as PostEntity)
 			setApprovedPostData(post as PostEntity)
 			setIsCompleted(!!(post && post.completed))
@@ -158,8 +159,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		const newPostData = await updatePostPresenceList(usePostRepository, postData.postId, userDataContext.userId)
 		if (newPostData) {
 			setPostData(newPostData)
-			// CURRENT não está atualizando contexto de localização
-			// updatePostOnContext(newPostData)
 		} else {
 			console.error('newPostData is undefined')
 		}
@@ -315,6 +314,41 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		return (({ ...cultureCategories, ...incomeCategories, ...socialImpactCategories } as any)[category] || { label: '' }).label || (category || '').toLowerCase()
 	}
 
+	const getSeeMoreTitle = (): string => {
+		switch (postData.macroCategory) {
+			case 'art': return 'Ver mais artes'
+			case 'event': return 'Ver mais Eventos'
+			case 'donation': return 'Ver mais Social'
+			case 'education': return 'Ver mais Educação'
+			case 'informative': return 'Ver mais Informativos'
+			case 'iniciative': return 'Ver mais Iniciativas'
+			case 'sale': return 'Ver mais Comércio'
+			case 'service': return 'Ver mais Serviços'
+			case 'vacancy': return 'Ver mais Vagas'
+		}
+		return 'Ver mais posts'
+	}
+
+	const seeMorePressHandler = () => {
+		// CURRENT Loading não aparecendo
+		setIsLoadingMore(true)
+		if (!postData.macroCategory) return navigation.navigate('PostCategories')
+		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
+
+		setIsLoadingMore(false)
+		switch (postData.macroCategory) {
+			case 'event': return navigation.navigate('EventsCalendar')
+			case 'art': return navigation.navigate('PostCategories')
+			case 'donation': return navigation.navigate('PostCategories')
+			case 'education': return navigation.navigate('PostCategories')
+			case 'informative': return navigation.navigate('PostCategories')
+			case 'iniciative': return navigation.navigate('PostCategories')
+			case 'sale': return navigation.navigate('PostCategories')
+			case 'service': return navigation.navigate('PostCategories')
+			case 'vacancy': return navigation.navigate('PostCategories')
+		}
+	}
+
 	const getRelativePostTone = () => {
 		switch (postData.postType) {
 			case 'income':
@@ -381,8 +415,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 										<StandardButton
 											text={isAuthor ? 'compartilhar'
 												: postData.presenceList?.includes(userDataContext.userId)
-													? `${postData.presenceList.length} pessoas vão!` : 'eu vou!'}
-											backgroundColor={theme.colors.green[4]}
+													? 'não vou mais' : 'eu vou!'}
+											backgroundColor={postData.presenceList && postData.presenceList.length ? theme.colors.red[3] : theme.colors.green[4]}
 											icon={isAuthor ? 'share' : 'personWalking'}
 											iconHeight={30}
 											iconWidth={30}
@@ -497,6 +531,10 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									type={'range'}
 									value={getPostField('range', postType)}
 								/>
+								<PostInfo
+									type={'presenceList'}
+									value={getPostField('presenceList', postType)}
+								/>
 							</GroupContent>
 						</GroupInfo>
 						<VerticalSpacing />
@@ -505,9 +543,28 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							locationView={getPostField('locationView', postType)}
 							location={getPostField('location', postType)}
 						/>
-						{/* <StandardButton onPress={() => console.log('oi')}/> */}
 						<VerticalSpacing />
-
+						{
+							route.params.postData.owner.userId !== userDataContext.userId && (
+								<ButtonContainer>
+									{
+										isLoadingMore
+											? (
+												<Loader animationScale={70} flex />
+											)
+											: (
+												<StandardButton
+													text={getSeeMoreTitle()}
+													relativeWidth={'50%'}
+													icon={'calendarEveryday'}
+													textTheme={'dark'}
+													onPress={seeMorePressHandler}
+												/>
+											)
+									}
+								</ButtonContainer>
+							)
+						}
 						<VerticalSpacing bottomNavigatorSpace />
 					</Body>
 				</ScrollView>
@@ -539,7 +596,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 				visibility={rejectModalIsVisible}
 				closeModal={toggleRejectModalVisibility}
 			/>
-
 		</ScreenContainer >
 	)
 }
