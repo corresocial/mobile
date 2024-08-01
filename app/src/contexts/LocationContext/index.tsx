@@ -53,12 +53,12 @@ function LocationProvider({ children }: LocationProviderProps) {
 		const updatePostInArray = (posts: PostEntity[]): PostEntity[] => {
 			console.log('entrou updatePostInArray')
 			const postIndex = posts.findIndex((post) => post.postId === postData.postId)
+			console.log('Encontrei o post: ', !!postIndex)
 			if (postIndex !== -1) {
-				return [
-					...posts.slice(0, postIndex),
-					postData,
-					...posts.slice(postIndex + 1)
-				]
+				const updatedPosts = [...posts]
+				updatedPosts[postIndex] = postData
+				console.log(updatedPosts[postIndex])
+				return updatedPosts
 			}
 			return posts
 		}

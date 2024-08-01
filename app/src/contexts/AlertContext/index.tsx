@@ -9,14 +9,14 @@ import { AlertContextProps, AlertModalContent, AlertProviderProps, InitialNotifi
 
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { DefaultAlertModal } from '@components/_modals/DefaultAlertModal'
-import { NewHomePresentationModal } from '@components/_modals/NewHomePresentationModal'
+import { EventCalendarPresentationModal } from '@components/_modals/EventCalendarPresentationModal'
 import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 
 const { objectValuesAreEquals } = useUtils()
 
 const initialNotificationState = { // private
 	notificationAlertModal: true,
-	newHomePresentationModal: true,
+	eventCalendarPresentation: true,
 
 	configNotificationButton: true,
 	configNotificationEntryMethod: true
@@ -26,7 +26,7 @@ const initialValue: AlertContextProps = {
 	notificationState: initialNotificationState,
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => { },
 	showAlertNotificationModal: () => { },
-	showNewHomePresentationModal: () => { },
+	showEventCalendarPresentationModal: () => { },
 	showWaitingApproveModal: () => { }
 }
 
@@ -36,7 +36,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const [notificationState, setNotificationState] = useState(initialNotificationState)
 	const [alertNotificationModalIsVisible, setAlertNotificationIsVisible] = useState(false)
 
-	const [newHomePresentationModalIsVisible, setNewHomePresentationIsVisible] = useState(false)
+	const [eventCalendarPresentationModalIsVisible, setEventCalendarPresentationModalIsVisible] = useState(false)
 	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
 
 	const navigation = useNavigation<UserStackNavigationProps>()
@@ -71,8 +71,8 @@ function AlertProvider({ children }: AlertProviderProps) {
 		if (notificationState.notificationAlertModal) setAlertNotificationIsVisible(true)
 	}, [notificationState])
 
-	const showNewHomePresentationModal = useCallback(() => {
-		if (notificationState.newHomePresentationModal) setNewHomePresentationIsVisible(true)
+	const showEventCalendarPresentationModal = useCallback(() => {
+		if (notificationState.eventCalendarPresentation) setEventCalendarPresentationModalIsVisible(true)
 	}, [notificationState])
 
 	const showWaitingApproveModal = useCallback(() => {
@@ -94,9 +94,10 @@ function AlertProvider({ children }: AlertProviderProps) {
 		navigation.navigate('NotificationSettings' as any)
 	}, [])
 
-	const handleNewHomePresentationModal = useCallback(() => {
-		setNewHomePresentationIsVisible(false)
-		updateNotificationState({ newHomePresentationModal: false })
+	const handleEventCalendarPresentation = useCallback(() => {
+		setEventCalendarPresentationModalIsVisible(false)
+		updateNotificationState({ eventCalendarPresentation: false })
+		navigation.navigate('EventsCalendar' as any)
 	}, [])
 
 	const updateNotificationState = useCallback(async (state: Partial<InitialNotificationStateType>) => {
@@ -111,7 +112,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 		notificationState,
 		updateNotificationState,
 		showAlertNotificationModal,
-		showNewHomePresentationModal,
+		showEventCalendarPresentationModal,
 		showWaitingApproveModal,
 		showAlertModal
 	}), [defaultAlertModalContent, notificationState])
@@ -127,9 +128,10 @@ function AlertProvider({ children }: AlertProviderProps) {
 				closeModal={() => setAlertNotificationIsVisible(false)}
 				onPressButton={handlerAlertNotificationModal}
 			/>
-			<NewHomePresentationModal
-				visibility={newHomePresentationModalIsVisible}
-				onPressButton={handleNewHomePresentationModal}
+			<EventCalendarPresentationModal
+				visibility={eventCalendarPresentationModalIsVisible}
+				closeModal={() => setEventCalendarPresentationModalIsVisible(false)}
+				onPressButton={handleEventCalendarPresentation}
 			/>
 			<WaitingApproveModal // APPROVE
 				visibility={waitingApproveModalIsVisible}

@@ -12,6 +12,7 @@ import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@do
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -61,6 +62,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+	const { showEventCalendarPresentationModal } = useAlertContext()
 
 	const queryClient = useQueryClient()
 	const { executeCachedRequest } = useCacheRepository()
@@ -79,6 +81,7 @@ function Home({ navigation }: HomeScreenProps) {
 	useEffect(() => {
 		requestPermissions()
 		loadRecentAddresses()
+		showEventCalendarPresentationModal()
 	}, [])
 
 	useEffect(() => {

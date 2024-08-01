@@ -77,7 +77,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
 	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
 
-	const { updatePostOnContext } = useLocationContext()
+	// const { updatePostOnContext } = useLocationContext()
 
 	useEffect(() => {
 		console.log(postData.presenceList, 'PRESENCE')
@@ -158,7 +158,8 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		const newPostData = await updatePostPresenceList(usePostRepository, postData.postId, userDataContext.userId)
 		if (newPostData) {
 			setPostData(newPostData)
-			updatePostOnContext(newPostData)
+			// CURRENT não está atualizando contexto de localização
+			// updatePostOnContext(newPostData)
 		} else {
 			console.error('newPostData is undefined')
 		}
@@ -380,7 +381,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 										<StandardButton
 											text={isAuthor ? 'compartilhar'
 												: postData.presenceList?.includes(userDataContext.userId)
-													? `${postData.presenceList.length} pessoas vão nesse evento!` : 'eu vou!'}
+													? `${postData.presenceList.length} pessoas vão!` : 'eu vou!'}
 											backgroundColor={theme.colors.green[4]}
 											icon={isAuthor ? 'share' : 'personWalking'}
 											iconHeight={30}
@@ -504,6 +505,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 							locationView={getPostField('locationView', postType)}
 							location={getPostField('location', postType)}
 						/>
+						{/* <StandardButton onPress={() => console.log('oi')}/> */}
 						<VerticalSpacing />
 
 						<VerticalSpacing bottomNavigatorSpace />
@@ -537,6 +539,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 				visibility={rejectModalIsVisible}
 				closeModal={toggleRejectModalVisibility}
 			/>
+
 		</ScreenContainer >
 	)
 }
