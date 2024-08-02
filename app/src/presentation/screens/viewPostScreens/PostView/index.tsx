@@ -483,11 +483,12 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									value={getPostField('macroCategory', postType)}
 								/>
 								<PostInfo
+									title={'Remuneração:'}
 									type={'price'}
 									value={{
 										saleValue: getPostField('entryValue', 'culture') || getPostField('saleValue', 'income'),
 										exchangeValue: getPostField('exchangeValue', 'income'),
-										isEvent: !!getPostField('entryValue', 'culture')
+										isEvent: getPostField('postType', 'culture') === 'culture'
 									}}
 								/>
 								<PostInfo

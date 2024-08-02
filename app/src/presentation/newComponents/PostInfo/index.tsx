@@ -152,6 +152,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 					<PriceLabel bold>{`${priceValue.saleValue},00`}</PriceLabel>
 				</>
 			)
+			return formattedValue
 		}
 
 		if (priceValue.saleValue === 'a combinar') {
@@ -437,7 +438,8 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		}
 		if (type === 'price') {
 			const price = value as PriceValues
-			if ((!price.exchangeValue || !price.saleValue) && !price.isEvent) return false
+			console.log(price.isEvent)
+			if (!(price.exchangeValue || price.saleValue) && !price.isEvent) return false
 		}
 
 		return true
