@@ -324,7 +324,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 
 	const getFormattedImportantPoints = (importantPoints: string[]) => {
 		return importantPoints && importantPoints.map((point) => {
-			return <ListItem>{`●  ${point}`}</ListItem>
+			return <ListItem key={point}>{`●  ${point}`}</ListItem>
 		})
 	}
 

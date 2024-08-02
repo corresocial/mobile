@@ -6,6 +6,8 @@ import { FeedPosts, PostEntityCommonFields, PostEntityOptional, PostRange } from
 
 import { useAuthContext } from '@contexts/AuthContext'
 
+import { isRecentPost } from '@utils-ui/post/validation'
+
 import { Container, PostCardContainer } from './styles'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
@@ -44,25 +46,25 @@ function FeedByRange({
 
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
-		const filteredItems = items.filter((item) => !item.externalPostId)
+		const filteredItems = items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate))))
 		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)
-		return items.filter((item) => !item.externalPostId)
+		return items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate))))
 	}
 
 	const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalPostId).length > 0 || filteredFeedPosts.city.filter((item: any) => !item.externalPostId).length > 0 || filteredFeedPosts.country.filter((item: any) => !item.externalPostId).length > 0)
+		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length > 0 || filteredFeedPosts.city.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length > 0 || filteredFeedPosts.country.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length > 0)
 	}
 
 	const hasNearbyPosts = () => {
-		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalPostId) && filteredFeedPosts.nearby.filter((item: any) => !item.externalPostId).length)
+		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
 	}
 
 	const hasCityPosts = () => {
-		return (filteredFeedPosts.city.filter((item: any) => !item.externalPostId) && filteredFeedPosts.city.filter((item: any) => !item.externalPostId).length)
+		return (filteredFeedPosts.city.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.city.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
 	}
 
 	const hasCountryPosts = () => {
-		return (filteredFeedPosts.country.filter((item: any) => !item.externalPostId) && filteredFeedPosts.country.filter((item: any) => !item.externalPostId).length)
+		return (filteredFeedPosts.country.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.country.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
 	}
 
 	const renderPosts = (range: keyof FeedPosts) => {

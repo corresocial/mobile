@@ -4,6 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
 
+import { isRecentPost } from '@utils-ui/post/validation'
+
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface FlatListPostsProps {
@@ -27,7 +29,7 @@ function FlatListPosts({
 	onEndReached,
 	onRefresh
 }: FlatListPostsProps) {
-	const filteredExternalEvents = data.filter((post: any) => !post.externalPostId)
+	const filteredExternalEvents = data.filter((post: any) => (!post.externalPostId || (post.externalPostId && isRecentPost(post.startDate))))
 
 	return (
 		<FlatList

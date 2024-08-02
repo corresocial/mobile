@@ -60,8 +60,10 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 
 	const renderFormatedPostDateTime = () => {
 		if (!post.createdAt) return '---'
-		const formatedDate = formatRelativeDate(post.createdAt)
-		return formatedDate
+		if (post.macroCategory === 'event' && post.startDate) {
+			return formatRelativeDate(post.startDate)
+		}
+		return formatRelativeDate(post.createdAt)
 	}
 
 	const getProfilePictureUrl = () => {
