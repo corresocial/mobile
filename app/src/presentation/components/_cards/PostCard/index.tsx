@@ -58,18 +58,6 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		}
 	}
 
-	const renderShortName = () => {
-		try {
-			if (owner && owner.name && owner.name.split(' ').length <= 3) return owner.name
-			const names = owner.name && (owner.name.split(' ') || [])
-			if (!names) return 'usuário do corre.'
-			return `${names[0]} ${names[1]}`
-		} catch (err) {
-			console.log(err)
-			return owner.name || 'usuário do corre.'
-		}
-	}
-
 	const renderFormatedPostDateTime = () => {
 		if (!post.createdAt) return '---'
 		const formatedDate = formatRelativeDate(post.createdAt)
@@ -178,7 +166,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 						</TitleContainer>
 						<VerticalSpacing />
 						<SmallUserIdentification
-							userName={renderShortName()}
+							userName={owner.name}
 							postDate={renderFormatedPostDateTime()}
 							profilePictureUrl={getProfilePictureUrl()}
 							navigateToProfile={() => navigateToProfile && navigateToProfile(owner.userId)}

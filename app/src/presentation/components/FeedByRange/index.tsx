@@ -44,25 +44,25 @@ function FeedByRange({
 
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
-		const filteredItems = items.filter((item) => !item.externalEventId)
+		const filteredItems = items.filter((item) => !item.externalPostId)
 		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)
-		return items.filter((item) => !item.externalEventId)
+		return items.filter((item) => !item.externalPostId)
 	}
 
 	const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalEventId).length > 0 || filteredFeedPosts.city.filter((item: any) => !item.externalEventId).length > 0 || filteredFeedPosts.country.filter((item: any) => !item.externalEventId).length > 0)
+		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalPostId).length > 0 || filteredFeedPosts.city.filter((item: any) => !item.externalPostId).length > 0 || filteredFeedPosts.country.filter((item: any) => !item.externalPostId).length > 0)
 	}
 
 	const hasNearbyPosts = () => {
-		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalEventId) && filteredFeedPosts.nearby.filter((item: any) => !item.externalEventId).length)
+		return (filteredFeedPosts.nearby.filter((item: any) => !item.externalPostId) && filteredFeedPosts.nearby.filter((item: any) => !item.externalPostId).length)
 	}
 
 	const hasCityPosts = () => {
-		return (filteredFeedPosts.city.filter((item: any) => !item.externalEventId) && filteredFeedPosts.city.filter((item: any) => !item.externalEventId).length)
+		return (filteredFeedPosts.city.filter((item: any) => !item.externalPostId) && filteredFeedPosts.city.filter((item: any) => !item.externalPostId).length)
 	}
 
 	const hasCountryPosts = () => {
-		return (filteredFeedPosts.country.filter((item: any) => !item.externalEventId) && filteredFeedPosts.country.filter((item: any) => !item.externalEventId).length)
+		return (filteredFeedPosts.country.filter((item: any) => !item.externalPostId) && filteredFeedPosts.country.filter((item: any) => !item.externalPostId).length)
 	}
 
 	const renderPosts = (range: keyof FeedPosts) => {

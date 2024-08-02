@@ -27,7 +27,7 @@ function FlatListPosts({
 	onEndReached,
 	onRefresh
 }: FlatListPostsProps) {
-	const filteredExternalEvents = data.filter((post: any) => !post.externalEventId)
+	const filteredExternalEvents = data.filter((post: any) => !post.externalPostId)
 
 	return (
 		<FlatList
