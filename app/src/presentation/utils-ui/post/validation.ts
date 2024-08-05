@@ -9,7 +9,7 @@ export function isRecentPost(date: Date) {
 		const currentDate = new Date()
 		const postDate = getNewDate(date)
 
-		if (Math.abs(differenceInDays(currentDate, postDate)) <= 1) {
+		if (/* isBefore(postDate, currentDate) ||  */Math.abs(differenceInDays(currentDate, postDate)) <= 1) {
 			return true
 		}
 		return false

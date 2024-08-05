@@ -229,6 +229,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
+				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
 			>

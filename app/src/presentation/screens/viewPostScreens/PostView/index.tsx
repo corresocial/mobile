@@ -80,10 +80,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
 	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
 
-	useEffect(() => {
-		console.log(postData.presenceList, 'PRESENCE')
-	}, [postData])
-
 	const getPostType = () => {
 		if (postData) {
 			if (postData.postType === 'income') return 'income'
@@ -483,7 +479,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									value={getPostField('macroCategory', postType)}
 								/>
 								<PostInfo
-									title={'Remuneração:'}
+									title={getPostField('macroCategory', postType) === 'vacancy' ? 'Remuneração:' : ''}
 									type={'price'}
 									value={{
 										saleValue: getPostField('entryValue', 'culture') || getPostField('saleValue', 'income'),

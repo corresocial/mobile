@@ -21,9 +21,6 @@ async function updatePostPresenceList(usePostRepository: () => PostRepositoryInt
 
 		const newPostData = setNewPresenceList()
 
-		console.log('New post ------------------------')
-		console.log(newPostData.presenceList)
-
 		await remoteStorage.updatePostData(postData.postId!, newPostData)
 		return newPostData
 	} catch (e) {

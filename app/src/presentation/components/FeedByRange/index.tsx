@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -23,6 +24,7 @@ import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
 	searchEnded?: boolean
+	collapseExternalVacancies?: boolean
 	backgroundColor?: string
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
@@ -37,16 +39,24 @@ function FeedByRange({
 	backgroundColor,
 	filteredFeedPosts,
 	children,
+	collapseExternalVacancies = true,
 	viewPostsByRange,
 	navigateToProfile,
 	goToPostView,
 	goToLeaderPostsView
 }: FeedByRangeProps) {
 	const { userDataContext } = useAuthContext()
+	const { navigate } = useNavigation<any>()
 
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
-		const filteredItems = items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate))))
+		const filteredItems = collapseExternalVacancies ? items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) : items
+
+		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy')
+		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
+			filteredItems.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
+		}
+
 		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)
 		return items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate))))
 	}
@@ -70,6 +80,7 @@ function FeedByRange({
 	const renderPosts = (range: keyof FeedPosts) => {
 		const firstFivePosts = getFirstFiveItems(filteredFeedPosts[range])
 		return firstFivePosts.map((post) => {
+			if (post.action) return renderPostItem(post)
 			return post.owner && renderPostItem(post)
 		})
 	}
@@ -83,6 +94,21 @@ function FeedByRange({
 
 	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
 		const itemType = getItemType(item)
+
+		if ((item as any).action) {
+			return (
+				<PostCardContainer key={item.postId}>
+					<PostCard
+						post={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={false}
+						onPress={() => (item as any).action && (item as any).action()}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
+					/>
+					<VerticalSpacing />
+				</PostCardContainer>
+			)
+		}
 
 		switch (itemType) {
 			case 'post': return (
