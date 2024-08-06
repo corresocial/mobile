@@ -3,7 +3,7 @@ import React from 'react'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
-import { FeedPosts, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, PostEntity, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
 
@@ -23,11 +23,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
-<<<<<<< HEAD
-	searchEnded?: boolean
 	collapseExternalVacancies?: boolean
-=======
->>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 	backgroundColor?: string
 	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
@@ -89,14 +85,14 @@ function FeedByRange({
 		})
 	}
 
-	const getItemType = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+	const getItemType = (item: PostEntity & PollEntity & PetitionEntity) => {
 		if (item.postId) return 'post'
 		if (item.pollId) return 'poll'
 		if (item.petitionId) return 'petition'
 		return ''
 	}
 
-	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+	const renderPostItem = (item: PostEntity & PollEntity & PetitionEntity) => {
 		const itemType = getItemType(item)
 
 		if ((item as any).action) {
