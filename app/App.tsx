@@ -11,7 +11,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
 import Aptabase from '@aptabase/react-native'
-
 import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'
@@ -44,7 +43,7 @@ const startSentry = () => {
 
 startSentry()
 
-Aptabase.init('A-SH-7378383312', { host: 'http://34.133.254.193:8000' })
+Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
 
 sendEvent('opened_app', {}, true)
 
@@ -99,11 +98,9 @@ function App() {
 			onStateChange={() => {
 				const previousRouteName = routeNameRef.current
 				const currentRouteName = navigationRef.current.getCurrentRoute().name
-
 				if (previousRouteName !== currentRouteName) {
 					sendEvent('user_opened_screen', { screenName: currentRouteName })
 				}
-
 				routeNameRef.current = currentRouteName
 			}}
 		>

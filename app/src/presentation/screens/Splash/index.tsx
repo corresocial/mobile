@@ -1,18 +1,15 @@
+/* eslint-disable no-undef */
+import * as Application from 'expo-application'
 import * as Updates from 'expo-updates'
-import React, { useContext, useEffect, useState } from 'react'
-import { Animated, StatusBar } from 'react-native'
-
-import { UserEntity } from '@domain/user/entity/types'
-import { useUserDomain } from '@domain/user/useUserDomain'
+import React, { useEffect, useState } from 'react'
+import { Animated, Linking, Platform, StatusBar } from 'react-native'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
 
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
 
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
-
-import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
+import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
 import { Container, LogoContainer } from './styles'
 import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
@@ -22,16 +19,15 @@ import { theme } from '@common/theme'
 
 import { CustomModal } from '@components/_modals/CustomModal'
 
-const { getLocalUserData, getLocalUserDataWithDeviceAuth } = useUserDomain()
-const { localStorage } = useUserRepository()
+const { checkCacheImageValidation } = useCacheRepository()
 
 function Splash({ route, navigation }: SplashScreenProps) {
-	const { checkCacheImageValidation } = useCacheRepository()
-
-	const { setRemoteUserOnLocal } = useContext(AuthContext)
+	const { performQuickSignin } = useAuthContext()
+	const { navigateToAuthScreen } = useAuthNavigation()
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
+	const [storeUpdateModalIsVisible, setStoreUpdateModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
@@ -40,18 +36,20 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			useNativeDriver: false
 		}).start()
 
-		checkCacheImageValidation()
 		checkUpdates()
+		checkCacheImageValidation()
 	}, [])
 
 	const checkUpdates = async () => {
 		const otaUpdated = await onFetchUpdateAsync()
 		otaUpdated && await checkStoreUpdates()
+
+		console.log('checkUpdates')
 	}
 
 	const checkStoreUpdates = async () => {
 		if (!__DEV__) {
-			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: Platform.OS === 'android' ? '65' : '64' }
+			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
 			if (mandatoryVersion.nativeApplicationVersion > (Application.nativeApplicationVersion || '55.55.55')
 				|| mandatoryVersion.nativeBuildVersion > (Application.nativeBuildVersion || '5000')) {
 				return setStoreUpdateModalIsVisible(true)
@@ -67,7 +65,6 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}
 
 	const hasUpdates = async () => {
-		// eslint-disable-next-line no-undef
 		if (__DEV__) return { isAvailable: false }
 		return Updates.checkForUpdateAsync()
 	}
@@ -75,25 +72,17 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	async function onFetchUpdateAsync() {
 		try {
 			const update = await hasUpdates()
+
 			if (update.isAvailable) {
-				setConfirmationModalIsVisible(true)
-			} else {
-				redirectToApp()
+				await Updates.fetchUpdateAsync()
+				return setConfirmationModalIsVisible(true)
 			}
+
+			return true
 		} catch (error: any) {
 			console.log(error)
 			redirectToApp()
 		}
-	}
-
-	const navigateToInitialScreen = (userData: UserEntity | null) => {
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'SelectAuthRegister',
-				params: { userId: userData?.userId || '', userName: userData?.name || '' }
-			}],
-		})
 	}
 
 	const navigateToProfile = (id: string) => {
@@ -103,13 +92,13 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				name: 'UserStack' as any,
 			}],
 		})
-		navigation.navigate('UserStack', { // TODO userStack
+		navigation.navigate('UserStack', {
 			screen: 'HomeTab',
 			params: {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate('ProfileHome' as any, { userId: id }) // TODO type
+		navigation.navigate('ProfileHome' as any, { userId: id })
 	}
 
 	const navigateToPost = (id: string) => {
@@ -130,38 +119,24 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 	const redirectToApp = async () => {
 		try {
-			const hasLocalUser = await localStorage.hasValidLocalUser()
+			const hasDeeplink = !!route.params?.screen
+			const authenticated = await performQuickSignin('', true, hasDeeplink)
+			if (!authenticated) return navigateToAuthScreen()
 
-			if (hasLocalUser) {
-				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
-				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
-
-				await setRemoteUserOnLocal(localUser.userId, localUser as any)
-
-				if (route.params?.screen) {
-					console.log(route.params.screen)
-					switch (route.params.screen) {
-						case 'profile': {
-							return navigateToProfile(route.params.id)
-						}
-						case 'post': {
-							return navigateToPost(route.params.id)
-						}
+			if (hasDeeplink) {
+				switch (route.params.screen) {
+					case 'profile': {
+						return navigateToProfile(route.params.id)
 					}
+					case 'post': {
+						return navigateToPost(route.params.id)
+					}
+					default: return navigateToAuthScreen()
 				}
-
-				navigation.reset({
-					index: 0,
-					routes: [{ name: 'UserStack' }]
-				})
-			} else {
-				const storedUser = await getLocalUserData(useUserRepository)
-				navigateToInitialScreen(storedUser)
 			}
 		} catch (error) {
 			console.log(error)
-			const storedUser = await getLocalUserData(useUserRepository)
-			navigateToInitialScreen(storedUser)
+			return navigateToAuthScreen()
 		}
 	}
 
@@ -181,7 +156,23 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				}}
 				affirmativeButton={{
 					label: 'atualizar',
-					onPress: Updates.reloadAsync
+					onPress: async () => Updates.reloadAsync()
+				}}
+			/>
+			<CustomModal
+				visibility={storeUpdateModalIsVisible}
+				title={'atualizar app na loja'}
+				TitleIcon={SmartphoneWhiteIcon}
+				withoutStatusBar
+				closeModal={() => { }}
+				firstParagraph={{
+					text: 'seu app precisa ser atualizado',
+					textAlign: 'center',
+					fontSize: 15
+				}}
+				affirmativeButton={{
+					label: 'atualizar',
+					onPress: navigateToStore
 				}}
 			/>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>

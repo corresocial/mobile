@@ -6,6 +6,7 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
+import { PublicServicesAdButton } from '@components/_buttons/PublicServicesAdButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { CustomCarousel } from '@components/CustomCarousel'
 

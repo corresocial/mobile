@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Linking, ScrollView } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
@@ -105,10 +106,12 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			setApprovedPostData(post as PostEntity)
 			setIsCompleted(!!(post && post.completed))
 			setPostLoaded(true)
+			sendEvent('visualized_post', { macroCategory: post?.macroCategory, postId: post?.postId })
 			return
 		}
 		setIsCompleted(!!(postData && postData.completed))
 		setPostLoaded(true)
+		sendEvent('visualized_post', { macroCategory: postData?.macroCategory, postId: postData?.postId })
 		mergeUnapprovedPostData()
 	}
 
