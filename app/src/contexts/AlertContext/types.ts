@@ -15,7 +15,7 @@ export interface AlertProviderProps {
 
 export interface InitialNotificationStateType {
 	notificationAlertModal: boolean
-	newHomePresentationModal: boolean
+	eventCalendarPresentation: boolean
 	configNotificationButton: boolean
 	configNotificationEntryMethod: boolean
 }
@@ -25,6 +25,6 @@ export interface AlertContextProps {
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => void
 	showAlertNotificationModal: () => void
 	showDefaultAlertModal: (modalContent: AlertModalContent) => void
-	showNewHomePresentationModal: () => void
+	showEventCalendarPresentationModal: () => void
 	showWaitingApproveModal: () => void
 }

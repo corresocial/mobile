@@ -136,9 +136,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}, [navigation])
 
 	const loadRemoteProfileData = async (firstLoad?: boolean, refresh?: boolean) => {
+		firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
 		try {
-			firstLoad ? setLoaderIsVisible(true) : setIsRefresing(true)
-
 			if (isLoggedUser) {
 				await setRemoteUserOnLocal(userDataContext.userId, true)
 				firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
@@ -152,6 +151,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 			await loadRemoteUserPosts(firstLoad, refresh, route.params?.userId)
 		} catch (error) {
 			console.log(error)
+		} finally {
 			firstLoad ? setLoaderIsVisible(false) : setIsRefresing(false)
 		}
 	}

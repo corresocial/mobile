@@ -6,7 +6,4 @@ export type ChatConversationsScreenProps = NativeStackScreenProps<ChatStackParam
 export type ChatMessagesScreenProps = NativeStackScreenProps<ChatStackParamList, 'ChatMessages'>
 
 export type ProfileChatScreenProps = NativeStackScreenProps<ChatStackParamList, 'ProfileChat'>
-export type ViewServicePostScreenProps = NativeStackScreenProps<ChatStackParamList, 'ViewIncomePostChat'>
-export type ViewVacancyPostScreenProps = NativeStackScreenProps<ChatStackParamList, 'ViewVacancyPostChat'>
-export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<ChatStackParamList, 'ViewSocialImpactPostChat'>
-export type ViewCulturePostScreenProps = NativeStackScreenProps<ChatStackParamList, 'ViewCulturePostChat'>
+export type PostViewChatScreenProps = NativeStackScreenProps<ChatStackParamList, 'PostViewChat'>

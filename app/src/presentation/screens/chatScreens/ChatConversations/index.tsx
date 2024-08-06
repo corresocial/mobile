@@ -8,6 +8,7 @@ import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/screenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -161,13 +162,15 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const navigateToProfile = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
-		const correUserId = 'gubzWyXdQFeC5xEaWlTtbaR64tT2'
+		const correUserId = 'gubzWyXdQFeC5xEaWlTtbaR64tT2' // SMAS
+		// CURRENT Verificar abertura de perfil
 		const recipientUserId = getConversationUserName(authenticatedUserId, user1, user2) !== 'corre.' ? getConversationUserId(authenticatedUserId, user1, user2) : correUserId
 
 		navigation.navigate('ProfileChat', {
 			userId: recipientUserId,
 			stackLabel: 'Chat'
 		})
+		navigateToProfileView(navigation, recipientUserId, 'Chat')
 	}
 
 	const renderConversationListItem = ({ item: conversation }: ListRenderItemInfo<Chat>) => {

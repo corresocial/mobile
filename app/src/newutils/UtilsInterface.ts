@@ -14,6 +14,10 @@ interface UtilsInterface {
 	objectValuesAreEquals(completeObject: object, partialObject: object): boolean
 	getObjectDifferences<T>(obj1: T, obj2: T): Partial<T> | null
 	mergeObjects<T>(obj1: T, obj2: RecursivePartial<T>): T
+
+	// OTHER
+	getMonthName(month: number): string
+	getWeekdayName(day: number): string
 }
 
 export { UtilsInterface }

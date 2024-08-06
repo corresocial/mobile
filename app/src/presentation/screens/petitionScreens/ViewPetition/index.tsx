@@ -12,6 +12,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { usePetitionContext } from '@contexts/PetitionContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewPetitionScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
 
@@ -75,8 +76,8 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	})
 
 	const navigateToProfile = () => {
-		if (isAuthor()) return navigation.navigate('Profile' as any)
-		navigation.navigate('ProfileHome' as any, { userId: petitionData.owner.userId })// TODO Type
+		if (isAuthor()) return navigateToProfileView(navigation, '', '', '')
+		navigateToProfileView(navigation, petitionData.owner.userId, 'Home', '')
 	}
 
 	const sharePost = () => {

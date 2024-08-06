@@ -1,8 +1,9 @@
-import { UserSubscription } from '@domain/user/entity/types'
+import { UserOwner, UserSubscription } from '@domain/user/entity/types'
 
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
-import { PostEntity, PostEntityOptional } from './entity/types'
+import { PostEntity } from './entity/types'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
@@ -22,7 +23,7 @@ interface PostDomainInterface {
 	): Promise<{ newPost: PostEntity, picturesUrl: string[], videosUrl: string[] }>
 	updateOwnerDataOnPosts(
 		usePostRepository: () => PostRepositoryInterface,
-		ownerData: Partial<PostEntityOptional['owner']>
+		ownerData: Partial<UserOwner>
 	): Promise<boolean | void>
 	updateLocationDataOnPosts(userId: string, newPostRangeLocation: PostRangeLocation, subscriptionDowngrade?: boolean): Promise<PostEntity[]>
 	savePost(
@@ -36,6 +37,10 @@ interface PostDomainInterface {
 	): Promise<{ newPost: PostEntity }>
 	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
+
+	getEventPosts(usePostRepository: () => PostRepositoryInterface, macroCategory: MacroCategoriesType, maxDocs: number, lastDoc: PostEntity | null, allPosts: boolean): Promise<PostEntity[]>
+
+	updatePostPresenceList(usePostRepository: () => PostRepositoryInterface, postId: string, userId: string): Promise<PostEntity | null>
 }
 
 export { PostDomainInterface }

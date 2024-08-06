@@ -23,7 +23,7 @@ function FlatListPosts({
 }: FlatListPostsProps) {
 	return (
 		<FlatList
-			data={[0, ...data]}
+			data={[...data]}
 			renderItem={({ item }) => renderItem(item as PostEntity)}
 			showsVerticalScrollIndicator={false}
 			ItemSeparatorComponent={() => <VerticalSpacing />}
@@ -31,15 +31,14 @@ function FlatListPosts({
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
 			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace />}
 			onEndReached={onEndReached}
-			// refreshControl={(
-			// 	<RefreshControl
-			// 		colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-			// 		refreshing={/* !!flatListIsLoading */ false}
-			// 		progressBackgroundColor={theme.white3}
-			// 		onRefresh={onRefresh && onRefresh}
-			// 	/>
-			// )}
-			stickyHeaderIndices={[1]}
+		// refreshControl={(
+		// 	<RefreshControl
+		// 		colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+		// 		refreshing={/* !!flatListIsLoading */ false}
+		// 		progressBackgroundColor={theme.white3}
+		// 		onRefresh={onRefresh && onRefresh}
+		// 	/>
+		// )}
 		/>
 	)
 }

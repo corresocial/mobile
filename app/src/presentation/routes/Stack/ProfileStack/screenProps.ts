@@ -3,10 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { ProfileStackParamList } from './types'
 
 export type ProfileTabScreenProps = NativeStackScreenProps<ProfileStackParamList, 'Profile'>
-export type ViewIncomePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewIncomePost'>
-export type ViewVacancyPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewVacancyPost'>
-export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewSocialImpactPost'>
-export type ViewCulturePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewCulturePost'>
+export type PostViewProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'PostViewProfile'>
 export type ProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'Profile'>
 
 export type EditServicePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditServicePost'>
@@ -42,3 +39,4 @@ export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<ProfileStackP
 export type UserDataConfigurationsScreenProps = NativeStackScreenProps<ProfileStackParamList, 'UserDataConfigurations'>
 export type NotificationSettingsScreenProps = NativeStackScreenProps<ProfileStackParamList, 'NotificationSettings'>
 export type NotificationPublicServicesSettingsScreenProps = NativeStackScreenProps<ProfileStackParamList, 'NotificationPublicServicesSettings'>
+export type PostViewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'PostView'>

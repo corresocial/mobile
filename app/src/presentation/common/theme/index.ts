@@ -1,5 +1,7 @@
 import { DefaultTheme } from 'styled-components'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlight pra facilitar sua vida
 	white1: '#D0CECE',
 	white2: '#F2F2F2',
@@ -9,6 +11,7 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	black2: '#4D4847',
 	black3: '#262626',
 	black4: '#000000',
+	black5: '#000000',
 
 	orange1: '#FDC895',
 	orange2: '#FBB068',
@@ -52,6 +55,63 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	green4: '#0E7943',
 	green5: '#09512D',
 
+	colors: {
+		white: {
+			1: '#D0CECE',
+			2: '#F2F2F2',
+			3: '#FFFFFF',
+			4: '#FFFFFF'
+		},
+		black: {
+			1: '#7A7474',
+			2: '#4D4847',
+			3: '#262626',
+			4: '#0F1317',
+		},
+		orange: {
+			1: '#FFE4BF',
+			2: '#FFCF8C',
+			3: '#FFAA33',
+			4: '#D97E00',
+		},
+		green: {
+			1: '#A3D9B9',
+			2: '#62D993',
+			3: '#13BF5B',
+			4: '#089944',
+		},
+		pink: {
+			1: '#FFBFDF',
+			2: '#FF8CC6',
+			3: '#FF599E',
+			4: '#D9005A',
+		},
+		blue: {
+			1: '#B2E5FF',
+			2: '#66CCFF',
+			3: '#1AB2FF',
+			4: '#0080BF',
+		},
+		purple: {
+			1: '#F2CCFF',
+			2: '#E699FF',
+			3: '#D866FF',
+			4: '#A200D9',
+		},
+		red: {
+			1: '#FFCABF',
+			2: '#FFA08C',
+			3: '#E84F30',
+			4: '#D92500',
+		},
+		yellow: {
+			1: '#F2E6AA',
+			2: '#FFE666',
+			3: '#FFCC33',
+			4: '#D9A300',
+		}
+	},
+
 	transparence: { // REFACTOR TODO Renomear opacidades sem o numeral
 		orange1: 'rgba(250, 153, 56, 0.7)',
 		orange2: 'rgba(250, 153, 56, 0.9)',
@@ -66,6 +126,23 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 
 	fonts: {
 		arvoRegular: 'Arvo_400Regular',
-		arvoBold: 'Arvo_700Bold'
+		arvoBold: 'Arvo_700Bold',
+		nunitoSemiBold: 'Nunito_600SemiBold',
+		nunitoBold: 'Nunito_700Bold'
+	},
+
+	fontSizes: {
+		arvo: {
+			1: relativeScreenDensity(10),
+			2: relativeScreenDensity(12),
+			3: relativeScreenDensity(14),
+			4: relativeScreenDensity(16),
+			5: relativeScreenDensity(18)
+		},
+		nunito: {
+			1: relativeScreenDensity(10),
+			2: relativeScreenDensity(12),
+			3: relativeScreenDensity(14)
+		}
 	}
 }

@@ -1,6 +1,6 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useContext, useMemo, useState } from 'react'
 
-import { PostType } from '@domain/post/entity/types'
+import { FeedPosts, PostEntity, PostType } from '@domain/post/entity/types'
 
 import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
 import { LocationContextType, LocationData, LocationProviderProps } from './types'
@@ -44,9 +44,41 @@ function LocationProvider({ children }: LocationProviderProps) {
 		setLocationDataContext({ ...locationDataContext, ...data as any })
 	}
 
+	const updatePostOnContext = (postData: PostEntity) => {
+		const newDataContext = locationDataContext
+		const nearFeedPosts: PostEntity[] = locationDataContext.feedPosts.nearby
+		const cityFeedPosts: PostEntity[] = locationDataContext.feedPosts.city
+		const countryFeedPosts: PostEntity[] = locationDataContext.feedPosts.country
+
+		const updatePostInArray = (posts: PostEntity[]): PostEntity[] => {
+			console.log('entrou updatePostInArray')
+			const postIndex = posts.findIndex((post) => post.postId === postData.postId)
+			console.log('Encontrei o post: ', !!postIndex)
+			if (postIndex !== -1) {
+				const updatedPosts = [...posts]
+				updatedPosts[postIndex] = postData
+				console.log(updatedPosts[postIndex])
+				return updatedPosts
+			}
+			return posts
+		}
+
+		const checkAndUpdatePosts = (): FeedPosts => {
+			return {
+				nearby: updatePostInArray(nearFeedPosts),
+				city: postData.range === 'city' || postData.range === 'country' ? updatePostInArray(cityFeedPosts) : cityFeedPosts,
+				country: postData.range === 'country' ? updatePostInArray(countryFeedPosts) : countryFeedPosts,
+			}
+		}
+
+		newDataContext.feedPosts = checkAndUpdatePosts() as any
+		setLocationDataContext(newDataContext)
+	}
+
 	const locationProviderData = useMemo(() => ({
 		locationDataContext,
-		setLocationDataOnContext
+		setLocationDataOnContext,
+		updatePostOnContext
 	}), [locationDataContext])
 
 	return (
@@ -56,4 +88,6 @@ function LocationProvider({ children }: LocationProviderProps) {
 	)
 }
 
-export { LocationProvider, LocationContext }
+const useLocationContext = () => useContext(LocationContext)
+
+export { LocationProvider, LocationContext, useLocationContext }

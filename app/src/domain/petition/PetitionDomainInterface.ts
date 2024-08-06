@@ -1,6 +1,8 @@
+import { UserOwner } from '@domain/user/entity/types'
+
 import { PetitionRepositoryInterface } from '@data/petition/PetitionRepositoryInterface'
 
-import { PetitionEntity, PetitionEntityOptional, PrivatePetitionResponse } from './entity/types'
+import { PetitionEntity, PrivatePetitionResponse } from './entity/types'
 
 interface PetitionDomainInterface {
 	getPetitionData: (usePetitionRepository: () => PetitionRepositoryInterface, petitionId: string) => Promise<PetitionEntity | undefined>
@@ -14,7 +16,7 @@ interface PetitionDomainInterface {
 	generatePetitionResultsReport: (usePetitionRepository: () => PetitionRepositoryInterface, petitionData: PetitionEntity) => Promise<string>
 
 	markPetitionAsCompleted: (usePetitionRepository: () => PetitionRepositoryInterface, petitionId: string) => Promise<void>
-	updateOwnerDataOnPetitions: (usePetitionRepository: () => PetitionRepositoryInterface, ownerPost: Partial<PetitionEntityOptional['owner']>) => Promise<boolean | void>
+	updateOwnerDataOnPetitions: (usePetitionRepository: () => PetitionRepositoryInterface, ownerPost: Partial<UserOwner>) => Promise<boolean | void>
 
 	deletePetitionData: (usePetitionRepository: () => PetitionRepositoryInterface, petitionId: string) => Promise<void>
 }

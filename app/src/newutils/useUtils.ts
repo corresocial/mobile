@@ -1,6 +1,8 @@
 import { getArrayObjectDifferences } from './methods/getArrayObjectDifferences'
 import { getLastItem } from './methods/getLastItem'
+import { getMonthName } from './methods/getMonthName'
 import { getObjectDifferences } from './methods/getObjectDifferences'
+import { getWeekdayName } from './methods/getWeekdayName'
 import { mergeArraysByKey } from './methods/mergeArraysByKey'
 import { mergeObjects } from './methods/mergeObjects'
 import { objectValuesAreEquals } from './methods/objectValuesAreEquals'
@@ -18,7 +20,11 @@ function useUtils(): UtilsInterface {
 		// OBJECT
 		getObjectDifferences: getObjectDifferences,
 		objectValuesAreEquals: objectValuesAreEquals,
-		mergeObjects: mergeObjects
+		mergeObjects: mergeObjects,
+
+		// OTHER
+		getMonthName: getMonthName,
+		getWeekdayName: getWeekdayName
 	}
 }
 

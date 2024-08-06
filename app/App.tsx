@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import { useFonts, Arvo_400Regular, Arvo_700Bold } from '@expo-google-fonts/arvo'
+import { Nunito_600SemiBold, Nunito_700Bold } from '@expo-google-fonts/nunito'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
@@ -50,6 +52,8 @@ function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
 		Arvo_400Regular,
 		Arvo_700Bold,
+		Nunito_600SemiBold,
+		Nunito_700Bold
 	})
 
 	const routeNameRef = React.useRef<string>()
