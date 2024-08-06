@@ -186,6 +186,18 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 					})
 				}
+				if (postData.macroCategory === 'sale') {
+					return navigation.navigate('SaleStack' as any, {
+						screen: 'EditSalePostReview' as keyof CultureStackParamList,
+						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+					})
+				}
+				if (postData.macroCategory === 'service') {
+					return navigation.navigate('ServiceStack' as any, {
+						screen: 'EditServicePostReview' as keyof CultureStackParamList,
+						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+					})
+				}
 
 				return navigation.navigate('IncomeStack' as any, {
 					screen: 'EditCulturePostReview' as keyof CultureStackParamList,

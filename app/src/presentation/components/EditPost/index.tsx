@@ -14,6 +14,7 @@ import { useAlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
@@ -129,9 +130,11 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
 			}
 
+			const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 			const { newPost, picturesUrl, videosUrl } = await updatePost(
 				usePostRepository,
-				userDataContext.subscription?.subscriptionRange,
+				range,
 				initialPostData,
 				postWithUnapprovedData as PostEntity,
 				editDataContext.unsaved.picturesUrl || [],
@@ -191,10 +194,12 @@ function EditPost({
 				}, 30000)
 			}
 
+			const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 			const { newPost } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
-				userDataContext.subscription?.subscriptionRange,
+				range,
 				initialPostData,
 				postWithUnapprovedData,
 				editDataContext.unsaved.picturesUrl || [],
@@ -264,6 +269,9 @@ function EditPost({
 	}
 
 	const userSubscribeIsValid = () => { // REFACTOR domain
+		const { betweenRange, range } = checkFreeTrialRange('country')
+		if (betweenRange) return range
+
 		if (getPostField('range') === 'city' && getPostField('postType') === 'socialImpact') return true
 
 		if (!userDataContext.subscription) {
