@@ -79,9 +79,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const searchPostsByAlgolia = async () => {
 		return searchPostsCloud(algoliaSearchText || '', searchParamsFromRoute as FeedSearchParams, searchByRange || false, userDataContext.userId)
 			.then((posts) => {
-				if (!posts) {
-					return initialFeedPosts
-				}
+				if (!posts) return initialFeedPosts
 				return posts
 			})
 			.catch((err) => {

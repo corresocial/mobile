@@ -9,6 +9,7 @@ import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
+import { SearchProfile } from '@screens/leaderAreaScreens/SearchProfile'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'
@@ -52,6 +53,8 @@ export function LeaderAreaStack({ route, navigation }: any) {
 
 				{/* TODO Type */}
 				<Stack.Screen name={'ProfileLeaderArea'} component={Profile as any} />
+				<Stack.Screen name={'SearchProfile'} component={SearchProfile} />
+
 				<Stack.Screen name={'ViewIncomePostLeaderArea'} component={ViewIncomePost as any} />
 				<Stack.Screen name={'ViewVacancyPostLeaderArea'} component={ViewVacancyPost as any} />
 				<Stack.Screen name={'ViewSocialImpactPostLeaderArea'} component={ViewSocialImpactPost as any} />

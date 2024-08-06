@@ -59,7 +59,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 	}
 
 	const skipQuestion = () => {
-		saveResponseData(questionData, 'não se aplica') // MODEL use Case
+		saveResponseData(questionData, 'não se aplica')
 
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
