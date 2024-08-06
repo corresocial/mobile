@@ -85,7 +85,7 @@ function FeedByRange({
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
 					<PostCard
-						post={item}
+						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
 						navigateToProfile={navigateToProfile}
@@ -125,7 +125,7 @@ function FeedByRange({
 	}
 
 	return (
-		<Container backgroundColor={backgroundColor}>
+		<Container backgroundColor={backgroundColor} showsVerticalScrollIndicator={false}>
 			{children}
 			{
 				hasNearbyPosts()

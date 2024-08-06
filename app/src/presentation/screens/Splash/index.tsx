@@ -48,7 +48,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 	const checkStoreUpdates = async () => {
 		if (!__DEV__) {
-			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
+			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: Platform.OS === 'android' ? '65' : '64' }
 			if (mandatoryVersion.nativeApplicationVersion > (Application.nativeApplicationVersion || '55.55.55')
 				|| mandatoryVersion.nativeBuildVersion > (Application.nativeBuildVersion || '5000')) {
 				return setStoreUpdateModalIsVisible(true)

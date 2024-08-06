@@ -183,9 +183,9 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			)
 			case 'socialImpact': return (
 				<CatalogPostTypeButtons
-					buttonLabels={['serviços públicos', 'informativos', 'iniciativas', 'doações']}
-					buttonValues={['publicServices', 'informative', 'iniciative', 'donation']}
-					buttonIcons={[PublicServicesWhiteIcon, PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
+					buttonLabels={['informativos', 'iniciativas', 'doações']}
+					buttonValues={['informative', 'iniciative', 'donation']}
+					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
 					onPress={(macroCategory: MacroCategoriesType) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)

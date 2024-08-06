@@ -1,16 +1,21 @@
 import axios from 'axios'
 
 async function getCoordinatesByIpAddress() {
-	const response = await axios.get('https://ipapi.co/json/')
+	try {
+		const response = await axios.get('http://ip-api.com/json/')
 
-	if (response.data) {
-		return {
-			latitude: response.data.latitude,
-			longitude: response.data.longitude,
+		if (response.data) {
+			return {
+				latitude: response.data.lat,
+				longitude: response.data.lon,
+			}
 		}
-	}
 
-	return null
+		return null
+	} catch (error) {
+		console.log(error)
+		return null
+	}
 }
 
 export { getCoordinatesByIpAddress }

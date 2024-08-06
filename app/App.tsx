@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
 import Aptabase from '@aptabase/react-native'
+
 import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'
@@ -24,7 +25,7 @@ import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { getEnvVars } from './src/infrastructure/environment'
-// import { sentryConfig } from './src/infrastructure/sentry'
+import { sentryConfig } from './src/infrastructure/sentry'
 import { theme } from './src/presentation/common/theme'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
 
@@ -35,13 +36,13 @@ LogBox.ignoreLogs(ignoredLogs)
 const startSentry = () => {
 	console.log(`Dev Mode: ${__DEV__}`)
 	if (!__DEV__ && ENVIRONMENT !== 'dev') {
-		// Sentry.init(sentryConfig)
+		Sentry.init(sentryConfig)
 	}
 }
 
 startSentry()
 
-Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
+Aptabase.init('A-SH-7378383312', { host: 'http://34.133.254.193:8000' })
 
 sendEvent('opened_app', {}, true)
 
