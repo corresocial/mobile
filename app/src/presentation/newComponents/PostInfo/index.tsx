@@ -438,7 +438,6 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		}
 		if (type === 'price') {
 			const price = value as PriceValues
-			console.log(price.isEvent)
 			if (!(price.exchangeValue || price.saleValue) && !price.isEvent) return false
 		}
 
