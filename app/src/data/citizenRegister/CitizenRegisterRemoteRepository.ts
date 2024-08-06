@@ -1,4 +1,4 @@
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore'
 
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 import { CitizenRegisterRemoteRepositoryInterface } from '@domain/citizenRegister/provider/CitizenRegisterRemoteRepositoryInterface'
@@ -11,9 +11,65 @@ export class CitizenRegisterRemoteRepository implements CitizenRegisterRemoteRep
 	async createCitizenRegister(data: CitizenRegisterEntity) {
 		const collectionRef = collection(firestore, CITIZEN_REGISTER_COLLECTION)
 
-		const financeData = { ...data }
-		const docRef = await addDoc(collectionRef, financeData)
+		const citizenRegisterData = { ...data }
+		const docRef = await addDoc(collectionRef, citizenRegisterData)
 
-		return { ...financeData, citizenRegisterId: docRef.id } as CitizenRegisterEntity
+		return { ...citizenRegisterData, citizenRegisterId: docRef.id } as CitizenRegisterEntity
+	}
+
+	async getCitizenRegistrationsByCoordinator(coordinatorId: string, maxDocs = 10, lastDoc: CitizenRegisterEntity | null = null) {
+		try {
+			const collectionRef = collection(firestore, CITIZEN_REGISTER_COLLECTION)
+			let citizenRegistersByCoordinatorQuery
+			if (lastDoc) {
+				citizenRegistersByCoordinatorQuery = query(
+					collectionRef,
+					where('coordinatorId', '==', coordinatorId),
+					orderBy('createdAt', 'desc'),
+					limit(maxDocs),
+					startAfter(lastDoc.createdAt)
+				)
+			} else {
+				citizenRegistersByCoordinatorQuery = query(
+					collectionRef,
+					where('coordinatorId', '==', coordinatorId),
+					orderBy('createdAt', 'desc'),
+					limit(maxDocs),
+				)
+			}
+
+			const citizenRegistersSnap = await getDocs(citizenRegistersByCoordinatorQuery)
+			return citizenRegistersSnap.docs.map((doc) => ({ citizenRegisterId: doc.id, ...doc.data() } as CitizenRegisterEntity))
+		} catch (error) {
+			console.log(error)
+			throw new Error('Houve um erro ao tentar obter os cadastros cidadãos')
+		}
+	}
+
+	async getAllCitizenRegisters(maxDocs = 10, lastDoc: CitizenRegisterEntity | null = null) {
+		try {
+			const collectionRef = collection(firestore, CITIZEN_REGISTER_COLLECTION)
+			let allCitizenRegistersQuery
+			if (lastDoc) {
+				allCitizenRegistersQuery = query(
+					collectionRef,
+					orderBy('createdAt', 'desc'),
+					limit(maxDocs),
+					startAfter(lastDoc.createdAt)
+				)
+			} else {
+				allCitizenRegistersQuery = query(
+					collectionRef,
+					orderBy('createdAt', 'desc'),
+					limit(maxDocs),
+				)
+			}
+
+			const citizenRegistersSnap = await getDocs(allCitizenRegistersQuery)
+			return citizenRegistersSnap.docs.map((doc) => ({ citizenRegisterId: doc.id, ...doc.data() } as CitizenRegisterEntity))
+		} catch (error) {
+			console.log(error)
+			throw new Error('Houve um erro ao tentar obter os cadastros cidadãos')
+		}
 	}
 }

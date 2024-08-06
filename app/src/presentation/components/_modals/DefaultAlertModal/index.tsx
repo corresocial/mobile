@@ -2,8 +2,6 @@ import React from 'react'
 
 import { AlertModalContent } from '@contexts/AlertContext/types'
 
-import BellOffWhiteIcon from '@assets/icons/bell-white.svg'
-
 import { CustomModal } from '../CustomModal'
 
 interface DefaultAlertModalProps {
@@ -17,9 +15,8 @@ function DefaultAlertModal({ data, closeModal }: DefaultAlertModalProps) {
 	return (
 		<CustomModal
 			visibility={!!data?.visibility}
-			title={'ativar as notificações'}
+			title={data?.title || 'Ops!'}
 			titleAlign={'center'}
-			TitleIcon={BellOffWhiteIcon}
 			firstParagraph={{
 				text: data?.text,
 				fontSize: 14,
@@ -29,10 +26,6 @@ function DefaultAlertModal({ data, closeModal }: DefaultAlertModalProps) {
 			affirmativeButton={{
 				label: 'entendi',
 				onPress: data?.handleSuccessMethod || closeModal,
-			}}
-			negativeButton={{
-				label: 'fechar',
-				onPress: closeModal,
 			}}
 		>
 

@@ -18,7 +18,7 @@ export class SaveCitizenRegisterOffline implements UseCase<Input, Output> {
 
 	constructor(
 		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
-		currentUser: UserEntity // MODEL Type user
+		currentUser: UserEntity
 	) {
 		this.localRepository = new CitizenRegisterLocalRepository()
 		this.currentUser = currentUser // new User(currentUser)

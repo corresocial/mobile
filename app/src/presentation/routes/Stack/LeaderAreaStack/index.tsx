@@ -9,6 +9,7 @@ import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
+import { SearchProfile } from '@screens/leaderAreaScreens/SearchProfile'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'

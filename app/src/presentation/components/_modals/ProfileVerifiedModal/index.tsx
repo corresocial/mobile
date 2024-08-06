@@ -21,6 +21,8 @@ function ProfileVerifiedModal({
 			case 'default': return 'perfil verificado'
 			case 'impact': return 'perfil de impacto'
 			case 'government': return 'perfil governamental'
+			case 'coordinator': return 'perfil de coordenador'
+			case 'questionnaireAdministrator': return 'perfil de aplicador de questionário'
 			default: return ''
 		}
 	}
@@ -31,16 +33,20 @@ function ProfileVerifiedModal({
 			case 'default': return 'esse perfil foi verificado por nossa organização. ainda sim, nunca passe informações pessoais para ninguém!'
 			case 'impact': return 'esse perfil foi verificado por nossa organização e é um cidadão com maior necessidade de contratação, visibilidade e doações! nunca passe informações pessoais para ninguém!'
 			case 'government': return 'esse perfil foi verificado por nossa organização e é um perfil ligado ao governo, nunca passe informações pessoais para ninguém!'
+			case 'coordinator': return 'esse perfil foi verificado por nossa organização e é um perfil de coordenador do cadastro cidadão, nunca passe informações pessoais para ninguém!'
+			case 'questionnaireAdministrator': return 'esse perfil foi verificado por nossa organização e é um perfil de aplicador de questionário, que cuidará do cadastramentos dos cidadãos no nosso aplicativo, nunca passe informações pessoais para ninguém!'
 			default: return ''
 		}
 	}
 
 	const getHighlightedWords = () => {
 		switch (label) {
-			case 'leader': return ['nunca', 'passe', 'informações', 'pessoais']
-			case 'default': return ['nunca', 'passe', 'informações', 'pessoais']
-			case 'impact': return ['nunca', 'passe', 'informações', 'pessoais']
-			case 'government': return ['nunca', 'passe', 'informações', 'pessoais']
+			case 'leader': return ['nunca', 'passe', 'informações', 'pessoais', 'verificado']
+			case 'default': return ['nunca', 'passe', 'informações', 'pessoais', 'verificado']
+			case 'impact': return ['nunca', 'passe', 'informações', 'pessoais', 'verificado']
+			case 'government': return ['nunca', 'passe', 'informações', 'pessoais', 'verificado']
+			case 'coordinator': return ['nunca', 'passe', 'informações', 'pessoais', 'coordenador', 'verificado']
+			case 'questionnaireAdministrator': return ['nunca', 'passe', 'informações', 'pessoais', 'aplicador', 'de', 'questionário', 'cadastramentos', 'dos', 'cidadãos']
 			default: return []
 		}
 	}

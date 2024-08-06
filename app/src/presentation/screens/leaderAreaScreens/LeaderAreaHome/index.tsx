@@ -12,10 +12,11 @@ import { navigateToProfileView } from '@routes/auxMethods'
 import { LeaderAreaHomeScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { HeaderButtonsContainer, HeaderSection, ListItemContainer, UnapprovedPostsList } from './styles'
+import { Container, HeaderButtonsContainer, HeaderSection, ListItemContainer, Row, UnapprovedPostsList } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import FormHearthWhiteIcon from '@assets/icons/formHearth-white.svg'
 import LogoCorreWhiteIcon from '@assets/icons/logoBuilding.svg'
+import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
@@ -45,8 +46,25 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 		setIsLoading(false)
 	}
 
+	const currentUserHasPermissionToAccessApprovement = () => (
+		userDataContext.verified
+		&& (
+			userDataContext.verified.admin
+			|| userDataContext.verified.type === 'leader'
+		)
+	)
+
+	const currentUserHasPermissionToAccessPollsAndPetitions = () => (
+		userDataContext.verified
+		&& (
+			!userDataContext.verified.admin
+			|| userDataContext.verified.type === 'leader'
+			|| userDataContext.verified.type === 'government'
+		)
+	)
+
 	const loadMoreRegisters = async () => {
-		console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
+		// console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
 		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
 	}
 
@@ -92,64 +110,88 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange2}>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
-			<HeaderButtonsContainer>
-				<HeaderSection>
-					<OptionButton
-						label={'enquetes \ne abaixo \nassinados'}
-						highlightedWords={['enquetes', 'abaixo', '\nassinados']}
-						labelSize={11}
-						relativeHeight={relativeScreenDensity(70)}
-						leftSideWidth={'28%'}
-						leftSideColor={theme.purple3}
-						SvgIcon={FormHearthWhiteIcon}
-						svgIconScale={['80%', '120%']}
-						onPress={() => navigation.navigate('PollPetitionArea')}
-					/>
-				</HeaderSection>
-				<HeaderSection>
+			<Container>
+				<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+				<HeaderButtonsContainer>
+					<Row>
+						{
+							currentUserHasPermissionToAccessPollsAndPetitions() && (
+								<HeaderSection>
+									<OptionButton
+										label={'enquetes \ne abaixo \nassinados'}
+										highlightedWords={['enquetes', 'abaixo', '\nassinados']}
+										labelSize={11}
+										relativeHeight={relativeScreenDensity(70)}
+										leftSideWidth={'28%'}
+										leftSideColor={theme.purple3}
+										SvgIcon={FormHearthWhiteIcon}
+										svgIconScale={['80%', '120%']}
+										onPress={() => navigation.navigate('PollPetitionArea')}
+									/>
+								</HeaderSection>
+							)
+						}
+						<HeaderSection>
+							<OptionButton
+								label={'pesquisar perfil'}
+								highlightedWords={['pesquisar']}
+								labelSize={11}
+								relativeHeight={relativeScreenDensity(70)}
+								leftSideWidth={'28%'}
+								leftSideColor={theme.orange3}
+								SvgIcon={ProfileWhiteIcon}
+								svgIconScale={['80%', '80%']}
+								onPress={() => navigation.navigate('SearchProfile')}
+							/>
+						</HeaderSection>
+					</Row>
 					<OptionButton
 						label={'cadastro cidadão'}
 						highlightedWords={['cadastro', 'cidadão']}
-						labelSize={11}
+						labelSize={13}
 						relativeHeight={relativeScreenDensity(70)}
 						leftSideWidth={'28%'}
 						leftSideColor={theme.orange3}
 						SvgIcon={LogoCorreWhiteIcon}
-						svgIconScale={['80%', '80%']}
+						svgIconScale={['60%', '60%']}
 						onPress={() => navigation.navigate('CitizenRegistrationArea')}
 					/>
-				</HeaderSection>
-			</HeaderButtonsContainer>
-			<UnapprovedPostsList
-				data={[...unapprovedProfiles, ...unapprovedPosts]}
-				// data={unapprovedPosts}
-				renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
-				onEndReached={loadMoreRegisters}
-				refreshControl={(
-					<RefreshControl
-						tintColor={theme.black4}
-						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-						refreshing={isLoading}
-						onRefresh={loadUnapprovedRegisters}
-					/>
-				)}
-				showsVerticalScrollIndicator={false}
-				ListHeaderComponent={(
-					<>
-						<SubtitleCard
-							text={'aguardando aprovação'}
-							highlightedText={['aguardando', 'aprovação']}
-							SvgIcon={ClockArrowWhiteIcon}
-							onPress={() => navigation.navigate('ViewUnapprovedRegistersList')}
-							seeMoreText
+
+				</HeaderButtonsContainer>
+				{
+					currentUserHasPermissionToAccessApprovement() ? (
+						<UnapprovedPostsList
+							data={[...unapprovedProfiles, ...unapprovedPosts]}
+							// data={unapprovedPosts}
+							renderItem={renderUnapprovedPosts as ListRenderItem<unknown>}
+							onEndReached={loadMoreRegisters}
+							refreshControl={(
+								<RefreshControl
+									tintColor={theme.black4}
+									colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+									refreshing={isLoading}
+									onRefresh={loadUnapprovedRegisters}
+								/>
+							)}
+							showsVerticalScrollIndicator={false}
+							ListHeaderComponent={(
+								<>
+									<SubtitleCard
+										text={'aguardando aprovação'}
+										highlightedText={['aguardando', 'aprovação']}
+										SvgIcon={ClockArrowWhiteIcon}
+										onPress={() => navigation.navigate('ViewUnapprovedRegistersList')}
+										seeMoreText
+									/>
+									<VerticalSpacing />
+								</>
+							)}
+							ItemSeparatorComponent={() => <VerticalSpacing />}
+							ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 						/>
-						<VerticalSpacing />
-					</>
-				)}
-				ItemSeparatorComponent={() => <VerticalSpacing />}
-				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
-			/>
+					) : <></>
+				}
+			</Container>
 		</ScreenContainer>
 	)
 }

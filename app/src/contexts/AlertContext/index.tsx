@@ -26,6 +26,7 @@ const initialValue: AlertContextProps = {
 	notificationState: initialNotificationState,
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => { },
 	showAlertNotificationModal: () => { },
+	showDefaultAlertModal: (modalContent: AlertModalContent) => { },
 	showEventCalendarPresentationModal: () => { },
 	showWaitingApproveModal: () => { }
 }
@@ -36,6 +37,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const [notificationState, setNotificationState] = useState(initialNotificationState)
 	const [alertNotificationModalIsVisible, setAlertNotificationIsVisible] = useState(false)
 
+	const [defaultAlertModalContent, setDefaultAlertModalContent] = useState({ visibility: false } as AlertModalContent)
 	const [eventCalendarPresentationModalIsVisible, setEventCalendarPresentationModalIsVisible] = useState(false)
 	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
 
@@ -79,13 +81,11 @@ function AlertProvider({ children }: AlertProviderProps) {
 		setWaitingApproveModalIsVisible(true)
 	}, [])
 
-	const [defaultAlertModalContent, setDefaultAlertModalContent] = useState({} as AlertModalContent)
-
-	const showAlertModal = async (modalContent: AlertModalContent) => {
-		// TODO Definir métodos
+	const showDefaultAlertModal = async (modalContent: AlertModalContent) => {
+		setDefaultAlertModalContent({ ...defaultAlertModalContent, ...modalContent, visibility: true })
 	}
 
-	const closeContextModal = () => setDefaultAlertModalContent({ ...defaultAlertModalContent, visibility: false })
+	const closeDefaultAlertModal = () => setDefaultAlertModalContent({ ...defaultAlertModalContent, visibility: false })
 
 	const handlerAlertNotificationModal = useCallback(() => {
 		setAlertNotificationIsVisible(false)
@@ -114,14 +114,14 @@ function AlertProvider({ children }: AlertProviderProps) {
 		showAlertNotificationModal,
 		showEventCalendarPresentationModal,
 		showWaitingApproveModal,
-		showAlertModal
+		showDefaultAlertModal
 	}), [defaultAlertModalContent, notificationState])
 
 	return (
 		<AlertContext.Provider value={alertDataProvider}>
 			<DefaultAlertModal
 				data={defaultAlertModalContent}
-				closeModal={closeContextModal}
+				closeModal={closeDefaultAlertModal}
 			/>
 			<AlertNotificationModal
 				visibility={alertNotificationModalIsVisible}

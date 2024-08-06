@@ -42,7 +42,7 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default'
+export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default' | 'coordinator' | 'questionnaireAdministrator'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
@@ -50,6 +50,7 @@ export type VerifiedType = {
 	name: string
 	at: Date
 	admin?: boolean
+	coordinatorId?: string
 }
 
 export type SubscriptionPlan = 'monthly' | 'yearly' | ''

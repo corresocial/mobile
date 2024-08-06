@@ -12,14 +12,18 @@ import { useLoaderContext } from '@contexts/LoaderContext'
 import { CitizenQuestionaryPreviewScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
-import { Body, HeaderActionsContainer, HeaderContainer, QuestionsList, ToggleButtonContainer } from './styles'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
+import { Body, CreatedAtText, CreatorContainer, CreatorDataContainer, CreatorNameText, HeaderActionsContainer, HeaderContainer, QuestionsList, ToggleButtonContainer } from './styles'
 import EditCitizenIcon from '@assets/icons/editCitizen-white.svg'
-import trashIcon from '@assets/icons/trash-white.svg'
+import QuestionaryIcon from '@assets/icons/questionary-white.svg'
+import TrashIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
+import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { QuestionCard } from '@components/_cards/QuestionCard'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
@@ -27,6 +31,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 const citizenUseCases = new CitizenRegisterUseCases()
+
+const { formatRelativeDate } = UiUtils()
 
 function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPreviewScreenProps) {
 	const { userDataContext } = useAuthContext()
@@ -38,15 +44,16 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 
 	const theme = useTheme()
 
+	const coordinatorView = route.params?.coordinatorView
 	const registerIsStored = !!(route.params && route.params.registerData)
 	const hasResponsesFromRoute = (route.params && route.params.registerData && route.params.registerData && route.params.registerData.responses && route.params.registerData.responses.length)
-	const registerData = route.params?.registerData || citizenRegistrationIdentifier
+	const registerData = route.params?.registerData || citizenRegistrationIdentifier as CitizenRegisterEntity
 	const citizenRegisterResponses = hasResponsesFromRoute
 		? route.params.registerData.responses
 		: citizenRegistrationResponseData // citizenUseCases.getCitizenRegistrationQuestionary()
 
 	useEffect(() => {
-		startNewCitizenRegistration()
+		!coordinatorView && startNewCitizenRegistration()
 	}, [])
 
 	const startCitizenRegistration = () => {
@@ -142,32 +149,53 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 			/>
 			<HeaderContainer>
 				<DefaultPostViewHeader
-					text={'questionário cidadão'}
-					highlightedWords={['cidadão']}
+					text={coordinatorView ? registerData.name : 'questionário cidadão'}
+					highlightedWords={coordinatorView ? registerData.name ? registerData.name.split(' ') : [''] : ['cidadão']}
 					ignorePlatform
 					onBackPress={() => navigation.goBack()}
 				/>
-				<HeaderActionsContainer>
-					<PrimaryButton
-						label={registerIsStored ? 'enviar' : 'responder'}
-						highlightedWords={[registerIsStored ? 'enviar' : 'responder']}
-						color={theme.green3}
-						fontSize={14}
-						SecondSvgIcon={EditCitizenIcon}
-						svgIconScale={['50%', '30%']}
-						minHeight={45}
-						relativeHeight={relativeScreenDensity(45)}
-						labelColor={theme.white3}
-						onPress={registerIsStored ? saveCitizenRegister : startCitizenRegistration}
-					/>
-					<SmallButton
-						relativeWidth={relativeScreenDensity(45)}
-						height={relativeScreenDensity(45)}
-						SvgIcon={trashIcon}
-						onPress={toggleDefaultConfirmationModalVisibility}
-						color={theme.red3}
-					/>
-				</HeaderActionsContainer>
+
+				{
+					coordinatorView
+						? (
+							<HeaderActionsContainer>
+								<CreatorContainer>
+									<QuestionaryIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
+									<CreatorDataContainer>
+										<CreatorNameText>
+											{registerData.censusTakerName}
+										</CreatorNameText>
+										<CreatedAtText>
+											{formatRelativeDate(registerData.createdAt)}
+										</CreatedAtText>
+									</CreatorDataContainer>
+								</CreatorContainer>
+							</HeaderActionsContainer>
+						)
+						: (
+							<HeaderActionsContainer>
+								<PrimaryButton
+									label={registerIsStored ? 'enviar' : 'responder'}
+									highlightedWords={[registerIsStored ? 'enviar' : 'responder']}
+									color={theme.green3}
+									fontSize={14}
+									SecondSvgIcon={EditCitizenIcon}
+									svgIconScale={['50%', '30%']}
+									minHeight={45}
+									relativeHeight={relativeScreenDensity(45)}
+									labelColor={theme.white3}
+									onPress={registerIsStored ? saveCitizenRegister : startCitizenRegistration}
+								/>
+								<SmallButton
+									relativeWidth={relativeScreenDensity(45)}
+									height={relativeScreenDensity(45)}
+									SvgIcon={TrashIcon}
+									onPress={toggleDefaultConfirmationModalVisibility}
+									color={theme.red3}
+								/>
+							</HeaderActionsContainer>
+						)
+				}
 			</HeaderContainer>
 			<Body>
 				<QuestionsList
@@ -175,27 +203,33 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 					renderItem={renderQuestion as ListRenderItem<unknown>}
 					ListHeaderComponent={(
 						<>
-							<VerticalSpacing height={2} />
-							<ToggleButtonContainer>
-								<SmallButton
-									relativeWidth={'65%'}
-									label={`${presentationIsVisible ? 'Esconder' : 'Exibir'} apresentação`}
-									labelColor={theme.black4}
-									onPress={() => setPresentationIsVisible(!presentationIsVisible)}
-								/>
-							</ToggleButtonContainer>
 							{
-								presentationIsVisible && (
+								!coordinatorView ? (
 									<>
 										<VerticalSpacing height={2} />
-										<InstructionCard
-											message={'Olá! Sou [seu nome] e estou representando o CORRE., nossa missão é conectar a periferia a um futuro melhor e para isso estamos fazendo uma pesquisa com apoio [nome da liderança/instituição local] para entender melhor as necessidades locais. Sua participação é essencial e todas as informações serão confidenciais. Você pode nos ajudar?'}
-											highlightedWords={['CORRE.,', 'missão', 'é', 'conectar', 'a', 'periferia', 'um', 'futuro', 'melhor', 'entender', 'necessidades', 'locais', 'todas', 'as', 'informações', 'serão', 'confidenciais']}
-											borderLeftWidth={5}
-											fontSize={15}
-										/>
+										<ToggleButtonContainer>
+											<SmallButton
+												relativeWidth={'65%'}
+												label={`${presentationIsVisible ? 'Esconder' : 'Exibir'} apresentação`}
+												labelColor={theme.black4}
+												onPress={() => setPresentationIsVisible(!presentationIsVisible)}
+											/>
+										</ToggleButtonContainer>
+										{
+											presentationIsVisible && (
+												<>
+													<VerticalSpacing height={2} />
+													<InstructionCard
+														message={'Olá! Sou [seu nome] e estou representando o CORRE., nossa missão é conectar a periferia a um futuro melhor e para isso estamos fazendo uma pesquisa com apoio [nome da liderança/instituição local] para entender melhor as necessidades locais. Sua participação é essencial e todas as informações serão confidenciais. Você pode nos ajudar?'}
+														highlightedWords={['CORRE.,', 'missão', 'é', 'conectar', 'a', 'periferia', 'um', 'futuro', 'melhor', 'entender', 'necessidades', 'locais', 'todas', 'as', 'informações', 'serão', 'confidenciais']}
+														borderLeftWidth={5}
+														fontSize={15}
+													/>
+												</>
+											)
+										}
 									</>
-								)
+								) : <></>
 							}
 							<VerticalSpacing height={2} />
 							<QuestionCard
@@ -215,15 +249,32 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 								onPress={!registerIsStored ? () => navigation.navigate('InsertCitizenName') : undefined}
 							/>
 							<VerticalSpacing />
-
 						</>
 					)}
 					ItemSeparatorComponent={() => <VerticalSpacing />}
-					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
+					ListFooterComponent={(
+						<>
+							{coordinatorView && (
+								<>
+									<VerticalSpacing />
+									{
+										registerData.location && (
+											<LocationViewCard
+												title={'localização do cadastro'}
+												locationView={'public'}
+												location={registerData.location}
+											/>
+										)
+									}
+								</>
+							)}
+							<VerticalSpacing bottomNavigatorSpace />
+						</>
+					)}
 					showsVerticalScrollIndicator={false}
 				/>
 			</Body>
-		</ScreenContainer>
+		</ScreenContainer >
 	)
 }
 

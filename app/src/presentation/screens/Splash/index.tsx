@@ -45,7 +45,25 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}, [])
 
 	const checkUpdates = async () => {
-		await onFetchUpdateAsync()
+		const otaUpdated = await onFetchUpdateAsync()
+		otaUpdated && await checkStoreUpdates()
+	}
+
+	const checkStoreUpdates = async () => {
+		if (!__DEV__) {
+			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: Platform.OS === 'android' ? '65' : '64' }
+			if (mandatoryVersion.nativeApplicationVersion > (Application.nativeApplicationVersion || '55.55.55')
+				|| mandatoryVersion.nativeBuildVersion > (Application.nativeBuildVersion || '5000')) {
+				return setStoreUpdateModalIsVisible(true)
+			}
+		}
+
+		return redirectToApp()
+	}
+
+	const navigateToStore = () => {
+		if (Platform.OS === 'android') return Linking.openURL('https://play.google.com/store/apps/details?id=com.corresocial.corresocial')
+		if (Platform.OS === 'ios') return Linking.openURL('https://apps.apple.com/br/app/corre/id1661370868')
 	}
 
 	const hasUpdates = async () => {

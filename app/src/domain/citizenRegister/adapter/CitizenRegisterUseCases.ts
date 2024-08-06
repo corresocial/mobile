@@ -4,7 +4,7 @@ import { UserEntity } from '@domain/user/entity/types'
 import { CitizenRegisterLocalRepository } from '@data/citizenRegister/CitizenRegisterLocalRepository'
 import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
 
-import { CitizenRegisterEntityOptional } from '../model/entities/types'
+import { CitizenRegisterEntity, CitizenRegisterEntityOptional } from '../model/entities/types'
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 import { GoogleMapsService, GoogleMapsServiceInterfaceClass } from '@services/googleMaps/GoogleMapsService'
@@ -14,6 +14,7 @@ import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenReg
 import { CitizenHasAccountOnApp } from '../useCases/CitizenHasAccountOnApp'
 import { CreateCitizenRegister } from '../useCases/CreateCitizenRegister'
 import { DeleteOfflineCitizenRegister } from '../useCases/DeleteOfflineCitizenRegister'
+import { GetCitizenRegistrationsByCoordinatorResponsability } from '../useCases/GetCitizenRecordsOfQuestionnaireAdministrators'
 import { GetCitizenRegistrationInProgress } from '../useCases/GetCitizenRegistrationInProgress'
 import { GetCitizenRegistrationQuestionary } from '../useCases/GetCitizenRegistrationQuestionary'
 import { GetOfflineCitizenRegisters } from '../useCases/GetOfflineCitizenRegisters'
@@ -43,7 +44,7 @@ export class CitizenRegisterUseCases {
 		return new GetCitizenRegistrationQuestionary().exec()
 	}
 
-	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) { // MODEL
+	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) {
 		return new CitizenHasAccountOnApp(useCloudFunctionService).exec(cellNumber)
 	}
 
@@ -57,6 +58,10 @@ export class CitizenRegisterUseCases {
 
 	getOfflineCitizenRegisters() {
 		return new GetOfflineCitizenRegisters(this.localRepository).exec()
+	}
+
+	getCitizenRegistrationsByCoordinatorResponsability(currentUser: UserEntity, maxDocs?: number, lastCitizenRegister?: CitizenRegisterEntity | null) {
+		return new GetCitizenRegistrationsByCoordinatorResponsability(this.remoteRepository, currentUser).exec({ maxDocs, lastCitizenRegister })
 	}
 
 	sendOfflineRegisters() {

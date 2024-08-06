@@ -215,6 +215,8 @@ function EditPost({
 			console.log(err)
 			setIsLoading(false)
 			setHasError(true)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
