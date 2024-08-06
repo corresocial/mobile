@@ -5,11 +5,16 @@ import { Platform } from 'react-native'
 
 import { trackEvent } from '@aptabase/react-native'
 
-type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'smas_search' | 'recovery_nis'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
+
+type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'smas_search' | 'recovery_nis' | 'visualized_post' | 'visualized_petition' | 'visualized_poll'
 
 interface EventObject extends Record<string, string | number | boolean | undefined> {
 	// deviceId?: string
 	userId?: string
+	postId?: string
+	pollId?: string
+	petitionId?: string
 	authType?: 'login' | 'register'
 	postType?: 'culture' | 'income' | 'socialImpact'
 	impactReportType?: 'culture' | 'income' | 'socialImpact' | 'chat'
@@ -20,6 +25,7 @@ interface EventObject extends Record<string, string | number | boolean | undefin
 	impactReportValue?: number
 	deviceId?: string
 	appVersion?: string
+	macroCategory?: MacroCategoriesType
 	smasResponse?: 'success' | 'failed' | 'not_found'
 	smasService?: 'BEE' | 'PBF' | 'CADUNICO' | 'ANONIMIZADO' | undefined
 }

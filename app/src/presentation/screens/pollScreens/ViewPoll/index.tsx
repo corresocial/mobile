@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { PollEntity, PollQuestion } from '@domain/poll/entity/types'
 import { usePollDomain } from '@domain/poll/usePollDomain'
 
@@ -61,6 +63,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 			const poll = await getPollData(usePollRepository, route.params.pollId)
 			poll && setPollData(poll)
 			poll && setCurrentCompletedState(!!poll.completed)
+			sendEvent('visualized_poll', { pollId: poll?.pollId })
 		}
 	})
 

@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { usePetitionDomain } from '@domain/petition/usePetitionDomain'
 
@@ -72,6 +74,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 		if (route.params.petitionId && !route.params.petitionData) {
 			const petition = await getPetitionData(usePetitionRepository, route.params.petitionId)
 			petition && setPetitionData(petition)
+			sendEvent('visualized_petition', { petitionId: petition?.petitionId })
 		}
 	})
 
