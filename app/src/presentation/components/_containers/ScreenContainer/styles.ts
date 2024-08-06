@@ -4,7 +4,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { ScreenContainerTones } from '.'
 
-function getColorByTone(theme: DefaultTheme, tone: ScreenContainerTones, intensity: 1 | 2 | 3 | 4) {
+export function getScreenContainerColorByTone(theme: DefaultTheme, tone: ScreenContainerTones, intensity: 1 | 2 | 3 | 4) {
 	switch (tone) {
 		case 'orange': return theme.colors.orange[intensity]
 		case 'purple': return theme.colors.purple[intensity]
@@ -23,7 +23,7 @@ interface SafeAreaViewProps extends SectionProps {
 
 export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
 	flex: ${({ withoutFlex }) => (withoutFlex ? 0 : 1)};
-	background-color: ${({ theme, safeAreaColor, tone }) => safeAreaColor || getColorByTone(theme, tone!, 1)};
+	background-color: ${({ theme, safeAreaColor, tone }) => safeAreaColor || getScreenContainerColorByTone(theme, tone!, 1)};
 `
 
 interface ContainerProps {
@@ -52,16 +52,16 @@ export const SectionCommon = styled.View`
 
 export const FirstSection = styled(SectionCommon) <SectionProps>`
     padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(10) : 0)}px;
-	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 1)};
+	background-color: ${({ theme, tone }) => getScreenContainerColorByTone(theme, tone!, 1)};
 `
 
 export const SecondSection = styled(SectionCommon) <SectionProps>`
     padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(10) : 0)}px;
-	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 2)};
+	background-color: ${({ theme, tone }) => getScreenContainerColorByTone(theme, tone!, 2)};
 `
 
 export const ThirdSection = styled(SectionCommon) <SectionProps>`
     flex: 1;
     padding: ${({ withPadding }) => (withPadding ? `0px ${relativeScreenDensity(10)}px` : 0)};
-	background-color: ${({ theme, tone }) => getColorByTone(theme, tone!, 3)};
+	background-color: ${({ theme, tone }) => getScreenContainerColorByTone(theme, tone!, 3)};
 `

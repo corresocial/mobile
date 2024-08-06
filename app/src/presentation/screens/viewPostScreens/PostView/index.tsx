@@ -102,7 +102,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const getPost = async (refresh?: boolean) => {
 		if (route.params.redirectedPostId || refresh) {
 			const post = await remoteStorage.getPostById(refresh ? postData.postId : route.params.redirectedPostId)
-			setPostData(post as PostEntity)
 			setApprovedPostData(post as PostEntity)
 			setIsCompleted(!!(post && post.completed))
 			setPostLoaded(true)
@@ -465,6 +464,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<VerticalSpacing />
 						<MediaView
 							picturesUrl={getPostField('picturesUrl', postType)}
+							videosUrl={getPostField('videosUrl', postType)}
 						/>
 						<GroupInfo>
 							<VerticalSpacing height={7} relativeDensity />

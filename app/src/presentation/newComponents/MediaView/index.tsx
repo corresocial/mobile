@@ -33,7 +33,7 @@ export function MediaView({ picturesUrl, videosUrl, onPress }: MediaViewProps) {
 		<Container>
 			<GalleryModal
 				picturesUrl={picturesUrl || []}
-				videosUrl={[]}
+				videosUrl={videosUrl || []}
 				showGallery={galeryIsVisible}
 				onClose={closeGallery}
 			/>
@@ -43,6 +43,7 @@ export function MediaView({ picturesUrl, videosUrl, onPress }: MediaViewProps) {
 			>
 				<MediaCarousel
 					picturesUrl={[...(picturesUrl || [])] || []}
+					videosThumbnails={[...(videosUrl || [])] || []}
 					indicatorColor={theme.blue1}
 					square
 					showFullscreenIcon

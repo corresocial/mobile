@@ -84,7 +84,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	const { postData } = route.params
 
 	useEffect(() => {
-		console.log(postData.unapprovedData)
 		return () => {
 			clearEditContext()
 		}
@@ -217,7 +216,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 			if (!validChatId) throw new Error('Não foi possível utilizar um identificador de chat válido')
 
-			const textMessage = `Sua postagem "${getShortText(getPostField('description') || '', 45)}" foi rejeitada por não estar de acordo com nossos termos de uso\n${rejectMessage ? `MOTIVO: ${rejectMessage}` : ''}`
+			const textMessage = `Sua postagem "${getShortText(getPostField('description', true) || '', 45)}" foi rejeitada por não estar de acordo com nossos termos de uso\n${rejectMessage ? `MOTIVO: ${rejectMessage}` : ''}`
 			const newMessageObject = generateNewMessageObject(textMessage, authenticatedUserId)
 			const newMessageValue = Object.values(newMessageObject)[0]
 
@@ -270,7 +269,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={getPostField('description')}
+					text={getPostField('description', true)}
 				/>
 				<VerticalSpacing />
 				<UserAndValueContainer>

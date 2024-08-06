@@ -32,18 +32,18 @@ function MediaCarousel({
 	relativeWidth = relativeScreenWidth(94),
 	square,
 	showFullscreenIcon,
-	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'],
+	picturesUrl = [],
 	videosThumbnails = []
 }: MediaCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-	const renderCarouselIndicators = () => [...picturesUrl].map((_, index) => (
+	const renderCarouselIndicators = () => [...picturesUrl, ...videosThumbnails].map((_, index) => (
 		index === currentCarouselIndex
 			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
-	const getCarouselPictures = () => [...picturesUrl].map((url) => (
+	const getCarouselPictures = () => [...picturesUrl, ...videosThumbnails].map((url) => (
 		<View
 			style={{
 				height: square ? relativeWidth : relativeScreenHeight(28),
@@ -51,7 +51,7 @@ function MediaCarousel({
 				borderWidth: 0,
 			}}
 		>
-			<PhotoPortrait // CURRENT Reformatar componente, não está renderizando vídeos, correção somente após merge com a branch de vídeos
+			<PhotoPortrait
 				borderWidth={0}
 				borderRightWidth={0}
 				height={'100%'}

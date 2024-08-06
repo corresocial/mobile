@@ -42,13 +42,13 @@ function ImageCarousel({
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-	const renderCarouselIndicators = () => [...videosThumbnails, ...picturesUrl].map((_, index) => (
+	const renderCarouselIndicators = () => [...picturesUrl, ...videosThumbnails].map((_, index) => (
 		index === currentCarouselIndex
 			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
-	const getCarouselPictures = () => [...videosThumbnails, ...picturesUrl].map((url) => (
+	const getCarouselPictures = () => [...picturesUrl, ...videosThumbnails].map((url) => (
 		<View
 			style={{
 				width: '100%',

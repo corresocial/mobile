@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react'
 import { StatusBar } from 'react-native'
+import { useTheme } from 'styled-components'
 
-import { Container, FirstSection, SafeAreaViewContainer, SecondSection, ThirdSection } from './styles'
+import { Container, FirstSection, getScreenContainerColorByTone, SafeAreaViewContainer, SecondSection, ThirdSection } from './styles'
 
 export type ScreenContainerTones = 'white' | 'white' | 'orange' | 'blue' | 'purple' | 'pink' | 'green'
 
@@ -21,6 +22,8 @@ interface ScreenContainerProps {
 
 /** Este componente não aceita `children` e `componentes de section` ao mesmo tempo */
 function ScreenContainer({ ...props }: ScreenContainerProps) {
+	const theme = useTheme()
+
 	return (
 		<>
 			<SafeAreaViewContainer
@@ -32,7 +35,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 				!props.infinityBottom
 					? (
 						<SafeAreaViewContainer safeAreaColor={props.bottomSafeAreaColor}>
-							<StatusBar backgroundColor={props.topSafeAreaColor} barStyle={'dark-content'} />
+							<StatusBar backgroundColor={props.topSafeAreaColor || getScreenContainerColorByTone(theme, props.tone!, 1)} barStyle={'dark-content'} />
 							<Container
 								withPadding={!!props.enableScreenPadding}
 							>
@@ -78,7 +81,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 					)
 					: (
 						<>
-							<StatusBar backgroundColor={props.topSafeAreaColor} />
+							<StatusBar backgroundColor={props.topSafeAreaColor || getScreenContainerColorByTone(theme, props.tone!, 1)} barStyle={'dark-content'} />
 							<Container
 								withPadding={!!props.enableScreenPadding}
 							>
