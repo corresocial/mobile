@@ -4,7 +4,7 @@ import { Platform } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
-import { PostEntityOptional, PostEntityCommonFields, } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntityCommonFields, PostEntity, } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -112,14 +112,14 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
 	}
 
-	const getItemType = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+	const getItemType = (item: PostEntity & PollEntity & PetitionEntity) => {
 		if (item.postId) return 'post'
 		if (item.pollId) return 'poll'
 		if (item.petitionId) return 'petition'
 		return ''
 	}
 
-	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity, i: number) => {
+	const renderPostItem = (item: PostEntity & PollEntity & PetitionEntity, i: number) => {
 		const itemType = getItemType(item)
 		if ((item as any).action) {
 			return (
@@ -201,25 +201,15 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				>
 					{
-<<<<<<< HEAD
 						(postsByRange && postsByRange.length) ? (
 							<FlatListPosts
 								data={postsByRange || []}
-=======
-						(postsByRange && postsByRange.length) && (
-							<FlatListPosts
-								data={postsByRange}
->>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 								renderItem={renderPostItem as any}
 								headerComponent={() => (
 									<VerticalSpacing />
 								)}
 							/>
-<<<<<<< HEAD
 						) : <></>
-=======
-						)
->>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 					}
 				</Body>
 			</Container>

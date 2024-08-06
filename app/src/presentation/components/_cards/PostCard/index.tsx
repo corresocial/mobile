@@ -90,9 +90,8 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		return owner.profilePictureUrl[0]
 	}
 
-<<<<<<< HEAD
 	const enableLeftAreaSpacing = () => (!arrayIsEmpty(post.picturesUrl) || (post.saleValue && (arrayIsEmpty(post.picturesUrl) && post.postType === 'vancancy')) || post.exchangeValue || (postData.unapprovedData && isOwner))
-=======
+
 	function hasPictures(): boolean {
 		return !arrayIsEmpty(post.picturesUrl)
 	}
@@ -104,9 +103,6 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 	function hasMedia(): boolean {
 		return hasPictures() || hasVideos()
 	}
-
-	const enableLeftAreaSpacing = () => hasMedia() || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
->>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 
 	function pressingButton() {
 		setButtomPressed(true)
