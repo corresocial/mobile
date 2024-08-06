@@ -9,6 +9,8 @@ import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { SelectPetitionRangeScreenProps } from '@routes/Stack/PetitionStack/screenProps'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
+
 import { theme } from '@common/theme'
 
 import { PostRange } from '@components/_onboarding/PostRange'
@@ -31,6 +33,8 @@ function SelectPetitionRange({ route, navigation }: SelectPetitionRangeScreenPro
 		navigation.navigate('InsertPetitionLocation')
 	}
 
+	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
@@ -38,7 +42,7 @@ function SelectPetitionRange({ route, navigation }: SelectPetitionRangeScreenPro
 				backgroundColor={theme.purple2}
 				itemsColor={theme.purple3}
 				hiddenValues
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				userSubscriptionRange={range || 'near'}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePetitionRange}
 			/>

@@ -10,6 +10,8 @@ import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSaleRangeScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
+
 import { theme } from '@common/theme'
 
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
@@ -61,6 +63,8 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
+	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
@@ -74,7 +78,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 			<PostRange
 				backgroundColor={theme.green2}
 				itemsColor={theme.green3}
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				userSubscriptionRange={range || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
