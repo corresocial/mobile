@@ -84,6 +84,19 @@ function PhotoPortrait({
 			{
 				pictureUri
 					? (
+<<<<<<< HEAD
+						<PortraitImage
+							source={{ uri: pictureUri }}
+							recyclingKey={pictureUri}
+							placeholder={UserShadow}
+							placeholderContentFit={'contain'}
+							contentFit={resizeMode}
+							resizeMode={'cover'}
+							cachePolicy={'memory-disk'}
+							circle={circle}
+							transition={300}
+						/>
+=======
 						!loadingThumbnail
 							? (
 								<PortraitImage
@@ -98,6 +111,7 @@ function PhotoPortrait({
 								/>
 							)
 							: <Loader flex animationScale={50} />
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 					)
 					: (
 						<NoPhotoContainer>

@@ -1,10 +1,10 @@
-import { PetitionRepositoryInterface } from '@data/petition/PetitionRepositoryInterface'
+import { UserOwner } from '@domain/user/entity/types'
 
-import { PetitionEntityOptional } from '../entity/types'
+import { PetitionRepositoryInterface } from '@data/petition/PetitionRepositoryInterface'
 
 async function updateOwnerDataOnPetitionsDM(
 	usePetitionRepository: () => PetitionRepositoryInterface,
-	ownerData: Partial<PetitionEntityOptional['owner']>
+	ownerData: Partial<UserOwner>
 ) {
 	try {
 		const { getPetitionIdsByUser, updateOwnerDataOnPetitions } = usePetitionRepository()

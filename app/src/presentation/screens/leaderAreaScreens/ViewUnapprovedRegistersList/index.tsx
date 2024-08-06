@@ -7,6 +7,7 @@ import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewUnapprovedRegistersListScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
@@ -18,7 +19,7 @@ import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-export function ViewUnapprovedRegistersList({ navigation } : ViewUnapprovedRegistersListScreenProps) {
+export function ViewUnapprovedRegistersList({ navigation }: ViewUnapprovedRegistersListScreenProps) {
 	const { userDataContext } = useAuthContext()
 	const { unapprovedPosts, loadUnapprovedPosts } = useLeaderAreaContext()
 
@@ -47,10 +48,8 @@ export function ViewUnapprovedRegistersList({ navigation } : ViewUnapprovedRegis
 
 	const navigateToProfile = (postData: PostEntity) => {
 		const ownerId = postData.owner.userId
-		if (userDataContext.userId === ownerId) {
-			return navigation.navigate('Profile' as any)
-		}
-		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
+		if (userDataContext.userId === ownerId) return navigateToProfileView(navigation)
+		navigateToProfileView(navigation, ownerId, 'LeaderArea', postData.owner.redirect)
 	}
 
 	const renderPost = ({ item }: FlatListItem<PostEntity>) => {
@@ -94,9 +93,9 @@ export function ViewUnapprovedRegistersList({ navigation } : ViewUnapprovedRegis
 						/>
 					)}
 					showsVerticalScrollIndicator={false}
-					ListHeaderComponent={() => <VerticalSpacing/>}
-					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
+					ListHeaderComponent={() => <VerticalSpacing />}
+					ItemSeparatorComponent={() => <VerticalSpacing />}
+					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 				/>
 			</Container>
 		</ScreenContainer>

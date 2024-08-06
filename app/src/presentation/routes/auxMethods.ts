@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { Linking } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -9,14 +10,13 @@ import { PollStackParamList } from './Stack/PollStack/types'
 import { StackLabelProps } from './types'
 
 const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => {
-	switch (postData.postType) {
-		case 'income': {
-			if (postData.macroCategory === 'vacancy') return navigation.navigate(`ViewVacancyPost${stackLabel || ''}`, { postData })
-			return navigation.navigate(`ViewIncomePost${stackLabel || ''}`, { postData })
-		}
-		case 'socialImpact': return navigation.navigate(`ViewSocialImpactPost${stackLabel || ''}`, { postData })
-		case 'culture': return navigation.navigate(`ViewCulturePost${stackLabel || ''}`, { postData })
-	}
+	return navigation.navigate(`PostView${stackLabel || ''}`, { postData })
+}
+
+const navigateToProfileView = (navigation: NativeStackNavigationProp<any>, userId?: string, stackLabel?: StackLabelProps | '', redirect?: string) => {
+	console.log('View')
+	if (redirect) return Linking.openURL(redirect)
+	navigation.navigate(`Profile${stackLabel}`, { userId, stackLabel })
 }
 
 const navigateToLeaderPostsView = (leaderPostData: PollEntity & PetitionEntity, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type
@@ -31,7 +31,6 @@ const navigateToLeaderPostsView = (leaderPostData: PollEntity & PetitionEntity, 
 			screen: 'ViewPetition',
 			params: { petitionId: leaderPostData.petitionId } as PetitionStackParamList['ViewPetition']
 		})
-		// case 'poll': return navigation.navigate(`ViewPoll${stackLabel || ''}`, { pollId: leaderPostData.pollId } as HomeStackParamList['ViewPollHome'])
 	}
 }
 
@@ -42,4 +41,4 @@ const getItemType = (item: PostEntityOptional & PollEntity & PetitionEntity) => 
 	return ''
 }
 
-export { navigateToPostView, navigateToLeaderPostsView }
+export { navigateToPostView, navigateToProfileView, navigateToLeaderPostsView }

@@ -1,16 +1,19 @@
+import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
-import { PostEntityOptional, PostEntityCommonFields, PostEntity } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntityCommonFields, } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToLeaderPostsView, navigateToPostView } from '@routes/auxMethods'
+import { navigateToLeaderPostsView, navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
+
+import { isRecentPost } from '@utils-ui/post/validation'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { theme } from '@common/theme'
@@ -31,25 +34,35 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const [searchText, setSearchText] = useState('')
 
-	const { postRange, postType, searchByRange } = route.params
+	const { navigate } = useNavigation<any>()
+
+	const { postRange, postType, searchByRange, collapseExternalVacancies = true } = route.params
 
 	const getFilteredPostsBySearch = () => {
-		const posts = route.params.postsByRange as PostEntity[] & PollEntity[] & PetitionEntity[]
+		const paramsPosts = route.params.postsByRange
+		const posts = collapseExternalVacancies ? (route.params.postsByRange as any[]).filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) : paramsPosts// TODO TYpe
 
 		if (searchText) {
-			return posts.filter((post) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length || !!({ ...post, title: (post as any).title || '' } as any).title.match(new RegExp(`${searchText}`, 'i'))?.length)
+			return paramsPosts.filter((post) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length || !!({ ...post, title: (post as any).title || '' } as any).title.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
+
+		const vacancyPost = paramsPosts.find((item) => item.macroCategory === 'vacancy' && item.externalPostId)
+		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
+			posts.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
+			return posts
+		}
+
 		return posts
 	}
 
 	const postsByRange = getFilteredPostsBySearch()
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
+		console.log(redirect)
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const navigateToResultScreen = () => {
@@ -106,8 +119,22 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		return ''
 	}
 
-	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
+	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity, i: number) => {
 		const itemType = getItemType(item)
+		if ((item as any).action) {
+			return (
+				<ContainerPadding key={item.postId}>
+					<PostCard
+						post={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={false}
+						onPress={() => (item as any).action && (item as any).action()}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
+					/>
+					<VerticalSpacing />
+				</ContainerPadding>
+			)
+		}
 
 		switch (itemType) {
 			case 'post': return (
@@ -116,7 +143,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						navigateToProfile={navigateToProfile}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onPress={() => viewPostDetails(item)}
 					/>
 				</ContainerPadding>
@@ -174,15 +201,25 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				>
 					{
+<<<<<<< HEAD
+						(postsByRange && postsByRange.length) ? (
+							<FlatListPosts
+								data={postsByRange || []}
+=======
 						(postsByRange && postsByRange.length) && (
 							<FlatListPosts
 								data={postsByRange}
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 								renderItem={renderPostItem as any}
 								headerComponent={() => (
 									<VerticalSpacing />
 								)}
 							/>
+<<<<<<< HEAD
+						) : <></>
+=======
 						)
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 					}
 				</Body>
 			</Container>

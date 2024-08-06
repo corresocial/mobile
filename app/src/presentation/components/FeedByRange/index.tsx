@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -5,6 +6,8 @@ import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
+
+import { isRecentPost } from '@utils-ui/post/validation'
 
 import { Container, PostCardContainer } from './styles'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
@@ -20,12 +23,17 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
+<<<<<<< HEAD
+	searchEnded?: boolean
+	collapseExternalVacancies?: boolean
+=======
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 	backgroundColor?: string
 	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
-	navigateToProfile: (userId: string) => void
+	navigateToProfile: (userId: string, redirect?: string) => void
 	goToPostView: (post: PostEntityOptional) => void
 	goToLeaderPostsView?: (post: PollEntity & PetitionEntity) => void
 }
@@ -35,38 +43,48 @@ function FeedByRange({
 	backgroundColor,
 	filteredFeedPosts,
 	children,
+	collapseExternalVacancies = true,
 	viewPostsByRange,
 	navigateToProfile,
 	goToPostView,
 	goToLeaderPostsView
 }: FeedByRangeProps) {
 	const { userDataContext } = useAuthContext()
+	const { navigate } = useNavigation<any>()
 
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
+		const filteredItems = collapseExternalVacancies ? items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) : items
+
+		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy')
+		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
+			filteredItems.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
+		}
+
+		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)
+		return items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate))))
 	}
 
 	const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
+		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length > 0 || filteredFeedPosts.city.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length > 0 || filteredFeedPosts.country.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length > 0)
 	}
 
 	const hasNearbyPosts = () => {
-		return (filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
+		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
 	}
 
 	const hasCityPosts = () => {
-		return (filteredFeedPosts.city && filteredFeedPosts.city.length)
+		return (filteredFeedPosts.city.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.city.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
 	}
 
 	const hasCountryPosts = () => {
-		return (filteredFeedPosts.country && filteredFeedPosts.country.length)
+		return (filteredFeedPosts.country.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.country.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
 	}
 
 	const renderPosts = (range: keyof FeedPosts) => {
 		const firstFivePosts = getFirstFiveItems(filteredFeedPosts[range])
 		return firstFivePosts.map((post) => {
+			if (post.action) return renderPostItem(post)
 			return post.owner && renderPostItem(post)
 		})
 	}
@@ -81,6 +99,21 @@ function FeedByRange({
 	const renderPostItem = (item: PostEntityOptional & PollEntity & PetitionEntity) => {
 		const itemType = getItemType(item)
 
+		if ((item as any).action) {
+			return (
+				<PostCardContainer key={item.postId}>
+					<PostCard
+						post={item}
+						owner={item.owner as PostEntityCommonFields['owner']}
+						isOwner={false}
+						onPress={() => (item as any).action && (item as any).action()}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
+					/>
+					<VerticalSpacing />
+				</PostCardContainer>
+			)
+		}
+
 		switch (itemType) {
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
@@ -88,7 +121,7 @@ function FeedByRange({
 						post={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						navigateToProfile={navigateToProfile}
+						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onPress={() => goToPostView(item)}
 					/>
 					<VerticalSpacing />

@@ -8,7 +8,6 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 
-import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
@@ -100,13 +99,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: id })
 	}
 
-	const navigateToPost = (id: string, postType: PostKey) => {
-		const postPages = {
-			income: 'ViewIncomePostHome',
-			culture: 'ViewCulturePostHome',
-			socialImpact: 'ViewSocialImpactPostHome',
-			vacancy: 'ViewVacancyPostHome',
-		}
+	const navigateToPost = (id: string) => {
 		navigation.reset({
 			index: 0,
 			routes: [{
@@ -119,7 +112,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
+		navigation.navigate('PostViewHome' as any, { redirectedPostId: id })
 	}
 
 	const redirectToApp = async () => {
@@ -128,10 +121,28 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			const authenticated = await performQuickSignin('', true, hasDeeplink)
 			if (!authenticated) return navigateToAuthScreen()
 
+<<<<<<< HEAD
+			if (hasLocalUser) {
+				const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
+				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
+
+				await setRemoteUserOnLocal(localUser.userId, localUser as any)
+
+				if (route.params?.screen) {
+					console.log(route.params.screen)
+					switch (route.params.screen) {
+						case 'profile': {
+							return navigateToProfile(route.params.id)
+						}
+						case 'post': {
+							return navigateToPost(route.params.id)
+						}
+=======
 			if (hasDeeplink) {
 				switch (route.params.screen) {
 					case 'profile': {
 						return navigateToProfile(route.params.id)
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 					}
 					case 'post': {
 						return navigateToPost(route.params.id, route.params.postType as PostKey)

@@ -1,4 +1,5 @@
 import { PollEntity, PollEntityOptional, PrivatePollResponse } from '@domain/poll/entity/types'
+import { UserOwner } from '@domain/user/entity/types'
 
 interface PollRepositoryInterface {
 	getPollDataById: (pollId: string) => Promise<PollEntity | undefined>
@@ -11,7 +12,7 @@ interface PollRepositoryInterface {
 
 	updatePoll: (pollId: string, data: PollEntityOptional, fieldName?: keyof PollEntityOptional) => Promise<void>
 	updatePollArrayField: (pollId: string, data: any, fieldName: keyof PollEntityOptional) => Promise<void>
-	updateOwnerDataOnPolls: (ownerPost: Partial<PollEntityOptional['owner']>, userPostIds: string[]) => Promise<boolean>
+	updateOwnerDataOnPolls: (ownerPost: Partial<UserOwner>, userPostIds: string[]) => Promise<boolean>
 
 	deletePoll: (pollId: string) => Promise<void>
 }

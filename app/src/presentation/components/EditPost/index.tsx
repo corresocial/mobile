@@ -6,7 +6,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { PostEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
-import { UserEntity, UserEntityOptional } from '@domain/user/entity/types'
+import { UserEntity, UserEntityOptional, UserOwner } from '@domain/user/entity/types'
 
 import { usePostRepository } from '@data/post/usePostRepository'
 
@@ -58,7 +58,7 @@ type EditContextFragment = {
 interface EditPostProps {
 	initialPostData: PostEntity
 	approvedPostData?: PostEntity
-	owner: PostEntity['owner']
+	owner: UserOwner
 	backgroundColor: string
 	unsavedPost?: boolean
 	offlinePost?: boolean

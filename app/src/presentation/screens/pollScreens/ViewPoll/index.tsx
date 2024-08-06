@@ -11,6 +11,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewPollScreenProps } from '@routes/Stack/PollStack/screenProps'
 import { PollStackParamList } from '@routes/Stack/PollStack/types'
 import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
@@ -64,8 +65,9 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	})
 
 	const navigateToProfile = () => {
-		if (isAuthor()) return navigation.navigate('Profile' as any)
-		navigation.navigate('ProfileHome' as any, { userId: pollData.owner.userId })// TODO Type
+		if (isAuthor()) return navigateToProfileView(navigation, '', '', '')
+
+		navigateToProfileView(navigation, pollData.owner.userId, 'Home', '')
 	}
 
 	const sharePost = () => {

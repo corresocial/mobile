@@ -76,22 +76,12 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		}
 	}
 
-	const renderShortName = () => {
-		try {
-			if (owner && owner.name && owner.name.split(' ').length <= 3) return owner.name
-			const names = owner.name && (owner.name.split(' ') || [])
-			if (!names) return 'usuário do corre.'
-			return `${names[0]} ${names[1]}`
-		} catch (err) {
-			console.log(err)
-			return owner.name || 'usuário do corre.'
-		}
-	}
-
 	const renderFormatedPostDateTime = () => {
 		if (!post.createdAt) return '---'
-		const formatedDate = formatRelativeDate(post.createdAt)
-		return formatedDate
+		if (post.macroCategory === 'event' && post.startDate) {
+			return formatRelativeDate(post.startDate)
+		}
+		return formatRelativeDate(post.createdAt)
 	}
 
 	const getProfilePictureUrl = () => {
@@ -100,6 +90,9 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 		return owner.profilePictureUrl[0]
 	}
 
+<<<<<<< HEAD
+	const enableLeftAreaSpacing = () => (!arrayIsEmpty(post.picturesUrl) || (post.saleValue && (arrayIsEmpty(post.picturesUrl) && post.postType === 'vancancy')) || post.exchangeValue || (postData.unapprovedData && isOwner))
+=======
 	function hasPictures(): boolean {
 		return !arrayIsEmpty(post.picturesUrl)
 	}
@@ -113,6 +106,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 	}
 
 	const enableLeftAreaSpacing = () => hasMedia() || post.saleValue || post.exchangeValue || (postData.unapprovedData && isOwner)
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -222,7 +216,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 						</TitleContainer>
 						<VerticalSpacing />
 						<SmallUserIdentification
-							userName={renderShortName()}
+							userName={owner.name}
 							postDate={renderFormatedPostDateTime()}
 							profilePictureUrl={getProfilePictureUrl()}
 							navigateToProfile={() => navigateToProfile && navigateToProfile(owner.userId)}
