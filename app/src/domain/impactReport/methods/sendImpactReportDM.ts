@@ -1,3 +1,5 @@
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
 import { Id } from '@domain/globalTypes'
 import { ReportContext } from '@domain/impactReport/entity/types'
 
@@ -11,13 +13,17 @@ async function sendImpactReportDM(
 ) {
 	const { remoteStorage } = useImpactReportRepository()
 
-	return remoteStorage.createNewReport({
+	const newReport = await remoteStorage.createNewReport({
 		dateTime: new Date(),
 		reportContext: reportContext || 'chat',
 		hadImpact: true,
 		impactValue,
 		usersIdInvolved: usersIdInvolved || []
 	})
+
+	sendEvent('reported_impact', { impactReportType: reportContext, impactReportValue: impactValue })
+
+	return newReport
 }
 
 export { sendImpactReportDM }

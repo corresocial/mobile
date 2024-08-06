@@ -201,15 +201,25 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				>
 					{
+<<<<<<< HEAD
 						(postsByRange && postsByRange.length) ? (
 							<FlatListPosts
 								data={postsByRange || []}
+=======
+						(postsByRange && postsByRange.length) && (
+							<FlatListPosts
+								data={postsByRange}
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 								renderItem={renderPostItem as any}
 								headerComponent={() => (
 									<VerticalSpacing />
 								)}
 							/>
+<<<<<<< HEAD
 						) : <></>
+=======
+						)
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 					}
 				</Body>
 			</Container>

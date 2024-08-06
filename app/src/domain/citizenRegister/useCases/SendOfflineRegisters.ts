@@ -1,10 +1,15 @@
 import { Class } from '@domain/shared/interfaces/Class'
 import { UseCase } from '@domain/shared/interfaces/UseCase'
 
+import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRegisterRemoteRepository'
+
 import { CitizenRegisterEntity } from '../model/entities/types'
+
+import { GoogleMapsService } from '@services/googleMaps/GoogleMapsService'
 
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
+import { CreateCitizenRegister } from './CreateCitizenRegister'
 
 type Input = void
 type Output = Promise<void>
@@ -14,11 +19,11 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 	private remoteRepository: CitizenRegisterRemoteRepositoryInterface
 
 	constructor(
-		CitizenRegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
-		CitizenRegisterRemoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>
+		RegisterLocalRepository: Class<CitizenRegisterLocalRepositoryInterface>,
+		RegisterRemoteRepository: Class<CitizenRegisterRemoteRepositoryInterface>
 	) {
-		this.localRepository = new CitizenRegisterLocalRepository()
-		this.remoteRepository = new CitizenRegisterRemoteRepository()
+		this.localRepository = new RegisterLocalRepository()
+		this.remoteRepository = new RegisterRemoteRepository()
 	}
 
 	async exec(): Output { // TEST
@@ -27,7 +32,8 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 		Promise.all(
 			offlineRegisters.map(async (register: CitizenRegisterEntity) => {
 				try {
-					await this.remoteRepository.createCitizenRegister(register)
+					// REFACTOR Não deve ser importado diretamente aqui
+					await new CreateCitizenRegister(CitizenRegisterRemoteRepository, GoogleMapsService, {} as any).exec(register)
 					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {
 					console.log(error)

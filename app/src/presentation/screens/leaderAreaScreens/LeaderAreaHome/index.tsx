@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ListRenderItem, RefreshControl } from 'react-native'
+import { ListRenderItem, RefreshControl, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { PostEntity, PostEntityCommonFields } from '@domain/post/entity/types'
@@ -92,6 +92,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.orange2}>
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<HeaderButtonsContainer>
 				<HeaderSection>
 					<OptionButton

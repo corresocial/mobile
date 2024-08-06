@@ -165,6 +165,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
 					/>

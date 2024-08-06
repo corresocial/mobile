@@ -5,6 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { CulturePicturePreviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
+import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
+
 import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
@@ -14,19 +16,22 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveMedia = (picturesUrl: string[]) => {
+	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl })
+			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
+
 			navigation.goBack()
 		}
 	}
+
+	const initialValue = convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostPicturePreview
 				backgroundColor={theme.blue2}
-				initialValue={route.params?.initialValue || []}
+				initialValue={initialValue}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}
 			/>

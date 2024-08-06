@@ -1,7 +1,7 @@
 import { Entity } from '@domain/shared/valueObjects/Entity'
 import { Id } from '@domain/shared/valueObjects/Id'
 
-import { CitizenRegisterLocation, CitizenRegisterQuestionResponse, CitizenRegisterEntity } from './types'
+import { CitizenRegisterLocation, CitizenRegisterEntity, CitizenRegisterQuestionResponse } from './types'
 
 import { UserName } from '../valueObjects/UserName'
 
@@ -19,13 +19,13 @@ export class CitizenRegister extends Entity<CitizenRegister, CitizenRegisterEnti
 		super(props, props.citizenRegisterId)
 
 		this.citizenRegisterId = newRegister ? null : new Id(this.props.citizenRegisterId)
-		this.name = new UserName(this.props.name)
-		this.cellNumber = this.props.cellNumber // MODEL
-		this.censusTakerId = new Id(this.props.censusTakerId)
-		this.censusTakerName = new UserName(this.props.censusTakerName)
-		this.createdAt = newRegister ? new Date() : this.props.createdAt // MODEL
+		this.name = new UserName(props.name)
+		this.cellNumber = props.cellNumber // MODEL
+		this.censusTakerId = new Id(props.censusTakerId)
+		this.censusTakerName = new UserName(props.censusTakerName)
+		this.createdAt = newRegister ? new Date() : props.createdAt // MODEL
 		this.location = this.props.location // MODEL
-		this.responses = this.props.responses || [] // MODEL
+		this.responses = props.responses // new CitizenRegisterResponses(props.responses)
 	}
 
 	get data(): CitizenRegisterEntity {

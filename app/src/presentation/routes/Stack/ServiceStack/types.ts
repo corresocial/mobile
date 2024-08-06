@@ -6,7 +6,7 @@ export type ServiceStackParamList = {
 	SelectServicePurpose: { editMode: boolean } | undefined
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertIncomeLinks: { editMode: boolean, initialValue: string[] } | undefined
-	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
+	ServicePicturePreview: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
 	SelectPaymentType: { editMode: boolean } | undefined

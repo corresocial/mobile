@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
 
 import { PostEntity } from '@domain/post/entity/types'
@@ -128,19 +129,17 @@ function EditPost({
 				unapprovedData: { ...dataChanges, updatedAt: new Date(), reject: false }
 			}
 
-			const { /* updatedUserPosts, */ picturesUrl } = await updatePost(
+			const { newPost, picturesUrl, videosUrl } = await updatePost(
 				usePostRepository,
 				userDataContext.subscription?.subscriptionRange,
-				userDataContext.posts || [],
 				initialPostData,
 				postWithUnapprovedData as PostEntity,
-				editDataContext.unsaved.picturesUrl || []
+				editDataContext.unsaved.picturesUrl || [],
+				editDataContext.unsaved.videosUrl || [],
 			)
 
-			// REFACTOR Atualizar em user.posts localmente
-
-			updateUserPost(postWithUnapprovedData as PostEntity)
-			changeStateOfEditedFields(picturesUrl)
+			updateUserPost(newPost as PostEntity)
+			changeStateOfEditedFields(picturesUrl || [], videosUrl || [])
 			setIsLoading(false)
 
 			showWaitingApproveModal()
@@ -170,6 +169,9 @@ function EditPost({
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
 
+			console.log('postWithUnapprovedData')
+			console.log(postWithUnapprovedData)
+
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
 				navigateToProfile && navigateToProfile()
@@ -189,11 +191,10 @@ function EditPost({
 				}, 30000)
 			}
 
-			const { newPost/* , updatedUserPosts */ } = await savePost(
+			const { newPost } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
-				userDataContext.posts || [],
 				initialPostData,
 				postWithUnapprovedData,
 				editDataContext.unsaved.picturesUrl || [],
@@ -201,13 +202,13 @@ function EditPost({
 			)
 
 			addUserPost(newPost)
-			// REFACTOR salvar em user.posts localmente
 
 			clearTimeout(timeoutId)
-			offlinePost && deleteOfflinePostByDescription(postDataToSave.description)
+			offlinePost && deleteOfflinePostByDescription(postDataToSave.unapprovedData?.description || '')
+			sendEvent('user_posted', { postType: getPostField('postType') })
 
-			showWaitingApproveModal()
-			navigateToPostView(newPost)
+			!offlinePost && showWaitingApproveModal()
+			offlinePost ? navigateBackwards() : navigateToPostView(newPost)
 
 			setIsLoading(false)
 		} catch (err) {
@@ -221,12 +222,14 @@ function EditPost({
 		await localPostStorage.deleteOfflinePostByDescription(description)
 	}
 
-	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
-		let newEditState
-		if (uploadedPictures && uploadedPictures.length) {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
-		} else {
-			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+	const changeStateOfEditedFields = (uploadedPictures: string[], uploadedVideos: string[]) => {
+		const newEditState = {
+			saved: {
+				...editDataContext.saved,
+				...editDataContext.unsaved,
+				picturesUrl: [...uploadedPictures],
+				videosUrl: [...uploadedVideos]
+			}, unsaved: {}
 		}
 
 		editContext.setEditDataOnContext(newEditState)

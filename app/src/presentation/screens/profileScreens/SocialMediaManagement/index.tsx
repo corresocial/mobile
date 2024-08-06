@@ -15,7 +15,7 @@ import {
 	isDefaultSocialMedia,
 	mergeWithDefaultSocialMedia,
 	openURL,
-	socialMediaUrl,
+	socialMediaUrl
 } from '@utils/socialMedias'
 
 import { Body, Container, Header, NewLinkButtonContainer } from './styles'
@@ -54,11 +54,9 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 	const renderSocialMedias = () => {
 		const currentSocialMedias = route.params.isAuthor ? userDataContext.socialMedias : route.params.socialMedias
 
-		if (!currentSocialMedias || !currentSocialMedias.length) return
-
 		const mergedUnapprovedLinks: SocialMedia[] = userDataContext.unapprovedData && userDataContext.unapprovedData.socialMedias && route.params.isAuthor
-			? mergeArraysByKey(currentSocialMedias, (userDataContext.unapprovedData.socialMedias || []), 'title') as SocialMedia[]
-			: currentSocialMedias
+			? mergeArraysByKey(currentSocialMedias || [], (userDataContext.unapprovedData.socialMedias || []), 'title') as SocialMedia[]
+			: currentSocialMedias || []
 
 		const mergedSocialMedias = mergeWithDefaultSocialMedia(mergedUnapprovedLinks)
 

@@ -17,3 +17,9 @@ export const FormContent = styled.View`
 	align-items: center;
 	justify-content: space-between;
 `
+
+export const ButtonOptionsContainer = styled.View`
+	width: 100%;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(30)}px;
+	align-items: center;
+`

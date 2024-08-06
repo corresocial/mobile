@@ -123,7 +123,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 		try {
 			const authenticatedUserId = userDataContext.userId
 			const recipientUser: UserOwner = {
-				name: profileData.name,
+				name: profileData.name || '',
 				userId: profileData.userId,
 				profilePictureUrl: profileData.profilePictureUrl || []
 			}
@@ -162,7 +162,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 			await sendMessage(
 				{ ...newMessageValue },
 				validChatId,
-				recipientUser.name
+				recipientUser.name || 'usuário do corre.'
 			)
 		} catch (error) {
 			console.log(error)
@@ -243,7 +243,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 					title={socialMedia.title}
 					value={socialMedia.link}
 					SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
-					RightIcon={() => <AngleRightWhiteIcon height={relativeScreenDensity(20)} width={relativeScreenDensity(20)}/>}
+					RightIcon={() => <AngleRightWhiteIcon height={relativeScreenDensity(20)} width={relativeScreenDensity(20)} />}
 					pressionable
 					onPress={() => openLink(socialMedia.link)}
 					onEdit={() => openLink(socialMedia.link)}
@@ -297,7 +297,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 				>
 					<ProfileHeader>
 						<ProfileInfoContainer>
-							<BackButton onPress={navigationBackwards}/>
+							<BackButton onPress={navigationBackwards} />
 							<HorizontalSpacing width={relativeScreenWidth(3)} />
 							<PhotoPortrait
 								height={RFValue(65)}
@@ -313,7 +313,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 								{renderUserVerifiedType()}
 							</InfoArea>
 						</ProfileInfoContainer>
-						<VerticalSpacing/>
+						<VerticalSpacing />
 						<OptionsArea>
 							<SmallButton
 								label={'rejeitar'}
@@ -372,9 +372,9 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 						)
 					}
 					{
-						getUserField('socialMedias')
-						&& getUserField('socialMedias').length
-						&& renderSocialMedias()
+						getUserField('socialMedias') && getUserField('socialMedias').length
+							? renderSocialMedias()
+							: <></>
 					}
 					{
 						getUserField('profilePictureUrl')
@@ -401,7 +401,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 							)
 							: <></>
 					}
-					<VerticalSpacing bottomNavigatorSpace/>
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</Container >
 		</ScreenContainer>

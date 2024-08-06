@@ -69,6 +69,12 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		return picturesUrl
 	}
 
+	const getVideosUrl = () => {
+		const videosUrl = getPostField('videosUrl')
+		if (arrayIsEmpty(videosUrl)) return []
+		return videosUrl
+	}
+
 	const formatCategoryAndTags = () => {
 		const category: ServiceCategories = getPostField('category')
 		const tags = getPostField('tags')
@@ -99,8 +105,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeEntityOptional, customStack?: string) => {
 		let value = getPostField(initialValue, true)
 
-		if (initialValue === 'picturesUrl') {
-			value = getPicturesUrl()
+		if (initialValue === 'picturesUrl' || initialValue === 'videosUrl') {
+			value = { picturesUrl: getPicturesUrl(), videosUrl: getVideosUrl() }
 		}
 
 		if (initialValue === 'location') {
@@ -222,10 +228,10 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={getPicturesUrl()}
+					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
 					indicatorColor={theme.green1}
 					carousel
-					pressionable={arrayIsEmpty(getPicturesUrl())}
+					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />

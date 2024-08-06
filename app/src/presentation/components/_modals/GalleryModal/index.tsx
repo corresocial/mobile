@@ -1,10 +1,16 @@
+import { ResizeMode, Video } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { trackEvent } from '@aptabase/react-native'
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
+
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
+import { checkMediaType } from '@utils-ui/common/media/checkMediaType'
+import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
 
 import {
 	GalleryModalContainer,
@@ -13,7 +19,10 @@ import {
 	LeftButton,
 	RightButton,
 	CloseButtonArea,
-	ThumbnailListContainer
+	ThumbnailListContainer,
+	VideoContainer,
+	VideoView,
+	LoaderContainer
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
@@ -22,22 +31,25 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
+import { Loader } from '@components/Loader'
 import { ThumbnailList } from '@components/ThumbnailList'
 
 interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
-	videoThumbnails?: string[]
 	showGallery: boolean,
+	initialIndex?: number,
 	onClose: () => void
 }
 
-function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], showGallery, onClose }: GalleryProps) {
+function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIndex = 0, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
 	const [carouselEnabled, setCarouselEnabled] = useState(true)
+	const [videoThumbnails, setVideoThumbnails] = useState<string[]>([])
+	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	const [screenSizes, setScreenSizes] = useState({
 		width: relativeScreenWidth(100),
@@ -46,22 +58,33 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
+	const videoRefs = useRef<{ [key: number]: Video | null }>({})
 
 	useEffect(() => {
 		if (showGallery) {
 			const enableRotation = async () => {
 				await ScreenOrientation.unlockAsync()
 			}
-			setCurrentIndex(0)
+			const generateThumbnails = async () => {
+				if (!arrayIsEmpty(videosUrl)) {
+					const thumbnails = await generateVideoThumbnails(videosUrl)
+					setVideoThumbnails(thumbnails as string[])
+				}
+				setIsLoading(false)
+			}
+			setCurrentIndex(initialIndex)
 			enableRotation()
 			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
 				setIsLandscapeMode((orientationInfo.orientation !== 1))
 			})
+			generateThumbnails()
 		} else {
 			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
+			handleVideoPause(currentIndex)
 			disableRotation()
+			setIsLoading(true)
 		}
 	}, [showGallery])
 
@@ -90,14 +113,22 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 		}
 	}, [currentIndex])
 
-	const mediaUrls = [/* ...videosUrl,  */...picturesUrl]
-	const hideArrows = (picturesUrl /* && videosUrl */) && ((picturesUrl.length/*  + videosUrl.length */) < 2)
+	const mediaUrls = [...videosUrl, ...picturesUrl]
+	const hideArrows = (picturesUrl && videosUrl) && ((picturesUrl.length + videosUrl.length) < 2)
+
+	const handleVideoPause = (index: number) => {
+		const currentVideoRef = videoRefs.current[index]
+		if (currentVideoRef) {
+			currentVideoRef.pauseAsync()
+		}
+	}
 
 	const goToNext = (direction: number) => {
-		const length = (picturesUrl.length/*  + videosUrl.length */) ?? 0
+		const length = (picturesUrl.length + videosUrl.length) ?? 0
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
+		trackEvent('foi_para_o_próximo', { direction })
 	}
 
 	const goToIndex = (index: number, noAnimation?: boolean) => {
@@ -109,6 +140,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 	}
 
 	const handleThumbnailPressed = (id: number) => {
+		handleVideoPause(currentIndex)
 		setCurrentIndex(id)
 		goToIndex(id)
 	}
@@ -118,6 +150,14 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 	const imageZoomHandler = (isZooming: boolean) => {
 		setHideElements(isZooming)
 		setCarouselEnabled(!isZooming)
+	}
+
+	const isShowingVideo = (): boolean => {
+		return (currentIndex > (videosUrl.length - 1))
+	}
+
+	const hideThumbnailList = (): boolean => {
+		return hideElements || (!isShowingVideo() && isLandscapeMode) 
 	}
 
 	const renderPicture = (uri: string) => (
@@ -135,28 +175,40 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 		</ImageContainer>
 	)
 
-	/* const renderVideo = (uri: string) => (
+	const renderVideo = (uri: string, index: number) => (
 		<VideoContainer>
 			<VideoView
+				isLandScapeMode={isLandscapeMode}
 				source={{ uri: uri }}
 				resizeMode={ResizeMode.CONTAIN}
 				isLooping
 				useNativeControls
+				ref={(el) => {
+					videoRefs.current[index] = el
+				}}
 			/>
 
 		</VideoContainer>
-	) */
+	)
 
-	const renderMedia = (uri: string) => {
-		// const extension = uri?.split('.').pop()?.toLowerCase() ?? ''
-		// if (extension.includes('mp4')) {
-		// 	return renderVideo(uri)
-		// }
+	const renderMedia = (uri: string, index: number) => {
+		const mediaType = checkMediaType(uri)
+		if (mediaType === 'video') {
+			return renderVideo(uri, index)
+		}
 		return renderPicture(uri)
 	}
 
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
+			{
+				isLoading && (
+					<LoaderContainer>
+						<Loader/>
+					</LoaderContainer>
+				)
+			}
+			
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
@@ -166,8 +218,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 					width={screenSizes.width}
 					height={screenSizes.height}
 					data={mediaUrls}
-					onSnapToItem={(id) => setCurrentIndex(id)}
-					renderItem={({ item }) => renderMedia(item)}
+					onSnapToItem={(id) => {
+						handleVideoPause(currentIndex)
+						setCurrentIndex(id)
+					}}
+					renderItem={({ item, index }) => renderMedia(item, index)}
 				>
 				</Carousel>
 			</GalleryContainer>
@@ -188,7 +243,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 						</CloseButtonArea>
 
 						{
-							!hideArrows && (
+							!hideArrows && isShowingVideo() && (
 								<>
 									<LeftButton onPress={() => goToNext(-1)}>
 										<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
@@ -204,12 +259,19 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 				)
 			}
 
-			<ThumbnailListContainer key={isLandscapeMode ? 'landscape' : 'portrait'} style={{ opacity: hideElements ? 0 : 1 }}>
+			<ThumbnailListContainer 
+				key={isLandscapeMode ? 'landscape' : 'portrait'} 
+				style={{ 
+					opacity: hideThumbnailList() ? 0 : 1, 
+					zIndex: hideThumbnailList() ? -1 : 1 
+				}}
+			>
 				<ThumbnailList
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
 					onThumbnailPressed={handleThumbnailPressed}
-					picturesUrl={(videoThumbnails ? [...videoThumbnails, ...picturesUrl] : [...picturesUrl])}
+					picturesUrl={([...videoThumbnails, ...picturesUrl])}
+					videoQuantity={videoThumbnails.length}
 				/>
 			</ThumbnailListContainer>
 
@@ -218,5 +280,3 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], videoThumbnails = [], 
 }
 
 export { GalleryModal }
-
-// TODO Videos

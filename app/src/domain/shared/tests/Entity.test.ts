@@ -8,7 +8,7 @@ interface TestEntityProps {
 
 class TestEntity extends Entity<TestEntity, TestEntityProps> { }
 
-describe('Entity', () => {
+describe('Shared Entity.ts', () => {
 	const testProps: TestEntityProps = {
 		name: 'John Doe',
 		age: 30

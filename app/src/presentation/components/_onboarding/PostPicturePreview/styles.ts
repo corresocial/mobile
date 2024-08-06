@@ -34,3 +34,12 @@ export const ButtonsContainer = styled.View`
 	justify-content: space-around;
 	padding: ${RFValue(10)}px ${RFValue(20)}px;
 `
+
+export const LoaderContainer = styled.View`
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-content: center;
+    z-index: 3;
+`

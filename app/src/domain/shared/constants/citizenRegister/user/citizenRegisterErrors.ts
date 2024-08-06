@@ -5,14 +5,12 @@ const citizenRegisterErrors = {
 	LARGE_NAME: 'Este nome é muito grande',
 	NAME_INVALID_CHARACTERS: 'O nome não pode possuir caracteres especiais',
 
-	INVALID_EMAIL: 'Email inválido',
-
-	EMPTY_PASSWORD: 'A senha não pode ser nula',
-	SMALL_PASSWORD: 'A senha deve ter no mínimo 6 caracteres',
-	LARGE_PASSWORD: 'A senha deve ter no máximo 12 caracteres',
-	UPPERCASE_CHARACTER_PASSWORD: 'A senha deve ter pelo menos uma letra maiúscula',
-	LOWERCASE_CHARACTER_PASSWORD: 'A senha deve ter pelo menos uma letra minúscula',
-	SYMBOL_CHARACTER_PASSWORD: 'A senha deve ter pelo menos um símbolo',
+	EMPTY_QUESTION_ID: 'O ID da pergunta não pode ser vazio',
+	EMPTY_QUESTION: 'A pergunta não pode ser vazia',
+	INVALID_RESPONSE_TYPE: 'O tipo de resposta fornecido é inválido',
+	INVALID_QUESTION_TYPE: 'O tipo de pergunta fornecido é inválido',
+	RESPONSE_NOT_IN_OPTIONS: 'A resposta fornecida não existe nas opções',
+	MISSING_SPECIFIC_RESPONSE: 'Ao selecionar "outros", uma especificação é necessária'
 }
 
 export { citizenRegisterErrors }

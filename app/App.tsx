@@ -10,6 +10,9 @@ import { ActivityIndicator, LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
+import Aptabase from '@aptabase/react-native'
+import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
+import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
@@ -23,7 +26,7 @@ import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { getEnvVars } from './src/infrastructure/environment'
-import { sentryConfig } from './src/infrastructure/sentry'
+// import { sentryConfig } from './src/infrastructure/sentry'
 import { theme } from './src/presentation/common/theme'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
 
@@ -34,11 +37,15 @@ LogBox.ignoreLogs(ignoredLogs)
 const startSentry = () => {
 	console.log(`Dev Mode: ${__DEV__}`)
 	if (!__DEV__ && ENVIRONMENT !== 'dev') {
-		Sentry.init(sentryConfig)
+		// Sentry.init(sentryConfig)
 	}
 }
 
 startSentry()
+
+Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
+
+sendEvent('opened_app', {}, true)
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
@@ -47,6 +54,9 @@ function App() {
 		Nunito_600SemiBold,
 		Nunito_700Bold
 	})
+
+	const routeNameRef = React.useRef<string>()
+	const navigationRef = React.useRef<any>()
 
 	if (!fontsLoaded) {
 		return (
@@ -79,9 +89,25 @@ function App() {
 	})
 
 	return (
-		<NavigationContainer linking={linking}>
+		<NavigationContainer 
+			ref={navigationRef} 
+			linking={linking} 
+			onReady={() => {
+				routeNameRef.current = navigationRef.current.getCurrentRoute().name
+			}}
+			onStateChange={() => {
+				const previousRouteName = routeNameRef.current
+				const currentRouteName = navigationRef.current.getCurrentRoute().name
+		
+				if (previousRouteName !== currentRouteName) {
+					sendEvent('user_opened_screen', { screenName: currentRouteName })
+				}
+		
+				routeNameRef.current = currentRouteName
+			}}
+		>
 			<ThemeProvider theme={theme}>
-				<GestureHandlerRootView style={{ flex: 1 }}> 
+				<GestureHandlerRootView style={{ flex: 1 }}>
 					<BottomSheetModalProvider>
 						<AlertProvider>
 							<LoaderProvider>

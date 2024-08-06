@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -43,7 +44,7 @@ export const PicturePortrait = styled.View<PicturePortraitProps>`
 	overflow: hidden;
 `
 
-export const Picture = styled.Image`
+export const Picture = styled(Image)`
     width: 100%;
     height: 100%;
 `

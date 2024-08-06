@@ -12,8 +12,7 @@ export const ContainerSurface = styled.View`
     border-radius: ${RFValue(20)}px;
     align-items: center;
     justify-content: center;
-	padding: ${RFValue(1)}px ${RFValue(12)}px;
-
+	  padding: ${RFValue(1)}px ${RFValue(12)}px;
     height: 100%;
 `
 

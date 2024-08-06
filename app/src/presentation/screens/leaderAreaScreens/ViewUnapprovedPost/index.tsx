@@ -383,7 +383,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						)
 					}
 					{
-						!arrayIsEmpty(getPostField('picturesUrl'))
+						!arrayIsEmpty(getPostField('picturesUrl')) || !arrayIsEmpty(getPostField('videosUrl'))
 							? (
 								<>
 									<GalleryModal
@@ -398,6 +398,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 									>
 										<ImageCarousel
 											picturesUrl={getPostField('picturesUrl') || []}
+											videosThumbnails={getPostField('videosUrl') || []}
 											indicatorColor={theme.blue1}
 											square
 											showFullscreenIcon
@@ -441,7 +442,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						(getPostField('eventPlaceModality') || getPostField('locationView') || getPostField('location')) && (
 							<LocationViewCard
 								online={getPostField('workplace') === 'homeoffice'}
-								locationView={getPostField('locationView')}
+								locationView={'public'}
 								withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 								location={getPostField('location')}
 							/>

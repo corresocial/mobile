@@ -34,12 +34,7 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 
 	useEffect(() => {
 		if (isOwner && user && user.unapprovedData) {
-			setUser({
-				...(userData || {}),
-				...userData.unapprovedData,
-				// name: 'wellington souza abreu de souza lopes de',
-				// profilePictureUrl: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG-GXrCs_6EXtOZPwDeD9hPqc6AkviQQJjpA&s']
-			})
+			setUser({ description: '...', ...(userData || {}), ...userData.unapprovedData })
 		}
 	}, [userData, isOwner])
 
@@ -80,7 +75,7 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 							placeholder={'U1T7N2={fQ={~AjtfQjtfQfQfQfQ~AjtfQjt'}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
-							transition={300}
+							transition={200}
 							contentFit={'cover'}
 						>
 							{

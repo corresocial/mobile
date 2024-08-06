@@ -10,6 +10,7 @@ import { InsertTextualResponseScreenProps } from '@routes/Stack/CitizenRegistrat
 
 import { Container, FormContent } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -24,9 +25,14 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 	const theme = useTheme()
 
 	const [inputText, setInputText] = useState<string>('')
+	const [responseProgress, setResponseProgress] = useState([0, 0])
 
 	const { questionData } = route.params
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	useEffect(() => {
 		const questionIndex = citizenRegistrationResponseData.findIndex((res) => res.questionId === questionData.questionId)
@@ -52,15 +58,22 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 		navigateToNextReponseScreen(nextResponse)
 	}
 
+	const skipQuestion = () => {
+		saveResponseData(questionData, 'não se aplica') // MODEL use Case
+
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
 	const navigateToNextReponseScreen = (nextResponse: CitizenRegisterQuestionResponse | null) => {
-		if (nextResponse === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextResponse === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextResponse?.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextResponse })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextResponse })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextResponse })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextResponse })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextResponse })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextResponse })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextResponse })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextResponse })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextResponse })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextResponse })
 		}
 	}
 
@@ -68,7 +81,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<ScreenContainer topSafeAreaColor={theme.orange1}>
 				<CitizenRegistrationHeader
-					message={questionData.question}
+					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}
 					navigateBackwards={navigateBackwards}
 				/>
@@ -82,7 +95,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 							fontSize={16}
 							textIsValid={!!inputText}
 							multiline={questionData.questionType === 'textual'}
-							placeholder={'descreva seu post...'}
+							placeholder={'digite aqui...'}
 							keyboardType={questionData.questionType === 'textual' ? 'default' : 'numeric'}
 							onChangeText={changeInputField}
 						/>
@@ -96,6 +109,17 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 									onPress={selectInputedText}
 								/>
 							)
+						}
+						{
+							(!inputText && questionData.optional)
+								? (
+									<PrimaryButton
+										color={theme.yellow3}
+										label={'não se aplica'}
+										SecondSvgIcon={DeniedWhiteIcon}
+										onPress={skipQuestion}
+									/>
+								) : null
 						}
 					</FormContent>
 				</FormContainer>

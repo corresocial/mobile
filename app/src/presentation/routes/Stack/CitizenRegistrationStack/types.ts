@@ -1,4 +1,5 @@
-import { CitizenRegisterEntity, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { Chat } from '@domain/chat/entity/types'
+import { CitizenRegisterEntity, CitizenRegisterLocation, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -14,10 +15,12 @@ export type CitizenRegistrationStackParamList = {
 	InsertSatisfactionResponse: { questionData: CitizenRegisterQuestionResponse }
 	InsertTextualResponse: { questionData: CitizenRegisterQuestionResponse }
 	InsertSelectResponse: { questionData: CitizenRegisterQuestionResponse }
+	InsertCitizenRegisterLocation: { initialCoordinates?: CitizenRegisterLocation['coordinates'] } | undefined
 	FinishCitizenRegistration: undefined
 
 	WhoWeAre: undefined
 	WhoWeAreIncome: undefined
 	WhoWeAreCulture: undefined
 	WhoWeAreTransformation: undefined
+	ChatMessagesCitizenRegister: { chat: Chat }
 } & UserStackParamList

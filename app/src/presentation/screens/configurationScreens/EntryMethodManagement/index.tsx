@@ -154,11 +154,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId,
-					{ email: linkedUser.email || '' }
+					{ email: linkedUser.email ? linkedUser.email : '' }
 				)
 
-				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
-				navigateToLinkResultScreen(true, linkedUser.email)
+				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email ? linkedUser.email : '' })
+				navigateToLinkResultScreen(true, linkedUser.email ? linkedUser.email : '')
 			} else {
 				await promptAsyncGoogle()
 			}
@@ -187,8 +187,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const getFormatedCellNumber = () => {
-		if (!userPrivateContacts.cellNumber) return ''
-		const numbetWithoutCountryCode = userPrivateContacts.cellNumber.slice(3)
+		if (!userPrivateContacts || !userPrivateContacts.cellNumber) return ''
+		const numbetWithoutCountryCode = userPrivateContacts && userPrivateContacts.cellNumber ? userPrivateContacts.cellNumber.slice(3) : ''
 		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
 		return numberWithDDDSpace
 	}
@@ -207,7 +207,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
-				accountIdentifier={userPrivateContacts.email || ''}
+				accountIdentifier={userPrivateContacts ? userPrivateContacts.email : ''}
 				registerMethod
 				linking
 				hasError={hasError}
@@ -243,7 +243,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								<VerticalSpacing />
 								<EditCard
 									title={'número de telefone'}
-									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts && userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={getFormatedCellNumber()}
 									pressionable

@@ -29,7 +29,7 @@ const validNewRegisterProps: CitizenRegisterEntity = {
 	citizenRegisterId: '', // Para simular um novo registro
 }
 
-describe('Entity CitizenRegister', () => {
+describe('Entity CitizenRegister.ts', () => {
 	// Teste de criação de instância com valores válidos
 	test('Deve criar uma instância válida de CitizenRegister', () => {
 		const citizenRegister = new CitizenRegister(validProps)
@@ -61,7 +61,5 @@ describe('Entity CitizenRegister', () => {
 		expect(() => new CitizenRegister({ ...validProps, name: '' })).toThrow()
 		expect(() => new CitizenRegister({ ...validProps, censusTakerId: '' })).toThrow()
 		expect(() => new CitizenRegister({ ...validProps, censusTakerName: '' })).toThrow()
-		// expect(() => new CitizenRegister({ ...validProps, responses: [] })).toThrow()
-		// expect(() => new CitizenRegister({ ...validProps, location: null })).toThrow()
 	})
 })

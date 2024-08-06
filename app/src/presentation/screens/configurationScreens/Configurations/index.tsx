@@ -61,6 +61,8 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 
 	const performLogout = async () => {
 		try {
+			clearCache(queryClient)
+			// navigateToInitialScreen()
 			await logoutUser(
 				useUserRepository,
 				usePostRepository,
@@ -68,23 +70,9 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				removeChatListeners,
 				userDataContext.userId
 			)
-			clearCache(queryClient)
-			navigateToInitialScreen()
 		} catch (err) {
 			console.log(err)
 		}
-	}
-
-	const navigateToInitialScreen = () => {
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'SelectAuthRegister' as any, // TODO Type
-				params: {
-					userId: ''
-				}
-			}]
-		})
 	}
 
 	const performUserSubscription = () => {
@@ -268,7 +256,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					SvgIcon={XWhiteIcon}
 					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
-				<VerticalSpacing bottomNavigatorSpace/>
+				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
 		</Container >
 	)

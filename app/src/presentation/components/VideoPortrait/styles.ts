@@ -1,4 +1,4 @@
-// import { Video } from 'expo-av'
+import { Video } from 'expo-av'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -13,10 +13,10 @@ interface ContainerProps {
 	borderRightWidth?: number
 }
 
-/* export const PortraitVideo = styled(Video)`
+export const PortraitVideo = styled(Video)`
 	width: 100%;
 	height: 100%;
-` */
+`
 
 export const Container = styled.View<ContainerProps>`
 	height: ${({ height }) => (typeof (height) === 'number' ? `${height}px` : height || '100%')};
@@ -47,6 +47,12 @@ export const DeleteItemArea = styled.TouchableOpacity`
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
     padding:  ${relativeScreenWidth(2.5)}px;
-    bottom:  ${relativeScreenWidth(2)}px;;
+    top:  ${relativeScreenWidth(2)}px;;
     right:  ${relativeScreenWidth(2)}px;;
+`
+
+export const VideoIndicatorContainer = styled.View`
+	position: absolute;
+	top: ${RFValue(10)}px;
+	left: ${RFValue(15)}px;
 `

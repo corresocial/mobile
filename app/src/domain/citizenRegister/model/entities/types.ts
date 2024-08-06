@@ -20,10 +20,11 @@ export type CitizenRegisterQuestionResponse = {
 	questionId: string
 	question: string
 	questionType: CitizenRegisterQuestionType
+	response: string | string[] | number | boolean | SatisfactionType
+	optional?: boolean
 	options?: string[]
 	multiSelect?: boolean
 	allowOtherOptions?: boolean
-	response: string | string[] | number | boolean | SatisfactionType
 	specificResponse?: string
 	observations?: CitizenRegisterQuestionObservation[]
 }

@@ -23,9 +23,13 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
+<<<<<<< HEAD
 	searchEnded?: boolean
 	collapseExternalVacancies?: boolean
+=======
+>>>>>>> af958a7ba78cf1e382a8475f6566fcadfd9c5afc
 	backgroundColor?: string
+	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void

@@ -57,7 +57,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 	}
 
 	const setPollQuestionRegisterDataOnContext = async (data: PollQuestionOptional) => {
-		// console.log({ ...pollQuestionRegisterDataContext, ...data })
+		console.log({ ...pollQuestionRegisterDataContext, ...data })
 		setPollQuestionRegisterDataContext({ ...pollQuestionRegisterDataContext, ...data })
 	}
 
@@ -69,6 +69,7 @@ function PollRegisterProvider({ children }: PollRegisterProviderProps) {
 			questionType,
 			...selectOptions
 		}
+		console.log(newQuestion)
 
 		setPollDataOnContext({ questions: [...pollRegisterDataContext.questions, newQuestion] })
 		clearPollRegisterQuestionData()

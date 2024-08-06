@@ -11,7 +11,7 @@ import { FlatListItem } from 'src/presentation/types'
 
 import { ButtonOptionsContainer, Container, InputContainer, OptionContainer, QuestionOptionsList } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SelectButton } from '@components/_buttons/SelectButton'
@@ -21,9 +21,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { CitizenRegistrationHeader } from '@components/CitizenRegistrationHeader'
 
 function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenProps) {
-	const { getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
+	const { citizenRegistrationResponseData, getNextQuestion, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
 
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+	const [responseProgress, setResponseProgress] = useState([0, 0])
 
 	const theme = useTheme()
 
@@ -34,28 +35,37 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 
 	const { questionData } = route.params
 	const { multiSelect } = questionData
-	const responseProgress = getResponseProgress(questionData.questionId)
+
+	useEffect(() => {
+		const progress = getResponseProgress(questionData.questionId)
+		setResponseProgress(progress)
+	}, [])
 
 	useEffect(() => {
 		const handleKeyboardDidShow = () => setKeyboardOpened(true)
 		const handleKeyboardDidHide = () => setKeyboardOpened(false)
 
 		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow)
 			Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide)
 		})
 
-		return () => {
-			unsubscribe()
-			removeAllKeyboardEventListeners()
-		}
+		return unsubscribe
 	}, [navigation])
+
+	useEffect(() => {
+		const questionIndex = citizenRegistrationResponseData.findIndex((res) => res.questionId === questionData.questionId)
+		if (questionIndex < 0) return
+		const questionResponse = citizenRegistrationResponseData[questionIndex].response || []
+		if (questionResponse) {
+			setSelectedOptions(questionResponse as string[])
+		}
+	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
 
 	const selectOption = (option: string) => {
-		if (questionData && questionData.options && questionData.options.length && questionData.options[questionData.options.length - 1] === option) {
+		if (questionData && questionData.allowOtherOptions && questionData.options && questionData.options.length && questionData.options[questionData.options.length - 1] === option) {
 			scrollOptionListToEnd()
 		}
 
@@ -80,15 +90,22 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		navigateToNextReponseScreen(nextQuestion)
 	}
 
+	const skipQuestion = () => {
+		saveResponseData(questionData, ['não se aplica']) // MODEL use Case
+
+		const nextQuestion = getNextQuestion(questionData)
+		navigateToNextReponseScreen(nextQuestion)
+	}
+
 	const navigateToNextReponseScreen = (nextQuestion: CitizenRegisterQuestionResponse | null) => {
-		if (nextQuestion === null) return navigation.navigate('FinishCitizenRegistration')
+		if (nextQuestion === null) return navigation.replace('FinishCitizenRegistration')
 
 		switch (nextQuestion.questionType) {
-			case 'binary': return navigation.push('InsertBinaryResponse', { questionData: nextQuestion })
-			case 'satisfaction': return navigation.push('InsertSatisfactionResponse', { questionData: nextQuestion })
-			case 'textual': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'numerical': return navigation.push('InsertTextualResponse', { questionData: nextQuestion })
-			case 'select': return navigation.push('InsertSelectResponse', { questionData: nextQuestion })
+			case 'binary': return navigation.replace('InsertBinaryResponse', { questionData: nextQuestion })
+			case 'satisfaction': return navigation.replace('InsertSatisfactionResponse', { questionData: nextQuestion })
+			case 'textual': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'numerical': return navigation.replace('InsertTextualResponse', { questionData: nextQuestion })
+			case 'select': return navigation.replace('InsertSelectResponse', { questionData: nextQuestion })
 		}
 	}
 
@@ -124,7 +141,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		<ScreenContainer topSafeAreaColor={theme.orange1}>
 			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 				<CitizenRegistrationHeader
-					message={questionData.question}
+					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}
 					navigateBackwards={navigateBackwards}
 				/>
@@ -159,17 +176,33 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 						</>
 					)}
 				/>
-				{!keyboardOpened && selectedOptions.length && (!lastElementHasSelected() || inputText) ? (
-					<ButtonOptionsContainer>
-						<PrimaryButton
-							color={theme.green3}
-							label={'continuar'}
-							labelColor={theme.white3}
-							SvgIcon={CheckWhiteIcon}
-							onPress={saveQuestionResponse}
-						/>
-					</ButtonOptionsContainer>
-				) : null}
+				{
+					!keyboardOpened && selectedOptions.length && (!lastElementHasSelected() || inputText)
+						? (
+							<ButtonOptionsContainer>
+								<PrimaryButton
+									color={theme.green3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									SvgIcon={CheckWhiteIcon}
+									onPress={saveQuestionResponse}
+								/>
+							</ButtonOptionsContainer>
+						) : null
+				}
+				{
+					questionData.optional && !(!keyboardOpened && selectedOptions.length && (!lastElementHasSelected() || inputText) && questionData.optional)
+						? (
+							<ButtonOptionsContainer>
+								<PrimaryButton
+									color={theme.yellow3}
+									label={'não se aplica'}
+									SecondSvgIcon={DeniedWhiteIcon}
+									onPress={skipQuestion}
+								/>
+							</ButtonOptionsContainer>
+						) : null
+				}
 			</Container>
 		</ScreenContainer>
 	)

@@ -32,7 +32,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 				!props.infinityBottom
 					? (
 						<SafeAreaViewContainer safeAreaColor={props.bottomSafeAreaColor}>
-							<StatusBar backgroundColor={props.topSafeAreaColor} />
+							<StatusBar backgroundColor={props.topSafeAreaColor} barStyle={'dark-content'} />
 							<Container
 								withPadding={!!props.enableScreenPadding}
 							>

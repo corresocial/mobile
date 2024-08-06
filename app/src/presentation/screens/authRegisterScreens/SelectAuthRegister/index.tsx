@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, Platform, StatusBar } from 'react-native'
 
-import { useUserDomain } from '@domain/user/useUserDomain'
+import { sendEvent } from '@newutils/methods/analyticsEvents'
+
+import { UserEntity } from '@domain/user/entity/types'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -9,7 +11,6 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { showBuildInfo } from '@utils/showBuildInfo'
 
 import { Container, CarouselItemContainer, Slogan, EasterEgg } from './styles'
@@ -24,10 +25,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
-import { TermsOfServiceModal } from '@components/_modals/TermsOfServiceModal'
 import { CustomCarousel } from '@components/CustomCarousel'
-
-const { getLocalUserDataWithDeviceAuth } = useUserDomain()
 
 const presentationTexts = [
 	'rede social, de verdade',
@@ -35,19 +33,29 @@ const presentationTexts = [
 	'além disso, quando você usa e assina o corre., você ajuda nossa organização a digitalizar pessoas em estado de vulnerabilidade ajudando elas a gerarem mais renda cultura e cidadania!',
 ]
 
+const { localStorage } = useUserRepository()
+
 function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps) {
-	const { setRemoteUserOnLocal } = useContext(AuthContext)
+	const { performQuickSignin } = useContext(AuthContext)
 
-	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
+	const [localUser, setLocalUser] = useState<UserEntity | null>()
 
-	const userId = route.params && route.params.userId ? route.params.userId : ''
-	const userName = route.params && route.params.userName ? route.params.userName : ''
-
+	const userId = localUser && localUser.userId ? localUser.userId : ''
+	const userName = localUser && localUser.name ? localUser.name : ''
 	const hasStoredUser = userId && userName
 
 	useEffect(() => {
+		loadLocalUser()
+	}, [])
+
+	const loadLocalUser = async () => {
+		const authenticatedLocalUser = await localStorage.getLocalUserData()
+		setLocalUser(authenticatedLocalUser)
+	}
+
+	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	})
+	}, [])
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
@@ -57,11 +65,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 		return false
 	}
 
-	const hideTermsOfServiceModal = () => {
-		setTermsVisibility(false)
-	}
-
 	const navigateToAuthFlow = () => {
+		sendEvent('opened_auth_screen', { authType: 'login' }, true)
 		if (Platform.OS === 'ios') {
 			navigation.navigate('InsertCellNumber', { newUser: false })
 			return
@@ -70,22 +75,15 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToRegisterFlow = () => {
+		sendEvent('opened_auth_screen', { authType: 'register' }, true)
 		navigation.navigate('AcceptTermsAndConditions')
 	}
 
 	const redirectToApp = async () => {
 		try {
-			const localUser = await getLocalUserDataWithDeviceAuth(useUserRepository, useAuthenticationService)
-			if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
-
-			await setRemoteUserOnLocal(localUser.userId, localUser)
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'UserStack',
-					params: { newUser: false }
-				}],
-			})
+			if (localUser?.userId) {
+				await performQuickSignin(localUser.userId)
+			}
 		} catch (err) {
 			console.log(err)
 		}
@@ -94,7 +92,6 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.orange3} barStyle={'dark-content'} />
-			<TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
 			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.orange3} withoutPadding>
 				<CustomCarousel>
 					<CarouselItemContainer >
