@@ -163,7 +163,6 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 
 	const navigateToProfile = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
 		const correUserId = 'gubzWyXdQFeC5xEaWlTtbaR64tT2' // SMAS
-		// CURRENT Verificar abertura de perfil
 		const recipientUserId = getConversationUserName(authenticatedUserId, user1, user2) !== 'corre.' ? getConversationUserId(authenticatedUserId, user1, user2) : correUserId
 
 		navigation.navigate('ProfileChat', {

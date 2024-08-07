@@ -58,10 +58,11 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 			...coordinatorIdentification,
 			censusTakerId: citizenRegisterData.censusTakerId ? citizenRegisterData.censusTakerId : this.currentUser.userId || '',
 			censusTakerName: citizenRegisterData.censusTakerName ? citizenRegisterData.censusTakerName : this.currentUser.name || '',
-			createdAt: citizenRegisterData.createdAt || new Date()
+			createdAt: new Date(citizenRegisterData.createdAt || new Date())
 		} as CitizenRegisterEntity
 
 		const { data } = new CitizenRegister(newCitizenRegister, true)
+
 		const savedCitizenRegister = await this.remoteRepository.createCitizenRegister(data)
 		return savedCitizenRegister
 	}

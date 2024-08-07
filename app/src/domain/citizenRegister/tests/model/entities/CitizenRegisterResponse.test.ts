@@ -1,249 +1,356 @@
 import { CitizenRegisterResponse } from '@domain/citizenRegister/model/entities/CitizenRegisterResponse'
-import { CitizenRegisterQuestionType, SatisfactionType, CitizenRegisterQuestionObservation, CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
+import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
 import { citizenRegisterErrors } from '@domain/shared/constants/citizenRegister/user/citizenRegisterErrors'
+import { sharedErrors } from '@domain/shared/constants/common/errorMessages'
 
-describe.skip('CitizenRegisterResponse', () => {
-	const validId = 'q1'
-	const validQuestion = 'Qual é o seu nome?'
-
-	// Teste de criação com pergunta textual válida
-	test('Deve criar uma resposta válida para uma pergunta textual', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: validQuestion,
-			questionType: 'textual',
-			response: 'John Doe',
+const questionResponse: CitizenRegisterQuestionResponse = {
+	questionId: 'Q12345',
+	question: 'Qual é a sua faixa etária?',
+	questionType: 'select',
+	response: ['A'],
+	optional: false,
+	options: ['A', 'B', 'C', 'D', 'E'],
+	multiSelect: false,
+	allowOtherOptions: false,
+	specificResponse: '',
+	observations: [
+		{
+			questionId: 'Q12345',
+			message: 'A resposta foi selecionada da lista de opções fornecidas.'
 		}
+	]
+}
+
+describe('CitizenRegisterResponse', () => {
+	// GERAL
+	test('Deve criar um registro válido com uma questão válida', () => {
+		const props: CitizenRegisterQuestionResponse = { ...questionResponse }
 		const response = new CitizenRegisterResponse(props)
-		expect(response.questionId.value).toBe(validId)
-		expect(response.question).toBe(validQuestion)
-		expect(response.questionType).toBe('textual')
-		expect(response.response).toBe('John Doe')
+		expect(response.questionId.value).toBe(questionResponse.questionId)
+		expect(response.question).toBe(questionResponse.question)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
 	})
 
-	// Teste de criação com pergunta numérica válida
-	test('Deve criar uma resposta válida para uma pergunta numérica', () => {
+	test('Deve criar um registro válido e remover todos os campos strings opcionais vazios (specificResponse)', () => {
+		const props: CitizenRegisterQuestionResponse = { ...questionResponse }
+		const response = new CitizenRegisterResponse(props)
+		expect(response.data().specificResponse).toBeUndefined()
+	})
+
+	test('Deve retornar um erro ao tentar criar uma resposta com a questão, id ou tipo de questão inválido', () => {
+		const propsID1: CitizenRegisterQuestionResponse = { ...questionResponse, questionId: '' }
+		const propsID2: CitizenRegisterQuestionResponse = { ...questionResponse, questionId: null as any }
+		const propsQuestion1: CitizenRegisterQuestionResponse = { ...questionResponse, question: '' }
+		const propsQuestion2: CitizenRegisterQuestionResponse = { ...questionResponse, question: null as any }
+		const propsType1: CitizenRegisterQuestionResponse = { ...questionResponse, questionType: 'tipoInvalido' as any }
+		const propsType2: CitizenRegisterQuestionResponse = { ...questionResponse, questionType: '' as any }
+		expect(() => new CitizenRegisterResponse(propsID1)).toThrow(`${sharedErrors.EMPTY_ID}, ${sharedErrors.INVALID_ID}`)
+		expect(() => new CitizenRegisterResponse(propsID2)).toThrow(`${sharedErrors.EMPTY_ID}, ${sharedErrors.INVALID_ID}`)
+		expect(() => new CitizenRegisterResponse(propsQuestion1)).toThrow(citizenRegisterErrors.EMPTY_QUESTION)
+		expect(() => new CitizenRegisterResponse(propsQuestion2)).toThrow(citizenRegisterErrors.EMPTY_QUESTION)
+		expect(() => new CitizenRegisterResponse(propsType1)).toThrow(citizenRegisterErrors.INVALID_QUESTION_TYPE)
+		expect(() => new CitizenRegisterResponse(propsType2)).toThrow(citizenRegisterErrors.INVALID_QUESTION_TYPE)
+	})
+
+	// TEXT Response
+
+	test('Deve criar um registro válido para uma pergunta textual', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Quantos anos você tem?',
+			...questionResponse,
+			questionType: 'textual',
+			response: 'response'
+		}
+		const response = new CitizenRegisterResponse(props)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
+	})
+
+	test('Deve criar um registro válido para uma pergunta textual com resposta vazia (resposta não obrigatório)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
+			questionType: 'textual',
+			optional: true,
+			response: ''
+		}
+		const response = new CitizenRegisterResponse(props, props.optional)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
+	})
+
+	test('Deve lançar erro ao tentar cadastrar resposta textual vazia (resposta obritagória)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
+			questionType: 'textual',
+			response: ''
+		}
+		try {
+			const response = new CitizenRegisterResponse(props)
+			expect(response).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
+	})
+
+	// NUMERICAL Response
+
+	test('Deve criar um registro válido para uma pergunta numérica', () => {
+		const props1: CitizenRegisterQuestionResponse = {
+			...questionResponse,
 			questionType: 'numerical',
-			response: 30,
+			response: '22'
 		}
-		const response = new CitizenRegisterResponse(props)
-		expect(response.questionId.value).toBe(validId)
-		expect(response.question).toBe('Quantos anos você tem?')
-		expect(response.questionType).toBe('numerical')
-		expect(response.response).toBe(30)
-	})
-
-	// Teste de criação com pergunta binária válida
-	test('Deve criar uma resposta válida para uma pergunta binária', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Você é maior de idade?',
-			questionType: 'binary',
-			response: true,
-		}
-		const response = new CitizenRegisterResponse(props)
-		expect(response.questionId.value).toBe(validId)
-		expect(response.question).toBe('Você é maior de idade?')
-		expect(response.questionType).toBe('binary')
-		expect(response.response).toBe(true)
-	})
-
-	// Teste de criação com pergunta de satisfação válida
-	test('Deve criar uma resposta válida para uma pergunta de satisfação', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Como você se sente?',
-			questionType: 'satisfaction',
-			response: 4 as SatisfactionType,
-		}
-		const response = new CitizenRegisterResponse(props)
-		expect(response.questionId.value).toBe(validId)
-		expect(response.question).toBe('Como você se sente?')
-		expect(response.questionType).toBe('satisfaction')
-		expect(response.response).toBe(4)
-	})
-
-	// Teste de criação com pergunta de seleção válida (single-select)
-	test('Deve criar uma resposta válida para uma pergunta de seleção (single-select)', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Qual é a sua cor favorita?',
-			questionType: 'select',
-			response: ['Azul'],
-			options: ['Vermelho', 'Verde', 'Azul'],
-		}
-		const response = new CitizenRegisterResponse(props)
-		expect(response.questionId.value).toBe(validId)
-		expect(response.question).toBe('Qual é a sua cor favorita?')
-		expect(response.questionType).toBe('select')
-		expect(response.response).toContain('Azul')
-	})
-
-	// Teste de criação com pergunta de seleção válida (multi-select)
-	test('Deve criar uma resposta válida para uma pergunta de seleção (multi-select)', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Quais são suas cores favoritas?',
-			questionType: 'select',
-			response: ['Vermelho', 'Verde'],
-			options: ['Vermelho', 'Verde', 'Azul'],
-			multiSelect: true,
-		}
-		const response = new CitizenRegisterResponse(props)
-		expect(response.questionId.value).toBe(validId)
-		expect(response.question).toBe('Quais são suas cores favoritas?')
-		expect(response.questionType).toBe('select')
-		expect(response.response).toEqual(['Vermelho', 'Verde'])
-	})
-
-	// Teste de criação com resposta inválida para pergunta textual
-	test('Deve lançar um erro se a resposta não for uma string para uma pergunta textual', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: validQuestion,
-			questionType: 'textual',
-			response: 123 as unknown as string,
-		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
-	})
-
-	// Teste de criação com resposta inválida para pergunta numérica
-	test('Deve lançar um erro se a resposta não for um número para uma pergunta numérica', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Quantos anos você tem?',
+		const props2: CitizenRegisterQuestionResponse = {
+			...questionResponse,
 			questionType: 'numerical',
-			response: 'trinta' as unknown as number,
+			response: 22
 		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		const response1 = new CitizenRegisterResponse(props1)
+		expect(response1.questionType).toBe(props1.questionType)
+		expect(response1.response).toBe(props1.response)
+		const response2 = new CitizenRegisterResponse(props2)
+		expect(response2.questionType).toBe(props2.questionType)
+		expect(response2.response).toBe(props2.response)
 	})
 
-	// Teste de criação com resposta inválida para pergunta binária
-	test('Deve lançar um erro se a resposta não for um booleano para uma pergunta binária', () => {
+	test('Deve criar um registro válido para uma pergunta numérica com resposta vazia (resposta não obrigatório)', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Você é maior de idade?',
-			questionType: 'binary',
-			response: 'sim' as unknown as boolean,
+			...questionResponse,
+			questionType: 'numerical',
+			optional: true,
+			response: ''
 		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		const response = new CitizenRegisterResponse(props, props.optional)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
 	})
 
-	// Teste de criação com resposta inválida para pergunta de satisfação
-	test('Deve lançar um erro se a resposta não for uma satisfação válida', () => {
+	test('Deve lançar erro ao tentar cadastrar resposta numérica vazia (resposta obritagória)', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Como você se sente?',
+			...questionResponse,
+			questionType: 'numerical',
+			optional: false,
+			response: ''
+		}
+		try {
+			const response = new CitizenRegisterResponse(props, props.optional)
+			expect(response).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
+	})
+
+	// SATISFACTION Response
+
+	test('Deve criar um registro válido para uma pergunta de satisfação', () => {
+		const props: CitizenRegisterQuestionResponse = { ...questionResponse, questionType: 'satisfaction' }
+
+		const props1 = { ...props, response: '3' }
+		const props2 = { ...props, response: 3 }
+		const response1 = new CitizenRegisterResponse(props1)
+		const response2 = new CitizenRegisterResponse(props2)
+		expect(response1.questionType).toBe(props1.questionType)
+		expect(response1.response).toBe(props1.response)
+		expect(response2.questionType).toBe(props2.questionType)
+		expect(response2.response).toBe(props2.response)
+	})
+
+	test('Deve criar um registro válido para uma pergunta de satisfação com resposta vazia (resposta não obrigatório)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
 			questionType: 'satisfaction',
-			response: 6 as unknown as SatisfactionType,
+			optional: true,
+			response: ''
 		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		const response = new CitizenRegisterResponse(props, props.optional)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
 	})
 
-	// Teste de criação com resposta inválida para pergunta de seleção (single-select)
-	test('Deve lançar um erro se a resposta não for uma string para uma pergunta de seleção (single-select)', () => {
+	test('Deve lançar erro ao tentar cadastrar resposta de satisfação vazia ou inválida (resposta obritagória)', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Qual é a sua cor favorita?',
-			questionType: 'select',
-			response: 123 as unknown as string,
+			...questionResponse,
+			questionType: 'satisfaction',
+			optional: false
 		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		const props1 = { ...props, response: '' }
+		const props2 = { ...props, response: null as any }
+
+		try {
+			const response1 = new CitizenRegisterResponse(props1, props1.optional)
+			expect(!response1).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
+
+		try {
+			const response2 = new CitizenRegisterResponse(props2, props2.optional)
+			expect(!response2).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
 	})
 
-	// Teste de criação com resposta inválida para pergunta de seleção (multi-select)
-	test('Deve lançar um erro se a resposta não for um array de strings para uma pergunta de seleção (multi-select)', () => {
+	// BINARY Response
+
+	test('Deve criar um registro válido para uma pergunta binária', () => {
+		const props: CitizenRegisterQuestionResponse = { ...questionResponse, questionType: 'binary' }
+
+		const props1 = { ...props, response: true }
+		const props2 = { ...props, response: false }
+		const response1 = new CitizenRegisterResponse(props1)
+		const response2 = new CitizenRegisterResponse(props2)
+		expect(response1.questionType).toBe(props1.questionType)
+		expect(response1.response).toBe(props1.response)
+		expect(response2.questionType).toBe(props2.questionType)
+		expect(response2.response).toBe(props2.response)
+	})
+
+	test('Deve criar um registro válido para uma pergunta binária com resposta vazia (resposta não obrigatório)', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Quais são suas cores favoritas?',
+			...questionResponse,
+			questionType: 'binary',
+			optional: true,
+			response: ''
+		}
+		const response = new CitizenRegisterResponse(props, props.optional)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
+	})
+
+	test('Deve lançar erro ao tentar cadastrar resposta binária vazia ou inválida (resposta obritagória)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
+			questionType: 'binary',
+			optional: false
+		}
+		const props1 = { ...props, response: '' }
+		const props2 = { ...props, response: null as any }
+
+		try {
+			const response1 = new CitizenRegisterResponse(props1, props1.optional)
+			expect(!response1).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
+
+		try {
+			const response2 = new CitizenRegisterResponse(props2, props2.optional)
+			expect(!response2).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
+	})
+
+	// SELECT
+
+	test('Deve retornar um erro ao informar uma questão multi-seleção com opções inválidas', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
 			questionType: 'select',
-			response: 'Vermelho' as unknown as string[],
-			options: ['Vermelho', 'Verde', 'Azul'],
+			optional: false
+		}
+		const props1 = { ...props, options: '' }
+		const props2 = { ...props, options: [] as any }
+
+		try {
+			const response1 = new CitizenRegisterResponse(props1 as any, props1.optional)
+			expect(!response1).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_QUESTION_OPTIONS)
+		}
+
+		try {
+			const response2 = new CitizenRegisterResponse(props2, props2.optional)
+			expect(!response2).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_QUESTION_OPTIONS)
+		}
+	})
+
+	test('Deve criar um registro válido para uma pergunta seleção (single-select)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
+			questionType: 'select',
+			multiSelect: false,
+			response: ['A']
+		}
+		const response = new CitizenRegisterResponse(props)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
+	})
+
+	test('Deve criar um registro válido para uma pergunta seleção (multi-select)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
+			questionType: 'select',
 			multiSelect: true,
+			response: ['A', 'B']
 		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		const response = new CitizenRegisterResponse(props)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
 	})
 
-	// Teste de criação com pergunta vazia
-	test('Deve lançar um erro se a pergunta estiver vazia', () => {
+	test('Deve criar um registro válido para uma pergunta seleção (resposta não obrigatória)', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: '',
-			questionType: 'textual',
-			response: 'Alguma resposta',
-		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.EMPTY_QUESTION)
-	})
-
-	// Teste de criação com um tipo de pergunta inválido
-	test('Deve lançar um erro se o tipo de pergunta for inválido', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Pergunta inválida',
-			questionType: 'unknown' as CitizenRegisterQuestionType,
-			response: 'Resposta',
-		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.INVALID_QUESTION_TYPE)
-	})
-
-	// Teste de criação com opções inválidas para pergunta de seleção (single-select)
-	test('Deve lançar um erro se a resposta não estiver nas opções fornecidas (single-select)', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Qual é a sua cor favorita?',
+			...questionResponse,
+			optional: true,
 			questionType: 'select',
-			response: ['Amarelo'],
-			options: ['Vermelho', 'Verde', 'Azul'],
-			allowOtherOptions: false
+			response: ''
 		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.RESPONSE_NOT_IN_OPTIONS)
+		const response = new CitizenRegisterResponse(props, props.optional)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
 	})
 
-	// Teste de criação com opções inválidas para pergunta de seleção (multi-select)
-	test('Deve lançar um erro se a resposta tiver opções fora das fornecidas (multi-select)', () => {
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Quais são suas cores favoritas?',
-			questionType: 'select',
-			response: ['Vermelho', 'Amarelo'],
-			options: ['Vermelho', 'Verde', 'Azul'],
-			multiSelect: true,
-		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.RESPONSE_NOT_IN_OPTIONS)
+	test('Deve criar um registro válido para uma pergunta seleção com permissão para selecionar outras opções', () => {
+		const props: CitizenRegisterQuestionResponse = { ...questionResponse, allowOtherOptions: true, questionType: 'select' }
+		const props1 = { ...props, multiSelect: false, response: ['W'] }
+		const props2 = { ...props, multiSelect: true, response: ['G', 'H'] }
+		const response1 = new CitizenRegisterResponse(props1)
+		const response2 = new CitizenRegisterResponse(props2)
+		expect(response1.questionType).toBe(props1.questionType)
+		expect(response2.response).toBe(props2.response)
+		expect(response2.questionType).toBe(props2.questionType)
+		expect(response2.response).toBe(props2.response)
 	})
 
-	// Teste de criação com resposta específica faltando quando allowOtherOptions é true
-	test('Deve lançar um erro se specificResponse estiver vazio quando allowOtherOptions for true', () => {
+	test('Deve cadastrar resposta de select obrigatória quando houver o campo de resposta específica (resposta obritagória)', () => {
 		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: 'Quais são suas cores favoritas?',
+			...questionResponse,
 			questionType: 'select',
-			response: ['Vermelho', 'Verde'],
-			options: ['Vermelho', 'Verde', 'Azul'],
-			multiSelect: true,
 			allowOtherOptions: true,
-			specificResponse: '',
-		}
-		expect(() => new CitizenRegisterResponse(props)).toThrow(citizenRegisterErrors.MISSING_SPECIFIC_RESPONSE)
-	})
-
-	// Teste de criação com observações
-	test('Deve criar uma resposta com observações', () => {
-		const observations: CitizenRegisterQuestionObservation[] = [
-			{ questionId: validId, message: 'Observação 1' },
-			{ questionId: 'q2', message: 'Observação 2' },
-		]
-		const props: CitizenRegisterQuestionResponse = {
-			questionId: validId,
-			question: validQuestion,
-			questionType: 'textual',
-			response: 'John Doe',
-			observations,
+			optional: false,
+			specificResponse: 'resposta específica',
+			response: []
 		}
 		const response = new CitizenRegisterResponse(props)
-		expect(response.observations).toEqual(observations)
+		expect(response.questionType).toBe(props.questionType)
+		expect(response.response).toBe(props.response)
+	})
+
+	test('Deve lançar erro ao tentar cadastrar resposta de select vazia ou inválida (resposta obritagória)', () => {
+		const props: CitizenRegisterQuestionResponse = {
+			...questionResponse,
+			questionType: 'select',
+			optional: false
+		}
+		const props1 = { ...props, response: '' }
+		const props2 = { ...props, response: [] }
+
+		try {
+			const response1 = new CitizenRegisterResponse(props1, props1.optional)
+			expect(!response1).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
+
+		try {
+			const response2 = new CitizenRegisterResponse(props2, props2.optional)
+			expect(!response2).toBeUndefined()
+		} catch (error: any) {
+			expect(error.message).toContain(citizenRegisterErrors.INVALID_RESPONSE_TYPE)
+		}
 	})
 })
