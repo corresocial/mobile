@@ -26,6 +26,11 @@ export const ButtonArea = styled.View`
     flex-direction: row-reverse;
 `
 
+export const TitleContainer = styled.View`
+	flex-direction: row;
+	align-items: center;
+`
+
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.fonts.arvoBold};
     font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
