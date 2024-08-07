@@ -31,8 +31,8 @@ export class SendOfflineRegisters implements UseCase<Input, Output> {
 
 		Promise.all(
 			offlineRegisters.map(async (register: CitizenRegisterEntity) => {
+				console.log(register)
 				try {
-					// REFACTOR Não deve ser importado diretamente aqui
 					await new CreateCitizenRegister(CitizenRegisterRemoteRepository, GoogleMapsService, {} as any).exec(register)
 					await this.localRepository.removeCitizenRegister(register.citizenRegisterId)
 				} catch (error) {

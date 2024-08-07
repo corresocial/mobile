@@ -62,6 +62,7 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 		} as CitizenRegisterEntity
 
 		const { data } = new CitizenRegister(newCitizenRegister, true)
+
 		const savedCitizenRegister = await this.remoteRepository.createCitizenRegister(data)
 		return savedCitizenRegister
 	}

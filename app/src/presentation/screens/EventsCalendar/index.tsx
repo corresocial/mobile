@@ -288,7 +288,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		})
 	}
 
-	const renderEventCard = ({ item, index }: FlatListItem<any>) => { // CURRENT Type
+	const renderEventCard = ({ item, index }: FlatListItem<any>) => {
 		if (visualization === 'month' && item.postId) return
 		if (!item.postId) {
 			if (visualization === 'month') {

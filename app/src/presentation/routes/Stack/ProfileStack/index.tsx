@@ -61,7 +61,7 @@ export function ProfileStack({ route, navigation }: any) { // REFACTOR type rout
 				}}
 			>
 				<Stack.Screen name={'Profile'} component={Profile} />
-				{/* // CURRENT usar estratégia de tipagem dinêmica */}
+				{/* // CURRENT usar estratégia de tipagem dinâmica */}
 				<Stack.Screen name={'PostViewProfile'} component={PostView as any} />
 				{/* REFACTOR Erro de tipagem, typecasting? */}
 				<Stack.Screen name={'EditServicePost'} component={EditServicePost as any} />
