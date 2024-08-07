@@ -1,5 +1,5 @@
 import { PostEntity } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
+import { UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -16,6 +16,6 @@ export type LeaderAreaStackParamList = {
 
 	ProfileLeaderArea: { userId: string, stackLabel?: string }
 	PostViewHome: { postData: PostEntity, redirectedPostId: string }
-	SearchProfile: undefined
+	SearchProfile: { verifiedLabel: VerifiedLabelName, profileId: string } | undefined
 	CitizenRegistrationArea: undefined
 } & UserStackParamList
