@@ -24,6 +24,7 @@ export class CitizenRegisterResponses {
 		return allResponses
 	}
 
+	// MODEL
 	// add(response: CitizenRegisterQuestionResponse): CitizenRegisterResponses {
 	// 	const updatedResponses = [...this.questionResponses, new CitizenRegisterResponse(response)]
 	// 	return new CitizenRegisterResponses(updatedResponses)
