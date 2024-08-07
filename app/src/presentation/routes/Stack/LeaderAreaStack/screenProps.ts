@@ -12,5 +12,6 @@ export type ViewUnapprovedProfileScreenProps = NativeStackScreenProps<LeaderArea
 export type ViewUnapprovedRegistersListScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ViewUnapprovedRegistersList'>
 
 export type ProfileLeaderAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ProfileLeaderArea'>
+export type SearchProfileScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'ProfileLeaderArea'>
 
 export type CitizenRegistrationAreaScreenProps = NativeStackScreenProps<LeaderAreaStackParamList, 'CitizenRegistrationArea'>

@@ -16,6 +16,7 @@ import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPos
 import { ViewUnapprovedProfile } from '@screens/leaderAreaScreens/ViewUnapprovedProfile'
 import { ViewUnapprovedRegistersList } from '@screens/leaderAreaScreens/ViewUnapprovedRegistersList'
 import { Profile } from '@screens/profileScreens/Profile'
+import { PostView } from '@screens/viewPostScreens/PostView'
 
 import { CitizenRegistrationStack } from '../CitizenRegistrationStack'
 
@@ -40,6 +41,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 			>
 				<Stack.Screen name={'LeaderAreaHome'} component={LeaderAreaHome} />
 				<Stack.Screen name={'PollPetitionArea'} component={PollPetitionArea} />
+				<Stack.Screen name={'PostViewLeaderArea'} component={PostView as any} />
 				<Stack.Screen name={'ViewPollList'} component={ViewPollList} />
 				<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
 
@@ -49,6 +51,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 
 				{/* TODO Type */}
 				<Stack.Screen name={'ProfileLeaderArea'} component={Profile as any} />
+				<Stack.Screen name={'SearchProfile'} component={SearchProfile as any} />
 
 				<Stack.Screen name={'CitizenRegistrationArea'} component={CitizenRegistrationStack} />
 			</Stack.Navigator>
