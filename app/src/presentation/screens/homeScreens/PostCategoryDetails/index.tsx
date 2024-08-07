@@ -21,8 +21,8 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 const { sortArray } = UiUtils()
 
@@ -171,14 +171,13 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<FeedByRange
+			<FeedByRangeFlatList
 				backgroundColor={backgroundColor}
 				filteredFeedPosts={filteredFeedPosts}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostDetails}
-			>
-				{
+				listHeaderComponent={(
 					hasAnyFilteredCategory()
 						? (
 							<>
@@ -206,8 +205,8 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 							</>
 						)
 						: <></>
-				}
-			</FeedByRange>
+				)}
+			/>
 		</Container>
 	)
 }

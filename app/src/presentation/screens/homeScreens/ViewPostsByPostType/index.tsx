@@ -18,7 +18,6 @@ import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
 import PeperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
-import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '@assets/icons/service-white.svg'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
@@ -28,8 +27,8 @@ import { theme } from '@common/theme'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '@components/CatalogPostTypeButtons'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -227,18 +226,19 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<FeedByRange
+			<FeedByRangeFlatList
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
 				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
-			>
-				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
-					{getRelativeCatalogMacroCategoryButtons()}
-				</MacroCategoryContainer>
-			</FeedByRange>
+				listHeaderComponent={(
+					<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
+						{getRelativeCatalogMacroCategoryButtons()}
+					</MacroCategoryContainer>
+				)}
+			/>
 		</Container>
 	)
 }

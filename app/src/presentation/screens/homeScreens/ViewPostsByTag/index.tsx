@@ -13,8 +13,8 @@ import { theme } from '@common/theme'
 
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -103,7 +103,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<FeedByRange
+			<FeedByRangeFlatList
 				backgroundColor={backgroundColor}
 				filteredFeedPosts={filteredFeedPosts}
 				viewPostsByRange={viewPostsByRange}

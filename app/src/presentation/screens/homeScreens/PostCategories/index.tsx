@@ -29,8 +29,8 @@ import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -313,15 +313,14 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				</InputContainer>
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1, backgroundColor }}>
-				<FeedByRange
+				<FeedByRangeFlatList
 					backgroundColor={backgroundColor}
 					filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByTypeAndMacroCategory }}
 					viewPostsByRange={viewPostsByRange}
 					collapseExternalVacancies={false}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}
-				>
-					{
+					listHeaderComponent={(
 						(hasAnyFilteredCategory())
 							? (
 								<>
@@ -340,8 +339,8 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 								</>
 							)
 							: <></>
-					}
-				</FeedByRange>
+					)}
+				/>
 			</KeyboardAvoidingView>
 		</Container>
 	)
