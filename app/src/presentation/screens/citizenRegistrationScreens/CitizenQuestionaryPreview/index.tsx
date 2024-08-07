@@ -50,7 +50,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	const registerData = route.params?.registerData || citizenRegistrationIdentifier as CitizenRegisterEntity
 	const citizenRegisterResponses = hasResponsesFromRoute
 		? route.params.registerData.responses
-		: citizenRegistrationResponseData // citizenUseCases.getCitizenRegistrationQuestionary()
+		: citizenRegistrationResponseData
 
 	useEffect(() => {
 		!coordinatorView && startNewCitizenRegistration()

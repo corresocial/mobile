@@ -48,7 +48,7 @@ function EventCard({ post, colapsed = false, onPress, onProfilePress }: EventCar
 					<PostDescriptionContainer colapsed={colapsed}>
 						<PostDescription colapsed={colapsed} numberOfLines={colapsed && !post.picturesUrl?.[0] ? 5 : 5}>{post.description}</PostDescription>
 					</PostDescriptionContainer>
-					{/* { // CURRENT Descomentar
+					{/* { // TODO Descomentar?
 						!colapsed && (
 							<MiniUserIndentifier
 								owner={post.owner}

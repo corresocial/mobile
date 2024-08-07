@@ -152,7 +152,6 @@ function MapView({
 		await Linking.openURL(wazeUrl)
 	}
 
-	// CURRENT Trocar ocorrência de ícones por IconComponent
 	return (
 		<Container >
 			<CardHeaderContainer>

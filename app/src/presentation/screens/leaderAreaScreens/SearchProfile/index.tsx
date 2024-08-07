@@ -8,6 +8,7 @@ import { useAlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { SearchProfileScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
@@ -78,7 +79,7 @@ export function SearchProfile({ route, navigation }: SearchProfileScreenProps) {
 			return
 		}
 
-		navigation.navigate('ProfileLeaderArea', { userId: item.userId, stackLabel: 'LeaderArea' })
+		navigateToProfileView(navigation, item.userId, 'LeaderArea')
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName, profileId: string, coordinatorId: string) => {

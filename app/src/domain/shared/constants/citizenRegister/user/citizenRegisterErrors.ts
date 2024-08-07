@@ -10,6 +10,7 @@ const citizenRegisterErrors = {
 	INVALID_RESPONSE_TYPE: 'O tipo de resposta fornecido é inválido',
 	INVALID_QUESTION_TYPE: 'O tipo de pergunta fornecido é inválido',
 	RESPONSE_NOT_IN_OPTIONS: 'A resposta fornecida não existe nas opções',
+	INVALID_QUESTION_OPTIONS: 'Opções da questão de multi-seleção inválidas',
 	MISSING_SPECIFIC_RESPONSE: 'Ao selecionar "outros", uma especificação é necessária'
 }
 
