@@ -297,7 +297,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 						<InfoDivider
 							title={getDividerTitle(item.date)}
 							subTitle={`${item.numberOfEvents} eventos`}
-							icon={'calendarEveryday'}
+							buttonIcon={'calendarEveryday'}
 							buttonTitle={'ver semana'}
 							onPress={item.buttonAction ? item.buttonAction : undefined}
 						/>
@@ -313,7 +313,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 				<InfoDivider
 					title={getDividerTitle(item.date)}
 					subTitle={`${item.numberOfEvents} eventos`}
-					icon={'calendarEveryday'}
+					buttonIcon={'calendarEveryday'}
 					buttonTitle={visualization === 'week' ? 'ver dia' : 'ver semana'}
 					onPress={item.buttonAction ? item.buttonAction : undefined}
 				/>
