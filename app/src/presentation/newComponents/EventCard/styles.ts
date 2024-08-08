@@ -7,8 +7,8 @@ interface ContainerProps {
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-	width: ${({ colapsed }) => (colapsed ? `${relativeScreenWidth(44)}px` : '98%')};
-	height: ${relativeScreenWidth(30)}px;
+	width: ${({ colapsed }) => (colapsed ? '46%' : '98%')};
+	height: ${relativeScreenDensity(120)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;

@@ -94,9 +94,13 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 							{user.name}
 						</UserName>
 						<DescriptionContainer>
-							<UserDescription numberOfLines={2}>
-								{user.description}
-							</UserDescription>
+							{
+								user.description && (
+									<UserDescription numberOfLines={2}>
+										{user.description}
+									</UserDescription>
+								)
+							}
 						</DescriptionContainer>
 					</RightAreaLimits>
 				</RightArea>

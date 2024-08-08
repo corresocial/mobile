@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import { Linking } from 'react-native'
+import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
 import { DaysOfWeek, DeliveryMethod, EventRepeatType, ItemStatus, PlaceModalityType, PostRange, WeekdaysFrequency, WorkplaceType } from '@domain/post/entity/types'
@@ -57,7 +58,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	const renderLinks = (links: string[]) => {
 		return links.map((link) => (
 			<LinkContainer
-				key={link}
+				key={uuid()}
 				activeOpacity={0.6}
 				onPress={() => openLink(link)}
 			>
@@ -217,8 +218,20 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 						)}
 					</DateTimeLabel>
 				</>
-
 			); break
+		}
+
+		if (!dateTimeInfo.weekDaysfrequency && (dateTimeInfo.daysOfWeek && dateTimeInfo.daysOfWeek.length)) {
+			dateTimeInfosToRender.push(
+				<>
+					<DateTimeLabel>
+						{showMessageWithHighlight(
+							`${listDaysOfWeek(dateTimeInfo.daysOfWeek || [])}`,
+							listDaysOfWeek(dateTimeInfo.daysOfWeek || []).split(' ')
+						)}
+					</DateTimeLabel>
+				</>
+			)
 		}
 
 		if (dateTimeInfo.startDate || dateTimeInfo.startTime) {
@@ -323,8 +336,8 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	}
 
 	const getFormattedImportantPoints = (importantPoints: string[]) => {
-		return importantPoints && importantPoints.map((point) => {
-			return <ListItem key={point}>{`●  ${point}`}</ListItem>
+		return importantPoints && importantPoints.map((point, index) => {
+			return <ListItem key={uuid()}>{`●  ${point}`}</ListItem>
 		})
 	}
 

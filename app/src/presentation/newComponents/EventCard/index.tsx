@@ -38,15 +38,15 @@ function EventCard({ post, colapsed = false, onPress, onProfilePress }: EventCar
 			<InnerContainer colapsed={colapsed} buttonPressed={buttonPressed}>
 				<ImageContainer hasImage={!!post.picturesUrl?.[0]} colapsed={colapsed}>
 					{post.picturesUrl?.[0] && <PostImage resizeMode={'cover'} source={{ uri: post.picturesUrl?.[0] }} />}
-					{!colapsed && (
+					{!colapsed && (post.entryValue || post.entryValue === '') && (
 						<PriceLabelContainer hasImage={!!post.picturesUrl?.[0]}>
-							<PriceLabel>{post.entryValue ?? 'gratuito'}</PriceLabel>
+							<PriceLabel>{post.entryValue === '' ? 'gratuito' : post.entryValue}</PriceLabel>
 						</PriceLabelContainer>
 					)}
 				</ImageContainer>
 				<EventDataContainer colapsed={colapsed}>
 					<PostDescriptionContainer colapsed={colapsed}>
-						<PostDescription colapsed={colapsed} numberOfLines={colapsed && !post.picturesUrl?.[0] ? 5 : 5}>{post.description}</PostDescription>
+						<PostDescription colapsed={colapsed} numberOfLines={colapsed && post.picturesUrl?.[0] ? 2 : 5}>{post.description}</PostDescription>
 					</PostDescriptionContainer>
 					{/* { // TODO Descomentar?
 						!colapsed && (

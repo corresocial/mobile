@@ -372,7 +372,6 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 								<EmptyPostsNotifier text={'Parece que não tem nenhum evento por aqui'} />
 							</NoPostNotifierContainer>
 						)}
-						contentContainerStyle={({ height: '90%' })}
 						showsVerticalScrollIndicator={false}
 						ListHeaderComponent={<VerticalSpacing />}
 						ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}
