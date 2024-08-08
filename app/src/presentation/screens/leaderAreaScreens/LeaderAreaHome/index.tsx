@@ -49,8 +49,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 	const currentUserHasPermissionToAccessApprovement = () => (
 		userDataContext.verified
 		&& (
-			userDataContext.verified.admin
-			|| userDataContext.verified.type === 'leader'
+			userDataContext.verified.admin || userDataContext.verified.type === 'leader'
 		)
 	)
 
@@ -140,7 +139,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 								leftSideWidth={'28%'}
 								leftSideColor={theme.orange3}
 								SvgIcon={ProfileWhiteIcon}
-								svgIconScale={['80%', '80%']}
+								svgIconScale={currentUserHasPermissionToAccessPollsAndPetitions() ? ['80%', '80%'] : ['80%', '60%']}
 								onPress={() => navigation.navigate('SearchProfile')}
 							/>
 						</HeaderSection>

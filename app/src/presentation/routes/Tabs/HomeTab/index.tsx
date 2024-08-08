@@ -50,7 +50,12 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		return unsubscribe
 	})
 
-	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
+	const currentUserHasPermission = () => (
+		userDataContext.verified?.type === 'leader'
+		|| userDataContext.verified?.type === 'coordinator'
+		|| userDataContext.verified?.type === 'questionnaireAdministrator'
+		|| userDataContext.verified?.admin
+	)
 
 	const renderHomeIcon = (focused: boolean) => (
 		focused
@@ -154,7 +159,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				}}
 			/>
 			{
-				currentUserIsLeader() && (
+				currentUserHasPermission() && (
 					<Tab.Screen
 						name={'LeaderAreaStack'}
 						component={LeaderAreaStack}
