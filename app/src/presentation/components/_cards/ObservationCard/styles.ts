@@ -1,11 +1,10 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	background-color: ${({ theme }) => theme.white2};
-	border-radius: ${RFValue(17.5)}px;
+	border-radius: ${relativeScreenDensity(17.5)}px;
 	overflow: hidden;
 	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(13)}px;
 	flex-direction: row;

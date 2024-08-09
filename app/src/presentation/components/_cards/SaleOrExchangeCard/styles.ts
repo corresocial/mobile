@@ -1,8 +1,9 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 export const SaleValueArea = styled.View`
-	padding: ${RFValue(10)}px 0px;
+	padding: ${relativeScreenDensity(10)}px 0px;
 	flex-direction: row;
 	align-items: flex-end;
 `
@@ -10,7 +11,7 @@ export const SaleValueArea = styled.View`
 export const ExchangeArea = styled.View`
 	flex-direction: row;
 	align-items: flex-end;
-	padding: ${RFValue(10)}px 0px;
+	padding: ${relativeScreenDensity(10)}px 0px;
 `
 
 export const SmallFont = styled.Text`

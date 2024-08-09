@@ -1,8 +1,8 @@
 // Componente FallBack não aceita styled-components
 
 import { StyleSheet } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 export const styles = StyleSheet.create({
@@ -14,34 +14,34 @@ export const styles = StyleSheet.create({
 	},
 
 	content: {
-		height: RFValue(300),
+		height: relativeScreenDensity(300),
 		width: '88%',
 		backgroundColor: theme.black4,
-		borderRadius: RFValue(15),
-		borderWidth: RFValue(5),
+		borderRadius: relativeScreenDensity(15),
+		borderWidth: relativeScreenDensity(5),
 		justifyContent: 'space-between',
 		borderColor: theme.black4,
-		borderRightWidth: RFValue(14)
+		borderRightWidth: relativeScreenDensity(14)
 	},
 
 	containerInner: {
 		height: '100%',
 		width: '100%',
 		backgroundColor: theme.white3,
-		padding: RFValue(25),
-		borderRadius: RFValue(10),
+		padding: relativeScreenDensity(25),
+		borderRadius: relativeScreenDensity(10),
 		justifyContent: 'space-between'
 	},
 
 	title: {
 		fontFamily: 'Arvo_700Bold',
-		fontSize: RFValue(30),
+		fontSize: relativeScreenDensity(30),
 		color: theme.black4
 	},
 
 	description: {
 		fontFamily: 'Arvo_400Regular',
-		fontSize: RFValue(16),
+		fontSize: relativeScreenDensity(16),
 		color: theme.black4
 	}
 })

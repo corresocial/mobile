@@ -1,8 +1,9 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 interface LoaderProps {
-	animationScale?: number
+    animationScale?: number
 }
 
 export const Container = styled.View`
@@ -11,6 +12,6 @@ export const Container = styled.View`
 `
 
 export const AnimationContainer = styled.View<LoaderProps>`
-    width: ${({ animationScale }) => RFValue(animationScale || 85)}px;
-    height: ${({ animationScale }) => RFValue(animationScale || 85)}px;
+    width: ${({ animationScale }) => relativeScreenDensity(animationScale || 85)}px;
+    height: ${({ animationScale }) => relativeScreenDensity(animationScale || 85)}px;
 `

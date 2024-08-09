@@ -1,9 +1,8 @@
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -48,7 +47,7 @@ export const ConversationArea = styled.View`
 `
 
 export const ConversationCardContainer = styled.View`
-	padding: 0px ${RFValue(10)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const ConversationList = styled.FlatList``
@@ -57,7 +56,7 @@ export const ConversationList = styled.FlatList``
 
 export const HorizontalHeaderScroll = styled.ScrollView`
 	width: 100%;
-	padding-bottom: ${RFValue(10)}px;
+	padding-bottom: ${relativeScreenDensity(10)}px;
 `
 
 export const SelectPeriodButtonContainer = styled.View`
@@ -65,5 +64,5 @@ export const SelectPeriodButtonContainer = styled.View`
 	align-items: center;
 	flex-direction: row;
 	width: ${relativeScreenWidth(100)}px;
-	padding: ${RFValue(5)}px ${RFValue(15)}px;
+	padding: ${relativeScreenDensity(5)}px ${relativeScreenDensity(15)}px;
 `

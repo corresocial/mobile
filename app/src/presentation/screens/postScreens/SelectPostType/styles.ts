@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.SafeAreaView<SafeAreaViewProps>`
     flex: 1;
@@ -8,7 +9,7 @@ export const Container = styled.SafeAreaView<SafeAreaViewProps>`
 
 export const SubscriptionButtonContainer = styled.View`
 	background-color: ${({ theme }) => theme.orange2};
-	padding: ${RFValue(25)}px;
+	padding: ${relativeScreenDensity(25)}px;
 	align-items: center;
 	justify-content: center;
 `

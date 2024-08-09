@@ -1,12 +1,11 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenHeight, relativeScreenDensity } from '@common/screenDimensions'
 
 interface InputContainerProps {
-    defaultColor: string,
-    validColor: string,
-    valid?: boolean
+	defaultColor: string,
+	validColor: string,
+	valid?: boolean
 }
 
 export const InputContainer = styled.TouchableOpacity<InputContainerProps>`
@@ -17,7 +16,7 @@ export const InputContainer = styled.TouchableOpacity<InputContainerProps>`
     width: 100%;
     height: ${relativeScreenHeight(9)}px;
     background-color: ${(props) => (props.valid ? props.validColor : props.defaultColor)};
-    border-radius: ${RFValue(14)}px;
+    border-radius: ${relativeScreenDensity(14)}px;
 `
 
 export const InputInfoSection = styled.View`
@@ -27,7 +26,7 @@ export const InputInfoSection = styled.View`
 `
 
 interface InputTextUnderLineProps {
-    valid?: boolean
+	valid?: boolean
 }
 
 export const InputTextUnderLine = styled.View<InputTextUnderLineProps>`
@@ -37,7 +36,7 @@ export const InputTextUnderLine = styled.View<InputTextUnderLineProps>`
 `
 
 interface InputTextProps {
-    valid?: boolean
+	valid?: boolean
 }
 
 export const InputText = styled.Text<InputTextProps>`

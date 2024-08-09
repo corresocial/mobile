@@ -1,14 +1,13 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenHeight, relativeScreenDensity } from '@common/screenDimensions'
 
 export const InitialDropdownContainer = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
 	height: ${relativeScreenHeight(10)}px;
-	padding: 0px ${RFValue(10)}px;
-	border-radius: ${RFValue(13)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
+	border-radius: ${relativeScreenDensity(13)}px;
 	overflow: hidden;
 `
 
@@ -36,7 +35,7 @@ export const AddressSelectedArea = styled.View`
 export const PresentationText = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
-	margin-bottom: ${RFValue(3)}px;
+	margin-bottom: ${relativeScreenDensity(3)}px;
 `
 
 export const AddressSelectedText = styled.Text`

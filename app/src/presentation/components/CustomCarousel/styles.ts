@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const CarouselIndicatorContainer = styled.View`
     position: absolute;
@@ -11,15 +12,15 @@ export const CarouselIndicatorContainer = styled.View`
 `
 
 interface CarouselIndicator {
-	activeIndicatorColor?: string
+    activeIndicatorColor?: string
 }
 
 export const CarouselActiveIndicatorItem = styled.View<CarouselIndicator>`
 	height: 15px;
 	width: 16px;
-	border-right-width: ${RFValue(3)}px;
-	border-radius: ${RFValue(10)}px;
-	border-width: ${RFValue(1.5)}px;
+	border-right-width: ${relativeScreenDensity(3)}px;
+	border-radius: ${relativeScreenDensity(10)}px;
+	border-width: ${relativeScreenDensity(1.5)}px;
 
     border-color: ${({ theme }) => theme.black4};
     background-color: ${({ activeIndicatorColor, theme }) => activeIndicatorColor || theme.orange3};

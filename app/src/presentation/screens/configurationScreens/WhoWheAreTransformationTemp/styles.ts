@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -9,7 +8,7 @@ export const Container = styled.View`
 `
 
 export const ContainerContent = styled.View`
-	padding: ${RFValue(10)}px;
+	padding: ${relativeScreenDensity(10)}px;
 	align-items: flex-start;
 	justify-content: center;
 `
@@ -34,7 +33,7 @@ export const Title = styled.Text`
 
 export const Description = styled.Text`
 	font-family: Arvo_400Regular;
-	line-height: ${RFValue(20)}px;
+	line-height: ${relativeScreenDensity(20)}px;
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
 `
 

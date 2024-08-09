@@ -1,5 +1,4 @@
 import { ImageBackground } from 'expo-image'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -8,7 +7,7 @@ export const Container = styled.TouchableOpacity`
 	width: 98%;
 	height: ${relativeScreenDensity(100)}px;
     background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(23)}px;
+    border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
@@ -18,8 +17,8 @@ export const ContainerInner = styled.View`
     height: 100%;
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.white3};
-    border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(23)}px;
+    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.black4};
+    border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
 	left: ${-relativeScreenWidth(2)}px;
@@ -45,8 +44,8 @@ export const UserName = styled.Text`
 `
 
 export const DescriptionContainer = styled.View`
-	border-left-width: ${RFValue(2.5)}px;
-	padding: 0px ${RFValue(6)}px;
+	border-left-width: ${relativeScreenDensity(2.5)}px;
+	padding: 0px ${relativeScreenDensity(6)}px;
 	overflow: hidden;
 	border-color: ${({ theme }) => theme.black4};
 `
@@ -60,7 +59,7 @@ export const RightArea = styled.View`
 	width: 70%;
 	height: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding: ${RFValue(7)}px ${RFValue(7)}px;
+	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(7)}px;
 `
 
 export const RightAreaLimits = styled.View`

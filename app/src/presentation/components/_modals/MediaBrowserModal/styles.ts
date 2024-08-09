@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -111,8 +110,8 @@ export const InvalidAssetContainer = styled.View`
 
 export const InvalidAssetAlert = styled.View`
     background-color: ${({ theme }) => theme.white3};
-    padding: ${RFValue(15)}px;
-    border-radius: ${RFValue(10)}px;
+    padding: ${relativeScreenDensity(15)}px;
+    border-radius: ${relativeScreenDensity(10)}px;
 `
 
 export const InvalidDurationText = styled.Text`

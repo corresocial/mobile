@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 interface TakePictureButtonProps {
 	buttonPressed: boolean
@@ -30,7 +29,7 @@ export const TakePictureButtonBottom = styled.View<TakePictureButtonProps>`
     border-radius: 70px;
     align-items: center;
     justify-content: center;
-	border-width: ${RFValue(4)}px;
+	border-width: ${relativeScreenDensity(4)}px;
     padding: 1.5%;
 	position: absolute;
 `

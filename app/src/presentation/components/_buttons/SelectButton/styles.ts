@@ -1,19 +1,18 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const ContainerBottom = styled.View`
 	margin-left: 10px;
     background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(20)}px;
+    border-radius: ${relativeScreenDensity(20)}px;
     align-items: center;
     align-self: center;
 `
 
 export const ContainerSurface = styled.View`
-	border-radius: ${RFValue(20)}px;
-	border: ${RFValue(3.5)}px solid ${({ theme }) => theme.black4};
+	border-radius: ${relativeScreenDensity(20)}px;
+	border: ${relativeScreenDensity(3.5)}px solid ${({ theme }) => theme.black4};
 	padding-top: 5px;
 	padding-bottom: 5px;
     align-items: center;

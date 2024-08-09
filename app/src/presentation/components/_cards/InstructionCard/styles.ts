@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
     background-color: ${({ theme }) => theme.white3};
@@ -11,7 +12,7 @@ export const Message = styled.Text`
     color: ${({ theme }) => theme.black4};
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
     font-family: Arvo_400Regular;
-    line-height: ${RFValue(22)}px;
+    line-height: ${relativeScreenDensity(22)}px;
     flex-wrap: wrap;
 `
 

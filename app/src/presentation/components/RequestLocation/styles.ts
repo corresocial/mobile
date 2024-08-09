@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	height: ${relativeScreenHeight(25)}px;
@@ -10,7 +9,7 @@ export const Container = styled.View`
 	align-items: flex-start;
 	justify-content: space-between;
 	padding: ${15}px ${30}px; // REFACTOR relative
-	border-left-width: ${RFValue(5)}px;
+	border-left-width: ${relativeScreenDensity(5)}px;
 	border-color: ${({ theme }) => theme.black4};
 `
 

@@ -1,8 +1,7 @@
 import { Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	width: 100%;
@@ -10,7 +9,7 @@ export const Container = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding: ${RFValue(10)}px ${RFValue(10)}px;
+	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(10)}px;
 	position: ${Platform.OS === 'ios' ? 'relative' : 'absolute'};
 	bottom: 0;
 `
@@ -21,10 +20,10 @@ interface SideButtonAreaProps {
 
 export const SideButtonArea = styled.TouchableOpacity<SideButtonAreaProps>`
 	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.black4 : theme.white3)};
-	border-radius: ${RFValue(15)}px;
+	border-radius: ${relativeScreenDensity(15)}px;
 	border-color: ${({ theme }) => theme.black2};
-	height: ${RFValue(40)}px;
-	width: ${RFValue(40)}px;
+	height: ${relativeScreenDensity(40)}px;
+	width: ${relativeScreenDensity(40)}px;
 	justify-content: center;
 	align-items: center;
 	margin-left: ${relativeScreenWidth(3)}px;
@@ -36,8 +35,8 @@ interface InputButtonProps {
 }
 
 export const SendButtonAreaInner = styled.View<InputButtonProps>`
-	border-radius: ${RFValue(15)}px;
-	border-width: ${RFValue(2.5)}px;
+	border-radius: ${relativeScreenDensity(15)}px;
+	border-width: ${relativeScreenDensity(2.5)}px;
 	border-color: ${({ theme }) => theme.black2};
 	height: 100%;
 	width: 100%;
@@ -59,12 +58,12 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	max-height: ${relativeScreenHeight(15)}px;
 	text-align-vertical: center;
 	text-align: center;
-	margin: 0px ${RFValue(10)}px;
-	padding: 0px ${RFValue(10)}px;
-	padding-top: ${RFValue(12)}px;
-	padding-bottom: ${RFValue(12)}px;
+	margin: 0px ${relativeScreenDensity(10)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
+	padding-top: ${relativeScreenDensity(12)}px;
+	padding-bottom: ${relativeScreenDensity(12)}px;
 	font-family: Arvo_400Regular;
 	font-size: ${({ theme }) => theme.fontSizes[3]}px;
-	border-radius: ${RFValue(50)}px;
+	border-radius: ${relativeScreenDensity(50)}px;
 	background-color: ${({ theme, inputFocused }) => (inputFocused ? theme.white3 : theme.white2)};
 `

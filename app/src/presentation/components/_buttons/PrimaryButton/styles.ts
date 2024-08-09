@@ -1,6 +1,7 @@
 import * as Animatable from 'react-native-animatable'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const TouchableContainer = styled.TouchableWithoutFeedback`
 	width: 100%;
@@ -11,7 +12,7 @@ export const ContainerBottom = styled(Animatable.View as any)`
 	width: 100%;
 	align-self: flex-end;
 	flex-direction: row;
-    border-radius: ${RFValue(18)}px;
+    border-radius: ${relativeScreenDensity(18)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -22,11 +23,11 @@ export const ContainerSurface = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border: ${RFValue(3)}px solid black;
-    border-radius: ${RFValue(18)}px;
-    padding: 0px ${RFValue(20)}px;
+    border: ${relativeScreenDensity(3)}px solid black;
+    border-radius: ${relativeScreenDensity(18)}px;
+    padding: 0px ${relativeScreenDensity(20)}px;
     position: absolute;
-	left: ${-RFValue(9)}px;
+	left: ${-relativeScreenDensity(9)}px;
 `
 
 export const ButtonLabel = styled.Text`

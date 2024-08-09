@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const MediaThumbnailView = styled.TouchableOpacity`
     margin: ${relativeScreenWidth(0.5)}px;
@@ -35,7 +34,7 @@ export const SelectionIndicatorView = styled.View`
     bottom: ${relativeScreenWidth(1)}px;
     right: ${relativeScreenWidth(1)}px;
     background-color: ${({ theme }) => theme.orange3};
-    border-radius: ${RFValue(15)}px;
+    border-radius: ${relativeScreenDensity(15)}px;
     border-width: 2px;
 `
 
@@ -44,5 +43,5 @@ export const VideoIndicator = styled.View`
     flex: 1;
     z-index: 2;
     bottom: ${relativeScreenWidth(2)}px;
-    
+
 `

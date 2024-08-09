@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -8,7 +9,7 @@ export const Container = styled.View`
 
 export const Body = styled.View`
 	flex: 1;
-	padding: ${RFValue(17)}px;
+	padding: ${relativeScreenDensity(17)}px;
 	justify-content: space-around;
 	overflow: visible;
 `
