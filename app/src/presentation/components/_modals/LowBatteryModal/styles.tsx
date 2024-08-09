@@ -40,14 +40,14 @@ export const CardTitleContainer = styled.View`
 `
 
 export const CardTitleText = styled.Text`
-    font-size: ${RFValue(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
 	font-family: Arvo_700Bold;
 	color: ${({ theme }) => theme.black4};
     margin-left: ${RFValue(12)}px;
 `
 
 export const CardDescriptionText = styled.Text`
-    font-size: ${RFValue(12)}px;
+    font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.black4};
 `

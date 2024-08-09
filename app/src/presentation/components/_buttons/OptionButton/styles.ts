@@ -45,7 +45,7 @@ interface LeftSideTextProps {
 export const LeftSideText = styled.Text<LeftSideTextProps>`
 	text-align: center;
 	color: ${({ theme, leftSideTextColor }) => leftSideTextColor || theme.white3};
-	font-size: ${relativeScreenDensity(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 `
 
@@ -58,7 +58,7 @@ export const LabelDescriptionArea = styled.View`
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: ${relativeScreenDensity(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     font-family: Arvo_400Regular;
 `
 

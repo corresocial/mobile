@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -26,16 +25,16 @@ export const ProfileInfoContainer = styled.View`
 export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;
-    padding: 0px ${RFValue(16)}px;
+    padding: 0px ${relativeScreenDensity(16)}px;
 `
 
 export const UserName = styled.Text`
-    font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
     font-family: Arvo_700Bold;
 `
 
 export const SeeMoreLabel = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.orange4};
 `

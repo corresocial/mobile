@@ -34,12 +34,12 @@ export const AddressSelectedArea = styled.View`
 `
 
 export const PresentationText = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 	margin-bottom: ${RFValue(3)}px;
 `
 
 export const AddressSelectedText = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_700Bold;
 `

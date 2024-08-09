@@ -31,7 +31,7 @@ export const MessageContainerInner = styled.View`
 
 export const TextMessage = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${relativeScreenDensity(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const DateTimeArea = styled.View`
@@ -43,6 +43,6 @@ export const DateTimeArea = styled.View`
 
 export const RelativeDateTime = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${relativeScreenDensity(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	align-self: flex-end;
 `

@@ -1,8 +1,7 @@
 import { TextProps } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -27,32 +26,32 @@ export const ProfileInfoContainer = styled.View`
 export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;
-    padding: 0px ${RFValue(16)}px;
+    padding: 0px ${relativeScreenDensity(16)}px;
 `
 
 export const UserName = styled.Text`
-    font-size: ${RFValue(14)}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
     font-family: Arvo_700Bold;
 `
 
 export const UserDescription = styled.Text`
-	font-size: ${RFValue(13)}px;
+	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 	font-family: Arvo_400Regular;
 `
 
 export const ExpandedUserDescriptionArea = styled.View`
-	margin-top: ${RFValue(12)}px;
+	margin-top: ${relativeScreenDensity(12)}px;
 	width: 100%;
 `
 
 export const SeeMoreLabel = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.orange4};
 `
 
 export const ExpandedUserDescription = styled.Text<TextProps>`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 `
 

@@ -8,7 +8,7 @@ export const CardHeader = styled.View`
 `
 
 export const TextAddress = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 	padding:${RFValue(10)}px;
 `

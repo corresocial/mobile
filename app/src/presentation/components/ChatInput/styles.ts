@@ -64,7 +64,7 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	padding-top: ${RFValue(12)}px;
 	padding-bottom: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(13)}px;
+	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 	border-radius: ${RFValue(50)}px;
 	background-color: ${({ theme, inputFocused }) => (inputFocused ? theme.white3 : theme.white2)};
 `

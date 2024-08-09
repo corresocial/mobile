@@ -33,7 +33,7 @@ interface HeaderTextContentProps {
 export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
 	flex: ${({ flex }) => flex};
     padding-left: ${relativeScreenWidth(3)}px;
-    font-size: ${RFValue(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     text-align: left;
 	font-family: Arvo_700Bold;
 `
@@ -72,7 +72,7 @@ export const ConfirmSelectionButton = styled.View`
 
 export const NotPermissionText = styled.Text`
  	color:  ${({ theme }) => theme.white1};
-	font-size: 17px;
+	font-size: 17px; // REFACTOR relative
 	text-align: center;
    	align-self: center;
  	position: absolute;
@@ -116,7 +116,7 @@ export const InvalidAssetAlert = styled.View`
 `
 
 export const InvalidDurationText = styled.Text`
-    font-size: ${RFValue(14)}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
     text-align: center;
 	font-family: Arvo_700Bold;
 `

@@ -23,7 +23,7 @@ export const ContainerSurface = styled.View`
 `
 
 export const Label = styled.Text`
-    font-size: ${RFValue(15)}px;
+    font-size: ${({ theme }) => theme.fontSizes[5]}px;
     font-family: Arvo_700Bold;
     padding: ${relativeScreenHeight(0.7)}px ${relativeScreenWidth(3)}px;
     text-align: center;

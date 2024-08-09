@@ -22,7 +22,7 @@ export const Header = styled.View`
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(25)}px;
+	font-size: ${({ theme }) => theme.fontSizes[15]}px;
 `
 
 export const OptionsArea = styled.View`

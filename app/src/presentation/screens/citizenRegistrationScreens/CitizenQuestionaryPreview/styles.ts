@@ -28,7 +28,7 @@ export const CreatorContainer = styled.View`
 `
 
 export const InfoText = styled.Text`
-	font-size: ${relativeScreenDensity(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	color: ${({ theme }) => theme.black4};
 `
 

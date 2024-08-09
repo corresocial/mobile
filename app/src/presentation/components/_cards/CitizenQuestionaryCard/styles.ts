@@ -35,7 +35,7 @@ export const CitizenNameContainer = styled.View`
 `
 
 export const CitizenNameText = styled.Text`
-    font-size: ${relativeScreenDensity(18)}px;
+    font-size: ${({ theme }) => theme.fontSizes[8]}px;
 	font-family: Arvo_700Bold;
 	color: ${({ theme }) => theme.black4};
 `
@@ -50,7 +50,7 @@ export const CreatorContainer = styled.View`
 `
 
 export const InfoText = styled.Text`
-	font-size: ${relativeScreenDensity(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	color: ${({ theme }) => theme.black4};
 `
 

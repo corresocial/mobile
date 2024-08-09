@@ -80,7 +80,7 @@ export const TitleContainer = styled.View`
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(15)}px;
+	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `
 
 export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`

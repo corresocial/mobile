@@ -58,6 +58,6 @@ export const UserName = styled.Text<UserNameProps>`
 `
 
 export const PostDateTime = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 `

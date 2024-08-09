@@ -20,5 +20,5 @@ export const Container = styled.View<CardHighlighProps>`
 
 export const CustomText = styled.Text<CardHighlighProps>`
 	font-family: ${({ highlight }) => (highlight ? 'Arvo_700Bold' : 'Arvo_400Regular')};
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

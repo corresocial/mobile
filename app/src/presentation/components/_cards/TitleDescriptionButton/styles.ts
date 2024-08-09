@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface TextProps {
 	textColor?: string
@@ -13,7 +14,7 @@ interface TitleProps extends TextProps {
 export const Container = styled.View`
 	width: 100%;
     background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(17)}px;
+    border-radius: ${relativeScreenDensity(17)}px;
     justify-content: space-around;
 	position: relative;
 `
@@ -22,11 +23,11 @@ export const ContainerInner = styled.TouchableOpacity`
    	width: 100%;
    	height: 100%;
     background-color: ${({ theme }) => theme.white3};
-    border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(15)}px;
-    padding: ${RFValue(10)}px  ${RFValue(15)}px;
+    border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.black4};
+    border-radius: ${relativeScreenDensity(15)}px;
+    padding: ${relativeScreenDensity(10)}px  ${relativeScreenDensity(15)}px;
     justify-content: space-around;
-	left: ${RFValue(-5)}px;
+	left: ${relativeScreenDensity(-5)}px;
 `
 
 export const TitleArea = styled.View`
@@ -36,7 +37,7 @@ export const TitleArea = styled.View`
 
 export const Title = styled.Text<TitleProps>`
     width: ${({ checked }) => (checked ? '70%' : '100%')};
-    font-size:  ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(22))}px;
+    font-size:  ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(22))}px;
     color:  ${({ textColor, theme }) => (textColor || theme.black4)};
     font-family: Arvo_400Regular;
 `
@@ -44,7 +45,7 @@ export const Title = styled.Text<TitleProps>`
 export const Description = styled.Text<TextProps>`
     width: 100%;
     font-family: Arvo_400Regular;
-    font-size:  ${RFValue(14)}px;
+    font-size:  ${relativeScreenDensity(14)}px;
 	color:  ${({ textColor, theme }) => (textColor || theme.black4)};
 `
 
@@ -58,20 +59,20 @@ export const Footer = styled.View`
 export const SmallThinFont = styled.Text`
 	text-align: right;
     font-family: Arvo_400Regular;
-    font-size:  ${RFValue(18)}px;
+    font-size:  ${relativeScreenDensity(18)}px;
     color: ${({ theme }) => theme.black4};
 `
 
 export const SmallStrongFont = styled.Text`
 	text-align: right;
     font-family: Arvo_700Bold;
-    font-size:  ${RFValue(18)}px;
+    font-size:  ${relativeScreenDensity(18)}px;
     color: ${({ theme }) => theme.black4};
 `
 
 export const LargeStrongFont = styled.Text`
 	text-align: right;
     font-family: Arvo_700Bold;
-    font-size:  ${RFValue(25)}px;
+    font-size:  ${relativeScreenDensity(25)}px;
     color: ${({ theme }) => theme.black4};
 `

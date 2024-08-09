@@ -35,7 +35,7 @@ export const SideArea = styled.TouchableOpacity`
 
 export const TextInput = styled.TextInput`
 	flex: 1;
-    font-size: ${relativeScreenDensity(16)}px;
+    font-size: ${({ theme }) => theme.fontSizes[6]}px;
     font-family: Arvo_400Regular;
     text-align: center;
 	color: ${({ theme }) => theme.black4};

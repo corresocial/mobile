@@ -28,14 +28,14 @@ export const Body = styled.View`
 `
 
 export const Title = styled.Text`
-	font-size: ${RFValue(30)}px;
+	font-size: ${({ theme }) => theme.fontSizes[20]}px;
 	font-family: Arvo_700Bold;
 `
 
 export const Description = styled.Text`
 	font-family: Arvo_400Regular;
 	line-height: ${RFValue(20)}px;
-	font-size: ${RFValue(18)}px;
+	font-size: ${({ theme }) => theme.fontSizes[8]}px;
 `
 
 export const ButtonContainer = styled.View`

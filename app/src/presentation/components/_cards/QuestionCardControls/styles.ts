@@ -23,7 +23,7 @@ export const QuestionArea = styled.View`
 export const Text = styled.Text`
 	flex: 1;
 	text-align: center;
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: Arvo_700Bold;
 `
 

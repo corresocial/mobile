@@ -41,7 +41,7 @@ export const SidePicture = styled(ImageBackground)`
 
 export const UserName = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(15)}px;
+	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `
 
 export const DescriptionContainer = styled.View`
@@ -53,7 +53,7 @@ export const DescriptionContainer = styled.View`
 
 export const UserDescription = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(13)}px;
+	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 `
 
 export const RightArea = styled.View`

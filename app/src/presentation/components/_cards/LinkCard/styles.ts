@@ -18,6 +18,6 @@ export const LinkContainer = styled.TouchableOpacity`
 
 export const TextLink = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-	font-size: ${relativeScreenDensity(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	color: ${({ theme }) => theme.orange3};
 `

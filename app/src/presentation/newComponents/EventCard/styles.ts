@@ -67,7 +67,7 @@ export const PriceLabelContainer = styled.View<PriceLabelContainerProps>`
 
 export const PriceLabel = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme }) => theme.fontSizes.arvo[1]}px;
+	font-size: ${({ theme }) => theme.fontSizes[0]}px;
 	color: ${({ theme }) => theme.colors.black[4]};
 `
 
@@ -95,11 +95,8 @@ interface PostDescriptionProps {
 
 export const PostDescription = styled.Text<PostDescriptionProps>`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${relativeScreenDensity(11)}px;
+	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 	`
-/* font-size: ${({ theme, colapsed }) => theme.fontSizes.arvo[colapsed ? 2 : 3]}px; */
-// CURRENT Utilizar theme.fontSizes
-
 interface PostDescriptionContainerProps {
 	colapsed: boolean
 }

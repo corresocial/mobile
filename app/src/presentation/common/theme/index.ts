@@ -131,18 +131,52 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 		nunitoBold: 'Nunito_700Bold'
 	},
 
+	// fontSizes: {
+	// 	arvo: {
+	// 		1: relativeScreenDensity(10),
+	// 		2: relativeScreenDensity(12),
+	// 		3: relativeScreenDensity(14),
+	// 		4: relativeScreenDensity(16),
+	// 		5: relativeScreenDensity(18)
+	// 	},
+	// 	nunito: {
+	// 		1: relativeScreenDensity(10),
+	// 		2: relativeScreenDensity(12),
+	// 		3: relativeScreenDensity(14)
+	// 	}
+	// }
+
 	fontSizes: {
-		arvo: {
-			1: relativeScreenDensity(10),
-			2: relativeScreenDensity(12),
-			3: relativeScreenDensity(14),
-			4: relativeScreenDensity(16),
-			5: relativeScreenDensity(18)
-		},
-		nunito: {
-			1: relativeScreenDensity(10),
-			2: relativeScreenDensity(12),
-			3: relativeScreenDensity(14)
-		}
+		0: relativeScreenDensity(10),
+		1: relativeScreenDensity(11),
+		2: relativeScreenDensity(12),
+		3: relativeScreenDensity(13),
+		4: relativeScreenDensity(14),
+		5: relativeScreenDensity(15),
+		6: relativeScreenDensity(16),
+		7: relativeScreenDensity(17),
+		8: relativeScreenDensity(18),
+		9: relativeScreenDensity(19),
+		10: relativeScreenDensity(20),
+		11: relativeScreenDensity(21),
+		12: relativeScreenDensity(22),
+		13: relativeScreenDensity(23),
+		14: relativeScreenDensity(24),
+		15: relativeScreenDensity(25),
+		16: relativeScreenDensity(26),
+		17: relativeScreenDensity(27),
+		18: relativeScreenDensity(28),
+		19: relativeScreenDensity(29),
+		20: relativeScreenDensity(30),
+		21: relativeScreenDensity(31),
+		22: relativeScreenDensity(32),
+		23: relativeScreenDensity(33),
+		24: relativeScreenDensity(34),
+		25: relativeScreenDensity(35),
+		26: relativeScreenDensity(36),
+		27: relativeScreenDensity(37),
+		28: relativeScreenDensity(38),
+		29: relativeScreenDensity(39),
+		30: relativeScreenDensity(40),
 	}
 }

@@ -29,7 +29,7 @@ export const CloseIcon = styled.TouchableOpacity`
 
 export const PostTitle = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(16)}px;
+	font-size: ${({ theme }) => theme.fontSizes[6]}px;
 	width: 92%;
 	margin-bottom: ${RFValue(15)}px;
 `

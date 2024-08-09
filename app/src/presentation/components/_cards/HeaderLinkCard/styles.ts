@@ -13,5 +13,5 @@ export const ValueContainer = styled.View`
 
 export const Text = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `

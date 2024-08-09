@@ -14,7 +14,7 @@ export const HeaderActionsContainer = styled.View`
 `
 
 export const GreetingText = styled.Text`
-    font-size: ${relativeScreenDensity(14)}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.black4};
 	text-align: center;

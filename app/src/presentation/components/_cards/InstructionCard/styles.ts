@@ -9,20 +9,20 @@ export const Container = styled.View`
 
 export const Message = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: ${RFValue(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     font-family: Arvo_400Regular;
     line-height: ${RFValue(22)}px;
     flex-wrap: wrap;
 `
 
 export const MessageTitle = styled.Text`
-	font-size: ${RFValue(24)}px;
+	font-size: ${({ theme }) => theme.fontSizes[14]}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.black4};
 `
 
 export const RedirectLink = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	color: ${({ theme }) => theme.orange3};
 `

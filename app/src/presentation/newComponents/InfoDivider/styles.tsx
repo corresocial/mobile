@@ -28,12 +28,12 @@ export const ButtonArea = styled.View`
 
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.fonts.arvoBold};
-    font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const SubTitle = styled.Text`
     font-family: ${({ theme }) => theme.fonts.arvoRegular};
-    font-size: ${({ theme }) => theme.fontSizes.arvo[2]}px;
+    font-size: ${({ theme }) => theme.fontSizes[2]}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

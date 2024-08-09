@@ -9,17 +9,17 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	align-items: flex-start;
 	justify-content: space-between;
-	padding: ${15}px ${30}px;
+	padding: ${15}px ${30}px; // REFACTOR relative
 	border-left-width: ${RFValue(5)}px;
 	border-color: ${({ theme }) => theme.black4};
 `
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${20}px;
+	font-size: ${20}px; // REFACTOR relative
 `
 
 export const Text = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${13}px;
+	font-size: ${13}px; // REFACTOR relative
 `

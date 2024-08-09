@@ -9,7 +9,7 @@ export const Container = styled.KeyboardAvoidingView`
 
 export const HeaderDescription = styled.Text`
 	font-family: 'Arvo_400Regular';
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `
 
 export const MapContainer = styled.View`

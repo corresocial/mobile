@@ -1,6 +1,7 @@
 import { TextStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface ContainerProps {
 	overlayColor?: 'success' | 'error' | 'info'
@@ -28,19 +29,19 @@ export const TouchCloseArea = styled.TouchableOpacity`
 export const Content = styled.View`
     width: 88%;
     background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(30)}px;
-    border-width: ${RFValue(5)}px;
+    border-radius: ${relativeScreenDensity(30)}px;
+    border-width: ${relativeScreenDensity(5)}px;
     justify-content: space-between;
     border-color: ${({ theme }) => theme.black4};
-    border-right-width: ${RFValue(15)}px;
+    border-right-width: ${relativeScreenDensity(15)}px;
  `
 
 export const ContentInner = styled.View`
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding: ${RFValue(25)}px;
-	padding-top: ${RFValue(15)}px;
-	border-radius: ${RFValue(25)}px;
+	padding: ${relativeScreenDensity(25)}px;
+	padding-top: ${relativeScreenDensity(15)}px;
+	border-radius: ${relativeScreenDensity(25)}px;
 	justify-content: space-between;
 `
 
@@ -49,7 +50,7 @@ export const Header = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: ${RFValue(20)}px;
+	margin-bottom: ${relativeScreenDensity(20)}px;
 `
 
 interface TitleProps {
@@ -61,7 +62,7 @@ export const Title = styled.Text<TitleProps>`
 	flex: 1;
     font-family: ${({ hasHighlightedWords }) => (hasHighlightedWords ? 'Arvo_400Regular' : 'Arvo_700Bold')};
 	text-align: ${({ textAlign }) => (textAlign || 'left')};
-    font-size: ${RFValue(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     color: ${({ theme }) => theme.black3};
 `
 
@@ -72,9 +73,9 @@ interface DescriptionProps {
 }
 
 export const Description = styled.Text<DescriptionProps>`
-	margin-bottom: ${RFValue(20)}px;
+	margin-bottom: ${relativeScreenDensity(20)}px;
     font-family: ${({ bolded }) => (bolded ? 'Arvo_700Bold' : 'Arvo_400Regular')};
-    font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(13))}px;
+    font-size: ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(13))}px;
     text-align: ${({ textAlign }) => (textAlign || 'left')};
     color: ${({ theme }) => theme.black3};
 `

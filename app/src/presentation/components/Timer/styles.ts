@@ -8,5 +8,5 @@ export const Container = styled.View`
 
 export const CounterText = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(13)}px;
+	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 `

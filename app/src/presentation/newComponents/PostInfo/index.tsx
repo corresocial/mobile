@@ -52,7 +52,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	const linkStyle = {
 		color: theme.colors.orange[3],
 		fontFamily: theme.fonts.nunitoBold,
-		fontSize: theme.fontSizes.nunito[3]
+		fontSize: theme.fontSizes[4]
 	}
 
 	const renderLinks = (links: string[]) => {

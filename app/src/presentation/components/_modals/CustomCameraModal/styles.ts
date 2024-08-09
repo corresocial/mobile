@@ -25,7 +25,7 @@ export const FlashButtonContainer = styled.View`
 `
 
 interface ContainerIconProps {
-    opacity?: number
+	opacity?: number
 }
 
 export const ContainerIcon = styled.TouchableOpacity<ContainerIconProps>`
@@ -74,7 +74,7 @@ export const NotPermissionContainer = styled.TouchableOpacity`
 
 export const NotPermissionText = styled.Text`
    color:  ${({ theme }) => theme.white1};
-   font-size: 17px;
+   font-size: 17px; // REFACTOR relative
    text-align: center;
    margin-top: 20px;
    margin-bottom: 20px;

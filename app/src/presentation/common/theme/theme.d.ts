@@ -8,6 +8,8 @@ type Tonality = {
 	4: string
 }
 
+type FontSizes = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30
+
 // and extend it
 declare module 'styled-components' {
 	export interface DefaultTheme {
@@ -96,20 +98,6 @@ declare module 'styled-components' {
 			nunitoBold: string
 		},
 
-		fontSizes: {
-			arvo: {
-				1: number
-				2: number
-				3: number
-				4: number
-				5: number
-			}
-
-			nunito: {
-				1: number
-				2: number
-				3: number
-			}
-		}
+		fontSizes: { [key in FontSizes]: number }
 	}
 }

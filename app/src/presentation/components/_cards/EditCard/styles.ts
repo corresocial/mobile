@@ -19,7 +19,7 @@ interface TextProps {
 
 export const Text = styled.Text<TextProps>`
 	font-family: ${({ bold }) => (bold ? 'Arvo_700Bold' : 'Arvo_400Regular')};
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const PictureArea = styled.View`

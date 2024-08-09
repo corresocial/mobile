@@ -46,6 +46,6 @@ export const Header = styled.View`
 export const Title = styled.Text`
     font-family: 'Arvo_700Bold';
 	text-align: center;
-    font-size: ${relativeScreenDensity(16)}px;
+    font-size: ${({ theme }) => theme.fontSizes[6]}px;
     color: ${({ theme }) => theme.black3};
 `

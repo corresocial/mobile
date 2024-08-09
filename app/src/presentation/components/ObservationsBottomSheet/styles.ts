@@ -24,7 +24,7 @@ export const HeaderTitleContainer = styled.View`
 `
 
 export const BottomSheetHeaderText = styled.Text`
-    font-size: 18px;
+    font-size: 18px; // REFACTOR relative
     font-family: Arvo_700Bold;
 `
 

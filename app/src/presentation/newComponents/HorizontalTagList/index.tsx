@@ -25,7 +25,7 @@ function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
 					backgroundColor={theme.colors.white[1]}
 					backgroundSelected={selectedColor || theme.colors.orange[3]}
 					label={customTag}
-					fontSize={theme.fontSizes.arvo[1]}
+					fontSize={theme.fontSizes[1]}
 					selected
 				/>
 			)

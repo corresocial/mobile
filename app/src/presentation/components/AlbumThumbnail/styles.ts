@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const AlbumView = styled.TouchableOpacity`
     margin: ${relativeScreenWidth(0.5)}px;
@@ -11,7 +10,7 @@ export const AlbumView = styled.TouchableOpacity`
 
 export const AlbumThumbnailImage = styled.Image`
     flex: 1;
-    border-radius: ${RFValue(15)}px;
+    border-radius: ${relativeScreenDensity(15)}px;
 `
 
 export const AlbumThumbnailInfo = styled.View`
@@ -30,14 +29,14 @@ export const AlbumThumbnailBackground = styled.View`
     background-color: white;
     width: 100%;
     height: 100%;
-    border-bottom-left-radius: ${RFValue(15)}px;
-    border-bottom-right-radius: ${RFValue(15)}px;
+    border-bottom-left-radius: ${relativeScreenDensity(15)}px;
+    border-bottom-right-radius: ${relativeScreenDensity(15)}px;
     opacity: 0.8;
 `
 
 export const AlbumThumbnailTitle = styled.Text`
     z-index: 2;
-    font-size: ${RFValue(9)}px;
+    font-size: ${relativeScreenDensity(9)}px;
     text-align: center;
 	font-family: Arvo_700Bold;
     position: absolute;

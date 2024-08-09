@@ -18,7 +18,7 @@ export const Header = styled.View`
 
 export const TextInstruction = styled.Text`
 	color: ${({ theme }) => theme.black4};
-    font-size: ${relativeScreenDensity(14)}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
     font-family: Arvo_400Regular;
 	text-align: center;
 `

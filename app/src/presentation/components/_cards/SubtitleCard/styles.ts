@@ -22,7 +22,7 @@ export const Container = styled.View<ContainerProps>`
 export const Title = styled.Text<ContainerProps>`
 	width: ${({ hasIcon }) => (hasIcon ? '75%' : '60%')};
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const RightArea = styled.View`
