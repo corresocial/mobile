@@ -20,9 +20,34 @@ interface ContextHeaderProps {
 function ContextHeader({ title, color = 'transparent', rightLabel, icon, onBack, onClose }: ContextHeaderProps) {
 	return (
 		<Container color={color}>
-			{onBack && <StandardButton icon={'arrowLeft'} onPress={onBack} />}
-			{onClose && <StandardButton icon={'x'} backgroundColor={theme.colors.red[3]} onPress={onClose} />}
-			{icon && <IconComponent relativeWidth={35} relativeHeight={35} iconName={icon} />}
+			{
+				onBack && (
+					<StandardButton
+						icon={'arrowLeft'}
+						iconHeight={'95%'}
+						iconWidth={'95%'}
+						onPress={onBack}
+					/>
+				)
+			}
+			{
+				onClose && (
+					<StandardButton
+						icon={'x'}
+						backgroundColor={theme.colors.red[3]}
+						onPress={onClose}
+					/>
+				)
+			}
+			{
+				icon && (
+					<IconComponent
+						relativeWidth={35}
+						relativeHeight={35}
+						iconName={icon}
+					/>
+				)
+			}
 			{typeof (title) === 'string' ? <Title>{title}</Title> : title}
 			{rightLabel && (
 				<RightLabelContainer>

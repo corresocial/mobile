@@ -424,8 +424,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 													? 'não vou mais' : 'eu vou!'}
 											backgroundColor={postData.presenceList && postData.presenceList.length ? theme.colors.red[3] : theme.colors.green[3]}
 											icon={isAuthor ? 'share' : 'personWalking'}
-											iconHeight={30}
-											iconWidth={30}
+											iconWidth={35}
 											textTheme={'light'}
 											relativeWidth={isAuthor ? '80%' : '63%'}
 											onPress={isAuthor ? sharePost : confirmPresence}
@@ -433,10 +432,9 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									) : (
 										<StandardButton
 											text={isAuthor ? 'compartilhar' : 'conversar'}
-											backgroundColor={theme.colors.green[4]}
+											backgroundColor={theme.colors.green[3]}
 											icon={isAuthor ? 'share' : 'chat'}
-											iconHeight={30}
-											iconWidth={30}
+											iconWidth={35}
 											textTheme={'light'}
 											relativeWidth={isAuthor ? '80%' : '63%'}
 											onPress={isAuthor ? sharePost : openChat}
