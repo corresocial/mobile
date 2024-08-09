@@ -57,7 +57,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<MediaBrowserModal
 				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
 				onClose={() => setMediaBrowserModalVisibility(false)}
@@ -89,7 +89,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				withoutPadding
 				flexDirection={'column'}
 				justifyContent={'space-around'}
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 			>
 				<TopArea>
 					<BackButton onPress={navigation.goBack} />
@@ -132,8 +132,8 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				<SmallButton
 					relativeWidth={relativeScreenWidth(35)}
 					height={relativeScreenWidth(20)}
-					color={theme.green3}
-					labelColor={theme.white3}
+					color={theme.colors.green[3]}
+					labelColor={theme.colors.white[3]}
 					SvgIcon={CheckIcon}
 					halfRounded
 					onPress={saveUserPicture}

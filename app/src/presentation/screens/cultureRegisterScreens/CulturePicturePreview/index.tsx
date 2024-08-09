@@ -28,9 +28,9 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.blue2}
+				backgroundColor={theme.colors.blue[2]}
 				initialValue={initialValue}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}

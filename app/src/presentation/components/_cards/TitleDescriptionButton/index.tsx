@@ -137,7 +137,7 @@ function TitleDescriptionButton({
 					{
 						checked && (
 							<SmallButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SvgIcon={CheckWhiteIcon}
 								svgScale={['60%', '60%']}
 								height={relativeScreenHeight(5)}

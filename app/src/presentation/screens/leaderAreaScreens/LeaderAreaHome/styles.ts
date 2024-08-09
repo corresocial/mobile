@@ -5,17 +5,17 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 export const Container = styled.View`
 	flex: 1;
 	width: 100%;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `
 
 export const UnapprovedPostsList = styled.FlatList`
 	flex: 1;
 	width: 100%;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `
 
 export const HeaderButtonsContainer = styled.View`
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	width: ${relativeScreenWidth(100)}px;
 	align-items: center;
 	justify-content: space-between;

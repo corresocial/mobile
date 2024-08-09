@@ -6,7 +6,7 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 export const Container = styled.TouchableOpacity`
 	width: 98%;
 	height: ${relativeScreenDensity(100)}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -16,8 +16,8 @@ export const ContainerInner = styled.View`
 	width: 100%;
     height: 100%;
 	flex-direction: row;
-	background-color: ${({ theme }) => theme.white3};
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
@@ -25,7 +25,7 @@ export const ContainerInner = styled.View`
 `
 
 export const LeftArea = styled.View`
-	background-color: ${({ theme }) => theme.orange1};
+	background-color: ${({ theme }) => theme.colors.orange[1]};
 	height: 100%;
 	flex: 1;
 	overflow: hidden;
@@ -47,7 +47,7 @@ export const DescriptionContainer = styled.View`
 	border-left-width: ${relativeScreenDensity(2.5)}px;
 	padding: 0px ${relativeScreenDensity(6)}px;
 	overflow: hidden;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const UserDescription = styled.Text`
@@ -58,7 +58,7 @@ export const UserDescription = styled.Text`
 export const RightArea = styled.View`
 	width: 70%;
 	height: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(7)}px;
 `
 

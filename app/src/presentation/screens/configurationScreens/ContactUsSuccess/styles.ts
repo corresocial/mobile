@@ -8,7 +8,7 @@ export const Container = styled.View`
 
 export const Body = styled.View`
    flex: 1;
-   background-color: ${({ theme }) => theme.white2};
+   background-color: ${({ theme }) => theme.colors.white[2]};
    justify-content: space-around;
    padding: ${relativeScreenDensity(25)}px;
 `

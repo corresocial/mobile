@@ -105,11 +105,11 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.orange[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -126,8 +126,8 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 						relativeWidth={'30%'}
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.orange1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.orange[1]}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -141,8 +141,8 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 						relativeWidth={'65%'}
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.orange1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.orange[1]}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}
@@ -159,9 +159,9 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 						: (DDD || cellNumber)
 							? (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									SecondSvgIcon={CheckWhiteIcon}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									label={'continuar'}
 									highlightedWords={['continuar']}
 									startsHidden
@@ -170,9 +170,9 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 							)
 							: (
 								<PrimaryButton
-									color={theme.yellow3}
+									color={theme.colors.yellow[3]}
 									SecondSvgIcon={DeniedWhiteIcon}
-									labelColor={theme.black4}
+									labelColor={theme.colors.black[4]}
 									label={'não informar'}
 									highlightedWords={['não']}
 									onPress={skipScreen}

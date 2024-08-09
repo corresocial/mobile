@@ -7,7 +7,7 @@ export const MediaBrowserModalContainer = styled.Modal`
 `
 
 interface MediaBrowserHeaderProps {
-	isIos: boolean
+    isIos: boolean
 }
 
 export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
@@ -26,7 +26,7 @@ export const HeaderTextContent = styled.View`
 	justify-content: space-between;
 `
 interface HeaderTextContentProps {
-	flex?: number
+    flex?: number
 }
 
 export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
@@ -70,7 +70,7 @@ export const ConfirmSelectionButton = styled.View`
 `
 
 export const NotPermissionText = styled.Text`
- 	color:  ${({ theme }) => theme.white1};
+ 	color:  ${({ theme }) => theme.colors.white[1]};
 	font-size: 17px; // REFACTOR relative
 	text-align: center;
    	align-self: center;
@@ -79,7 +79,7 @@ export const NotPermissionText = styled.Text`
 `
 
 interface IndicatorContainerProps {
-	isLoadingMore: boolean
+    isLoadingMore: boolean
 }
 
 export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`
@@ -93,7 +93,7 @@ export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`
 `
 
 export const ActivityIndicatorBg = styled.View`
-    background-color: ${({ theme }) => theme.white3};
+    background-color: ${({ theme }) => theme.colors.white[3]};
     padding: 2px;
     border-radius: 100px;
 `
@@ -109,7 +109,7 @@ export const InvalidAssetContainer = styled.View`
 `
 
 export const InvalidAssetAlert = styled.View`
-    background-color: ${({ theme }) => theme.white3};
+    background-color: ${({ theme }) => theme.colors.white[3]};
     padding: ${relativeScreenDensity(15)}px;
     border-radius: ${relativeScreenDensity(10)}px;
 `

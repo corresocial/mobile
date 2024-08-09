@@ -100,7 +100,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<LocationChangeConfirmationModal
 				visibility={locationChangeModalIsVisible}
 				currentPostAddress={getLastPostCity()}
@@ -109,8 +109,8 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
 			<SelectPostLocation
-				backgroundColor={theme.green2}
-				validationColor={theme.green1}
+				backgroundColor={theme.colors.green[2]}
+				validationColor={theme.colors.green[1]}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

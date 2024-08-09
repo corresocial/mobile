@@ -122,11 +122,11 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 				onPressButton={toggleMessagesSmasState}
 				closeModal={toggleInsertNisModalVisibility}
 			/>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
@@ -138,7 +138,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 					/>
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2}>
+			<FormContainer backgroundColor={theme.colors.orange[2]}>
 				{
 					isLoading
 						? (
@@ -155,7 +155,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 									relativeHeight={relativeScreenHeight(15)}
 									SvgIcon={smasMessagesIsEnabled ? XWhiteIcon : CheckWhiteIcon}
 									svgIconScale={['50%', '50%']}
-									leftSideColor={smasMessagesIsEnabled ? theme.red3 : theme.green3}
+									leftSideColor={smasMessagesIsEnabled ? theme.colors.red[3] : theme.colors.green[3]}
 									leftSideWidth={'22%'}
 									onPress={smasMessagesIsEnabled ? toggleMessagesSmasState : toggleInsertNisModalVisibility}
 								/>
@@ -167,7 +167,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 									leftSideWidth={'22%'}
 									SvgIcon={governmentNotificationIsEnabled ? XWhiteIcon : CheckWhiteIcon}
 									svgIconScale={['50%', '50%']}
-									leftSideColor={governmentNotificationIsEnabled ? theme.red3 : theme.green3}
+									leftSideColor={governmentNotificationIsEnabled ? theme.colors.red[3] : theme.colors.green[3]}
 									onPress={toggleGovernmentNotifications}
 								/>
 							</>

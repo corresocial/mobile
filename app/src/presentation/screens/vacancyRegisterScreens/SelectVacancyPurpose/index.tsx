@@ -40,8 +40,8 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 		<PostSelectButton
 			title={'você está \nprocurando uma vaga \nou um profissional?'}
 			highlightedWords={['vaga', 'profissional']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[1, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -52,7 +52,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={SuitCaseIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveVacancyPurpose(false)}
 			/>
@@ -63,7 +63,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={PersonWithSuitCaseIcon}
 				svgIconScale={['45%', '45%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveVacancyPurpose(true)}
 			/>

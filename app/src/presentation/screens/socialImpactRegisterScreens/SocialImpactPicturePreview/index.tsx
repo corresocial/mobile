@@ -25,9 +25,9 @@ function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				initialValue={convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}

@@ -15,7 +15,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 function WhoWeAreCulture({ navigation }: WhoWeAreCultureScreenProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -44,7 +44,7 @@ function WhoWeAreCulture({ navigation }: WhoWeAreCultureScreenProps) {
 				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
-						color={theme.orange3}
+						color={theme.colors.orange[3]}
 						label={'só mais uma coisa'}
 						fontSize={20}
 						SecondSvgIcon={DescriptionWhiteIcon}

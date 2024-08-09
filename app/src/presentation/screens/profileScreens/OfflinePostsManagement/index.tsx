@@ -161,7 +161,7 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -174,10 +174,10 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 						: (
 							<SaveButtonContainer>
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={getActionButtonLabel()}
 									highlightedWords={getActionButtonLabelHighlighted()}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									fontSize={16}
 									SecondSvgIcon={allOfflinePostsOnRange() ? AngleRightWhiteIcon : HandOnMoneyWhiteIcon}
 									svgIconScale={['40%', '20%']}
@@ -190,7 +190,7 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 				}
 
 			</Header>
-			<Body backgroundColor={hasError ? theme.red2 : theme.orange2}>
+			<Body backgroundColor={hasError ? theme.colors.red[2] : theme.colors.orange[2]}>
 				{
 					<FlatListPosts
 						data={offlinePosts}

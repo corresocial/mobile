@@ -49,11 +49,11 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				validationColor={theme.colors.pink[1]}
 				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[4, isSecondPost ? 5 : 6]}

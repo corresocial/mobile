@@ -15,7 +15,7 @@ export const Container = styled.View`
 `
 
 export const PictureItemButtom = styled.TouchableOpacity<PicturePortraitProps>`
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	margin-right: ${relativeScreenDensity(10)}px;
 	overflow: hidden;
 	align-items: center;
@@ -33,8 +33,8 @@ interface PicturePortraitProps {
 export const PicturePortrait = styled.View<PicturePortraitProps>`
 	width: ${relativeScreenWidth(16)}px;
 	height: ${relativeScreenWidth(16)}px;
-	border-color:  ${({ theme }) => theme.black4};
-	background-color: ${({ theme }) => theme.black4};
+	border-color:  ${({ theme }) => theme.colors.black[4]};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	border-radius: ${relativeScreenDensity(12)}px;
 	align-items: center;
 	justify-content: center;

@@ -44,7 +44,7 @@ export function MediaView({ picturesUrl, videosUrl, onPress }: MediaViewProps) {
 				<MediaCarousel
 					picturesUrl={[...(picturesUrl || [])] || []}
 					videosThumbnails={[...(videosUrl || [])] || []}
-					indicatorColor={theme.blue1}
+					indicatorColor={theme.colors.blue[1]}
 					square
 					showFullscreenIcon
 				/>

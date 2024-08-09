@@ -5,7 +5,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const TouchableContainer = styled.TouchableWithoutFeedback`
 	width: 100%;
-	background-color: ${({ theme }) => theme.white2};
+	background-color: ${({ theme }) => theme.colors.white[2]};
 `
 
 export const ContainerBottom = styled(Animatable.View as any)`
@@ -14,7 +14,7 @@ export const ContainerBottom = styled(Animatable.View as any)`
 	flex-direction: row;
     border-radius: ${relativeScreenDensity(18)}px;
     position: relative;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const ContainerSurface = styled.View`
@@ -31,7 +31,7 @@ export const ContainerSurface = styled.View`
 `
 
 export const ButtonLabel = styled.Text`
-    color: ${({ theme }) => theme.black4};
+    color: ${({ theme }) => theme.colors.black[4]};
     font-family: Arvo_400Regular;
     text-align: center;
 `

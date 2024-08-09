@@ -41,10 +41,10 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostTags
-				backgroundColor={theme.blue2}
-				lightColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				lightColor={theme.colors.blue[1]}
 				currentCategory={cultureCategories[getCultureCategorySelected()]}
 				navigateBackwards={() => navigation.goBack()}
 				addNewTag={addNewTag}

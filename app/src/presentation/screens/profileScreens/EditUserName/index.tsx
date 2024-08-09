@@ -37,15 +37,15 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<PostInputText
 				height={'50%'}
 				customTitle={'edite o seu nome'}
 				customHighlight={['nome']}
 				multiline
 				inputPlaceholder={'qual é o seu nome?'}
-				backgroundColor={theme.orange2}
-				validationColor={theme.orange1}
+				backgroundColor={theme.colors.orange[2]}
+				validationColor={theme.colors.orange[1]}
 				initialValue={route.params.userName}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateName}

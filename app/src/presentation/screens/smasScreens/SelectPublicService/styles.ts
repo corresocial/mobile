@@ -9,6 +9,6 @@ export const Container = styled.View`
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(12)}px;
 `

@@ -42,12 +42,12 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				flexDirection={'column'}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
@@ -78,9 +78,9 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 			</DefaultHeaderContainer>
 			<FormContainer>
 				<PrimaryButton
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					label={'continuar'}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SecondSvgIcon={CheckWhiteIcon}
 					onPress={navigateBackwards}
 				/>

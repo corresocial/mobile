@@ -94,9 +94,9 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={successfulPayment ? theme.orange1 : theme.red1} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={successfulPayment ? theme.colors.orange[1] : theme.colors.red[1]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				backgroundColor={successfulPayment ? theme.orange1 : theme.red1}
+				backgroundColor={successfulPayment ? theme.colors.orange[1] : theme.colors.red[1]}
 				relativeHeight={successfulPayment ? relativeScreenHeight(80) : relativeScreenHeight(50)}
 				borderBottomWidth={successfulPayment ? 0 : 5}
 				flexDirection={'column'}
@@ -119,7 +119,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 							<InstructionCard
 								message={'não conseguimos completar o pagamento, tente conferir os dados e pagar novamente.'}
 								highlightedWords={['não', 'conseguimos', 'completar', 'o', 'pagamento']}
-								backgroundColor={theme.red2}
+								backgroundColor={theme.colors.red[2]}
 								fontSize={14}
 								lineHeight={16}
 								flex={0}
@@ -145,7 +145,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 								<InstructionCard
 									message={'obrigado por usar nosso aplicativo! \n\njuntos, vamos conectar todos a um futuro melhor'}
 									highlightedWords={['\n\njuntos', 'vamos', 'conectar', 'todos', 'a', 'um', 'futuro', 'melhor']}
-									backgroundColor={theme.orange3}
+									backgroundColor={theme.colors.orange[3]}
 									fontSize={14}
 									flex={0}
 								>
@@ -163,11 +163,11 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					successfulPayment
 						? (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={!postReview ? 'finalizar' : 'ir para o post'}
 								highlightedWords={['ir', 'para', 'o', 'post']}
 								fontSize={17}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={backToInitialStackScreen}
 							/>
@@ -175,10 +175,10 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 						: (
 							<>
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'conferir dados'}
 									highlightedWords={['conferir', 'dados']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									relativeHeight={relativeScreenHeight(11)}
 									fontSize={16}
 									SecondSvgIcon={DescriptionWhiteIcon}
@@ -187,10 +187,10 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 								{
 									postReview && (
 										<PrimaryButton
-											color={theme.yellow3}
+											color={theme.colors.yellow[3]}
 											label={'usar alcance região \n(gratuito)'}
 											highlightedWords={['alcance', 'região']}
-											labelColor={theme.black4}
+											labelColor={theme.colors.black[4]}
 											relativeHeight={relativeScreenHeight(11)}
 											textAlign={'center'}
 											fontSize={16}
@@ -200,10 +200,10 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									)
 								}
 								<PrimaryButton
-									color={theme.red3}
+									color={theme.colors.red[3]}
 									label={!postReview ? 'cancelar alterações' : 'cancelar postagem'}
 									highlightedWords={['cancelar']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									relativeHeight={relativeScreenHeight(11)}
 									fontSize={16}
 									SvgIcon={XWhiteIcon}

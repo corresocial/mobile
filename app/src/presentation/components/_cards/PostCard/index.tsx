@@ -69,10 +69,10 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 
 	const getRelativeColor = (lightColor?: boolean) => {
 		switch (post.postType) {
-			case 'income': return lightColor ? theme.green1 : theme.green3
-			case 'socialImpact': return lightColor ? theme.pink1 : theme.pink3
-			case 'culture': return lightColor ? theme.blue1 : theme.blue3
-			default: return lightColor ? theme.orange1 : theme.orange3
+			case 'income': return lightColor ? theme.colors.green[1] : theme.colors.green[3]
+			case 'socialImpact': return lightColor ? theme.colors.pink[1] : theme.colors.pink[3]
+			case 'culture': return lightColor ? theme.colors.blue[1] : theme.colors.blue[3]
+			default: return lightColor ? theme.colors.orange[1] : theme.colors.orange[3]
 		}
 	}
 

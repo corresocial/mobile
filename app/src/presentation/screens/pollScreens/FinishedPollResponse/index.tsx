@@ -118,11 +118,11 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 				}}
 				closeModal={() => setLocationPermissionModalIsVisible(false)}
 			/>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -148,9 +148,9 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 								<Loader flex />
 							) : (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'enviar respostas'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SecondSvgIcon={SendFileWhiteIcon}
 									onPress={submitResponses}
 								/>

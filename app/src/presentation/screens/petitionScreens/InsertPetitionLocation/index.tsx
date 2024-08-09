@@ -66,13 +66,13 @@ function InsertPetitionLocation({ route, navigation }: InsertPetitionLocationScr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<SelectPostLocation
 				customTitle={'onde você quer publicar esse abaixo assinado?'}
 				customTitleHighligh={['abaixo', 'assinado?']}
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				initialValue={getInitialCoordinateValue()}
-				validationColor={theme.purple1}
+				validationColor={theme.colors.purple[1]}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>

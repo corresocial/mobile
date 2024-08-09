@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenDensity } from '@common/screenDimensions'
 
 export const InitialDropdownContainer = styled.View`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	width: 100%;
 	height: ${relativeScreenHeight(10)}px;
 	padding: 0px ${relativeScreenDensity(10)}px;

@@ -288,7 +288,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 			/>
 			<Container >
 				<DefaultHeaderContainer
-					backgroundColor={theme.white3}
+					backgroundColor={theme.colors.white[3]}
 					centralized={false}
 					grow
 					withoutIOSPadding
@@ -316,7 +316,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 						<OptionsArea>
 							<SmallButton
 								label={'rejeitar'}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={DeniedWhiteIcon}
 								relativeWidth={'40%'}
 								height={relativeScreenWidth(12)}
@@ -324,7 +324,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 							/>
 							<SmallButton
 								label={'aprovar'}
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SvgIcon={CheckWhiteIcon}
 								relativeWidth={'40%'}
 								height={relativeScreenWidth(12)}
@@ -391,7 +391,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 									>
 										<ImageCarousel
 											picturesUrl={getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl') : [defaultUserProfilePicture]}
-											indicatorColor={theme.blue1}
+											indicatorColor={theme.colors.blue[1]}
 											square
 											showFullscreenIcon
 										/>

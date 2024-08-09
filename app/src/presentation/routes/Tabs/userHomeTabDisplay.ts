@@ -20,10 +20,10 @@ const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
 				display: routeName === undefined || visibleRoutes.includes(routeName) ? 'flex' : 'none',
 				position: 'absolute',
 				height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
-				borderTopColor: theme.black4,
+				borderTopColor: theme.colors.black[4],
 				borderTopWidth: 5,
 				marginBottom: 0,
-				backgroundColor: theme.black4
+				backgroundColor: theme.colors.black[4]
 			}
 		})
 	}, [navigation, route])

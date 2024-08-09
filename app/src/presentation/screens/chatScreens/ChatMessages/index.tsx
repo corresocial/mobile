@@ -307,7 +307,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<BackButton onPress={() => navigation.goBack()} />
 				<SmallUserIdentification
@@ -333,7 +333,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					markAsCompleted={toggleImpactReportModalVisibility}
 				>
 					<SmallButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						SvgIcon={ThreeDotsWhiteIcon}
 						relativeWidth={relativeScreenWidth(12)}
 						height={relativeScreenWidth(12)}
@@ -361,7 +361,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					<WithoutPostsMessage
 						message={'tome cuidado ao passar informações pessoais e combine compras e trocas em locais seguros. em caso de serviços à domicílio, verifique o perfil de quem você está contratando'}
 						highlightedWords={['passar', 'informações', 'pessoais', 'combine', 'compras', 'trocas', 'locais', 'seguros', 'verifique', 'o', 'perfil']}
-						backgroundColor={theme.yellow1}
+						backgroundColor={theme.colors.yellow[1]}
 					/>
 				)}
 				ListHeaderComponentStyle={{ marginBottom: relativeScreenHeight(2) }}
@@ -373,8 +373,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 							<IsBlockedContainer>
 								<SmallButton
 									height={relativeScreenHeight(5)}
-									color={theme.red3}
-									labelColor={theme.white3}
+									color={theme.colors.red[3]}
+									labelColor={theme.colors.white[3]}
 									label={'usuário bloqueado'}
 									highlightedWords={['usuário', 'bloqueado']}
 									fontSize={14}

@@ -82,14 +82,14 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostLocationViewPreview
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={getPostRange()}
 				placeName={getPlaceName()}
-				placeColor={theme.transparence.pink3}
+				placeColor={theme.transparence.pink()}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

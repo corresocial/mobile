@@ -10,7 +10,7 @@ interface ContainerInnerProps {
 export const Container = styled.TouchableHighlight`
 	width: ${relativeScreenWidth(25)}px;
 	height: ${relativeScreenWidth(25)}px;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	border-radius: ${relativeScreenDensity(15)}px;
 	margin-left: ${relativeScreenDensity(7)}px;
 	margin-bottom: ${relativeScreenDensity(15)}px;
@@ -22,10 +22,10 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	background-color: ${(props) => (props.hasElements ? props.theme.white3 : props.inactiveColor)};
+	background-color: ${(props) => (props.hasElements ? props.theme.colors.white[3] : props.inactiveColor)};
 	border-radius: ${relativeScreenDensity(15)}px;
 	margin-left: ${relativeScreenDensity(-7)}px;
-	border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.black4};
+	border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.colors.black[4]};
 	overflow: hidden;
 `
 

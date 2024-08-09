@@ -122,9 +122,9 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		return (
 			<OptionContainer >
 				<SelectButton
-					backgroundSelected={theme.orange3}
+					backgroundSelected={theme.colors.orange[3]}
 					label={item}
-					labelColor={selectedOptions.includes(item) ? theme.white3 : theme.black4}
+					labelColor={selectedOptions.includes(item) ? theme.colors.white[3] : theme.colors.black[4]}
 					boldLabel
 					fontSize={12}
 					width={'100%'}
@@ -137,7 +137,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange1}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
 			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 				<CitizenRegistrationHeader
 					message={`${questionData.questionId} - ${questionData.question}`}
@@ -157,8 +157,8 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 									<InputContainer>
 										<DefaultInput
 											value={inputText}
-											defaultBackgroundColor={theme.white2}
-											validBackgroundColor={theme.orange1}
+											defaultBackgroundColor={theme.colors.white[2]}
+											validBackgroundColor={theme.colors.orange[1]}
 											lastInput
 											fontSize={16}
 											textIsValid={!!inputText}
@@ -180,9 +180,9 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 						? (
 							<ButtonOptionsContainer>
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'continuar'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SvgIcon={CheckWhiteIcon}
 									onPress={saveQuestionResponse}
 								/>
@@ -194,7 +194,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 						? (
 							<ButtonOptionsContainer>
 								<PrimaryButton
-									color={theme.yellow3}
+									color={theme.colors.yellow[3]}
 									label={'não se aplica'}
 									SecondSvgIcon={DeniedWhiteIcon}
 									onPress={skipQuestion}

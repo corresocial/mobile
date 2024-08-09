@@ -4,7 +4,7 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `
 
 export const ScrollContainer = styled.ScrollView`
@@ -14,5 +14,5 @@ export const ScrollContainer = styled.ScrollView`
 export const CardArea = styled.View`
 	width: 100%;
 	padding: ${relativeScreenWidth(6)}px;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `

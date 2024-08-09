@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3.5)}px;
 `
 
@@ -17,7 +17,7 @@ export const Body = styled.View`
 	flex: 1;
 	width: 100%;
 	height: 92%;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	padding: 0px ${relativeScreenWidth(3.5)}px;
 `
 

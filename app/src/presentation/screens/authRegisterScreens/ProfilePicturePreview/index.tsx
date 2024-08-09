@@ -78,7 +78,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<MediaBrowserModal
 				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
 				onClose={() => setMediaBrowserModalVisibility(false)}
@@ -107,7 +107,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				withoutPadding
 				flexDirection={'column'}
 				justifyContent={'space-around'}
-				backgroundColor={theme.green2}
+				backgroundColor={theme.colors.green[2]}
 			>
 				<InstructionCardContainer>
 					<BackButton onPress={navigateBackwards} />
@@ -150,8 +150,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 								<SmallButton
 									relativeWidth={relativeScreenWidth(35)}
 									height={relativeScreenWidth(20)}
-									color={theme.green3}
-									labelColor={theme.white3}
+									color={theme.colors.green[3]}
+									labelColor={theme.colors.white[3]}
 									SvgIcon={CheckIcon}
 									halfRounded
 									onPress={saveUserData}

@@ -30,7 +30,7 @@ function SelectButton({
 	height = relativeScreenHeight(9),
 	marginVertical = relativeScreenDensity(6),
 	marginHorizontal = 0,
-	backgroundColor = theme.white3,
+	backgroundColor = theme.colors.white[3],
 	backgroundSelected,
 	label,
 	labelColor,

@@ -33,7 +33,7 @@ export const SelectionIndicatorView = styled.View`
     width: ${relativeScreenWidth(7)}px;
     bottom: ${relativeScreenWidth(1)}px;
     right: ${relativeScreenWidth(1)}px;
-    background-color: ${({ theme }) => theme.orange3};
+    background-color: ${({ theme }) => theme.colors.orange[3]};
     border-radius: ${relativeScreenDensity(15)}px;
     border-width: 2px;
 `

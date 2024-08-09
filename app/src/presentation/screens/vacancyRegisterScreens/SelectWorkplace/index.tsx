@@ -36,8 +36,8 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 		<PostSelectButton
 			title={'qual é o local de trabalho?'}
 			highlightedWords={['local,', 'de', 'trabalho']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[4, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -48,7 +48,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 				relativeHeight={'25%'}
 				SvgIcon={ShopWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('presential')}
 			/>
@@ -59,7 +59,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 				relativeHeight={'25%'}
 				SvgIcon={ComputerAndPhoneWhiteIcon}
 				svgIconScale={['55%', '55%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('homeoffice')}
 			/>
@@ -71,7 +71,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 				SvgIcon={ShopWhiteIcon}
 				SecondSvgIcon={ComputerAndPhoneWhiteIcon}
 				svgIconScale={['40%', '55%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('hybrid')}
 			/>

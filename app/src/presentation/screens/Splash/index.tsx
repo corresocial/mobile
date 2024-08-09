@@ -140,7 +140,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.orange3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[3]} barStyle={'dark-content'} />
 			<CustomModal
 				visibility={confirmationModalIsVisible}
 				title={'atualizar app'}

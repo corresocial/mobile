@@ -25,9 +25,9 @@ export const PictureArea = styled.View`
 	width: 100%;
 	height: ${relativeScreenWidth(88)}px;
 	border-width: ${relativeScreenDensity(2)}px;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 	border-radius: ${relativeScreenDensity(15)}px;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	overflow: hidden;
 `
 

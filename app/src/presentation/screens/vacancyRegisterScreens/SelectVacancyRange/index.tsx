@@ -66,7 +66,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
@@ -75,8 +75,8 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
-				backgroundColor={theme.green2}
-				itemsColor={theme.green3}
+				backgroundColor={theme.colors.green[2]}
+				itemsColor={theme.colors.green[3]}
 				userSubscriptionRange={range || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

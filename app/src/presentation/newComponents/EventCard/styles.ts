@@ -9,7 +9,7 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: ${({ colapsed }) => (colapsed ? '46%' : '98%')};
 	height: ${relativeScreenDensity(120)}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -106,5 +106,5 @@ export const PostDescriptionContainer = styled.View<PostDescriptionContainerProp
 	padding: ${({ colapsed }) => (colapsed ? 0 : relativeScreenDensity(2))}px ${relativeScreenDensity(5)}px;
 	border-left-style: solid;
 	border-left-width: ${({ colapsed }) => relativeScreenWidth(colapsed ? 0 : 0.5)}px;
-	border-left-color: ${({ theme }) => theme.black4};
+	border-left-color: ${({ theme }) => theme.colors.black[4]};
 `

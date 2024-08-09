@@ -78,7 +78,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<ButtonsContainer>
 					<OptionButton
@@ -93,7 +93,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('near')}
-						leftSideTextColor={isVacancy && theme.black4}
+						leftSideTextColor={isVacancy && theme.colors.black[4]}
 						onPress={() => savePostRange('near')}
 					/>
 					<OptionButton
@@ -108,7 +108,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('city')}
-						leftSideTextColor={isVacancy && theme.black4}
+						leftSideTextColor={isVacancy && theme.colors.black[4]}
 						onPress={() => ((plansAvailable && plansAvailable.cityMonthly.price) || hiddenValues) && savePostRange('city')}
 					/>
 					<OptionButton
@@ -123,7 +123,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('country')}
-						leftSideTextColor={isVacancy && theme.black4}
+						leftSideTextColor={isVacancy && theme.colors.black[4]}
 						onPress={() => ((plansAvailable && plansAvailable.countryMonthly.price) || hiddenValues) && savePostRange('country')}
 					/>
 				</ButtonsContainer>

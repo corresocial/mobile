@@ -69,8 +69,8 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				value={currentImportantPoint}
 				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
-				defaultBackgroundColor={theme.white2}
-				validBackgroundColor={theme.green1}
+				defaultBackgroundColor={theme.colors.white[2]}
+				validBackgroundColor={theme.colors.green[1]}
 				withoutBottomLine
 				multiline
 				lastInput
@@ -132,12 +132,12 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.green2}
+				backgroundColor={theme.colors.green[2]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
@@ -151,7 +151,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -163,7 +163,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={importantPointsLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
@@ -178,8 +178,8 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 								value={importantPointText}
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.importantPointTextInput}
-								defaultBackgroundColor={theme.white2}
-								validBackgroundColor={theme.green1}
+								defaultBackgroundColor={theme.colors.white[2]}
+								validBackgroundColor={theme.colors.green[1]}
 								withoutBottomLine
 								lastInput
 								multiline
@@ -202,9 +202,9 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 						(importantPointsLength() > 0 && !keyboardOpened)
 						&& (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={saveVacancyImportantPoints}
 							/>

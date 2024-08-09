@@ -41,14 +41,14 @@ function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: Mess
 				<MessageContainerInner style={[
 					borderStyles.inner,
 					{
-						backgroundColor: !errorSending ? theme.white3 : theme.red3
+						backgroundColor: !errorSending ? theme.colors.white[3] : theme.colors.red[3]
 					}
 				]}
 				>
 					<TextMessage
 						selectable
 						style={{
-							color: !errorSending ? theme.black4 : theme.white3
+							color: !errorSending ? theme.colors.black[4] : theme.colors.white[3]
 						}}
 					>
 						{message}
@@ -57,7 +57,7 @@ function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: Mess
 						{errorSending && <ArrowRightCircleWhiteIcon width={'15%'} height={'100%'} />}
 						<RelativeDateTime
 							style={{
-								color: !errorSending ? theme.black4 : theme.white3
+								color: !errorSending ? theme.colors.black[4] : theme.colors.white[3]
 							}}
 						>
 							{formatRelativeDate(dateTime)}

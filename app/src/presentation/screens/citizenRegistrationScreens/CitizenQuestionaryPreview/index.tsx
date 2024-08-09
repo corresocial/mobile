@@ -136,7 +136,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom >
+		<ScreenContainer topSafeAreaColor={theme.colors.white[3]} infinityBottom >
 			<StatusBar barStyle={'dark-content'} />
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
@@ -177,13 +177,13 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 								<PrimaryButton
 									label={registerIsStored ? 'enviar' : 'responder'}
 									highlightedWords={[registerIsStored ? 'enviar' : 'responder']}
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									fontSize={14}
 									SecondSvgIcon={EditCitizenIcon}
 									svgIconScale={['50%', '30%']}
 									minHeight={45}
 									relativeHeight={relativeScreenDensity(45)}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									onPress={registerIsStored ? saveCitizenRegister : startCitizenRegistration}
 								/>
 								<SmallButton
@@ -191,7 +191,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 									height={relativeScreenDensity(45)}
 									SvgIcon={TrashIcon}
 									onPress={toggleDefaultConfirmationModalVisibility}
-									color={theme.red3}
+									color={theme.colors.red[3]}
 								/>
 							</HeaderActionsContainer>
 						)
@@ -211,7 +211,7 @@ function CitizenQuestionaryPreview({ route, navigation }: CitizenQuestionaryPrev
 											<SmallButton
 												relativeWidth={'65%'}
 												label={`${presentationIsVisible ? 'Esconder' : 'Exibir'} apresentação`}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												onPress={() => setPresentationIsVisible(!presentationIsVisible)}
 											/>
 										</ToggleButtonContainer>

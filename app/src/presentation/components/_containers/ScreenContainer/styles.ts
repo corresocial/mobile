@@ -40,7 +40,7 @@ export const Container = styled.View<ContainerProps>`
     justify-content: space-between;
     align-items: center;
 	overflow: hidden;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
     padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(15) : 0)}px;
 `
 

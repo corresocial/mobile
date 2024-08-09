@@ -8,7 +8,7 @@ export const Container = styled.View`
  `
 
 export const Header = styled.View`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	width: 100%;
  	padding: ${relativeScreenWidth(4)}px;
  `
@@ -21,6 +21,6 @@ export const SaveButtonContainer = styled.View`
 
 export const Body = styled(Animated.View)`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	padding: 0px ${relativeScreenWidth(3.5)}px;
  `

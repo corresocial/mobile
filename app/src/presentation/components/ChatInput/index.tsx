@@ -42,7 +42,7 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 			{
 				showImpactReportButton && (
 					<SmallButton
-						color={theme.pink3}
+						color={theme.colors.pink[3]}
 						relativeWidth={relativeScreenDensity(40)}
 						height={relativeScreenDensity(40)}
 						rounded
@@ -69,7 +69,7 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 				onPress={releaseSendButton}
 			>
 				<SendButtonAreaInner
-					activeColor={theme.green3}
+					activeColor={theme.colors.green[3]}
 					hasInputMessage={!!message}
 					buttonPressed={sendButtonPressed}
 				>

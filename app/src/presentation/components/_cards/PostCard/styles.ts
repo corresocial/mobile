@@ -6,7 +6,7 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 export const Container = styled.TouchableOpacity`
 	width: 98%;
 	height: ${relativeScreenDensity(120)}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -16,8 +16,8 @@ export const ContainerInner = styled.View`
 	width: 100%;
     height: 100%;
 	flex-direction: row;
-	background-color: ${({ theme }) => theme.white3};
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
@@ -30,7 +30,7 @@ interface SideAreaProps {
 }
 
 export const LeftArea = styled.View<SideAreaProps>`
-	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange1};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.colors.orange[1]};
 	width: ${({ hasMediaOrSaleValue }) => (hasMediaOrSaleValue ? '32%' : `${0}px`)};
 	height: 100%;
 	flex: 1;
@@ -52,18 +52,18 @@ export const SideMedia = styled(ImageBackground) <SideMediaProps>`
 export const SaleValueContainer = styled.View`
 	border-width: ${relativeScreenDensity(2)}px;
 	border-right-width: ${relativeScreenDensity(5)}px;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 	border-radius: ${relativeScreenDensity(7)}px;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	align-self: center;
 	align-content: center;
 `
 
 export const SaleValueContainerInner = styled.View`
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 	border-radius: ${relativeScreenDensity(5)}px;
 	padding: ${relativeScreenDensity(1)}px ${relativeScreenDensity(4)}px;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const LeftSideLabel = styled.View`
@@ -74,7 +74,7 @@ export const TitleContainer = styled.View`
 	border-left-width: ${relativeScreenDensity(2.5)}px;
 	padding: 0px ${relativeScreenDensity(6)}px;
 	overflow: hidden;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const Title = styled.Text`
@@ -85,7 +85,7 @@ export const Title = styled.Text`
 export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
 	width: ${({ hasMediaOrSaleValue }) => (hasMediaOrSaleValue ? '67%' : '98%')};
 	height: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(7)}px;
 `
 

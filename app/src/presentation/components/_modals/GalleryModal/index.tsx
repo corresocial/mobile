@@ -209,7 +209,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 				)
 			}
 
-			<StatusBar backgroundColor={theme.black4} />
+			<StatusBar backgroundColor={theme.colors.black[4]} />
 			<GalleryContainer>
 				<Carousel
 					enabled={carouselEnabled}
@@ -232,7 +232,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 					<>
 						<CloseButtonArea isPressing={isPressingCloseButton}>
 							<SmallButton
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={CloseIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}

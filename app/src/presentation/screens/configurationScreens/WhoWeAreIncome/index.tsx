@@ -15,7 +15,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -40,7 +40,7 @@ function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
-						color={theme.orange3}
+						color={theme.colors.orange[3]}
 						label={'tem mais!'}
 						fontSize={20}
 						SecondSvgIcon={PlusWhiteIcon}

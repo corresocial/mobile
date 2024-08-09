@@ -100,7 +100,7 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<LocationChangeConfirmationModal
 				visibility={locationChangeModalIsVisible}
 				currentPostAddress={getLastPostCity()}
@@ -110,8 +110,8 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 			/>
 
 			<SelectPostLocation
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				validationColor={theme.colors.blue[1]}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

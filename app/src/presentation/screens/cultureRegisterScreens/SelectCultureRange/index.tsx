@@ -69,7 +69,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
@@ -78,8 +78,8 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
-				backgroundColor={theme.blue2}
-				itemsColor={theme.blue3}
+				backgroundColor={theme.colors.blue[2]}
+				itemsColor={theme.colors.blue[3]}
 				userSubscriptionRange={range || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

@@ -31,9 +31,9 @@ function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostCategory
-				backgroundColor={theme.blue2}
+				backgroundColor={theme.colors.blue[2]}
 				categories={cultureCategories}
 				progress={[2, isSecondPost ? 4 : 5]}
 				navigateBackwards={() => navigation.goBack()}

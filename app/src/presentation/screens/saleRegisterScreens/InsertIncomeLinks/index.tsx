@@ -55,8 +55,8 @@ function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) 
 
 	return (
 		<PostLinks
-			backgroundColor={theme.green2}
-			lightColor={theme.green1}
+			backgroundColor={theme.colors.green[2]}
+			lightColor={theme.colors.green[1]}
 			keyboardOpened={keyboardOpened}
 			initialValue={route.params?.initialValue || []}
 			editMode={editModeIsTrue()}

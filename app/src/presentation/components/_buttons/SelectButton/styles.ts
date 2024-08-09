@@ -4,7 +4,7 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 export const ContainerBottom = styled.View`
 	margin-left: 10px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(20)}px;
     align-items: center;
     align-self: center;
@@ -12,7 +12,7 @@ export const ContainerBottom = styled.View`
 
 export const ContainerSurface = styled.View`
 	border-radius: ${relativeScreenDensity(20)}px;
-	border: ${relativeScreenDensity(3.5)}px solid ${({ theme }) => theme.black4};
+	border: ${relativeScreenDensity(3.5)}px solid ${({ theme }) => theme.colors.black[4]};
 	padding-top: 5px;
 	padding-bottom: 5px;
     align-items: center;

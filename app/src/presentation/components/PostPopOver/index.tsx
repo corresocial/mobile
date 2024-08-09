@@ -46,8 +46,8 @@ function PostPopOver({
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 200 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: relativeScreenDensity(8) }}
-			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
+			popoverStyle={{ backgroundColor: theme.colors.black[4], borderRadius: relativeScreenDensity(8) }}
+			backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
 			from={(sourceRef: any, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >
@@ -57,7 +57,7 @@ function PostPopOver({
 			)}
 		>
 			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
+				<FocusAwareStatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
 						<XWhiteIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
@@ -70,10 +70,10 @@ function PostPopOver({
 									editPost && (
 										<>
 											<PrimaryButton
-												color={theme.green3}
+												color={theme.colors.green[3]}
 												label={'editar post'}
 												highlightedWords={['editar']}
-												labelColor={theme.white3}
+												labelColor={theme.colors.white[3]}
 												SecondSvgIcon={EditWhiteIcon}
 												fontSize={14}
 												minHeight={20}
@@ -85,7 +85,7 @@ function PostPopOver({
 									)
 								}
 								<PrimaryButton
-									color={theme.yellow3}
+									color={theme.colors.yellow[3]}
 									label={isCompleted ? 'não concluído' : 'marcar concluído'}
 									highlightedWords={['concluído']}
 									SecondSvgIcon={isCompleted ? XWhiteIcon : CheckWhiteIcon}
@@ -99,11 +99,11 @@ function PostPopOver({
 										<>
 											<VerticalSpacing />
 											<PrimaryButton
-												color={theme.red3}
+												color={theme.colors.red[3]}
 												onPress={deletePost}
 												label={'apagar post'}
 												highlightedWords={['apagar']}
-												labelColor={theme.white3}
+												labelColor={theme.colors.white[3]}
 												SvgIcon={TrashWhiteIcon}
 												fontSize={14}
 												minHeight={20}
@@ -116,11 +116,11 @@ function PostPopOver({
 						)
 							: (
 								<PrimaryButton
-									color={theme.red3}
+									color={theme.colors.red[3]}
 									onPress={goToComplaint && goToComplaint}
 									label={'denunciar post'}
 									highlightedWords={['denunciar']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SvgIcon={DeniedWhiteIcon}
 									fontSize={14}
 									minHeight={20}

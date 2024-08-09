@@ -34,9 +34,9 @@ function FlatListPosts({
 			onEndReached={onEndReached}
 		// refreshControl={(
 		// 	<RefreshControl
-		// 		colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+		// 		colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 		// 		refreshing={/* !!flatListIsLoading */ false}
-		// 		progressBackgroundColor={theme.white3}
+		// 		progressBackgroundColor={theme.colors.white[3]}
 		// 		onRefresh={onRefresh && onRefresh}
 		// 	/>
 		// )}

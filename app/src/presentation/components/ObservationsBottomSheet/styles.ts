@@ -12,7 +12,7 @@ export const BottomSheetHeaderContainer = styled.View`
     justify-content: space-between;
     align-items: center;
     padding: ${relativeScreenDensity(10)}px;
-    background-color: ${({ theme }) => theme.white2};
+    background-color: ${({ theme }) => theme.colors.white[2]};
 	border-top-left-radius: ${relativeScreenDensity(25)}px;
 	border-top-right-radius: ${relativeScreenDensity(25)}px;
 `

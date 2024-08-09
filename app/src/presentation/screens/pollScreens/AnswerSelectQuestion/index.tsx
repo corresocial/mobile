@@ -66,9 +66,9 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 		return (questionData.options || []).map((question) => {
 			return (
 				<SelectButton
-					backgroundSelected={theme.purple3}
+					backgroundSelected={theme.colors.purple[3]}
 					label={question}
-					labelColor={selectedOptions.includes(question) ? theme.white3 : theme.black4}
+					labelColor={selectedOptions.includes(question) ? theme.colors.white[3] : theme.colors.black[4]}
 					boldLabel
 					fontSize={12}
 					width={'100%'}
@@ -82,11 +82,11 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(40)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -108,9 +108,9 @@ function AnswerSelectQuestion({ route, navigation }: AnswerSelectQuestionScreenP
 				!!selectedOptions.length && (
 					<ButtonOptionsContainer>
 						<PrimaryButton
-							color={theme.green3}
+							color={theme.colors.green[3]}
 							label={'continuar'}
-							labelColor={theme.white3}
+							labelColor={theme.colors.white[3]}
 							SvgIcon={CheckWhiteIcon}
 							onPress={saveQuestionResponse}
 						/>

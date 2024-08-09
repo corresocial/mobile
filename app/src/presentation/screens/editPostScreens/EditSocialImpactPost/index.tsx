@@ -204,7 +204,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				initialPostData={{ ...postData, postType: 'socialImpact' }}
 				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -231,7 +231,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
-					indicatorColor={theme.pink1}
+					indicatorColor={theme.colors.pink[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}

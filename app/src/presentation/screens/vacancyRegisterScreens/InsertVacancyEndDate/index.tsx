@@ -30,10 +30,10 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<PostDate
-				backgroundColor={theme.green2}
-				validationColor={theme.green1}
+				backgroundColor={theme.colors.green[2]}
+				validationColor={theme.colors.green[1]}
 				customTitle={'que dia termina?'}
 				customHighlight={['dia', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}

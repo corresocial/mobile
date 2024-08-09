@@ -5,7 +5,7 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 export const Container = styled.View`
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
@@ -19,9 +19,9 @@ interface SideButtonAreaProps {
 }
 
 export const SideButtonArea = styled.TouchableOpacity<SideButtonAreaProps>`
-	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.black4 : theme.white3)};
+	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.colors.black[4] : theme.colors.white[3])};
 	border-radius: ${relativeScreenDensity(15)}px;
-	border-color: ${({ theme }) => theme.black2};
+	border-color: ${({ theme }) => theme.colors.black[2]};
 	height: ${relativeScreenDensity(40)}px;
 	width: ${relativeScreenDensity(40)}px;
 	justify-content: center;
@@ -37,14 +37,14 @@ interface InputButtonProps {
 export const SendButtonAreaInner = styled.View<InputButtonProps>`
 	border-radius: ${relativeScreenDensity(15)}px;
 	border-width: ${relativeScreenDensity(2.5)}px;
-	border-color: ${({ theme }) => theme.black2};
+	border-color: ${({ theme }) => theme.colors.black[2]};
 	height: 100%;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.green3 : theme.white3)};
-	border-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.black4 : theme.white3)};
+	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.colors.green[3] : theme.colors.white[3])};
+	border-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.colors.black[4] : theme.colors.white[3])};
 	left: ${({ buttonPressed, hasInputMessage }) => (!hasInputMessage || buttonPressed ? -1 : -relativeScreenWidth(2))}px;
 `
 
@@ -65,5 +65,5 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	font-family: Arvo_400Regular;
 	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 	border-radius: ${relativeScreenDensity(50)}px;
-	background-color: ${({ theme, inputFocused }) => (inputFocused ? theme.white3 : theme.white2)};
+	background-color: ${({ theme, inputFocused }) => (inputFocused ? theme.colors.white[3] : theme.colors.white[2])};
 `

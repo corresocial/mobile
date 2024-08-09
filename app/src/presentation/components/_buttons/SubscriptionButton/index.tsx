@@ -16,7 +16,7 @@ function SubscriptionButton({ customTitle = '', onPress }: SubscriptionButtonPro
 
 	return (
 		<OptionButton
-			color={theme.white3}
+			color={theme.colors.white[3]}
 			label={customTitle || 'apoie o corre.'}
 			highlightedWords={[...customTitle.split(' '), 'apoie', 'o', 'corre']}
 			labelSize={17}
@@ -24,7 +24,7 @@ function SubscriptionButton({ customTitle = '', onPress }: SubscriptionButtonPro
 			shortDescription={'com uma assinatura mensal você alcança muito mais clientes e ajuda cidadãos do nosso país'}
 			SvgIcon={LogoOutlinedWhiteIcon}
 			svgIconScale={['65%', '65%']}
-			leftSideColor={theme.orange3}
+			leftSideColor={theme.colors.orange[3]}
 			leftSideWidth={'25%'}
 			onPress={onPress}
 		/>

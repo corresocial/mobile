@@ -25,8 +25,8 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 		<PostSelectButton
 			title={'você está procurando ou anunciando este item?'}
 			highlightedWords={['procurando', 'anunciando']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[2, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -37,7 +37,7 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 				relativeHeight={'28%'}
 				SvgIcon={QuestionMarkWhiteIcon}
 				svgIconScale={['40%', '40%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveSalePurpose(true)}
 			/>
@@ -48,7 +48,7 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveSalePurpose(false)}
 			/>

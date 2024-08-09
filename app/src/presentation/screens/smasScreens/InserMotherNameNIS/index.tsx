@@ -63,19 +63,19 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostInputText
 				contextTitle={'consultar seu NIS'}
 				contextHighlightedWords={['NIS']}
 				customTitle={'precisamos do nome completo da sua mãe, sem acentos'}
 				customHighlight={['nome', 'completo', 'mãe,', 'sem', 'acentos']}
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				height={'55%'}
 				isLoading={isLoading}
 				inputPlaceholder={'ex: Maria Candida'}
 				keyboardOpened={keyboardOpened}
 				progress={[getProgressBarState(), 3]}
-				validationColor={keyboardOpened ? theme.white2 : theme.pink1}
+				validationColor={keyboardOpened ? theme.colors.white[2] : theme.colors.pink[1]}
 				validateInputText={validateInputName}
 				navigateBackwards={() => navigation.goBack()}
 				saveTextData={saveMotherNameNIS}

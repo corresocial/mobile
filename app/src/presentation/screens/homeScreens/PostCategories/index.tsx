@@ -86,19 +86,19 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 
 	const getRelativeBackgroundColor = () => {
 		switch (postType) {
-			case 'income': return theme.green2
-			case 'culture': return theme.blue2
-			case 'socialImpact': return theme.pink2
-			default: return theme.orange2
+			case 'income': return theme.colors.green[2]
+			case 'culture': return theme.colors.blue[2]
+			case 'socialImpact': return theme.colors.pink[2]
+			default: return theme.colors.orange[2]
 		}
 	}
 
 	const getInactiveCardColor = () => {
 		switch (postType) {
-			case 'income': return theme.green1
-			case 'culture': return theme.blue1
-			case 'socialImpact': return theme.pink1
-			default: return theme.orange1
+			case 'income': return theme.colors.green[1]
+			case 'culture': return theme.colors.blue[1]
+			case 'socialImpact': return theme.colors.pink[1]
+			default: return theme.colors.orange[1]
 		}
 	}
 
@@ -294,7 +294,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}

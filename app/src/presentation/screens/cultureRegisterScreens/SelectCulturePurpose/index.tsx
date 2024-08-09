@@ -23,8 +23,8 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 		<PostSelectButton
 			title={'você está procurando ou anunciando isso?'}
 			highlightedWords={['procurando', 'anunciando']}
-			headerBackgroundColor={theme.blue2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.blue[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[1, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -35,7 +35,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={QuestionMarkWhiteIcon}
 				svgIconScale={['40%', '40%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveCulturePurpose(true)}
 			/>
@@ -46,7 +46,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveCulturePurpose(false)}
 			/>

@@ -34,10 +34,10 @@ function SelectCultureDaysOfWeek({ route, navigation }: SelectCultureDaysOfWeekS
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostDaysOfWeek
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				validationColor={theme.colors.blue[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

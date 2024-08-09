@@ -39,7 +39,7 @@ export const Container = styled.View<ContainerProps>`
 	width: 100%;
     align-items: center;
 	overflow: hidden;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
     padding: ${({ withPadding }) => (withPadding ? relativeScreenDensity(10) : 0)}px;
 
 `

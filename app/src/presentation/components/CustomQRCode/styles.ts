@@ -20,7 +20,7 @@ export const ClipboardArea = styled.View<ClipboardProps>`
 	padding: ${relativeScreenDensity(15)}px;
 	border-style: dashed;
 	border-width: ${relativeScreenDensity(2.5)}px;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 	justify-content: center;
 `
 

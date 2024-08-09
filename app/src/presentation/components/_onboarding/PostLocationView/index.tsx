@@ -48,7 +48,7 @@ function PostLocationView({ backgroundColor, itemsColor, progress, saveLocationV
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<ButtonsContainer>
 					<OptionButton

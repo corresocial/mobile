@@ -41,8 +41,8 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 		<PostSelectButton
 			title={'é novo ou usado?'}
 			highlightedWords={['novo', 'usado']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[1, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -53,7 +53,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 				relativeHeight={'28%'}
 				SvgIcon={UsedLabelWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveItemStatus('used')}
 			/>
@@ -64,7 +64,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveItemStatus('new')}
 			/>

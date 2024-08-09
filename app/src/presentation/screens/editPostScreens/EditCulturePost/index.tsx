@@ -198,7 +198,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				initialPostData={{ ...postData, postType: 'culture' }}
 				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
-				backgroundColor={theme.blue2}
+				backgroundColor={theme.colors.blue[2]}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -227,7 +227,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					highlightedWords={['fotos']}
 					profilePicturesUrl={[...getPicturesUrl()]}
 					videosUrl={[...getVideosUrl()]}
-					indicatorColor={theme.blue1}
+					indicatorColor={theme.colors.blue[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}

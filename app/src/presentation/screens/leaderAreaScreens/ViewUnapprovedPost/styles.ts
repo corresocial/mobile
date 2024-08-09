@@ -8,12 +8,12 @@ interface BackgroundProps {
 
 export const Container = styled.View<BackgroundProps>`
 	flex: 1;
-	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.colors.orange[2]};
 `
 
 export const Body = styled.View<BackgroundProps>`
 	flex: 1;
-	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.colors.orange[2]};
 	padding: 0px ${relativeScreenDensity(10)}px;
 	gap: ${relativeScreenDensity(9)}px;
 `
@@ -21,7 +21,7 @@ export const Body = styled.View<BackgroundProps>`
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3)}px;
 `
 

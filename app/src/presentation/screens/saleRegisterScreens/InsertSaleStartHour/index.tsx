@@ -30,10 +30,10 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<PostTime
-				backgroundColor={theme.green2}
-				validationColor={theme.green1}
+				backgroundColor={theme.colors.green[2]}
+				validationColor={theme.colors.green[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

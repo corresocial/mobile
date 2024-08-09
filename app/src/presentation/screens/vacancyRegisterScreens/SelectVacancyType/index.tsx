@@ -37,8 +37,8 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 		<PostSelectButton
 			title={'que tipo de vaga?'}
 			highlightedWords={['tipo', 'vaga']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[5, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -49,7 +49,7 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={SuitCaseWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveVacancyType('professional')}
 			/>
@@ -60,7 +60,7 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={ClockWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveVacancyType('temporary')}
 			/>
@@ -71,7 +71,7 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={ChatWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveVacancyType('beak')}
 			/>

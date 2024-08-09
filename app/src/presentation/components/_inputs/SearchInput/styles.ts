@@ -16,7 +16,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	background-color: ${({ theme, textIsValid, focused, validBackgroundColor }) => (
 		textIsValid && validBackgroundColor
 			? validBackgroundColor
-			: focused ? theme.white3 : theme.white2
+			: focused ? theme.colors.white[3] : theme.colors.white[2]
 	)};
     height: ${relativeScreenDensity(40)}px;
     align-items: center;
@@ -38,5 +38,5 @@ export const TextInput = styled.TextInput`
     font-size: ${({ theme }) => theme.fontSizes[6]}px;
     font-family: Arvo_400Regular;
     text-align: center;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
 `

@@ -195,7 +195,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultConfirmationModal
 				visibility={unlinkPhoneConfirmationModalIsVisible}
 				title={'desvincular'}
@@ -220,7 +220,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			<DefaultHeaderContainer
 				flexDirection={'row'}
 				relativeHeight={relativeScreenHeight(26)}
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				borderBottomWidth={0}
 				centralized
 			>
@@ -230,11 +230,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 					titleFontSize={18}
 					height={relativeScreenHeight(10)}
 					highlightedWords={['entrada']}
-					color={theme.white3}
+					color={theme.colors.white[3]}
 					SvgIcon={DescriptionWhiteIcon}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2} >
+			<FormContainer backgroundColor={theme.colors.orange[2]} >
 				{
 					isLoading
 						? <Loader />

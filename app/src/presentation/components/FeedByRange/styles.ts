@@ -7,7 +7,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.ScrollView<ContainerProps>`
-	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.colors.orange[2]};
 `
 
 export const PostCardContainer = styled.View`

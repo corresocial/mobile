@@ -136,7 +136,7 @@ function PrimaryButton({
 			>
 				<ContainerSurface
 					style={{
-						backgroundColor: buttonDisabled ? theme.white3 : color,
+						backgroundColor: buttonDisabled ? theme.colors.white[3] : color,
 						justifyContent: justifyContent || 'center',
 						minHeight: relativeScreenDensity(minHeight),
 						marginLeft: buttonPressed ? relativeScreenDensity(7) : 0

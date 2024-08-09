@@ -150,12 +150,12 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidLinkValueAfterSubmit ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
 				justifyContent={'space-between'}
-				backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2}
+				backgroundColor={invalidLinkValueAfterSubmit ? theme.colors.red[2] : theme.colors.orange[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
@@ -168,7 +168,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				{/* <SmallButton
 					relativeWidth={relativeScreenWidth(11)}
 					height={relativeScreenWidth(11)}
-					color={theme.red3}
+					color={theme.colors.red[3]}
 					SvgIcon={TrashWhiteIcon}
 					onPress={'deleteLink'}
 				/> */}
@@ -179,8 +179,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						value={linkValue}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.linkValueInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.orange1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.orange[1]}
 						lastInput
 						multiline
 						fontSize={16}
@@ -202,10 +202,10 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 									!keyboardOpened
 									&& (
 										<PrimaryButton
-											color={theme.green3}
+											color={theme.colors.green[3]}
 											SecondSvgIcon={CheckWhiteIcon}
 											label={'continuar'}
-											labelColor={theme.white3}
+											labelColor={theme.colors.white[3]}
 											highlightedWords={['continuar']}
 											startsHidden={false}
 											onPress={saveLinkValue}

@@ -15,7 +15,7 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
 	justify-content: center;
 	margin-left: ${relativeScreenDensity(6)}px;
 	position: relative;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	height: ${({ relativeHeight }) => (typeof relativeHeight === 'string' ? relativeHeight : `${relativeScreenDensity(relativeHeight)}px`)};
 	width: ${(props) => (
 		props.isIconButton && typeof props.relativeHeight === 'number'
@@ -40,7 +40,7 @@ export const ContainerSurface = styled.TouchableOpacity<ContainerSurfaceProps>`
 	right: ${relativeScreenDensity(5)}px;
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
 	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
-	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
+	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.colors.white[3]};
 	border-radius: ${relativeScreenDensity(17)}px;
 	gap: ${relativeScreenDensity(5)}px;
 	padding: 0px ${relativeScreenDensity(10)}px;

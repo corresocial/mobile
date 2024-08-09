@@ -94,7 +94,7 @@ function PollCard({ pollData, owner, isOwner, navigateToProfile, onPress }: Poll
 					/>
 					<VerticalSpacing />
 					<SmallButton
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						label={isOwner ? 'abrir enquete' : 'responder enquete'}
 						height={relativeScreenWidth(12)}
 						SvgIcon={isOwner ? PaperInfoWhiteIcon : DocumentPencilWhiteIcon}

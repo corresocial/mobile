@@ -201,7 +201,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'sale' }}
 				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
-				backgroundColor={theme.green2}
+				backgroundColor={theme.colors.green[2]}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -229,7 +229,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={[...getVideosUrl(), ...getPicturesUrl()]}
-					indicatorColor={theme.green1}
+					indicatorColor={theme.colors.green[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}

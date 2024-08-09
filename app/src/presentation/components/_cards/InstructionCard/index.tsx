@@ -40,7 +40,7 @@ function InstructionCard({
 			style={{
 				borderLeftWidth: relativeScreenDensity(borderLeftWidth),
 				flex,
-				backgroundColor: backgroundColor || theme.white3,
+				backgroundColor: backgroundColor || theme.colors.white[3],
 				padding: relativeScreenDensity(padding),
 				paddingVertical: relativeScreenDensity(14),
 			}}

@@ -63,7 +63,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
@@ -72,8 +72,8 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
-				backgroundColor={theme.pink2}
-				itemsColor={theme.pink3}
+				backgroundColor={theme.colors.pink[2]}
+				itemsColor={theme.colors.pink[3]}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'city'}
 				cityPlanIsFree
 				plansAvailable={stripeProductsPlans}

@@ -4,7 +4,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	width: 100%;
-	background-color: ${({ theme }) => theme.purple1};
+	background-color: ${({ theme }) => theme.colors.purple[1]};
 	border-radius: ${relativeScreenDensity(17.5)}px;
 	overflow: hidden;
 	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(13)}px;

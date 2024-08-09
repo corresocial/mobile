@@ -32,8 +32,8 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 		<PostSelectButton
 			title={'o que você quer postar de renda?'}
 			highlightedWords={['renda']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -44,7 +44,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 				relativeHeight={'25%'}
 				SvgIcon={SaleWhiteIcon}
 				svgIconScale={['70%', '70%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveIncomeType('SaleStack', 'sale')}
 			/>
@@ -56,7 +56,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 				relativeHeight={'25%'}
 				SvgIcon={ServiceWhiteIcon}
 				svgIconScale={['70%', '70%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveIncomeType('ServiceStack', 'service')}
 			/>
@@ -68,7 +68,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 				relativeHeight={'25%'}
 				SvgIcon={VacancyWhiteIcon}
 				svgIconScale={['70%', '70%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveIncomeType('VacancyStack', 'vacancy')}
 			/>

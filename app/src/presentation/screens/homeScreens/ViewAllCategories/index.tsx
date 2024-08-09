@@ -168,7 +168,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					textPath={getHeaderTextPath()}

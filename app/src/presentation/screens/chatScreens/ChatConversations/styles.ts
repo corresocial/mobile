@@ -6,7 +6,7 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	padding-bottom: ${relativeScreenHeight(10)}px;
 `
 
@@ -15,7 +15,7 @@ export const Header = styled.View`
 	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	flex-direction: row;
 	justify-content: space-between;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	align-items: center;
 `
 
@@ -43,7 +43,7 @@ export const IconArea = styled.View`
 
 export const ConversationArea = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `
 
 export const ConversationCardContainer = styled.View`

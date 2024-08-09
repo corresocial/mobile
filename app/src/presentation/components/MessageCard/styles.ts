@@ -8,7 +8,7 @@ export const Container = styled.View`
 `
 
 export const MessageContainer = styled.TouchableOpacity`
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	border-width: ${relativeScreenDensity(3)}px;
 	min-height: ${relativeScreenHeight(2)}px;
 	max-width: 90%;
@@ -21,7 +21,7 @@ export const MessageContainer = styled.TouchableOpacity`
 
 export const MessageContainerInner = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	min-height: ${relativeScreenHeight(2)}px;
 
 	padding: ${relativeScreenDensity(5)}px  ${relativeScreenDensity(10)}px;

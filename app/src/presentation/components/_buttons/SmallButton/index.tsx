@@ -36,7 +36,7 @@ interface SmallButtonProps {
 function SmallButton({
 	color = 'white',
 	label = '',
-	labelColor = theme.white3,
+	labelColor = theme.colors.white[3],
 	highlightedWords = [],
 	fontSize = 13,
 	SvgIcon,

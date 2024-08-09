@@ -70,7 +70,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={status === 'Liberado' ? theme.pink2 : theme.red2} />
+			<StatusBar backgroundColor={status === 'Liberado' ? theme.colors.pink[2] : theme.colors.red[2]} />
 			<AlertNotificationModal
 				visibility={notificationModalIsVisible}
 				affirmativeConfigButton
@@ -83,7 +83,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 			<DefaultHeaderContainer
 				relativeHeight={'80%'}
 				centralized
-				backgroundColor={status === 'Liberado' ? theme.pink2 : theme.red2}
+				backgroundColor={status === 'Liberado' ? theme.colors.pink[2] : theme.colors.red[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -107,13 +107,13 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			< FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				<PrimaryButton
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					label={'continuar'}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SecondSvgIcon={CheckWhiteIcon}
 					onPress={handleContinueButton}
 				/>

@@ -35,7 +35,7 @@ function DescriptionCard({ title, text, hightligtedWords, children, CustomHeader
 	}
 
 	const linkStyle = {
-		color: theme.orange3,
+		color: theme.colors.orange[3],
 		fontFamily: 'Arvo_700Bold'
 	}
 

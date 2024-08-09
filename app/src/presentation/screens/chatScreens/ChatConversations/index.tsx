@@ -193,7 +193,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<SearchInputContainer>
 					<HorizontalHeaderScroll
@@ -208,7 +208,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 								<Title>{'conversas'}</Title>
 								<OptionsArea>
 									<SmallButton
-										color={theme.white3}
+										color={theme.colors.white[3]}
 										SvgIcon={LoupIcon}
 										relativeWidth={relativeScreenWidth(12)}
 										height={relativeScreenWidth(12)}
@@ -223,7 +223,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 									<SmallButton
 										relativeWidth={relativeScreenWidth(12)}
 										height={relativeScreenWidth(12)}
-										color={theme.white3}
+										color={theme.colors.white[3]}
 										onPress={() => {
 											hideSearchInput()
 										}}
@@ -252,7 +252,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 								title={'opa!'}
 								message={'você ainda não tem nenhum chat, fale com a lguém pela tela de perfil ou tela de post para começar a conversar.'}
 								highlightedWords={['nenhum', 'chat']}
-								backgroundColor={theme.yellow1}
+								backgroundColor={theme.colors.yellow[1]}
 							/>
 						)
 						: (

@@ -44,10 +44,10 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostTags
-				backgroundColor={theme.pink2}
-				lightColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				lightColor={theme.colors.pink[1]}
 				currentCategory={socialImpactCategories[getSocialImpactCategorySelected()]}
 				navigateBackwards={() => navigation.goBack()}
 				addNewTag={addNewTag}

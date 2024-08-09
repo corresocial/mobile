@@ -75,7 +75,7 @@ export const TextInput = styled.TextInput<TextInputProps>`
 
     font-family: Arvo_400Regular;
 
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
     max-height: ${relativeScreenHeight(25)}px;
 `
 

@@ -55,8 +55,8 @@ function InsertCultureLinks({ route, navigation }: InsertCultureLinksScreenProps
 
 	return (
 		<PostLinks
-			backgroundColor={theme.blue2}
-			lightColor={theme.blue1}
+			backgroundColor={theme.colors.blue[2]}
+			lightColor={theme.colors.blue[1]}
 			keyboardOpened={keyboardOpened}
 			initialValue={route.params?.initialValue || []}
 			editMode={editModeIsTrue()}

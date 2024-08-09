@@ -5,7 +5,7 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 export const Container = styled.TouchableOpacity`
 	width: 98%;
 	height: ${relativeScreenHeight(24)}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -15,8 +15,8 @@ export const ContainerInner = styled.View`
 	width: 100%;
     height: 100%;
 	flex-direction: row;
-	background-color: ${({ theme }) => theme.white3};
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;

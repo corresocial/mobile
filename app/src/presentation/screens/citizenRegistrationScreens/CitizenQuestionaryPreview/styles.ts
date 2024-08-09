@@ -4,7 +4,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const HeaderContainer = styled.View`
 	position: relative;
-    background-color: ${({ theme }) => theme.white3};
+    background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(15)}px;
 	gap: ${relativeScreenDensity(20)}px;
 `
@@ -29,7 +29,7 @@ export const CreatorContainer = styled.View`
 
 export const InfoText = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const CreatorNameText = styled(InfoText)`
@@ -45,7 +45,7 @@ export const Body = styled.View`
 	width: 100%;
     flex-direction: column;
     padding: 0 ${relativeScreenDensity(10)}px;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `
 
 export const ToggleButtonContainer = styled.View`

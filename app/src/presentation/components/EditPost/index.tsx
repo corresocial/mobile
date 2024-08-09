@@ -340,7 +340,7 @@ function EditPost({
 				visibility={offlinePostAlertModalIsVisible}
 				onPressButton={toggleOfflinePostAlertModal}
 			/>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
@@ -348,7 +348,7 @@ function EditPost({
 					destructiveButton={((!!Object.keys(editDataContext.unsaved).length || unsavedPost) && !offlinePost)}
 					onBackPress={cancelAllChangesAndGoBack}
 					endButton={offlinePost}
-					endButtonColor={theme.red3}
+					endButtonColor={theme.colors.red[3]}
 					endButtonSvgIcon={TrashWhiteIcon}
 					endButtonPress={removeOfflinePost}
 				/>
@@ -359,7 +359,7 @@ function EditPost({
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
-								backgroundColor={theme.red1}
+								backgroundColor={theme.colors.red[1]}
 								flex={0}
 								fontSize={14}
 								lineHeight={20}
@@ -377,9 +377,9 @@ function EditPost({
 									{
 										userHasGovernmentProfileSeal() && unsavedPost && (
 											<PrimaryButton
-												color={notifyUsersEnabled ? theme.orange1 : theme.white3}
+												color={notifyUsersEnabled ? theme.colors.orange[1] : theme.colors.white[3]}
 												label={'   notificar \n   usuários'}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												highlightedWords={['notificar', 'usuários']}
 												fontSize={12}
 												SecondSvgIcon={BellWhiteIcon}
@@ -392,9 +392,9 @@ function EditPost({
 										)
 									}
 									<PrimaryButton
-										color={networkConnectionIsValid ? theme.green3 : theme.yellow3}
+										color={networkConnectionIsValid ? theme.colors.green[3] : theme.colors.yellow[3]}
 										label={getHeaderButtonLabel()}
-										labelColor={networkConnectionIsValid ? theme.white3 : theme.black4}
+										labelColor={networkConnectionIsValid ? theme.colors.white[3] : theme.colors.black[4]}
 										highlightedWords={getHeaderButtonLabelHighlightedWords()}
 										fontSize={13}
 										SecondSvgIcon={getHeaderButtonIcon()}

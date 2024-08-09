@@ -7,7 +7,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	border-radius: ${relativeScreenDensity(17.5)}px;
 	width: 98%;
 	alignSelf: flex-end;
@@ -19,7 +19,7 @@ interface ContainerInnerProps {
 }
 
 export const ContainerInner = styled.View<ContainerInnerProps>`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	border-radius: ${relativeScreenDensity(18)}px;
 	border: ${relativeScreenDensity(2.5)}px solid black;
 	right: ${relativeScreenDensity(5)}px;

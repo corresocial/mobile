@@ -7,7 +7,7 @@ export const Container = styled.View`
     padding: 50px 0px;
     align-items: center;
     justify-content: space-between;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const CameraContainer = styled.View`
@@ -34,7 +34,7 @@ export const ContainerIcon = styled.TouchableOpacity<ContainerIconProps>`
 	min-height: 35px;
 	width: ${relativeScreenWidth(12)}px;
 	height: ${relativeScreenWidth(12)}px;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
     align-items: center;
     justify-content: center;
 `
@@ -68,12 +68,12 @@ export const NotPermissionContainer = styled.TouchableOpacity`
     flex: 1;
     align-Items: center;
     justify-content: center;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     padding: 28px;
 `
 
 export const NotPermissionText = styled.Text`
-   color:  ${({ theme }) => theme.white1};
+   color:  ${({ theme }) => theme.colors.white[1]};
    font-size: 17px; // REFACTOR relative
    text-align: center;
    margin-top: 20px;

@@ -25,8 +25,8 @@ export const Container = styled.View<ContainerProps>`
 	border-right-width: ${({ borderRightWidth }) => (borderRightWidth ? relativeScreenDensity(borderRightWidth) : 0)}px;
 	border-radius: ${({ circle }) => (circle ? relativeScreenDensity(500) : relativeScreenDensity(13))}px;
 
-    background-color: ${({ theme }) => theme.black4};
-    border-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
+    border-color: ${({ theme }) => theme.colors.black[4]};
     position: relative;
     max-height: ${relativeScreenWidth(90)}px;
 	overflow: hidden;
@@ -34,7 +34,7 @@ export const Container = styled.View<ContainerProps>`
 
 export const NoPhotoContainer = styled.View`
 	flex: 1;
-    background-color: ${({ theme }) => theme.white3};
+    background-color: ${({ theme }) => theme.colors.white[3]};
 	border-radius: ${relativeScreenDensity(10)}px;
 	overflow: hidden;
 `

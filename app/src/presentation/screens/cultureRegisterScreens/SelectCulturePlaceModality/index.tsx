@@ -35,8 +35,8 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 		<PostSelectButton
 			title={'é online ou presencial?'}
 			highlightedWords={['online', 'presencial']}
-			headerBackgroundColor={theme.blue2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.blue[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -46,7 +46,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				relativeHeight={'25%'}
 				SvgIcon={ComputerAndPhoneWhiteIcon}
 				svgIconScale={['55%', '55%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('online')}
 			/>
@@ -57,7 +57,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				relativeHeight={'25%'}
 				SvgIcon={ShopWhiteIcon}
 				svgIconScale={['55%', '55%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('presential')}
 			/>
@@ -69,7 +69,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				SvgIcon={ComputerAndPhoneWhiteIcon}
 				SecondSvgIcon={ShopWhiteIcon}
 				svgIconScale={['45%', '55%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('both')}
 			/>

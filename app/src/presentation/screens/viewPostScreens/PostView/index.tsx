@@ -409,7 +409,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 								? (
 									<SmallButton
 										label={'post foi concluído'}
-										labelColor={theme.black4}
+										labelColor={theme.colors.black[4]}
 										SvgIcon={DeniedWhiteIcon}
 										relativeWidth={'80%'}
 										height={relativeScreenWidth(12)}

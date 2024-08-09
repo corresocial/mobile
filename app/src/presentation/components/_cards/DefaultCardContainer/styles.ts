@@ -4,7 +4,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	width: 100%;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	border: ${relativeScreenDensity(2.5)}px solid black;
 	border-right-width: ${relativeScreenDensity(7.5)}px;
 	border-radius: ${relativeScreenDensity(17.5)}px;
@@ -12,6 +12,6 @@ export const Container = styled.View`
 `
 
 export const ContainerInner = styled.View`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	border-radius: ${relativeScreenDensity(15)}px;
 `

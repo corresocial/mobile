@@ -50,11 +50,11 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -71,16 +71,16 @@ function AnswerBinaryQuestion({ route, navigation }: AnswerBinaryQuestionScreenP
 			<FormContainer >
 				<ButtonOptionsContainer>
 					<PrimaryButton
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						label={'sim'}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						SecondSvgIcon={CheckWhiteIcon}
 						onPress={() => selectBinaryOption(true)}
 					/>
 					<PrimaryButton
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						label={'não'}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						SvgIcon={XWhiteIcon}
 						onPress={() => selectBinaryOption(false)}
 					/>

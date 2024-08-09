@@ -5,12 +5,12 @@ import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimen
 export const Container = styled.View`
 	height: ${relativeScreenHeight(25)}px;
 
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	align-items: flex-start;
 	justify-content: space-between;
 	padding: ${15}px ${30}px; // REFACTOR relative
 	border-left-width: ${relativeScreenDensity(5)}px;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const Title = styled.Text`

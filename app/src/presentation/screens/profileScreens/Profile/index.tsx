@@ -496,7 +496,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		<ScreenContainer infinityBottom>
 			<Container >
 				<FocusAwareStatusBar
-					backgroundColor={theme.white3}
+					backgroundColor={theme.colors.white[3]}
 					barStyle={'dark-content'}
 				/>
 				<WaitingApproveModal // APPROVE
@@ -528,8 +528,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 						onEndReached={loadMoreUserPosts}
 						refreshControl={(
 							<RefreshControl
-								tintColor={theme.black4}
-								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+								tintColor={theme.colors.black[4]}
+								colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 								refreshing={isRefresing}
 								onRefresh={() => loadRemoteProfileData(false, true)}
 							/>
@@ -539,7 +539,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 						ListHeaderComponent={(
 							<>
 								<DefaultHeaderContainer
-									backgroundColor={theme.white3}
+									backgroundColor={theme.colors.white[3]}
 									centralized={false}
 									grow
 									withoutIOSPadding
@@ -620,7 +620,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 															<VerticalSpacing />
 															<SmallButton
 																label={'adicionar redes'}
-																labelColor={theme.black4}
+																labelColor={theme.colors.black[4]}
 																SvgIcon={AtSignWhiteIcon}
 																svgScale={['60%', '20%']}
 																height={relativeScreenHeight(5)}
@@ -640,7 +640,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 										<OptionsArea>
 											<SmallButton
 												label={isLoggedUser ? 'editar' : 'chat'}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
 												svgScale={['85%', '25%']}
 												relativeWidth={'28%'}
@@ -648,9 +648,9 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={isLoggedUser ? goToEditProfile : openChat}
 											/>
 											<SmallButton
-												color={theme.orange3}
+												color={theme.colors.orange[3]}
 												label={'compartilhar'}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												highlightedWords={
 													isLoggedUser ? ['compartilhar'] : []
 												}
@@ -674,7 +674,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												setFreeTrialToProfile={userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
 											>
 												<SmallButton
-													color={theme.white3}
+													color={theme.colors.white[3]}
 													SvgIcon={getConfigurationIcon()}
 													relativeWidth={relativeScreenWidth(12)}
 													svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
@@ -696,7 +696,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												labelSize={18}
 												relativeHeight={relativeScreenHeight(8)}
 												leftSideWidth={'25%'}
-												leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+												leftSideColor={hasNetworkConnection ? theme.colors.green[3] : theme.colors.yellow[3]}
 												SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
 												svgIconScale={['60%', '60%']}
 												onPress={() => navigation.navigate('OfflinePostsManagement')}
@@ -720,7 +720,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 									title={'faça uma postagem!'}
 									message={'você precisa fazer um post para que outras pessoas possam te encontrar\ncaso veio aqui apenas para procurar, não se preocupe.'}
 									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
-									backgroundColor={theme.yellow1}
+									backgroundColor={theme.colors.yellow[1]}
 								/>
 							)
 							: <VerticalSpacing bottomNavigatorSpace />

@@ -130,7 +130,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange1}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
 			<CustomModal
 				visibility={locationPermissionModalModalIsVisible}
 				title={'precisamos da sua localização'}
@@ -174,15 +174,15 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 							) : (
 								<>
 									<PrimaryButton
-										color={theme.yellow3}
+										color={theme.colors.yellow[3]}
 										label={'usar outra localização'}
 										SecondSvgIcon={MapPointerWhiteIcon}
 										onPress={editLocation}
 									/>
 									<PrimaryButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={'enviar respostas'}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										SecondSvgIcon={SendFileWhiteIcon}
 										onPress={submitResponses}
 									/>

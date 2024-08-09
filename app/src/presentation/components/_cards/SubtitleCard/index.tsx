@@ -31,7 +31,7 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 					<SmallButton
 						height={relativeScreenDensity(30)}
 						label={'mais'}
-						labelColor={theme.black4}
+						labelColor={theme.colors.black[4]}
 						fontSize={11}
 						SvgIcon={AngleRightWhitetIcon}
 						svgScale={['70%', '15%']}

@@ -23,7 +23,7 @@ export const ContainerBottom = styled.View<ConainerBottomProps>`
 	justify-content: center;
 	margin-left: ${relativeScreenDensity(6)}px;
 	position: relative;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	height: ${({ height }) => height}px;
 	width: ${({ relativeWidth }) => (typeof (relativeWidth) === 'string' ? relativeWidth : `${relativeWidth}px`)};
 	border-radius: ${({ halfRounded, rounded, height }) => (rounded ? height / 2 : halfRounded ? relativeScreenDensity(25) : relativeScreenDensity(12))}px;
@@ -47,12 +47,12 @@ export const ContainerSurface = styled.View<ConainerSurfaceProps>`
 	right: ${relativeScreenDensity(5)}px;
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
 	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
-	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
+	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.colors.white[3]};
 	border-radius: ${({ halfRounded, rounded }) => (rounded ? 800 : halfRounded ? relativeScreenDensity(25) : relativeScreenDensity(12))}px;
 `
 
 export const ButtonLabel = styled.Text`
     margin-left: ${relativeScreenDensity(8)}px;
-    color: ${({ theme }) => theme.white3};
+    color: ${({ theme }) => theme.colors.white[3]};
     font-family: Arvo_700Bold;
 `

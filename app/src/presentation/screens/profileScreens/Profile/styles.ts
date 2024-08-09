@@ -5,7 +5,7 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 export const Container = styled.View`
     flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const UserPostsFlatList = styled.FlatList`
@@ -47,7 +47,7 @@ export const ExpandedUserDescriptionArea = styled.View`
 export const SeeMoreLabel = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
-	color: ${({ theme }) => theme.orange4};
+	color: ${({ theme }) => theme.colors.orange[4]};
 `
 
 export const ExpandedUserDescription = styled.Text<TextProps>`
@@ -69,7 +69,7 @@ export const Body = styled.View`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
 	width: 100%;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	overflow: visible;
 `
 
@@ -79,6 +79,6 @@ export const PostPadding = styled.View`
 
 export const PostFilterContainer = styled.View`
 	padding: ${relativeScreenHeight(1.25)}px 0px;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 
 `

@@ -82,8 +82,8 @@ function SocialLoginAlertModal({
 					!linking && (
 						<PrimaryButton
 							keyboardHideButton={false}
-							color={theme.green3}
-							labelColor={theme.white3}
+							color={theme.colors.green[3]}
+							labelColor={theme.colors.white[3]}
 							label={registerMethod ? 'entrar nessa conta' : 'criar uma \nnova conta'}
 							highlightedWords={['nessa', '\nnova', 'conta']}
 							fontSize={16}
@@ -100,8 +100,8 @@ function SocialLoginAlertModal({
 				<VerticalSpacing height={2} />
 				<PrimaryButton
 					keyboardHideButton={false}
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					label={'voltar'}
 					highlightedWords={['\npara', 'login']}
 					fontSize={16}

@@ -34,10 +34,10 @@ function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenP
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostDaysOfWeek
-				backgroundColor={theme.green2}
-				validationColor={theme.green1}
+				backgroundColor={theme.colors.green[2]}
+				validationColor={theme.colors.green[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

@@ -3,10 +3,10 @@ import styled from 'styled-components/native'
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const WithoutPostsContainer = styled.View`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(15)}px ${relativeScreenDensity(30)}px;
 	border-left-width: ${relativeScreenWidth(1.4)}px;
-	border-left-color: ${({ theme }) => theme.black4};
+	border-left-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const WithoutPostsTitle = styled.Text`

@@ -117,12 +117,12 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.colors.red[2] : theme.colors.pink[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'45%'}
 				centralized
 				flexDirection={'column'}
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 			>
 				<InstructionButtonContainer >
 					<BackButton onPress={navigateBackwards} />
@@ -145,7 +145,7 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				<InputsContainer>
@@ -154,8 +154,8 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 						relativeWidth={'28%'}
 						textInputRef={inputRefs.dayInput}
 						nextInputRef={inputRefs.monthInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.pink1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.pink[1]}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'dia'}
@@ -174,8 +174,8 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 						previousInputRef={inputRefs.dayInput}
 						textInputRef={inputRefs.monthInput}
 						nextInputRef={inputRefs.yearInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.pink1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.pink[1]}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'mês'}
@@ -193,8 +193,8 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 						relativeWidth={'35%'}
 						previousInputRef={inputRefs.monthInput}
 						textInputRef={inputRefs.yearInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.pink1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.pink[1]}
 						maxLength={4}
 						fontSize={22}
 						placeholder={'ano'}
@@ -216,9 +216,9 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 							: allFiedsIsValid() && !keyboardOpened && existsThisDayOnMonth()
 							&& (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'continuar'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SecondSvgIcon={CheckWhiteIcon}
 									onPress={saveDateOfBirthNIS}
 								/>

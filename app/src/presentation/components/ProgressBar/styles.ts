@@ -8,10 +8,10 @@ export const Container = styled.View`
 `
 
 export const IndicatorBarBottom = styled.View`
-    background-color: ${({ theme }) => theme.white3};
+    background-color: ${({ theme }) => theme.colors.white[3]};
     width: 100%;
     height: ${relativeScreenHeight(1.3)}px;
-    border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.black4};
+    border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.colors.black[4]};
     overflow: hidden;
 	border-radius: 100px;
 `
@@ -19,6 +19,6 @@ export const IndicatorBarBottom = styled.View`
 export const IndicatorBarSurface = styled.View`
 	padding-right: ${relativeScreenWidth(3)}px;
 	border-radius: 100px;
-    background-color: ${({ theme }) => theme.orange3};
+    background-color: ${({ theme }) => theme.colors.orange[3]};
     height: 105%;
 `

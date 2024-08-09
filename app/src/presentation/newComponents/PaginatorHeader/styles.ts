@@ -34,7 +34,7 @@ export const InfoContainer = styled.View<InfoContainerProps>`
 `
 
 export const Title = styled.Text`
-	color: ${({ theme }) => theme.black5};
+	color: ${({ theme }) => theme.colors.black[4]};
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
 `

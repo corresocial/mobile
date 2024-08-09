@@ -37,11 +37,11 @@ function PostTime({
 	skipScreen,
 	saveTime
 }: PostTimeProps) {
-	const [time, setTime] = useState<Date>(initialValue as Date) 
+	const [time, setTime] = useState<Date>(initialValue as Date)
 
 	const savePostTime = () => {
 		saveTime(time)
-	}	
+	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -64,7 +64,7 @@ function PostTime({
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -76,7 +76,7 @@ function PostTime({
 				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				<InputsContainer>
@@ -85,7 +85,7 @@ function PostTime({
 						pickerType={'time'}
 						initialValue={initialValue}
 						fields={['horas', 'minutos']}
-						defaultBackgroundColor={theme.white2}
+						defaultBackgroundColor={theme.colors.white[2]}
 						validBackgroundColor={validationColor}
 						onDateSelect={(dateTime: Date) => setTime(dateTime)}
 					/>
@@ -94,9 +94,9 @@ function PostTime({
 					{
 						time && (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={savePostTime}
 							/>

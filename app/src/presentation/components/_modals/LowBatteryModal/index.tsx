@@ -21,7 +21,7 @@ function LowBatteryModal({ isVisible = false, onConfirm }: LowBatteryModalProps)
 			animationType={'fade'}
 			transparent
 		>
-			<StatusBar barStyle={'dark-content'} backgroundColor={theme.transparence.red} />
+			<StatusBar barStyle={'dark-content'} backgroundColor={theme.transparence.red()} />
 			<ModalContainer>
 				<Container >
 					<ContainerInner >
@@ -38,7 +38,7 @@ function LowBatteryModal({ isVisible = false, onConfirm }: LowBatteryModalProps)
 
 						<OptionButton
 							labelSize={relativeScreenDensity(16)}
-							leftSideColor={theme.green3}
+							leftSideColor={theme.colors.green[3]}
 							leftSideWidth={relativeScreenDensity(70)}
 							SvgIcon={CheckIcon}
 							svgIconScale={['40', '40']}

@@ -71,7 +71,7 @@ function VideoPortrait({
 							<SmallButton
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={ThashWhiteIcon}
 								svgScale={['55%', '55%']}
 								onPress={deleteCurrentVideo}

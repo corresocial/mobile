@@ -249,9 +249,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				relativeHeight={relativeScreenHeight(22)}
 				centralized
 			>
@@ -274,7 +274,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 					<PaymentStatusArea>
 						<SmallButton
-							color={theme.green3}
+							color={theme.colors.green[3]}
 							onPress={() => { }}
 							SvgIcon={CardWhiteIcon}
 							svgScale={['60%', '60%']}
@@ -290,7 +290,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						}}
 						// postalCodeEnabled={false} // Por que funciona???
 						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
-						cardStyle={{ fontFamily: 'Arvo_700Bold', textColor: theme.black4, placeholderColor: theme.black1 }}
+						cardStyle={{ fontFamily: 'Arvo_700Bold', textColor: theme.colors.black[4], placeholderColor: theme.colors.black[1] }}
 						style={{ flex: 1, width: '100%', height: relativeScreenHeight(34) }}
 					/>
 					{
@@ -299,11 +299,11 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 								? <Loader />
 								: (
 									<PrimaryButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={'usar cartão'}
 										highlightedWords={['cartão']}
 										fontSize={18}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										SecondSvgIcon={CardWhiteIcon}
 										onPress={performSubscriptionPayment}
 									/>

@@ -105,10 +105,10 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					flex: 1,
 					position: 'absolute',
 					height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
-					borderTopColor: theme.black4,
+					borderTopColor: theme.colors.black[4],
 					borderTopWidth: 5,
 					marginBottom: 0,
-					backgroundColor: theme.black4
+					backgroundColor: theme.colors.black[4]
 				},
 				tabBarItemStyle: Platform.OS === 'ios' && {
 					flex: 1,
@@ -121,13 +121,13 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				},
 				tabBarBadgeStyle: {
 					borderRadius: 5,
-					backgroundColor: theme.pink3,
+					backgroundColor: theme.colors.pink[4],
 					fontFamily: 'Arvo_700Bold',
 					fontSize: relativeScreenDensity(10),
 					margin: relativeScreenDensity(3),
 				},
-				tabBarActiveBackgroundColor: theme.orange3,
-				tabBarInactiveBackgroundColor: theme.white3,
+				tabBarActiveBackgroundColor: theme.colors.orange[3],
+				tabBarInactiveBackgroundColor: theme.colors.white[3],
 			}}
 		>
 			<Tab.Screen

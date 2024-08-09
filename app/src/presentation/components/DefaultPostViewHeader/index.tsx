@@ -75,7 +75,7 @@ function DefaultPostViewHeader({
 					: (
 						<>
 							<SmallButton
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={XWhiteIcon}
 								relativeWidth={relativeScreenWidth(11)}
 								height={relativeScreenWidth(11)}

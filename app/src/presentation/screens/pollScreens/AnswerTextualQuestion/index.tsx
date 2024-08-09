@@ -69,11 +69,11 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				flexDirection={'column'}
 			>
 				<InstructionContainer >
@@ -91,8 +91,8 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 				<FormContent>
 					<DefaultInput
 						value={inputText}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.purple1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.purple[1]}
 						lastInput
 						fontSize={16}
 						textIsValid={!!inputText}
@@ -102,9 +102,9 @@ function AnswerTextualQuestion({ route, navigation }: AnswerTextualQuestionScree
 						onChangeText={changeInputField}
 					/>
 					<PrimaryButton
-						color={inputText ? theme.green3 : theme.yellow3}
+						color={inputText ? theme.colors.green[3] : theme.colors.yellow[3]}
 						label={inputText ? 'continuar' : 'pular'}
-						labelColor={inputText ? theme.white3 : theme.black4}
+						labelColor={inputText ? theme.colors.white[3] : theme.colors.black[4]}
 						SecondSvgIcon={inputText ? CheckWhiteIcon : DeniedWhiteIcon}
 						onPress={selectInputedText}
 					/>

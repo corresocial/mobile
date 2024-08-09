@@ -29,8 +29,8 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 		<PostSelectButton
 			title={'você está procurando ou anunciando este serviço?'}
 			highlightedWords={['procurando', 'anunciando']}
-			headerBackgroundColor={theme.green2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.green[2]}
+			backgroundColor={theme.colors.white[3]}
 			progress={[1, isSecondPost ? 5 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
@@ -41,7 +41,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={QuestionMarkWhiteIcon}
 				svgIconScale={['40%', '40%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveServicePurpose(true)}
 			/>
@@ -52,7 +52,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.colors.green[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveServicePurpose(false)}
 			/>

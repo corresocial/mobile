@@ -54,11 +54,11 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

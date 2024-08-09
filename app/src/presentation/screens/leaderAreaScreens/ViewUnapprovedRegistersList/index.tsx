@@ -67,7 +67,7 @@ export function ViewUnapprovedRegistersList({ navigation }: ViewUnapprovedRegist
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
+		<ScreenContainer topSafeAreaColor={theme.colors.white[3]} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -86,8 +86,8 @@ export function ViewUnapprovedRegistersList({ navigation }: ViewUnapprovedRegist
 					onEndReached={loadMoreRegisters}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={isLoading}
 							onRefresh={loadUnapprovedRegisters}
 						/>

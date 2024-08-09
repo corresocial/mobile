@@ -13,17 +13,17 @@ export const UserPictureArea = styled.View`
 	border-radius: ${relativeScreenDensity(8)}px;
 	margin-left: ${relativeScreenDensity(5)}px;
 	position: relative;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	width: 100%;
 `
 
 export const UserPictureAreaInner = styled.TouchableOpacity`
-	border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.black4};
+	border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.colors.black[4]};
 	width: 100%;
 	height: 100%;
 	border-radius: ${relativeScreenDensity(7)}px;
 	position: absolute;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	overflow: hidden;
 	left: ${relativeScreenDensity(-5)}px;
 `

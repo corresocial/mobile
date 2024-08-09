@@ -46,10 +46,10 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<PostTags
-				backgroundColor={theme.green2}
-				lightColor={theme.green1}
+				backgroundColor={theme.colors.green[2]}
+				lightColor={theme.colors.green[1]}
 				currentCategory={saleCategories[getSaleCategorySelected()]}
 				navigateBackwards={() => navigation.goBack()}
 				addNewTag={addNewTag}

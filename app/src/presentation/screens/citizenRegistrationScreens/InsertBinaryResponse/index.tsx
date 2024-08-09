@@ -58,7 +58,7 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange1}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
 			<CitizenRegistrationHeader
 				message={`${questionData.questionId} - ${questionData.question}`}
 				progress={responseProgress}
@@ -67,16 +67,16 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 			<FormContainer >
 				<ButtonOptionsContainer>
 					<PrimaryButton
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						label={'sim'}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						SecondSvgIcon={CheckWhiteIcon}
 						onPress={() => selectBinaryOption(true)}
 					/>
 					<PrimaryButton
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						label={'não'}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						SvgIcon={XWhiteIcon}
 						onPress={() => selectBinaryOption(false)}
 					/>
@@ -86,7 +86,7 @@ function InsertBinaryResponse({ route, navigation }: InsertBinaryResponseScreenP
 						? (
 							<ButtonOptionsContainer>
 								<PrimaryButton
-									color={theme.yellow3}
+									color={theme.colors.yellow[3]}
 									label={'não se aplica'}
 									SecondSvgIcon={CheckWhiteIcon}
 									onPress={skipQuestion}

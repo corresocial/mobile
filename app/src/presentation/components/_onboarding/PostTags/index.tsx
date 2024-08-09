@@ -121,7 +121,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 					titleFontSize={26}
 					description={`que tipo de ${getCurrentCategoryLabel()} você quer anunciar?`}
 					highlightedWords={[...getCurrentCategoryLabelHightlighted()]}
-					color={theme.white3}
+					color={theme.colors.white[3]}
 				/>
 			</DefaultHeaderContainer>
 			<ContainerBottom>
@@ -145,7 +145,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 						/>
 					)
 				}
-				<SelectButtonsContainer backgroundColor={theme.white3}>
+				<SelectButtonsContainer backgroundColor={theme.colors.white[3]}>
 					<ScrollView
 						showsVerticalScrollIndicator={false}
 						style={{
@@ -170,9 +170,9 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 						? (
 							<FloatButtonContainer>
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'continuar'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SecondSvgIcon={CheckIcon}
 									onPress={() => savePostTags(selectedTags)}
 								/>

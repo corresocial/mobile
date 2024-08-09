@@ -19,7 +19,7 @@ interface AdsCarouselProps {
 function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServicesAd, onPressEventCalendarAd }: AdsCarouselProps) {
 	return (
 		<Container>
-			<CustomCarousel activeIndicatorColor={theme.white3}>
+			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
 				{/* <SubscriptionAdContainer>
 					<PublicServicesAdButton onPress={() => { }} />
 				</SubscriptionAdContainer> */}
@@ -31,7 +31,7 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 				</SubscriptionAdContainer>
 				<SubscriptionAdContainer>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'calendário de eventos'}
 						highlightedWords={['eventos']}
 						labelSize={17}
@@ -40,7 +40,7 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 						shortDescriptionHighlightedWords={['Londrina,', 'benefícios!', 'seus']}
 						SvgIcon={CalendarWhiteIcon}
 						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.blue3}
+						leftSideColor={theme.colors.blue[3]}
 						leftSideWidth={'25%'}
 						onPress={() => onPressEventCalendarAd && onPressEventCalendarAd()}
 					/>

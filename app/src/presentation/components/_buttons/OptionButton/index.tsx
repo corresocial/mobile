@@ -55,7 +55,7 @@ function OptionButton({
 	SecondSvgIcon,
 	svgIconScale,
 	secondSvgIconScale,
-	leftSideColor = theme.orange2,
+	leftSideColor = theme.colors.orange[2],
 	selectedSideColor,
 	leftSideWidth,
 	leftSideText,
@@ -98,7 +98,7 @@ function OptionButton({
 			>
 				<ContainerSurface
 					style={{
-						backgroundColor: color || theme.white3,
+						backgroundColor: color || theme.colors.white[3],
 						marginLeft: buttonPressed || selected ? relativeScreenDensity(7) : 0
 					}}
 				>

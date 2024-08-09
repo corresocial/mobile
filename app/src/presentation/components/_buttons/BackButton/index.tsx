@@ -19,7 +19,7 @@ function BackButton({ withoutRightSpacing, onPress }: BackButtonProps) {
 			<SmallButton
 				relativeWidth={relativeScreenWidth(11)}
 				height={relativeScreenWidth(11)}
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				SvgIcon={AngleLeftIcon}
 				onPress={onPress}
 				svgScale={['55%', '55%']}

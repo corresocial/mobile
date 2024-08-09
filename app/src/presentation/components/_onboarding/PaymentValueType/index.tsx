@@ -23,7 +23,7 @@ function PaymentValueType({ backgroundColor, itemsColor, savePaymentValueType, n
 			title={'tem preço fixo ou fica a combinar?'}
 			highlightedWords={['preço', 'fixo', 'a', 'combinar']}
 			headerBackgroundColor={backgroundColor}
-			backgroundColor={theme.white3}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={navigateBackwards}
 		>
 			<OptionButton

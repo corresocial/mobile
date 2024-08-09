@@ -76,7 +76,7 @@ function PostLocationViewPreview({
 							: ['alcance\n', getPossessivePronounByRange(postRange), getPostRangeLabel(postRange)]
 					}
 					height={'100%'}
-					color={theme.white3}
+					color={theme.colors.white[3]}
 				/>
 			</DefaultHeaderContainer>
 			<MapContainer>
@@ -93,10 +93,10 @@ function PostLocationViewPreview({
 			</MapContainer>
 			<ButtonContainerBottom>
 				<PrimaryButton
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					label={'continuar'}
 					fontSize={16}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SecondSvgIcon={CheckWhiteIcon}
 					onPress={() => (firstStep ? setFirstStep(false) : saveLocationView())}
 				/>

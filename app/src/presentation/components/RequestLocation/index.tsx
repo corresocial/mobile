@@ -18,10 +18,10 @@ function RequestLocation({ getLocationPermissions }: RequestLocationProps) {
 			<Text>{showMessageWithHighlight('precisamos da sua localização para encontra os posts e perfis perto de você', ['sua', 'localização', 'posts', 'e', 'perfis', 'perto', 'de', 'você'])}</Text>
 			<PrimaryButton
 				startsHidden={false}
-				color={theme.green3}
+				color={theme.colors.green[3]}
 				label={'usar minha localização'}
 				highlightedWords={['minha', 'localização']}
-				labelColor={theme.white3}
+				labelColor={theme.colors.white[3]}
 				fontSize={16}
 				SecondSvgIcon={MapIcon}
 				svgIconScale={['50%', '30%']}

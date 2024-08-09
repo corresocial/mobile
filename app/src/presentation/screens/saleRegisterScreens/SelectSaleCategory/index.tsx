@@ -25,9 +25,9 @@ function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostCategory
-				backgroundColor={theme.green2}
+				backgroundColor={theme.colors.green[2]}
 				categories={saleCategories}
 				progress={[3, isSecondPost ? 5 : 6]}
 				navigateBackwards={() => navigation.goBack()}

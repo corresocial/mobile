@@ -191,12 +191,12 @@ function SelectPostLocation({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={navigateBackwards} />
@@ -243,10 +243,10 @@ function SelectPostLocation({
 					<PrimaryButton
 						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'   usar minha localização'}
 						highlightedWords={['minha', 'localização']}
-						labelColor={theme.black4}
+						labelColor={theme.colors.black[4]}
 						fontSize={16}
 						SecondSvgIcon={MapPointWhiteIcon}
 						svgIconScale={['50%', '15%']}
@@ -269,9 +269,9 @@ function SelectPostLocation({
 								? <Loader />
 								: (
 									<PrimaryButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={'continuar'}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveLocation(markerCoordinate)}
 									/>

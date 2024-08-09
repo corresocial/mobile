@@ -4,7 +4,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const Body = styled.View`

@@ -51,10 +51,10 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<PaymentMethod
-				backgroundColor={theme.green2}
-				itemsColor={theme.green3}
+				backgroundColor={theme.colors.green[2]}
+				itemsColor={theme.colors.green[3]}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentMethod={savePaymentType}

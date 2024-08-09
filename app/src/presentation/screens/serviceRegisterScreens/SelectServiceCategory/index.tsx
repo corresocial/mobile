@@ -25,9 +25,9 @@ function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostCategory
-				backgroundColor={theme.green2}
+				backgroundColor={theme.colors.green[2]}
 				categories={serviceCategories}
 				progress={[2, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}

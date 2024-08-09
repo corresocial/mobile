@@ -143,17 +143,17 @@ function DefaultInput({
 	}
 
 	const generateInputContainerStyle = () => {
-		const customDefaultBackgroundColor = textIsValid ? theme.white3 : defaultBackgroundColor
+		const customDefaultBackgroundColor = textIsValid ? theme.colors.white[3] : defaultBackgroundColor
 
 		if (invalidTextAfterSubmit || error) {
 			return {
-				backgroundColor: invalidBackgroundColor || theme.red1,
+				backgroundColor: invalidBackgroundColor || theme.colors.red[1],
 			}
 		}
 
 		return {
-			borderBottomColor: theme.black4,
-			backgroundColor: validated || textIsValid ? validBackgroundColor : focused ? theme.white3 : customDefaultBackgroundColor
+			borderBottomColor: theme.colors.black[4],
+			backgroundColor: validated || textIsValid ? validBackgroundColor : focused ? theme.colors.white[3] : customDefaultBackgroundColor
 		}
 	}
 
@@ -164,7 +164,7 @@ function DefaultInput({
 
 	const getTextInputStyle = () => {
 		return {
-			color: theme.black4,
+			color: theme.colors.black[4],
 			fontFamily: invalidTextAfterSubmit
 				? 'Arvo_400Regular'
 				: validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'

@@ -17,7 +17,7 @@ interface FilterButtonProps {
 
 function FilterButton({
 	height = relativeScreenHeight(9),
-	backgroundColor = theme.white3,
+	backgroundColor = theme.colors.white[3],
 	backgroundSelected,
 	label,
 	fontSize = 13,

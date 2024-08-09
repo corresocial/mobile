@@ -35,7 +35,7 @@ function PostFrequency({
 }: PostFrequencyProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
@@ -53,7 +53,7 @@ function PostFrequency({
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -65,51 +65,51 @@ function PostFrequency({
 				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<ButtonsContainer>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'só hoje'}
 						highlightedWords={['hoje']}
 						labelSize={18}
 						SvgIcon={CalendarToday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						onPress={() => savePostFrequency('today')}
 					/>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'todos os dias'}
 						highlightedWords={['todos']}
 						labelSize={18}
 						SvgIcon={CalendarEveryday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						onPress={() => savePostFrequency('everyday')}
 					/>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'alguns dias'}
 						highlightedWords={['alguns']}
 						labelSize={18}
 						SvgIcon={CalendarSomeday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						onPress={() => savePostFrequency('someday')}
 					/>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'dias comerciais'}
 						highlightedWords={['comerciais']}
 						labelSize={18}
 						SvgIcon={CalendarBusinessDay}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						onPress={() => savePostFrequency('businessDay')}
 					/>
 				</ButtonsContainer>

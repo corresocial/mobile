@@ -9,7 +9,8 @@ import {
 	Description,
 	Header,
 	Title,
-	TouchCloseArea
+	TouchCloseArea,
+	getRelativeStatusBarColor
 } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
@@ -106,15 +107,6 @@ function CustomModal({
 
 	const iconStyle = { marginLeft: -relativeScreenDensity(8), marginRight: relativeScreenDensity(15) }
 
-	const getRelativeStatusBarColor = () => {
-		switch (overlayColor) {
-			case 'error': return theme.transparence.red
-			case 'info': return theme.transparence.blue3
-			case 'success': return theme.transparence.green
-			default: return theme.transparence.orange1
-		}
-	}
-
 	return (
 		<Modal
 			transparent
@@ -122,7 +114,7 @@ function CustomModal({
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={getRelativeStatusBarColor()} barStyle={'dark-content'} />}
+			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={getRelativeStatusBarColor(theme, overlayColor)} barStyle={'dark-content'} />}
 			<Container
 				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 				overlayColor={overlayColor}
@@ -145,7 +137,7 @@ function CustomModal({
 										SvgIcon={XWhiteIcon}
 										relativeWidth={relativeScreenWidth(11)}
 										height={relativeScreenWidth(11)}
-										color={theme.red3}
+										color={theme.colors.red[3]}
 										onPress={closeModal}
 									/>
 								)
@@ -187,8 +179,8 @@ function CustomModal({
 									<VerticalSpacing />
 									<DefaultInput
 										{...customInput}
-										defaultBackgroundColor={theme.white2}
-										validBackgroundColor={theme.orange1}
+										defaultBackgroundColor={theme.colors.white[2]}
+										validBackgroundColor={theme.colors.orange[1]}
 										fontSize={15}
 										multiline
 										numberOfLines={5}
@@ -211,9 +203,9 @@ function CustomModal({
 								<>
 									<PrimaryButton
 										keyboardHideButton={false}
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										labelMarginLeft={relativeScreenDensity(10)}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										label={affirmativeButton.label}
 										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
 										fontSize={14}
@@ -229,8 +221,8 @@ function CustomModal({
 							negativeButton && (
 								<PrimaryButton
 									keyboardHideButton={false}
-									color={theme.red3}
-									labelColor={theme.white3}
+									color={theme.colors.red[3]}
+									labelColor={theme.colors.white[3]}
 									label={negativeButton.label}
 									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
 									fontSize={14}

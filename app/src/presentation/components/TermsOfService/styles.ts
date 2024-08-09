@@ -3,11 +3,11 @@ import styled from 'styled-components/native'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface ContainerProps {
-    calledFromConfig?: () => void
+	calledFromConfig?: () => void
 }
 
 export const Container = styled.View<ContainerProps>`
-    background-color: ${({ calledFromConfig, theme }) => (calledFromConfig ? theme.orange2 : theme.transparence.orange2)};
+    background-color: ${({ calledFromConfig, theme }) => (calledFromConfig ? theme.colors.orange[2] : theme.transparence.orange())};
     flex: 1;
     flex-direction: column;
     align-items: center;

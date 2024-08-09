@@ -42,8 +42,8 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 		<PostSelectButton
 			title={'você está \npostando sobre arte, \num evento ou educação?'}
 			highlightedWords={['arte', 'evento', 'educação']}
-			headerBackgroundColor={theme.blue2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.blue[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -53,7 +53,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={ColorPaletWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('art')}
 			/>
@@ -64,7 +64,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={CalendarEverydayWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('event')}
 			/>
@@ -75,7 +75,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={BooksWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('education')}
 			/>

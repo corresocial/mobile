@@ -4,13 +4,13 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(12)}px;
 	padding-bottom: 0px;
 `
@@ -29,7 +29,7 @@ interface MacroCategoryContainerProps {
 }
 
 export const MacroCategoryContainer = styled.View<MacroCategoryContainerProps>`
-	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.orange2};
+	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.colors.orange[2]};
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;

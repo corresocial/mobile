@@ -3,13 +3,13 @@ import styled from 'styled-components/native'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const ContainerBottom = styled.View`
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(20)}px;
 
 `
 
 export const ContainerSurface = styled.View`
-    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.black4};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(20)}px;
     align-items: center;
     justify-content: center;

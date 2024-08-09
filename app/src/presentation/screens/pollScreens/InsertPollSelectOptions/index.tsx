@@ -73,8 +73,8 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 					value={currentQuestion}
 					relativeWidth={'100%'}
 					textInputRef={inputRefs.inputCards[index]}
-					defaultBackgroundColor={theme.white2}
-					validBackgroundColor={theme.purple1}
+					defaultBackgroundColor={theme.colors.white[2]}
+					validBackgroundColor={theme.colors.purple[1]}
 					withoutBottomLine
 					multiline
 					lastInput
@@ -115,12 +115,12 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
@@ -131,7 +131,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 			</DefaultHeaderContainer>
 			<FormContainer
 				withoutPaddingTop
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={questionsLength() < 1 ? 'center' : 'space-around'}
 			>
 				<ScrollView showsVerticalScrollIndicator={false}>
@@ -145,8 +145,8 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 								value={selectOptionText}
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.selectOptionTextInput}
-								defaultBackgroundColor={theme.white2}
-								validBackgroundColor={theme.purple1}
+								defaultBackgroundColor={theme.colors.white[2]}
+								validBackgroundColor={theme.colors.purple[1]}
 								withoutBottomLine
 								lastInput
 								multiline
@@ -171,9 +171,9 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 						(questionsLength() > 0 && !keyboardOpened)
 						&& (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={savePollQuestions}
 							/>

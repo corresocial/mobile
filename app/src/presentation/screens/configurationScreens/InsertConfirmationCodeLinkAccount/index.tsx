@@ -202,15 +202,15 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 	}
 
 	const getRelativeHeaderErrorStyle = () => {
-		if (expiredCodeAfterSubmit) return theme.yellow2
-		if (invalidCodeAfterSubmit) return theme.red2
-		return theme.orange2
+		if (expiredCodeAfterSubmit) return theme.colors.yellow[2]
+		if (invalidCodeAfterSubmit) return theme.colors.red[2]
+		return theme.colors.orange[2]
 	}
 
 	const getRelativeInputErrorStyle = () => {
-		if (expiredCodeAfterSubmit) return theme.yellow1
-		if (invalidCodeAfterSubmit) return theme.red1
-		return theme.orange1
+		if (expiredCodeAfterSubmit) return theme.colors.yellow[1]
+		if (invalidCodeAfterSubmit) return theme.colors.red[1]
+		return theme.colors.orange[1]
 	}
 
 	const getFormatedCellNumber = () => {
@@ -223,12 +223,12 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				flexDirection={'column'}
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.orange2}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.colors.orange[2]}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
@@ -268,8 +268,8 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 									hasMultipleInputs
 									previousInputRef={isLastInput ? null : !isFirstInput && inputsConfig[index - 1].ref}
 									nextInputRef={!isLastInput && inputsConfig[index + 1].ref}
-									defaultBackgroundColor={theme.white2}
-									validBackgroundColor={theme.orange1}
+									defaultBackgroundColor={theme.colors.white[2]}
+									validBackgroundColor={theme.colors.orange[1]}
 									invalidBackgroundColor={getRelativeInputErrorStyle()}
 									maxLength={1}
 									textIsValid={insertedCodeIsValid}
@@ -292,9 +292,9 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 							? <Loader />
 							: allInputCodesIsValid() && !expiredCodeAfterSubmit && (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									SecondSvgIcon={CheckWhiteIcon}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									label={'continuar'}
 									highlightedWords={['continuar']}
 									startsHidden

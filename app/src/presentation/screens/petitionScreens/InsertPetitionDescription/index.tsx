@@ -49,11 +49,11 @@ function InsertPetitionDescription({ route, navigation }: InsertPetitionDescript
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.colors.purple[2]}
+				validationColor={theme.colors.purple[1]}
 				customTitle={'adicione uma descrição sobre o seu abaixo assinado'}
 				customHighlight={['descrição', 'abaixo', 'assinado']}
 				inputPlaceholder={'descreva seu abaixo assinado...'}

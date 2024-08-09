@@ -47,8 +47,8 @@ function ChatPopOver({
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: relativeScreenDensity(15) }}
-			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
+			popoverStyle={{ backgroundColor: theme.colors.black[4], borderRadius: relativeScreenDensity(15) }}
+			backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >
@@ -58,7 +58,7 @@ function ChatPopOver({
 			)}
 		>
 			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
+				<FocusAwareStatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
 						<XIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
@@ -66,10 +66,10 @@ function ChatPopOver({
 					<UserName>{userName}</UserName>
 					<VerticalSpacing />
 					<PrimaryButton
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}
 						highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						fontSize={13}
 						SvgIcon={DeniedWhiteIcon}
 						justifyContent={'space-around'}
@@ -82,10 +82,10 @@ function ChatPopOver({
 							<>
 								<VerticalSpacing />
 								<PrimaryButton
-									color={theme.red3}
+									color={theme.colors.red[3]}
 									label={'apagar conversa'}
 									highlightedWords={['apagar', 'conversa']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									fontSize={13}
 									SvgIcon={TrashIcon}
 									justifyContent={'space-around'}
@@ -101,10 +101,10 @@ function ChatPopOver({
 							<>
 								<VerticalSpacing />
 								<PrimaryButton
-									color={theme.pink3}
+									color={theme.colors.pink[3]}
 									label={'marcar como \nfinalizado'}
 									highlightedWords={['marcar', 'como', '\nfinalizado']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									justifyContent={'space-around'}
 									textAlign={'left'}
 									fontSize={13}

@@ -20,5 +20,5 @@ export const LongText = styled.Text<DescriptionTextProps>`
 export const SeeMoreLabel = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
-	color: ${({ theme }) => theme.orange4};
+	color: ${({ theme }) => theme.colors.orange[4]};
 `

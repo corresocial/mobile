@@ -130,7 +130,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={newUser ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={newUser ? theme.colors.purple[2] : theme.colors.green[2]} barStyle={'dark-content'} />
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={authenticatedUser.email}
@@ -142,7 +142,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={newUser ? theme.purple2 : theme.green2}
+				backgroundColor={newUser ? theme.colors.purple[2] : theme.colors.green[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -151,27 +151,27 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white3} justifyContent={'center'}>
+			<FormContainer backgroundColor={theme.colors.white[3]} justifyContent={'center'}>
 				{
 					isLoading
 						? <Loader />
 						: (
 							<>
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									svgIconScale={['50%', '30%']}
 									label={'telefone'}
 									highlightedWords={['telefone']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									onPress={performSigninWithCellNumber}
 								/>
 								<VerticalSpacing height={5} />
 								<PrimaryButton
-									color={theme.white3}
+									color={theme.colors.white[3]}
 									SecondSvgIcon={GoogleWhiteIcon}
 									svgIconScale={['50%', '30%']}
-									labelColor={theme.black4}
+									labelColor={theme.colors.black[4]}
 									label={'continuar \ncom google'}
 									highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'google']}
 									textAlign={'left'}

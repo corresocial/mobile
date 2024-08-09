@@ -34,10 +34,10 @@ function SelectSocialImpactDaysOfWeek({ route, navigation }: SelectSocialImpactD
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostDaysOfWeek
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				validationColor={theme.colors.pink[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

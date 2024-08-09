@@ -8,7 +8,7 @@ interface TakePictureButtonProps {
 
 export const OutlinedContainer = styled.View<TakePictureButtonProps>`
 	border-width: 3px;
-	border-color: ${({ theme }) => theme.white3};
+	border-color: ${({ theme }) => theme.colors.white[3]};
 	border-radius: 200px;
 	width: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(21) : relativeScreenWidth(24))}px;
 	left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
@@ -16,14 +16,14 @@ export const OutlinedContainer = styled.View<TakePictureButtonProps>`
 `
 
 export const ShadowButton = styled.View<TakePictureButtonProps>`
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	width: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(19) : relativeScreenWidth(21))}px;
 	height: ${relativeScreenWidth(19)}px;
 	border-radius: 70px;
 `
 
 export const TakePictureButtonBottom = styled.View<TakePictureButtonProps>`
-    background-color: ${({ theme }) => theme.orange1};
+    background-color: ${({ theme }) => theme.colors.orange[1]};
 	width: ${relativeScreenWidth(19)}px;
     height: ${relativeScreenWidth(19)}px;
     border-radius: 70px;
@@ -35,8 +35,8 @@ export const TakePictureButtonBottom = styled.View<TakePictureButtonProps>`
 `
 
 export const TakePictureButtonSurface = styled.TouchableOpacity<TakePictureButtonProps>`
-	border-color:${({ theme }) => theme.orange2};
-    background-color: ${({ theme }) => theme.orange3};
+	border-color:${({ theme }) => theme.colors.orange[2]};
+    background-color: ${({ theme }) => theme.colors.orange[3]};
     width: 70%;
     height: 70%;
     border-radius: 70px;

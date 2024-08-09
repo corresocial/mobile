@@ -63,7 +63,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	return (
 		<>
 			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 				<SubscriptionPresentationModal
 					visibility={subscriptionModalIsVisible}
 					profilePictureUri={profilePictureUrl}
@@ -76,10 +76,10 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					SvgIcon={DescriptionWhiteIcon}
 				/>
 				<FormContainer
-					backgroundColor={theme.orange2}
+					backgroundColor={theme.colors.orange[2]}
 				>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'renda'}
 						highlightedWords={['renda']}
 						labelSize={18}
@@ -87,12 +87,12 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						shortDescription={'compra e venda, serviços e vagas'}
 						SvgIcon={CashWhiteIcon}
 						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('SelectIncomeType')}
 					/>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'impacto social'}
 						highlightedWords={['impacto', 'social']}
 						labelSize={18}
@@ -100,12 +100,12 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						shortDescription={'iniciativas, doações, etc'}
 						SvgIcon={SocialImpactWhiteIcon}
 						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.pink3}
+						leftSideColor={theme.colors.pink[3]}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('SocialImpactStack')}
 					/>
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'cultura'}
 						highlightedWords={['cultura']}
 						labelSize={18}
@@ -113,7 +113,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						shortDescription={'arte, eventos e educação'}
 						SvgIcon={CultureWhiteIcon}
 						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.blue3}
+						leftSideColor={theme.colors.blue[3]}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('CultureStack')}
 					/>
@@ -126,7 +126,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 								labelSize={15}
 								relativeHeight={'20%'}
 								leftSideWidth={'25%'}
-								leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+								leftSideColor={hasNetworkConnection ? theme.colors.green[3] : theme.colors.yellow[3]}
 								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
 								svgIconScale={['70%', '70%']}
 								onPress={() => navigation.navigate('OfflinePostsManagement')}

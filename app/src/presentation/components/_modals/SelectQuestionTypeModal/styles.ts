@@ -10,10 +10,10 @@ export const Container = styled.View<ContainerProps>`
     height: 100%;
     background-color: ${({ overlayColor, theme }) => {
 		switch (overlayColor) {
-			case 'error': return theme.transparence.red
-			case 'info': return theme.transparence.blue3
-			case 'success': return theme.transparence.green
-			default: return theme.transparence.orange1
+			case 'error': return theme.transparence.red()
+			case 'info': return theme.transparence.blue()
+			case 'success': return theme.transparence.green()
+			default: return theme.transparence.orange()
 		}
 	}};
 	justify-content: center;
@@ -28,7 +28,7 @@ export const TouchCloseArea = styled.TouchableOpacity`
 export const ContentInner = styled.View`
 	width: 90%;
 	gap: ${relativeScreenDensity(5)}px;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(25)}px;
 	padding-top: ${relativeScreenDensity(15)}px;
 	border-radius: ${relativeScreenDensity(25)}px;
@@ -47,5 +47,5 @@ export const Title = styled.Text`
     font-family: 'Arvo_700Bold';
 	text-align: center;
     font-size: ${({ theme }) => theme.fontSizes[6]}px;
-    color: ${({ theme }) => theme.black3};
+    color: ${({ theme }) => theme.colors.black[3]};
 `

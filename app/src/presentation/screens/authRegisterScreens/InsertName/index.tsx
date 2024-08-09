@@ -72,11 +72,11 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.green[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.green[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -99,8 +99,8 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 						value={inputName}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.nameInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.green1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.green[1]}
 						maxLength={50}
 						fontSize={16}
 						multiline
@@ -117,9 +117,9 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 						nameIsValid && !keyboardOpened
 						&& (
 							<PrimaryButton
-								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+								color={someInvalidFieldSubimitted() ? theme.colors.red[3] : theme.colors.green[3]}
 								SecondSvgIcon={CheckWhiteIcon}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								label={'continuar'}
 								highlightedWords={['continuar']}
 								startsHidden={false}

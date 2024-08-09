@@ -82,14 +82,14 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostLocationViewPreview
-				backgroundColor={theme.blue2}
+				backgroundColor={theme.colors.blue[2]}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={getPostRange()}
 				placeName={getPlaceName()}
-				placeColor={theme.transparence.blue3}
+				placeColor={theme.transparence.blue()}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

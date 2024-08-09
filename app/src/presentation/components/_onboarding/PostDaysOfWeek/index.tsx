@@ -126,7 +126,7 @@ function PostDaysOfWeek({
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -138,7 +138,7 @@ function PostDaysOfWeek({
 				}
 			</DefaultHeaderContainer>
 			<SelectButtonsContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<WeekdaysSelectedArea>
 					{renderDaysOfWeek()}
@@ -149,9 +149,9 @@ function PostDaysOfWeek({
 					? (
 						<FloatButtonContainer>
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={() => savePostDaysOfWeek(selectedDays)}
 							/>

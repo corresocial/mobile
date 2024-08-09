@@ -30,9 +30,9 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostCategory
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				categories={socialImpactCategories}
 				progress={[2, isSecondPost ? 5 : 6]}
 				navigateBackwards={() => navigation.goBack()}

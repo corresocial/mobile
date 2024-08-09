@@ -23,8 +23,8 @@ function DropdownItem({ selected, dropdownData, recent, findNearPosts }: Dropdow
 	return (
 		<Container
 			style={{
-				backgroundColor: !selected ? theme.white3 : theme.orange1,
-				borderLeftColor: !selected ? theme.black4 : theme.orange5,
+				backgroundColor: !selected ? theme.colors.white[3] : theme.colors.orange[1],
+				borderLeftColor: !selected ? theme.colors.black[4] : theme.colors.orange[4],
 				borderLeftWidth: !selected ? relativeScreenDensity(2.5) : relativeScreenDensity(5),
 			}}
 			onPress={() => findNearPosts && findNearPosts()}
@@ -44,7 +44,7 @@ function DropdownItem({ selected, dropdownData, recent, findNearPosts }: Dropdow
 				<HighlightedAddress
 					numberOfLines={2}
 					style={{
-						color: !selected ? theme.black4 : theme.orange5
+						color: !selected ? theme.colors.black[4] : theme.colors.orange[4]
 					}}
 				>
 					{dropdownData && dropdownData.addressHighlighted}
@@ -52,7 +52,7 @@ function DropdownItem({ selected, dropdownData, recent, findNearPosts }: Dropdow
 				<Address
 					numberOfLines={1}
 					style={{
-						color: !selected ? theme.black4 : theme.orange5
+						color: !selected ? theme.colors.black[4] : theme.colors.orange[4]
 					}}
 				>
 					{dropdownData && dropdownData.addressThin}

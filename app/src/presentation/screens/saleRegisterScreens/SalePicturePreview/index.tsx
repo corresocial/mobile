@@ -25,9 +25,9 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.green2}
+				backgroundColor={theme.colors.green[2]}
 				initialValue={convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}

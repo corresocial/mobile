@@ -125,7 +125,7 @@ function PostInputText({
 								<HorizontalSpacing />
 								<SmallButton
 									SvgIcon={TrashWhiteIcon}
-									color={theme.red3}
+									color={theme.colors.red[3]}
 									height={relativeScreenWidth(11)}
 									relativeWidth={relativeScreenWidth(11)}
 									svgScale={['60%', '60%']}
@@ -138,14 +138,14 @@ function PostInputText({
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				<DefaultInput
 					textInputRef={textInputRef}
 					value={inputText}
-					defaultBackgroundColor={theme.white2}
-					validBackgroundColor={inputTextIsValid ? validationColor : theme.white3}
+					defaultBackgroundColor={theme.colors.white[2]}
+					validBackgroundColor={inputTextIsValid ? validationColor : theme.colors.white[3]}
 					lastInput
 					fontSize={16}
 					multiline={multiline}
@@ -162,9 +162,9 @@ function PostInputText({
 							: inputTextIsValid && !keyboardOpened
 								? (
 									<PrimaryButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={'continuar'}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveTextData(inputText.trim())}
 									/>

@@ -100,7 +100,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<LocationChangeConfirmationModal
 				visibility={locationChangeModalIsVisible}
 				currentPostAddress={getLastPostCity()}
@@ -110,8 +110,8 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 			/>
 
 			<SelectPostLocation
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				validationColor={theme.colors.pink[1]}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

@@ -25,10 +25,10 @@ function HomeCatalogMenu({ navigateToScreen }: HomeCatalogProps) {
 				<SmallButton
 					relativeWidth={relativeScreenWidth(26)}
 					height={relativeScreenWidth(15)}
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					fontSize={7.5}
 					onPress={() => navigateToScreen('income')}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SvgIcon={CashWhiteIcon}
 					SecondSvgIcon={IncomeTextWhite}
 					svgScale={['45%', '80%']}
@@ -38,10 +38,10 @@ function HomeCatalogMenu({ navigateToScreen }: HomeCatalogProps) {
 				<SmallButton
 					relativeWidth={relativeScreenWidth(26)}
 					height={relativeScreenWidth(15)}
-					color={theme.pink3}
+					color={theme.colors.pink[3]}
 					fontSize={7.5}
 					onPress={() => navigateToScreen('socialImpact')}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SvgIcon={SocialImpactWhiteIcon}
 					SecondSvgIcon={CitizenshipTextWhite}
 					svgScale={['45%', '80%']}
@@ -51,10 +51,10 @@ function HomeCatalogMenu({ navigateToScreen }: HomeCatalogProps) {
 				<SmallButton
 					relativeWidth={relativeScreenWidth(26)}
 					height={relativeScreenWidth(15)}
-					color={theme.blue3}
+					color={theme.colors.blue[3]}
 					fontSize={7.5}
 					onPress={() => navigateToScreen('culture')}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SvgIcon={CultureWhiteIcon}
 					SecondSvgIcon={CultureTextWhite}
 					svgScale={['45%', '80%']}
