@@ -55,7 +55,7 @@ function VideoPortrait({
 								isLooping
 								volume={0}
 								resizeMode={ResizeMode.CONTAIN}
-
+								shouldPlay
 							/>
 						</>
 					)

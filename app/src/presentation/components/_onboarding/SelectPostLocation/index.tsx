@@ -100,6 +100,7 @@ function SelectPostLocation({
 	const getIpAddressCoodinates = async () => {
 		const coordinates = await getCoordinatesByIpAddress()
 
+		console.log(coordinates)
 		if (coordinates) {
 			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
 		}
