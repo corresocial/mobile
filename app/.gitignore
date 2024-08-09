@@ -2,7 +2,8 @@ node_modules/
 .env
 google-services.json
 GoogleService-Info.plist
-cred-dev.json
+**/cred-dev.json
+**/cred-prod.json
 coverage/**/*
 .expo/
 dist/
