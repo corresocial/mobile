@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 0;
@@ -9,13 +9,13 @@ export const Container = styled.View`
 
 export const MessageContainer = styled.TouchableOpacity`
 	background-color: ${({ theme }) => theme.colors.black[4]};
-	border-width: ${relativeScreenDensity(3)}px;
+	border-width: ${relativeScreenDensity(2.2)}px;
 	min-height: ${relativeScreenHeight(2)}px;
 	max-width: 90%;
 	align-items: flex-start;
 
-	border-right-width: ${relativeScreenWidth(2.3)}px;
-	border-radius: ${relativeScreenDensity(18)}px;
+	border-right-width: ${relativeScreenDensity(6)}px;
+	border-radius: ${relativeScreenDensity(20)}px;
 	border-bottom-right-radius: 0px;
 `
 
@@ -25,7 +25,7 @@ export const MessageContainerInner = styled.View`
 	min-height: ${relativeScreenHeight(2)}px;
 
 	padding: ${relativeScreenDensity(5)}px  ${relativeScreenDensity(10)}px;
-	border-radius: ${relativeScreenDensity(15)}px;
+	border-radius: ${relativeScreenDensity(17)}px;
 	border-bottom-right-radius: 0px;
 `
 

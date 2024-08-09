@@ -6,7 +6,7 @@ import { relativeScreenHeight, relativeScreenDensity } from '@common/screenDimen
 export const Container = styled(Animated.View)`
 	width: 100%;
 	background-color: ${({ theme }) => theme.colors.black[4]};
-	border: ${relativeScreenDensity(2.5)}px solid black;
+	border: ${relativeScreenDensity(2.2)}px solid black;
 	border-right-width: ${relativeScreenDensity(6)}px;
 	border-radius: ${relativeScreenDensity(15)}px;
 	overflow: hidden;

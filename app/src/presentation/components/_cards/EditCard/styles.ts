@@ -33,6 +33,5 @@ export const PictureArea = styled.View`
 
 export const ProfilePicture = styled.Image`
 	flex: 1;
-	resize-mode: cover;
 	overflow: hidden;
 `
