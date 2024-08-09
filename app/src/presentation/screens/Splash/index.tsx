@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 import * as Application from 'expo-application'
 import * as Updates from 'expo-updates'
@@ -46,11 +47,30 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		otaUpdated && await checkStoreUpdates()
 	}
 
+	// REFACTOR Remover daqui
+	const compareVersions = (version1: string, version2: string) => {
+		const v1 = version1.split('.').map(Number)
+		const v2 = version2.split('.').map(Number)
+
+		for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
+			const num1 = v1[i] || 0
+			const num2 = v2[i] || 0
+
+			if (num1 > num2) return 1
+			if (num1 < num2) return -1
+		}
+
+		return 0
+	}
+
 	const checkStoreUpdates = async () => {
 		if (!__DEV__) {
 			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
-			if (mandatoryVersion.nativeApplicationVersion > (Application.nativeApplicationVersion || '55.55.55')
-				|| mandatoryVersion.nativeBuildVersion > (Application.nativeBuildVersion || '5000')) {
+
+			const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '0.0.0', mandatoryVersion.nativeApplicationVersion)
+			const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '0', mandatoryVersion.nativeBuildVersion)
+
+			if (appVersionComparison < 0 || buildVersionComparison < 0) {
 				return setStoreUpdateModalIsVisible(true)
 			}
 		}
