@@ -1,19 +1,18 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const ModalContainer = styled.View`
     flex: 1;
     justify-content: center;
-    padding-left: ${RFValue(15)}px;
-    padding-right: ${RFValue(15)}px;
+    padding-left: ${relativeScreenDensity(15)}px;
+    padding-right: ${relativeScreenDensity(15)}px;
     background-color: ${({ theme }) => theme.transparence.red};
 `
 
 export const Container = styled.View`
 	height: ${relativeScreenHeight(27)}px;
-    border-radius: ${RFValue(23)}px;
+    border-radius: ${relativeScreenDensity(23)}px;
 	margin-left: ${relativeScreenWidth(1.9)}px;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -23,13 +22,13 @@ export const ContainerInner = styled.View`
 	width: 100%;
     height: 100%;
 	background-color: ${({ theme }) => theme.white3};
-    border: ${RFValue(6)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(23)}px;
+    border: ${relativeScreenDensity(6)}px solid ${({ theme }) => theme.black4};
+    border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
     align-items: center;
     justify-content: space-around;
-    padding: ${RFValue(20)}px;
+    padding: ${relativeScreenDensity(20)}px;
 	left: ${-relativeScreenWidth(2)}px;
 `
 
@@ -43,7 +42,7 @@ export const CardTitleText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
 	font-family: Arvo_700Bold;
 	color: ${({ theme }) => theme.black4};
-    margin-left: ${RFValue(12)}px;
+    margin-left: ${relativeScreenDensity(12)}px;
 `
 
 export const CardDescriptionText = styled.Text`

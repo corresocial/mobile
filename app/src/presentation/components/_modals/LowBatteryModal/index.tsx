@@ -1,10 +1,10 @@
 import React from 'react'
 import { Modal, StatusBar } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardDescriptionText, CardTitleContainer, CardTitleText, Container, ContainerInner, ModalContainer } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
 import LowBatteryIcon from '@assets/icons/lowBattery-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
@@ -37,9 +37,9 @@ function LowBatteryModal({ isVisible = false, onConfirm }: LowBatteryModalProps)
 						</CardDescriptionText>
 
 						<OptionButton
-							labelSize={RFValue(16)}
+							labelSize={relativeScreenDensity(16)}
 							leftSideColor={theme.green3}
-							leftSideWidth={RFValue(70)}
+							leftSideWidth={relativeScreenDensity(70)}
 							SvgIcon={CheckIcon}
 							svgIconScale={['40', '40']}
 							onPress={onConfirm}

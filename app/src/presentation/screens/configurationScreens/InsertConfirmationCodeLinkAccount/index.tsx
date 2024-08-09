@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Platform, StatusBar, TextInput } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -13,6 +12,7 @@ import { useAuthenticationService } from '@services/authentication/useAuthentica
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -242,7 +242,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
 						fontSize={16}
-						borderLeftWidth={RFValue(4)}
+						borderLeftWidth={relativeScreenDensity(4)}
 						message={getFormatedCellNumber()}
 						highlightedWords={getFormatedCellNumber().split(' ')}
 

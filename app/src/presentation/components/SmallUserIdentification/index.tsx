@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
@@ -64,12 +63,12 @@ function SmallUserIdentification({
 		<Container style={{ width: width as number, height: height as number }}>
 			<UserPictureArea
 				style={{
-					width: RFValue(pictureDimensions),
-					height: RFValue(pictureDimensions)
+					width: relativeScreenDensity(pictureDimensions),
+					height: relativeScreenDensity(pictureDimensions)
 				}}
 			>
 				<UserPictureAreaInner
-					style={{ left: buttonPressed ? 0 : RFValue(-4) }}
+					style={{ left: buttonPressed ? 0 : relativeScreenDensity(-4) }}
 					activeOpacity={1}
 					onPressIn={pressingButton}
 					onPressOut={notPressingButton}
@@ -101,7 +100,7 @@ function SmallUserIdentification({
 						</UserName>
 						{
 							postDate && (
-								<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
+								<PostDateTime style={{ fontSize: relativeScreenDensity(postDateFontSize) }}>
 									{postDate}
 								</PostDateTime >
 							)

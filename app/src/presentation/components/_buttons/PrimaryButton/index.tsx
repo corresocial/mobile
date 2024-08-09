@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, TextStyle, ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import {
@@ -10,7 +9,7 @@ import {
 	ContainerBottom
 } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { Timer } from '../../Timer'
@@ -130,8 +129,8 @@ function PrimaryButton({
 					display: buttonVisibility ? 'flex' : 'none',
 					opacity: buttonVisibility ? 1 : 0,
 					width: relativeWidth || '100%',
-					height: relativeHeight || RFValue(65),
-					minHeight: RFValue(minHeight),
+					height: relativeHeight || relativeScreenDensity(65),
+					minHeight: relativeScreenDensity(minHeight),
 					justifyContent
 				}}
 			>
@@ -139,8 +138,8 @@ function PrimaryButton({
 					style={{
 						backgroundColor: buttonDisabled ? theme.white3 : color,
 						justifyContent: justifyContent || 'center',
-						minHeight: RFValue(minHeight),
-						marginLeft: buttonPressed ? RFValue(7) : 0
+						minHeight: relativeScreenDensity(minHeight),
+						marginLeft: buttonPressed ? relativeScreenDensity(7) : 0
 					}}
 				>
 					{
@@ -150,7 +149,7 @@ function PrimaryButton({
 						&& (
 							<ButtonLabel style={{
 								color: labelColor,
-								fontSize: RFValue(fontSize),
+								fontSize: relativeScreenDensity(fontSize),
 								textAlign,
 								marginLeft: labelMarginLeft || 0,
 								marginRight: iconName ? relativeScreenWidth(3) : 0

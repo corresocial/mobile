@@ -1,6 +1,5 @@
 import React from 'react'
 import { Linking } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { LocationViewType, PostEntityCommonFields } from '@domain/post/entity/types'
 
@@ -10,6 +9,7 @@ import MapPointOrangeIcon from '@assets/icons/mapPoint-orange.svg'
 import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import WazeIcon from '@assets/icons/waze.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
 
@@ -39,7 +39,7 @@ function LocationViewCard({
 	const renderFormatedAddress = () => {
 		if (withoutMapView) {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{showMessageWithHighlight('localização não definida', ['não', 'definida'])}
 				</TextAddress>
 			)
@@ -47,7 +47,7 @@ function LocationViewCard({
 
 		if (online) {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{'online'}
 				</TextAddress>
 			)
@@ -55,7 +55,7 @@ function LocationViewCard({
 
 		if (!locationView) {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{showMessageWithHighlight('localização indisponível', ['indisponível'])}
 				</TextAddress>
 			)
@@ -64,7 +64,7 @@ function LocationViewCard({
 		if (locationView === 'private') {
 			return (
 				<>
-					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+					<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 						{showMessageWithHighlight('localização privada', ['privada'])}
 					</TextAddress>
 				</>
@@ -75,7 +75,7 @@ function LocationViewCard({
 		if (!location.city) return
 
 		return (
-			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+			<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 				{formatAddress()}
 			</TextAddress>
 		)
@@ -173,10 +173,10 @@ function LocationViewCard({
 						/>
 						<NavigationApps >
 							<TouchableApp onPress={goToGoogleMapsApp}>
-								<GoogleMapsIcon width={RFValue(30)} height={RFValue(30)} />
+								<GoogleMapsIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 							</TouchableApp>
 							<TouchableApp onPress={goToWazeApp} >
-								<WazeIcon width={RFValue(40)} height={RFValue(40)} />
+								<WazeIcon width={relativeScreenDensity(40)} height={relativeScreenDensity(40)} />
 							</TouchableApp>
 						</NavigationApps>
 					</MapArea>

@@ -1,10 +1,10 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, RightArea, Title } from './styles'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -20,7 +20,7 @@ interface SubtitleCardProps {
 function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: SubtitleCardProps) {
 	return (
 		<Container hasIcon={!SvgIcon}>
-			{SvgIcon && <SvgIcon width={'15%'} height={RFValue(20)} />}
+			{SvgIcon && <SvgIcon width={'15%'} height={relativeScreenDensity(20)} />}
 			<Title
 				hasIcon={!SvgIcon}
 			>
@@ -29,7 +29,7 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 			<RightArea>
 				{seeMoreText && (
 					<SmallButton
-						height={RFValue(30)}
+						height={relativeScreenDensity(30)}
 						label={'mais'}
 						labelColor={theme.black4}
 						fontSize={11}
@@ -39,7 +39,7 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 					/>
 				)}
 				{/* <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText> */}
-				{/* {onPress && <AngleRightWhitetIcon width={'40%'} height={RFValue(18)} />} */}
+				{/* {onPress && <AngleRightWhitetIcon width={'40%'} height={relativeScreenDensity(18)} />} */}
 			</RightArea>
 		</Container>
 	)

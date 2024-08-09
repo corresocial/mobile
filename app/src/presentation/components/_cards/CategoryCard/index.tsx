@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, ContainerInner, Title } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface CategoryCardProps {
 	title: string
@@ -34,13 +34,13 @@ function CategoryCard({ title, hasElements, withoutMargin, SvgIcon, inactiveColo
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
 			activeOpacity={1}
-			style={{ marginBottom: !withoutMargin ? RFValue(15) : 0 }}
+			style={{ marginBottom: !withoutMargin ? relativeScreenDensity(15) : 0 }}
 		>
 			<ContainerInner
 				hasElements={hasElements}
 				inactiveColor={inactiveColor}
 				style={{
-					marginLeft: buttonPressed ? 0 : RFValue(-7)
+					marginLeft: buttonPressed ? 0 : relativeScreenDensity(-7)
 				}}
 			>
 				{SvgIcon && <SvgIcon width={'50%'} height={'50%'} />}

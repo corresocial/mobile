@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react'
 import { ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, ContainerInner } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface DefaultCardContainerProps {
 	withoutPadding?: boolean
@@ -14,8 +14,8 @@ function DefaultCardContainer({ withoutPadding = false, flex = 0, children }: De
 	return (
 		<Container style={{ flex }}	>
 			<ContainerInner style={{
-				paddingHorizontal: !withoutPadding ? RFValue(15) : 0,
-				paddingVertical: !withoutPadding ? RFValue(10) : 0,
+				paddingHorizontal: !withoutPadding ? relativeScreenDensity(15) : 0,
+				paddingVertical: !withoutPadding ? relativeScreenDensity(10) : 0,
 				flex,
 				justifyContent: flex ? 'space-around' : 'flex-start'
 			}}

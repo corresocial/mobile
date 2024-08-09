@@ -1,9 +1,9 @@
 import React from 'react'
 import { Linking, TouchableOpacity, ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Message, MessageTitle, RedirectLink } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface InstructionCardProps {
@@ -38,18 +38,18 @@ function InstructionCard({
 	return (
 		<Container
 			style={{
-				borderLeftWidth: RFValue(borderLeftWidth),
+				borderLeftWidth: relativeScreenDensity(borderLeftWidth),
 				flex,
 				backgroundColor: backgroundColor || theme.white3,
-				padding: RFValue(padding),
-				paddingVertical: RFValue(14),
+				padding: relativeScreenDensity(padding),
+				paddingVertical: relativeScreenDensity(14),
 			}}
 		>
 			{title && <MessageTitle >{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}
 			<Message
 				style={{
-					fontSize: fontSize ? RFValue(fontSize) : RFValue(18),
-					lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
+					fontSize: fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(18),
+					lineHeight: lineHeight ? relativeScreenDensity(lineHeight) : relativeScreenDensity(22),
 				}}
 			>
 				{showMessageWithHighlight(message, highlightedWords)}

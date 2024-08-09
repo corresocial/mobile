@@ -1,11 +1,11 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { LinkingAccountResultScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -64,7 +64,7 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 							<InstructionButtonContainer withPaddingLeft>
 								<InstructionCard
 									fontSize={16}
-									borderLeftWidth={RFValue(4)}
+									borderLeftWidth={relativeScreenDensity(4)}
 									message={getAccountIdentifierLinked()}
 									highlightedWords={getAccountIdentifierLinked().split(' ')}
 

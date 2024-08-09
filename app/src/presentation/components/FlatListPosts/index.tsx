@@ -1,8 +1,9 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
 import { FlatList } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { PostEntity, PostEntityOptional } from '@domain/post/entity/types'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
@@ -28,7 +29,7 @@ function FlatListPosts({
 			showsVerticalScrollIndicator={false}
 			ItemSeparatorComponent={() => <VerticalSpacing />}
 			ListHeaderComponent={headerComponent}
-			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
+			ListHeaderComponentStyle={{ marginBottom: relativeScreenDensity(0) }}
 			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing bottomNavigatorSpace />}
 			onEndReached={onEndReached}
 		// refreshControl={(

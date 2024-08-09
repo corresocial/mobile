@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { DimensionValue, TextStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import {
@@ -15,7 +14,7 @@ import {
 	LeftSideText
 } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface OptionButtonProps {
@@ -100,7 +99,7 @@ function OptionButton({
 				<ContainerSurface
 					style={{
 						backgroundColor: color || theme.white3,
-						marginLeft: buttonPressed || selected ? RFValue(7) : 0
+						marginLeft: buttonPressed || selected ? relativeScreenDensity(7) : 0
 					}}
 				>
 					<LeftArea
@@ -123,7 +122,7 @@ function OptionButton({
 						<ButtonLabel style={{
 							color: labelColor,
 							textAlign: labelAlign,
-							fontSize: RFValue(labelSize),
+							fontSize: relativeScreenDensity(labelSize),
 						}}
 						>
 							{showMessageWithHighlight(label, highlightedWords)}

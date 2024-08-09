@@ -1,7 +1,7 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Text } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface LeftLineCardProps {
 	text: string
@@ -14,7 +14,7 @@ function LeftLineCard({ text = '', fontSize, height, numberOfLines }: LeftLineCa
 	return (
 		<Container style={{ height }}>
 			<Text
-				style={{ fontSize: RFValue(fontSize) }}
+				style={{ fontSize: relativeScreenDensity(fontSize) }}
 				numberOfLines={numberOfLines}
 			>
 				{text}

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title, TitleArea } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -121,7 +120,7 @@ function TitleDescriptionButton({
 				activeOpacity={1}
 				style={{
 					backgroundColor: !selected ? color : activeColor,
-					marginLeft: buttonPressed || selected ? RFValue(5) : 0
+					marginLeft: buttonPressed || selected ? relativeScreenDensity(5) : 0
 				}}
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}

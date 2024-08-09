@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface FilterButtonProps {
@@ -50,18 +49,18 @@ function FilterButton({
 			<ContainerBottom
 				style={{
 					height: height as number,
-					marginRight: RFValue(10),
+					marginRight: relativeScreenDensity(10),
 				}}
 			>
 				<ContainerSurface
 					style={{
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? RFValue(-5) : buttonPressed ? RFValue(-5) : 0
+						marginRight: selected ? relativeScreenDensity(-5) : buttonPressed ? relativeScreenDensity(-5) : 0
 					}}
 				>
 					<Label
 						style={{
-							fontSize: RFValue(fontSize),
+							fontSize: relativeScreenDensity(fontSize),
 							fontFamily: 'Arvo_400Regular'
 						}}
 					>

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { CardForm } from '@stripe/stripe-react-native'
@@ -23,7 +22,7 @@ import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, 
 import CardWhiteIcon from '@assets/icons/card-white.svg'
 import DollarWhiteIcon from '@assets/icons/dollar-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -264,7 +263,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				/>
 			</DefaultHeaderContainer>
 			<Body behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-				<BodyScrollable contentContainerStyle={{ padding: RFValue(17) }} >
+				<BodyScrollable contentContainerStyle={{ padding: relativeScreenDensity(17) }} >
 					<TitleArea>
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>

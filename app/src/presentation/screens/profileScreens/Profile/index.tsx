@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
@@ -57,7 +56,7 @@ import ThreeDotsIcon from '@assets/icons/threeDots.svg'
 import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '@assets/icons/wirelessOn-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
@@ -564,8 +563,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : canRenderWaitingApproveIndicator() ? toggleWaitingApproveModalVisibility : () => { }}
 											>
 												<PhotoPortrait
-													height={isLoggedUser ? RFValue(95) : RFValue(65)}
-													width={isLoggedUser ? RFValue(100) : RFValue(70)}
+													height={isLoggedUser ? relativeScreenDensity(95) : relativeScreenDensity(65)}
+													width={isLoggedUser ? relativeScreenDensity(100) : relativeScreenDensity(70)}
 													borderWidth={3}
 													borderRightWidth={8}
 													pictureUri={getProfilePicture()}

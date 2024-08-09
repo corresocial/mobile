@@ -1,9 +1,8 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
 import { Animated, ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, FooterTextArea } from './styles'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
@@ -51,10 +50,10 @@ function DefaultHeaderContainer({
 					height: grow ? 'auto' : relativeHeight,
 					flexDirection,
 					backgroundColor,
-					borderBottomWidth: footerText ? 0 : RFValue(borderBottomWidth),
+					borderBottomWidth: footerText ? 0 : relativeScreenDensity(borderBottomWidth),
 					padding: withoutPadding ? 0 : relativeScreenWidth(5),
-					paddingVertical: paddingVertical ? RFValue(paddingVertical) : relativeScreenWidth(5),
-					paddingBottom: footerText ? 0 : paddingVertical ? RFValue(paddingVertical) : relativeScreenWidth(5),
+					paddingVertical: paddingVertical ? relativeScreenDensity(paddingVertical) : relativeScreenWidth(5),
+					paddingBottom: footerText ? 0 : paddingVertical ? relativeScreenDensity(paddingVertical) : relativeScreenWidth(5),
 					alignItems: centralized ? 'center' : 'flex-start',
 					justifyContent: justifyContent || (centralized ? 'center' : 'flex-start'),
 				}}
@@ -63,7 +62,7 @@ function DefaultHeaderContainer({
 			</Container >
 			{
 				footerText && (
-					<FooterTextArea style={{ borderBottomWidth: !FooterTextArea ? 0 : RFValue(borderBottomWidth) }}>
+					<FooterTextArea style={{ borderBottomWidth: !FooterTextArea ? 0 : relativeScreenDensity(borderBottomWidth) }}>
 						<SmallInstructionCard text={footerText} />
 						{
 							footerTextHighlighted && (

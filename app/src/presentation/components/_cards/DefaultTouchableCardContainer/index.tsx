@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, ContainerInner } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface DefaultTouchableCardContainerProps {
 	withoutPadding?: boolean
@@ -53,10 +53,10 @@ function DefaultTouchableCardContainer({
 				pressionable={pressionable}
 				onLayout={handleLayout}
 				style={{
-					paddingHorizontal: !withoutPadding ? RFValue(15) : 0,
-					paddingVertical: !withoutPadding ? RFValue(10) : 0,
+					paddingHorizontal: !withoutPadding ? relativeScreenDensity(15) : 0,
+					paddingVertical: !withoutPadding ? relativeScreenDensity(10) : 0,
 					justifyContent: 'flex-start',
-					right: buttonPressed ? 0 : RFValue(5)
+					right: buttonPressed ? 0 : relativeScreenDensity(5)
 				}}
 			>
 				{children && children}

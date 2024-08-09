@@ -1,11 +1,10 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, PathBar, PathTitle, SmallButtonRightSpace, Title } from './styles'
 import XWhiteIcon from '@assets/icons/x-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -97,7 +96,7 @@ function DefaultPostViewHeader({
 				style={{
 					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
 					width: getTitleWidth(),
-					fontSize: path ? RFValue(15) : RFValue(20)
+					fontSize: path ? relativeScreenDensity(15) : relativeScreenDensity(20)
 				}}
 			>
 				{

@@ -4,7 +4,6 @@ import { RouteProp, useFocusEffect } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useContext } from 'react'
 import { Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
@@ -124,8 +123,8 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					borderRadius: 5,
 					backgroundColor: theme.pink3,
 					fontFamily: 'Arvo_700Bold',
-					fontSize: RFValue(10),
-					margin: RFValue(3),
+					fontSize: relativeScreenDensity(10),
+					margin: relativeScreenDensity(3),
 				},
 				tabBarActiveBackgroundColor: theme.orange3,
 				tabBarInactiveBackgroundColor: theme.white3,

@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native'
 import React, { LegacyRef, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { PostRange } from '@domain/post/entity/types'
 import { VerifiedLabelName } from '@domain/user/entity/types'
@@ -16,7 +15,7 @@ import LeaderWhiteIcon from '@assets/icons/leaderLabel.svg'
 import QuestionaryWhiteIcon from '@assets/icons/questionary-white.svg'
 import VerifiedLabel from '@assets/icons/verifiedLabel.svg'
 import XIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -121,7 +120,7 @@ function PopOver({
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
+			popoverStyle={{ backgroundColor: theme.black4, borderRadius: relativeScreenDensity(8) }}
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
@@ -196,7 +195,7 @@ function PopOver({
 				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
-						<XIcon width={RFValue(25)} height={RFValue(25)} />
+						<XIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
 					</CloseIcon>
 					<UserName>{title}</UserName>
 					{

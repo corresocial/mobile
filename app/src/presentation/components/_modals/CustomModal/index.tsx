@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Platform, TextInputProps, TextStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import {
@@ -15,7 +14,7 @@ import {
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -105,7 +104,7 @@ function CustomModal({
 		closeModalOnPressButton && closeModal()
 	}
 
-	const iconStyle = { marginLeft: -RFValue(8), marginRight: RFValue(15) }
+	const iconStyle = { marginLeft: -relativeScreenDensity(8), marginRight: relativeScreenDensity(15) }
 
 	const getRelativeStatusBarColor = () => {
 		switch (overlayColor) {
@@ -185,7 +184,7 @@ function CustomModal({
 						{
 							customInput && (
 								<>
-									<VerticalSpacing/>
+									<VerticalSpacing />
 									<DefaultInput
 										{...customInput}
 										defaultBackgroundColor={theme.white2}
@@ -199,12 +198,12 @@ function CustomModal({
 										value={textInput}
 										onChangeText={setTextInput}
 									/>
-									<VerticalSpacing/>
+									<VerticalSpacing />
 								</>
 							)
 						}
 
-						{TextSvg && <TextSvg width={'100%'} height={RFValue(40)} />}
+						{TextSvg && <TextSvg width={'100%'} height={relativeScreenDensity(40)} />}
 						<VerticalSpacing />
 
 						{
@@ -213,7 +212,7 @@ function CustomModal({
 									<PrimaryButton
 										keyboardHideButton={false}
 										color={theme.green3}
-										labelMarginLeft={RFValue(10)}
+										labelMarginLeft={relativeScreenDensity(10)}
 										labelColor={theme.white3}
 										label={affirmativeButton.label}
 										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}

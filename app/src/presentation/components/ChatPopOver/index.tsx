@@ -1,14 +1,13 @@
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ImpactWhiteIcon from '@assets/icons/impactLabel.svg'
 import TrashIcon from '@assets/icons/trash-white.svg'
 import XIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -48,7 +47,7 @@ function ChatPopOver({
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(15) }}
+			popoverStyle={{ backgroundColor: theme.black4, borderRadius: relativeScreenDensity(15) }}
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
@@ -62,7 +61,7 @@ function ChatPopOver({
 				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
-						<XIcon width={RFValue(25)} height={RFValue(25)} />
+						<XIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
 					<VerticalSpacing />

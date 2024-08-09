@@ -1,9 +1,9 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Address, AddressArea, Container, HighlightedAddress, IconArea } from './styles'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
 import ClockIcon from '@assets/icons/clock-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface DropdownItemProps {
@@ -25,14 +25,14 @@ function DropdownItem({ selected, dropdownData, recent, findNearPosts }: Dropdow
 			style={{
 				backgroundColor: !selected ? theme.white3 : theme.orange1,
 				borderLeftColor: !selected ? theme.black4 : theme.orange5,
-				borderLeftWidth: !selected ? RFValue(2.5) : RFValue(5),
+				borderLeftWidth: !selected ? relativeScreenDensity(2.5) : relativeScreenDensity(5),
 			}}
 			onPress={() => findNearPosts && findNearPosts()}
 		>
 			{
 				recent && (
 					<IconArea>
-						<ClockIcon width={RFValue(22)} height={RFValue(22)} />
+						<ClockIcon width={relativeScreenDensity(22)} height={relativeScreenDensity(22)} />
 					</IconArea>
 				)
 			}
@@ -60,7 +60,7 @@ function DropdownItem({ selected, dropdownData, recent, findNearPosts }: Dropdow
 			</AddressArea>
 			<IconArea>
 				{
-					!selected && <AngleRightWhitetIcon width={RFValue(18)} height={RFValue(18)} />
+					!selected && <AngleRightWhitetIcon width={relativeScreenDensity(18)} height={relativeScreenDensity(18)} />
 				}
 			</IconArea>
 		</Container>

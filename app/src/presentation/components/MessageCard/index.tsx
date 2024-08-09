@@ -1,10 +1,10 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, DateTimeArea, MessageContainer, MessageContainerInner, RelativeDateTime, TextMessage } from './styles'
 import ArrowRightCircleWhiteIcon from '@assets/icons/arrowRightCircle-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 const { formatRelativeDate } = UiUtils()
@@ -20,12 +20,12 @@ interface MessageCardProps {
 function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: MessageCardProps) {
 	const borderStyles = {
 		out: {
-			borderBottomLeftRadius: owner ? RFValue(18) : 0,
-			borderBottomRightRadius: owner ? 0 : RFValue(18)
+			borderBottomLeftRadius: owner ? relativeScreenDensity(18) : 0,
+			borderBottomRightRadius: owner ? 0 : relativeScreenDensity(18)
 		},
 		inner: {
-			borderBottomLeftRadius: owner ? RFValue(15) : 0,
-			borderBottomRightRadius: owner ? 0 : RFValue(15)
+			borderBottomLeftRadius: owner ? relativeScreenDensity(15) : 0,
+			borderBottomRightRadius: owner ? 0 : relativeScreenDensity(15)
 		}
 	}
 

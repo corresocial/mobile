@@ -1,10 +1,10 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container } from './styles'
 import EditWhiteIcon from '@assets/icons/edit-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface EditHeaderContainerProps {
 	children: React.ReactNode
@@ -21,8 +21,8 @@ function EditHeaderContainer({ children, RightIcon, onPress }: EditHeaderContain
 					<TouchableOpacity onPress={onPress} >
 						{
 							!RightIcon
-								? <EditWhiteIcon width={RFValue(28)} height={RFValue(28)} />
-								: <RightIcon width={RFValue(28)} height={RFValue(28)} />
+								? <EditWhiteIcon width={relativeScreenDensity(28)} height={relativeScreenDensity(28)} />
+								: <RightIcon width={relativeScreenDensity(28)} height={relativeScreenDensity(28)} />
 						}
 					</TouchableOpacity>
 				)

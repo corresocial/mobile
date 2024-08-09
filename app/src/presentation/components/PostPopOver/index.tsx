@@ -1,7 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CloseIcon, Container, ContainerInner, PostTitle } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -9,7 +8,7 @@ import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import EditWhiteIcon from '@assets/icons/edit-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -47,7 +46,7 @@ function PostPopOver({
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 200 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
+			popoverStyle={{ backgroundColor: theme.black4, borderRadius: relativeScreenDensity(8) }}
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef: any, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
@@ -61,7 +60,7 @@ function PostPopOver({
 				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
-						<XWhiteIcon width={RFValue(25)} height={RFValue(25)} />
+						<XWhiteIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
 					</CloseIcon>
 					<PostTitle>{postTitle}</PostTitle>
 					{

@@ -6,13 +6,12 @@ import {
 	TextInputKeyPressEventData,
 	TextInputProps,
 } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput } from './styles'
 import MinusWhiteIcon from '@assets/icons/minus-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface DefaultInputProps extends TextInputProps {
@@ -159,7 +158,7 @@ function DefaultInput({
 	}
 
 	const inputContainerStyle = {
-		borderBottomWidth: focused || validated || textIsValid ? RFValue(4) : RFValue(2.5),
+		borderBottomWidth: focused || validated || textIsValid ? relativeScreenDensity(4) : relativeScreenDensity(2.5),
 		...generateInputContainerStyle()
 	}
 
@@ -195,14 +194,14 @@ function DefaultInput({
 					onIconPress && iconPosition === 'left'
 					&& (
 						<SideButtonContainer onPress={onIconPress} >
-							<PlusWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+							<PlusWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						</SideButtonContainer>
 					)
 				}
 				{
 					CustonLeftIcon && (
 						<SideButtonContainer >
-							<CustonLeftIcon width={RFValue(30)} height={RFValue(30)} />
+							<CustonLeftIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						</SideButtonContainer>
 					)
 				}
@@ -238,7 +237,7 @@ function DefaultInput({
 					onIconPress && iconPosition === 'right'
 					&& (
 						<SideButtonContainer onPress={onIconPress} >
-							<MinusWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+							<MinusWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						</SideButtonContainer>
 					)
 				}
