@@ -25,7 +25,6 @@ import {
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -143,7 +142,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+				buttonPressed={buttonPressed}
 			>
 				<LeftArea
 					hasMediaOrSaleValue={enableLeftAreaSpacing()}

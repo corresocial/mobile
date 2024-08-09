@@ -45,7 +45,7 @@ export const SendButtonAreaInner = styled.View<InputButtonProps>`
 	position: absolute;
 	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.colors.green[3] : theme.colors.white[3])};
 	border-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.colors.black[4] : theme.colors.white[3])};
-	left: ${({ buttonPressed, hasInputMessage }) => (!hasInputMessage || buttonPressed ? -1 : -relativeScreenWidth(2))}px;
+	left: ${({ theme, buttonPressed, hasInputMessage }) => (!hasInputMessage || buttonPressed ? -1 : -theme.shadowSize.small)}px;
 `
 
 interface InputMessageProps {

@@ -3,31 +3,36 @@ import styled from 'styled-components/native'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface TextProps {
-    textColor?: string
+	textColor?: string
 }
 
 interface TitleProps extends TextProps {
-    checked?: boolean
-    fontSize?: number
+	checked?: boolean
+	fontSize?: number
 }
 
 export const Container = styled.View`
 	width: 100%;
     background-color: ${({ theme }) => theme.colors.black[4]};
-    border-radius: ${relativeScreenDensity(17)}px;
+    border-radius: ${relativeScreenDensity(23)}px;
     justify-content: space-around;
 	position: relative;
 `
 
-export const ContainerInner = styled.TouchableOpacity`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerInner = styled.TouchableOpacity<ContainerSurfaceProps>`
    	width: 100%;
    	height: 100%;
     background-color: ${({ theme }) => theme.colors.white[3]};
-    border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.colors.black[4]};
-    border-radius: ${relativeScreenDensity(15)}px;
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
+    border-radius: ${relativeScreenDensity(23)}px;
     padding: ${relativeScreenDensity(10)}px  ${relativeScreenDensity(15)}px;
     justify-content: space-around;
-	left: ${relativeScreenDensity(-5)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const TitleArea = styled.View`

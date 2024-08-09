@@ -43,7 +43,6 @@ function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 						color={theme.colors.orange[3]}
 						label={'como fazemos isso?'}
 						highlightedWords={['como']}
-						fontSize={20}
 						SecondSvgIcon={QuestionMarkWhiteIcon}
 						svgIconScale={['50%', '20%']}
 						onPress={() => navigation.navigate('WhoWeAreIncome')}

@@ -50,7 +50,6 @@ function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScr
 						highlightedWords={['acensão']}
 						SecondSvgIcon={HandOnCorreWhiteIcon}
 						svgIconScale={['50%', '30%']}
-						fontSize={18}
 						onPress={navigateToHelpUs}
 					/>
 				</ButtonContainer>

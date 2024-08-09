@@ -37,9 +37,9 @@ export const ContainerSurface = styled.TouchableOpacity<ContainerSurfaceProps>`
     align-items: center;
     justify-content: center;
     border: ${relativeScreenDensity(2)}px solid black;
-	right: ${relativeScreenDensity(5)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
-	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.colors.white[3]};
 	border-radius: ${relativeScreenDensity(17)}px;
 	gap: ${relativeScreenDensity(5)}px;

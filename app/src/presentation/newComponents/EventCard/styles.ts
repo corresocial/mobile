@@ -26,13 +26,13 @@ export const InnerContainer = styled.View<InnerContainerProps>`
 	flex-direction: ${({ colapsed }) => (colapsed ? 'column' : 'row')};
 	align-items: center;
 	background-color: ${({ theme }) => theme.colors.blue[3]};
-	margin-left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
-    border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.colors.black[4]};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: absolute;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(1.5)}px;
 	gap: ${({ colapsed }) => (colapsed ? relativeScreenWidth(1) : relativeScreenWidth(2))}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 interface EventDataContainerProps {

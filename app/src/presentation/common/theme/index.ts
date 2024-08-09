@@ -109,5 +109,11 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 		28: relativeScreenDensity(38),
 		29: relativeScreenDensity(39),
 		30: relativeScreenDensity(40),
+	},
+
+	shadowSize: {
+		small: relativeScreenDensity(3),
+		medium: relativeScreenDensity(4),
+		large: relativeScreenDensity(5)
 	}
 }

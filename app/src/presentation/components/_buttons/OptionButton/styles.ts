@@ -17,16 +17,21 @@ export const ContainerBottom = styled(Animatable.View as any)`
     background-color: ${({ theme }) => theme.colors.black[4]};
 `
 
-export const ContainerSurface = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 	width: 100%;
 	height: 100%;
 	flex-direction: row;
     background-color: ${({ theme }) => theme.colors.white[3]};
-    border: ${relativeScreenDensity(3.5)}px solid black;
+    border: ${relativeScreenDensity(2.2)}px solid black;
     border-radius:${relativeScreenDensity(20)}px;
     position: absolute;
     overflow: hidden;
-	left: ${-relativeScreenDensity(8)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const LeftArea = styled.View`
@@ -39,7 +44,7 @@ export const LeftArea = styled.View`
 `
 
 interface LeftSideTextProps {
-    leftSideTextColor?: string
+	leftSideTextColor?: string
 }
 
 export const LeftSideText = styled.Text<LeftSideTextProps>`
@@ -68,7 +73,7 @@ export const Description = styled.Text`
 `
 
 interface ShortDescriptionProps {
-    fontSize?: number
+	fontSize?: number
 }
 
 export const ShortDescription = styled.Text<ShortDescriptionProps>`

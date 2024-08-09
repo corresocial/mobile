@@ -76,7 +76,7 @@ function PollCard({ pollData, owner, isOwner, navigateToProfile, onPress }: Poll
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+				buttonPressed={buttonPressed}
 			>
 				<Content>
 					<TitleContainer>

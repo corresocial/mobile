@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title, TitleArea } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -114,14 +114,12 @@ function TitleDescriptionButton({
 
 	return (
 		<Container
-			style={{ height }}
+			style={{ height } as any}
 		>
 			<ContainerInner
+				buttonPressed={buttonPressed}
 				activeOpacity={1}
-				style={{
-					backgroundColor: !selected ? color : activeColor,
-					marginLeft: buttonPressed || selected ? relativeScreenDensity(5) : 0
-				}}
+				style={{ backgroundColor: !selected ? color : activeColor }}
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}
 				onPress={releaseButton}

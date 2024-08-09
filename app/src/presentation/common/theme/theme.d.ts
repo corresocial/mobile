@@ -44,5 +44,11 @@ declare module 'styled-components' {
 		},
 
 		fontSizes: { [key in FontSizes]: number }
+
+		shadowSize: {
+			small: number
+			medium: number
+			large: number
+		}
 	}
 }

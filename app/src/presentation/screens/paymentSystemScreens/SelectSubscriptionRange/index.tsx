@@ -193,7 +193,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
-					borderLeftWidth={3}
+					borderLeftWidth={0}
 					fontSize={14}
 					title={'assinatura corre.'}
 					message={'com uma assinatura você alcança mais clientes E ao mesmo tempo apoia nossa iniciativa social'}

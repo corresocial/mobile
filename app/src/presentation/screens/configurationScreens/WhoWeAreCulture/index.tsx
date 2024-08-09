@@ -46,7 +46,6 @@ function WhoWeAreCulture({ navigation }: WhoWeAreCultureScreenProps) {
 					<PrimaryButton
 						color={theme.colors.orange[3]}
 						label={'só mais uma coisa'}
-						fontSize={20}
 						SecondSvgIcon={DescriptionWhiteIcon}
 						svgIconScale={['50%', '30%']}
 						onPress={() => navigation.navigate('WhoWeAreTransformation')}

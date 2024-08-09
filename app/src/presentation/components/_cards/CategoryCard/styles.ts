@@ -5,6 +5,7 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 interface ContainerInnerProps {
 	inactiveColor: string
 	hasElements: boolean
+	buttonPressed: boolean
 }
 
 export const Container = styled.TouchableHighlight`
@@ -24,9 +25,10 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 	height: 100%;
 	background-color: ${(props) => (props.hasElements ? props.theme.colors.white[3] : props.inactiveColor)};
 	border-radius: ${relativeScreenDensity(15)}px;
-	margin-left: ${relativeScreenDensity(-7)}px;
-	border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.colors.black[4]};
+	border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
 	overflow: hidden;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.small}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.small}px;
 `
 
 export const Title = styled.Text`

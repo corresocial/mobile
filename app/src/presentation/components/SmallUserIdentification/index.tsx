@@ -68,7 +68,7 @@ function SmallUserIdentification({
 				}}
 			>
 				<UserPictureAreaInner
-					style={{ left: buttonPressed ? 0 : relativeScreenDensity(-4) }}
+					buttonPressed={buttonPressed}
 					activeOpacity={1}
 					onPressIn={pressingButton}
 					onPressOut={notPressingButton}

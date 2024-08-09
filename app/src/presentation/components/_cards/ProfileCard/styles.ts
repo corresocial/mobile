@@ -12,16 +12,21 @@ export const Container = styled.TouchableOpacity`
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
-export const ContainerInner = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerInner = styled.View<ContainerSurfaceProps>`
 	width: 100%;
     height: 100%;
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.colors.white[3]};
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.colors.black[4]};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(2)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const LeftArea = styled.View`

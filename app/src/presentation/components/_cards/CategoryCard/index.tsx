@@ -39,9 +39,7 @@ function CategoryCard({ title, hasElements, withoutMargin, SvgIcon, inactiveColo
 			<ContainerInner
 				hasElements={hasElements}
 				inactiveColor={inactiveColor}
-				style={{
-					marginLeft: buttonPressed ? 0 : relativeScreenDensity(-7)
-				}}
+				buttonPressed={buttonPressed}
 			>
 				{SvgIcon && <SvgIcon width={'50%'} height={'50%'} />}
 				<Title>

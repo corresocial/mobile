@@ -135,11 +135,11 @@ function PrimaryButton({
 				}}
 			>
 				<ContainerSurface
+					buttonPressed={buttonPressed}
 					style={{
 						backgroundColor: buttonDisabled ? theme.colors.white[3] : color,
 						justifyContent: justifyContent || 'center',
 						minHeight: relativeScreenDensity(minHeight),
-						marginLeft: buttonPressed ? relativeScreenDensity(7) : 0
 					}}
 				>
 					{
@@ -153,7 +153,7 @@ function PrimaryButton({
 								textAlign,
 								marginLeft: labelMarginLeft || 0,
 								marginRight: iconName ? relativeScreenWidth(3) : 0
-							}}
+							} as any}
 							>
 								{showMessageWithHighlight(label, highlightedWords || label.split(' '))}
 							</ButtonLabel>

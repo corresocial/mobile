@@ -24,7 +24,7 @@ function FilterButton({
 	selected = false,
 	onSelect
 }: FilterButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -53,14 +53,12 @@ function FilterButton({
 				}}
 			>
 				<ContainerSurface
-					style={{
-						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? relativeScreenDensity(-5) : buttonPressed ? relativeScreenDensity(-5) : 0
-					}}
+					buttonPressed={buttonPressed || selected}
+					style={{ backgroundColor: selected ? backgroundSelected : backgroundColor }}
 				>
 					<Label
 						style={{
-							fontSize: relativeScreenDensity(fontSize),
+							fontSize: fontSize,
 							fontFamily: 'Arvo_400Regular'
 						}}
 					>

@@ -43,7 +43,7 @@ function SelectButton({
 	flexSelected = 0,
 	onSelect
 }: SelectButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -72,15 +72,15 @@ function SelectButton({
 					marginHorizontal: relativeScreenDensity(marginHorizontal),
 					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0,
 					flex: selected ? flexSelected : 0,
-				}}
+				} as any}
 			>
 				<ContainerSurface
+					buttonPressed={buttonPressed}
 					style={{
 						paddingHorizontal: selected ? relativeScreenWidth(2.5) : 0,
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						transform: [{ translateX: buttonPressed ? 0 : -relativeScreenWidth(selected ? 0.3 : 2) }],
 						height,
-					}}
+					} as any}
 				>
 					<Label
 						style={{

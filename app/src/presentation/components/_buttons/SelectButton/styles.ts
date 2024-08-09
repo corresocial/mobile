@@ -10,15 +10,21 @@ export const ContainerBottom = styled.View`
     align-self: center;
 `
 
-export const ContainerSurface = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 	border-radius: ${relativeScreenDensity(20)}px;
-	border: ${relativeScreenDensity(3.5)}px solid ${({ theme }) => theme.colors.black[4]};
+	border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
 	padding-top: 5px;
 	padding-bottom: 5px;
     align-items: center;
     justify-content: center;
     width: 100%;
 	flex-direction: row;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.small}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.small}px;
 `
 
 export const Label = styled.Text`

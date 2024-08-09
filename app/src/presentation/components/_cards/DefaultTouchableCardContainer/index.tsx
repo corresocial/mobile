@@ -51,12 +51,12 @@ function DefaultTouchableCardContainer({
 		>
 			<ContainerInner
 				pressionable={pressionable}
+				buttonPressed={buttonPressed}
 				onLayout={handleLayout}
 				style={{
 					paddingHorizontal: !withoutPadding ? relativeScreenDensity(15) : 0,
 					paddingVertical: !withoutPadding ? relativeScreenDensity(10) : 0,
-					justifyContent: 'flex-start',
-					right: buttonPressed ? 0 : relativeScreenDensity(5)
+					justifyContent: 'flex-start'
 				}}
 			>
 				{children && children}

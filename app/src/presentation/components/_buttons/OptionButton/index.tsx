@@ -66,7 +66,7 @@ function OptionButton({
 	shortDescriptionHighlightedWords = [],
 	onPress
 }: OptionButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -97,10 +97,8 @@ function OptionButton({
 				}}
 			>
 				<ContainerSurface
-					style={{
-						backgroundColor: color || theme.colors.white[3],
-						marginLeft: buttonPressed || selected ? relativeScreenDensity(7) : 0
-					}}
+					buttonPressed={buttonPressed}
+					style={{ backgroundColor: color || theme.colors.white[3] }}
 				>
 					<LeftArea
 						style={{

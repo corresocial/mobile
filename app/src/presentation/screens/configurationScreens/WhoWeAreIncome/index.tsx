@@ -42,7 +42,6 @@ function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 					<PrimaryButton
 						color={theme.colors.orange[3]}
 						label={'tem mais!'}
-						fontSize={20}
 						SecondSvgIcon={PlusWhiteIcon}
 						svgIconScale={['50%', '30%']}
 						onPress={() => navigation.navigate('WhoWeAreCulture')}

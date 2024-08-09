@@ -183,7 +183,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 									color={theme.colors.green[3]}
 									label={'continuar'}
 									labelColor={theme.colors.white[3]}
-									SvgIcon={CheckWhiteIcon}
+									SecondSvgIcon={CheckWhiteIcon}
 									onPress={saveQuestionResponse}
 								/>
 							</ButtonOptionsContainer>

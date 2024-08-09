@@ -104,7 +104,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 				backgroundColor={theme.colors.white[3]}
 				backgroundSelected={theme.colors.orange[1]}
 				label={getRelativeMacroTagLabel(postType)}
-				fontSize={13}
+				fontSize={theme.fontSizes[2]}
 				selected={selectedPostType === postType}
 				onSelect={() => toggleSelectedPostType(postType)}
 			/>

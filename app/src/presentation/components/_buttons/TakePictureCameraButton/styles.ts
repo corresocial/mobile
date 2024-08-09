@@ -1,18 +1,22 @@
+import { TouchableOpacityProps } from 'react-native'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-interface TakePictureButtonProps {
+interface TakePictureButtonProps extends TouchableOpacityProps {
 	buttonPressed: boolean
 }
+
+console.log(relativeScreenWidth(21))
+console.log(relativeScreenDensity(68))
 
 export const OutlinedContainer = styled.View<TakePictureButtonProps>`
 	border-width: 3px;
 	border-color: ${({ theme }) => theme.colors.white[3]};
 	border-radius: 200px;
-	width: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(21) : relativeScreenWidth(24))}px;
-	left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
-	margin: 0px ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
+	width: ${({ buttonPressed }) => (buttonPressed ? relativeScreenDensity(70) : relativeScreenDensity(80))}px;
+	left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenDensity(5) : 0)}px;
+	margin: 0px ${({ buttonPressed }) => (buttonPressed ? relativeScreenDensity(5) : 0)}px;
 `
 
 export const ShadowButton = styled.View<TakePictureButtonProps>`
@@ -34,7 +38,7 @@ export const TakePictureButtonBottom = styled.View<TakePictureButtonProps>`
 	position: absolute;
 `
 
-export const TakePictureButtonSurface = styled.TouchableOpacity<TakePictureButtonProps>`
+export const TakePictureButtonSurface = styled.TouchableOpacity<TakePictureButtonProps | any>`
 	border-color:${({ theme }) => theme.colors.orange[2]};
     background-color: ${({ theme }) => theme.colors.orange[3]};
     width: 70%;

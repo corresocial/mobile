@@ -6,7 +6,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { CitizenNameContainer, CitizenNameText, Container, ContainerInner, CreatedAtText, CreatorContainer, CreatorDataContainer, CreatorNameText, QuestionaryContainer } from './styles'
 import QuestionaryIcon from '@assets/icons/questionary-white.svg'
-import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 const { formatRelativeDate } = UiUtils()
 
@@ -39,7 +39,7 @@ function CitizenQuestionaryCard({ questionaryData, onPress }: CitizenQuestionary
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+				buttonPressed={buttonPressed}
 			>
 				<QuestionaryContainer>
 					<CitizenNameContainer>

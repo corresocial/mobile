@@ -8,13 +8,19 @@ export const ContainerBottom = styled.View`
 
 `
 
-export const ContainerSurface = styled.View`
-    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerSurface = styled.View<ContainerSurfaceProps>`
+    border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(20)}px;
     align-items: center;
     justify-content: center;
-	  padding: ${relativeScreenDensity(1)}px ${relativeScreenDensity(12)}px;
+	padding: ${relativeScreenDensity(1)}px ${relativeScreenDensity(12)}px;
     height: 100%;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.small}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.small}px;
 `
 
 export const Label = styled.Text`
