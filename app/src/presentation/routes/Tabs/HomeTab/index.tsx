@@ -13,10 +13,11 @@ import { HomeTabParamList } from './types'
 import { LeaderAreaStack } from '@routes/Stack/LeaderAreaStack'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
 
+import { TabItemContainer, TabItemContent, TabItemText } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
 import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
-import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
@@ -52,33 +53,50 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
 
 	const renderHomeIcon = (focused: boolean) => (
-		focused
-			? <HomeWhiteIcon height={'50%'} width={'100%'} />
-			: <HomeWhiteIcon height={'40%'} width={'100%'} />
+		<TabItemContainer>
+			<TabItemContent focused={focused}>
+				<HomeWhiteIcon height={'45%'} width={'100%'} />
+				{!focused && <TabItemText>{'Inicio'}</TabItemText>}
+			</TabItemContent>
+		</TabItemContainer>
 	)
 
 	const renderPlusIcon = (focused: boolean) => (
-		focused
-			? <PlusWhiteIcon height={'50%'} width={'100%'} />
-			: <PlusWhiteIcon height={'40%'} width={'100%'} />
+		<TabItemContainer >
+			<TabItemContent focused={focused}>
+				<PlusWhiteIcon height={'45%'} width={'100%'} />
+				{!focused && (
+					<TabItemText>{'Postar'}</TabItemText>
+				)}
+			</TabItemContent>
+		</TabItemContainer >
 	)
 
 	const renderChatIcon = (focused: boolean) => (
-		focused
-			? <ChatWhiteIcon height={'50%'} width={'100%'} />
-			: <ChatWhiteIcon height={'40%'} width={'100%'} />
+		<TabItemContainer >
+			<TabItemContent focused={focused}>
+				<ChatWhiteIcon height={'45%'} width={'100%'} />
+				{!focused && <TabItemText>{'Conversas'}</TabItemText>}
+			</TabItemContent>
+		</TabItemContainer >
 	)
 
 	const renderLeaderAreaIcon = (focused: boolean) => (
-		focused
-			? <LeaderSealIcon height={'60%'} width={'100%'} />
-			: <LeaderSealIcon height={'50%'} width={'100%'} />
+		<TabItemContainer >
+			<TabItemContent focused={focused}>
+				<LeaderSealIcon height={'55%'} width={'100%'} />
+				{!focused && <TabItemText>{'Líder'}</TabItemText>}
+			</TabItemContent>
+		</TabItemContainer >
 	)
 
 	const renderProfileIcon = (focused: boolean) => (
-		focused
-			? <ProfileWhiteIcon height={'50%'} width={'100%'} />
-			: <ProfileWhiteIcon height={'40%'} width={'100%'} />
+		<TabItemContainer >
+			<TabItemContent focused={focused}>
+				<ProfileWhiteIcon height={'45%'} width={'100%'} />
+				{!focused && <TabItemText>{'Perfil'}</TabItemText>}
+			</TabItemContent>
+		</TabItemContainer >
 	)
 
 	const getProfileNotification = () => {
@@ -104,20 +122,19 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				tabBarStyle: {
 					flex: 1,
 					position: 'absolute',
-					height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
+					height: Platform.OS === 'ios' ? relativeScreenDensity(77) : relativeScreenDensity(60),
 					borderTopColor: theme.colors.black[4],
-					borderTopWidth: 5,
+					borderTopWidth: relativeScreenDensity(2),
 					marginBottom: 0,
-					backgroundColor: theme.colors.black[4]
+					backgroundColor: theme.colors.black[4],
 				},
 				tabBarItemStyle: Platform.OS === 'ios' && {
 					flex: 1,
-					height: relativeScreenDensity(50)
+					height: '100%'
 				},
 				tabBarIconStyle: {
-					overflow: 'hidden',
-					height: relativeScreenDensity(50),
-					width: '70%',
+					height: relativeScreenDensity(30),
+					width: '100%',
 				},
 				tabBarBadgeStyle: {
 					borderRadius: 5,
@@ -126,7 +143,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					fontSize: relativeScreenDensity(10),
 					margin: relativeScreenDensity(3),
 				},
-				tabBarActiveBackgroundColor: theme.colors.orange[3],
+				tabBarActiveBackgroundColor: theme.colors.white[3],
 				tabBarInactiveBackgroundColor: theme.colors.white[3],
 			}}
 		>
