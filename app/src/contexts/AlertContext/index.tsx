@@ -75,6 +75,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 
 	const showEventCalendarPresentationModal = useCallback(() => {
 		if (notificationState.eventCalendarPresentation) setEventCalendarPresentationModalIsVisible(true)
+		updateNotificationState({ eventCalendarPresentation: false })
 	}, [notificationState])
 
 	const showWaitingApproveModal = useCallback(() => {
@@ -96,7 +97,6 @@ function AlertProvider({ children }: AlertProviderProps) {
 
 	const handleEventCalendarPresentation = useCallback(() => {
 		setEventCalendarPresentationModalIsVisible(false)
-		updateNotificationState({ eventCalendarPresentation: false })
 		navigation.navigate('EventsCalendar' as any)
 	}, [])
 
