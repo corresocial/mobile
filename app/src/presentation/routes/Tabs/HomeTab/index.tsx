@@ -196,8 +196,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					height: Platform.OS === 'ios' ? relativeScreenDensity(77) : relativeScreenDensity(60),
 					borderTopColor: theme.colors.black[4],
 					borderTopWidth: relativeScreenDensity(2),
-					marginBottom: 0,
-					backgroundColor: theme.colors.black[4],
+					marginBottom: 0
 				},
 				tabBarItemStyle: Platform.OS === 'ios' && {
 					flex: 1,

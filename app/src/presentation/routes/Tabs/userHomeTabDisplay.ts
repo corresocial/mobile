@@ -23,7 +23,6 @@ const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
 				borderTopColor: theme.colors.black[4],
 				borderTopWidth: relativeScreenDensity(2),
 				marginBottom: 0,
-				backgroundColor: theme.colors.black[4],
 			}
 		})
 	}, [navigation, route])
