@@ -12,16 +12,15 @@ export const TabItemContainer = styled.View`
 `
 
 interface TabItemContentProps {
-	focused: boolean
+	// focused: boolean
 }
 
-export const TabItemContent = styled.View<TabItemContentProps>`
+export const TabItemContent = styled(Animated.View) <TabItemContentProps>`
 	align-items: center;
 	justify-content: center;
 	width: 85%;
 	height: 85%;
 	border-radius: ${relativeScreenDensity(12)}px;
-	background-color: ${({ theme, focused }) => (focused ? theme.colors.orange[3] : theme.colors.white[3])};
 `
 
 export const AnimatedTabItemText = styled(Animated.View)`

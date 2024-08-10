@@ -54,8 +54,9 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 	const useTabAnimation = () => {
 		const initialValue = relativeScreenDensity(15)
 		const heightAnimatedValue = useRef(new Animated.Value(initialValue)).current
+		const colorAnimation = useRef(new Animated.Value(0)).current
 
-		const animateTab = (focused: boolean) => {
+		const animateTabLabel = (focused: boolean) => {
 			Animated.timing(heightAnimatedValue, {
 				toValue: focused ? 0 : initialValue,
 				duration: 400,
@@ -63,7 +64,20 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 			}).start()
 		}
 
-		return { heightAnimatedValue, animateTab }
+		const animateTabBackground = (focused: boolean) => {
+			Animated.timing(colorAnimation, {
+				toValue: focused ? 0 : 1,
+				duration: 300,
+				useNativeDriver: false
+			}).start()
+		}
+
+		const backgroundColor = colorAnimation.interpolate({
+			inputRange: [0, 1],
+			outputRange: [theme.colors.orange[3], theme.colors.white[3]],
+		})
+
+		return { heightAnimatedValue, animateTabLabel, backgroundColor, animateTabBackground }
 	}
 
 	const postTab = useTabAnimation()
@@ -76,10 +90,11 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 	const renderHomeIcon = (focused: boolean) => {
 		const isFocused = useIsFocused()
-		homeTab.animateTab(isFocused)
+		homeTab.animateTabLabel(isFocused)
+		homeTab.animateTabBackground(isFocused)
 		return (
 			<TabItemContainer>
-				<TabItemContent focused={isFocused}>
+				<TabItemContent style={{ backgroundColor: homeTab.backgroundColor }}>
 					<HomeWhiteIcon height={'45%'} width={'100%'} />
 					<AnimatedTabItemText style={{ height: homeTab.heightAnimatedValue }}>
 						<TabItemText>{'Inicio'}</TabItemText>
@@ -91,10 +106,11 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 	const renderPlusIcon = (focused: boolean) => {
 		const isFocused = useIsFocused()
-		postTab.animateTab(isFocused)
+		postTab.animateTabLabel(isFocused)
+		postTab.animateTabBackground(isFocused)
 		return (
 			<TabItemContainer >
-				<TabItemContent focused={isFocused}>
+				<TabItemContent style={{ backgroundColor: postTab.backgroundColor }}>
 					<PlusWhiteIcon height={'45%'} width={'100%'} />
 					<AnimatedTabItemText style={{ height: postTab.heightAnimatedValue }}>
 						<TabItemText>
@@ -108,10 +124,11 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 	const renderChatIcon = (focused: boolean) => {
 		const isFocused = useIsFocused()
-		chatTab.animateTab(isFocused)
+		chatTab.animateTabLabel(isFocused)
+		chatTab.animateTabBackground(isFocused)
 		return (
 			<TabItemContainer >
-				<TabItemContent focused={isFocused}>
+				<TabItemContent style={{ backgroundColor: chatTab.backgroundColor }}>
 					<ChatWhiteIcon height={'45%'} width={'100%'} />
 					<AnimatedTabItemText style={{ height: chatTab.heightAnimatedValue }}>
 						<TabItemText>{'Conversas'}</TabItemText>
@@ -123,10 +140,11 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 	const renderLeaderAreaIcon = (focused: boolean) => {
 		const isFocused = useIsFocused()
-		leaderTab.animateTab(isFocused)
+		leaderTab.animateTabLabel(isFocused)
+		leaderTab.animateTabBackground(isFocused)
 		return (
 			<TabItemContainer >
-				<TabItemContent focused={isFocused}>
+				<TabItemContent style={{ backgroundColor: leaderTab.backgroundColor }}>
 					<LeaderSealIcon height={'55%'} width={'100%'} />
 					<AnimatedTabItemText style={{ height: leaderTab.heightAnimatedValue }}>
 						<TabItemText>{'Líder'}</TabItemText>
@@ -138,10 +156,11 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 	const renderProfileIcon = (focused: boolean) => {
 		const isFocused = useIsFocused()
-		profileTab.animateTab(isFocused)
+		profileTab.animateTabLabel(isFocused)
+		profileTab.animateTabBackground(isFocused)
 		return (
 			<TabItemContainer >
-				<TabItemContent focused={isFocused}>
+				<TabItemContent style={{ backgroundColor: profileTab.backgroundColor }}>
 					<ProfileWhiteIcon height={'45%'} width={'100%'} />
 					<AnimatedTabItemText style={{ height: profileTab.heightAnimatedValue }}>
 						<TabItemText>{'Perfil'}</TabItemText>
