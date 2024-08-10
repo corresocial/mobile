@@ -60,7 +60,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 			Animated.timing(heightAnimatedValue, {
 				toValue: focused ? 0 : initialValue,
 				duration: 400,
-				useNativeDriver: false
+				useNativeDriver: false // CURRENT USE IOS only
 			}).start()
 		}
 
@@ -206,7 +206,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					height: relativeScreenDensity(30),
 					width: '100%',
 				},
-				tabBarBadgeStyle: {
+				tabBarBadgeStyle: { // CURRENT No android está muito longe do ícone
 					borderRadius: 5,
 					backgroundColor: theme.colors.pink[4],
 					fontFamily: 'Arvo_700Bold',
