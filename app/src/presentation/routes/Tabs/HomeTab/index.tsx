@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import 'react-native-gesture-handler'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { RouteProp, useFocusEffect } from '@react-navigation/native'
+import { RouteProp, useFocusEffect, useIsFocused } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import React, { useContext } from 'react'
-import { Platform } from 'react-native'
+import React, { useContext, useRef } from 'react'
+import { Animated, Platform } from 'react-native'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
@@ -13,7 +14,7 @@ import { HomeTabParamList } from './types'
 import { LeaderAreaStack } from '@routes/Stack/LeaderAreaStack'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
 
-import { TabItemContainer, TabItemContent, TabItemText } from './styles'
+import { AnimatedTabItemText, TabItemContainer, TabItemContent, TabItemText } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
 import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
@@ -50,54 +51,105 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		return unsubscribe
 	})
 
+	const useTabAnimation = () => {
+		const initialValue = relativeScreenDensity(15)
+		const heightAnimatedValue = useRef(new Animated.Value(initialValue)).current
+
+		const animateTab = (focused: boolean) => {
+			Animated.timing(heightAnimatedValue, {
+				toValue: focused ? 0 : initialValue,
+				duration: 400,
+				useNativeDriver: false
+			}).start()
+		}
+
+		return { heightAnimatedValue, animateTab }
+	}
+
+	const postTab = useTabAnimation()
+	const homeTab = useTabAnimation()
+	const leaderTab = useTabAnimation()
+	const chatTab = useTabAnimation()
+	const profileTab = useTabAnimation()
+
 	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
 
-	const renderHomeIcon = (focused: boolean) => (
-		<TabItemContainer>
-			<TabItemContent focused={focused}>
-				<HomeWhiteIcon height={'45%'} width={'100%'} />
-				{!focused && <TabItemText>{'Inicio'}</TabItemText>}
-			</TabItemContent>
-		</TabItemContainer>
-	)
+	const renderHomeIcon = (focused: boolean) => {
+		const isFocused = useIsFocused()
+		homeTab.animateTab(isFocused)
+		return (
+			<TabItemContainer>
+				<TabItemContent focused={isFocused}>
+					<HomeWhiteIcon height={'45%'} width={'100%'} />
+					<AnimatedTabItemText style={{ height: homeTab.heightAnimatedValue }}>
+						<TabItemText>{'Inicio'}</TabItemText>
+					</AnimatedTabItemText>
+				</TabItemContent>
+			</TabItemContainer>
+		)
+	}
 
-	const renderPlusIcon = (focused: boolean) => (
-		<TabItemContainer >
-			<TabItemContent focused={focused}>
-				<PlusWhiteIcon height={'45%'} width={'100%'} />
-				{!focused && (
-					<TabItemText>{'Postar'}</TabItemText>
-				)}
-			</TabItemContent>
-		</TabItemContainer >
-	)
+	const renderPlusIcon = (focused: boolean) => {
+		const isFocused = useIsFocused()
+		postTab.animateTab(isFocused)
+		return (
+			<TabItemContainer >
+				<TabItemContent focused={isFocused}>
+					<PlusWhiteIcon height={'45%'} width={'100%'} />
+					<AnimatedTabItemText style={{ height: postTab.heightAnimatedValue }}>
+						<TabItemText>
+							{'Postar'}
+						</TabItemText>
+					</AnimatedTabItemText>
+				</TabItemContent>
+			</TabItemContainer >
+		)
+	}
 
-	const renderChatIcon = (focused: boolean) => (
-		<TabItemContainer >
-			<TabItemContent focused={focused}>
-				<ChatWhiteIcon height={'45%'} width={'100%'} />
-				{!focused && <TabItemText>{'Conversas'}</TabItemText>}
-			</TabItemContent>
-		</TabItemContainer >
-	)
+	const renderChatIcon = (focused: boolean) => {
+		const isFocused = useIsFocused()
+		chatTab.animateTab(isFocused)
+		return (
+			<TabItemContainer >
+				<TabItemContent focused={isFocused}>
+					<ChatWhiteIcon height={'45%'} width={'100%'} />
+					<AnimatedTabItemText style={{ height: chatTab.heightAnimatedValue }}>
+						<TabItemText>{'Conversas'}</TabItemText>
+					</AnimatedTabItemText>
+				</TabItemContent>
+			</TabItemContainer >
+		)
+	}
 
-	const renderLeaderAreaIcon = (focused: boolean) => (
-		<TabItemContainer >
-			<TabItemContent focused={focused}>
-				<LeaderSealIcon height={'55%'} width={'100%'} />
-				{!focused && <TabItemText>{'Líder'}</TabItemText>}
-			</TabItemContent>
-		</TabItemContainer >
-	)
+	const renderLeaderAreaIcon = (focused: boolean) => {
+		const isFocused = useIsFocused()
+		leaderTab.animateTab(isFocused)
+		return (
+			<TabItemContainer >
+				<TabItemContent focused={isFocused}>
+					<LeaderSealIcon height={'55%'} width={'100%'} />
+					<AnimatedTabItemText style={{ height: leaderTab.heightAnimatedValue }}>
+						<TabItemText>{'Líder'}</TabItemText>
+					</AnimatedTabItemText>
+				</TabItemContent>
+			</TabItemContainer >
+		)
+	}
 
-	const renderProfileIcon = (focused: boolean) => (
-		<TabItemContainer >
-			<TabItemContent focused={focused}>
-				<ProfileWhiteIcon height={'45%'} width={'100%'} />
-				{!focused && <TabItemText>{'Perfil'}</TabItemText>}
-			</TabItemContent>
-		</TabItemContainer >
-	)
+	const renderProfileIcon = (focused: boolean) => {
+		const isFocused = useIsFocused()
+		profileTab.animateTab(isFocused)
+		return (
+			<TabItemContainer >
+				<TabItemContent focused={isFocused}>
+					<ProfileWhiteIcon height={'45%'} width={'100%'} />
+					<AnimatedTabItemText style={{ height: profileTab.heightAnimatedValue }}>
+						<TabItemText>{'Perfil'}</TabItemText>
+					</AnimatedTabItemText>
+				</TabItemContent>
+			</TabItemContainer >
+		)
+	}
 
 	const getProfileNotification = () => {
 		if (notificationState.configNotificationButton || notificationState.configNotificationEntryMethod) {
@@ -180,7 +232,6 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					/>
 				)
 			}
-
 			<Tab.Screen
 				name={'ProfileStack'}
 				component={ProfileStack}
