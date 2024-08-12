@@ -10,6 +10,8 @@ import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSocialImpactRangeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
+
 import { theme } from '@common/theme'
 
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
@@ -61,6 +63,8 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
+	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
@@ -74,7 +78,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			<PostRange
 				backgroundColor={theme.pink2}
 				itemsColor={theme.pink3}
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'city'}
+				userSubscriptionRange={range || 'city'}
 				cityPlanIsFree
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

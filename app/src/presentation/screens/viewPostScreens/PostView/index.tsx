@@ -473,6 +473,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<MediaView
 							picturesUrl={getPostField('picturesUrl', postType)}
 							videosUrl={getPostField('videosUrl', postType)}
+							indicatorTone={getRelativePostTone()}
 						/>
 						<GroupInfo>
 							<VerticalSpacing height={7} relativeDensity />
