@@ -1,5 +1,8 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { ListRenderItem, RefreshControl } from 'react-native'
+import { RefreshControl } from 'react-native'
+
+import { FlashList } from '@shopify/flash-list'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -12,7 +15,7 @@ import { IconName } from '@assets/icons/iconMap/types'
 
 import { isRecentPost } from '@utils-ui/post/validation'
 
-import { FeedFlatList, NoPostNotifierContainer } from './styles'
+import { NoPostNotifierContainer } from './styles'
 import { theme } from '@common/theme'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
@@ -51,6 +54,7 @@ function FeedByRangeFlatList({
 	onRefresh
 }: FeedByRangeFlatListProps) {
 	const { userDataContext } = useAuthContext()
+	const { navigate } = useNavigation<any>()
 
 	const hasNearbyPosts = () => {
 		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
@@ -95,11 +99,24 @@ function FeedByRangeFlatList({
 	}
 
 	const posts = () => {
-		return [
+		const formattedPosts = [
 			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
 			{ dividerText: 'Posts na sua cidade', postRange: 'city' }, ...filteredFeedPosts.city,
 			{ dividerText: 'Posts no Brasil    ', postRange: 'country' }, ...filteredFeedPosts.country
 		]
+
+		const filteredItems = collapseExternalVacancies
+			? formattedPosts.filter((item) => (
+				'externalPostId' in item ? !item.externalPostId || (item.externalPostId && isRecentPost(item.createdAt!)) : true
+			))
+			: formattedPosts
+
+		const vacancyPost = formattedPosts.find((item) => 'macroCategory' in item && item.macroCategory === 'vacancy')
+		if (collapseExternalVacancies && vacancyPost) {
+			filteredItems.splice(1, 0, { ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
+		}
+
+		return filteredItems
 	}
 
 	const renderPostItem = (element: any) => {
@@ -167,10 +184,11 @@ function FeedByRangeFlatList({
 	}
 
 	return (
-		<FeedFlatList
-			backgroundColor={backgroundColor}
+		<FlashList
 			data={posts() as any}
-			renderItem={renderPostItem as ListRenderItem<unknown>}
+			renderItem={renderPostItem as any}
+			contentContainerStyle={{ backgroundColor: backgroundColor }}
+			estimatedItemSize={111}
 			showsVerticalScrollIndicator={false}
 			refreshControl={onRefresh && (
 				<RefreshControl
