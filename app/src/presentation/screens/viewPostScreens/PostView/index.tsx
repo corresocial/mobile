@@ -336,7 +336,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const seeMorePressHandler = () => {
-		// CURRENT Loading não aparecendo
 		setIsLoadingMore(true)
 		if (!postData.macroCategory || route.name !== 'PostViewHome') return
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
