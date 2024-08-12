@@ -22,9 +22,11 @@ export interface InitialNotificationStateType {
 
 export interface AlertContextProps {
 	notificationState: InitialNotificationStateType
+	hasLocationPermission: boolean
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => void
 	showAlertNotificationModal: () => void
 	showDefaultAlertModal: (modalContent: AlertModalContent) => void
 	showEventCalendarPresentationModal: () => void
 	showWaitingApproveModal: () => void
+	checkLocationPermissions: () => Promise<boolean>
 }

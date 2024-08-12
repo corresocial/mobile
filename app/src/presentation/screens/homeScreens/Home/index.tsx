@@ -61,7 +61,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
-	const { showEventCalendarPresentationModal } = useAlertContext()
+	const { hasLocationPermission, showEventCalendarPresentationModal, checkLocationPermissions } = useAlertContext()
 
 	const queryClient = useQueryClient()
 	const { executeCachedRequest } = useCacheRepository()
@@ -70,7 +70,6 @@ function Home({ navigation }: HomeScreenProps) {
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
-	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
@@ -78,26 +77,17 @@ function Home({ navigation }: HomeScreenProps) {
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		requestPermissions()
 		loadRecentAddresses()
 		showEventCalendarPresentationModal()
+		checkLocationPermissions()
 	}, [])
 
 	useEffect(() => {
+		console.log(hasLocationPermission, 'update na permissão')
 		if (hasLocationPermission) {
 			findFeedPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
-
-	const requestPermissions = async () => {
-		if (hasLocationPermission) return true
-		const { status } = await Location.requestForegroundPermissionsAsync()
-		if (status === 'granted') {
-			setHasLocationPermission(true)
-			return true
-		}
-		return false
-	}
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -380,8 +370,7 @@ function Home({ navigation }: HomeScreenProps) {
 								{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 									<RequestLocation
 										getLocationPermissions={() => {
-											requestPermissions()
-											findFeedPosts('', true)
+											checkLocationPermissions()
 										}}
 									/>
 								)}
