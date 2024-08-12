@@ -40,11 +40,12 @@ interface MediaBrowserProps {
 	showMediaBrowser: boolean,
 	maxImages?: number,
 	videoDurationLimit?: number,
+	allowVideos?: boolean
 	onClose: () => void,
 	onSelectionConfirmed: (mediaSelected: Asset[]) => void,
 }
 
-function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimit = 180, onClose, onSelectionConfirmed }: MediaBrowserProps) {
+function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, videoDurationLimit = 180, onClose, onSelectionConfirmed }: MediaBrowserProps) {
 	const [albums, setAlbums] = useState<AlbumType[]>([])
 	const [media, setMedia] = useState<Asset[]>([])
 	const [cursor, setCursor] = useState<AssetRef | undefined>(undefined)
@@ -113,7 +114,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 		const firstAsset = await MediaLibrary.getAssetsAsync({
 			first: 1,
 			sortBy: 'creationTime',
-			mediaType: ['photo', 'video'], // Tipo de mídia
+			mediaType: allowVideos ? ['photo', 'video'] : ['photo'],
 			album: albumId
 		})
 
@@ -133,7 +134,7 @@ function MediaBrowserModal({ showMediaBrowser, maxImages = 10, videoDurationLimi
 			first: 30,
 			album: albumId,
 			sortBy: 'creationTime',
-			mediaType: ['photo', 'video'], // Tipo de mídia
+			mediaType: allowVideos ? ['photo', 'video'] : ['photo'],
 			after: cursor
 		})
 		setCursor(albumMedia.hasNextPage ? albumMedia.endCursor : '')
