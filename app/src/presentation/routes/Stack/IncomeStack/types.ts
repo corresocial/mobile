@@ -1,14 +1,17 @@
-import { DaysOfWeek, LatLong, LocationViewType, PostRange, SaleCategories, IncomeEntity } from '@domain/post/entity/types'
+import { DaysOfWeek, LatLong, LocationViewType, PostRange, PostCategoriesType, IncomeEntity } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
 export type IncomeStackParamList = {
 	InsertIncomeDescription: { editMode: boolean, initialValue: string } | undefined
 	SelectPostPicture: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
-	SelectSaleLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
+	SelectIncomeLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
+	EditIncomePostReview: { postData: IncomeEntity, approvedPostData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	IncomePostReview: { postData: IncomeEntity, approvedPostData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
-	SelectSaleCategory: { editMode: boolean } | undefined
-	SelectSaleTags: { categorySelected: SaleCategories, editMode?: boolean }
+	SelectIncomeCategory: { editMode: boolean } | undefined
+	SelectIncomeType: { editMode: boolean } | undefined
+	SelectIncomeTags: { categorySelected: PostCategoriesType, editMode?: boolean }
 	SelectItemStatus: { editMode: boolean } | undefined
 	InsertIncomeLinks: { editMode: boolean, initialValue: string[] } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
@@ -16,12 +19,17 @@ export type IncomeStackParamList = {
 	SelectSaleValueType: { bothPaymentType: boolean, editMode?: boolean }
 	InsertExchangeValue: { editMode: boolean } | undefined
 	SelectLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
-	SelectSaleRange: { editMode: boolean } | undefined
-	SaleLocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
+	SelectIncomeRange: { editMode: boolean } | undefined
+	IncomeLocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
 	SelectDeliveryMethod: { editMode: boolean } | undefined
-	SelectSaleFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectSaleDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	InsertSaleStartHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertSaleEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditSalePostReview: { postData: IncomeEntity, approvedPostData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	SelectIncomeFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectIncomeDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	InsertIncomeStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertIncomeEndHour: { editMode: boolean, initialValue: Date } | undefined
+
+	InsertVacancyImportantPoints: { editMode: boolean, initialValue: string[] } | undefined
+	InsertVacancyStartDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertVacancyEndDate: { editMode: boolean, initialValue: Date } | undefined
+	SelectWorkplace: { editMode: boolean } | undefined
+	SelectVacancyType: { editMode: boolean } | undefined
 } & UserStackParamList

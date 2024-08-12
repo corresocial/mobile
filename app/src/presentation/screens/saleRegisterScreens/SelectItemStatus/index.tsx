@@ -5,7 +5,7 @@ import { ItemStatus } from '@domain/post/entity/types'
 import { EditContext } from '@contexts/EditContext'
 import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectItemStatusScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'
 import UsedLabelWhiteIcon from '@assets/icons/usedLabel-white.svg'

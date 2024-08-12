@@ -59,7 +59,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 		const animateTabLabel = (focused: boolean) => {
 			Animated.timing(heightAnimatedValue, {
 				toValue: focused ? 0 : initialValue,
-				duration: 400,
+				duration: 300,
 				useNativeDriver: false // CURRENT USE IOS only
 			}).start()
 		}

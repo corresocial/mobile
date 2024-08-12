@@ -3,9 +3,9 @@ import React, { useContext } from 'react'
 import { WorkplaceType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { VacancyContext } from '@contexts/VacancyContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectWorkplaceScreenProps } from '@routes/Stack/VacancyStack/screenProps'
+import { SelectWorkplaceScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'
 import ShopWhiteIcon from '@assets/icons/shop-white.svg'
@@ -15,7 +15,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
@@ -25,7 +25,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 			return
 		}
 
-		setVacancyDataOnContext({ workplace })
+		setIncomeDataOnContext({ workplace })
 
 		navigation.navigate('SelectVacancyType')
 	}

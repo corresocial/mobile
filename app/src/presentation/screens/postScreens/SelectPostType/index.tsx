@@ -31,7 +31,7 @@ import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
 const { localStorage } = usePostRepository()
 
-type RedirectStacks = 'IncomeStack' | 'SaleStack' | 'ServiceStack' | 'VacancyStack' | 'SocialImpactStack' | 'CultureStack'
+type RedirectStacks = 'IncomeStack' | 'SaleStack' | 'SocialImpactStack' | 'CultureStack'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -64,7 +64,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	}
 
 	const selectPostMacroCategory = (routeNavigate: RedirectStacks, postType: PostType, macroCategory: MacroCategoriesType) => {
-		navigation.navigate(routeNavigate, { postType, macroCategory } as any) // CURRENT Type
+		navigation.navigate(routeNavigate as any, { postType, macroCategory } as any) // CURRENT Type
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''

@@ -3,27 +3,27 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertVacancyStartDateScreenProps } from '@routes/Stack/IncomeStack/screenProps'
+import { InsertIncomeStartHourScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { theme } from '@common/theme'
 
-import { PostDate } from '@components/_onboarding/PostDate'
+import { PostTime } from '@components/_onboarding/PostTime'
 
-function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScreenProps) {
+function InsertIncomeStartHour({ route, navigation }: InsertIncomeStartHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const skipScreen = () => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startDate: '' })
+			addNewUnsavedFieldToEditContext({ startHour: '' })
 			navigation.goBack()
 		}
 	}
 
-	const saveVacancyStartDate = (dateTime: Date) => {
+	const saveEndTime = (dateTime: Date) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startDate: dateTime })
+			addNewUnsavedFieldToEditContext({ startHour: dateTime })
 			navigation.goBack()
 		}
 	}
@@ -31,16 +31,16 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 	return (
 		<>
 			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
-			<PostDate
+			<PostTime
 				backgroundColor={theme.colors.green[2]}
 				validationColor={theme.colors.green[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveDate={saveVacancyStartDate}
+				saveTime={saveEndTime}
 			/>
 		</>
 	)
 }
 
-export { InsertVacancyStartDate }
+export { InsertIncomeStartHour }

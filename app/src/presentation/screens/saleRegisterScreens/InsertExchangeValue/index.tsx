@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertExchangeValueScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { InsertExchangeValueScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

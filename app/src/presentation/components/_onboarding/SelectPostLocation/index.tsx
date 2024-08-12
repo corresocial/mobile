@@ -15,7 +15,6 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import MapPointOrangeIcon from '@assets/icons/mapPoint-orange.svg'
 import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -84,10 +83,14 @@ function SelectPostLocation({
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
-		removeAllKeyboardEventListeners()
-		Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-		Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-	}, [keyboardOpened])
+		const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+
+		return () => {
+			keyboardDidShowListener.remove()
+			keyboardDidHideListener.remove()
+		}
+	}, [])
 
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {

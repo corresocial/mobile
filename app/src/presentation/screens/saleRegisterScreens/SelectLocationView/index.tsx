@@ -5,7 +5,7 @@ import { LocationViewType } from '@domain/post/entity/types'
 
 import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectLocationViewScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectLocationViewScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { theme } from '@common/theme'
 
@@ -21,7 +21,7 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 			setIncomeDataOnContext({ range: route.params?.initialValue?.postRange })
 		}
 
-		navigation.navigate('SelectSaleLocation', {
+		navigation.navigate('SelectIncomeLocation', {
 			locationView: locationViewType,
 			editMode: editModeIsTrue(),
 			initialValue: route.params?.initialValue?.coordinates

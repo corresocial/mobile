@@ -5,7 +5,7 @@ import { PaymentType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { SelectPaymentTypeScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectPaymentTypeScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { theme } from '@common/theme'
 

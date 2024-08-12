@@ -33,7 +33,7 @@ function PlaceModality({ title, placeModality, hightligtedWords, isVacancy, onEd
 			case 'homeoffice': return showMessageWithHighlight('vaga de casa', ['de', 'casa'])
 			case 'both': return showMessageWithHighlight('online e presencial', ['online', 'presencial'])
 			case 'hybrid': return showMessageWithHighlight('vaga híbrida', ['híbrida'])
-			default: return showMessageWithHighlight('local indisponível', ['indisponível'])
+			default: return showMessageWithHighlight('', [])
 		}
 	}
 

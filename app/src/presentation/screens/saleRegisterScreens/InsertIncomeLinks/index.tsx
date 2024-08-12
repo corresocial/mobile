@@ -3,7 +3,7 @@ import { Keyboard, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertIncomeLinksScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { InsertIncomeLinksScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'

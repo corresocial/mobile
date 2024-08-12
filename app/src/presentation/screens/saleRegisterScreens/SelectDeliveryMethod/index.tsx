@@ -6,7 +6,7 @@ import { DeliveryMethod } from '@domain/post/entity/types'
 import { EditContext } from '@contexts/EditContext'
 import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectDeliveryMethodScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectDeliveryMethodScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { theme } from '@common/theme'
 
@@ -26,7 +26,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 		}
 
 		setIncomeDataOnContext({ deliveryMethod })
-		navigation.navigate('SelectSaleFrequency')
+		navigation.navigate('SelectIncomeFrequency')
 	}
 
 	return (

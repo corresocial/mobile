@@ -3,9 +3,9 @@ import React, { useContext } from 'react'
 import { VacancyType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { VacancyContext } from '@contexts/VacancyContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/screenProps'
+import { SelectVacancyTypeScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
@@ -16,7 +16,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
@@ -26,9 +26,8 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 			return
 		}
 
-		setVacancyDataOnContext({ vacancyType })
-
-		navigation.navigate('SelectVacancyRange', {} as any)
+		setIncomeDataOnContext({ vacancyType })
+		navigation.navigate('SelectIncomeRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectPostPictureScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectPostPictureScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
 
@@ -23,7 +23,7 @@ function SelectPostPicture({ route, navigation }: SelectPostPictureScreenProps) 
 		}
 
 		setIncomeDataOnContext({ picturesUrl, videosUrl })
-		navigation.navigate('SelectSaleLocation', { locationView: 'approximate' })
+		navigation.navigate('SelectIncomeLocation', { locationView: 'approximate' })
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

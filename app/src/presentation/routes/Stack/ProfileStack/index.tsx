@@ -26,10 +26,8 @@ import { WhoWeAreCulture } from '@screens/configurationScreens/WhoWeAreCulture'
 import { WhoWeAreIncome } from '@screens/configurationScreens/WhoWeAreIncome'
 import { WhoWeAreTransformation } from '@screens/configurationScreens/WhoWeAreTransformation'
 import { EditCulturePost } from '@screens/editPostScreens/EditCulturePost'
-import { EditSalePost } from '@screens/editPostScreens/EditSalePost'
-import { EditServicePost } from '@screens/editPostScreens/EditServicePost'
 import { EditSocialImpactPost } from '@screens/editPostScreens/EditSocialImpactPost'
-import { EditVacancyPost } from '@screens/editPostScreens/EditVacancyPost'
+import { IncomePostReview } from '@screens/editPostScreens/IncomePostReview'
 import { EditProfile } from '@screens/profileScreens/EditProfile'
 import { EditUserDescription } from '@screens/profileScreens/EditUserDescription'
 import { EditUserLocation } from '@screens/profileScreens/EditUserLocation'
@@ -64,9 +62,7 @@ export function ProfileStack({ route, navigation }: any) { // REFACTOR type rout
 				{/* // REFACTOR usar estratégia de tipagem dinâmica */}
 				<Stack.Screen name={'PostViewProfile'} component={PostView as any} />
 				{/* REFACTOR Erro de tipagem, typecasting? */}
-				<Stack.Screen name={'EditServicePost'} component={EditServicePost as any} />
-				<Stack.Screen name={'EditSalePost'} component={EditSalePost as any} />
-				<Stack.Screen name={'EditVacancyPost'} component={EditVacancyPost as any} />
+				<Stack.Screen name={'IncomePostReview'} component={IncomePostReview as any} />
 				<Stack.Screen name={'EditSocialImpactPost'} component={EditSocialImpactPost as any} />
 				<Stack.Screen name={'EditCulturePost'} component={EditCulturePost as any} />
 

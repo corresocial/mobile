@@ -6,27 +6,32 @@ import { IncomeProvider } from '@contexts/IncomeContext'
 
 import { IncomeStackParamList } from './types'
 
-import { EditSalePost } from '@screens/editPostScreens/EditSalePost'
-import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
+import { IncomePostReview } from '@screens/editPostScreens/IncomePostReview'
+import { IncomeLocationViewPreview } from '@screens/saleRegisterScreens/IncomeLocationViewPreview'
 import { InsertExchangeValue } from '@screens/saleRegisterScreens/InsertExchangeValue'
+import { InsertIncomeDescription } from '@screens/saleRegisterScreens/InsertIncomeDescription'
+import { InsertIncomeEndHour } from '@screens/saleRegisterScreens/InsertIncomeEndHour'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
-import { InsertSaleDescription } from '@screens/saleRegisterScreens/InsertSaleDescription'
-import { InsertSaleEndHour } from '@screens/saleRegisterScreens/InsertSaleEndHour'
-import { InsertSaleStartHour } from '@screens/saleRegisterScreens/InsertSaleStartHour'
+import { InsertIncomeStartHour } from '@screens/saleRegisterScreens/InsertIncomeStartHour'
 import { InsertSaleValue } from '@screens/saleRegisterScreens/InsertSaleValue'
-import { SaleLocationViewPreview } from '@screens/saleRegisterScreens/SaleLocationViewPreview'
 import { SelectDeliveryMethod } from '@screens/saleRegisterScreens/SelectDeliveryMethod'
+import { SelectIncomeCategory } from '@screens/saleRegisterScreens/SelectIncomeCategory'
+import { SelectIncomeDaysOfWeek } from '@screens/saleRegisterScreens/SelectIncomeDaysOfWeek'
+import { SelectIncomeFrequency } from '@screens/saleRegisterScreens/SelectIncomeFrequency'
+import { SelectIncomeLocation } from '@screens/saleRegisterScreens/SelectIncomeLocation'
+import { SelectIncomeRange } from '@screens/saleRegisterScreens/SelectIncomeRange'
+import { SelectIncomeTags } from '@screens/saleRegisterScreens/SelectIncomeTags'
+import { SelectIncomeType } from '@screens/saleRegisterScreens/SelectIncomeType'
 import { SelectItemStatus } from '@screens/saleRegisterScreens/SelectItemStatus'
 import { SelectLocationView } from '@screens/saleRegisterScreens/SelectLocationView'
 import { SelectPaymentType } from '@screens/saleRegisterScreens/SelectPaymentType'
 import { SelectPostPicture } from '@screens/saleRegisterScreens/SelectPostPicture'
-import { SelectSaleCategory } from '@screens/saleRegisterScreens/SelectSaleCategory'
-import { SelectSaleDaysOfWeek } from '@screens/saleRegisterScreens/SelectSaleDaysOfWeek'
-import { SelectSaleFrequency } from '@screens/saleRegisterScreens/SelectSaleFrequency'
-import { SelectSaleLocation } from '@screens/saleRegisterScreens/SelectSaleLocation'
-import { SelectSaleRange } from '@screens/saleRegisterScreens/SelectSaleRange'
-import { SelectSaleTags } from '@screens/saleRegisterScreens/SelectSaleTags'
 import { SelectSaleValueType } from '@screens/saleRegisterScreens/SelectSaleValueType'
+import { InsertVacancyEndDate } from '@screens/vacancyRegisterScreens/InsertVacancyEndDate'
+import { InsertVacancyImportantPoints } from '@screens/vacancyRegisterScreens/InsertVacancyImportantPoints'
+import { InsertVacancyStartDate } from '@screens/vacancyRegisterScreens/InsertVacancyStartDate'
+import { SelectVacancyType } from '@screens/vacancyRegisterScreens/SelectVacancyType'
+import { SelectWorkplace } from '@screens/vacancyRegisterScreens/SelectWorkplace'
 
 import { IncomeStackScreenProps } from '../UserStack/screenProps'
 
@@ -45,31 +50,38 @@ export function IncomeStack({ route }: IncomeStackScreenProps) {
 			>
 				<Stack.Screen
 					name={'InsertIncomeDescription'}
-					component={InsertSaleDescription}
+					component={InsertIncomeDescription}
 					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any} // CURRENT Type
 				/>
 				<Stack.Screen name={'SelectPostPicture'} component={SelectPostPicture} />
-				<Stack.Screen name={'SelectSaleLocation'} component={SelectSaleLocation} />
+				<Stack.Screen name={'SelectIncomeLocation'} component={SelectIncomeLocation} />
+				<Stack.Screen name={'IncomePostReview'} component={IncomePostReview} />
 
 				{/* Optional */}
+				<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
+				<Stack.Screen name={'SelectIncomeCategory'} component={SelectIncomeCategory} />
 				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
-				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
-				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
+				<Stack.Screen name={'SelectIncomeTags'} component={SelectIncomeTags} />
 				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
-				<Stack.Screen name={'SelectSaleRange'} component={SelectSaleRange} />
+				<Stack.Screen name={'SelectIncomeRange'} component={SelectIncomeRange} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
-				<Stack.Screen name={'SaleLocationViewPreview'} component={SaleLocationViewPreview} />
+				<Stack.Screen name={'IncomeLocationViewPreview'} component={IncomeLocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
-				<Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
-				<Stack.Screen name={'SelectSaleDaysOfWeek'} component={SelectSaleDaysOfWeek} />
-				<Stack.Screen name={'InsertSaleStartHour'} component={InsertSaleStartHour} />
-				<Stack.Screen name={'InsertSaleEndHour'} component={InsertSaleEndHour} />
-				<Stack.Screen name={'EditSalePostReview'} component={EditSalePost} />
-				<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
+				<Stack.Screen name={'SelectIncomeFrequency'} component={SelectIncomeFrequency} />
+				<Stack.Screen name={'SelectIncomeDaysOfWeek'} component={SelectIncomeDaysOfWeek} />
+				<Stack.Screen name={'InsertIncomeStartHour'} component={InsertIncomeStartHour} />
+				<Stack.Screen name={'InsertIncomeEndHour'} component={InsertIncomeEndHour} />
+
+				{/* Vacancy */}
+				<Stack.Screen name={'InsertVacancyStartDate'} component={InsertVacancyStartDate} />
+				<Stack.Screen name={'InsertVacancyEndDate'} component={InsertVacancyEndDate} />
+				<Stack.Screen name={'InsertVacancyImportantPoints'} component={InsertVacancyImportantPoints} />
+				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
+				<Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
 			</Stack.Navigator>
 		</IncomeProvider>
 	)

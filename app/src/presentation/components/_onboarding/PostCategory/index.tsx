@@ -23,7 +23,7 @@ const { sortPostCategories } = UiPostUtils()
 
 interface PostCategoryProps {
 	backgroundColor: string
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	categories: PostCategoriesObject
 	savePostCategory: (categoryName: PostCategoriesType) => void
 	navigateBackwards: () => void
@@ -66,10 +66,12 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 					message={'a qual categoria pertence?'}
 					highlightedWords={['categoria', 'seu', 'post']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{progress && (
+						<ProgressBar
+							value={progress[0]}
+							range={progress[1]}
+						/>
+					)}
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<ScrollView style={{ backgroundColor }}>
