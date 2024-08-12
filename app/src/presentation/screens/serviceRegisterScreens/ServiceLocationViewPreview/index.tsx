@@ -53,8 +53,7 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 				params: {
 					postData: {
 						...serviceDataContext,
-						locationView,
-						deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
+						locationView
 					},
 					unsavedPost: true,
 					showPresentationModal: true

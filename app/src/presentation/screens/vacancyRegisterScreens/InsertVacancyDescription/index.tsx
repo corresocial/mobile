@@ -12,10 +12,16 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptionScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext, getAditionalDataFromLastPost } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (!route.params?.editMode) {
+			getAditionalDataFromLastPost()
+		}
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -41,7 +47,7 @@ function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptio
 			return
 		}
 
-		setVacancyDataOnContext({ description: inputText })
+		setVacancyDataOnContext({ description: inputText, ...(route.params || {}) })
 		navigation.navigate('SelectWorkplace')
 	}
 

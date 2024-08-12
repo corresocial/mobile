@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectSaleTagsScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
@@ -13,7 +13,7 @@ import { theme } from '@common/theme'
 import { PostTags } from '@components/_onboarding/PostTags'
 
 function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const getSaleCategorySelected = () => {
@@ -36,7 +36,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 			return
 		}
 
-		setSaleDataOnContext({
+		setIncomeDataOnContext({
 			tags: tagsSelected
 		})
 		navigation.navigate('InsertSaleDescription')

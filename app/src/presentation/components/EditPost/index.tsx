@@ -167,13 +167,15 @@ function EditPost({
 				createdAt,
 				postType,
 				macroCategory,
-				updatedAt: new Date(),
 				completed: false,
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
 
 			console.log('postWithUnapprovedData')
-			console.log(postWithUnapprovedData)
+			console.log(postWithUnapprovedData.macroCategory)
+
+			// CURRENT Remove
+			if (postWithUnapprovedData) return
 
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
@@ -202,7 +204,7 @@ function EditPost({
 				range,
 				initialPostData,
 				postWithUnapprovedData,
-				editDataContext.unsaved.picturesUrl || [],
+				postWithUnapprovedData.unapprovedData?.picturesUrl || [],
 				notifyUsersEnabled
 			)
 

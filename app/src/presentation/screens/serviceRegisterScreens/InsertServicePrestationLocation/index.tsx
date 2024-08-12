@@ -23,7 +23,7 @@ const { structureAddress } = UiLocationUtils()
 
 function InsertServicePrestationLocation({ route, navigation }: InsertServicePrestationLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -79,22 +79,33 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				location: {
+					locationView,
 					...completeAddress,
 					...geohashObject
 				}
 			})
-		} else {
-			setServiceDataOnContext({
-				location: {
-					...completeAddress,
-					...geohashObject
-				} as PostEntityCommonFields['location']
-			})
+			navigation.pop(2)
+			navigation.goBack()
+			return
 		}
 
-		navigation.navigate('ServiceLocationViewPreview', {
-			locationView,
-			editMode: editModeIsTrue()
+		setServiceDataOnContext({
+			location: { ...completeAddress, ...geohashObject } as PostEntityCommonFields['location']
+		})
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditServicePostReview',
+				params: {
+					postData: {
+						...serviceDataContext,
+						locationView: 'approximate'
+					},
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
 		})
 	}
 

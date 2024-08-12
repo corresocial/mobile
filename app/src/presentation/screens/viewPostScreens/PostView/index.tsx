@@ -28,6 +28,7 @@ import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
 import { Body, ButtonContainer, GroupContent, GroupInfo, Header, OptionsArea } from './styles'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -119,6 +120,15 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			const mergedPost = mergeObjects(postData, postData.unapprovedData as any)
 			setPostData(mergedPost)
 		}
+	}
+
+	// CURRENT add icon
+	const canRenderWaitingApproveIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
+
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
 	}
 
 	const canRenderUnapprovedData = () => {
@@ -391,6 +401,9 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						)}
 						onBack={() => navigation.goBack()}
 					/>
+					{/* CURRENT Add */}
+					{/* {canRenderWaitingApproveIndicator() && <ClockArrowWhiteIcon />}
+					{canRenderRejectIndicator() && <DeniedWhiteIcon />} */}
 					<VerticalSpacing />
 					<OptionsArea>
 						{
@@ -475,7 +488,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<GroupInfo>
 							<VerticalSpacing height={7} relativeDensity />
 							<HorizontalTagList
-								tags={[getPostCategory(), ...getPostField('tags', postType)]}
+								tags={[getPostCategory(), ...(getPostField('tags', postType)) || []]}
 								selectedColor={theme.colors[getRelativePostTone()][1]}
 							/>
 							<GroupContent>

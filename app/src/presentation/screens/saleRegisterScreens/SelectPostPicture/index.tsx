@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SalePicturePreviewScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectPostPictureScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
 
@@ -11,14 +12,18 @@ import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 
-function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps) {
+function SelectPostPicture({ route, navigation }: SelectPostPictureScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { setIncomeDataOnContext } = useIncomeContext()
 
 	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
-			navigation.goBack()
+			return navigation.goBack()
 		}
+
+		setIncomeDataOnContext({ picturesUrl, videosUrl })
+		navigation.navigate('SelectSaleLocation', { locationView: 'approximate' })
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -36,4 +41,4 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 	)
 }
 
-export { SalePicturePreview }
+export { SelectPostPicture }

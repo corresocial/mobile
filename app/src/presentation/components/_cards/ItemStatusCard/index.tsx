@@ -3,6 +3,7 @@ import React from 'react'
 import { ItemStatus } from '@domain/post/entity/types'
 
 import GiftWhiteIcon from '@assets/icons/gift-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import TruckWhiteIcon from '@assets/icons/truck-white.svg'
 import UserLabelWhiteIcon from '@assets/icons/usedLabel-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
@@ -11,7 +12,6 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-// import { DefaultCardContainer } from '../DefaultCardContainer'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 interface ItemStatusCardProps {
@@ -33,8 +33,12 @@ function ItemStatusCard({ title, itemStatus, onEdit }: ItemStatusCardProps) {
 		switch (itemStatus) {
 			case 'new': return showMessageWithHighlight('produto novo', ['novo'])
 			case 'used': return showMessageWithHighlight('produto usado', ['usado'])
-			default: return 'indefinido'
+			default: return ''
 		}
+	}
+
+	const getHeaderRightIcon = () => {
+		return !getRelativeItemStatus() ? PlusWhiteIcon : undefined
 	}
 
 	return (
@@ -42,17 +46,21 @@ function ItemStatusCard({ title, itemStatus, onEdit }: ItemStatusCardProps) {
 			pressionable={!!onEdit}
 			onPress={onEdit}
 		>
-			<EditHeaderContainer onPress={onEdit}>
+			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'estado do produto'}
 					highlightedWords={['estado']}
 					dimensions={40}
 				/>
 			</EditHeaderContainer>
-			<PostInfoRow
-				text={getRelativeItemStatus()}
-				SvgIcon={getRelativeItemStatusIcon()}
-			/>
+			{
+				getRelativeItemStatus() && (
+					<PostInfoRow
+						text={getRelativeItemStatus()}
+						SvgIcon={getRelativeItemStatusIcon()}
+					/>
+				)
+			}
 		</DefaultTouchableCardContainer>
 	)
 }

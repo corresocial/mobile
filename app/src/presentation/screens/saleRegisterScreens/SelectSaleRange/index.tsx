@@ -5,7 +5,7 @@ import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSaleRangeScreenProps } from '@routes/Stack/SaleStack/screenProps'
@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, incomeDataContext, setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -47,16 +47,15 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 					name: 'EditSalePostReview',
 					params: {
 						postData: {
-							...saleDataContext,
-							range: postRange,
-							deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
+							...incomeDataContext,
+							range: postRange
 						},
 						unsavedPost: true
 					}
 				}]
 			})
 		} else {
-			setSaleDataOnContext({ range: postRange })
+			setIncomeDataOnContext({ range: postRange })
 			navigation.navigate('SelectLocationView')
 		}
 	}

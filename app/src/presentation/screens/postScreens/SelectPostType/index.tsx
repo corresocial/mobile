@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { PostType } from '@domain/post/entity/types'
+
 import { usePostRepository } from '@data/post/usePostRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
@@ -27,6 +30,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
 const { localStorage } = usePostRepository()
+
+type RedirectStacks = 'IncomeStack' | 'SaleStack' | 'ServiceStack' | 'VacancyStack' | 'SocialImpactStack' | 'CultureStack'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -58,6 +63,10 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
+	const selectPostMacroCategory = (routeNavigate: RedirectStacks, postType: PostType, macroCategory: MacroCategoriesType) => {
+		navigation.navigate(routeNavigate, { postType, macroCategory } as any) // CURRENT Type
+	}
+
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
@@ -80,42 +89,111 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				>
 					<OptionButton
 						color={theme.colors.white[3]}
-						label={'renda'}
-						highlightedWords={['renda']}
-						labelSize={18}
-						relativeHeight={'20%'}
-						shortDescription={'compra e venda, serviços e vagas'}
+						label={'serviços'}
+						highlightedWords={['serviços']}
+						labelSize={12}
+						relativeHeight={'10%'}
 						SvgIcon={CashWhiteIcon}
 						svgIconScale={['80%', '80%']}
 						leftSideColor={theme.colors.green[3]}
 						leftSideWidth={'25%'}
-						onPress={() => navigation.navigate('SelectIncomeType')}
+						onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'service')}
 					/>
 					<OptionButton
 						color={theme.colors.white[3]}
-						label={'impacto social'}
-						highlightedWords={['impacto', 'social']}
-						labelSize={18}
-						relativeHeight={'20%'}
-						shortDescription={'iniciativas, doações, etc'}
-						SvgIcon={SocialImpactWhiteIcon}
+						label={'comércio'}
+						highlightedWords={['comércio']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={CashWhiteIcon}
 						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.pink[3]}
+						leftSideColor={theme.colors.green[3]}
 						leftSideWidth={'25%'}
-						onPress={() => navigation.navigate('SocialImpactStack')}
+						onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'sale')}
 					/>
 					<OptionButton
 						color={theme.colors.white[3]}
-						label={'cultura'}
-						highlightedWords={['cultura']}
-						labelSize={18}
-						relativeHeight={'20%'}
-						shortDescription={'arte, eventos e educação'}
+						label={'vagas'}
+						highlightedWords={['vagas']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={CashWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={theme.colors.green[3]}
+						leftSideWidth={'25%'}
+						onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'vacancy')}
+					/>
+					<OptionButton
+						color={theme.colors.white[3]}
+						label={'eventos'}
+						highlightedWords={['eventos']}
+						labelSize={12}
+						relativeHeight={'10%'}
 						SvgIcon={CultureWhiteIcon}
 						svgIconScale={['80%', '80%']}
 						leftSideColor={theme.colors.blue[3]}
 						leftSideWidth={'25%'}
-						onPress={() => navigation.navigate('CultureStack')}
+						onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'event')}
+					/>
+					<OptionButton
+						color={theme.colors.white[3]}
+						label={'arte'}
+						highlightedWords={['arte']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={CultureWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={theme.colors.blue[3]}
+						leftSideWidth={'25%'}
+						onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'art')}
+					/>
+					<OptionButton
+						color={theme.colors.white[3]}
+						label={'educação'}
+						highlightedWords={['educação']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={CultureWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={theme.colors.blue[3]}
+						leftSideWidth={'25%'}
+						onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'education')}
+					/>
+					<OptionButton
+						color={theme.colors.white[3]}
+						label={'Iniciativas'}
+						highlightedWords={['Iniciativas']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={SocialImpactWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={theme.colors.pink[3]}
+						leftSideWidth={'25%'}
+						onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'iniciative')}
+					/>
+					<OptionButton
+						color={theme.colors.white[3]}
+						label={'informativos'}
+						highlightedWords={['informativos']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={SocialImpactWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={theme.colors.pink[3]}
+						leftSideWidth={'25%'}
+						onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'informative')}
+					/>
+					<OptionButton
+						color={theme.colors.white[3]}
+						label={'doações'}
+						highlightedWords={['doações']}
+						labelSize={12}
+						relativeHeight={'10%'}
+						SvgIcon={SocialImpactWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={theme.colors.pink[3]}
+						leftSideWidth={'25%'}
+						onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'donation')}
 					/>
 					{
 						numberOfOfflinePostsStored ? (

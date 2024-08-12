@@ -32,23 +32,29 @@ import { SelectWorkWeekdays } from '@screens/vacancyRegisterScreens/SelectWorkWe
 import { VacancyLocationViewPreview } from '@screens/vacancyRegisterScreens/VacancyLocationViewPreview'
 import { VacancyPicturePreview } from '@screens/vacancyRegisterScreens/VacancyPicturePreview'
 
+import { VacancyStackScreenProps } from '../UserStack/screenProps'
+
 const Stack = createStackNavigator<VacancyStackParamList>()
 
-export function VacancyStack() {
+export function VacancyStack({ route }: VacancyStackScreenProps) {
 	return (
 		<VacancyProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectVacancyPurpose'}
+				initialRouteName={'InsertVacancyDescription'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen
+					name={'InsertVacancyDescription'}
+					component={InsertVacancyDescription}
+					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any}
+				/>
 				<Stack.Screen name={'SelectVacancyPurpose'} component={SelectVacancyPurpose} />
 				<Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
 				<Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
-				<Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
 				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
 				<Stack.Screen name={'VacancyPicturePreview'} component={VacancyPicturePreview} />
 				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />

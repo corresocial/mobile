@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { PostCategoriesType, SaleCategories } from '@domain/post/entity/types'
 
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectSaleCategoryScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
@@ -16,10 +16,10 @@ import { PostCategory } from '@components/_onboarding/PostCategory'
 type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps) {
-	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setIncomeDataOnContext } = useIncomeContext()
 
 	const onSelectCategory = (categoryName: SaleCategories) => {
-		setSaleDataOnContext({ category: categoryName })
+		setIncomeDataOnContext({ category: categoryName })
 		navigation.navigate('SelectSaleTags', { categorySelected: categoryName, ...route.params })
 	}
 

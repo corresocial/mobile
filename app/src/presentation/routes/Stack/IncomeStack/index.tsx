@@ -4,7 +4,7 @@ import React from 'react'
 
 import { IncomeProvider } from '@contexts/IncomeContext'
 
-import { SaleStackParamList } from './types'
+import { IncomeStackParamList } from './types'
 
 import { EditSalePost } from '@screens/editPostScreens/EditSalePost'
 import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
@@ -28,15 +28,15 @@ import { SelectSaleRange } from '@screens/saleRegisterScreens/SelectSaleRange'
 import { SelectSaleTags } from '@screens/saleRegisterScreens/SelectSaleTags'
 import { SelectSaleValueType } from '@screens/saleRegisterScreens/SelectSaleValueType'
 
-import { SaleStackScreenProps } from '../UserStack/screenProps'
+import { IncomeStackScreenProps } from '../UserStack/screenProps'
 
-const Stack = createStackNavigator<SaleStackParamList>()
+const Stack = createStackNavigator<IncomeStackParamList>()
 
-export function SaleStack({ route }: SaleStackScreenProps) {
+export function IncomeStack({ route }: IncomeStackScreenProps) {
 	return (
 		<IncomeProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertSaleDescription'}
+				initialRouteName={'InsertIncomeDescription'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -44,22 +44,24 @@ export function SaleStack({ route }: SaleStackScreenProps) {
 				}}
 			>
 				<Stack.Screen
-					name={'InsertSaleDescription'}
-					component={InsertSaleDescription as any}
+					name={'InsertIncomeDescription'}
+					component={InsertSaleDescription}
 					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any} // CURRENT Type
 				/>
+				<Stack.Screen name={'SelectPostPicture'} component={SelectPostPicture} />
+				<Stack.Screen name={'SelectSaleLocation'} component={SelectSaleLocation} />
+
+				{/* Optional */}
 				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
 				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
 				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
 				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
-				<Stack.Screen name={'SelectPostPicture'} component={SelectPostPicture} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
 				<Stack.Screen name={'SelectSaleRange'} component={SelectSaleRange} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
-				<Stack.Screen name={'SelectSaleLocation'} component={SelectSaleLocation} />
 				<Stack.Screen name={'SaleLocationViewPreview'} component={SaleLocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
@@ -67,7 +69,6 @@ export function SaleStack({ route }: SaleStackScreenProps) {
 				<Stack.Screen name={'InsertSaleStartHour'} component={InsertSaleStartHour} />
 				<Stack.Screen name={'InsertSaleEndHour'} component={InsertSaleEndHour} />
 				<Stack.Screen name={'EditSalePostReview'} component={EditSalePost} />
-
 				<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 			</Stack.Navigator>
 		</IncomeProvider>

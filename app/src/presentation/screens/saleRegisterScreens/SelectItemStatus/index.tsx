@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { ItemStatus } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectItemStatusScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
@@ -15,7 +15,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
-	const { isSecondPost, setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
+	const { isSecondPost, getAditionalDataFromLastPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
@@ -30,11 +30,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ itemStatus })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ itemStatus })
-		navigation.navigate('SelectSalePurpose')
 	}
 
 	return (

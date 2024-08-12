@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { platformIsIOS, relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.SafeAreaView<SafeAreaViewProps>`
     flex: 1;
@@ -9,7 +9,8 @@ export const Container = styled.SafeAreaView<SafeAreaViewProps>`
 
 export const SubscriptionButtonContainer = styled.View`
 	background-color: ${({ theme }) => theme.colors.orange[2]};
-	padding: ${relativeScreenDensity(25)}px;
+	padding: ${relativeScreenDensity(15)}px;
+	padding-bottom: ${platformIsIOS ? relativeScreenDensity(25) : relativeScreenDensity(15)}px;
 	align-items: center;
 	justify-content: center;
 `

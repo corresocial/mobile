@@ -2,13 +2,13 @@ import { ReactNode } from 'react'
 
 import { IncomeEntity, IncomeEntityOptional } from '@domain/post/entity/types'
 
-export interface SaleProviderProps {
+export interface IncomeProviderProps {
 	children: ReactNode
 }
 
-export type SaleContextType = {
+export type IncomeContextType = {
 	isSecondPost: boolean
-	saleDataContext: IncomeEntity
-	setSaleDataOnContext: (data: IncomeEntityOptional) => void
+	incomeDataContext: IncomeEntity
+	setIncomeDataOnContext: (data: IncomeEntityOptional) => void
 	getAditionalDataFromLastPost: () => void
 }

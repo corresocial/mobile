@@ -43,7 +43,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 			return
 		}
 
-		setServiceDataOnContext({ description: inputText })
+		setServiceDataOnContext({ description: inputText, ...(route.params || {}) })
 		navigation.navigate('SelectServiceRange')
 	}
 

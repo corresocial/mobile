@@ -22,6 +22,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
 
 	const setServiceDataOnContext = async (data: IncomeEntityOptional) => {
+		console.log({ ...data }) // CURRENT remove
 		const customData: IncomeEntityOptional = { macroCategory: 'service', ...data } // Solução temporária para o problema de definir macro categorias de vendas, serviços e vagas
 		setServiceDataContext({ ...serviceDataContext, ...customData })
 	}

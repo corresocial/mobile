@@ -48,8 +48,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 					params: {
 						postData: {
 							...serviceDataContext,
-							range: postRange,
-							deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
+							range: postRange
 						},
 						unsavedPost: true
 					}

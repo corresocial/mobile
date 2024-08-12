@@ -41,7 +41,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 			return
 		}
 
-		setCultureDataOnContext({ description: inputText })
+		setCultureDataOnContext({ description: inputText, ...(route.params || {}) })
 		navigation.navigate('SelectCultureRange')
 	}
 

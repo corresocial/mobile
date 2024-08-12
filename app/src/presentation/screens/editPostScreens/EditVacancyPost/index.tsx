@@ -168,8 +168,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		setCurrentPostDataOnContext({
 			...postData,
 			...editDataContext.unsaved,
-			postType: 'income',
-			macroCategory: 'vacancy',
 			createdAt: new Date(),
 			owner: {
 				userId: userDataContext.userId,
@@ -206,7 +204,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'income', macroCategory: 'vacancy' }}
+				initialPostData={{ ...postData }}
 				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.colors.green[2]}

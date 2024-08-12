@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { DeliveryMethod } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectDeliveryMethodScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
@@ -13,7 +13,7 @@ import { theme } from '@common/theme'
 import { PostDeliveryMethod } from '@components/_onboarding/PostDeliveryMethod'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -25,7 +25,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 			return
 		}
 
-		setSaleDataOnContext({ deliveryMethod })
+		setIncomeDataOnContext({ deliveryMethod })
 		navigation.navigate('SelectSaleFrequency')
 	}
 

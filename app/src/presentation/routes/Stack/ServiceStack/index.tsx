@@ -22,29 +22,33 @@ import { SelectSaleValueType } from '@screens/serviceRegisterScreens/SelectSaleV
 import { SelectServiceCategory } from '@screens/serviceRegisterScreens/SelectServiceCategory'
 import { SelectServiceDaysOfWeek } from '@screens/serviceRegisterScreens/SelectServiceDaysOfWeek'
 import { SelectServiceFrequency } from '@screens/serviceRegisterScreens/SelectServiceFrequency'
-import { SelectServicePurpose } from '@screens/serviceRegisterScreens/SelectServicePurpose'
 import { SelectServiceRange } from '@screens/serviceRegisterScreens/SelectServiceRange'
 import { SelectServiceTags } from '@screens/serviceRegisterScreens/SelectServiceTags'
 import { ServiceLocationViewPreview } from '@screens/serviceRegisterScreens/ServiceLocationViewPreview'
 import { ServicePicturePreview } from '@screens/serviceRegisterScreens/ServicePicturePreview'
 
+import { ServiceStackScreenProps } from '../UserStack/screenProps'
+
 const Stack = createStackNavigator<ServiceStackParamList>()
 
-export function ServiceStack() {
+export function ServiceStack({ route }: ServiceStackScreenProps) {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectServicePurpose'}
+				initialRouteName={'InsertServiceDescription'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
-				<Stack.Screen name={'SelectServicePurpose'} component={SelectServicePurpose} />
+				<Stack.Screen
+					name={'InsertServiceDescription'}
+					component={InsertServiceDescription}
+					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any}
+				/>
 				<Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
-				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
 				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />

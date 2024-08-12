@@ -41,7 +41,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 			return
 		}
 
-		setSocialImpactDataOnContext({ description: inputText })
+		setSocialImpactDataOnContext({ description: inputText, ...(route.params || {}) })
 		navigation.navigate('SelectSocialImpactRange')
 	}
 

@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { LocationViewType } from '@domain/post/entity/types'
 
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectLocationViewScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
@@ -12,16 +12,16 @@ import { theme } from '@common/theme'
 import { PostLocationView } from '@components/_onboarding/PostLocationView'
 
 function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setIncomeDataOnContext } = useIncomeContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		if (editModeIsTrue()) {
-			setSaleDataOnContext({ range: route.params?.initialValue?.postRange })
+			setIncomeDataOnContext({ range: route.params?.initialValue?.postRange })
 		}
 
-		navigation.navigate('InsertSaleLocation', {
+		navigation.navigate('SelectSaleLocation', {
 			locationView: locationViewType,
 			editMode: editModeIsTrue(),
 			initialValue: route.params?.initialValue?.coordinates

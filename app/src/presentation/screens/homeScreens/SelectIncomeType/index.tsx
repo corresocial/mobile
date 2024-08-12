@@ -17,7 +17,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
-
+	// CURRENT delete
 	const saveIncomeType = (routeNavigate: 'SaleStack' | 'ServiceStack' | 'VacancyStack', macroCategory: MacroCategoriesType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ macroCategory })

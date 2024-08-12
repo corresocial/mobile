@@ -5,9 +5,9 @@ import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { InsertSaleLocationScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { SelectSaleLocationScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -22,9 +22,9 @@ const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 
 const { structureAddress } = UiLocationUtils()
 
-function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
+function SelectSaleLocation({ route, navigation }: SelectSaleLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { incomeDataContext, setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -79,23 +79,40 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
+				locationView,
 				location: {
 					...completeAddress,
 					...geohashObject
 				}
 			})
-		} else {
-			setSaleDataOnContext({
-				location: {
-					...completeAddress,
-					...geohashObject
-				} as PostEntityCommonFields['location']
-			})
+			return navigation.pop(2)
 		}
 
-		navigation.navigate('SaleLocationViewPreview', {
+		setIncomeDataOnContext({
 			locationView,
-			editMode: !!route.params?.editMode
+			location: { ...completeAddress, ...geohashObject } as PostEntityCommonFields['location']
+		})
+
+		console.log(incomeDataContext.macroCategory)
+		console.log('saiuda location')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSalePostReview',
+				params: {
+					postData: {
+						...incomeDataContext,
+						locationView,
+						location: {
+							...completeAddress,
+							...geohashObject
+						} as PostEntityCommonFields['location']
+					},
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
 		})
 	}
 
@@ -126,4 +143,4 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 	)
 }
 
-export { InsertSaleLocation }
+export { SelectSaleLocation }

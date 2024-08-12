@@ -27,24 +27,30 @@ import { SelectSocialImpactType } from '@screens/socialImpactRegisterScreens/Sel
 import { SocialImpactLocationViewPreview } from '@screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
 import { SocialImpactPicturePreview } from '@screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
 
+import { SocialImpactStackScreenProps } from '../UserStack/screenProps'
+
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
-export function SocialImpactStack() {
+export function SocialImpactStack({ route }: SocialImpactStackScreenProps) {
 	return (
 		<SocialImpactProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectSocialImpactType'}
+				initialRouteName={'InsertSocialImpactDescription'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen
+					name={'InsertSocialImpactDescription'}
+					component={InsertSocialImpactDescription}
+					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any}
+				/>
 				<Stack.Screen name={'SelectSocialImpactType'} component={SelectSocialImpactType} />
 				<Stack.Screen name={'SelectSocialImpactPurpose'} component={SelectSocialImpactPurpose} />
 				<Stack.Screen name={'SelectSocialImpactCategory'} component={SelectSocialImpactCategory} />
 				<Stack.Screen name={'SelectSocialImpactTags'} component={SelectSocialImpactTags} />
-				<Stack.Screen name={'InsertSocialImpactDescription'} component={InsertSocialImpactDescription} />
 				<Stack.Screen name={'InsertSocialImpactLinks'} component={InsertSocialImpactLinks} />
 				<Stack.Screen name={'SocialImpactPicturePreview'} component={SocialImpactPicturePreview} />
 				<Stack.Screen name={'SelectSocialImpactRange'} component={SelectSocialImpactRange} />

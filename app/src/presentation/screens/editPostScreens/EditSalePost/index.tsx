@@ -79,7 +79,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const formatCategoryAndTags = () => {
 		const category: SaleCategories = getPostField('category')
 		const tags = getPostField('tags')
-
+		if (!category || !tags) return ''
 		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
@@ -161,8 +161,6 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		setCurrentPostDataOnContext({
 			...postData,
 			...editDataContext.unsaved,
-			postType: 'income',
-			macroCategory: 'sale',
 			createdAt: new Date(),
 			owner: {
 				userId: userDataContext.userId,
@@ -184,6 +182,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext
 	}
 
+	console.log(postData.postType)
+	console.log(postData.macroCategory)
+
 	return (
 		<>
 			<LocationChangeConfirmationModal
@@ -198,7 +199,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				onPressButton={togglePostReviewPresentationModalVisibility}
 			/>
 			<EditPost
-				initialPostData={{ ...postData, postType: 'income', macroCategory: 'sale' }}
+				initialPostData={{ ...postData }}
 				approvedPostData={route.params.approvedPostData || {}}
 				owner={owner}
 				backgroundColor={theme.colors.green[2]}
@@ -232,7 +233,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					indicatorColor={theme.colors.green[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
-					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
+					onEdit={() => navigateToEditScreen('SelectPostPicture', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
 				<LinkCard
@@ -243,7 +244,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
+					value={formatCategoryAndTags() || ''}
 					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
 				/>
 				<VerticalSpacing />
@@ -275,6 +276,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					deliveryMethod={getPostField('deliveryMethod')}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
+
 				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
@@ -283,6 +285,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
+
 				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}

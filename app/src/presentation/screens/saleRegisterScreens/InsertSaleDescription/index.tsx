@@ -1,21 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useEditContext } from '@contexts/EditContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { InsertSaleDescriptionScreenProps } from '@routes/Stack/SaleStack/screenProps'
+import { InsertIncomeDescriptionScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScreenProps) {
-	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+function InsertSaleDescription({ route, navigation }: InsertIncomeDescriptionScreenProps) {
+	const { isSecondPost, setIncomeDataOnContext, getAditionalDataFromLastPost } = useIncomeContext()
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (!route.params?.editMode) {
+			getAditionalDataFromLastPost()
+		}
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -41,8 +47,8 @@ function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScree
 			return
 		}
 
-		setSaleDataOnContext({ description: inputText })
-		navigation.navigate('SelectSaleRange')
+		setIncomeDataOnContext({ description: inputText, ...(route.params || {}) })
+		navigation.navigate('SelectPostPicture')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

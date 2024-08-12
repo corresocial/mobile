@@ -28,24 +28,30 @@ import { SelectCultureType } from '@screens/cultureRegisterScreens/SelectCulture
 import { SelectEventRepeat } from '@screens/cultureRegisterScreens/SelectEventRepeat'
 import { EditCulturePost } from '@screens/editPostScreens/EditCulturePost'
 
+import { CultureStackScreenProps } from '../UserStack/screenProps'
+
 const Stack = createStackNavigator<CultureStackParamList>()
 
-export function CultureStack() {
+export function CultureStack({ route }: CultureStackScreenProps) {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureType'}
+				initialRouteName={'InsertCultureDescription'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen
+					name={'InsertCultureDescription'}
+					component={InsertCultureDescription}
+					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any}
+				/>
 				<Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
 				<Stack.Screen name={'SelectCulturePurpose'} component={SelectCulturePurpose} />
 				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
-				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
 				<Stack.Screen name={'InsertCultureLinks'} component={InsertCultureLinks} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />

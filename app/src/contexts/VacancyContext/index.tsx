@@ -22,6 +22,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
 	const setVacancyDataOnContext = async (data: VacancyEntityOptional) => {
+		console.log({ ...data }) // CURRENT remove
 		const customData: VacancyEntityOptional = { macroCategory: 'vacancy', ...data } // Solução temporária para o problema de definir macro categorias de vendas, serviços e vagas
 		setVacancyDataContext({ ...vacancyDataContext, ...customData })
 	}

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { SaleContext } from '@contexts/SaleContext'
+import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SaleLocationViewPreviewScreenProps } from '@routes/Stack/SaleStack/screenProps'
 
@@ -16,11 +16,11 @@ const defaultDeltaCoordinates = {
 }
 
 function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewScreenProps) {
-	const { saleDataContext } = useContext(SaleContext)
+	const { incomeDataContext } = useIncomeContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
-	const { range: postRange } = saleDataContext
+	const { range: postRange } = incomeDataContext
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -33,7 +33,7 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 		}
 
 		return {
-			...saleDataContext?.location?.coordinates,
+			...incomeDataContext?.location?.coordinates,
 			...defaultDeltaCoordinates
 		}
 	}
@@ -52,9 +52,8 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 				name: 'EditSalePostReview',
 				params: {
 					postData: {
-						...saleDataContext,
-						locationView,
-						deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
+						...incomeDataContext,
+						locationView
 					},
 					unsavedPost: true,
 					showPresentationModal: true
@@ -65,7 +64,7 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 
 	const getPostRange = () => {
 		if (editModeIsTrue()) {
-			return saleDataContext.range || 'near'
+			return incomeDataContext.range || 'near'
 		}
 
 		return postRange || 'near'
@@ -74,7 +73,7 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 	const getPlaceName = () => {
 		switch (getPostRange()) {
 			case 'near': return 'near'
-			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : saleDataContext.location?.city
+			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : incomeDataContext.location?.city
 			case 'country': return 'Brasil'
 			default: return ''
 		}
