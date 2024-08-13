@@ -171,10 +171,6 @@ function EditPost({
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
 
-			console.log('postWithUnapprovedData')
-			console.log(postWithUnapprovedData)
-			console.log(postWithUnapprovedData.macroCategory)
-
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
 				navigateToProfile && navigateToProfile()
