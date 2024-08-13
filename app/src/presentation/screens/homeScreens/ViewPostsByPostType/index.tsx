@@ -202,7 +202,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
-		navigation.navigate('PostCategories')
+		navigation.navigate('ViewPostsByMacroCategory')
 	}
 
 	return (

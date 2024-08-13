@@ -7,21 +7,14 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
-
-	PostViewHome: { postData: PostEntity, redirectedPostId: string }
-
-	PostCategories: undefined | { postType: PostType, macroCategory: MacroCategoriesType }
-
-	ViewPostsByPostType: { postType: PostType }
-	PostCategoryDetails: undefined
-	ViewAllCategories: undefined
-	ViewAllTags: undefined
-	ViewPostsByTag: { currentTagSelected: string }
 	ViewPostsByRange: { postsByRange: PostEntity[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean, collapseExternalVacancies?: boolean }
-	SearchResult: { searchParams: Partial<FeedSearchParams>, categoryLabel?: string, searchByRange?: boolean }
+	ViewPostsByPostType: { postType: PostType }
+	ViewPostsByMacroCategory: undefined | { postType: PostType, macroCategory: MacroCategoriesType }
 	EventsCalendar: undefined
+	SearchResult: { searchParams: Partial<FeedSearchParams>, categoryLabel?: string, searchByRange?: boolean }
 
 	ProfileHome: { userId: string, stackLabel?: string }
+	PostViewHome: { postData: PostEntity, redirectedPostId: string }
 	SocialMediaManagementHome: { socialMedias?: SocialMedia[], isAuthor?: boolean }
 
 	PublicServicesStack: undefined

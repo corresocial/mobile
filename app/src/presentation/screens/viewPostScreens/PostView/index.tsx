@@ -333,16 +333,13 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
 
 		setIsLoadingMore(false)
-		switch (postData.macroCategory) {
-			case 'event': return navigation.navigate('EventsCalendar')
-			case 'art': return navigation.navigate('PostCategories')
-			case 'donation': return navigation.navigate('PostCategories')
-			case 'education': return navigation.navigate('PostCategories')
-			case 'informative': return navigation.navigate('PostCategories')
-			case 'iniciative': return navigation.navigate('PostCategories')
-			case 'sale': return navigation.navigate('PostCategories')
-			case 'service': return navigation.navigate('PostCategories')
-			case 'vacancy': return navigation.navigate('PostCategories')
+		if (postData.macroCategory === 'event') {
+			return navigation.navigate('EventsCalendar')
+		}
+
+		const commomRedirect = ['art', 'donation', 'education', 'informative', 'iniciative', 'sale', 'service', 'vacancy']
+		if (commomRedirect.includes(postData.macroCategory)) {
+			return navigation.navigate('ViewPostsByMacroCategory')
 		}
 	}
 

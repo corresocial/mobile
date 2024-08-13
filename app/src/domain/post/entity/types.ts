@@ -1,6 +1,3 @@
-import React from 'react'
-import { SvgProps } from 'react-native-svg'
-
 import { UserOwner } from '@domain/user/entity/types'
 
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
@@ -18,13 +15,6 @@ export type SocialImpactCategories = keyof typeof socialImpactCategories
 export type PostCategoriesType = SaleCategories | ServiceCategories | VacancyCategories | CultureCategories | SocialImpactCategories
 
 export type PostCategoriesObject = typeof saleCategories | typeof serviceCategories | typeof vacancyCategories | typeof cultureCategories | typeof socialImpactCategories
-
-export type MacroCategory = {
-	label: string
-	value: string
-	SvgIcon: React.FC<SvgProps>
-	tags: string[]
-}
 
 export type Id = string
 

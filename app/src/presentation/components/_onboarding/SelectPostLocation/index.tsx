@@ -204,7 +204,7 @@ function SelectPostLocation({
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={customTitle || 'qual é o endereço?'}
-					highlightedWords={customTitleHighligh || ['endereço']}
+					highlightedWords={customTitleHighligh || ['endereço?']}
 					fontSize={16}
 				>
 					{

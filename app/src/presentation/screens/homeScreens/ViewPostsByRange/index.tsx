@@ -48,7 +48,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 		const vacancyPost = paramsPosts.find((item) => item.macroCategory === 'vacancy' && item.externalPostId)
 		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
-			posts.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
+			posts.unshift({ ...vacancyPost, action: () => navigate('ViewPostsByMacroCategory', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
 			return posts
 		}
 
