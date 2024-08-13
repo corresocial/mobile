@@ -25,6 +25,11 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 		}
 	}
 
+	const skipScreen = () => {
+		addNewUnsavedFieldToEditContext({ category: '', tags: [] })
+		return navigation.goBack()
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
@@ -32,6 +37,7 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 				backgroundColor={theme.colors.pink[2]}
 				categories={socialImpactCategories}
 				navigateBackwards={() => navigation.goBack()}
+				skipScreen={skipScreen}
 				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>

@@ -21,6 +21,8 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 		getAditionalDataFromLastPost()
 	}, [])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			removeAllKeyboardEventListeners()
@@ -48,8 +50,6 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 		setCultureDataOnContext({ description: inputText, ...(route.params || {}) })
 		navigation.navigate('SelectCulturePostMedia')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

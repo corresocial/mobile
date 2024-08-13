@@ -22,18 +22,14 @@ function SelectIncomeCategory({ route, navigation }: SelectIncomeCategoryScreenP
 
 	const onSelectCategory = (categoryName: SaleCategories) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ category: categoryName })
-			navigation.navigate('SelectIncomeTags', { categorySelected: categoryName, ...route.params })
+			return navigation.navigate('SelectIncomeTags', { categorySelected: categoryName, ...route.params })
 		}
 	}
 
-	/* const skipScreen = () => { // CURRENT add skip
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
-			navigation.goBack()
-			navigation.goBack()
-		}
-	} */
+	const skipScreen = () => {
+		addNewUnsavedFieldToEditContext({ category: '', tags: [] })
+		return navigation.goBack()
+	}
 
 	return (
 		<>
@@ -42,6 +38,7 @@ function SelectIncomeCategory({ route, navigation }: SelectIncomeCategoryScreenP
 				backgroundColor={theme.colors.green[2]}
 				categories={saleCategories}
 				navigateBackwards={() => navigation.goBack()}
+				skipScreen={skipScreen}
 				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>

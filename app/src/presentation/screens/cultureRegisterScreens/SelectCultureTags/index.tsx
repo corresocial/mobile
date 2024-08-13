@@ -14,6 +14,8 @@ import { PostTags } from '@components/_onboarding/PostTags'
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const getCultureCategorySelected = () => {
 		const { categorySelected } = route.params
 		return categorySelected
@@ -25,13 +27,11 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 
 	const saveTags = (tagsSelected: string[]) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ tags: tagsSelected })
+			addNewUnsavedFieldToEditContext({ category: getCultureCategorySelected(), tags: tagsSelected })
 			navigation.goBack()
 			return navigation.goBack()
 		}
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

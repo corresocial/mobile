@@ -175,9 +175,6 @@ function EditPost({
 			console.log(postWithUnapprovedData)
 			console.log(postWithUnapprovedData.macroCategory)
 
-			// CURRENT Remove
-			if (postWithUnapprovedData) return
-
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
 				navigateToProfile && navigateToProfile()
