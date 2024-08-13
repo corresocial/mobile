@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { CultureCategories, CultureEntityOptional, CultureEntity, EventRepeatType, PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
+import { CultureCategories, CultureEntityOptional, CultureEntity, PostEntityOptional, PostEntityCommonFields } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -16,8 +16,6 @@ import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
-import RecycleWhiteIcon from '@assets/icons/recycle-white.svg'
-import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
 import { CultureTypeCard } from '@components/_cards/CultureTypeCard'
