@@ -200,7 +200,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			}
 			case 'socialImpact': {
 				return navigation.navigate('SocialImpactStack' as any, {
-					screen: 'EditSocialImpactPostReview' as keyof CultureStackParamList,
+					screen: 'SocialImpactPostReview' as keyof CultureStackParamList,
 					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 				})
 			}

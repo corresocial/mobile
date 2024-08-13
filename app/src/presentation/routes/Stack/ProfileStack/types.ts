@@ -12,7 +12,7 @@ export type ProfileStackParamList = {
 	SearchProfile: { verifiedLabel: VerifiedLabelName, profileId: string } | undefined
 
 	IncomePostReview: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditSocialImpactPost: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	SocialImpactPostReview: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 	CulturePostReview: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
 	EditProfile: { user: UserEntity }

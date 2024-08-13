@@ -57,7 +57,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 		navigation.reset({
 			index: 0,
 			routes: [{
-				name: 'EditSocialImpactPostReview',
+				name: 'SocialImpactPostReview',
 				params: {
 					postData: {
 						...socialImpactDataContext,

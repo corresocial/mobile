@@ -57,4 +57,6 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	)
 }
 
-export { SocialImpactProvider, SocialImpactContext }
+const useSocialImpactContext = () => useContext(SocialImpactContext)
+
+export { SocialImpactProvider, SocialImpactContext, useSocialImpactContext } // CURRENT Remove

@@ -12,10 +12,14 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		getAditionalDataFromLastPost()
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -42,7 +46,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 		}
 
 		setSocialImpactDataOnContext({ description: inputText, ...(route.params || {}) })
-		navigation.navigate('SelectSocialImpactRange')
+		navigation.navigate('SelectSocialImpactPostMedia')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { EventRepeatType, PostEntityOptional, PostEntityCommonFields, SocialImpactCategories, SocialImpactEntityOptional, SocialImpactEntity } from '@domain/post/entity/types'
+import { PostEntityOptional, PostEntityCommonFields, SocialImpactEntityOptional, SocialImpactEntity, PostCategoriesType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
+import { SocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -16,8 +16,6 @@ import { socialImpactCategories } from '@utils/postsCategories/socialImpactCateg
 
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
-import RecycleWhiteIcon from '@assets/icons/recycle-white.svg'
-import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
 import { DateTimeCard } from '@components/_cards/DateTimeCard'
@@ -36,7 +34,7 @@ import { EditPost } from '@components/EditPost'
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()
 
-function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
+function SocialImpactPostReview({ route, navigation }: SocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
@@ -77,13 +75,20 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const formatCategoryAndTags = () => {
-		const category: SocialImpactCategories = getPostField('category')
+		const category: PostCategoriesType = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${socialImpactCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
+		if (!category || !tags) return ''
+		try {
+			const categoryAndTagsText = `	●  ${((socialImpactCategories as any)[category] || { label: '' }).label}\n	●  ${(tags || []).map((tag: string) => ` #${tag}`)}`
+			return categoryAndTagsText
+		} catch (err) {
+			console.log(err)
+			return ''
+		}
 	}
 
-	const renderSocialImpactRepeat = () => {
+	/* const renderSocialImpactRepeat = () => { // REFACTOR transformar em utilitário?
 		const repeat = getPostField('repeat', true) as EventRepeatType
 		switch (repeat) {
 			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
@@ -93,7 +98,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 			case 'monthly': return showMessageWithHighlight('1 vez no mês', ['1', 'mês'])
 			default: return '---'
 		}
-	}
+	} */
 
 	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
@@ -234,7 +239,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					indicatorColor={theme.colors.pink[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
-					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactPostMedia', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
 				<LinkCard
@@ -275,14 +280,14 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					onEdit={() => navigateToEditScreen('SelectSocialImpactFrequency', 'daysOfWeek')}
 				/>
 				<VerticalSpacing />
-				<EditCard
+				{/* <EditCard
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					SecondSvgIcon={RecycleWhiteIcon}
 					value={renderSocialImpactRepeat()}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
 				/>
-				<VerticalSpacing />
+				<VerticalSpacing /> */}
 				<EditCard
 					title={'que dia começa'}
 					highlightedWords={['começa']}
@@ -324,4 +329,4 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	)
 }
 
-export { EditSocialImpactPost }
+export { SocialImpactPostReview }

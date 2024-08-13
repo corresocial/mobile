@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
+import { Coordinates } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { InsertSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
+import { SelectSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -21,9 +21,9 @@ import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
-function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLocationScreenProps) {
+function SelectSocialImpactLocation({ route, navigation }: SelectSocialImpactLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -76,26 +76,40 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({
-				location: {
-					...completeAddress,
-					...geohashObject
-				}
-			})
-		} else {
-			setSocialImpactDataOnContext({
-				location: {
-					...completeAddress,
-					...geohashObject
-				} as PostEntityCommonFields['location']
-			})
+		const locationProperties = {
+			locationView,
+			range: socialImpactDataContext.range || userDataContext.subscription?.subscriptionRange || 'near',
+			location: {
+				...completeAddress,
+				...geohashObject
+			}
 		}
 
-		navigation.navigate('SocialImpactLocationViewPreview', {
-			locationView,
-			editMode: !!route.params?.editMode
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ ...locationProperties })
+			return navigation.pop(2)
+		}
+
+		setSocialImpactDataOnContext({ ...locationProperties })
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'SocialImpactPostReview',
+				params: {
+					postData: { ...socialImpactDataContext, ...locationProperties },
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
 		})
+	}
+
+	const getInitialMapViewPosition = () => {
+		if (socialImpactDataContext.location) {
+			return socialImpactDataContext.location.coordinates
+		}
+		return editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }
 	}
 
 	return (
@@ -112,7 +126,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 			<SelectPostLocation
 				backgroundColor={theme.colors.pink[2]}
 				validationColor={theme.colors.pink[1]}
-				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
+				initialValue={getInitialMapViewPosition()}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>
@@ -120,4 +134,4 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 	)
 }
 
-export { InsertSocialImpactLocation }
+export { SelectSocialImpactLocation }

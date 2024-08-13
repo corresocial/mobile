@@ -160,11 +160,11 @@ function EditPost({
 			if (offlinePost && !hasValidConnection) return
 
 			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved, completed: false } as PostEntity
-			const { createdAt, postType, macroCategory, ...unapprovedData } = postDataToSave
+			const { postType, macroCategory, ...unapprovedData } = postDataToSave
 			const postWithUnapprovedData = {
 				...approvedPostData,
 				owner,
-				createdAt,
+				createdAt: new Date(),
 				postType,
 				macroCategory,
 				completed: false,

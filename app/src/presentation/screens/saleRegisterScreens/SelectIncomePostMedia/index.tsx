@@ -16,6 +16,8 @@ function SelectIncomePostMedia({ route, navigation }: SelectIncomePostMediaScree
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { setIncomeDataOnContext } = useIncomeContext()
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
@@ -25,8 +27,6 @@ function SelectIncomePostMedia({ route, navigation }: SelectIncomePostMediaScree
 		setIncomeDataOnContext({ picturesUrl, videosUrl })
 		navigation.navigate('SelectIncomeLocation', { locationView: 'approximate' })
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

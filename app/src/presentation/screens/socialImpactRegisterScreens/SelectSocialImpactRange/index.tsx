@@ -42,7 +42,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			navigation.reset({
 				index: 0,
 				routes: [{
-					name: 'EditSocialImpactPostReview',
+					name: 'SocialImpactPostReview',
 					params: {
 						postData: {
 							...socialImpactDataContext,

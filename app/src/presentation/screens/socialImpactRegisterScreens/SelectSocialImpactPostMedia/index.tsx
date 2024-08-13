@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
+import { useSocialImpactContext } from '@contexts/SocialImpactContext'
 
-import { SocialImpactPicturePreviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
+import { SelectSocialImpactPostMediaScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
 
@@ -11,16 +12,20 @@ import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 
-function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePreviewScreenProps) {
+function SelectSocialImpactPostMedia({ route, navigation }: SelectSocialImpactPostMediaScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { setSocialImpactDataOnContext } = useSocialImpactContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
-			navigation.goBack()
+			return navigation.goBack()
 		}
+
+		setSocialImpactDataOnContext({ picturesUrl, videosUrl })
+		navigation.navigate('SelectSocialImpactLocation', { locationView: 'approximate' })
 	}
 
 	return (
@@ -36,4 +41,4 @@ function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePr
 	)
 }
 
-export { SocialImpactPicturePreview }
+export { SelectSocialImpactPostMedia }

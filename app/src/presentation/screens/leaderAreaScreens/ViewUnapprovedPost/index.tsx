@@ -46,7 +46,6 @@ import { PlaceModality } from '@components/_cards/PlaceModalityCard'
 import { PostRangeCard } from '@components/_cards/PostRangeCard'
 import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
 import { SocialImpactTypeCard } from '@components/_cards/SocialImpactType'
-import { VacancyPurposeCard } from '@components/_cards/VacancyPurposeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { RejectConfirmationModal } from '@components/_modals/RejectConfirmationModal'
@@ -364,13 +363,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						getPostField('itemStatus') && (
 							<ItemStatusCard
 								itemStatus={getPostField('itemStatus')}
-							/>
-						)
-					}
-					{
-						getPostField('vacancyPurpose' as any) && getPostField('macroCategory') === 'vacancy' && (
-							<VacancyPurposeCard
-								vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
 							/>
 						)
 					}

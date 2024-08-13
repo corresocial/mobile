@@ -7,7 +7,7 @@ export type PostViewProfileScreenProps = NativeStackScreenProps<ProfileStackPara
 export type ProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'Profile'>
 
 export type IncomePostReviewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'IncomePostReview'>
-export type EditSocialImpactPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditSocialImpactPost'>
+export type SocialImpactPostReviewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'SocialImpactPostReview'>
 export type CulturePostReviewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'CulturePostReview'>
 
 export type EditProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditProfile'>
