@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { WorkplaceType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectWorkplaceScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
@@ -15,7 +14,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
-	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
@@ -33,7 +31,6 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 			highlightedWords={['local,', 'de', 'trabalho']}
 			headerBackgroundColor={theme.colors.green[2]}
 			backgroundColor={theme.colors.white[3]}
-			progress={[4, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
-	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useCultureContext()
+	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -59,7 +59,6 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 				backgroundColor={theme.colors.blue[2]}
 				validationColor={theme.colors.blue[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureTitle}
 				navigateBackwards={() => navigation.goBack()}

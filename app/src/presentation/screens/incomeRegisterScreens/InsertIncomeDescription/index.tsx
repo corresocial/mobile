@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionScreenProps) {
-	const { isSecondPost, setIncomeDataOnContext, getAditionalDataFromLastPost } = useIncomeContext()
+	const { setIncomeDataOnContext, getAditionalDataFromLastPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -61,7 +61,6 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 				backgroundColor={theme.colors.green[2]}
 				validationColor={theme.colors.green[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, isSecondPost ? 5 : 6]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleDescription}
 				navigateBackwards={() => navigation.goBack()}

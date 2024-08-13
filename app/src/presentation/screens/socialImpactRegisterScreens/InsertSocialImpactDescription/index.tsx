@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
+	const { setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -59,7 +59,6 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 				validationColor={theme.colors.pink[1]}
 				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, isSecondPost ? 5 : 6]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactTitle}
 				navigateBackwards={() => navigation.goBack()}

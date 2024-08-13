@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { ItemStatus } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectItemStatusScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
@@ -15,7 +14,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
-	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -33,7 +31,6 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 			highlightedWords={['novo', 'usado']}
 			headerBackgroundColor={theme.colors.green[2]}
 			backgroundColor={theme.colors.white[3]}
-			progress={[1, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

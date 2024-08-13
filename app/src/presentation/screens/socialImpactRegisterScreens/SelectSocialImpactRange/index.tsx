@@ -58,7 +58,6 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[5, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)

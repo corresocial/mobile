@@ -3,8 +3,6 @@ import { StatusBar } from 'react-native'
 
 import { LocationViewType } from '@domain/post/entity/types'
 
-import { useCultureContext } from '@contexts/CultureContext'
-
 import { SelectCultureLocationViewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { theme } from '@common/theme'
@@ -12,8 +10,6 @@ import { theme } from '@common/theme'
 import { PostLocationView } from '@components/_onboarding/PostLocationView'
 
 function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {
-	const { isSecondPost } = useCultureContext()
-
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
@@ -32,7 +28,6 @@ function SelectCultureLocationView({ route, navigation }: SelectCultureLocationV
 			<PostLocationView
 				backgroundColor={theme.colors.blue[2]}
 				itemsColor={theme.colors.blue[3]}
-				progress={[5, isSecondPost ? 4 : 5]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
 			/>

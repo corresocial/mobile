@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { VacancyType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectVacancyTypeScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
@@ -16,7 +15,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
@@ -34,7 +32,6 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 			highlightedWords={['tipo', 'vaga']}
 			headerBackgroundColor={theme.colors.green[2]}
 			backgroundColor={theme.colors.white[3]}
-			progress={[5, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

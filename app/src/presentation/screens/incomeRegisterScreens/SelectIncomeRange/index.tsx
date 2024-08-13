@@ -61,7 +61,6 @@ function SelectIncomeRange({ route, navigation }: SelectIncomeRangeScreenProps) 
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[5, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)
