@@ -4,6 +4,7 @@ import styled from 'styled-components/native'
 export const ContainerBottom = styled.View`
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(20)}px;
+
 `
 
 export const ContainerSurface = styled.View`
@@ -13,7 +14,6 @@ export const ContainerSurface = styled.View`
     justify-content: center;
 	  padding: ${RFValue(1)}px ${RFValue(12)}px;
     height: 100%;
-    right: ${RFValue(5)}px;
 `
 
 export const Label = styled.Text`

@@ -17,6 +17,7 @@ const validProps: CitizenRegisterEntity = {
 	citizenRegisterId: 'abc123',
 	name: 'John Doe',
 	cellNumber: '1234567890',
+	coordinatorId: 'coordinatorId',
 	censusTakerId: 'xyz789',
 	createdAt: new Date('2023-06-19T00:00:00Z'),
 	censusTakerName: 'Jane Smith',

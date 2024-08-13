@@ -1,6 +1,8 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
+import { UserOwner } from '@domain/user/entity/types'
+
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { saleCategories } from '@utils/postsCategories/saleCategories'
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'
@@ -150,6 +152,7 @@ export interface SocialImpactEntity extends PostEntityCommonFields {
 
 export interface PostEntityCommonFields {
 	postId: string
+	externalPostId?: string
 	postType: PostType
 	category: string
 	tags: string[]
@@ -167,6 +170,7 @@ export interface PostEntityCommonFields {
 	createdAt: Date
 	updatedAt: Date
 	location: {
+		name?: string
 		country: string
 		state: string
 		city: string
@@ -180,12 +184,11 @@ export interface PostEntityCommonFields {
 		}
 		geohashNearby: string[]
 	}
-	owner: {
-		userId: string
-		name: string
-		profilePictureUrl?: string[]
-	}
+	owner: UserOwner
+	presenceList?: string[]
 }
+
+// REFACTOR Remover quando encontrar novamente
 
 // [DEPRECATED] ---------------------
 

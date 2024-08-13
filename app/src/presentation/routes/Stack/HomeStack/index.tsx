@@ -7,6 +7,7 @@ import { StateProvider } from '@contexts/StateContext'
 import { HomeStackParamList } from './types'
 import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
+import { EventsCalendar } from '@screens/EventsCalendar'
 import { Home } from '@screens/homeScreens/Home'
 import { PostCategories } from '@screens/homeScreens/PostCategories'
 import { PostCategoryDetails } from '@screens/homeScreens/PostCategoryDetails'
@@ -18,10 +19,7 @@ import { ViewPostsByRange } from '@screens/homeScreens/ViewPostsByRange'
 import { ViewPostsByTag } from '@screens/homeScreens/ViewPostsByTag'
 import { Profile } from '@screens/profileScreens/Profile'
 import { SocialMediaManagement } from '@screens/profileScreens/SocialMediaManagement'
-import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
-import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
-import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
-import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
+import { PostView } from '@screens/viewPostScreens/PostView'
 
 import { PublicServicesStack } from '../PublicServicesStack'
 
@@ -47,10 +45,7 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 				<Stack.Screen name={'Home'} component={Home} />
 				{/* REFACTOR Mostar sem bottom tabs e na rota de stack */}
 				<Stack.Screen name={'ViewPostsByRange'} component={ViewPostsByRange as any} />
-				<Stack.Screen name={'ViewIncomePostHome'} component={ViewIncomePost as any} />
-				<Stack.Screen name={'ViewVacancyPostHome'} component={ViewVacancyPost as any} />
-				<Stack.Screen name={'ViewSocialImpactPostHome'} component={ViewSocialImpactPost as any} />
-				<Stack.Screen name={'ViewCulturePostHome'} component={ViewCulturePost as any} />
+				<Stack.Screen name={'PostViewHome'} component={PostView as any} />
 
 				<Stack.Screen name={'PostCategories'} component={PostCategories} />
 				<Stack.Screen name={'ViewPostsByPostType'} component={ViewPostsByPostType} />
@@ -59,6 +54,7 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 				<Stack.Screen name={'ViewAllTags'} component={ViewAllTags} />
 				<Stack.Screen name={'ViewPostsByTag'} component={ViewPostsByTag} />
 				<Stack.Screen name={'SearchResult'} component={SearchResult} />
+				<Stack.Screen name={'EventsCalendar'} component={EventsCalendar} />
 				{/* REFACTOR */}
 				<Stack.Screen name={'ProfileHome'} component={Profile as any} />
 				<Stack.Screen name={'SocialMediaManagementHome'} component={SocialMediaManagement as any} />

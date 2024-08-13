@@ -9,16 +9,14 @@ import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
 import { LeaderAreaHome } from '@screens/leaderAreaScreens/LeaderAreaHome'
 import { PollPetitionArea } from '@screens/leaderAreaScreens/PollPetitionArea'
+import { SearchProfile } from '@screens/leaderAreaScreens/SearchProfile'
 import { ViewPetitionList } from '@screens/leaderAreaScreens/ViewPetitionList'
 import { ViewPollList } from '@screens/leaderAreaScreens/ViewPollList'
 import { ViewUnapprovedPost } from '@screens/leaderAreaScreens/ViewUnapprovedPost'
 import { ViewUnapprovedProfile } from '@screens/leaderAreaScreens/ViewUnapprovedProfile'
 import { ViewUnapprovedRegistersList } from '@screens/leaderAreaScreens/ViewUnapprovedRegistersList'
 import { Profile } from '@screens/profileScreens/Profile'
-import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
-import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
-import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
-import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
+import { PostView } from '@screens/viewPostScreens/PostView'
 
 import { CitizenRegistrationStack } from '../CitizenRegistrationStack'
 
@@ -43,6 +41,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 			>
 				<Stack.Screen name={'LeaderAreaHome'} component={LeaderAreaHome} />
 				<Stack.Screen name={'PollPetitionArea'} component={PollPetitionArea} />
+				<Stack.Screen name={'PostViewLeaderArea'} component={PostView as any} />
 				<Stack.Screen name={'ViewPollList'} component={ViewPollList} />
 				<Stack.Screen name={'ViewPetitionList'} component={ViewPetitionList} />
 
@@ -52,10 +51,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 
 				{/* TODO Type */}
 				<Stack.Screen name={'ProfileLeaderArea'} component={Profile as any} />
-				<Stack.Screen name={'ViewIncomePostLeaderArea'} component={ViewIncomePost as any} />
-				<Stack.Screen name={'ViewVacancyPostLeaderArea'} component={ViewVacancyPost as any} />
-				<Stack.Screen name={'ViewSocialImpactPostLeaderArea'} component={ViewSocialImpactPost as any} />
-				<Stack.Screen name={'ViewCulturePostLeaderArea'} component={ViewCulturePost as any} />
+				<Stack.Screen name={'SearchProfile'} component={SearchProfile as any} />
 
 				<Stack.Screen name={'CitizenRegistrationArea'} component={CitizenRegistrationStack} />
 			</Stack.Navigator>

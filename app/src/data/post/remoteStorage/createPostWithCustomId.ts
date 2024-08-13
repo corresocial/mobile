@@ -1,6 +1,7 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { PostEntity, PostEntityOptional, PostType } from '@domain/post/entity/types'
+import { PostEntityOptional, PostType } from '@domain/post/entity/types'
+import { UserOwner } from '@domain/user/entity/types'
 
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
@@ -8,7 +9,7 @@ import { firestore } from '@infrastructure/firebase/index'
 
 async function createPostWithCustomId(
 	postData: PostEntityOptional,
-	ownerPost: PostEntity['owner'],
+	ownerPost: UserOwner,
 	postType: PostType,
 	customId: string
 ) {

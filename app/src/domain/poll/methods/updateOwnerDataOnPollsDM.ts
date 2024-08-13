@@ -1,10 +1,10 @@
-import { PollRepositoryInterface } from '@data/poll/PollRepositoryInterface'
+import { UserOwner } from '@domain/user/entity/types'
 
-import { PollEntityOptional } from '../entity/types'
+import { PollRepositoryInterface } from '@data/poll/PollRepositoryInterface'
 
 async function updateOwnerDataOnPollsDM(
 	usePollRepository: () => PollRepositoryInterface,
-	ownerData: Partial<PollEntityOptional['owner']>
+	ownerData: Partial<UserOwner>
 ) {
 	try {
 		const { getPollIdsByUser, updateOwnerDataOnPolls } = usePollRepository()

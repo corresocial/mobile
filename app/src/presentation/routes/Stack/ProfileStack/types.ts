@@ -1,5 +1,5 @@
-import { CultureEntity, IncomeEntity, LatLong, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
-import { SocialMedia, UserEntity } from '@domain/user/entity/types'
+import { CultureEntity, IncomeEntity, LatLong, PostEntity, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
+import { SocialMedia, UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
@@ -8,10 +8,8 @@ import { ReportedTarget } from '@services/notion/types/contactUs'
 
 export type ProfileStackParamList = {
 	Profile: { userId: string, stackLabel: StackLabelProps } | undefined
-	ViewIncomePost: { postData: IncomeEntity, redirectedPostId: string }
-	ViewVacancyPost: { postData: VacancyEntity, redirectedPostId: string }
-	ViewSocialImpactPost: { postData: SocialImpactEntity, redirectedPostId: string }
-	ViewCulturePost: { postData: CultureEntity, redirectedPostId: string }
+	PostViewProfile: { postData: PostEntity, redirectedPostId: string }
+	SearchProfile: { verifiedLabel: VerifiedLabelName, profileId: string } | undefined
 
 	EditServicePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 	EditSalePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
@@ -46,4 +44,6 @@ export type ProfileStackParamList = {
 	UserDataConfigurations: undefined
 	NotificationSettings: undefined
 	NotificationPublicServicesSettings: undefined
+
+	PostView: any
 } & UserStackParamList

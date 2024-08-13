@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 import * as Application from 'expo-application'
 import * as Updates from 'expo-updates'
@@ -8,7 +9,6 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { useAuthContext } from '@contexts/AuthContext'
 
-import { PostKey } from './types'
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
@@ -46,11 +46,30 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		otaUpdated && await checkStoreUpdates()
 	}
 
+	// REFACTOR Remover daqui
+	const compareVersions = (version1: string, version2: string) => {
+		const v1 = version1.split('.').map(Number)
+		const v2 = version2.split('.').map(Number)
+
+		for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
+			const num1 = v1[i] || 0
+			const num2 = v2[i] || 0
+
+			if (num1 > num2) return 1
+			if (num1 < num2) return -1
+		}
+
+		return 0
+	}
+
 	const checkStoreUpdates = async () => {
 		if (!__DEV__) {
-			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: Platform.OS === 'android' ? '65' : '64' }
-			if (mandatoryVersion.nativeApplicationVersion > (Application.nativeApplicationVersion || '55.55.55')
-				|| mandatoryVersion.nativeBuildVersion > (Application.nativeBuildVersion || '5000')) {
+			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
+
+			const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '0.0.0', mandatoryVersion.nativeApplicationVersion)
+			const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '0', mandatoryVersion.nativeBuildVersion)
+
+			if (appVersionComparison < 0 || buildVersionComparison < 0) {
 				return setStoreUpdateModalIsVisible(true)
 			}
 		}
@@ -100,13 +119,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: id })
 	}
 
-	const navigateToPost = (id: string, postType: PostKey) => {
-		const postPages = {
-			income: 'ViewIncomePostHome',
-			culture: 'ViewCulturePostHome',
-			socialImpact: 'ViewSocialImpactPostHome',
-			vacancy: 'ViewVacancyPostHome',
-		}
+	const navigateToPost = (id: string) => {
 		navigation.reset({
 			index: 0,
 			routes: [{
@@ -119,7 +132,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				screen: 'HomeStack',
 			}
 		} as any)
-		navigation.navigate(postPages[postType] as any, { redirectedPostId: id })
+		navigation.navigate('PostViewHome' as any, { redirectedPostId: id })
 	}
 
 	const redirectToApp = async () => {
@@ -134,7 +147,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 						return navigateToProfile(route.params.id)
 					}
 					case 'post': {
-						return navigateToPost(route.params.id, route.params.postType as PostKey)
+						return navigateToPost(route.params.id)
 					}
 					default: return navigateToAuthScreen()
 				}

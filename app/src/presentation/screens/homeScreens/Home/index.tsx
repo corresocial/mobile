@@ -12,11 +12,12 @@ import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@do
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
 
+import { useAlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToLeaderPostsView, navigateToPostView } from '@routes/auxMethods'
+import { navigateToLeaderPostsView, navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
@@ -61,6 +62,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+	const { showEventCalendarPresentationModal } = useAlertContext()
 
 	const queryClient = useQueryClient()
 	const { executeCachedRequest } = useCacheRepository()
@@ -79,6 +81,7 @@ function Home({ navigation }: HomeScreenProps) {
 	useEffect(() => {
 		requestPermissions()
 		loadRecentAddresses()
+		showEventCalendarPresentationModal()
 	}, [])
 
 	useEffect(() => {
@@ -139,16 +142,6 @@ function Home({ navigation }: HomeScreenProps) {
 				() => getPostsByLocationCloud(searchParams as FeedSearchParams, userId),
 				refresh
 			)
-
-			/* console.log('--------------------------------------')
-			console.log('NEAR')
-			remoteFeedPosts?.nearby.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
-			console.log('CITY')
-			remoteFeedPosts?.city.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
-			console.log('COUNTRY')
-			remoteFeedPosts?.country.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
-			console.log('--------------------------------------')
- */
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
@@ -291,12 +284,11 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('ViewPostsByPostType', { postType })
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
@@ -330,6 +322,10 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('PublicServicesStack')
 	}
 
+	const navigateToEventCalendar = () => {
+		navigation.navigate('EventsCalendar')
+	}
+
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
@@ -358,7 +354,7 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				</DropdownContainer>
 				<FlatList
-					style={{ flex: 1, width: '100%', overflow: 'visible' }}
+					style={{ flex: 1, width: '100%' }}
 					showsVerticalScrollIndicator={false}
 					data={[1]}
 					renderItem={(() => { }) as any}
@@ -378,6 +374,7 @@ function Home({ navigation }: HomeScreenProps) {
 								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 								onPressPublicServicesAd={navigateToPublicServices}
 								onPressUserLocationAd={navigateToEditUserLocation}
+								onPressEventCalendarAd={navigateToEventCalendar}
 							/>
 							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 								<RequestLocation

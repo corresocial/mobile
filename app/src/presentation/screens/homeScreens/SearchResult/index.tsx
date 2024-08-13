@@ -10,7 +10,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { SearchResultScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 
@@ -79,9 +79,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const searchPostsByAlgolia = async () => {
 		return searchPostsCloud(algoliaSearchText || '', searchParamsFromRoute as FeedSearchParams, searchByRange || false, userDataContext.userId)
 			.then((posts) => {
-				if (!posts) {
-					return initialFeedPosts
-				}
+				if (!posts) return initialFeedPosts
 				return posts
 			})
 			.catch((err) => {
@@ -109,12 +107,11 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {

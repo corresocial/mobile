@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 import { useFonts, Arvo_400Regular, Arvo_700Bold } from '@expo-google-fonts/arvo'
+import { Nunito_600SemiBold, Nunito_700Bold } from '@expo-google-fonts/nunito'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
@@ -9,6 +11,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
 import Aptabase from '@aptabase/react-native'
+import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
@@ -40,7 +43,7 @@ const startSentry = () => {
 
 startSentry()
 
-Aptabase.init('A-SH-7378383312', { host: 'http://34.133.254.193:8000' })
+Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
 
 sendEvent('opened_app', {}, true)
 
@@ -48,6 +51,8 @@ function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
 		Arvo_400Regular,
 		Arvo_700Bold,
+		Nunito_600SemiBold,
+		Nunito_700Bold
 	})
 
 	const routeNameRef = React.useRef<string>()
@@ -93,11 +98,9 @@ function App() {
 			onStateChange={() => {
 				const previousRouteName = routeNameRef.current
 				const currentRouteName = navigationRef.current.getCurrentRoute().name
-
 				if (previousRouteName !== currentRouteName) {
 					sendEvent('user_opened_screen', { screenName: currentRouteName })
 				}
-
 				routeNameRef.current = currentRouteName
 			}}
 		>

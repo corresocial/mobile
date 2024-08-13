@@ -8,7 +8,7 @@ import { FeedPosts, MacroCategory, PostType, PostEntityOptional, PostEntity, Pos
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
@@ -36,7 +36,7 @@ type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.
 
 const { sortPostCategories } = UiPostUtils()
 
-function PostCategories({ navigation }: PostCategoriesScreenProps) {
+function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
@@ -46,12 +46,13 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const [feedPostsByTypeAndMacroCategory, setFeedPostsByTypeAndMacroCategory] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 
-	const { postType, macroCategory } = locationDataContext.searchParams
+	const { postType, macroCategory } = (route.params?.macroCategory && route.params.postType) ? route.params : locationDataContext.searchParams
 	const { inactiveColor, backgroundColor } = locationDataContext.currentCategory
 
 	useEffect(() => {
 		const posts = filterPostsByPostType()
 		setFeedPostsByTypeAndMacroCategory(posts)
+		setCurrentCategoryColorsOnContext()
 	}, [])
 
 	useEffect(() => {
@@ -66,6 +67,41 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 	}, [searchText])
 
+	const setCurrentCategoryColorsOnContext = () => {
+		const currentCategory = {
+			backgroundColor: getRelativeBackgroundColor(),
+			inactiveColor: getInactiveCardColor()
+		}
+
+		const currentParams = { postType, macroCategory }
+
+		setLocationDataOnContext({
+			currentCategory: {
+				...locationDataContext.currentCategory,
+				...currentCategory
+			},
+			searchParams: { ...locationDataContext.searchParams, ...currentParams }
+		})
+	}
+
+	const getRelativeBackgroundColor = () => {
+		switch (postType) {
+			case 'income': return theme.green2
+			case 'culture': return theme.blue2
+			case 'socialImpact': return theme.pink2
+			default: return theme.orange2
+		}
+	}
+
+	const getInactiveCardColor = () => {
+		switch (postType) {
+			case 'income': return theme.green1
+			case 'culture': return theme.blue1
+			case 'socialImpact': return theme.pink1
+			default: return theme.orange1
+		}
+	}
+
 	const filterPostsByPostType = () => {
 		return {
 			nearby: locationDataContext.feedPosts?.nearby.filter((post) => postBelongContextPostType(post)) || [],
@@ -76,7 +112,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const postBelongContextPostType = (post: PostEntityOptional) => {
 		if (!post) return false
-		return (post.postType === locationDataContext.searchParams?.postType
+		return ((post.postType === postType)
 			&& post.macroCategory === macroCategory)
 	}
 
@@ -133,7 +169,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const getRelativeHeaderIcon = () => {
-		const customPostType = postType as PostType
+		const customPostType = postType
 		const currentPostType: any = postMacroCategories[customPostType]
 		const currentMacroCategory = currentPostType[macroCategory as MacroCategoriesType]
 		return currentMacroCategory.SvgIcon
@@ -198,19 +234,18 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		return categoryList
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		const postsByRange = getPostsByRange(postRange)
-		const postTypeFromRoute = locationDataContext.searchParams?.postType
+		const postTypeFromRoute = postType
 
-		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType: postTypeFromRoute })
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType: postTypeFromRoute, collapseExternalVacancies: false })
 	}
 
 	const getPostsByRange = (postRange: PostRange) => {
@@ -282,6 +317,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 					backgroundColor={backgroundColor}
 					filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByTypeAndMacroCategory }}
 					viewPostsByRange={viewPostsByRange}
+					collapseExternalVacancies={false}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}
 				>

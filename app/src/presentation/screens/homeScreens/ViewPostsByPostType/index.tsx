@@ -5,7 +5,7 @@ import { FeedPosts, PostEntityOptional, PostEntity, PostRange } from '@domain/po
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { ViewPostsByPostTypeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
@@ -119,12 +119,11 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const getRelaticeHeaderIcon = () => {
@@ -199,6 +198,10 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			return
 		}
 
+		if (macroCategory === 'event') {
+			return navigation.navigate('EventsCalendar')
+		}
+
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
 		navigation.navigate('PostCategories')
 	}
@@ -228,6 +231,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
+				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
 			>

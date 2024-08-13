@@ -5,7 +5,7 @@ export default {
 		owner: 'corresocial',
 		scheme: ['com.corresocial.corresocial', 'corre'], // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
-		version: '0.9.1',
+		version: '0.10.0',
 		orientation: 'portrait',
 		userInterfaceStyle: 'light',
 		icon: './assets/icon.png',
@@ -16,20 +16,17 @@ export default {
 			statusBarStyle: 'dark'
 		},
 		hooks: {
-			postPublish: [
-				{
-					file: 'sentry-expo/upload-sourcemaps',
-					config: {
-						organization: 'corre-dev',
-						project: 'react-native'
-					}
+			postPublish: [{
+				file: 'sentry-expo/upload-sourcemaps',
+				config: {
+					organization: 'corre-dev',
+					project: 'react-native'
 				}
-			]
+			}]
 		},
 		plugins: [
 			'react-native-compressor',
-			'expo-av',
-			[
+			'expo-av', [
 				'expo-updates',
 				{
 					username: 'wellington-souza-abreu'
@@ -82,8 +79,7 @@ export default {
 			'./plugins/react-native-maps-plugin.js',
 			'./plugins/android-material-plugins.js',
 			'sentry-expo',
-			'expo-localization',
-			[
+			'expo-localization', [
 				'@stripe/stripe-react-native',
 				{
 					merchantIdentifier: '',
@@ -100,7 +96,7 @@ export default {
 		],
 		ios: {
 			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
-			buildNumber: '67',
+			buildNumber: '68',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -122,7 +118,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 67,
+			versionCode: 68,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',

@@ -1,5 +1,13 @@
 import 'styled-components'
 
+
+type Tonality = {
+	1: string
+	2: string
+	3: string
+	4: string
+}
+
 // and extend it
 declare module 'styled-components' {
 	export interface DefaultTheme {
@@ -11,6 +19,7 @@ declare module 'styled-components' {
 		black2: string
 		black3: string
 		black4: string
+		black5: string
 
 		orange1: string
 		orange2: string
@@ -54,6 +63,20 @@ declare module 'styled-components' {
 		green4: string
 		green5: string
 
+		// Solução temporária, mudar as cores quebra o app todo.
+
+		colors: {
+			white: Tonality
+			black: Tonality
+			orange: Tonality
+			purple: Tonality
+			blue: Tonality
+			red: Tonality
+			pink: Tonality
+			yellow: Tonality
+			green: Tonality
+		}
+
 		transparence: {
 			orange1: string // Orange Light
 			orange2: string // Orange Medium
@@ -69,6 +92,24 @@ declare module 'styled-components' {
 		fonts: {
 			arvoRegular: string
 			arvoBold: string
+			nunitoSemiBold: string
+			nunitoBold: string
+		},
+
+		fontSizes: {
+			arvo: {
+				1: number
+				2: number
+				3: number
+				4: number
+				5: number
+			}
+
+			nunito: {
+				1: number
+				2: number
+				3: number
+			}
 		}
 	}
 }

@@ -92,6 +92,7 @@ function PhotoPortrait({
 									// placeholder={UserShadow}
 									placeholderContentFit={'contain'}
 									contentFit={resizeMode}
+									resizeMode={'cover'}
 									cachePolicy={'memory-disk'}
 									circle={circle}
 								// transition={200}

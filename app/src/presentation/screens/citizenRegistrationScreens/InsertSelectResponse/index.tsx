@@ -91,8 +91,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	}
 
 	const skipQuestion = () => {
-		saveResponseData(questionData, ['não se aplica']) // MODEL use Case
-
+		saveResponseData(questionData, ['não se aplica'])
 		const nextQuestion = getNextQuestion(questionData)
 		navigateToNextReponseScreen(nextQuestion)
 	}

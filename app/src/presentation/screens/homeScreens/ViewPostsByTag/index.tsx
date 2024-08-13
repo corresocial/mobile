@@ -5,7 +5,7 @@ import { PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/t
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { ViewPostsByTagScreenProps } from '@routes/Stack/HomeStack/screenProps'
 
 import { Container, Header, InputContainer } from './styles'
@@ -49,12 +49,11 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		navigateToPostView(postData, navigation, 'Home')
 	}
 
-	const navigateToProfile = (userId: string) => {
+	const navigateToProfile = (userId: string, redirect?: string) => {
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)
-			return
+			return navigateToProfileView(navigation, '', '', redirect)
 		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
 	const navigateToResultScreen = () => {

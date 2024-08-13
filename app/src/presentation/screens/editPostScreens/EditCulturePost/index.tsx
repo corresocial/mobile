@@ -116,7 +116,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const navigateToPostView = (culturePostData: PostEntityOptional) => {
-		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
+		navigation.navigate('PostViewProfile' as any, { postData: culturePostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureEntity) => {

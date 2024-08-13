@@ -5,8 +5,8 @@ import { CitizenRegisterResponse } from '../entities/CitizenRegisterResponse'
 export class CitizenRegisterResponses {
 	readonly questionResponses: CitizenRegisterResponse[]
 
-	constructor(responses: CitizenRegisterQuestionResponse[]) {
-		this.questionResponses = responses.map((response) => new CitizenRegisterResponse(response))
+	constructor(responses: CitizenRegisterQuestionResponse[], allowEmptyResponses?: boolean) {
+		this.questionResponses = responses.map((response) => new CitizenRegisterResponse(response, allowEmptyResponses))
 	}
 
 	getByQuestionId(questionId: string): CitizenRegisterResponse | undefined {
@@ -15,15 +15,14 @@ export class CitizenRegisterResponses {
 
 	data(): CitizenRegisterQuestionResponse[] {
 		const allResponses: CitizenRegisterQuestionResponse[] = []
-
 		this.questionResponses.forEach((response) => {
 			const responseObject = response.data()
 			allResponses.push(responseObject)
 		})
-
 		return allResponses
 	}
 
+	// MODEL
 	// add(response: CitizenRegisterQuestionResponse): CitizenRegisterResponses {
 	// 	const updatedResponses = [...this.questionResponses, new CitizenRegisterResponse(response)]
 	// 	return new CitizenRegisterResponses(updatedResponses)

@@ -1,5 +1,5 @@
-import { CultureEntity, IncomeEntity, PostEntity, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
+import { UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -11,12 +11,11 @@ export type LeaderAreaStackParamList = {
 
 	ViewUnapprovedPost: { postData: PostEntity }
 	ViewUnapprovedProfile: { profileData: UserEntity }
+	PostViewLeaderArea: { postData: PostEntity, redirectedPostId: string }
 	ViewUnapprovedRegistersList: undefined
 
 	ProfileLeaderArea: { userId: string, stackLabel?: string }
-	ViewIncomePostLeaderArea: { postData: IncomeEntity, redirectedPostId: string }
-	ViewVacancyPostLeaderArea: { postData: VacancyEntity, redirectedPostId: string }
-	ViewSocialImpactPostLeaderArea: { postData: SocialImpactEntity, redirectedPostId: string }
-	ViewCulturePostLeaderArea: { postData: CultureEntity, redirectedPostId: string }
+	PostViewHome: { postData: PostEntity, redirectedPostId: string }
+	SearchProfile: { verifiedLabel: VerifiedLabelName, profileId: string } | undefined
 	CitizenRegistrationArea: undefined
 } & UserStackParamList

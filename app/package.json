@@ -1,6 +1,6 @@
 {
 	"name": "corre",
-	"version": "0.9.1",
+	"version": "0.10.0",
 	"scripts": {
 		"start": "expo start",
 		"expo": "npx expo start --go",
@@ -12,6 +12,9 @@
 		"eject": "expo eject",
 		"check": "eslint \"./src/**/*\"",
 		"format": "eslint \"./src/**/*\" --fix",
+		"update-dev": "eas update --branch development --message",
+		"update-staging": "eas update --branch staging --message",
+		"update-prod": "eas update --branch production --message",
 		"build-android-dev": "eas build --platform android --profile development",
 		"build-android-dev-local": "eas build --platform android --profile development --local",
 		"build-ios-dev": "eas build --platform ios --profile development",
@@ -26,6 +29,7 @@
 		"expo-av": "~13.4.1",
 		"react-native-compressor": "^1.8.24",
 		"@expo-google-fonts/arvo": "^0.2.2",
+		"@expo-google-fonts/nunito": "^0.2.3",
 		"@gorhom/bottom-sheet": "^4.6.3",
 		"@likashefqet/react-native-image-zoom": "^2.2.0",
 		"@react-native-async-storage/async-storage": "1.18.2",

@@ -10,6 +10,8 @@ import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectCultureRangeScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
+
 import { theme } from '@common/theme'
 
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
@@ -63,6 +65,8 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
+	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
@@ -76,7 +80,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			<PostRange
 				backgroundColor={theme.blue2}
 				itemsColor={theme.blue3}
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				userSubscriptionRange={range || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

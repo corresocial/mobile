@@ -150,7 +150,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			// startChatMessagesListener(currentChat.chatId, messagesListenerCallback)	// abordagem listener
 			sendEvent('chat_started', { chatType: route.params.via, postType: route.params.postType })
 		}
-		console.log(route.params.via, ' saSD ', route.params.postType)
 		const authenticatedUserId = userDataContext.userId
 
 		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
@@ -355,7 +354,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 							errorSending={false}
 							sendAgain={() => console.log('sendAgain')}
 						/>
-						<VerticalSpacing height={3} relativeDensity/>
+						<VerticalSpacing height={3} relativeDensity />
 					</>
 				)}
 				ListHeaderComponent={() => (

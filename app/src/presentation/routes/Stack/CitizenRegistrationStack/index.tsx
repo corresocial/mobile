@@ -11,6 +11,7 @@ import { ChatMessages } from '@screens/chatScreens/ChatMessages'
 import { CitizenOfflineRegistrationList } from '@screens/citizenRegistrationScreens/CitizenOfflineRegistrationList'
 import { CitizenQuestionaryPreview } from '@screens/citizenRegistrationScreens/CitizenQuestionaryPreview'
 import { CitizenRegistrationHome } from '@screens/citizenRegistrationScreens/CitizenRegistrationHome'
+import { CitizenRegistrationMonitoring } from '@screens/citizenRegistrationScreens/CitizenRegistrationMonitoring'
 import { FinishCitizenRegistration } from '@screens/citizenRegistrationScreens/FinishCitizenRegistration'
 import { InsertBinaryResponse } from '@screens/citizenRegistrationScreens/InsertBinaryResponse'
 import { InsertCitizenCellNumber } from '@screens/citizenRegistrationScreens/InsertCitizenCellNumber'
@@ -45,6 +46,7 @@ export function CitizenRegistrationStack({ route, navigation }: any) {
 			>
 				<Stack.Screen name={'CitizenRegistrationHome'} component={CitizenRegistrationHome} />
 				<Stack.Screen name={'CitizenOfflineRegistrationList'} component={CitizenOfflineRegistrationList} />
+				<Stack.Screen name={'CitizenRegistrationMonitoring'} component={CitizenRegistrationMonitoring} />
 				<Stack.Screen name={'CitizenQuestionaryPreview'} component={CitizenQuestionaryPreview} />
 
 				<Stack.Screen name={'InsertCitizenCellNumber'} component={InsertCitizenCellNumber} />

@@ -14,6 +14,7 @@ import { EditContext } from '@contexts/EditContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 
+import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewUnapprovedPostScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -83,7 +84,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 	const { postData } = route.params
 
 	useEffect(() => {
-		console.log(postData.unapprovedData)
 		return () => {
 			clearEditContext()
 		}
@@ -112,10 +112,8 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const navigateToProfile = () => {
 		const ownerId = postData.owner.userId
-		if (userDataContext.userId === ownerId) {
-			return navigation.navigate('Profile' as any)
-		}
-		navigation.navigate('ProfileLeaderArea', { userId: ownerId, stackLabel: 'LeaderArea' })
+		if (userDataContext.userId === ownerId) return navigateToProfileView(navigation)
+		navigateToProfileView(navigation, ownerId, 'LeaderArea', postData.owner.redirect)
 	}
 
 	const getCategoryLabel = () => {
@@ -218,7 +216,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 			if (!validChatId) throw new Error('Não foi possível utilizar um identificador de chat válido')
 
-			const textMessage = `Sua postagem "${getShortText(getPostField('description') || '', 45)}" foi rejeitada por não estar de acordo com nossos termos de uso\n${rejectMessage ? `MOTIVO: ${rejectMessage}` : ''}`
+			const textMessage = `Sua postagem "${getShortText(getPostField('description', true) || '', 45)}" foi rejeitada por não estar de acordo com nossos termos de uso\n${rejectMessage ? `MOTIVO: ${rejectMessage}` : ''}`
 			const newMessageObject = generateNewMessageObject(textMessage, authenticatedUserId)
 			const newMessageValue = Object.values(newMessageObject)[0]
 
@@ -271,7 +269,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={getPostField('description')}
+					text={getPostField('description', true)}
 				/>
 				<VerticalSpacing />
 				<UserAndValueContainer>

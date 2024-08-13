@@ -93,11 +93,6 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				responses: citizenRegistrationResponseData
 			}
 
-			// console.log('offline register')
-			// console.log(citizenRegisterData)
-			// console.log(citizenRegisterData.createdAt)
-			// console.log('------------------')
-
 			try {
 				const citizenModel = new CitizenRegisterModel()
 				new citizenModel.CitizenRegisterResponses(citizenRegisterData.responses || []).data()

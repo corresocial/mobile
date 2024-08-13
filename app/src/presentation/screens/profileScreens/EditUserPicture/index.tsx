@@ -62,6 +62,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
 				onClose={() => setMediaBrowserModalVisibility(false)}
 				maxImages={1}
+				allowVideos={false}
 				showMediaBrowser={mediaBrowserModalVisibility}
 			/>
 			<CustomCameraModal

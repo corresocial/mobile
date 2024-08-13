@@ -9,6 +9,8 @@ import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { SelectPollRangeScreenProps } from '@routes/Stack/PollStack/screenProps'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
+
 import { theme } from '@common/theme'
 
 import { PostRange } from '@components/_onboarding/PostRange'
@@ -31,6 +33,8 @@ function SelectPollRange({ route, navigation }: SelectPollRangeScreenProps) {
 		navigation.navigate('InsertPollLocation')
 	}
 
+	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
@@ -38,7 +42,7 @@ function SelectPollRange({ route, navigation }: SelectPollRangeScreenProps) {
 				backgroundColor={theme.purple2}
 				itemsColor={theme.purple3}
 				hiddenValues
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				userSubscriptionRange={range || 'near'}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePollRange}
 				progress={[4, 4]}

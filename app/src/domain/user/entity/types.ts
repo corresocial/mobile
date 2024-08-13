@@ -30,10 +30,11 @@ export type UserEntity = {
 	private?: PrivateUserEntity
 }
 
-export type UserOwner = { // REFACTOR Adicionar tipagem às postagens
+export type UserOwner = {
 	userId: string
 	name: string
 	profilePictureUrl?: string[]
+	redirect?: string
 }
 
 export type SocialMedia = {
@@ -41,7 +42,7 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default'
+export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default' | 'coordinator' | 'questionnaireAdministrator'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
@@ -49,6 +50,7 @@ export type VerifiedType = {
 	name: string
 	at: Date
 	admin?: boolean
+	coordinatorId?: string
 }
 
 export type SubscriptionPlan = 'monthly' | 'yearly' | ''
