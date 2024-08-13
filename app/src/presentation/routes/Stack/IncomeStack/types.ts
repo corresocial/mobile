@@ -20,7 +20,6 @@ export type IncomeStackParamList = {
 	InsertExchangeValue: { editMode: boolean } | undefined
 	SelectLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	SelectIncomeRange: { editMode: boolean } | undefined
-	IncomeLocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
 	SelectDeliveryMethod: { editMode: boolean } | undefined
 	SelectIncomeFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectIncomeDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined

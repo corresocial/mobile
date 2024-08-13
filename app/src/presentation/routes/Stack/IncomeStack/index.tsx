@@ -7,7 +7,6 @@ import { IncomeProvider } from '@contexts/IncomeContext'
 import { IncomeStackParamList } from './types'
 
 import { IncomePostReview } from '@screens/editPostScreens/IncomePostReview'
-import { IncomeLocationViewPreview } from '@screens/saleRegisterScreens/IncomeLocationViewPreview'
 import { InsertExchangeValue } from '@screens/saleRegisterScreens/InsertExchangeValue'
 import { InsertIncomeDescription } from '@screens/saleRegisterScreens/InsertIncomeDescription'
 import { InsertIncomeEndHour } from '@screens/saleRegisterScreens/InsertIncomeEndHour'
@@ -69,7 +68,6 @@ export function IncomeStack({ route }: IncomeStackScreenProps) {
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
 				<Stack.Screen name={'SelectIncomeRange'} component={SelectIncomeRange} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
-				<Stack.Screen name={'IncomeLocationViewPreview'} component={IncomeLocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectIncomeFrequency'} component={SelectIncomeFrequency} />
 				<Stack.Screen name={'SelectIncomeDaysOfWeek'} component={SelectIncomeDaysOfWeek} />

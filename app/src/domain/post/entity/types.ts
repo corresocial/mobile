@@ -56,8 +56,6 @@ export type PlaceModalityType = 'presential' | 'online' | 'both'
 
 export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly' | 'monthly'
 
-export type VacancyPurpose = 'findProffessional' | 'findVacancy'
-
 export type IncomeType = 'sale' | 'service' | 'vacancy'
 
 export type SocialImpactType = 'informative' | 'iniciative' | 'donation'
@@ -171,7 +169,6 @@ export interface PostEntityCommonFields {
 	category: string
 	tags: string[]
 	description: string
-	lookingFor: boolean
 	completed?: boolean
 	locationView: LocationViewType
 	range: PostRange
@@ -252,7 +249,6 @@ export interface PostEntityCommonFields {
 	category: string
 	tags: string[]
 	description: string
-	lookingFor?: boolean
 	completed?: boolean
 	locationView: LocationViewType
 	range: PostRange

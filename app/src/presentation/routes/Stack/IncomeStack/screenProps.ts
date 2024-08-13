@@ -4,7 +4,7 @@ import { IncomeStackParamList } from './types'
 
 export type InsertIncomeDescriptionScreenProps = NativeStackScreenProps<IncomeStackParamList, 'InsertIncomeDescription'>
 export type SelectIncomePostMediaScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectIncomePostMedia'>
-export type IncomeLocationViewPreviewScreenProps = NativeStackScreenProps<IncomeStackParamList, 'IncomeLocationViewPreview'>
+export type SelectIncomeLocationScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectIncomeLocation'>
 export type IncomePostReviewScreenProps = NativeStackScreenProps<IncomeStackParamList, 'IncomePostReview'>
 
 /* Optional */
@@ -18,7 +18,6 @@ export type InsertSaleValueScreenProps = NativeStackScreenProps<IncomeStackParam
 export type InsertExchangeValueScreenProps = NativeStackScreenProps<IncomeStackParamList, 'InsertExchangeValue'>
 export type SelectSaleValueTypeScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectSaleValueType'>
 export type SelectIncomeRangeScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectIncomeRange'>
-export type SelectIncomeLocationScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectIncomeLocation'>
 export type SelectLocationViewScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectLocationView'>
 export type SelectDeliveryMethodScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectDeliveryMethod'>
 export type SelectIncomeFrequencyScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectIncomeFrequency'>

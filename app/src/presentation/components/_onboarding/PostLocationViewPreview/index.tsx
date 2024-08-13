@@ -26,6 +26,7 @@ const {
 	getLocationViewLabel,
 } = UiLocationUtils()
 
+// REFACTOR Não utilizado
 interface PostLocationViewPreviewProps {
 	backgroundColor: string
 	locationViewSelected: LocationViewType

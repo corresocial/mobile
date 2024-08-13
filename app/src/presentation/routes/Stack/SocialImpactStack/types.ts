@@ -9,13 +9,11 @@ export type SocialImpactStackParamList = {
 	SocialImpactPostReview: { postData: SocialImpactEntity, approvedPostData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
 	SelectSocialImpactType: { editMode: boolean } | undefined
-	SelectSocialImpactPurpose: { editMode: boolean } | undefined
 	InsertSocialImpactLinks: { editMode: boolean, initialValue: string[] } | undefined
 	SelectSocialImpactCategory: { editMode: boolean } | undefined
 	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }
 	SelectSocialImpactRange: { editMode: boolean } | undefined
 	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
-	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined
 	SelectSocialImpactFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined

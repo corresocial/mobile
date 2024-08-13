@@ -16,7 +16,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {
-	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useCultureContext()
+	const { getAditionalDataFromLastPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
@@ -28,12 +28,8 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 	const saveWorkplaceType = (macroCategory: CultureType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ macroCategory })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setCultureDataOnContext({ macroCategory })
-		navigation.navigate('SelectCulturePurpose')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

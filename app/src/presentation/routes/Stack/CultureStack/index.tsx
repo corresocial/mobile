@@ -6,7 +6,6 @@ import { CultureProvider } from '@contexts/CultureContext'
 
 import { CultureStackParamList } from './types'
 
-import { CultureLocationViewPreview } from '@screens/cultureRegisterScreens/CultureLocationViewPreview'
 import { InsertCultureDescription } from '@screens/cultureRegisterScreens/InsertCultureDescription'
 import { InsertCultureEndDate } from '@screens/cultureRegisterScreens/InsertCultureEndDate'
 import { InsertCultureEndHour } from '@screens/cultureRegisterScreens/InsertCultureEndHour'
@@ -21,7 +20,6 @@ import { SelectCultureLocation } from '@screens/cultureRegisterScreens/SelectCul
 import { SelectCultureLocationView } from '@screens/cultureRegisterScreens/SelectCultureLocationView'
 import { SelectCulturePlaceModality } from '@screens/cultureRegisterScreens/SelectCulturePlaceModality'
 import { SelectCulturePostMedia } from '@screens/cultureRegisterScreens/SelectCulturePostMedia'
-import { SelectCulturePurpose } from '@screens/cultureRegisterScreens/SelectCulturePurpose'
 import { SelectCultureRange } from '@screens/cultureRegisterScreens/SelectCultureRange'
 import { SelectCultureTags } from '@screens/cultureRegisterScreens/SelectCultureTags'
 import { SelectCultureType } from '@screens/cultureRegisterScreens/SelectCultureType'
@@ -54,7 +52,6 @@ export function CultureStack({ route }: CultureStackScreenProps) {
 
 				{/* Optional */}
 				<Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
-				<Stack.Screen name={'SelectCulturePurpose'} component={SelectCulturePurpose} />
 				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertCultureLinks'} component={InsertCultureLinks} />
@@ -62,7 +59,6 @@ export function CultureStack({ route }: CultureStackScreenProps) {
 				<Stack.Screen name={'SelectCulturePlaceModality'} component={SelectCulturePlaceModality} />
 				<Stack.Screen name={'SelectCultureRange'} component={SelectCultureRange} />
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />
-				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
 				<Stack.Screen name={'SelectCultureFrequency'} component={SelectCultureFrequency} />
 				<Stack.Screen name={'SelectCultureDaysOfWeek'} component={SelectCultureDaysOfWeek} />
 				<Stack.Screen name={'SelectEventRepeat'} component={SelectEventRepeat} />

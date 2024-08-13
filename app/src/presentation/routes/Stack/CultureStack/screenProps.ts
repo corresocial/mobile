@@ -8,7 +8,6 @@ export type SelectCulturePostMediaScreenProps = NativeStackScreenProps<CultureSt
 export type CulturePostReviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CulturePostReview'>
 
 export type SelectCultureTypeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureType'>
-export type SelectCulturePurposeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCulturePurpose'>
 export type InsertCultureLinksScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureLinks'>
 export type SelectCultureCategoryScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureCategory'>
 export type SelectCultureTagsScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureTags'>
@@ -16,7 +15,6 @@ export type InsertEntryValueScreenProps = NativeStackScreenProps<CultureStackPar
 export type SelectCulturePlaceModalityScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCulturePlaceModality'>
 export type SelectCultureRangeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureRange'>
 export type SelectCultureLocationViewScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureLocationView'>
-export type CultureLocationViewPreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CultureLocationViewPreview'>
 export type SelectCultureFrequencyScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureFrequency'>
 export type SelectCultureDaysOfWeekScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureDaysOfWeek'>
 export type InsertCultureStartDateScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureStartDate'>

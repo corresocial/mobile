@@ -20,12 +20,10 @@ import { SelectSocialImpactFrequency } from '@screens/socialImpactRegisterScreen
 import { SelectSocialImpactLocation } from '@screens/socialImpactRegisterScreens/SelectSocialImpactLocation'
 import { SelectSocialImpactLocationView } from '@screens/socialImpactRegisterScreens/SelectSocialImpactLocationView'
 import { SelectSocialImpactPostMedia } from '@screens/socialImpactRegisterScreens/SelectSocialImpactPostMedia'
-import { SelectSocialImpactPurpose } from '@screens/socialImpactRegisterScreens/SelectSocialImpactPurpose'
 import { SelectSocialImpactRange } from '@screens/socialImpactRegisterScreens/SelectSocialImpactRange'
 import { SelectSocialImpactRepeat } from '@screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
 import { SelectSocialImpactTags } from '@screens/socialImpactRegisterScreens/SelectSocialImpactTags'
 import { SelectSocialImpactType } from '@screens/socialImpactRegisterScreens/SelectSocialImpactType'
-import { SocialImpactLocationViewPreview } from '@screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
 
 import { SocialImpactStackScreenProps } from '../UserStack/screenProps'
 
@@ -53,13 +51,11 @@ export function SocialImpactStack({ route }: SocialImpactStackScreenProps) {
 
 				{/* Optional */}
 				<Stack.Screen name={'SelectSocialImpactType'} component={SelectSocialImpactType} />
-				<Stack.Screen name={'SelectSocialImpactPurpose'} component={SelectSocialImpactPurpose} />
 				<Stack.Screen name={'SelectSocialImpactCategory'} component={SelectSocialImpactCategory} />
 				<Stack.Screen name={'SelectSocialImpactTags'} component={SelectSocialImpactTags} />
 				<Stack.Screen name={'InsertSocialImpactLinks'} component={InsertSocialImpactLinks} />
 				<Stack.Screen name={'SelectSocialImpactRange'} component={SelectSocialImpactRange} />
 				<Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
-				<Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />
 				<Stack.Screen name={'SelectSocialImpactExhibitionRange'} component={SelectSocialImpactExhibitionRange} />
 				<Stack.Screen name={'SelectSocialImpactFrequency'} component={SelectSocialImpactFrequency} />
 				<Stack.Screen name={'SelectSocialImpactDaysOfWeek'} component={SelectSocialImpactDaysOfWeek} />

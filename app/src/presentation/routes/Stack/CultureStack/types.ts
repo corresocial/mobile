@@ -9,7 +9,6 @@ export type CultureStackParamList = {
 	CulturePostReview: { postData: CultureEntity, approvedPostData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
 	SelectCultureType: { editMode: boolean } | undefined
-	SelectCulturePurpose: { editMode: boolean } | undefined
 	InsertCultureLinks: { editMode: boolean, initialValue: string[] } | undefined
 	SelectCultureCategory: { editMode: boolean } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
@@ -17,7 +16,6 @@ export type CultureStackParamList = {
 	SelectCulturePlaceModality: { editMode: boolean } | undefined
 	SelectCultureRange: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	SelectCultureLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
-	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SelectCultureFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectCultureDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectEventRepeat: { editMode: boolean } | undefined
