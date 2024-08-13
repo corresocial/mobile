@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import { PlaceModalityType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -15,7 +15,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceModalityScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

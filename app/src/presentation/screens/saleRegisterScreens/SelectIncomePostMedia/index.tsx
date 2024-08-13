@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { useIncomeContext } from '@contexts/IncomeContext'
 
-import { SelectPostPictureScreenProps } from '@routes/Stack/IncomeStack/screenProps'
+import { SelectIncomePostMediaScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
 
@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 
-function SelectPostPicture({ route, navigation }: SelectPostPictureScreenProps) {
+function SelectIncomePostMedia({ route, navigation }: SelectIncomePostMediaScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { setIncomeDataOnContext } = useIncomeContext()
 
@@ -41,4 +41,4 @@ function SelectPostPicture({ route, navigation }: SelectPostPictureScreenProps) 
 	)
 }
 
-export { SelectPostPicture }
+export { SelectIncomePostMedia }

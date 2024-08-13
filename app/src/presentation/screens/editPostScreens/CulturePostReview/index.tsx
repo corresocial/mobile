@@ -7,7 +7,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
+import { CulturePostReviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -37,7 +37,7 @@ import { EditPost } from '@components/EditPost'
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()
 
-function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
+function CulturePostReview({ route, navigation }: CulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, userPostsContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
@@ -87,17 +87,17 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
-	const renderCultureRepeat = () => { // REFACTOR useUiUtils
-		const repeat = getPostField('repeat') as EventRepeatType
-		switch (repeat) {
-			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
-			case 'everyDay': return showMessageWithHighlight('todos os dias', ['todos'])
-			case 'weekly': return showMessageWithHighlight('uma vez por semana', ['1', 'semana'])
-			case 'biweekly': return showMessageWithHighlight('a cada 15 dias', ['15'])
-			case 'monthly': return showMessageWithHighlight('1 vez no mês', ['1', 'mês'])
-			default: return '---'
-		}
-	}
+	// const renderCultureRepeat = () => {
+	// 	const repeat = getPostField('repeat') as EventRepeatType
+	// 	switch (repeat) {
+	// 		case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
+	// 		case 'everyDay': return showMessageWithHighlight('todos os dias', ['todos'])
+	// 		case 'weekly': return showMessageWithHighlight('uma vez por semana', ['1', 'semana'])
+	// 		case 'biweekly': return showMessageWithHighlight('a cada 15 dias', ['15'])
+	// 		case 'monthly': return showMessageWithHighlight('1 vez no mês', ['1', 'mês'])
+	// 		default: return ''
+	// 	}
+	// }
 
 	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
@@ -230,7 +230,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					indicatorColor={theme.colors.blue[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
-					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
+					onEdit={() => navigateToEditScreen('SelectCulturePostMedia', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
 				<LinkCard
@@ -280,14 +280,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSpacing />
+				{/* <VerticalSpacing /> // CURRENT Ver com João
 				<EditCard
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					SecondSvgIcon={RecycleWhiteIcon}
 					value={renderCultureRepeat()}
 					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
-				/>
+				/> */}
 				<VerticalSpacing />
 				<EditCard
 					title={'que dia começa'}
@@ -329,4 +329,4 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	)
 }
 
-export { EditCulturePost }
+export { CulturePostReview }

@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { CulturePicturePreviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
+import { SelectCulturePostMediaScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { convertToMediaAsset } from '@utils-ui/common/media/convetToMediaAsset'
 
@@ -11,17 +12,20 @@ import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
 
-function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScreenProps) {
+function SelectCulturePostMedia({ route, navigation }: SelectCulturePostMediaScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { setCultureDataOnContext } = useCultureContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
-
-			navigation.goBack()
+			return navigation.goBack()
 		}
+
+		setCultureDataOnContext({ picturesUrl, videosUrl })
+		navigation.navigate('SelectCultureLocation', { locationView: 'approximate' })
 	}
 
 	const initialValue = convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })
@@ -39,4 +43,4 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 	)
 }
 
-export { CulturePicturePreview }
+export { SelectCulturePostMedia }

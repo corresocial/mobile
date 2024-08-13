@@ -3,18 +3,20 @@ import { CultureCategories, CultureEntity, DaysOfWeek, LatLong, LocationViewType
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
+	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
+	SelectCulturePostMedia: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
+	SelectCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
+	CulturePostReview: { postData: CultureEntity, approvedPostData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+
 	SelectCultureType: { editMode: boolean } | undefined
 	SelectCulturePurpose: { editMode: boolean } | undefined
-	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertCultureLinks: { editMode: boolean, initialValue: string[] } | undefined
-	CulturePicturePreview: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
 	SelectCultureCategory: { editMode: boolean } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
 	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
 	SelectCulturePlaceModality: { editMode: boolean } | undefined
 	SelectCultureRange: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	SelectCultureLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
-	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SelectCultureFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectCultureDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
@@ -23,5 +25,4 @@ export type CultureStackParamList = {
 	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditCulturePostReview: { postData: CultureEntity, approvedPostData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

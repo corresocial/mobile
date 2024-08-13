@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { EventRepeatType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectEventRepeatScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -13,7 +13,7 @@ import { theme } from '@common/theme'
 import { PostRepeat } from '@components/_onboarding/PostRepeat'
 
 function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

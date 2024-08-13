@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 
 import { SelectCulturePurposeScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
@@ -12,7 +12,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
 
 	const saveCulturePurpose = (lookingFor: boolean) => {
 		setCultureDataOnContext({ lookingFor })

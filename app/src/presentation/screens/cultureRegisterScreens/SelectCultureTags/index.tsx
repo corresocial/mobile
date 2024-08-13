@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCultureTagsScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -13,7 +13,7 @@ import { theme } from '@common/theme'
 import { PostTags } from '@components/_onboarding/PostTags'
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const getCultureCategorySelected = () => {

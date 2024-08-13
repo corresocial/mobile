@@ -19,13 +19,13 @@ import { SelectIncomeCategory } from '@screens/saleRegisterScreens/SelectIncomeC
 import { SelectIncomeDaysOfWeek } from '@screens/saleRegisterScreens/SelectIncomeDaysOfWeek'
 import { SelectIncomeFrequency } from '@screens/saleRegisterScreens/SelectIncomeFrequency'
 import { SelectIncomeLocation } from '@screens/saleRegisterScreens/SelectIncomeLocation'
+import { SelectIncomePostMedia } from '@screens/saleRegisterScreens/SelectIncomePostMedia'
 import { SelectIncomeRange } from '@screens/saleRegisterScreens/SelectIncomeRange'
 import { SelectIncomeTags } from '@screens/saleRegisterScreens/SelectIncomeTags'
 import { SelectIncomeType } from '@screens/saleRegisterScreens/SelectIncomeType'
 import { SelectItemStatus } from '@screens/saleRegisterScreens/SelectItemStatus'
 import { SelectLocationView } from '@screens/saleRegisterScreens/SelectLocationView'
 import { SelectPaymentType } from '@screens/saleRegisterScreens/SelectPaymentType'
-import { SelectPostPicture } from '@screens/saleRegisterScreens/SelectPostPicture'
 import { SelectSaleValueType } from '@screens/saleRegisterScreens/SelectSaleValueType'
 import { InsertVacancyEndDate } from '@screens/vacancyRegisterScreens/InsertVacancyEndDate'
 import { InsertVacancyImportantPoints } from '@screens/vacancyRegisterScreens/InsertVacancyImportantPoints'
@@ -53,7 +53,7 @@ export function IncomeStack({ route }: IncomeStackScreenProps) {
 					component={InsertIncomeDescription}
 					initialParams={route && route.params ? { ...(route.params || {}) } : {} as any} // CURRENT Type
 				/>
-				<Stack.Screen name={'SelectPostPicture'} component={SelectPostPicture} />
+				<Stack.Screen name={'SelectIncomePostMedia'} component={SelectIncomePostMedia} />
 				<Stack.Screen name={'SelectIncomeLocation'} component={SelectIncomeLocation} />
 				<Stack.Screen name={'IncomePostReview'} component={IncomePostReview} />
 

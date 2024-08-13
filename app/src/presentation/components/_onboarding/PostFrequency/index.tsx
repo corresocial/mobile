@@ -11,6 +11,7 @@ import CalendarToday from '@assets/icons/calendarToday-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
+// CURRENT REmove direct import
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { OptionButton } from '@components/_buttons/OptionButton'
@@ -22,6 +23,7 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface PostFrequencyProps {
 	backgroundColor: string
+	buttonColor?: string
 	navigateBackwards: () => void
 	skipScreen?: () => void
 	savePostFrequency: (serviceFrequency: WeekdaysFrequency) => void
@@ -29,6 +31,7 @@ interface PostFrequencyProps {
 
 function PostFrequency({
 	backgroundColor,
+	buttonColor,
 	navigateBackwards,
 	skipScreen,
 	savePostFrequency
@@ -76,7 +79,7 @@ function PostFrequency({
 						SvgIcon={CalendarToday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.colors.green[3]}
+						leftSideColor={buttonColor || theme.colors.green[3]}
 						onPress={() => savePostFrequency('today')}
 					/>
 					<OptionButton
@@ -87,7 +90,7 @@ function PostFrequency({
 						SvgIcon={CalendarEveryday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.colors.green[3]}
+						leftSideColor={buttonColor || theme.colors.green[3]}
 						onPress={() => savePostFrequency('everyday')}
 					/>
 					<OptionButton
@@ -98,7 +101,7 @@ function PostFrequency({
 						SvgIcon={CalendarSomeday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.colors.green[3]}
+						leftSideColor={buttonColor || theme.colors.green[3]}
 						onPress={() => savePostFrequency('someday')}
 					/>
 					<OptionButton
@@ -109,7 +112,7 @@ function PostFrequency({
 						SvgIcon={CalendarBusinessDay}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.colors.green[3]}
+						leftSideColor={buttonColor || theme.colors.green[3]}
 						onPress={() => savePostFrequency('businessDay')}
 					/>
 				</ButtonsContainer>

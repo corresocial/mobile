@@ -18,7 +18,7 @@ function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpac
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		if (editModeIsTrue()) {
-			setSocialImpactDataOnContext({ range: route.params?.initialValue?.postRange })
+			setSocialImpactDataOnContext({ locationView: locationViewType })
 		}
 
 		navigation.navigate('InsertSocialImpactLocation', {

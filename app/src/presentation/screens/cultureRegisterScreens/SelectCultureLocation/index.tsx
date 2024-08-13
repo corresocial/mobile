@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
+import { Coordinates } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/screenProps'
+import { SelectCultureLocationScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
 import { useGoogleMapsService } from '@services/googleMaps/useGoogleMapsService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
@@ -21,9 +21,9 @@ import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 const { getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress } = UiLocationUtils()
 
-function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
+function SelectCultureLocation({ route, navigation }: SelectCultureLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { cultureDataContext, setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -75,27 +75,40 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 		}
 
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
-
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({
-				location: {
-					...completeAddress,
-					...geohashObject
-				}
-			})
-		} else {
-			setCultureDataOnContext({
-				location: {
-					...completeAddress,
-					...geohashObject,
-				} as PostEntityCommonFields['location']
-			})
+		const locationProperties = {
+			range: cultureDataContext.range || userDataContext.subscription?.subscriptionRange || 'near',
+			locationView,
+			location: {
+				...completeAddress,
+				...geohashObject
+			}
 		}
 
-		navigation.navigate('CultureLocationViewPreview', {
-			locationView,
-			editMode: !!route.params?.editMode
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ ...locationProperties })
+			return navigation.pop(2)
+		}
+
+		setCultureDataOnContext({ ...locationProperties })
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'CulturePostReview',
+				params: {
+					postData: { ...cultureDataContext, ...locationProperties },
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
 		})
+	}
+
+	const getInitialMapViewPosition = () => {
+		if (cultureDataContext.location) {
+			return cultureDataContext.location.coordinates
+		}
+		return editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }
 	}
 
 	return (
@@ -112,7 +125,7 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 			<SelectPostLocation
 				backgroundColor={theme.colors.blue[2]}
 				validationColor={theme.colors.blue[1]}
-				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
+				initialValue={getInitialMapViewPosition()}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>
@@ -120,4 +133,4 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 	)
 }
 
-export { InsertCultureLocation }
+export { SelectCultureLocation }

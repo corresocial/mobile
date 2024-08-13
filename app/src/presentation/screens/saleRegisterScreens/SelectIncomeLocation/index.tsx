@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Coordinates, PostEntityCommonFields } from '@domain/post/entity/types'
+import { Coordinates } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
@@ -76,39 +76,28 @@ function SelectIncomeLocation({ route, navigation }: SelectIncomeLocationScreenP
 		}
 
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
+		const locationProperties = {
+			locationView,
+			range: incomeDataContext.range || userDataContext.subscription?.subscriptionRange || 'near',
+			location: {
+				...completeAddress,
+				...geohashObject
+			}
+		}
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({
-				locationView,
-				location: {
-					...completeAddress,
-					...geohashObject
-				}
-			})
+			addNewUnsavedFieldToEditContext({ ...locationProperties })
 			return navigation.pop(2)
 		}
 
-		setIncomeDataOnContext({
-			locationView,
-			location: { ...completeAddress, ...geohashObject } as PostEntityCommonFields['location']
-		})
-
-		console.log(incomeDataContext.macroCategory)
-		console.log('saiuda location')
+		setIncomeDataOnContext({ ...locationProperties })
 
 		navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'IncomePostReview',
 				params: {
-					postData: {
-						...incomeDataContext,
-						locationView,
-						location: {
-							...completeAddress,
-							...geohashObject
-						} as PostEntityCommonFields['location']
-					},
+					postData: { ...incomeDataContext, ...locationProperties },
 					unsavedPost: true,
 					showPresentationModal: true
 				}

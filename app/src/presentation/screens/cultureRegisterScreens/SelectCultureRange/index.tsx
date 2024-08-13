@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 
@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -44,7 +44,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			navigation.reset({
 				index: 0,
 				routes: [{
-					name: 'EditCulturePostReview',
+					name: 'CulturePostReview',
 					params: {
 						postData: {
 							...cultureDataContext,

@@ -153,7 +153,7 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 			case 'service': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
 			case 'sale': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			case 'vacancy': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'culture': return navigation.navigate('EditCulturePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'culture': return navigation.navigate('CulturePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			case 'socialImpact': return navigation.navigate('EditSocialImpactPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			default: return null
 		}

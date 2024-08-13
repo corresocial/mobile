@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { CultureCategories, PostCategoriesType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 
 import { SelectCultureCategoryScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
@@ -16,7 +16,7 @@ import { PostCategory } from '@components/_onboarding/PostCategory'
 type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
 
 	const onSelectCategory = (categoryName: CultureCategories) => {
 		setCultureDataOnContext({

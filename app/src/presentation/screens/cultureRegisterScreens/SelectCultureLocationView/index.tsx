@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { LocationViewType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 
 import { SelectCultureLocationViewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
@@ -12,16 +12,16 @@ import { theme } from '@common/theme'
 import { PostLocationView } from '@components/_onboarding/PostLocationView'
 
 function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		if (editModeIsTrue()) {
-			setCultureDataOnContext({ range: route.params?.initialValue?.postRange })
+			setCultureDataOnContext({ locationView: locationViewType })
 		}
 
-		navigation.navigate('InsertCultureLocation', {
+		navigation.navigate('SelectCultureLocation', {
 			locationView: locationViewType,
 			editMode: editModeIsTrue(),
 			initialValue: route.params?.initialValue?.coordinates

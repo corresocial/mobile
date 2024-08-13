@@ -4,7 +4,7 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type IncomeStackParamList = {
 	InsertIncomeDescription: { editMode: boolean, initialValue: string } | undefined
-	SelectPostPicture: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
+	SelectIncomePostMedia: { editMode: boolean, initialValue: { picturesUrl: string[], videosUrl: string[] } } | undefined
 	SelectIncomeLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	EditIncomePostReview: { postData: IncomeEntity, approvedPostData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 	IncomePostReview: { postData: IncomeEntity, approvedPostData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }

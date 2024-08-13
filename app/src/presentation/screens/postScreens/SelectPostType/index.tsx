@@ -31,7 +31,7 @@ import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
 const { localStorage } = usePostRepository()
 
-type RedirectStacks = 'IncomeStack' | 'SaleStack' | 'SocialImpactStack' | 'CultureStack'
+type RedirectStacks = 'IncomeStack' | 'SocialImpactStack' | 'CultureStack'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

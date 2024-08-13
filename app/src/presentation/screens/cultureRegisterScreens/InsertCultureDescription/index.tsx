@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { InsertCultureDescriptionScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -12,10 +12,14 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		getAditionalDataFromLastPost()
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -42,7 +46,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 		}
 
 		setCultureDataOnContext({ description: inputText, ...(route.params || {}) })
-		navigation.navigate('SelectCultureRange')
+		navigation.navigate('SelectCulturePostMedia')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

@@ -59,4 +59,4 @@ function IncomeProvider({ children }: IncomeProviderProps) {
 
 const useIncomeContext = () => useContext(IncomeContext)
 
-export { IncomeProvider, useIncomeContext, IncomeContext }
+export { IncomeProvider, useIncomeContext }

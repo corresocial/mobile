@@ -48,7 +48,7 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 		}
 
 		setIncomeDataOnContext({ description: inputText, ...(route.params || {}) })
-		navigation.navigate('SelectPostPicture')
+		navigation.navigate('SelectIncomePostMedia')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

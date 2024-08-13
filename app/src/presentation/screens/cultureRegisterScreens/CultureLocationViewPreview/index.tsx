@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { CultureLocationViewPreviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -15,8 +15,9 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.004
 }
 
+// CURRENT Devem morrer
 function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPreviewScreenProps) {
-	const { cultureDataContext } = useContext(CultureContext)
+	const { cultureDataContext } = useCultureContext()
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -49,7 +50,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		navigation.reset({
 			index: 0,
 			routes: [{
-				name: 'EditCulturePostReview',
+				name: 'CulturePostReview',
 				params: {
 					postData: {
 						...cultureDataContext,

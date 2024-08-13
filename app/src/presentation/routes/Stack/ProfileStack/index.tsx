@@ -25,7 +25,7 @@ import { WhoWeAre } from '@screens/configurationScreens/WhoWeAre'
 import { WhoWeAreCulture } from '@screens/configurationScreens/WhoWeAreCulture'
 import { WhoWeAreIncome } from '@screens/configurationScreens/WhoWeAreIncome'
 import { WhoWeAreTransformation } from '@screens/configurationScreens/WhoWeAreTransformation'
-import { EditCulturePost } from '@screens/editPostScreens/EditCulturePost'
+import { CulturePostReview } from '@screens/editPostScreens/CulturePostReview'
 import { EditSocialImpactPost } from '@screens/editPostScreens/EditSocialImpactPost'
 import { IncomePostReview } from '@screens/editPostScreens/IncomePostReview'
 import { EditProfile } from '@screens/profileScreens/EditProfile'
@@ -64,7 +64,7 @@ export function ProfileStack({ route, navigation }: any) { // REFACTOR type rout
 				{/* REFACTOR Erro de tipagem, typecasting? */}
 				<Stack.Screen name={'IncomePostReview'} component={IncomePostReview as any} />
 				<Stack.Screen name={'EditSocialImpactPost'} component={EditSocialImpactPost as any} />
-				<Stack.Screen name={'EditCulturePost'} component={EditCulturePost as any} />
+				<Stack.Screen name={'CulturePostReview'} component={CulturePostReview as any} />
 
 				<Stack.Screen name={'EditProfile'} component={EditProfile} />
 				<Stack.Screen name={'EditUserName'} component={EditUserName} />

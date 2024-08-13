@@ -243,7 +243,7 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 					indicatorColor={theme.colors.green[1]}
 					carousel
 					pressionable={arrayIsEmpty([...getPicturesUrl(), ...getVideosUrl()])}
-					onEdit={() => navigateToEditScreen('SelectPostPicture', 'picturesUrl')}
+					onEdit={() => navigateToEditScreen('SelectIncomePostMedia', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
 				<LinkCard

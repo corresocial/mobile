@@ -13,7 +13,7 @@ export type ProfileStackParamList = {
 
 	IncomePostReview: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 	EditSocialImpactPost: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditCulturePost: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	CulturePostReview: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
 	EditProfile: { user: UserEntity }
 	EditUserName: { userName: string, userId: string }

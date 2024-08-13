@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 
 import { CultureType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -16,7 +16,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {
-	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
+	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {

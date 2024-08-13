@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { IncomeStackParamList } from './types'
 
 export type InsertIncomeDescriptionScreenProps = NativeStackScreenProps<IncomeStackParamList, 'InsertIncomeDescription'>
-export type SelectPostPictureScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectPostPicture'>
+export type SelectIncomePostMediaScreenProps = NativeStackScreenProps<IncomeStackParamList, 'SelectIncomePostMedia'>
 export type IncomeLocationViewPreviewScreenProps = NativeStackScreenProps<IncomeStackParamList, 'IncomeLocationViewPreview'>
 export type IncomePostReviewScreenProps = NativeStackScreenProps<IncomeStackParamList, 'IncomePostReview'>
 

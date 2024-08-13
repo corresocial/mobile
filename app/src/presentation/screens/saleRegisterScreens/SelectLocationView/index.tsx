@@ -18,7 +18,7 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		if (editModeIsTrue()) {
-			setIncomeDataOnContext({ range: route.params?.initialValue?.postRange })
+			setIncomeDataOnContext({ locationView: locationViewType })
 		}
 
 		navigation.navigate('SelectIncomeLocation', {

@@ -194,7 +194,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			}
 			case 'culture': {
 				return navigation.navigate('CultureStack' as any, {
-					screen: 'EditCulturePostReview' as keyof CultureStackParamList,
+					screen: 'CulturePostReview' as keyof CultureStackParamList,
 					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 				})
 			}

@@ -2,16 +2,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { CultureStackParamList } from './types'
 
+export type InsertCultureDescriptionScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureDescription'>
+export type SelectCultureLocationScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureLocation'>
+export type SelectCulturePostMediaScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCulturePostMedia'>
+export type CulturePostReviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CulturePostReview'>
+
 export type SelectCultureTypeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureType'>
 export type SelectCulturePurposeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCulturePurpose'>
-export type InsertCultureDescriptionScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureDescription'>
 export type InsertCultureLinksScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureLinks'>
-export type CulturePicturePreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CulturePicturePreview'>
 export type SelectCultureCategoryScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureCategory'>
 export type SelectCultureTagsScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureTags'>
 export type InsertEntryValueScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEntryValue'>
 export type SelectCulturePlaceModalityScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCulturePlaceModality'>
-export type InsertCultureLocationScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureLocation'>
 export type SelectCultureRangeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureRange'>
 export type SelectCultureLocationViewScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureLocationView'>
 export type CultureLocationViewPreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CultureLocationViewPreview'>
@@ -22,4 +24,3 @@ export type InsertCultureStartHourScreenProps = NativeStackScreenProps<CultureSt
 export type InsertCultureEndDateScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureEndDate'>
 export type InsertCultureEndHourScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureEndHour'>
 export type SelectEventRepeatScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectEventRepeat'>
-export type EditCulturePostReviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'EditCulturePostReview'>

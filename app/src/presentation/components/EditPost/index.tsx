@@ -172,6 +172,7 @@ function EditPost({
 			} as PostEntity
 
 			console.log('postWithUnapprovedData')
+			console.log(postWithUnapprovedData)
 			console.log(postWithUnapprovedData.macroCategory)
 
 			// CURRENT Remove
