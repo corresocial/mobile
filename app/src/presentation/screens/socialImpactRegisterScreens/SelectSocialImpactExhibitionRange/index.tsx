@@ -16,18 +16,14 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSocialImpactExhibitionRange = (exhibitionPlace: ExhibitionPlaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exhibitionPlace })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setSocialImpactDataOnContext({ exhibitionPlace })
-		navigation.navigate('InsertSocialImpactDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

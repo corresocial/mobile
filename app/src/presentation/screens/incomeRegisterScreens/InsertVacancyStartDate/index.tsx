@@ -3,28 +3,28 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { InsertVacancyEndDateScreenProps } from '@routes/Stack/IncomeStack/screenProps'
+import { InsertVacancyStartDateScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
 import { theme } from '@common/theme'
 
 import { PostDate } from '@components/_onboarding/PostDate'
 
-function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenProps) {
+function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const skipScreen = () => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endDate: '' })
-			navigation.goBack()
+			addNewUnsavedFieldToEditContext({ startDate: '' })
+			return navigation.goBack()
 		}
 	}
 
 	const saveVacancyStartDate = (dateTime: Date) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endDate: dateTime })
-			navigation.goBack()
+			addNewUnsavedFieldToEditContext({ startDate: dateTime })
+			return navigation.goBack()
 		}
 	}
 
@@ -34,8 +34,6 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 			<PostDate
 				backgroundColor={theme.colors.green[2]}
 				validationColor={theme.colors.green[1]}
-				customTitle={'que dia termina?'}
-				customHighlight={['dia', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
@@ -45,4 +43,4 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 	)
 }
 
-export { InsertVacancyEndDate }
+export { InsertVacancyStartDate }

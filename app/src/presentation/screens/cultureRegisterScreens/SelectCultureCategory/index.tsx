@@ -16,13 +16,9 @@ import { PostCategory } from '@components/_onboarding/PostCategory'
 type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
+	const { isSecondPost } = useCultureContext()
 
 	const onSelectCategory = (categoryName: CultureCategories) => {
-		setCultureDataOnContext({
-			category: categoryName
-		})
-
 		navigation.navigate('SelectCultureTags', {
 			categorySelected: categoryName,
 			...route.params

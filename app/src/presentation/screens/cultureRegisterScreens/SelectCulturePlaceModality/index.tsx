@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 
 import { PlaceModalityType } from '@domain/post/entity/types'
 
-import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -15,7 +14,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceModalityScreenProps) {
-	const { setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -23,12 +21,8 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ eventPlaceModality })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setCultureDataOnContext({ eventPlaceModality })
-		navigation.navigate('SelectCultureRange')
 	}
 
 	return (

@@ -12,20 +12,18 @@ import { theme } from '@common/theme'
 import { PostLocationView } from '@components/_onboarding/PostLocationView'
 
 function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
+	const { isSecondPost } = useCultureContext()
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		if (editModeIsTrue()) {
-			setCultureDataOnContext({ locationView: locationViewType })
+			return navigation.navigate('SelectCultureLocation', {
+				locationView: locationViewType,
+				editMode: editModeIsTrue(),
+				initialValue: route.params?.initialValue?.coordinates
+			})
 		}
-
-		navigation.navigate('SelectCultureLocation', {
-			locationView: locationViewType,
-			editMode: editModeIsTrue(),
-			initialValue: route.params?.initialValue?.coordinates
-		})
 	}
 
 	return (

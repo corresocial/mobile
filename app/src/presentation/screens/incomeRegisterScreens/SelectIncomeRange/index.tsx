@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectIncomeRange({ route, navigation }: SelectIncomeRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, incomeDataContext, setIncomeDataOnContext } = useIncomeContext()
+	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -36,27 +36,7 @@ function SelectIncomeRange({ route, navigation }: SelectIncomeRangeScreenProps) 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
-			navigation.goBack()
-			return
-		}
-
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'IncomePostReview',
-					params: {
-						postData: {
-							...incomeDataContext,
-							range: postRange
-						},
-						unsavedPost: true
-					}
-				}]
-			})
-		} else {
-			setIncomeDataOnContext({ range: postRange })
-			navigation.navigate('SelectLocationView')
+			return navigation.goBack()
 		}
 	}
 

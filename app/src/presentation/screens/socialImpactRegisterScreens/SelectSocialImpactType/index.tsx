@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { SocialImpactType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactTypeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -16,14 +15,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScreenProps) {
-	const { getAditionalDataFromLastPost } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	useEffect(() => {
-		if (!editModeIsTrue()) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

@@ -4,7 +4,6 @@ import { StatusBar } from 'react-native'
 import { DeliveryMethod } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { SelectDeliveryMethodScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
@@ -13,7 +12,6 @@ import { theme } from '@common/theme'
 import { PostDeliveryMethod } from '@components/_onboarding/PostDeliveryMethod'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
-	const { setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -21,12 +19,8 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ deliveryMethod })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setIncomeDataOnContext({ deliveryMethod })
-		navigation.navigate('SelectIncomeFrequency')
 	}
 
 	return (

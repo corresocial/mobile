@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { ItemStatus } from '@domain/post/entity/types'
 
@@ -15,21 +15,15 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
-	const { isSecondPost, getAditionalDataFromLastPost } = useIncomeContext()
+	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveItemStatus = (itemStatus: ItemStatus) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ itemStatus })
-			navigation.goBack()
+			return navigation.goBack()
 		}
 	}
 

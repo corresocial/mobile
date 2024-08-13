@@ -22,7 +22,7 @@ function SelectIncomeFrequency({ route, navigation }: SelectIncomeFrequencyScree
 				attendanceFrequency: '',
 				daysOfWeek: []
 			})
-			navigation.goBack()
+			return navigation.goBack()
 		}
 	}
 

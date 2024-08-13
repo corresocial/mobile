@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useCultureContext()
+	const { isSecondPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -36,30 +36,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
-			navigation.goBack()
-			return
-		}
-
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'CulturePostReview',
-					params: {
-						postData: {
-							...cultureDataContext,
-							range: postRange
-						},
-						unsavedPost: true
-					}
-				}]
-			})
-		} else {
-			setCultureDataOnContext({ range: postRange })
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
+			return navigation.goBack()
 		}
 	}
 

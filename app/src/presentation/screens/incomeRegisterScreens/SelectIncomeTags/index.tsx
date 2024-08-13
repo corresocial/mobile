@@ -22,7 +22,8 @@ function SelectIncomeTags({ route, navigation }: SelectIncomeTagsScreenProps) {
 	}
 
 	const addNewTag = (tagName: string) => {
-		updateSaleTags(getSaleCategorySelected(), tagName) // CURRENT categorias and tags
+		// CURRENT categorias and tags
+		updateSaleTags(getSaleCategorySelected(), tagName)
 	}
 
 	const saveTags = (tagsSelected: string[]) => {

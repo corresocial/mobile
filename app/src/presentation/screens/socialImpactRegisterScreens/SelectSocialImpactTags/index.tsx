@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactTagsScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -13,7 +12,6 @@ import { theme } from '@common/theme'
 import { PostTags } from '@components/_onboarding/PostTags'
 
 function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const getSocialImpactCategorySelected = () => {
@@ -32,12 +30,8 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 				tags: tagsSelected
 			})
 			navigation.goBack()
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setSocialImpactDataOnContext({ tags: tagsSelected })
-		navigation.navigate('SelectSocialImpactExhibitionRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

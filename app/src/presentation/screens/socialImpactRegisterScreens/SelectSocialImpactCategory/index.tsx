@@ -16,16 +16,17 @@ import { PostCategory } from '@components/_onboarding/PostCategory'
 type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost } = useContext(SocialImpactContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const onSelectCategory = (categoryName: SocialImpactCategories) => {
-		setSocialImpactDataOnContext({
-			category: categoryName
-		})
-		navigation.navigate('SelectSocialImpactTags', {
-			categorySelected: categoryName,
-			...route.params
-		})
+		if (editModeIsTrue()) {
+			return navigation.navigate('SelectSocialImpactTags', {
+				categorySelected: categoryName,
+				...route.params
+			})
+		}
 	}
 
 	return (

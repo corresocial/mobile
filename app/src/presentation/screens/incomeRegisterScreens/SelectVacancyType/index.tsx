@@ -16,18 +16,14 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { isSecondPost, setIncomeDataOnContext } = useIncomeContext()
+	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ vacancyType })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setIncomeDataOnContext({ vacancyType })
-		navigation.navigate('SelectIncomeRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

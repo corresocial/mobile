@@ -229,7 +229,6 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 					macroCategory={getPostField('macroCategory')}
 					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'IncomeStack')}
 				/>
-				{/* CURRENT Rename saleRegisterScreens folder */}
 				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}

@@ -104,14 +104,14 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 	const skipScreen = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: [] })
-			navigation.goBack()
+			return navigation.goBack()
 		}
 	}
 
 	const saveVacancyImportantPoints = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: importantPointsList })
-			navigation.goBack()
+			return navigation.goBack()
 		}
 	}
 

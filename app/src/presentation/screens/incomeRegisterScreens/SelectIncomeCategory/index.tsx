@@ -18,9 +18,13 @@ type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 function SelectIncomeCategory({ route, navigation }: SelectIncomeCategoryScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useEditContext()
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const onSelectCategory = (categoryName: SaleCategories) => {
-		addNewUnsavedFieldToEditContext({ category: categoryName })
-		navigation.navigate('SelectIncomeTags', { categorySelected: categoryName, ...route.params })
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ category: categoryName })
+			navigation.navigate('SelectIncomeTags', { categorySelected: categoryName, ...route.params })
+		}
 	}
 
 	/* const skipScreen = () => { // CURRENT add skip

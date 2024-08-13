@@ -21,7 +21,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 	const saveIncomeType = (macroCategory: MacroCategoriesType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ macroCategory })
-			navigation.goBack()
+			return navigation.goBack()
 		}
 	}
 

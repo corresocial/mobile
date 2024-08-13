@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCultureTagsScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -13,7 +12,6 @@ import { theme } from '@common/theme'
 import { PostTags } from '@components/_onboarding/PostTags'
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
-	const { setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const getCultureCategorySelected = () => {
@@ -29,12 +27,8 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ tags: tagsSelected })
 			navigation.goBack()
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setCultureDataOnContext({ tags: tagsSelected })
-		navigation.navigate('InsertCultureDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

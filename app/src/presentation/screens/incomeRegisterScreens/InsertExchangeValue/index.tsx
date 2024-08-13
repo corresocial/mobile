@@ -43,10 +43,8 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				navigation.pop(3)
 				navigation.goBack()
 			}
-
 			return
 		}
-
 		navigation.goBack()
 		navigation.goBack()
 	}

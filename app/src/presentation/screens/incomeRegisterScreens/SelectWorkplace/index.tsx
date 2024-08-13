@@ -15,19 +15,14 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
-	const { isSecondPost, setIncomeDataOnContext } = useIncomeContext()
+	const { isSecondPost } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ workplace })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setIncomeDataOnContext({ workplace })
-
-		navigation.navigate('SelectVacancyType')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

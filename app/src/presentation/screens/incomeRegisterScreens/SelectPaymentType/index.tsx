@@ -19,7 +19,7 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 	const skipScreen = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ saleValue: '', exchangeValue: '' })
-			navigation.goBack()
+			return navigation.goBack()
 		}
 	}
 

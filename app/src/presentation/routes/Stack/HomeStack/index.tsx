@@ -7,7 +7,7 @@ import { StateProvider } from '@contexts/StateContext'
 import { HomeStackParamList } from './types'
 import { useHomeTabDisplay } from '@routes/Tabs/userHomeTabDisplay'
 
-import { EventsCalendar } from '@screens/EventsCalendar'
+import { EventsCalendar } from '@screens/homeScreens/EventsCalendar'
 import { Home } from '@screens/homeScreens/Home'
 import { PostCategories } from '@screens/homeScreens/PostCategories'
 import { PostCategoryDetails } from '@screens/homeScreens/PostCategoryDetails'
