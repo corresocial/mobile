@@ -61,7 +61,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	}
 
 	const selectPostMacroCategory = (routeNavigate: RedirectStacks, postType: PostType, macroCategory: MacroCategoriesType) => {
-		navigation.navigate(routeNavigate as any, { postType, macroCategory } as any) // CURRENT Type
+		navigation.navigate(routeNavigate as any, { postType, macroCategory })
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
