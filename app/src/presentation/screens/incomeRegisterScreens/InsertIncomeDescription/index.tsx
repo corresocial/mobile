@@ -32,6 +32,8 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateSaleDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -39,6 +41,17 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 		}
 		return false
 	}
+
+	// Remova quando encontrar
+	// const saveMedia = (picturesUrl: string[], videosUrl: string[]) => {
+	// 	if (editModeIsTrue()) {
+	// 		addNewUnsavedFieldToEditContext({ picturesUrl, videosUrl })
+	// 		return navigation.goBack()
+	// 	}
+
+	// 	setIncomeDataOnContext({ picturesUrl, videosUrl })
+	// 	customBottomSheetRef.current?.close()
+	// }
 
 	const saveSaleDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
@@ -51,11 +64,26 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 		navigation.navigate('SelectIncomePostMedia')
 	}
 
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	// const customBottomSheetRef = useRef<CustomBottomSheetRef>(null)
+	// const showMediaSelect = () => {
+	// 	customBottomSheetRef.current?.show()
+	// }
+
+	// function getMediaAssets() {
+	// 	const photos = (incomeDataContext.picturesUrl || []).filter((url) => !!url)
+	// 		.map((url) => ({ url, mediaType: 'photo' }))
+
+	// 	const videos = (incomeDataContext.videosUrl || []).filter((url) => !!url)
+	// 		.map((url) => ({ url, mediaType: 'video', /* videoThumbnail: getVideoThumbnail ? getVideoThumbnail((url)) : undefined */ }))
+
+	// 	console.log([...photos, ...videos])
+	// 	return [...photos, ...videos] as MediaAsset[]
+	// }
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
+
 			<PostInputText
 				multiline
 				backgroundColor={theme.colors.green[2]}
@@ -65,7 +93,36 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 				validateInputText={validateSaleDescription}
 				navigateBackwards={() => navigation.goBack()}
 				saveTextData={saveSaleDescription}
-			/>
+			>
+				{/* <>
+					<HorizontalListPictures
+						mediaAssets={getMediaAssets()}
+						onSelectMedia={() => { }}
+					/>
+					<View style={{ alignSelf: 'center' }}>
+						<VerticalSpacing />
+						<StandardButton
+							icon={'chat'}
+							text={'Adicionar foto ou video'}
+							relativeWidth={'70%'}
+							reversed
+							onPress={showMediaSelect}
+						/>
+					</View>
+					<CustomBottomSheet
+						ref={customBottomSheetRef}
+						initialSnapPoint={1}
+						content={(
+							<>
+								<SelectPostMediaBottomSheet
+									saveMedia={saveMedia}
+									initialValue={getMediaAssets()}
+								/>
+							</>
+						)}
+					/>
+				</> */}
+			</PostInputText>
 		</>
 	)
 }
