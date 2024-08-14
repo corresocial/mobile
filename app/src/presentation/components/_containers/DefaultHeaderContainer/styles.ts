@@ -10,7 +10,6 @@ interface ContainerProps {
 
 export const Container = styled(Animated.View) <ContainerProps>`
 	padding-top: ${({ withoutIOSPadding }) => (Platform.OS === 'ios' && !withoutIOSPadding ? Constants.statusBarHeight : relativeScreenHeight(1.5))}px;
-    border-bottom-color:  ${({ theme }) => theme.colors.black[4]};
     transition: background-color 1s ease;
     flex-direction: row;
 `

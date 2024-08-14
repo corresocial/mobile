@@ -56,7 +56,6 @@ function PostLocationViewPreview({
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={backgroundColor}
-				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => (!firstStep ? setFirstStep(true) : navigateBackwards())} />
 				<InfoCard

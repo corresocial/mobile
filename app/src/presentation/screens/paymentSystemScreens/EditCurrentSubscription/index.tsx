@@ -224,7 +224,6 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				relativeHeight={'45%'}
 				centralized
 				backgroundColor={theme.colors.white[3]}
-				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard

@@ -199,7 +199,6 @@ function SelectPostLocation({
 				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
 				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor}
-				borderBottomWidth={0}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

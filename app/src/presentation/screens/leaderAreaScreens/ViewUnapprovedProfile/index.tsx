@@ -292,7 +292,6 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 					centralized={false}
 					grow
 					withoutIOSPadding
-					borderBottomWidth={0}
 				>
 					<ProfileHeader>
 						<ProfileInfoContainer>

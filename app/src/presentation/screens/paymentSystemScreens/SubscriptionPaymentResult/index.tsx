@@ -98,7 +98,6 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 			<DefaultHeaderContainer
 				backgroundColor={successfulPayment ? theme.colors.orange[1] : theme.colors.red[1]}
 				relativeHeight={successfulPayment ? relativeScreenHeight(80) : relativeScreenHeight(50)}
-				borderBottomWidth={successfulPayment ? 0 : 5}
 				flexDirection={'column'}
 				justifyContent={successfulPayment ? 'space-around' : 'center'}
 			>
