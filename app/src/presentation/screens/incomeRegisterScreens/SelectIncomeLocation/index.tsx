@@ -24,7 +24,7 @@ const { structureAddress } = UiLocationUtils()
 
 function SelectIncomeLocation({ route, navigation }: SelectIncomeLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { incomeDataContext, setIncomeDataOnContext } = useIncomeContext()
+	const { isSecondPost, incomeDataContext, setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -99,7 +99,7 @@ function SelectIncomeLocation({ route, navigation }: SelectIncomeLocationScreenP
 				params: {
 					postData: { ...incomeDataContext, ...locationProperties },
 					unsavedPost: true,
-					showPresentationModal: true
+					showPresentationModal: !isSecondPost
 				}
 			}]
 		})

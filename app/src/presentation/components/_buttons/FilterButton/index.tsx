@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import { ContainerBottom, ContainerSurface, Label } from './styles'
 import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-
+// REFACTOR REmove direct import
 interface FilterButtonProps {
 	height?: string | number
 	backgroundColor?: string

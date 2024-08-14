@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { SelectIncomeTagsScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
-import { saleCategories, updateSaleTags } from '@utils/postsCategories/saleCategories'
+import { updateIncomeCategories } from '@utils/postsCategories/incomeCategories'
+import { saleCategories } from '@utils/postsCategories/saleCategories'
 
 import { theme } from '@common/theme'
 
@@ -22,8 +23,7 @@ function SelectIncomeTags({ route, navigation }: SelectIncomeTagsScreenProps) {
 	}
 
 	const addNewTag = (tagName: string) => {
-		// CURRENT categorias and tags
-		updateSaleTags(getSaleCategorySelected(), tagName)
+		updateIncomeCategories(getSaleCategorySelected(), tagName)
 	}
 
 	const saveTags = (tagsSelected: string[]) => {

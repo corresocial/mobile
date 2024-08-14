@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { useSocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { InsertSocialImpactDescriptionScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -12,7 +12,7 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
-	const { setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
+	const { setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useSocialImpactContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)

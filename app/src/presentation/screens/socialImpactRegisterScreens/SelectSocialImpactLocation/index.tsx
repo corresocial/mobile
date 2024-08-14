@@ -5,7 +5,7 @@ import { Coordinates } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { useSocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -23,7 +23,7 @@ const { structureAddress } = UiLocationUtils()
 
 function SelectSocialImpactLocation({ route, navigation }: SelectSocialImpactLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, socialImpactDataContext, setSocialImpactDataOnContext } = useSocialImpactContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -99,7 +99,7 @@ function SelectSocialImpactLocation({ route, navigation }: SelectSocialImpactLoc
 				params: {
 					postData: { ...socialImpactDataContext, ...locationProperties },
 					unsavedPost: true,
-					showPresentationModal: true
+					showPresentationModal: !isSecondPost
 				}
 			}]
 		})

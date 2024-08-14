@@ -37,6 +37,7 @@ import { IncomeStackScreenProps } from '../UserStack/screenProps'
 const Stack = createStackNavigator<IncomeStackParamList>()
 
 export function IncomeStack({ route }: IncomeStackScreenProps) {
+	// const a = route.params?.params
 	return (
 		<IncomeProvider>
 			<Stack.Navigator

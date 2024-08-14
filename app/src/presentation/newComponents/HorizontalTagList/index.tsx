@@ -14,7 +14,6 @@ interface HorizontalTagListProps {
 }
 
 function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
-	console.log(tags)
 	if (!tags || (tags && !tags.length) || (tags && !tags[0])) return <></>
 
 	const renderTags = () => {

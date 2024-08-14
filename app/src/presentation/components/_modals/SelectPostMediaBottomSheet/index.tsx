@@ -1,4 +1,3 @@
-// CURRENT componentizar
 import ImageEditor from 'expo-image-cropper'
 import { Asset } from 'expo-media-library'
 import React, { useContext, useLayoutEffect, useState } from 'react'

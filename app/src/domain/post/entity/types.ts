@@ -6,13 +6,14 @@ import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
+export type IncomeCategories = keyof typeof saleCategories & keyof typeof serviceCategories & keyof typeof vacancyCategories
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
 export type VacancyCategories = keyof typeof vacancyCategories
 export type CultureCategories = keyof typeof cultureCategories
 export type SocialImpactCategories = keyof typeof socialImpactCategories
 
-export type PostCategoriesType = SaleCategories | ServiceCategories | VacancyCategories | CultureCategories | SocialImpactCategories
+export type PostCategoriesType = SaleCategories & ServiceCategories & VacancyCategories & CultureCategories & SocialImpactCategories
 
 export type PostCategoriesObject = typeof saleCategories | typeof serviceCategories | typeof vacancyCategories | typeof cultureCategories | typeof socialImpactCategories
 

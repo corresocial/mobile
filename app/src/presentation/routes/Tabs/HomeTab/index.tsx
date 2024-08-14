@@ -60,7 +60,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 			Animated.timing(heightAnimatedValue, {
 				toValue: focused ? 0 : initialValue,
 				duration: 300,
-				useNativeDriver: false // CURRENT USE IOS only
+				useNativeDriver: false
 			}).start()
 		}
 

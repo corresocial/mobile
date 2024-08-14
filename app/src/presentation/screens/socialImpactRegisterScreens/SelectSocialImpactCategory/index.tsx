@@ -3,6 +3,8 @@ import { StatusBar } from 'react-native'
 
 import { PostCategoriesType, SocialImpactCategories } from '@domain/post/entity/types'
 
+import { useEditContext } from '@contexts/EditContext'
+
 import { SelectSocialImpactCategoryScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
@@ -14,6 +16,8 @@ import { PostCategory } from '@components/_onboarding/PostCategory'
 type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
+
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const onSelectCategory = (categoryName: SocialImpactCategories) => {

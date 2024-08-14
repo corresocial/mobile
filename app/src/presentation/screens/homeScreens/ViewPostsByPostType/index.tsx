@@ -53,10 +53,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}, [searchText])
 
 	const setCurrentCategoryColorsOnContext = () => {
-		const currentCategory = {
-			backgroundColor: getRelativeBackgroundColor(),
-			inactiveColor: getInactiveCardColor()
-		}
+		const currentCategory = { backgroundColor: getRelativeBackgroundColor() }
 
 		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
 	}
@@ -149,15 +146,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			case 'culture': return theme.colors.blue[2]
 			case 'socialImpact': return theme.colors.pink[2]
 			default: return theme.colors.orange[2]
-		}
-	}
-
-	const getInactiveCardColor = () => {
-		switch (locationDataContext.searchParams.postType) {
-			case 'income': return theme.colors.green[1]
-			case 'culture': return theme.colors.blue[1]
-			case 'socialImpact': return theme.colors.pink[1]
-			default: return theme.colors.orange[1]
 		}
 	}
 

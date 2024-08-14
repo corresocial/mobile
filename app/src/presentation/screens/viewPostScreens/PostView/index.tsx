@@ -27,7 +27,8 @@ import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
-import { Body, ButtonContainer, GroupContent, GroupInfo, Header, OptionsArea } from './styles'
+import { Body, ButtonContainer, GroupContent, GroupInfo, Header, OptionsArea, UserApprovedStateContainer } from './styles'
+import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -120,13 +121,13 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		}
 	}
 
-	// const canRenderWaitingApproveIndicator = () => {
-	// 	return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
-	// }
+	const canRenderWaitingApproveIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	}
 
-	// const canRenderRejectIndicator = () => {
-	// 	return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
-	// }
+	const canRenderRejectIndicator = () => {
+		return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
+	}
 
 	const canRenderUnapprovedData = () => {
 		return loggedUserIsOwner() && postData && postData.unapprovedData
@@ -371,17 +372,18 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 				<Header>
 					<ContextHeader
 						title={(
-							<MiniUserIndentifier
-								navigateToProfile={navigateToProfile}
-								owner={postData.owner}
-								postedAt={postData.createdAt}
-							/>
+							<UserApprovedStateContainer >
+								<MiniUserIndentifier
+									navigateToProfile={navigateToProfile}
+									owner={postData.owner}
+									postedAt={postData.createdAt}
+								/>
+								{canRenderWaitingApproveIndicator() && <ClockArrowWhiteIcon onPress={toggleWaitingApproveModalVisibility} />}
+								{canRenderRejectIndicator() && <DeniedWhiteIcon onPress={toggleRejectModalVisibility} />}
+							</UserApprovedStateContainer>
 						)}
 						onBack={() => navigation.goBack()}
 					/>
-					{/* CURRENT Add */}
-					{/* {canRenderWaitingApproveIndicator() && <ClockArrowWhiteIcon />}
-					{canRenderRejectIndicator() && <DeniedWhiteIcon />} */}
 					<VerticalSpacing />
 					<OptionsArea>
 						{

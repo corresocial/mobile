@@ -5,7 +5,7 @@ import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { useSocialImpactContext } from '@contexts/SocialImpactContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSocialImpactRangeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
@@ -17,7 +17,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost } = useContext(SocialImpactContext)
+	const { isSecondPost } = useSocialImpactContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 

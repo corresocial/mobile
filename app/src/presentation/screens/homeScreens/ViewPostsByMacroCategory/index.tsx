@@ -30,8 +30,7 @@ function ViewPostsByMacroCategory({ route, navigation }: ViewPostsByMacroCategor
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 
 	const { postType, macroCategory } = (route.params?.macroCategory && route.params.postType) ? route.params : locationDataContext.searchParams
-	// CURRENT inative color prop
-	const { inactiveColor, backgroundColor } = locationDataContext.currentCategory
+	const { backgroundColor } = locationDataContext.currentCategory
 
 	useEffect(() => {
 		const posts = filterPostsByPostType()
@@ -47,10 +46,7 @@ function ViewPostsByMacroCategory({ route, navigation }: ViewPostsByMacroCategor
 	}, [searchText])
 
 	const setCurrentCategoryColorsOnContext = () => {
-		const currentCategory = {
-			backgroundColor: getRelativeBackgroundColor(),
-			inactiveColor: getInactiveCardColor()
-		}
+		const currentCategory = { backgroundColor: getRelativeBackgroundColor() }
 
 		const currentParams = { postType, macroCategory }
 
@@ -69,15 +65,6 @@ function ViewPostsByMacroCategory({ route, navigation }: ViewPostsByMacroCategor
 			case 'culture': return theme.colors.blue[2]
 			case 'socialImpact': return theme.colors.pink[2]
 			default: return theme.colors.orange[2]
-		}
-	}
-
-	const getInactiveCardColor = () => {
-		switch (postType) {
-			case 'income': return theme.colors.green[1]
-			case 'culture': return theme.colors.blue[1]
-			case 'socialImpact': return theme.colors.pink[1]
-			default: return theme.colors.orange[1]
 		}
 	}
 

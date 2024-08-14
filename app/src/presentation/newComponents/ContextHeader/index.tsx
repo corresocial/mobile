@@ -13,11 +13,12 @@ interface ContextHeaderProps {
 	color?: string
 	rightLabel?: string
 	icon?: IconName
+	rightIcon?: IconName
 	onBack?: () => void
 	onClose?: () => void
 }
 
-function ContextHeader({ title, color = 'transparent', rightLabel, icon, onBack, onClose }: ContextHeaderProps) {
+function ContextHeader({ title, color = 'transparent', rightLabel, icon, rightIcon, onBack, onClose }: ContextHeaderProps) {
 	return (
 		<Container color={color}>
 			{
@@ -54,6 +55,15 @@ function ContextHeader({ title, color = 'transparent', rightLabel, icon, onBack,
 					<RightLabel>{rightLabel}</RightLabel>
 				</RightLabelContainer>
 			)}
+			{
+				rightIcon && (
+					<IconComponent
+						relativeWidth={35}
+						relativeHeight={35}
+						iconName={rightIcon}
+					/>
+				)
+			}
 		</Container>
 	)
 }

@@ -1,6 +1,6 @@
 import { Keyboard } from 'react-native'
 
-const removeAllKeyboardEventListeners = () => { // CURRENT ver se há necessidade
+const removeAllKeyboardEventListeners = () => {
 	Keyboard.removeAllListeners('keyboardDidShow')
 	Keyboard.removeAllListeners('keyboardDidHide')
 }

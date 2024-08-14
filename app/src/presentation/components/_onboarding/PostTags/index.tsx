@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { MacroCategory } from '@domain/post/entity/types'
+import { PostCategoriesObject } from '@domain/post/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -33,7 +33,7 @@ const { sortArray } = UiUtils()
 interface PostTagsProps {
 	backgroundColor: string
 	lightColor: string
-	currentCategory: MacroCategory
+	currentCategory: PostCategoriesObject | any
 	addNewTag: (tagName: string) => void
 	savePostTags: (tags: string[]) => void
 	navigateBackwards: () => void
