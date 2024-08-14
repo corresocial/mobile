@@ -66,8 +66,8 @@ function Splash({ route, navigation }: SplashScreenProps) {
 		if (!__DEV__) {
 			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
 
-			const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '0.0.0', mandatoryVersion.nativeApplicationVersion)
-			const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '0', mandatoryVersion.nativeBuildVersion)
+			const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '9999.9999.9999', mandatoryVersion.nativeApplicationVersion)
+			const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '9999', mandatoryVersion.nativeBuildVersion)
 
 			if (appVersionComparison < 0 || buildVersionComparison < 0) {
 				return setStoreUpdateModalIsVisible(true)
