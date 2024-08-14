@@ -128,17 +128,14 @@ function DefaultInput({
 		if (!multiline) return
 
 		if (height >= maxLineHeight) {
-			console.log('height >= maxLineHeight')
 			return setMultilineInputHeight(maxLineHeight)
 		}
 
 		if (height <= multilineInputHeight && (fixedHeight && multilineInputHeight > fixedHeight)) {
-			console.log('height <= multilineInputHeight')
 			return setMultilineInputHeight(height + lineHeight)
 		}
 
 		if (height >= multilineInputHeight && height <= maxLineHeight) {
-			console.log('height >= multilineInputHeight && height <= maxLineHeight')
 			return setMultilineInputHeight(height + lineHeight)
 		}
 	}
