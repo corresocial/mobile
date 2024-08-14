@@ -11,20 +11,17 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
-import { Container, SubscriptionButtonContainer } from './styles'
-import CashWhiteIcon from '@assets/icons/cash-white.svg'
-import CultureWhiteIcon from '@assets/icons/culture-white.svg'
+import { CardsContainer, CardsContent, Container, SubscriptionButtonContainer } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
-import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
 import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '@assets/icons/wirelessOn-white.svg'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
+import { LargeCard } from '@components/_cards/LargeCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
-import { FormContainer } from '@components/_containers/FormContainer'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
@@ -69,6 +66,8 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
+	const cardDimensions = { relativeWidth: 28, relativeHeight: 100 }
+
 	return (
 		<>
 			<Container>
@@ -80,138 +79,101 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					onPressButton={navigateToSelectSubscriptionRange}
 				/>
 				<SubtitleCard
-					text={'criar post'}
-					highlightedText={['post']}
+					text={'O que você quer postar?'}
+					highlightedText={['postar?']}
 					SvgIcon={DescriptionWhiteIcon}
 				/>
-				<FormContainer
-					backgroundColor={theme.colors.orange[2]}
-				>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'serviços'}
-						highlightedWords={['serviços']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={CashWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.green[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'service')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'comércio'}
-						highlightedWords={['comércio']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={CashWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.green[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'sale')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'vagas'}
-						highlightedWords={['vagas']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={CashWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.green[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'vacancy')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'eventos'}
-						highlightedWords={['eventos']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={CultureWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.blue[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'event')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'arte'}
-						highlightedWords={['arte']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={CultureWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.blue[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'art')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'educação'}
-						highlightedWords={['educação']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={CultureWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.blue[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'education')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'Iniciativas'}
-						highlightedWords={['Iniciativas']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={SocialImpactWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.pink[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'iniciative')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'informativos'}
-						highlightedWords={['informativos']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={SocialImpactWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.pink[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'informative')}
-					/>
-					<OptionButton
-						color={theme.colors.white[3]}
-						label={'doações'}
-						highlightedWords={['doações']}
-						labelSize={12}
-						relativeHeight={'10%'}
-						SvgIcon={SocialImpactWhiteIcon}
-						svgIconScale={['80%', '80%']}
-						leftSideColor={theme.colors.pink[3]}
-						leftSideWidth={'25%'}
-						onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'donation')}
-					/>
-					{
-						numberOfOfflinePostsStored ? (
-							<OptionButton
-								label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
-								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-								highlightedWords={['posts', 'post']}
-								labelSize={15}
-								relativeHeight={'20%'}
-								leftSideWidth={'25%'}
-								leftSideColor={hasNetworkConnection ? theme.colors.green[3] : theme.colors.yellow[3]}
-								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
-								svgIconScale={['70%', '70%']}
-								onPress={() => navigation.navigate('OfflinePostsManagement')}
-							/>
-						) : <></>
-					}
-				</FormContainer>
+				<CardsContainer>
+					<CardsContent>
+						<LargeCard
+							{...cardDimensions}
+							text={'Serviços'}
+							icon={'nailPolishAndScissors'}
+							tone={'green'}
+							onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'service')}
+						/>
+						<LargeCard
+							{...cardDimensions}
+							text={'Comércio'}
+							icon={'cash'}
+							tone={'green'}
+							onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'sale')}
+						/>
+						<LargeCard
+							{...cardDimensions}
+							text={'Vagas'}
+							icon={'briefcase'}
+							tone={'green'}
+							onPress={() => selectPostMacroCategory('IncomeStack', 'income', 'vacancy')}
+						/>
+						<VerticalSpacing />
+
+						<LargeCard
+							{...cardDimensions}
+							text={'Eventos'}
+							icon={'calendarEveryday'}
+							tone={'blue'}
+							onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'event')}
+						/>
+						<LargeCard
+							{...cardDimensions}
+							text={'Arte'}
+							icon={'colorPalet'}
+							tone={'blue'}
+							onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'art')}
+						/>
+						<LargeCard
+							{...cardDimensions}
+							text={'Educação'}
+							icon={'books'}
+							tone={'blue'}
+							onPress={() => selectPostMacroCategory('CultureStack', 'culture', 'education')}
+						/>
+						<VerticalSpacing />
+
+						<LargeCard
+							{...cardDimensions}
+							text={'Iniciativas'}
+							icon={'handOnPerson'}
+							tone={'pink'}
+							onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'iniciative')}
+						/>
+						<LargeCard
+							{...cardDimensions}
+							text={'Doações'}
+							icon={'heartAndPerson'}
+							tone={'pink'}
+							onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'donation')}
+						/>
+						<LargeCard
+							{...cardDimensions}
+							text={'Informativos'}
+							icon={'paperInfo'}
+							tone={'pink'}
+							onPress={() => selectPostMacroCategory('SocialImpactStack', 'socialImpact', 'informative')}
+						/>
+						{
+							numberOfOfflinePostsStored ? (
+								<>
+									<VerticalSpacing height={3} />
+									<OptionButton
+										label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+										shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+										highlightedWords={['posts', 'post']}
+										labelSize={15}
+										relativeHeight={'12%'}
+										leftSideWidth={'25%'}
+										leftSideColor={hasNetworkConnection ? theme.colors.green[3] : theme.colors.yellow[3]}
+										SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+										svgIconScale={['70%', '70%']}
+										onPress={() => navigation.navigate('OfflinePostsManagement')}
+									/>
+								</>
+
+							) : <></>
+						}
+					</CardsContent>
+				</CardsContainer>
 				<SubtitleCard
 					text={'assinar o corre.'}
 					highlightedText={['corre']}

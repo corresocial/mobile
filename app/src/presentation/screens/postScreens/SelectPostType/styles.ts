@@ -7,6 +7,22 @@ export const Container = styled.SafeAreaView<SafeAreaViewProps>`
 	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
+export const CardsContainer = styled.View<SafeAreaViewProps>`
+    flex: 1;
+	background-color: ${({ theme }) => theme.colors.orange[2]};
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: ${relativeScreenDensity(10)}px;
+`
+
+export const CardsContent = styled.View<SafeAreaViewProps>`
+	background-color: ${({ theme }) => theme.colors.orange[2]};
+	flex-direction: row;
+	justify-content: space-around;
+	flex-wrap: wrap;
+`
+
 export const SubscriptionButtonContainer = styled.View`
 	background-color: ${({ theme }) => theme.colors.orange[2]};
 	padding: ${relativeScreenDensity(15)}px;

@@ -83,7 +83,6 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 	return (
 		<>
 			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
-
 			<PostInputText
 				multiline
 				backgroundColor={theme.colors.green[2]}

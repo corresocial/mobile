@@ -237,7 +237,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={closeButtonHandler}
-								onPressStart={() => setIsPressingCloseButton(true)}
+								onPressStart={() => setIsPressingCloseButton(true)} // REFACTOR REmover
 								onPressRelease={() => setIsPressingCloseButton(false)}
 							/>
 						</CloseButtonArea>
