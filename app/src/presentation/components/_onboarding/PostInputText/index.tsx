@@ -4,7 +4,7 @@ import { Platform, StatusBar, TextInputProps } from 'react-native'
 import { ButtonsContainer, Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -142,6 +142,7 @@ function PostInputText({
 				justifyContent={'center'}
 			>
 				<DefaultInput
+					{...(multiline ? { fixedHeight: relativeScreenDensity(120) } : {})}
 					textInputRef={textInputRef}
 					value={inputText}
 					defaultBackgroundColor={theme.colors.white[2]}

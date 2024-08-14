@@ -94,7 +94,7 @@ function DefaultInput({
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const [validated, setValidated] = useState<boolean>(false)
-	const [multilineInputHeight, setMultilineInputHeight] = useState(minLineHeight)
+	const [multilineInputHeight, setMultilineInputHeight] = useState(fixedHeight || minLineHeight)
 
 	const ValidateAndChange = (text: string) => {
 		const filtredText = filterText ? filterText(text) : text
@@ -128,17 +128,18 @@ function DefaultInput({
 		if (!multiline) return
 
 		if (height >= maxLineHeight) {
-			setMultilineInputHeight(maxLineHeight)
-			return
+			console.log('height >= maxLineHeight')
+			return setMultilineInputHeight(maxLineHeight)
 		}
 
-		if (height <= multilineInputHeight) {
-			setMultilineInputHeight(height + lineHeight)
-			return
+		if (height <= multilineInputHeight && (fixedHeight && multilineInputHeight > fixedHeight)) {
+			console.log('height <= multilineInputHeight')
+			return setMultilineInputHeight(height + lineHeight)
 		}
 
 		if (height >= multilineInputHeight && height <= maxLineHeight) {
-			setMultilineInputHeight(height + lineHeight)
+			console.log('height >= multilineInputHeight && height <= maxLineHeight')
+			return setMultilineInputHeight(height + lineHeight)
 		}
 	}
 
@@ -206,13 +207,12 @@ function DefaultInput({
 					)
 				}
 				<TextInput
-					showsVerticalScrollIndicator={false}
 					{...propsRest}
 					fontSize={fontSize}
 					textAlign={textAlign}
 					hasIcon={!!onIconPress}
 					hasDoubleIcon={!!CustonLeftIcon}
-					height={fixedHeight}
+					{...(multiline ? { height: (multilineInputHeight || fixedHeight || 0) - ((multilineInputHeight || fixedHeight || 0) * 0.25) } : {})}
 					style={[getTextInputStyle()]}
 					ref={textInputRef}
 					value={value}
