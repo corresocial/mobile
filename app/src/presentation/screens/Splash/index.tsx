@@ -63,16 +63,16 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}
 
 	const checkStoreUpdates = async () => {
-		if (!__DEV__) {
-			const mandatoryVersion = { nativeApplicationVersion: '0.9.1', nativeBuildVersion: '64' }
+		// if (!__DEV__) {
+		// 	const mandatoryVersion = { nativeApplicationVersion: '0.10.1', nativeBuildVersion: '68' }
 
-			const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '9999.9999.9999', mandatoryVersion.nativeApplicationVersion)
-			const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '9999', mandatoryVersion.nativeBuildVersion)
+		// 	const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '9999.9999.9999', mandatoryVersion.nativeApplicationVersion)
+		// 	const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '9999', mandatoryVersion.nativeBuildVersion)
 
-			if (appVersionComparison < 0 || buildVersionComparison < 0) {
-				return setStoreUpdateModalIsVisible(true)
-			}
-		}
+		// 	if (appVersionComparison < 0 || buildVersionComparison < 0) {
+		// 		return setStoreUpdateModalIsVisible(true)
+		// 	}
+		// }
 
 		return redirectToApp()
 	}
