@@ -23,7 +23,7 @@ const { structureAddress } = UiLocationUtils()
 
 function SelectCultureLocation({ route, navigation }: SelectCultureLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { cultureDataContext, setCultureDataOnContext } = useCultureContext()
+	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -98,7 +98,7 @@ function SelectCultureLocation({ route, navigation }: SelectCultureLocationScree
 				params: {
 					postData: { ...cultureDataContext, ...locationProperties },
 					unsavedPost: true,
-					showPresentationModal: true
+					showPresentationModal: !isSecondPost
 				}
 			}]
 		})

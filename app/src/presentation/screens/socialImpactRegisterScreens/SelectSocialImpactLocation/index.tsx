@@ -23,7 +23,7 @@ const { structureAddress } = UiLocationUtils()
 
 function SelectSocialImpactLocation({ route, navigation }: SelectSocialImpactLocationScreenProps) {
 	const { userDataContext, userPostsContext, getLastUserPost } = useContext(AuthContext)
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
@@ -99,7 +99,7 @@ function SelectSocialImpactLocation({ route, navigation }: SelectSocialImpactLoc
 				params: {
 					postData: { ...socialImpactDataContext, ...locationProperties },
 					unsavedPost: true,
-					showPresentationModal: true
+					showPresentationModal: !isSecondPost
 				}
 			}]
 		})
