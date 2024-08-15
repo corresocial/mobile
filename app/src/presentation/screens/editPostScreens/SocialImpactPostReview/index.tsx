@@ -10,6 +10,7 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { SocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
@@ -156,7 +157,9 @@ function SocialImpactPostReview({ route, navigation }: SocialImpactPostReviewScr
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userPostsContext && userPostsContext.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
-		if (userDataContext.subscription?.subscriptionRange === 'near') {
+		const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+
+		if (range === 'near') {
 			toggleRangeChangeModalVisibility()
 			return
 		}
