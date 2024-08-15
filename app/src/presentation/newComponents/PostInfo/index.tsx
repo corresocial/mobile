@@ -139,7 +139,6 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	const getRelativePriceValueLabel = (priceValue: PriceValues) => {
 		const formattedValue = []
 
-		console.log(priceValue)
 		if (priceValue.isEvent && (priceValue.saleValue === '')) {
 			formattedValue.push(
 				<PriceLabel bold>{'gratuito'}</PriceLabel>
@@ -453,7 +452,8 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		}
 		if (type === 'price') {
 			const price = value as PriceValues
-			if (!(price.exchangeValue || price.saleValue) && !price.isEvent) return false
+			if ((price.isEvent && (!price.exchangeValue && (price.saleValue || price.saleValue !== '')))) return false
+			if (!price.isEvent && (!price.exchangeValue && !price.saleValue)) return false
 		}
 
 		return true
