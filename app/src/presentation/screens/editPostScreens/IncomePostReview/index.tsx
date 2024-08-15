@@ -7,7 +7,6 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
 import { IncomePostReviewScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 import { IncomeStackParamList } from '@routes/Stack/IncomeStack/types'
 
@@ -109,8 +108,8 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 		navigation.navigate('Profile' as any)
 	}
 
-	const viewPostDetails = (post: PostEntityOptional) => {
-		navigateToPostView(post, navigation)
+	const navigateToPostView = (incomePostData: PostEntityOptional) => {
+		navigation.navigate('PostViewProfile' as any, { postData: incomePostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof IncomeStackParamList, initialValue: keyof IncomeEntity, customStack?: string) => { // TODO tipar com tipos de rotas
@@ -192,8 +191,6 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 		clearUnsavedEditContext
 	}
 
-	console.log(postData.postType, postData.macroCategory)
-
 	return (
 		<>
 			<LocationChangeConfirmationModal
@@ -216,7 +213,7 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
 				navigateToProfile={navigateToProfile}
-				navigateToPostView={viewPostDetails}
+				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}
 				getPostField={getPostField}
