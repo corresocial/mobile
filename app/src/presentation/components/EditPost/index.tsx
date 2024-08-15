@@ -137,7 +137,7 @@ function EditPost({
 				range,
 				initialPostData,
 				postWithUnapprovedData as PostEntity,
-				editDataContext.unsaved.picturesUrl || [],
+				postWithUnapprovedData.unapprovedData.picturesUrl || [],
 				editDataContext.unsaved.videosUrl || [],
 			)
 

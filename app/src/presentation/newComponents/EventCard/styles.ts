@@ -97,6 +97,7 @@ export const PostDescription = styled.Text<PostDescriptionProps>`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 	`
+
 interface PostDescriptionContainerProps {
 	colapsed: boolean
 }

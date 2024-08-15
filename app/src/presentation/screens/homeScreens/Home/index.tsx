@@ -142,16 +142,6 @@ function Home({ navigation }: HomeScreenProps) {
 				() => getPostsByLocationCloud(searchParams as FeedSearchParams, userId),
 				refresh
 			)
-
-			/* console.log('--------------------------------------')
-			console.log('NEAR')
-			remoteFeedPosts?.nearby.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
-			console.log('CITY')
-			remoteFeedPosts?.city.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
-			console.log('COUNTRY')
-			remoteFeedPosts?.country.map((poll: PollEntity | PostEntity | any) => console.log('-', poll.postId ? 'post' : 'enquete', '-', poll.title || poll.description, '-', poll.range))
-			console.log('--------------------------------------')
- */
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
@@ -364,7 +354,7 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				</DropdownContainer>
 				<FlatList
-					style={{ flex: 1, width: '100%', overflow: 'visible' }}
+					style={{ flex: 1, width: '100%' }}
 					showsVerticalScrollIndicator={false}
 					data={[1]}
 					renderItem={(() => { }) as any}

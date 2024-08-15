@@ -86,7 +86,12 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 	const chatTab = useTabAnimation()
 	const profileTab = useTabAnimation()
 
-	const currentUserIsLeader = () => (userDataContext.verified?.type === 'leader')
+	const currentUserHasPermission = () => (
+		userDataContext.verified?.type === 'leader'
+		|| userDataContext.verified?.type === 'coordinator'
+		|| userDataContext.verified?.type === 'questionnaireAdministrator'
+		|| userDataContext.verified?.admin
+	)
 
 	const renderHomeIcon = (focused: boolean) => {
 		const isFocused = useIsFocused()
@@ -241,7 +246,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				}}
 			/>
 			{
-				currentUserIsLeader() && (
+				currentUserHasPermission() && (
 					<Tab.Screen
 						name={'LeaderAreaStack'}
 						component={LeaderAreaStack}

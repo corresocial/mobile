@@ -1,12 +1,13 @@
+import { isAfter, isBefore } from 'date-fns'
+
 import { UserSubscription } from '@domain/user/entity/types'
 
 export function checkFreeTrialRange(userPlanRange: UserSubscription['subscriptionRange']): { range: UserSubscription['subscriptionRange'], betweenRange: boolean } {
-	const startDate = new Date('2024-08-05')
-	const endDate = new Date('2024-11-15')
+	const startDate = new Date('2024-08-15 00:00:00') 
+	const endDate = new Date('2024-11-15 00:00:00')
 
 	const currentDate = new Date()
-
-	if (currentDate >= startDate && currentDate <= endDate) {
+	if (isAfter(currentDate, startDate) && (isBefore(currentDate, endDate))) {
 		return { range: 'country', betweenRange: true }
 	}
 

@@ -52,7 +52,7 @@ function FeedByRange({
 		if (!items) return []
 		const filteredItems = collapseExternalVacancies ? items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) : items
 
-		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy')
+		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy' && item.owner.userId === 'jobSecretaryId')
 		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
 			filteredItems.unshift({ ...vacancyPost, action: () => navigate('ViewPostsByMacroCategory', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
 		}

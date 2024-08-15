@@ -11,8 +11,8 @@ export class UserName { // REFACTOR Migrar para Shared
 
 		const errors = Validator.stackErros(
 			Validator.notEmpty(this.value, citizenRegisterErrors.EMPTY_NAME),
-			Validator.sizeSmallerThan(this.value, 3, citizenRegisterErrors.SMALL_NAME),
 			Validator.sizeBigThan(this.value, 50, citizenRegisterErrors.LARGE_NAME),
+			this.requireFormalName ? Validator.sizeSmallerThan(this.value, 3, citizenRegisterErrors.SMALL_NAME) : null,
 			this.requireFormalName ? Validator.notEmpty(this.value.trim().replace(/\s+/g, ' ').split(' ')[1], citizenRegisterErrors.SINGLE_NAME) : null,
 			this.requireFormalName ? Validator.regex(this.value, /^[a-zA-ZÁ-ú'-.\s]+$/, citizenRegisterErrors.NAME_INVALID_CHARACTERS) : null
 		)

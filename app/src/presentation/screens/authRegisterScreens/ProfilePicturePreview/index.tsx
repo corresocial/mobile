@@ -83,6 +83,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
 				onClose={() => setMediaBrowserModalVisibility(false)}
 				maxImages={1}
+				allowVideos={false}
 				showMediaBrowser={mediaBrowserModalVisibility}
 			/>
 			<CustomCameraModal

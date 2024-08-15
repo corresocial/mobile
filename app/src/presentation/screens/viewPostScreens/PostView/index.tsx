@@ -78,7 +78,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
 	const [rejectModalIsVisible, setRejectModalIsVisible] = useState(false)
 
-	const [postLoaded, setPostLoaded] = useState(false)
 	const [postData, setPostData] = useState<PostEntity>(route.params.postData || null)
 	const [approvedPostData, setApprovedPostData] = useState<PostEntity>(route.params?.postData || null)
 
@@ -103,13 +102,12 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		if (route.params.redirectedPostId || refresh) {
 			const post = await remoteStorage.getPostById(refresh ? postData.postId : route.params.redirectedPostId)
 			setApprovedPostData(post as PostEntity)
+			setPostData(post as PostEntity)
 			setIsCompleted(!!(post && post.completed))
-			setPostLoaded(true)
 			sendEvent('visualized_post', { macroCategory: post?.macroCategory, postId: post?.postId })
 			return
 		}
 		setIsCompleted(!!(postData && postData.completed))
-		setPostLoaded(true)
 		sendEvent('visualized_post', { macroCategory: postData?.macroCategory, postId: postData?.postId })
 		mergeUnapprovedPostData()
 	}
@@ -328,7 +326,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const seeMorePressHandler = () => {
-		// TODO Loading não aparecendo
 		setIsLoadingMore(true)
 		if (!postData.macroCategory || route.name !== 'PostViewHome') return
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
@@ -357,7 +354,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		}
 	}
 
-	if (!postLoaded) {
+	if (!postData || (postData && !Object.keys(postData).length)) {
 		return (
 			<Loader flex />
 		)
@@ -464,6 +461,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<MediaView
 							picturesUrl={getPostField('picturesUrl', postType)}
 							videosUrl={getPostField('videosUrl', postType)}
+							indicatorTone={getRelativePostTone()}
 						/>
 						<GroupInfo>
 							<VerticalSpacing height={7} relativeDensity />
