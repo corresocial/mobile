@@ -94,7 +94,7 @@ function DefaultInput({
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const [validated, setValidated] = useState<boolean>(false)
-	const [multilineInputHeight, setMultilineInputHeight] = useState(fixedHeight || minLineHeight)
+	const [multilineInputHeight, setMultilineInputHeight] = useState(fixedHeight || (minLineHeight * 2))
 
 	const ValidateAndChange = (text: string) => {
 		const filtredText = filterText ? filterText(text) : text
