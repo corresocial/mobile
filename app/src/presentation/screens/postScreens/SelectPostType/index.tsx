@@ -66,7 +66,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const cardDimensions = { relativeWidth: 28, relativeHeight: 100 }
+	const cardDimensions = { relativeWidth: 28, relativeHeight: 110 }
 
 	return (
 		<>

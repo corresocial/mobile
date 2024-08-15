@@ -48,8 +48,8 @@ function LargeCard({ text, icon, tone, relativeWidth = 0, relativeHeight = 35, o
 						icon && (
 							<IconComponent
 								iconName={icon}
-								relativeHeight={45}
-								relativeWidth={45}
+								relativeHeight={'50%'}
+								relativeWidth={'50%'}
 							/>
 						)
 					}
