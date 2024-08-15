@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 
@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -36,30 +36,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
-			navigation.goBack()
-			return
-		}
-
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'EditCulturePostReview',
-					params: {
-						postData: {
-							...cultureDataContext,
-							range: postRange
-						},
-						unsavedPost: true
-					}
-				}]
-			})
-		} else {
-			setCultureDataOnContext({ range: postRange })
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
+			return navigation.goBack()
 		}
 	}
 
@@ -84,7 +61,6 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, isSecondPost ? 4 : 5]}
 			/>
 		</>
 	)

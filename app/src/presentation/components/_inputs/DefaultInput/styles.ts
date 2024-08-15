@@ -14,7 +14,7 @@ interface ContainerProps {
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: ${({ width }) => width || '100%'};
-	height: ${({ multiline, multilineInputHeight, height }) => (multiline ? height || multilineInputHeight : relativeScreenHeight(9))}px;
+	height: ${({ multiline, multilineInputHeight, height }) => (multiline ? multilineInputHeight || height : relativeScreenHeight(9))}px;
 	min-height: ${relativeScreenDensity(42)}px;
 	min-width: ${relativeScreenDensity(42)}px;
 

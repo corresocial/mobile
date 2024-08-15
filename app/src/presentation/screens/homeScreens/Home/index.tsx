@@ -285,7 +285,7 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
 	}
 
-	const navigateToPostCategories = (postType: PostType) => {
+	const navigateToViewPostsByPostType = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
 			searchParams: { ...locationDataContext.searchParams, postType } as any // TODO Type
@@ -379,7 +379,7 @@ function Home({ navigation }: HomeScreenProps) {
 					)}
 					ListHeaderComponent={(
 						<>
-							<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+							<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
 							<AdsCarousel
 								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 								onPressPublicServicesAd={navigateToPublicServices}

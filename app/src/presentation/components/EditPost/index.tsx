@@ -160,20 +160,16 @@ function EditPost({
 			if (offlinePost && !hasValidConnection) return
 
 			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved, completed: false } as PostEntity
-			const { createdAt, postType, macroCategory, ...unapprovedData } = postDataToSave
+			const { postType, macroCategory, ...unapprovedData } = postDataToSave
 			const postWithUnapprovedData = {
 				...approvedPostData,
 				owner,
-				createdAt,
+				createdAt: new Date(),
 				postType,
 				macroCategory,
-				updatedAt: new Date(),
 				completed: false,
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
-
-			console.log('postWithUnapprovedData')
-			console.log(postWithUnapprovedData)
 
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
@@ -202,7 +198,7 @@ function EditPost({
 				range,
 				initialPostData,
 				postWithUnapprovedData,
-				editDataContext.unsaved.picturesUrl || [],
+				postWithUnapprovedData.unapprovedData?.picturesUrl || [],
 				notifyUsersEnabled
 			)
 

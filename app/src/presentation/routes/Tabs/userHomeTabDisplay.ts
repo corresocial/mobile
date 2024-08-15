@@ -16,7 +16,7 @@ const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
 	useLayoutEffect(() => {
 		const routeName = getFocusedRouteNameFromRoute(route) as keyof Stack
 		navigation.setOptions({
-			tabBarStyle: { // CURRENT Migrar configurações para ca
+			tabBarStyle: {
 				display: routeName === undefined || visibleRoutes.includes(routeName) ? 'flex' : 'none',
 				position: 'absolute',
 				height: Platform.OS === 'ios' ? relativeScreenDensity(77) : relativeScreenDensity(60),

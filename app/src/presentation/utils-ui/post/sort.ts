@@ -1,8 +1,10 @@
-import { MacroCategory, PostEntity } from '@domain/post/entity/types'
+import { PostEntity } from '@domain/post/entity/types'
+
+import { MacroCategoryObject } from '@utils/postMacroCategories/types'
 
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
 
-const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
+const sortPostCategories = (a: MacroCategoryObject, b: MacroCategoryObject) => {
 	if (a.label < b.label) return -1
 	if (a.label > b.label) return 1
 	return 0

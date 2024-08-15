@@ -64,7 +64,6 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 	)
 
 	const loadMoreRegisters = async () => {
-		// console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
 		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
 	}
 

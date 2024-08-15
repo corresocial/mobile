@@ -18,7 +18,6 @@ interface DefaultHeaderContainerProps {
 	footerText?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[] | React.ReactNode
 	footerTextHighlighted?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	minHeight?: number
-	borderBottomWidth?: number
 	withoutIOSPadding?: boolean
 	grow?: boolean
 	paddingVertical?: number
@@ -35,7 +34,6 @@ function DefaultHeaderContainer({
 	footerTextHighlighted,
 	backgroundColor,
 	minHeight = 0,
-	borderBottomWidth = 5,
 	withoutIOSPadding,
 	grow,
 	paddingVertical,
@@ -50,19 +48,18 @@ function DefaultHeaderContainer({
 					height: grow ? 'auto' : relativeHeight,
 					flexDirection,
 					backgroundColor,
-					borderBottomWidth: footerText ? 0 : relativeScreenDensity(borderBottomWidth),
 					padding: withoutPadding ? 0 : relativeScreenWidth(5),
 					paddingVertical: paddingVertical ? relativeScreenDensity(paddingVertical) : relativeScreenWidth(5),
 					paddingBottom: footerText ? 0 : paddingVertical ? relativeScreenDensity(paddingVertical) : relativeScreenWidth(5),
 					alignItems: centralized ? 'center' : 'flex-start',
 					justifyContent: justifyContent || (centralized ? 'center' : 'flex-start'),
-				}}
+				} as any}
 			>
 				{children}
 			</Container >
 			{
 				footerText && (
-					<FooterTextArea style={{ borderBottomWidth: !FooterTextArea ? 0 : relativeScreenDensity(borderBottomWidth) }}>
+					<FooterTextArea style={{ borderBottomWidth: !FooterTextArea ? 0 : relativeScreenDensity(3) }}>
 						<SmallInstructionCard text={footerText} />
 						{
 							footerTextHighlighted && (

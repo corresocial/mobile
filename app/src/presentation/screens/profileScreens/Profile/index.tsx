@@ -543,7 +543,6 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 									centralized={false}
 									grow
 									withoutIOSPadding
-									borderBottomWidth={0}
 								>
 									<ProfileHeader>
 										<ProfileInfoContainer>

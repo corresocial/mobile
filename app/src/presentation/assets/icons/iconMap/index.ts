@@ -34,6 +34,7 @@ import CountryBrazil from '@assets/icons/brazil.svg'
 import City from '@assets/icons/city.svg'
 import PersonWalking from '@assets/icons/walkingPersonLeft.svg'
 import TwoPeopleHighFiving from '@assets/icons/twoPeopleHighFiving.svg'
+import NailPolishAndScissors from '@assets/icons/nailPolishAndScissors.svg'
 
 import Trade from '@assets/icons/trade.svg'
 import PersonAndGlobe from '@assets/icons/personAndGlobe.svg'
@@ -149,6 +150,9 @@ const icons: IconMap = {
 	},
 	twoPeopleHighFiving: {
 		default: TwoPeopleHighFiving
+	},
+	nailPolishAndScissors: {
+		default: NailPolishAndScissors
 	}
 }
 

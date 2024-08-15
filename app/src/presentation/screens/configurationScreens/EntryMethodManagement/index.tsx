@@ -221,7 +221,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				flexDirection={'row'}
 				relativeHeight={relativeScreenHeight(26)}
 				backgroundColor={theme.colors.white[3]}
-				borderBottomWidth={0}
 				centralized
 			>
 				<BackButton onPress={() => navigation.goBack()} />

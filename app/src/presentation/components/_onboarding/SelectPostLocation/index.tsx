@@ -15,7 +15,6 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import MapPointOrangeIcon from '@assets/icons/mapPoint-orange.svg'
 import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -84,10 +83,14 @@ function SelectPostLocation({
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
-		removeAllKeyboardEventListeners()
-		Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-		Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-	}, [keyboardOpened])
+		const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+
+		return () => {
+			keyboardDidShowListener.remove()
+			keyboardDidHideListener.remove()
+		}
+	}, [])
 
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {
@@ -100,7 +103,6 @@ function SelectPostLocation({
 	const getIpAddressCoodinates = async () => {
 		const coordinates = await getCoordinatesByIpAddress()
 
-		console.log(coordinates)
 		if (coordinates) {
 			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
 		}
@@ -197,12 +199,11 @@ function SelectPostLocation({
 				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
 				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor}
-				borderBottomWidth={0}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={customTitle || 'qual é o endereço?'}
-					highlightedWords={customTitleHighligh || ['endereço']}
+					highlightedWords={customTitleHighligh || ['endereço?']}
 					fontSize={16}
 				>
 					{

@@ -22,12 +22,18 @@ function CultureProvider({ children }: CultureProviderProps) {
 	const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
 
 	const setCultureDataOnContext = async (data: CultureEntityOptional) => {
+		console.log({ ...data }) // CURRENT remove
 		setCultureDataContext({ ...cultureDataContext, ...data })
 	}
 
 	const getAditionalDataFromLastPost = () => {
 		const lastUserPost = getLastUserPost()
-		if (!lastUserPost) return
+		if (!lastUserPost) {
+			return {
+				range: userDataContext.subscription?.subscriptionRange || 'near',
+				locationView: 'approximate',
+			}
+		}
 
 		setCultureDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
@@ -51,4 +57,6 @@ function CultureProvider({ children }: CultureProviderProps) {
 	)
 }
 
-export { CultureProvider, CultureContext }
+const useCultureContext = () => useContext(CultureContext)
+
+export { CultureProvider, useCultureContext }

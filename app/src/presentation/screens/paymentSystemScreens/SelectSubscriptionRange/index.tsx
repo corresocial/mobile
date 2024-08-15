@@ -189,7 +189,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				grow
 				centralized
 				backgroundColor={theme.colors.white[3]}
-				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard

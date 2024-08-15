@@ -6,6 +6,7 @@ import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
 import PeopleWhiteIcon from '@assets/icons/people-white.svg'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
@@ -36,8 +37,12 @@ function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlace
 			case 'near': return showMessageWithHighlight('em um bairro', ['bairro'])
 			case 'city': return showMessageWithHighlight('em uma cidade', ['cidade'])
 			case 'country': return showMessageWithHighlight('no brasil', ['brasil'])
-			default: return '---'
+			default: return ''
 		}
+	}
+
+	const getHeaderRightIcon = () => {
+		return !getExhibitionPlace() ? PlusWhiteIcon : undefined
 	}
 
 	return (
@@ -46,17 +51,21 @@ function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlace
 			onPress={onEdit}
 		>
 
-			<EditHeaderContainer onPress={onEdit}>
+			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'local de atuação'}
 					highlightedWords={['local', 'atuação']}
 					dimensions={40}
 				/>
 			</EditHeaderContainer>
-			<PostInfoRow
-				text={getExhibitionPlace()}
-				SvgIcon={getExhibitionPlaceIcon()}
-			/>
+			{
+				getExhibitionPlace() && (
+					<PostInfoRow
+						text={getExhibitionPlace()}
+						SvgIcon={getExhibitionPlaceIcon()}
+					/>
+				)
+			}
 		</DefaultTouchableCardContainer>
 	)
 }

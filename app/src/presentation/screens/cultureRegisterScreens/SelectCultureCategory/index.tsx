@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { CultureCategories, PostCategoriesType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useEditContext } from '@contexts/EditContext'
 
 import { SelectCultureCategoryScreenProps } from '@routes/Stack/CultureStack/screenProps'
 
@@ -16,17 +16,22 @@ import { PostCategory } from '@components/_onboarding/PostCategory'
 type GenericSelectPostCategoryType = (category: PostCategoriesType) => void
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useEditContext()
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const onSelectCategory = (categoryName: CultureCategories) => {
-		setCultureDataOnContext({
-			category: categoryName
-		})
+		if (editModeIsTrue()) {
+			return navigation.navigate('SelectCultureTags', {
+				categorySelected: categoryName,
+				...route.params
+			})
+		}
+	}
 
-		navigation.navigate('SelectCultureTags', {
-			categorySelected: categoryName,
-			...route.params
-		})
+	const skipScreen = () => {
+		addNewUnsavedFieldToEditContext({ category: '', tags: [] })
+		return navigation.goBack()
 	}
 
 	return (
@@ -35,8 +40,8 @@ function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScree
 			<PostCategory
 				backgroundColor={theme.colors.blue[2]}
 				categories={cultureCategories}
-				progress={[2, isSecondPost ? 4 : 5]}
 				navigateBackwards={() => navigation.goBack()}
+				skipScreen={skipScreen}
 				savePostCategory={onSelectCategory as GenericSelectPostCategoryType}
 			/>
 		</>

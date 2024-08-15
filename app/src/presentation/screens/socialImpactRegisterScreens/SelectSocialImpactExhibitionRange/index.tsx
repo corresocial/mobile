@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { ExhibitionPlaceType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactExhibitionRangeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -16,18 +15,13 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSocialImpactExhibitionRange = (exhibitionPlace: ExhibitionPlaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exhibitionPlace })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setSocialImpactDataOnContext({ exhibitionPlace })
-		navigation.navigate('InsertSocialImpactDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -38,7 +32,6 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 			highlightedWords={['onde']}
 			headerBackgroundColor={theme.colors.pink[2]}
 			backgroundColor={theme.colors.white[3]}
-			progress={[3, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

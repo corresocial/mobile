@@ -61,13 +61,13 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	},
 
 	transparence: {
-		orange: (opacity?: number) => `rgba(250, 153, 56, ${opacity ? opacity / 10 : '0.7'})`,
-		blue: (opacity?: number) => `rgba(48, 140, 232, ${opacity ? opacity / 10 : '0.7'})`,
-		green: (opacity?: number) => `rgba(18, 161, 89, ${opacity ? opacity / 10 : '0.7'})`,
-		yellow: (opacity?: number) => `rgba(251, 206, 55, ${opacity ? opacity / 10 : '0.7'})`,
-		red: (opacity?: number) => `rgba(232, 79, 48, ${opacity ? opacity / 10 : '0.7'})`,
-		purple: (opacity?: number) => `rgba(153, 71, 235, ${opacity ? opacity / 10 : '0.7'})`,
-		pink: (opacity?: number) => `rgba(232, 48, 110, ${opacity ? opacity / 10 : '0.7'})`,
+		orange: (opacity?: number) => `rgba(250, 153, 56, ${opacity ? opacity / 100 : '0.7'})`,
+		blue: (opacity?: number) => `rgba(48, 140, 232, ${opacity ? opacity / 100 : '0.7'})`,
+		green: (opacity?: number) => `rgba(18, 161, 89, ${opacity ? opacity / 100 : '0.7'})`,
+		yellow: (opacity?: number) => `rgba(251, 206, 55, ${opacity ? opacity / 100 : '0.7'})`,
+		red: (opacity?: number) => `rgba(232, 79, 48, ${opacity ? opacity / 100 : '0.7'})`,
+		purple: (opacity?: number) => `rgba(153, 71, 235, ${opacity ? opacity / 100 : '0.7'})`,
+		pink: (opacity?: number) => `rgba(232, 48, 110, ${opacity ? opacity / 100 : '0.7'})`,
 	},
 
 	fonts: {

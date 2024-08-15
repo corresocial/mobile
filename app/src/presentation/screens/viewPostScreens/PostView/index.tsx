@@ -6,7 +6,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useImpactReportDomain } from '@domain/impactReport/useImpactReportDomain'
-import { PostEntity, IncomeEntity, CultureEntity, VacancyEntity, SocialImpactEntity } from '@domain/post/entity/types'
+import { PostEntity, IncomeEntity, CultureEntity, SocialImpactEntity } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
 
 import { useImpactReportRepository } from '@data/impactReport/useImpactReportRepository'
@@ -86,7 +86,6 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			if (postData.postType === 'income') return 'income'
 			if (postData.postType === 'culture') return 'culture'
 			if (postData.postType === 'socialImpact') return 'socialImpact'
-			if (postData.macroCategory === 'vacancy') return 'vacancy'
 		}
 	}
 
@@ -120,6 +119,14 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 			setPostData(mergedPost)
 		}
 	}
+
+	// const canRenderWaitingApproveIndicator = () => {
+	// 	return loggedUserIsOwner() && postData && postData.unapprovedData && !postData.unapprovedData.reject
+	// }
+
+	// const canRenderRejectIndicator = () => {
+	// 	return loggedUserIsOwner() && postData && postData.unapprovedData && postData.unapprovedData.reject
+	// }
 
 	const canRenderUnapprovedData = () => {
 		return loggedUserIsOwner() && postData && postData.unapprovedData
@@ -180,35 +187,20 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 		switch (postData.postType) {
 			case 'income': {
-				if (postData.macroCategory === 'vacancy') {
-					return navigation.navigate('VacancyStack' as any, {
-						screen: 'EditVacancyPostReview' as keyof CultureStackParamList,
-						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
-					})
-				}
-				if (postData.macroCategory === 'sale') {
-					return navigation.navigate('SaleStack' as any, {
-						screen: 'EditSalePostReview' as keyof CultureStackParamList,
-						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
-					})
-				}
-				if (postData.macroCategory === 'service') {
-					return navigation.navigate('ServiceStack' as any, {
-						screen: 'EditServicePostReview' as keyof CultureStackParamList,
-						params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
-					})
-				}
-				break
+				return navigation.navigate('IncomeStack' as any, {
+					screen: 'IncomePostReview' as keyof CultureStackParamList,
+					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
+				})
 			}
 			case 'culture': {
 				return navigation.navigate('CultureStack' as any, {
-					screen: 'EditCulturePostReview' as keyof CultureStackParamList,
+					screen: 'CulturePostReview' as keyof CultureStackParamList,
 					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 				})
 			}
 			case 'socialImpact': {
 				return navigation.navigate('SocialImpactStack' as any, {
-					screen: 'EditSocialImpactPostReview' as keyof CultureStackParamList,
+					screen: 'SocialImpactPostReview' as keyof CultureStackParamList,
 					params: { postData: { ...postData, ...editDataContext.saved }, approvedPostData: approvedPostData }
 				})
 			}
@@ -279,11 +271,10 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
-	type PostEntities = 'culture' | 'income' | 'vacancy' | 'socialImpact'
+	type PostEntities = 'culture' | 'income' | 'socialImpact'
 	type PostTypes<T extends PostEntities> =
 		T extends 'income' ? IncomeEntity :
 		T extends 'culture' ? CultureEntity :
-		T extends 'vacancy' ? VacancyEntity :
 		T extends 'socialImpact' ? SocialImpactEntity :
 		any;
 
@@ -342,16 +333,13 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
 
 		setIsLoadingMore(false)
-		switch (postData.macroCategory) {
-			case 'event': return navigation.navigate('EventsCalendar')
-			case 'art': return navigation.navigate('PostCategories')
-			case 'donation': return navigation.navigate('PostCategories')
-			case 'education': return navigation.navigate('PostCategories')
-			case 'informative': return navigation.navigate('PostCategories')
-			case 'iniciative': return navigation.navigate('PostCategories')
-			case 'sale': return navigation.navigate('PostCategories')
-			case 'service': return navigation.navigate('PostCategories')
-			case 'vacancy': return navigation.navigate('PostCategories')
+		if (postData.macroCategory === 'event') {
+			return navigation.navigate('EventsCalendar')
+		}
+
+		const commomRedirect = ['art', 'donation', 'education', 'informative', 'iniciative', 'sale', 'service', 'vacancy']
+		if (commomRedirect.includes(postData.macroCategory)) {
+			return navigation.navigate('ViewPostsByMacroCategory')
 		}
 	}
 
@@ -391,6 +379,9 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						)}
 						onBack={() => navigation.goBack()}
 					/>
+					{/* CURRENT Add */}
+					{/* {canRenderWaitingApproveIndicator() && <ClockArrowWhiteIcon />}
+					{canRenderRejectIndicator() && <DeniedWhiteIcon />} */}
 					<VerticalSpacing />
 					<OptionsArea>
 						{
@@ -475,7 +466,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						<GroupInfo>
 							<VerticalSpacing height={7} relativeDensity />
 							<HorizontalTagList
-								tags={[getPostCategory(), ...getPostField('tags', postType)]}
+								tags={[getPostCategory(), ...(getPostField('tags', postType)) || []]}
 								selectedColor={theme.colors[getRelativePostTone()][1]}
 							/>
 							<GroupContent>
@@ -515,16 +506,16 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 								/>
 								<PostInfo
 									type={'placeModality'}
-									value={getPostField('eventPlaceModality', 'culture') || getPostField('workplace', 'vacancy')}
+									value={getPostField('eventPlaceModality', 'culture') || getPostField('workplace', 'income')}
 								/>
 								<PostInfo
 									type={'importantPoints'}
-									value={getPostField('importantPoints', 'vacancy')}
+									value={getPostField('importantPoints', 'income')}
 								/>
 								<PostInfo
 									type={'dateTime'}
 									value={{
-										weekDaysfrequency: getPostField('attendanceFrequency', 'income'),
+										weekDaysfrequency: getPostField('attendanceFrequency', 'income') || getPostField('workFrequency', 'income') || getPostField('exhibitionFrequency', 'socialImpact'), // REFACTOR Unificar
 										daysOfWeek: getPostField('daysOfWeek', 'income'),
 										repetition: getPostField('repeat', 'culture'),
 										startDate: getPostField('startDate', 'culture'),
@@ -545,7 +536,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						</GroupInfo>
 						<VerticalSpacing />
 						<MapView
-							online={getPostField('workplace', 'vacancy') === 'homeoffice' || getPostField('eventPlaceModality', 'culture') === 'online'}
+							online={getPostField('workplace', 'income') === 'homeoffice' || getPostField('eventPlaceModality', 'culture') === 'online'}
 							locationView={getPostField('locationView', postType)}
 							location={getPostField('location', postType)}
 						/>

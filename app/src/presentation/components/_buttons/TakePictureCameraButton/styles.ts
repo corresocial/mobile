@@ -7,9 +7,6 @@ interface TakePictureButtonProps extends TouchableOpacityProps {
 	buttonPressed: boolean
 }
 
-console.log(relativeScreenWidth(21))
-console.log(relativeScreenDensity(68))
-
 export const OutlinedContainer = styled.View<TakePictureButtonProps>`
 	border-width: 3px;
 	border-color: ${({ theme }) => theme.colors.white[3]};
