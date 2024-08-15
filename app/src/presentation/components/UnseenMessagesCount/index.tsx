@@ -1,8 +1,8 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, CountValue, IconContainer } from './styles'
 import ChatEmptyWhiteIcon from '@assets/icons/chatEmpty-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface UnseenMessagesCountProps {
 	value: number
@@ -12,9 +12,9 @@ interface UnseenMessagesCountProps {
 
 function UnseenMessagesCount({ value, width, height }: UnseenMessagesCountProps) {
 	const getRelativeFontSize = () => {
-		if (value < 99) return RFValue(15)
-		if (value > 99 && value < 999) return RFValue(12)
-		return RFValue(10)
+		if (value < 99) return relativeScreenDensity(15)
+		if (value > 99 && value < 999) return relativeScreenDensity(12)
+		return relativeScreenDensity(10)
 	}
 
 	const fontSize = getRelativeFontSize()

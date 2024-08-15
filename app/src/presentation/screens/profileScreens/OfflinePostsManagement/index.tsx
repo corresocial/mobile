@@ -149,19 +149,17 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 	}
 
 	const naigateToReviewPost = (post: PostEntityOptional) => {
-		switch (post.postType as any) { // REFACTOR Remover any e Verificar funcionamento
-			case 'service': return navigation.navigate('EditServicePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
-			case 'sale': return navigation.navigate('EditSalePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'vacancy': return navigation.navigate('EditVacancyPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'culture': return navigation.navigate('EditCulturePost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'socialImpact': return navigation.navigate('EditSocialImpactPost' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+		switch (post.postType as any) {
+			case 'income': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
+			case 'culture': return navigation.navigate('CulturePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'socialImpact': return navigation.navigate('SocialImpactPostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			default: return null
 		}
 	}
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -174,10 +172,10 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 						: (
 							<SaveButtonContainer>
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={getActionButtonLabel()}
 									highlightedWords={getActionButtonLabelHighlighted()}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									fontSize={16}
 									SecondSvgIcon={allOfflinePostsOnRange() ? AngleRightWhiteIcon : HandOnMoneyWhiteIcon}
 									svgIconScale={['40%', '20%']}
@@ -190,7 +188,7 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 				}
 
 			</Header>
-			<Body backgroundColor={hasError ? theme.red2 : theme.orange2}>
+			<Body backgroundColor={hasError ? theme.colors.red[2] : theme.colors.orange[2]}>
 				{
 					<FlatListPosts
 						data={offlinePosts}

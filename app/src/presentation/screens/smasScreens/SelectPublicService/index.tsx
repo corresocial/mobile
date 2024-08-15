@@ -21,7 +21,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={'serviços \npúblicos'}
@@ -29,7 +29,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					onBackPress={() => navigation.goBack()}
 				/>
 			</Header>
-			<FormContainer backgroundColor={theme.pink2} >
+			<FormContainer backgroundColor={theme.colors.pink[2]} >
 				<VerticalSpacing />
 				<OptionButton
 					label={'benefício eventual emergencial'}
@@ -38,7 +38,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					relativeHeight={'15%'}
 					SvgIcon={PublicServicesWhiteIcon}
 					svgIconScale={['60%', '60%']}
-					leftSideColor={theme.pink3}
+					leftSideColor={theme.colors.pink[3]}
 					leftSideWidth={'25%'}
 					onPress={() => navigateToSmasServices('BEE')}
 				/>
@@ -49,7 +49,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					relativeHeight={'15%'}
 					SvgIcon={PublicServicesWhiteIcon}
 					svgIconScale={['60%', '60%']}
-					leftSideColor={theme.pink3}
+					leftSideColor={theme.colors.pink[3]}
 					leftSideWidth={'25%'}
 					onPress={() => navigateToSmasServices('PBF')}
 				/>
@@ -60,7 +60,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					relativeHeight={'15%'}
 					SvgIcon={PublicServicesWhiteIcon}
 					svgIconScale={['60%', '60%']}
-					leftSideColor={theme.pink3}
+					leftSideColor={theme.colors.pink[3]}
 					leftSideWidth={'25%'}
 					onPress={() => navigateToSmasServices('CADUNICO')}
 				/>

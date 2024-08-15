@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
     width: 100%;
@@ -15,14 +16,14 @@ export const CarouselIndicatorContainer = styled.View`
 `
 
 interface CarouseIndicatorItemProps {
-	indicatorColor?: string
+    indicatorColor?: string
 }
 
 export const CarouselActiveIndicatorItem = styled.View<CarouseIndicatorItemProps>`
     height: 15px;
     width: 16px;
-    border-radius: ${RFValue(10)}px;
-    background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
+    border-radius: ${relativeScreenDensity(10)}px;
+    background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.colors.orange[3]};
     margin: 0px 2px;
 `
 
@@ -30,7 +31,7 @@ export const CarouselInactiveIndicatorItem = styled.View<CarouseIndicatorItemPro
     height: 9px;
     width: 9px;
     border-radius: 10px;
-	background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
+	background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.colors.orange[3]};
     margin: 0px 2px;
 `
 

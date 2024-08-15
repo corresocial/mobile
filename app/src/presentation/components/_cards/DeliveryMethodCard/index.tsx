@@ -6,6 +6,7 @@ import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
 import PeopleWhiteIcon from '@assets/icons/people-white.svg'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import TruckWhiteIcon from '@assets/icons/truck-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
@@ -39,8 +40,12 @@ function DeliveryMethodCard({ title, deliveryMethod, onEdit }: DeliveryMethodCar
 			case 'near': return showMessageWithHighlight('entrego na região', ['entrego', 'região'])
 			case 'city': return showMessageWithHighlight('entrego na cidade', ['entrego', 'cidade'])
 			case 'country': return showMessageWithHighlight('atendo no brasil inteiro', ['atendo', 'brasil', 'inteiro'])
-			default: return '---'
+			default: return ''
 		}
+	}
+
+	const getHeaderRightIcon = () => {
+		return !getDeliveryMethod() ? PlusWhiteIcon : undefined
 	}
 
 	return (
@@ -48,17 +53,21 @@ function DeliveryMethodCard({ title, deliveryMethod, onEdit }: DeliveryMethodCar
 			pressionable={!!onEdit}
 			onPress={onEdit}
 		>
-			<EditHeaderContainer onPress={onEdit}>
+			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'entrega do post'}
 					highlightedWords={['entrega']}
 					dimensions={40}
 				/>
 			</EditHeaderContainer>
-			<PostInfoRow
-				text={getDeliveryMethod()}
-				SvgIcon={getDeliveryMethodIcon()}
-			/>
+			{
+				getDeliveryMethod() && (
+					<PostInfoRow
+						text={getDeliveryMethod()}
+						SvgIcon={getDeliveryMethodIcon()}
+					/>
+				)
+			}
 		</DefaultTouchableCardContainer>
 	)
 }

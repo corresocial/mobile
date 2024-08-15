@@ -54,7 +54,7 @@ function FeedByRange({
 
 		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy' && item.owner.userId === 'jobSecretaryId')
 		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
-			filteredItems.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
+			filteredItems.unshift({ ...vacancyPost, action: () => navigate('ViewPostsByMacroCategory', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
 		}
 
 		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)

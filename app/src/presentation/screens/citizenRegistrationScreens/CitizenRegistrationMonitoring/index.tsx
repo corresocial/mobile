@@ -109,7 +109,7 @@ function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonito
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange1} infinityBottom>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]} infinityBottom>
 			<Header>
 				<DefaultPostViewHeader
 					text={'Cadastro cidadãos realizados'}
@@ -125,8 +125,8 @@ function CitizenRegistrationMonitoring({ navigation }: CitizenRegistrationMonito
 					onEndReached={loadMorePolls}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={isRefreshing}
 							onRefresh={() => loadCitizenRegistrationByCoordinator(true)}
 						/>

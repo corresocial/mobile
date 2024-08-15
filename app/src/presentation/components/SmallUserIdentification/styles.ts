@@ -1,5 +1,4 @@
 import { Image, ImageProps } from 'expo-image'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
@@ -11,22 +10,27 @@ export const Container = styled.View`
 `
 
 export const UserPictureArea = styled.View`
-	border-radius: ${RFValue(8)}px;
-	margin-left: ${RFValue(5)}px;
+	border-radius: ${relativeScreenDensity(12)}px;
+	margin-left: ${relativeScreenDensity(5)}px;
 	position: relative;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	width: 100%;
 `
 
-export const UserPictureAreaInner = styled.TouchableOpacity`
-	border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const UserPictureAreaInner = styled.TouchableOpacity<ContainerSurfaceProps>`
+	border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.colors.black[4]};
 	width: 100%;
 	height: 100%;
-	border-radius: ${RFValue(7)}px;
+	border-radius: ${relativeScreenDensity(12)}px;
 	position: absolute;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	overflow: hidden;
-	left: ${RFValue(-5)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.small}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.small}px;
 `
 
 export const MiniaturePortrait = styled(Image) <ImageProps>`
@@ -36,7 +40,7 @@ export const MiniaturePortrait = styled(Image) <ImageProps>`
 `
 
 export const UserInfo = styled.View`
-	padding: 0px ${RFValue(8)}px;
+	padding: 0px ${relativeScreenDensity(8)}px;
 	width: 85%;
 `
 
@@ -58,6 +62,6 @@ export const UserName = styled.Text<UserNameProps>`
 `
 
 export const PostDateTime = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 `

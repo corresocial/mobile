@@ -91,11 +91,11 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(25)}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
@@ -104,7 +104,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					description={'fala para a gente o que aconteceu'}
 					highlightedWords={[route.params.title, 'o', 'que']}
 					height={'70%'}
-					color={theme.white3}
+					color={theme.colors.white[3]}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer >
@@ -112,8 +112,8 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					value={message}
 					relativeWidth={'100%'}
 					textInputRef={inputRefs.descriptionInput}
-					defaultBackgroundColor={theme.white2}
-					validBackgroundColor={theme.orange1}
+					defaultBackgroundColor={theme.colors.white[2]}
+					validBackgroundColor={theme.colors.orange[1]}
 					multiline
 					lastInput
 					fontSize={16}
@@ -129,8 +129,8 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 							? <Loader />
 							: (
 								<PrimaryButton
-									color={theme.green3}
-									labelColor={theme.white3}
+									color={theme.colors.green[3]}
+									labelColor={theme.colors.white[3]}
 									relativeHeight={relativeScreenHeight(9.3)}
 									labelMarginLeft={5}
 									textAlign={'left'}

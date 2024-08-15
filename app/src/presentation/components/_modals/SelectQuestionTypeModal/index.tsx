@@ -29,7 +29,7 @@ function SelectQuestionTypeModal({ visibility, onSelect, closeModal }: SelectQue
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			<FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
 			<Container>
 				<TouchCloseArea onPress={closeModal}></TouchCloseArea>
 				<ContentInner>
@@ -42,7 +42,7 @@ function SelectQuestionTypeModal({ visibility, onSelect, closeModal }: SelectQue
 						labelSize={15}
 						SvgIcon={DescriptionWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={theme.colors.purple[3]}
 						leftSideWidth={'25%'}
 						onPress={() => onSelect('textual')}
 					/>
@@ -52,7 +52,7 @@ function SelectQuestionTypeModal({ visibility, onSelect, closeModal }: SelectQue
 						labelSize={15}
 						SvgIcon={NumbersWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={theme.colors.purple[3]}
 						leftSideWidth={'25%'}
 						onPress={() => onSelect('numerical')}
 					/>
@@ -62,7 +62,7 @@ function SelectQuestionTypeModal({ visibility, onSelect, closeModal }: SelectQue
 						labelSize={15}
 						SvgIcon={VerifiedLabelWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={theme.colors.purple[3]}
 						leftSideWidth={'25%'}
 						onPress={() => onSelect('binary')}
 					/>
@@ -72,7 +72,7 @@ function SelectQuestionTypeModal({ visibility, onSelect, closeModal }: SelectQue
 						labelSize={15}
 						SvgIcon={SatisfactionEmoji5WhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={theme.colors.purple[3]}
 						leftSideWidth={'25%'}
 						onPress={() => onSelect('satisfaction')}
 					/>
@@ -82,7 +82,7 @@ function SelectQuestionTypeModal({ visibility, onSelect, closeModal }: SelectQue
 						labelSize={15}
 						SvgIcon={ChecksWhiteIcon}
 						svgIconScale={['60%', '60%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={theme.colors.purple[3]}
 						leftSideWidth={'25%'}
 						onPress={() => onSelect('select')}
 					/>

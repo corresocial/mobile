@@ -101,10 +101,10 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 			<FilterButton
 				key={uuid()}
 				height={relativeScreenHeight(4)}
-				backgroundColor={theme.white3}
-				backgroundSelected={theme.orange1}
+				backgroundColor={theme.colors.white[3]}
+				backgroundSelected={theme.colors.orange[1]}
 				label={getRelativeMacroTagLabel(postType)}
-				fontSize={13}
+				fontSize={theme.fontSizes[2]}
 				selected={selectedPostType === postType}
 				onSelect={() => toggleSelectedPostType(postType)}
 			/>
@@ -133,8 +133,8 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 				<FilterButton
 					key={uuid()}
 					height={relativeScreenHeight(3.5)}
-					backgroundColor={theme.white3}
-					backgroundSelected={theme.orange1}
+					backgroundColor={theme.colors.white[3]}
+					backgroundSelected={theme.colors.orange[1]}
 					label={macroCategoryObject.label}
 					fontSize={11}
 					selected={selectedMacroCategories.includes(macroCategory)}

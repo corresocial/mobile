@@ -72,7 +72,7 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange1} infinityBottom>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]} infinityBottom>
 			<Header>
 				<DefaultPostViewHeader
 					text={'seus cadastros não enviados'}
@@ -83,11 +83,11 @@ function CitizenOfflineRegistrationList({ navigation }: CitizenOfflineRegistrati
 				<SaveButtonContainer>
 					<PrimaryButton
 						label={'enviar'}
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						SecondSvgIcon={AngleRightWhiteIcon}
 						minHeight={45}
 						relativeHeight={relativeScreenDensity(45)}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						onPress={saveOfflineRegistersOnRemoteStorage}
 					/>
 				</SaveButtonContainer>

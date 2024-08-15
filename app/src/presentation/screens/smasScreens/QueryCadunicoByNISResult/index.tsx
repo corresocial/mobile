@@ -70,7 +70,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={status === 'Atualizado' ? theme.pink2 : theme.red2} />
+			<StatusBar backgroundColor={status === 'Atualizado' ? theme.colors.pink[2] : theme.colors.red[2]} />
 			<AlertNotificationModal
 				visibility={notificationModalIsVisible}
 				affirmativeConfigButton
@@ -83,7 +83,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 			<DefaultHeaderContainer
 				relativeHeight={nisNotFound ? '70%' : '80%'}
 				centralized
-				backgroundColor={status === 'Atualizado' ? theme.pink2 : theme.red2}
+				backgroundColor={status === 'Atualizado' ? theme.colors.pink[2] : theme.colors.red[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -107,7 +107,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			< FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				{
@@ -116,25 +116,25 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 							<PrimaryButton
 								label={'tentar outro NIS'}
 								highlightedWords={['NIS']}
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SecondSvgIcon={RecycleWhiteIcon}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								onPress={navigateBackwards}
 							/>
 							<VerticalSpacing />
 							<PrimaryButton
 								label={'não sei meu NIS'}
 								highlightedWords={['NIS']}
-								color={theme.yellow3}
+								color={theme.colors.yellow[3]}
 								SecondSvgIcon={QuestionMarkWhiteIcon}
 								onPress={navigateToQueryNIS}
 							/>
 						</>
 					) : (
 						<PrimaryButton
-							color={theme.green3}
+							color={theme.colors.green[3]}
 							label={'continuar'}
-							labelColor={theme.white3}
+							labelColor={theme.colors.white[3]}
 							SecondSvgIcon={CheckWhiteIcon}
 							onPress={handleContinueButton}
 						/>

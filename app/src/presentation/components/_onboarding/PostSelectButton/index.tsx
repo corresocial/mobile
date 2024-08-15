@@ -25,12 +25,12 @@ interface PostSelectButtonProps {
 function PostSelectButton({ title, highlightedWords, headerBackgroundColor, backgroundColor, progress, children, navigateBackwards }: PostSelectButtonProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={headerBackgroundColor || theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={headerBackgroundColor || theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(30)}
 				relativeHeight={relativeScreenHeight(30)}
 				centralized
-				backgroundColor={headerBackgroundColor || theme.white3}
+				backgroundColor={headerBackgroundColor || theme.colors.white[3]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

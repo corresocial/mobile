@@ -79,11 +79,11 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.purple[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -99,8 +99,8 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 						relativeWidth={'30%'}
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.purple1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.purple[1]}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -114,8 +114,8 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 						relativeWidth={'65%'}
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.purple1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.purple[1]}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}
@@ -127,9 +127,9 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					SecondSvgIcon={CheckWhiteIcon}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					label={'continuar'}
 					highlightedWords={['continuar']}
 					startsHidden

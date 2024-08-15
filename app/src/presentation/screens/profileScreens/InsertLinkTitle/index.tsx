@@ -58,11 +58,11 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
@@ -78,8 +78,8 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 						value={linkTitle}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.linkTitleInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.orange1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.orange[1]}
 						lastInput
 						multiline
 						fontSize={16}
@@ -94,10 +94,10 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 						linkTitleIsValid && !keyboardOpened
 						&& (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								highlightedWords={['continuar']}
 								startsHidden={false}
 								onPress={saveLinkTitle}

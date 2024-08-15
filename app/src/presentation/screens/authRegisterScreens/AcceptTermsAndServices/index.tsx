@@ -53,12 +53,12 @@ function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreen
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -80,8 +80,8 @@ function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreen
 				<PrimaryButton
 					label={'aceitar e continuar'}
 					SecondSvgIcon={CheckWhiteIcon}
-					labelColor={theme.white3}
-					color={theme.green3}
+					labelColor={theme.colors.white[3]}
+					color={theme.colors.green[3]}
 					highlightedWords={['aceitar', 'continuar']}
 					onPress={navigateToSelectRegisterMethod}
 				/>

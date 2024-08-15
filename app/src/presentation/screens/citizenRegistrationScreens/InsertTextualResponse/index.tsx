@@ -79,7 +79,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<ScreenContainer topSafeAreaColor={theme.orange1}>
+			<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
 				<CitizenRegistrationHeader
 					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}
@@ -89,8 +89,8 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 					<FormContent>
 						<DefaultInput
 							value={inputText}
-							defaultBackgroundColor={theme.white2}
-							validBackgroundColor={theme.orange1}
+							defaultBackgroundColor={theme.colors.white[2]}
+							validBackgroundColor={theme.colors.orange[1]}
 							lastInput
 							fontSize={16}
 							textIsValid={!!inputText}
@@ -102,9 +102,9 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 						{
 							inputText && (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'continuar'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SecondSvgIcon={CheckWhiteIcon}
 									onPress={selectInputedText}
 								/>
@@ -114,7 +114,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 							(!inputText && questionData.optional)
 								? (
 									<PrimaryButton
-										color={theme.yellow3}
+										color={theme.colors.yellow[3]}
 										label={'não se aplica'}
 										SecondSvgIcon={DeniedWhiteIcon}
 										onPress={skipQuestion}

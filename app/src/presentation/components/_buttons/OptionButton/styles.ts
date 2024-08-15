@@ -5,7 +5,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const TouchableContainer = styled.TouchableWithoutFeedback`
     width: 100%;
-    background-color: ${({ theme }) => theme.white2};
+    background-color: ${({ theme }) => theme.colors.white[2]};
 `
 
 export const ContainerBottom = styled(Animatable.View as any)`
@@ -14,28 +14,33 @@ export const ContainerBottom = styled(Animatable.View as any)`
     flex-direction: row;
     border-radius: ${relativeScreenDensity(20)}px;
     position: relative;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
 `
 
-export const ContainerSurface = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 	width: 100%;
 	height: 100%;
 	flex-direction: row;
-    background-color: ${({ theme }) => theme.white3};
-    border: ${relativeScreenDensity(3.5)}px solid black;
+    background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(2.2)}px solid black;
     border-radius:${relativeScreenDensity(20)}px;
     position: absolute;
     overflow: hidden;
-	left: ${-relativeScreenDensity(8)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const LeftArea = styled.View`
-    background-color: ${({ theme }) => theme.orange3};
+    background-color: ${({ theme }) => theme.colors.orange[3]};
     height: 101%;
     align-items: center;
     justify-content: center;
 	border-right-width: ${relativeScreenDensity(3.5)}px;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 interface LeftSideTextProps {
@@ -44,8 +49,8 @@ interface LeftSideTextProps {
 
 export const LeftSideText = styled.Text<LeftSideTextProps>`
 	text-align: center;
-	color: ${({ theme, leftSideTextColor }) => leftSideTextColor || theme.white3};
-	font-size: ${relativeScreenDensity(12)}px;
+	color: ${({ theme, leftSideTextColor }) => leftSideTextColor || theme.colors.white[3]};
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 `
 
@@ -57,13 +62,13 @@ export const LabelDescriptionArea = styled.View`
 `
 
 export const ButtonLabel = styled.Text`
-    color: ${({ theme }) => theme.black4};
-    font-size: ${relativeScreenDensity(20)}px;
+    color: ${({ theme }) => theme.colors.black[4]};
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     font-family: Arvo_400Regular;
 `
 
 export const Description = styled.Text`
-    color: ${({ theme }) => theme.black4};
+    color: ${({ theme }) => theme.colors.black[4]};
     font-family: Arvo_400Regular;
 `
 
@@ -77,6 +82,6 @@ export const ShortDescription = styled.Text<ShortDescriptionProps>`
 	text-align: center;
 	font-size: ${({ fontSize }) => (fontSize || relativeScreenDensity(11))}px;
 	margin-top: 3%;
-    color: ${({ theme }) => theme.black4};
+    color: ${({ theme }) => theme.colors.black[4]};
     font-family: Arvo_400Regular;
 `

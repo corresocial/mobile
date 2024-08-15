@@ -13,7 +13,7 @@ interface TermsOfServiceModalProps {
 function TermsOfServiceModal({ visibility, closeModal }: TermsOfServiceModalProps) {
 	return (
 		<Modal visible={visibility} transparent animationType={'fade'}>
-			<StatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
 			<TermsOfService onPress={closeModal} />
 		</Modal>
 	)

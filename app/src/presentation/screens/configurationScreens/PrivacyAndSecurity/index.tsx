@@ -15,11 +15,11 @@ import { TermsOfService } from '@components/TermsOfService'
 function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'18%'}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<HorizontalSpacing />

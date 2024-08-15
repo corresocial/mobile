@@ -44,11 +44,11 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(18)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				footerText={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan)}
 				footerTextHighlighted={`r$ ${price},00`}
 			>
@@ -60,42 +60,42 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 					highlightedWords={['forma', 'de', 'pagamento']}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2}>
+			<FormContainer backgroundColor={theme.colors.orange[2]}>
 				<ButtonsContainer>
 					{/* <OptionButton
-						color={theme.white1}
+						color={theme.colors.white[1]}
 						label={'usar pix'}
 						highlightedWords={['pix']}
 						labelSize={18}
 						relativeHeight={'18%'}
 						SvgIcon={PixWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						leftSideWidth={'28%'}
 						onPress={() => Alert.alert('Em breve...')}
 					// onPress={() => navigateToPaymentScreen('pix')}
 					/> */}
 					<OptionButton
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'cartão de crédito'}
 						highlightedWords={['crédito']}
 						labelSize={18}
 						relativeHeight={'18%'}
 						SvgIcon={CardWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						leftSideWidth={'28%'}
 						onPress={() => navigateToPaymentScreen('creditCard')}
 					/>
 					{/* <OptionButton
-						color={theme.white1}
+						color={theme.colors.white[1]}
 						label={'cartão de débito'}
 						highlightedWords={['débito']}
 						labelSize={18}
 						relativeHeight={'18%'}
 						SvgIcon={CardWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.green3}
+						leftSideColor={theme.colors.green[3]}
 						leftSideWidth={'28%'}
 						onPress={() => Alert.alert('Em breve...')}
 					// onPress={() => navigateToPaymentScreen('debitCard')}

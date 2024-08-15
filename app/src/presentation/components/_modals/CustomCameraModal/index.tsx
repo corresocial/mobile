@@ -93,7 +93,7 @@ function CustomCameraModal({
 	return (
 		<Modal visible={cameraOpened} onRequestClose={onClose}>
 			<StatusBar
-				backgroundColor={theme.black4}
+				backgroundColor={theme.colors.black[4]}
 				barStyle={'dark-content'}
 			/>
 			{!cameraHasPermission && !mediaLibrayHasPermission ? (
@@ -106,7 +106,7 @@ function CustomCameraModal({
 				>
 					{
 						isLoading
-							? <ActivityIndicator size={'large'} color={theme.white3} />
+							? <ActivityIndicator size={'large'} color={theme.colors.white[3]} />
 							: (
 								<>
 									<NotPermissionText>
@@ -114,8 +114,8 @@ function CustomCameraModal({
 									</NotPermissionText>
 									<PrimaryButton
 										label={'voltar'}
-										color={theme.white3}
-										labelColor={theme.black4}
+										color={theme.colors.white[3]}
+										labelColor={theme.colors.black[4]}
 										onPress={onClose}
 									/>
 								</>

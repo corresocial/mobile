@@ -14,7 +14,6 @@ import { UserStackParamList } from './types'
 import { ContactUs } from '@screens/configurationScreens/ContactUs'
 import { ContactUsInsertMessage } from '@screens/configurationScreens/ContactUsInsertMessage'
 import { ContactUsSuccess } from '@screens/configurationScreens/ContactUsSuccess'
-import { SelectIncomeType } from '@screens/homeScreens/SelectIncomeType'
 import { WelcomeNewUser } from '@screens/homeScreens/WelcomeNewUser'
 import { EditCurrentSubscription } from '@screens/paymentSystemScreens/EditCurrentSubscription'
 import { FinishSubscriptionPaymentByCard } from '@screens/paymentSystemScreens/FinishSubscriptionPaymentByCard'
@@ -28,12 +27,10 @@ import { OfflinePostsManagement } from '@screens/profileScreens/OfflinePostsMana
 
 import { HomeTab } from '../../Tabs/HomeTab'
 import { CultureStack } from '../CultureStack'
+import { IncomeStack } from '../IncomeStack'
 import { PetitionStack } from '../PetitionStack'
 import { PollStack } from '../PollStack'
-import { SaleStack } from '../SaleStack'
-import { ServiceStack } from '../ServiceStack'
 import { SocialImpactStack } from '../SocialImpactStack'
-import { VacancyStack } from '../VacancyStack'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -60,10 +57,7 @@ export function UserStack({ route }: any) {
 
 									{/* Rever a possibilidade de migrar para postStack se o custo de acesso não for grande */}
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
-									<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
-									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
-									<Stack.Screen name={'SaleStack'} component={SaleStack} />
-									<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
+									<Stack.Screen name={'IncomeStack'} component={IncomeStack} />
 									<Stack.Screen name={'CultureStack'} component={CultureStack} />
 									<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
 									<Stack.Screen name={'PollStack'} component={PollStack} />

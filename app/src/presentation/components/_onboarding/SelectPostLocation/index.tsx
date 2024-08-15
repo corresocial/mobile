@@ -15,7 +15,6 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import MapPointOrangeIcon from '@assets/icons/mapPoint-orange.svg'
 import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -84,10 +83,14 @@ function SelectPostLocation({
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
-		removeAllKeyboardEventListeners()
-		Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-		Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-	}, [keyboardOpened])
+		const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+
+		return () => {
+			keyboardDidShowListener.remove()
+			keyboardDidHideListener.remove()
+		}
+	}, [])
 
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {
@@ -100,7 +103,6 @@ function SelectPostLocation({
 	const getIpAddressCoodinates = async () => {
 		const coordinates = await getCoordinatesByIpAddress()
 
-		console.log(coordinates)
 		if (coordinates) {
 			return setMarkerCoordinate({ ...initialRegion, ...coordinates })
 		}
@@ -191,18 +193,17 @@ function SelectPostLocation({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				relativeHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor}
-				borderBottomWidth={0}
+				backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={customTitle || 'qual é o endereço?'}
-					highlightedWords={customTitleHighligh || ['endereço']}
+					highlightedWords={customTitleHighligh || ['endereço?']}
 					fontSize={16}
 				>
 					{
@@ -243,10 +244,10 @@ function SelectPostLocation({
 					<PrimaryButton
 						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
-						color={theme.white3}
+						color={theme.colors.white[3]}
 						label={'   usar minha localização'}
 						highlightedWords={['minha', 'localização']}
-						labelColor={theme.black4}
+						labelColor={theme.colors.black[4]}
 						fontSize={16}
 						SecondSvgIcon={MapPointWhiteIcon}
 						svgIconScale={['50%', '15%']}
@@ -269,9 +270,9 @@ function SelectPostLocation({
 								? <Loader />
 								: (
 									<PrimaryButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={'continuar'}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										SecondSvgIcon={CheckWhiteIcon}
 										onPress={() => saveLocation(markerCoordinate)}
 									/>

@@ -34,7 +34,7 @@ const { getNewDate } = UiUtils()
 
 const { getLastItem } = useUtils()
 
-export function ViewPollList({ navigation } : ViewPollListScreenProps) {
+export function ViewPollList({ navigation }: ViewPollListScreenProps) {
 	const { userDataContext } = useAuthContext()
 
 	const theme = useTheme()
@@ -57,7 +57,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 			const lastPoll = !refresh && (polls && polls.length) ? getLastItem(polls) : undefined
 
 			const queryKey = ['user.polls', userDataContext.userId, lastPoll]
-			let userPolls:PollEntity[] = await executeCachedRequest(
+			let userPolls: PollEntity[] = await executeCachedRequest(
 				queryClient,
 				queryKey,
 				() => getPollsByOwner(usePollRepository, userDataContext.userId, 10, lastPoll),
@@ -111,7 +111,7 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
+		<ScreenContainer topSafeAreaColor={theme.colors.white[3]} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -131,15 +131,15 @@ export function ViewPollList({ navigation } : ViewPollListScreenProps) {
 					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={isLoading}
 							onRefresh={() => loadPolls(true)}
 						/>
 					)}
-					ListHeaderComponent={() => <VerticalSpacing/>}
-					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
+					ListHeaderComponent={() => <VerticalSpacing />}
+					ItemSeparatorComponent={() => <VerticalSpacing />}
+					ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 				/>
 			</Container>
 		</ScreenContainer>

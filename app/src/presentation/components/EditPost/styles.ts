@@ -5,11 +5,11 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 export const Container = styled.View`
  	flex: 1;
 	position: relative;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
  `
 
 export const Header = styled.View`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	width: 100%;
  	padding: ${relativeScreenWidth(4)}px;
 `
@@ -21,11 +21,11 @@ interface EditPostStyleProps {
 
 export const Body = styled.ScrollView<EditPostStyleProps>`
 	flex: 1;
-	background-color: ${({ theme, backgroundColor }) => (backgroundColor || theme.white3)};
+	background-color: ${({ theme, backgroundColor }) => (backgroundColor || theme.colors.white[3])};
  `
 
 export const BodyPadding = styled(Body) <EditPostStyleProps>`
-	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.red2 : backgroundColor || theme.orange2)};
+	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.colors.red[2] : backgroundColor || theme.colors.orange[2])};
 	padding: ${relativeScreenWidth(3.5)}px;
  `
 
@@ -39,6 +39,6 @@ export const SaveButtonContainer = styled.View`
 `
 
 export const PostCardContainer = styled.View<EditPostStyleProps>`
-	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.red2 : backgroundColor || theme.orange2)};
+	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.colors.red[2] : backgroundColor || theme.colors.orange[2])};
 	padding: ${relativeScreenWidth(3.5)}px;
  `

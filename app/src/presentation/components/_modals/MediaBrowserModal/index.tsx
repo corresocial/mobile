@@ -242,7 +242,7 @@ function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, vide
 					isContentLoading && (
 						<ActivityIndicatorContainer isLoadingMore={arrayIsEmpty(media)}>
 							<ActivityIndicatorBg>
-								<ActivityIndicator size={'large'} color={theme.orange4} />
+								<ActivityIndicator size={'large'} color={theme.colors.orange[4]} />
 							</ActivityIndicatorBg>
 						</ActivityIndicatorContainer>
 					)
@@ -253,8 +253,8 @@ function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, vide
 							<SmallButton
 								relativeWidth={relativeScreenWidth(20)}
 								height={relativeScreenWidth(13)}
-								color={theme.green3}
-								labelColor={theme.white3}
+								color={theme.colors.green[3]}
+								labelColor={theme.colors.white[3]}
 								SvgIcon={CheckIcon}
 								onPress={confirmSelectionHandler}
 							/>
@@ -279,14 +279,14 @@ function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, vide
 				)
 			}
 
-			<StatusBar backgroundColor={theme.white3} />
+			<StatusBar backgroundColor={theme.colors.white[3]} />
 			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
 				{
 					albumSelected ? (
 						<BackButton onPress={unselectAlbum} />
 					) : (
 						<SmallButton
-							color={theme.red3}
+							color={theme.colors.red[3]}
 							SvgIcon={CloseIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}

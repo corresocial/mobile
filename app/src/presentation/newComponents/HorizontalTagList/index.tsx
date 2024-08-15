@@ -14,6 +14,8 @@ interface HorizontalTagListProps {
 }
 
 function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
+	if (!tags || (tags && !tags.length) || (tags && !tags[0])) return <></>
+
 	const renderTags = () => {
 		return tags.map((tag) => {
 			const customTag = tag.length !== 3 ? tag : ` ${tag} `
@@ -25,7 +27,7 @@ function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
 					backgroundColor={theme.colors.white[1]}
 					backgroundSelected={selectedColor || theme.colors.orange[3]}
 					label={customTag}
-					fontSize={theme.fontSizes.arvo[1]}
+					fontSize={theme.fontSizes[2]}
 					selected
 				/>
 			)

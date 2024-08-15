@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Platform, StatusBar, TextInputProps } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInputProps, TouchableWithoutFeedback } from 'react-native'
 
 import { ButtonsContainer, Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -78,102 +78,107 @@ function PostInputText({
 	}, [inputText, keyboardOpened])
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
-				relativeHeight={height || relativeScreenHeight(28)}
-				centralized
-				flexDirection={'column'}
-				backgroundColor={backgroundColor}
-			>
-				{
-					contextTitle ? (
-						<>
-							<InstructionButtonContainer >
-								<BackButton onPress={navigateBackwards} />
-								<InstructionCard
-									borderLeftWidth={5}
-									fontSize={16}
-									message={contextTitle || ''}
-									highlightedWords={contextHighlightedWords || []}
-								/>
-							</InstructionButtonContainer>
-							<VerticalSpacing />
-						</>
-					) : <></>
-				}
-				<InstructionButtonContainer withPaddingLeft={!!contextTitle}>
-					{!contextTitle && <BackButton onPress={navigateBackwards} />}
-					<InstructionCard
-						fontSize={16}
-						message={customTitle || 'fala tudo sobre o que você tá postando'}
-						highlightedWords={customHighlight || ['tudo', 'o', 'que', 'você', 'tá', 'postando']}
-					>
-						{
-							progress && (
-								<ProgressBar
-									value={progress[0]}
-									range={progress[1]}
-								/>
-							)
-						}
-					</InstructionCard>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+				<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
+				<DefaultHeaderContainer
+					minHeight={relativeScreenHeight(28)}
+					relativeHeight={height || relativeScreenHeight(28)}
+					centralized
+					flexDirection={'column'}
+					backgroundColor={backgroundColor}
+				>
 					{
-						skipScreen ? (
+						contextTitle ? (
 							<>
-								<HorizontalSpacing />
-								<SmallButton
-									SvgIcon={TrashWhiteIcon}
-									color={theme.red3}
-									height={relativeScreenWidth(11)}
-									relativeWidth={relativeScreenWidth(11)}
-									svgScale={['60%', '60%']}
-									onPress={skipScreen}
-								/>
+								<InstructionButtonContainer >
+									<BackButton onPress={navigateBackwards} />
+									<InstructionCard
+										borderLeftWidth={5}
+										fontSize={16}
+										message={contextTitle || ''}
+										highlightedWords={contextHighlightedWords || []}
+									/>
+								</InstructionButtonContainer>
+								<VerticalSpacing />
 							</>
-						)
-							: <></>
+						) : <></>
 					}
-				</InstructionButtonContainer>
-			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.white3}
-				justifyContent={'center'}
-			>
-				<DefaultInput
-					textInputRef={textInputRef}
-					value={inputText}
-					defaultBackgroundColor={theme.white2}
-					validBackgroundColor={inputTextIsValid ? validationColor : theme.white3}
-					lastInput
-					fontSize={16}
-					multiline={multiline}
-					placeholder={inputPlaceholder || 'descreva seu post...'}
-					keyboardType={keyboardType || 'default'}
-					textIsValid={inputTextIsValid && !keyboardOpened}
-					validateText={(text: string) => validateInputText(text)}
-					onChangeText={(text: string) => setInputText(text)}
-				/>
-				<ButtonsContainer>
-					{
-						isLoading
-							? <Loader />
-							: inputTextIsValid && !keyboardOpened
-								? (
-									<PrimaryButton
-										color={theme.green3}
-										label={'continuar'}
-										labelColor={theme.white3}
-										SecondSvgIcon={CheckWhiteIcon}
-										onPress={() => saveTextData(inputText.trim())}
+					<InstructionButtonContainer withPaddingLeft={!!contextTitle}>
+						{!contextTitle && <BackButton onPress={navigateBackwards} />}
+						<InstructionCard
+							fontSize={16}
+							message={customTitle || 'fala tudo sobre o que você tá postando'}
+							highlightedWords={customHighlight || ['tudo', 'o', 'que', 'você', 'tá', 'postando']}
+						>
+							{
+								progress && (
+									<ProgressBar
+										value={progress[0]}
+										range={progress[1]}
 									/>
 								)
-								: children && children
-					}
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+							}
+						</InstructionCard>
+						{
+							skipScreen ? (
+								<>
+									<HorizontalSpacing />
+									<SmallButton
+										SvgIcon={TrashWhiteIcon}
+										color={theme.colors.red[3]}
+										height={relativeScreenWidth(11)}
+										relativeWidth={relativeScreenWidth(11)}
+										svgScale={['60%', '60%']}
+										onPress={skipScreen}
+									/>
+								</>
+							)
+								: <></>
+						}
+					</InstructionButtonContainer>
+				</DefaultHeaderContainer>
+				<FormContainer
+					backgroundColor={theme.colors.white[3]}
+					justifyContent={'center'}
+				>
+					<DefaultInput
+						{...(multiline ? { fixedHeight: relativeScreenDensity(120) } : {})}
+						textInputRef={textInputRef}
+						value={inputText}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={inputTextIsValid ? validationColor : theme.colors.white[3]}
+						lastInput
+						fontSize={16}
+						multiline={multiline}
+						blurOnSubmit={!multiline}
+						placeholder={inputPlaceholder || 'descreva seu post...'}
+						keyboardType={keyboardType || 'default'}
+						returnKeyType={multiline ? 'next' : 'done'}
+						textIsValid={inputTextIsValid && !keyboardOpened}
+						validateText={(text: string) => validateInputText(text)}
+						onChangeText={(text: string) => setInputText(text)}
+					/>
+					<ButtonsContainer>
+						{
+							isLoading
+								? <Loader />
+								: inputTextIsValid && !keyboardOpened
+									? (
+										<PrimaryButton
+											color={theme.colors.green[3]}
+											label={'continuar'}
+											labelColor={theme.colors.white[3]}
+											SecondSvgIcon={CheckWhiteIcon}
+											onPress={() => saveTextData(inputText.trim())}
+										/>
+									)
+									: children && children
+						}
+					</ButtonsContainer>
+				</FormContainer>
+			</Container>
+		</TouchableWithoutFeedback>
 	)
 }
 

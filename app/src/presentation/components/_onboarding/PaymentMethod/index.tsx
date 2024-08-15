@@ -60,7 +60,7 @@ function PaymentMethod({
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -71,7 +71,7 @@ function PaymentMethod({
 						: <></>
 				}
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white3}>
+			<FormContainer backgroundColor={theme.colors.white[3]}>
 				<ButtonsContainer>
 					<OptionButton
 						label={isVacancy ? 'um \npagamento' : 'somente \nvenda'}

@@ -63,10 +63,10 @@ function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<SelectPostLocation
-				backgroundColor={theme.orange2}
-				validationColor={theme.orange1}
+				backgroundColor={theme.colors.orange[2]}
+				validationColor={theme.colors.orange[1]}
 				initialValue={getInitialCoordinateValue()}
 				isLoading={isLoading}
 				headerDescription={'Localização utilizada para envio de notificações da prefeitura. \nessa informação não será divulgada publicamente'}

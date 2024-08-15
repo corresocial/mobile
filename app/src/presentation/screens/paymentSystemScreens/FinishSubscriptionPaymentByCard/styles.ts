@@ -1,14 +1,15 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const BodyScrollable = styled.ScrollView`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const Body = styled.KeyboardAvoidingView`
@@ -18,24 +19,25 @@ export const Body = styled.KeyboardAvoidingView`
 
 export const TitleArea = styled.View`
 	flex-direction: row;
-	margin-bottom: ${RFValue(20)}px;
+	margin-bottom: ${relativeScreenDensity(20)}px;
 	align-items:center;
 `
 
 export const Title = styled.Text`
-	margin-left: ${RFValue(10)}px;
+	margin-left: ${relativeScreenDensity(10)}px;
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(20)}px;
+	font-size: ${({ theme }) => theme.fontSizes[10]}px;
+
 `
 
 export const PaymentStatusArea = styled.View`
 	flex-direction: row;
-	margin: ${RFValue(20)}px 0px;
+	margin: ${relativeScreenDensity(20)}px 0px;
 	align-items:center;
 `
 
 export const PaymentStatusText = styled.Text`
-	margin-left: ${RFValue(20)}px;
+	margin-left: ${relativeScreenDensity(20)}px;
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

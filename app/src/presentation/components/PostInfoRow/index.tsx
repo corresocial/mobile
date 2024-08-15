@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, PostInfoText } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface PostInfoRowProps {
 	text: string | ReactElement | (string | ReactElement)[]
@@ -16,16 +16,16 @@ interface PostInfoRowProps {
 function PostInfoRow({ text, topic, SvgIcon, SecondSvgIcon, withoutMarginTop, textFontSize = 14 }: PostInfoRowProps) {
 	return (
 		<Container withoutMarginTop={withoutMarginTop} topic={topic}>
-			{SvgIcon && <SvgIcon width={RFValue(30)} height={RFValue(20)} />}
+			{SvgIcon && <SvgIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(20)} />}
 			<PostInfoText
 				topic={topic}
 				hasSeccondSvgIcon={!!SecondSvgIcon}
-				style={{ fontSize: RFValue(textFontSize) }}
+				style={{ fontSize: relativeScreenDensity(textFontSize) }}
 			>
 				{topic ? '●  ' : ''}
 				{text}
 			</PostInfoText>
-			{SecondSvgIcon && <SecondSvgIcon width={RFValue(30)} height={RFValue(20)} />}
+			{SecondSvgIcon && <SecondSvgIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(20)} />}
 		</Container>
 	)
 }

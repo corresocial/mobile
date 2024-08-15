@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
@@ -35,7 +35,7 @@ function DescriptionCard({ title, text, hightligtedWords, children, CustomHeader
 	}
 
 	const linkStyle = {
-		color: theme.orange3,
+		color: theme.colors.orange[3],
 		fontFamily: 'Arvo_700Bold'
 	}
 
@@ -57,7 +57,7 @@ function DescriptionCard({ title, text, hightligtedWords, children, CustomHeader
 			{text && (
 				<>
 					<VerticalSpacing height={5} relativeDensity />
-					<LongText style={{ fontSize: RFValue(textFontSize) }}>
+					<LongText style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 						<HyperlinkContainer
 							text={descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
 							linkStyle={linkStyle}

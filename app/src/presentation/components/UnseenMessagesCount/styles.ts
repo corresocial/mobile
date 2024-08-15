@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -17,7 +16,8 @@ export const IconContainer = styled.View`
 
 export const CountValue = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(15)}px;
+	font-size: ${({ theme }) => theme.fontSizes[5]}px;
+
 	position: absolute;
 	padding-right: ${relativeScreenWidth(1)}px;
 `

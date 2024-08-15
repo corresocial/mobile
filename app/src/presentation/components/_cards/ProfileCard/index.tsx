@@ -18,7 +18,6 @@ import {
 	WaitingApproveIconContainer
 } from './styles'
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
 
 const { arrayIsEmpty } = UiUtils()
 
@@ -65,7 +64,7 @@ function ProfileCard({ userData, isOwner, onPress }: ProfileCardProps) {
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+				buttonPressed={buttonPressed}
 			>
 				<LeftArea>
 					{

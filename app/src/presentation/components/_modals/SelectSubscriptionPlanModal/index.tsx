@@ -27,25 +27,25 @@ function SelectSubscriptionPlanModal({ visibility, closeModal, onSelectPlan }: S
 		>
 			<VerticalSpacing />
 			<OptionButton
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				label={'cidade'}
 				highlightedWords={['cidade']}
 				labelSize={16}
 				SvgIcon={CityWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.orange3}
+				leftSideColor={theme.colors.orange[3]}
 				leftSideWidth={'28%'}
 				onPress={() => onSelectPlan('city')}
 			/>
 			<VerticalSpacing />
 			<OptionButton
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				label={'país'}
 				highlightedWords={['país']}
 				labelSize={16}
 				SvgIcon={CountryWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.orange3}
+				leftSideColor={theme.colors.orange[3]}
 				leftSideWidth={'28%'}
 				onPress={async () => onSelectPlan('country')}
 			/>

@@ -55,8 +55,8 @@ function InsertSocialImpactLinks({ route, navigation }: InsertSocialImpactLinksS
 
 	return (
 		<PostLinks
-			backgroundColor={theme.pink2}
-			lightColor={theme.pink1}
+			backgroundColor={theme.colors.pink[2]}
+			lightColor={theme.colors.pink[1]}
 			keyboardOpened={keyboardOpened}
 			initialValue={route.params?.initialValue || []}
 			editMode={editModeIsTrue()}

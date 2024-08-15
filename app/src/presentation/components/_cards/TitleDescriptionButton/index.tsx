@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title, TitleArea } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -115,14 +114,12 @@ function TitleDescriptionButton({
 
 	return (
 		<Container
-			style={{ height }}
+			style={{ height } as any}
 		>
 			<ContainerInner
+				buttonPressed={buttonPressed}
 				activeOpacity={1}
-				style={{
-					backgroundColor: !selected ? color : activeColor,
-					marginLeft: buttonPressed || selected ? RFValue(5) : 0
-				}}
+				style={{ backgroundColor: !selected ? color : activeColor }}
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}
 				onPress={releaseButton}
@@ -138,7 +135,7 @@ function TitleDescriptionButton({
 					{
 						checked && (
 							<SmallButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SvgIcon={CheckWhiteIcon}
 								svgScale={['60%', '60%']}
 								height={relativeScreenHeight(5)}

@@ -4,13 +4,13 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.blue2};
+	background-color: ${({ theme }) => theme.colors.blue[2]};
 `
 
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3)}px;
 `
 

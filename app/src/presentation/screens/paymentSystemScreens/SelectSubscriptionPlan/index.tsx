@@ -29,9 +29,9 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<SubscriptionPlan
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				plansAvailable={stripeProductsPlans}
 				postRange={postRange}
 				headerFooterText={getPostRangeLabelHiglighted(postRange)}

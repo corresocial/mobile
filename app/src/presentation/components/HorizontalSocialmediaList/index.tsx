@@ -1,5 +1,4 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
 import { SocialMedia } from '@domain/user/entity/types'
@@ -21,7 +20,7 @@ import TikTokIcon from '@assets/icons/tiktok.svg'
 import TwiterIcon from '@assets/icons/twiter.svg'
 import WhatsAppIcon from '@assets/icons/whatsapp.svg'
 import YoutubeIcon from '@assets/icons/youtube.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 interface HorizontalSocialMediaListProps {
 	socialMedias: SocialMedia[] | undefined
@@ -46,16 +45,16 @@ function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSoc
 
 	const getRelativeSocialMediaIcon = (title: string) => {
 		switch (title) {
-			case 'linkedin': return <LinkedinIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'facebook': return <FacebookIcon width={RFValue(20)} height={RFValue(20)} />
-			case 'instagram': return <InstagramIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'twitter': return <TwiterIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'whatsapp': return <WhatsAppIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'youtube': return <YoutubeIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'spotify': return <SpotifyIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'tiktok': return <TikTokIcon width={RFValue(20)} height={RFValue(20)} />
-			case 'soundcloud': return <SoundCloudIcon width={RFValue(25)} height={RFValue(25)} />
-			default: return <LinkClipIcon width={RFValue(20)} height={RFValue(20)} />
+			case 'linkedin': return <LinkedinIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			case 'facebook': return <FacebookIcon width={relativeScreenDensity(20)} height={relativeScreenDensity(20)} />
+			case 'instagram': return <InstagramIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			case 'twitter': return <TwiterIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			case 'whatsapp': return <WhatsAppIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			case 'youtube': return <YoutubeIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			case 'spotify': return <SpotifyIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			case 'tiktok': return <TikTokIcon width={relativeScreenDensity(20)} height={relativeScreenDensity(20)} />
+			case 'soundcloud': return <SoundCloudIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+			default: return <LinkClipIcon width={relativeScreenDensity(20)} height={relativeScreenDensity(20)} />
 		}
 	}
 

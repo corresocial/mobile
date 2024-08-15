@@ -1,8 +1,7 @@
 import { Image } from 'expo-image'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenWidth, relativeScreenDensity } from '@common/screenDimensions'
 
 export const ScrollView = styled.ScrollView`
     width: 100%;
@@ -16,15 +15,15 @@ export const Container = styled.View`
 `
 
 export const PictureItemButtom = styled.TouchableOpacity<PicturePortraitProps>`
-	background-color: ${({ theme }) => theme.black4};
-	margin-right: ${RFValue(10)}px;
+	background-color: ${({ theme }) => theme.colors.black[4]};
+	margin-right: ${relativeScreenDensity(10)}px;
 	overflow: hidden;
 	align-items: center;
 	justify-content: center;
-	border-radius: ${RFValue(15)}px;
+	border-radius: ${relativeScreenDensity(15)}px;
 
-	border-width: ${({ pictureSelected }) => (pictureSelected ? RFValue(2) : RFValue(3))}px;
-	border-right-width: ${({ pictureSelected }) => (pictureSelected ? RFValue(3) : RFValue(6))}px;
+	border-width: ${({ pictureSelected }) => (pictureSelected ? relativeScreenDensity(2) : relativeScreenDensity(3))}px;
+	border-right-width: ${({ pictureSelected }) => (pictureSelected ? relativeScreenDensity(3) : relativeScreenDensity(6))}px;
 `
 
 interface PicturePortraitProps {
@@ -34,9 +33,9 @@ interface PicturePortraitProps {
 export const PicturePortrait = styled.View<PicturePortraitProps>`
 	width: ${relativeScreenWidth(16)}px;
 	height: ${relativeScreenWidth(16)}px;
-	border-color:  ${({ theme }) => theme.black4};
-	background-color: ${({ theme }) => theme.black4};
-	border-radius: ${RFValue(12)}px;
+	border-color:  ${({ theme }) => theme.colors.black[4]};
+	background-color: ${({ theme }) => theme.colors.black[4]};
+	border-radius: ${relativeScreenDensity(12)}px;
 	align-items: center;
 	justify-content: center;
 	opacity: ${({ pictureSelected }) => (pictureSelected ? 1 : 0.5)};

@@ -53,11 +53,11 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -76,35 +76,35 @@ function AnswerSatisfactionQuestion({ route, navigation }: AnswerSatisfactionQue
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						SvgIcon={SatisfactionEmoji1WhiteIcon}
 						onPress={() => selectSatisfactionOption(1)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.red2}
+						color={theme.colors.red[2]}
 						SvgIcon={SatisfactionEmoji2WhiteIcon}
 						onPress={() => selectSatisfactionOption(2)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.yellow3}
+						color={theme.colors.yellow[3]}
 						SvgIcon={SatisfactionEmoji3WhiteIcon}
 						onPress={() => selectSatisfactionOption(3)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.green2}
+						color={theme.colors.green[2]}
 						SvgIcon={SatisfactionEmoji4WhiteIcon}
 						onPress={() => selectSatisfactionOption(4)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						SvgIcon={SatisfactionEmoji5WhiteIcon}
 						onPress={() => selectSatisfactionOption(5)}
 					/>

@@ -1,10 +1,10 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { CardHeader, ValueContainer, Text } from './styles'
 import ClipWhiteIcon from '@assets/icons/clip-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -30,8 +30,8 @@ function HeaderLinkCard({
 		<DefaultCardContainer withoutPadding={!!profilePictureUrl} >
 			<CardHeader
 				style={{
-					paddingHorizontal: profilePictureUrl ? RFValue(15) : 0,
-					paddingVertical: profilePictureUrl ? RFValue(10) : 0
+					paddingHorizontal: profilePictureUrl ? relativeScreenDensity(15) : 0,
+					paddingVertical: profilePictureUrl ? relativeScreenDensity(10) : 0
 				}}
 			>
 				<DefaultHeaderTitle

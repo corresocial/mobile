@@ -1,11 +1,10 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const UserPostsFlatList = styled.FlatList`
@@ -26,18 +25,18 @@ export const ProfileInfoContainer = styled.View`
 export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;
-    padding: 0px ${RFValue(16)}px;
+    padding: 0px ${relativeScreenDensity(16)}px;
 `
 
 export const UserName = styled.Text`
-    font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
     font-family: Arvo_700Bold;
 `
 
 export const SeeMoreLabel = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
-	color: ${({ theme }) => theme.orange4};
+	color: ${({ theme }) => theme.colors.orange[4]};
 `
 
 export const OptionsArea = styled.View`
@@ -55,7 +54,7 @@ export const Body = styled.ScrollView`
     flex: 1;
 	width: 100%;
 	padding: 0px ${relativeScreenWidth(5)}px;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	overflow: hidden;
 `
 
@@ -65,6 +64,6 @@ export const PostPadding = styled.View`
 
 export const PostFilterContainer = styled.View`
 	padding: ${relativeScreenHeight(1.25)}px 0px;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 
 `

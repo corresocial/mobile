@@ -77,7 +77,7 @@ function PetitionCard({ petitionData, owner, isOwner, navigateToProfile, onPress
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+				buttonPressed={buttonPressed}
 			>
 				<Content>
 					<TitleContainer>
@@ -109,7 +109,7 @@ function PetitionCard({ petitionData, owner, isOwner, navigateToProfile, onPress
 							>
 								<ButtonContainer>
 									<SmallButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={isOwner ? 'visualizar assinaturas' : 'assinar'}
 										height={relativeScreenWidth(12)}
 										SvgIcon={isOwner ? PaperInfoWhiteIcon : DocumentPencilWhiteIcon}
@@ -121,7 +121,7 @@ function PetitionCard({ petitionData, owner, isOwner, navigateToProfile, onPress
 						: (
 							<ButtonContainer>
 								<SmallButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={isOwner ? 'visualizar assinaturas' : 'assinar'}
 									height={relativeScreenWidth(12)}
 									SvgIcon={isOwner ? PaperInfoWhiteIcon : DocumentPencilWhiteIcon}

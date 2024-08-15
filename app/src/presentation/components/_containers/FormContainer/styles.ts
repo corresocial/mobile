@@ -10,7 +10,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.View<ContainerProps>`
-	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.white3};
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.colors.white[3]};
 	justify-content: ${({ justifyContent }) => justifyContent || 'space-around'};
 
     flex: 1;

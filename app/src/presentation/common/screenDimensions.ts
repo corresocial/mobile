@@ -16,7 +16,7 @@ const relativeScreenHeight = (percentage: number) => {
 }
 
 const relativeScreenDensity = (value: number) => {
-	if (!value) return 50
+	if (!value && value !== 0) return 50
 	return RFValue(value)
 }
 

@@ -61,8 +61,8 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 
 	return (
 		<ScreenContainer
-			topSafeAreaColor={theme.orange2}
-			bottomSafeAreaColor={theme.orange1}
+			topSafeAreaColor={theme.colors.orange[2]}
+			bottomSafeAreaColor={theme.colors.orange[1]}
 		>
 			<HeaderContainer>
 				<DefaultPostViewHeader
@@ -82,7 +82,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 								labelSize={14}
 								relativeHeight={relativeScreenDensity(60)}
 								leftSideWidth={'25%'}
-								leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+								leftSideColor={hasNetworkConnection ? theme.colors.green[3] : theme.colors.yellow[3]}
 								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
 								svgIconScale={['70%', '70%']}
 								onPress={() => navigation.navigate('CitizenOfflineRegistrationList')}
@@ -98,7 +98,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					labelSize={15}
 					relativeHeight={relativeScreenDensity(80)}
 					leftSideWidth={'25%'}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					SvgIcon={RecordWhiteIcon}
 					svgIconScale={['40%', '40%']}
 					onPress={() => navigation.navigate('CitizenQuestionaryPreview')}
@@ -111,7 +111,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 							labelSize={15}
 							relativeHeight={relativeScreenDensity(80)}
 							leftSideWidth={'25%'}
-							leftSideColor={theme.orange3}
+							leftSideColor={theme.colors.orange[3]}
 							SvgIcon={ThreeHorizontalBarsWhiteIcon}
 							svgIconScale={['70%', '70%']}
 							onPress={() => navigation.navigate('CitizenRegistrationMonitoring')}
@@ -124,7 +124,7 @@ function CitizenRegistrationHome({ navigation }: CitizenRegistrationHomeScreenPr
 					labelSize={15}
 					relativeHeight={relativeScreenDensity(80)}
 					leftSideWidth={'25%'}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					SvgIcon={QuestionMarkWhiteIcon}
 					svgIconScale={['50%', '50%']}
 					onPress={() => navigation.navigate('WhoWeAre')}

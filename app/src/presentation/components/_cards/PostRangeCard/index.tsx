@@ -36,7 +36,7 @@ function PostRangeCard({ title, postRange, onEdit }: PostRangeCardProps) {
 			case 'near': return showMessageWithHighlight('bairro', ['região'])
 			case 'city': return showMessageWithHighlight('cidade', ['cidade'])
 			case 'country': return showMessageWithHighlight('brasil', ['brasil'])
-			default: return '---'
+			default: return ''
 		}
 	}
 
@@ -52,10 +52,14 @@ function PostRangeCard({ title, postRange, onEdit }: PostRangeCardProps) {
 					dimensions={40}
 				/>
 			</EditHeaderContainer>
-			<PostInfoRow
-				text={getRelativePostRange()}
-				SvgIcon={getRelativePostRangeIcon()}
-			/>
+			{
+				getRelativePostRange() && (
+					<PostInfoRow
+						text={getRelativePostRange()}
+						SvgIcon={getRelativePostRangeIcon()}
+					/>
+				)
+			}
 		</DefaultTouchableCardContainer>
 	)
 }

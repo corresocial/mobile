@@ -37,11 +37,11 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(27)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
@@ -54,8 +54,8 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 			<ButtonsContainer>
 				<PrimaryButton
 					justifyContent={'center'}
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={17}
 					relativeHeight={'16%'}
 					label={'apoie o corre.!'}
@@ -66,8 +66,8 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				/>
 				<PrimaryButton
 					justifyContent={'center'}
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={17}
 					relativeHeight={'16%'}
 					label={'seja voluntário'}
@@ -78,8 +78,8 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				/>
 				<PrimaryButton
 					justifyContent={'center'}
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={16}
 					relativeHeight={'16%'}
 					label={'compartilhe a nova \ne melhor rede social \nbrasileira!!'}

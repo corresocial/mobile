@@ -37,14 +37,14 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<PostInputText
 				customTitle={'edite a descrição do seu perfil'}
 				customHighlight={['descrição', 'perfil']}
 				multiline
 				inputPlaceholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
-				backgroundColor={theme.orange2}
-				validationColor={theme.orange1}
+				backgroundColor={theme.colors.orange[2]}
+				validationColor={theme.colors.orange[1]}
 				initialValue={route.params.userDescription}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateProfileDescription}

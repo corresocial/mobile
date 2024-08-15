@@ -1,6 +1,5 @@
 import React from 'react'
 import { Linking } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { LocationViewType, PostEntityCommonFields } from '@domain/post/entity/types'
 
@@ -34,7 +33,7 @@ function MapView({
 	const renderFormatedAddress = () => {
 		if (withoutMapView) {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{showMessageWithHighlight('localização não definida', ['não', 'definida'])}
 				</TextAddress>
 			)
@@ -42,7 +41,7 @@ function MapView({
 
 		if (online) {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{'online'}
 				</TextAddress>
 			)
@@ -50,7 +49,7 @@ function MapView({
 
 		if (!locationView) {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{showMessageWithHighlight('localização indisponível', ['indisponível'])}
 				</TextAddress>
 			)
@@ -59,7 +58,7 @@ function MapView({
 		if (locationView === 'private') {
 			return (
 				<>
-					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+					<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 						{showMessageWithHighlight('localização privada', ['privada'])}
 					</TextAddress>
 				</>
@@ -68,7 +67,7 @@ function MapView({
 
 		if (locationView === 'approximate') {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 					{showMessageWithHighlight('localização aproximada', ['aproximada'])}
 				</TextAddress>
 			)
@@ -76,22 +75,15 @@ function MapView({
 		if (!location.city) return
 
 		return (
-			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+			<TextAddress style={{ fontSize: relativeScreenDensity(textFontSize) }}>
 				{formatAddress()}
 			</TextAddress>
 		)
 	}
 
 	const formatAddress = () => {
-		const {
-			street,
-			district,
-			city,
-			state,
-			name,
-			number
-		} = location
-		return `${name ? `${name} , \n` : ''}${street && `${street}, `}${number && `${number}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
+		const { street, district, city, state, name, number } = location
+		return `${name ? `${name}, \n` : ''}${street ? `${street}, ` : ''}${number ? `${number}, ` : ''}${district ? `${district}, ` : ''}${city ? `${city}` : ''}${state ? ` - ${state}` : ''}`
 	}
 
 	const getAddressCoordinates = () => {

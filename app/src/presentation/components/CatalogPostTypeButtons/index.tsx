@@ -28,7 +28,7 @@ function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons, onPre
 					fontSize={9}
 					onPress={() => onPress(buttonValue as MacroCategoriesType)}
 					label={buttonLabels[i]}
-					labelColor={theme.black4}
+					labelColor={theme.colors.black[4]}
 					SvgIcon={buttonIcons[i]}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}

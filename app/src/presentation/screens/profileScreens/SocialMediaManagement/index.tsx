@@ -84,7 +84,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -98,10 +98,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							? (
 								<NewLinkButtonContainer>
 									<SmallButton
-										color={theme.white3}
+										color={theme.colors.white[3]}
 										height={relativeScreenHeight(7)}
 										label={'novo link'}
-										labelColor={theme.black4}
+										labelColor={theme.colors.black[4]}
 										highlightedWords={['link']}
 										SvgIcon={PlusIcon}
 										onPress={() => navigation.navigate('InsertLinkTitle', { socialMedia: { title: '', link: '' } })}

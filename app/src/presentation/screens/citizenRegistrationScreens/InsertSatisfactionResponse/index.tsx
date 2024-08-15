@@ -56,7 +56,7 @@ function InsertSatisfactionResponse({ route, navigation }: InsertSatisfactionRes
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange1}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
 			<CitizenRegistrationHeader
 				message={`${questionData.questionId} - ${questionData.question}`}
 				progress={responseProgress}
@@ -67,35 +67,35 @@ function InsertSatisfactionResponse({ route, navigation }: InsertSatisfactionRes
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						SvgIcon={SatisfactionEmoji1WhiteIcon}
 						onPress={() => selectSatisfactionOption(1)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.red2}
+						color={theme.colors.red[2]}
 						SvgIcon={SatisfactionEmoji2WhiteIcon}
 						onPress={() => selectSatisfactionOption(2)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.yellow3}
+						color={theme.colors.yellow[3]}
 						SvgIcon={SatisfactionEmoji3WhiteIcon}
 						onPress={() => selectSatisfactionOption(3)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.green2}
+						color={theme.colors.green[2]}
 						SvgIcon={SatisfactionEmoji4WhiteIcon}
 						onPress={() => selectSatisfactionOption(4)}
 					/>
 					<SmallButton
 						height={relativeScreenWidth(14)}
 						relativeWidth={relativeScreenWidth(14)}
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						SvgIcon={SatisfactionEmoji5WhiteIcon}
 						onPress={() => selectSatisfactionOption(5)}
 					/>

@@ -9,7 +9,7 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: ${({ colapsed }) => (colapsed ? '46%' : '98%')};
 	height: ${relativeScreenDensity(120)}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -26,13 +26,13 @@ export const InnerContainer = styled.View<InnerContainerProps>`
 	flex-direction: ${({ colapsed }) => (colapsed ? 'column' : 'row')};
 	align-items: center;
 	background-color: ${({ theme }) => theme.colors.blue[3]};
-	margin-left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
-    border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.colors.black[4]};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: absolute;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(1.5)}px;
 	gap: ${({ colapsed }) => (colapsed ? relativeScreenWidth(1) : relativeScreenWidth(2))}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 interface EventDataContainerProps {
@@ -67,7 +67,7 @@ export const PriceLabelContainer = styled.View<PriceLabelContainerProps>`
 
 export const PriceLabel = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme }) => theme.fontSizes.arvo[1]}px;
+	font-size: ${({ theme }) => theme.fontSizes[0]}px;
 	color: ${({ theme }) => theme.colors.black[4]};
 `
 
@@ -95,7 +95,7 @@ interface PostDescriptionProps {
 
 export const PostDescription = styled.Text<PostDescriptionProps>`
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${relativeScreenDensity(11)}px;
+	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 	`
 
 interface PostDescriptionContainerProps {
@@ -107,5 +107,5 @@ export const PostDescriptionContainer = styled.View<PostDescriptionContainerProp
 	padding: ${({ colapsed }) => (colapsed ? 0 : relativeScreenDensity(2))}px ${relativeScreenDensity(5)}px;
 	border-left-style: solid;
 	border-left-width: ${({ colapsed }) => relativeScreenWidth(colapsed ? 0 : 0.5)}px;
-	border-left-color: ${({ theme }) => theme.black4};
+	border-left-color: ${({ theme }) => theme.colors.black[4]};
 `

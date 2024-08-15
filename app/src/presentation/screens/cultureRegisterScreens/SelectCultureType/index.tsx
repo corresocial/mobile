@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { CultureType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -16,34 +15,23 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {
-	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveWorkplaceType = (macroCategory: CultureType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ macroCategory })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setCultureDataOnContext({ macroCategory })
-		navigation.navigate('SelectCulturePurpose')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<PostSelectButton
 			title={'você está \npostando sobre arte, \num evento ou educação?'}
 			highlightedWords={['arte', 'evento', 'educação']}
-			headerBackgroundColor={theme.blue2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.blue[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -53,7 +41,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={ColorPaletWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('art')}
 			/>
@@ -64,7 +52,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={CalendarEverydayWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('event')}
 			/>
@@ -75,7 +63,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				relativeHeight={'25%'}
 				SvgIcon={BooksWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('education')}
 			/>

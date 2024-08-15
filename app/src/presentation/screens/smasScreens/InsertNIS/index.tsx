@@ -86,13 +86,13 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 				customHighlight={['NIS']}
 				contextTitle={getContextTitle()}
 				contextHighlightedWords={getContextHighlightedWords()}
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				height={'45%'}
 				inputPlaceholder={'12345678910'}
 				isLoading={isLoading}
 				initialValue={storagedNis}
 				keyboardType={'number-pad'}
-				validationColor={theme.pink1}
+				validationColor={theme.colors.pink[1]}
 				validateInputText={validateNIS}
 				navigateBackwards={() => navigation.goBack()}
 				saveTextData={searchByNIS}
@@ -100,7 +100,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 				<PrimaryButton
 					label={'não sei meu NIS'}
 					highlightedWords={['NIS']}
-					color={theme.yellow3}
+					color={theme.colors.yellow[3]}
 					SecondSvgIcon={QuestionMarkWhiteIcon}
 					onPress={navigateToQueryNIS}
 				/>

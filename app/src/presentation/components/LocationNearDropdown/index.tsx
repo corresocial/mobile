@@ -163,10 +163,10 @@ function LocationNearDropdown({
 							<MyLocationButtonContainer>
 								<PrimaryButton
 									keyboardHideButton={false}
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'usar minha localização'}
 									highlightedWords={['minha', 'localização']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									fontSize={16}
 									SecondSvgIcon={MapIcon}
 									svgIconScale={['50%', '30%']}

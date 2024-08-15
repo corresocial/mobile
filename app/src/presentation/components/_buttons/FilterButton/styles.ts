@@ -1,23 +1,30 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 export const ContainerBottom = styled.View`
-    background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(20)}px;
+    background-color: ${({ theme }) => theme.colors.black[4]};
+    border-radius: ${relativeScreenDensity(20)}px;
 
 `
 
-export const ContainerSurface = styled.View`
-    border: ${RFValue(2.2)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(20)}px;
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerSurface = styled.View<ContainerSurfaceProps>`
+    border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.colors.black[4]};
+    border-radius: ${relativeScreenDensity(20)}px;
     align-items: center;
     justify-content: center;
-	  padding: ${RFValue(1)}px ${RFValue(12)}px;
+	padding: ${relativeScreenDensity(1)}px ${relativeScreenDensity(12)}px;
     height: 100%;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.small}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.small}px;
 `
 
 export const Label = styled.Text`
-    font-size: ${RFValue(13)}px;
+    font-size: ${({ theme }) => theme.fontSizes[3]}px;
     font-family: Arvo_700Bold;
     text-align: center;
 `

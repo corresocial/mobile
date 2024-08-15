@@ -6,13 +6,12 @@ import {
 	TextInputKeyPressEventData,
 	TextInputProps,
 } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput } from './styles'
 import MinusWhiteIcon from '@assets/icons/minus-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface DefaultInputProps extends TextInputProps {
@@ -95,7 +94,7 @@ function DefaultInput({
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const [validated, setValidated] = useState<boolean>(false)
-	const [multilineInputHeight, setMultilineInputHeight] = useState(minLineHeight)
+	const [multilineInputHeight, setMultilineInputHeight] = useState(fixedHeight || minLineHeight)
 
 	const ValidateAndChange = (text: string) => {
 		const filtredText = filterText ? filterText(text) : text
@@ -129,43 +128,41 @@ function DefaultInput({
 		if (!multiline) return
 
 		if (height >= maxLineHeight) {
-			setMultilineInputHeight(maxLineHeight)
-			return
+			return setMultilineInputHeight(maxLineHeight)
 		}
 
-		if (height <= multilineInputHeight) {
-			setMultilineInputHeight(height + lineHeight)
-			return
+		if (height <= multilineInputHeight && (fixedHeight && multilineInputHeight > fixedHeight)) {
+			return setMultilineInputHeight(height + lineHeight)
 		}
 
 		if (height >= multilineInputHeight && height <= maxLineHeight) {
-			setMultilineInputHeight(height + lineHeight)
+			return setMultilineInputHeight(height + lineHeight)
 		}
 	}
 
 	const generateInputContainerStyle = () => {
-		const customDefaultBackgroundColor = textIsValid ? theme.white3 : defaultBackgroundColor
+		const customDefaultBackgroundColor = textIsValid ? theme.colors.white[3] : defaultBackgroundColor
 
 		if (invalidTextAfterSubmit || error) {
 			return {
-				backgroundColor: invalidBackgroundColor || theme.red1,
+				backgroundColor: invalidBackgroundColor || theme.colors.red[1],
 			}
 		}
 
 		return {
-			borderBottomColor: theme.black4,
-			backgroundColor: validated || textIsValid ? validBackgroundColor : focused ? theme.white3 : customDefaultBackgroundColor
+			borderBottomColor: theme.colors.black[4],
+			backgroundColor: validated || textIsValid ? validBackgroundColor : focused ? theme.colors.white[3] : customDefaultBackgroundColor
 		}
 	}
 
 	const inputContainerStyle = {
-		borderBottomWidth: focused || validated || textIsValid ? RFValue(4) : RFValue(2.5),
+		borderBottomWidth: focused || validated || textIsValid ? relativeScreenDensity(4) : relativeScreenDensity(2.5),
 		...generateInputContainerStyle()
 	}
 
 	const getTextInputStyle = () => {
 		return {
-			color: theme.black4,
+			color: theme.colors.black[4],
 			fontFamily: invalidTextAfterSubmit
 				? 'Arvo_400Regular'
 				: validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'
@@ -187,7 +184,7 @@ function DefaultInput({
 			onIconPress={!!onIconPress}
 			style={{ ...generateInputContainerStyle() }}
 			activeOpacity={onIconPress ? 0.8 : 1}
-			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
+			// underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
 			onPress={() => (!editable ? moveToEditableInput() : textInputRef && textInputRef.current.focus())}
 		>
 			<ContainerInner hasIcon={!!onIconPress}>
@@ -195,25 +192,24 @@ function DefaultInput({
 					onIconPress && iconPosition === 'left'
 					&& (
 						<SideButtonContainer onPress={onIconPress} >
-							<PlusWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+							<PlusWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						</SideButtonContainer>
 					)
 				}
 				{
 					CustonLeftIcon && (
 						<SideButtonContainer >
-							<CustonLeftIcon width={RFValue(30)} height={RFValue(30)} />
+							<CustonLeftIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						</SideButtonContainer>
 					)
 				}
 				<TextInput
-					showsVerticalScrollIndicator={false}
 					{...propsRest}
 					fontSize={fontSize}
 					textAlign={textAlign}
 					hasIcon={!!onIconPress}
 					hasDoubleIcon={!!CustonLeftIcon}
-					height={fixedHeight}
+					{...(multiline ? { height: (multilineInputHeight || fixedHeight || 0) - ((multilineInputHeight || fixedHeight || 0) * 0.25) } : {})}
 					style={[getTextInputStyle()]}
 					ref={textInputRef}
 					value={value}
@@ -238,7 +234,7 @@ function DefaultInput({
 					onIconPress && iconPosition === 'right'
 					&& (
 						<SideButtonContainer onPress={onIconPress} >
-							<MinusWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+							<MinusWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 						</SideButtonContainer>
 					)
 				}

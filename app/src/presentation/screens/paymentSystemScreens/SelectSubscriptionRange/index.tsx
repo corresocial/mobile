@@ -97,8 +97,8 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 						<TitleDescriptionButton
 							key={'planError'}
 							height={relativeScreenHeight(13)}
-							color={theme.red3}
-							textColor={theme.white3}
+							color={theme.colors.red[3]}
+							textColor={theme.colors.white[3]}
 							title={getPostRangeLabel(currentSubscriptionRange)}
 							description={'não conseguimos processar seu pagamento'}
 							highlightedWords={[getPostRangeLabel(currentSubscriptionRange), 'não', 'conseguimos', 'processar', 'seu', 'pagamento']}
@@ -137,7 +137,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			id: 'near' as PostRange,
 			component: <TitleDescriptionButton
 				height={relativeScreenHeight(20)}
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				title={'região'}
 				description={'a pessoas encontram seus posts  no bairro'}
 				highlightedWords={['região', 'bairro']}
@@ -150,7 +150,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			id: 'city' as PostRange,
 			component: <TitleDescriptionButton
 				height={relativeScreenHeight(20)}
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				title={'cidade'}
 				description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
 				highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros']}
@@ -163,7 +163,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			id: 'country' as PostRange,
 			component: <TitleDescriptionButton
 				height={relativeScreenHeight(20)}
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				title={'brasil'}
 				description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
 				highlightedWords={['brasil', 'cidades', 'vizinhas', 'no', 'brasil', 'inteiro']}
@@ -176,7 +176,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<RangeChangeConfirmationModal
 				visibility={rangeChangeModalIsVisible}
 				newRangeSelected={'city'}
@@ -188,12 +188,11 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				relativeHeight={relativeScreenHeight(30)}
 				grow
 				centralized
-				backgroundColor={theme.white3}
-				borderBottomWidth={0}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
-					borderLeftWidth={3}
+					borderLeftWidth={0}
 					fontSize={14}
 					title={'assinatura corre.'}
 					message={'com uma assinatura você alcança mais clientes E ao mesmo tempo apoia nossa iniciativa social'}

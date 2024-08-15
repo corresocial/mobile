@@ -91,8 +91,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange3} barStyle={'dark-content'} />
-			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.orange3} withoutPadding>
+			<StatusBar backgroundColor={theme.colors.orange[3]} barStyle={'dark-content'} />
+			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.colors.orange[3]} withoutPadding>
 				<CustomCarousel>
 					<CarouselItemContainer >
 						<Logo height={relativeScreenHeight(7)} width={relativeScreenWidth(50)} />
@@ -126,7 +126,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 							relativeHeight={'30%'}
 							SvgIcon={UserWhiteIcon}
 							svgIconScale={['50%', '50%']}
-							leftSideColor={theme.orange3}
+							leftSideColor={theme.colors.orange[3]}
 							leftSideWidth={'25%'}
 							onPress={redirectToApp}
 						/>
@@ -140,7 +140,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 					relativeHeight={hasStoredUser ? '20%' : '30%'}
 					SvgIcon={PhoneDeviceWhiteIcon}
 					svgIconScale={['70%', '70%']}
-					leftSideColor={theme.green3}
+					leftSideColor={theme.colors.green[3]}
 					leftSideWidth={'25%'}
 					onPress={navigateToAuthFlow}
 				/>
@@ -151,7 +151,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 					relativeHeight={hasStoredUser ? '20%' : '30%'}
 					SvgIcon={PlusWhiteIcon}
 					svgIconScale={['45%', '45%']}
-					leftSideColor={theme.purple3}
+					leftSideColor={theme.colors.purple[3]}
 					leftSideWidth={'25%'}
 					onPress={navigateToRegisterFlow}
 				/>

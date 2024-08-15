@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { ExhibitionPlaceType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactExhibitionRangeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -16,18 +15,13 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSocialImpactExhibitionRange = (exhibitionPlace: ExhibitionPlaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exhibitionPlace })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setSocialImpactDataOnContext({ exhibitionPlace })
-		navigation.navigate('InsertSocialImpactDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -36,9 +30,8 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 		<PostSelectButton
 			title={'onde essa iniciativa atua?'}
 			highlightedWords={['onde']}
-			headerBackgroundColor={theme.pink2}
-			backgroundColor={theme.white3}
-			progress={[3, isSecondPost ? 5 : 6]}
+			headerBackgroundColor={theme.colors.pink[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -48,7 +41,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 				relativeHeight={'25%'}
 				SvgIcon={PinWhiteIcon}
 				svgIconScale={['40%', '40%']}
-				leftSideColor={theme.pink3}
+				leftSideColor={theme.colors.pink[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveSocialImpactExhibitionRange('near')}
 			/>
@@ -59,7 +52,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 				relativeHeight={'25%'}
 				SvgIcon={CityWhiteIcon}
 				svgIconScale={['55%', '55%']}
-				leftSideColor={theme.pink3}
+				leftSideColor={theme.colors.pink[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveSocialImpactExhibitionRange('city')}
 			/>
@@ -70,7 +63,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 				relativeHeight={'25%'}
 				SvgIcon={BrazilWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.pink3}
+				leftSideColor={theme.colors.pink[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveSocialImpactExhibitionRange('country')}
 			/>

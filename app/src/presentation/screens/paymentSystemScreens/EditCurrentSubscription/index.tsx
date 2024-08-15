@@ -198,7 +198,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<RangeChangeConfirmationModal
 				visibility={rangeChangeModalIsVisible}
 				currentPostAddress={getLastPostAddress()}
@@ -223,21 +223,20 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			<DefaultHeaderContainer
 				relativeHeight={'45%'}
 				centralized
-				backgroundColor={theme.white3}
-				borderBottomWidth={0}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={16}
-					backgroundColor={!hasError ? theme.white3 : theme.red1}
+					backgroundColor={!hasError ? theme.colors.white[3] : theme.colors.red[1]}
 					title={getHeaderTitle()}
 					message={getHeaderDescription()}
 					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				justifyContent={'center'}
 			>
 				{
@@ -246,10 +245,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 						: (
 							<>
 								<PrimaryButton
-									color={theme.red3}
+									color={theme.colors.red[3]}
 									keyboardHideButton={false}
 									label={leaveFromPaidSubscription ? `cancelar plano ${getPostRangeLabel(leaveFromPaidSubscription)}` : 'cancelar assinatura'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									highlightedWords={leaveFromPaidSubscription ? ['cancelar', getPostRangeLabel(leaveFromPaidSubscription)] : ['cancelar']}
 									fontSize={16}
 									SvgIcon={XWhiteIcon}
@@ -259,7 +258,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 								/>
 								<VerticalSpacing height={3} />
 								<PrimaryButton
-									color={theme.white3}
+									color={theme.colors.white[3]}
 									keyboardHideButton={false}
 									label={'mudar forma \nde pagamento'}
 									highlightedWords={['pagamento']}
@@ -274,10 +273,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 										<>
 											<VerticalSpacing height={3} />
 											<PrimaryButton
-												color={theme.green3}
+												color={theme.colors.green[3]}
 												keyboardHideButton={false}
 												label={'receber recibo por e-mail'}
-												labelColor={theme.white3}
+												labelColor={theme.colors.white[3]}
 												highlightedWords={['recibo', 'por', 'e-mail']}
 												fontSize={16}
 												SecondSvgIcon={AtSignWhiteIcon}

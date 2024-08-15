@@ -153,11 +153,11 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(24)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
-					backgroundColor={!hasError ? theme.white3 : theme.red1}
+					backgroundColor={!hasError ? theme.colors.white[3] : theme.colors.red[1]}
 					title={hasError ? 'opa, algo deu errado ao deletar' : ''}
 					message={!hasError ? 'o que você quer fazer com seus dados?' : 'tente novamente em alguns instantes'}
 					fontSize={16}
@@ -169,7 +169,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 					borderLeftWidth={3}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={!hasError ? theme.orange2 : theme.red2}>
+			<FormContainer backgroundColor={!hasError ? theme.colors.orange[2] : theme.colors.red[2]}>
 				{
 					isLoading
 						? (
@@ -178,7 +178,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 						: (
 							<TitleDescriptionButton
 								height={'35%'}
-								color={theme.white3}
+								color={theme.colors.white[3]}
 								title={'ser esquecido'}
 								description={'todos os cidadãos do corre. podem ter sua conta e dados deletados, ao clicar aqui você entende que seu usuário, perfil e posts serão removidos de nossa plataforma'}
 								highlightedWords={['esquecido', 'sua', 'conta', 'e', 'dados', 'deletados', 'seu', 'perfil', 'usuário', 'posts', 'serão', 'rmeovidos', 'de', 'nossa', 'plataforma']}

@@ -121,7 +121,7 @@ function FinishPetitionSignature({ navigation }: FinishPetitionSignatureScreenPr
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(80)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -147,9 +147,9 @@ function FinishPetitionSignature({ navigation }: FinishPetitionSignatureScreenPr
 								<Loader flex />
 							) : (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'enviar respostas'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SecondSvgIcon={SendFileWhiteIcon}
 									onPress={submitResponses}
 								/>

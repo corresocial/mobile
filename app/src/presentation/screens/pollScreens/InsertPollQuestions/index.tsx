@@ -135,7 +135,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<SelectQuestionTypeModal
 				visibility={selectQuestionTypeModalIsVisible}
 				closeModal={() => { }}
@@ -145,7 +145,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 				minHeight={relativeScreenHeight(22)}
 				relativeHeight={relativeScreenHeight(22)}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
@@ -158,7 +158,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 			</DefaultHeaderContainer>
 			<FormContainer
 				withoutPaddingTop
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={questionsLength() > 1 ? 'center' : 'space-around'}
 			>
 				<QuestionList
@@ -179,8 +179,8 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 							value={questionText}
 							relativeWidth={'100%'}
 							textInputRef={inputRefs.questionTextInput}
-							defaultBackgroundColor={theme.white2}
-							validBackgroundColor={theme.purple1}
+							defaultBackgroundColor={theme.colors.white[2]}
+							validBackgroundColor={theme.colors.purple[1]}
 							withoutBottomLine
 							lastInput
 							multiline
@@ -203,9 +203,9 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 						(questionsLength() > 0)
 						&& (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={savePollQuestions}
 							/>

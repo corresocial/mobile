@@ -20,9 +20,9 @@ function SelectNumberOfSelections({ route, navigation }: SelectNumberOfSelection
 		<PostSelectButton
 			title={'que tipo de resposta você quer?'}
 			highlightedWords={['tipo', 'resposta']}
-			headerBackgroundColor={theme.purple2}
+			headerBackgroundColor={theme.colors.purple[2]}
 			progress={[3, 4]}
-			backgroundColor={theme.white3}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -32,7 +32,7 @@ function SelectNumberOfSelections({ route, navigation }: SelectNumberOfSelection
 				relativeHeight={'25%'}
 				SvgIcon={CheckWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.purple3}
+				leftSideColor={theme.colors.purple[3]}
 				leftSideWidth={'25%'}
 				onPress={() => selectNumberOfSelectableOptions(false)}
 			/>
@@ -43,7 +43,7 @@ function SelectNumberOfSelections({ route, navigation }: SelectNumberOfSelection
 				relativeHeight={'25%'}
 				SvgIcon={ChecksWhiteIcon}
 				svgIconScale={['70%', '70%']}
-				leftSideColor={theme.purple3}
+				leftSideColor={theme.colors.purple[3]}
 				leftSideWidth={'25%'}
 				onPress={() => selectNumberOfSelectableOptions(true)}
 			/>

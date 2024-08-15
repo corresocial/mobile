@@ -23,13 +23,14 @@ const { sortPostCategories } = UiPostUtils()
 
 interface PostCategoryProps {
 	backgroundColor: string
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	categories: PostCategoriesObject
-	savePostCategory: (categoryName: PostCategoriesType) => void
+	skipScreen?: () => void
 	navigateBackwards: () => void
+	savePostCategory: (categoryName: PostCategoriesType) => void
 }
 
-function PostCategory({ backgroundColor, progress, categories, savePostCategory, navigateBackwards }: PostCategoryProps) {
+function PostCategory({ backgroundColor, skipScreen, progress, categories, savePostCategory, navigateBackwards }: PostCategoryProps) {
 	const renderSelectOptionsButtons = () => {
 		const ordenedSaleCategories = Object.values(categories).sort(sortPostCategories)
 
@@ -54,11 +55,11 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(23)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -66,10 +67,12 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 					message={'a qual categoria pertence?'}
 					highlightedWords={['categoria', 'seu', 'post']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{progress && (
+						<ProgressBar
+							value={progress[0]}
+							range={progress[1]}
+						/>
+					)}
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<ScrollView style={{ backgroundColor }}>
@@ -77,7 +80,7 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 					backgroundColor={backgroundColor}
 				>
 					{renderSelectOptionsButtons() as any}
-					< SelectButton
+					<SelectButton
 						key={'others'}
 						width={categoriesAreOdd() ? '45%' : '100%'}
 						height={relativeScreenHeight(11)}
@@ -85,6 +88,18 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 						boldLabel
 						onSelect={() => savePostCategory('others')}
 					/>
+					{
+						skipScreen && (
+							<SelectButton
+								key={'none'}
+								width={categoriesAreOdd() ? '45%' : '100%'}
+								height={relativeScreenHeight(11)}
+								label={'nenhuma'}
+								boldLabel
+								onSelect={skipScreen}
+							/>
+						)
+					}
 				</SelectButtonsContainer>
 				<VerticalSpacing height={4} />
 			</ScrollView>

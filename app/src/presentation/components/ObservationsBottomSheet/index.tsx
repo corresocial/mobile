@@ -125,8 +125,8 @@ const ObservationsBottomSheet = forwardRef(({
 						<DefaultInput
 							textInputRef={observationInputRef}
 							value={observationInputText}
-							defaultBackgroundColor={theme.white3}
-							validBackgroundColor={theme.white3}
+							defaultBackgroundColor={theme.colors.white[3]}
+							validBackgroundColor={theme.colors.white[3]}
 							lastInput
 							fontSize={16}
 							onTouchStart={() => snapBottomSheet(1)}

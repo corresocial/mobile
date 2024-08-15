@@ -1,6 +1,3 @@
-import React from 'react'
-import { SvgProps } from 'react-native-svg'
-
 import { UserOwner } from '@domain/user/entity/types'
 
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
@@ -9,22 +6,16 @@ import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
+export type IncomeCategories = keyof typeof saleCategories & keyof typeof serviceCategories & keyof typeof vacancyCategories
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
 export type VacancyCategories = keyof typeof vacancyCategories
 export type CultureCategories = keyof typeof cultureCategories
 export type SocialImpactCategories = keyof typeof socialImpactCategories
 
-export type PostCategoriesType = SaleCategories | ServiceCategories | VacancyCategories | CultureCategories | SocialImpactCategories
+export type PostCategoriesType = SaleCategories & ServiceCategories & VacancyCategories & CultureCategories & SocialImpactCategories
 
 export type PostCategoriesObject = typeof saleCategories | typeof serviceCategories | typeof vacancyCategories | typeof cultureCategories | typeof socialImpactCategories
-
-export type MacroCategory = {
-	label: string
-	value: string
-	SvgIcon: React.FC<SvgProps>
-	tags: string[]
-}
 
 export type Id = string
 
@@ -55,8 +46,6 @@ export type ExhibitionPlaceType = 'near' | 'city' | 'country'
 export type PlaceModalityType = 'presential' | 'online' | 'both'
 
 export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly' | 'monthly'
-
-export type VacancyPurpose = 'findProffessional' | 'findVacancy'
 
 export type IncomeType = 'sale' | 'service' | 'vacancy'
 
@@ -98,9 +87,11 @@ export type FeedPosts = {
 
 export type PostType = 'income' | 'socialImpact' | 'culture'
 
-export type PostEntityKeys = keyof IncomeEntityOptional | keyof VacancyEntityOptional | keyof CultureEntityOptional | keyof SocialImpactEntityOptional
-export type PostEntity = IncomeEntity | VacancyEntity | CultureEntity | SocialImpactEntity
-export type PostEntityOptional = IncomeEntityOptional | VacancyEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
+export type PostEntityKeys = keyof IncomeEntityOptional | keyof CultureEntityOptional | keyof SocialImpactEntityOptional
+export type PostEntity = IncomeEntity | CultureEntity | SocialImpactEntity
+export type PostEntityOptional = IncomeEntityOptional | CultureEntityOptional | SocialImpactEntityOptional
+
+// Income
 
 export type IncomeEntityOptional = Partial<IncomeEntity>
 export interface IncomeEntity extends PostEntityCommonFields {
@@ -110,10 +101,19 @@ export interface IncomeEntity extends PostEntityCommonFields {
 	itemStatus: ItemStatus
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
+
+	vacancyType?: VacancyType
+	workplace?: WorkplaceType
+	importantPoints?: string[]
+	workFrequency?: WeekdaysFrequency
+	startDate?: Date
+	endDate?: Date
+
 	unapprovedData?: IncomeEntityOptional & { reject?: boolean }
 }
 
-export type VacancyEntityOptional = Partial<VacancyEntity>
+// Vagas estão sendo mantidas separadas devido à sua grande diferença de estrutura
+/* export type VacancyEntityOptional = Partial<VacancyEntity>
 export interface VacancyEntity extends PostEntityCommonFields {
 	macroCategory?: IncomeType
 	vacancyType?: VacancyType
@@ -125,7 +125,9 @@ export interface VacancyEntity extends PostEntityCommonFields {
 	saleValue?: string
 	exchangeValue?: string
 	unapprovedData?: VacancyEntityOptional & { reject?: boolean }
-}
+} */
+
+// Culture
 
 export type CultureEntityOptional = Partial<CultureEntity>
 export interface CultureEntity extends PostEntityCommonFields {
@@ -139,6 +141,7 @@ export interface CultureEntity extends PostEntityCommonFields {
 	unapprovedData?: CultureEntityOptional & { reject?: boolean }
 }
 
+// Social Impact
 export type SocialImpactEntityOptional = Partial<SocialImpactEntity>
 export interface SocialImpactEntity extends PostEntityCommonFields {
 	macroCategory?: SocialImpactType
@@ -157,7 +160,6 @@ export interface PostEntityCommonFields {
 	category: string
 	tags: string[]
 	description: string
-	lookingFor: boolean
 	completed?: boolean
 	locationView: LocationViewType
 	range: PostRange
@@ -238,7 +240,6 @@ export interface PostEntityCommonFields {
 	category: string
 	tags: string[]
 	description: string
-	lookingFor?: boolean
 	completed?: boolean
 	locationView: LocationViewType
 	range: PostRange

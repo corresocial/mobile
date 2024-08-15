@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenWidth } from '@common/screenDimensions'
@@ -11,18 +10,18 @@ interface ContainerProps {
 export const Container = styled.View<ContainerProps>`
 	margin-bottom: -1px;
 	flex-direction: row;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	align-items: center;
 	justify-content: ${({ hasIcon }) => (hasIcon ? 'flex-start' : 'space-between')};
 	padding: ${relativeScreenWidth(2.7)}px;
 	border-left-width: ${relativeScreenWidth(1.4)}px;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const Title = styled.Text<ContainerProps>`
 	width: ${({ hasIcon }) => (hasIcon ? '75%' : '60%')};
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const RightArea = styled.View`

@@ -52,7 +52,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 	const linkStyle = {
 		color: theme.colors.orange[3],
 		fontFamily: theme.fonts.nunitoBold,
-		fontSize: theme.fontSizes.nunito[3]
+		fontSize: theme.fontSizes[4]
 	}
 
 	const renderLinks = (links: string[]) => {
@@ -167,6 +167,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		formattedValue.push(
 			<PriceLabel bold>{priceValue.saleValue || ''}</PriceLabel>
 		)
+
 		return formattedValue
 	}
 
@@ -451,7 +452,8 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 		}
 		if (type === 'price') {
 			const price = value as PriceValues
-			if (!(price.exchangeValue || price.saleValue) && !price.isEvent) return false
+			if ((price.isEvent && (!price.exchangeValue && (price.saleValue || price.saleValue !== '')))) return false
+			if (!price.isEvent && (!price.exchangeValue && !price.saleValue)) return false
 		}
 
 		return true

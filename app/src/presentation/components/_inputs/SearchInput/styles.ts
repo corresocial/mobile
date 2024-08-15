@@ -11,14 +11,14 @@ interface ContainerProps {
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
     width: ${({ relativeWidth }) => relativeWidth || '100%'};
-	min-height: ${relativeScreenDensity(40)}px;
+	min-height: ${relativeScreenDensity(45)}px;
 	padding: ${relativeScreenDensity(5)}px;
 	background-color: ${({ theme, textIsValid, focused, validBackgroundColor }) => (
 		textIsValid && validBackgroundColor
 			? validBackgroundColor
-			: focused ? theme.white3 : theme.white2
+			: focused ? theme.colors.white[3] : theme.colors.white[2]
 	)};
-    height: ${relativeScreenDensity(40)}px;
+    height: ${relativeScreenDensity(45)}px;
     align-items: center;
     justify-content: center;
 	flex-direction: row;
@@ -35,8 +35,8 @@ export const SideArea = styled.TouchableOpacity`
 
 export const TextInput = styled.TextInput`
 	flex: 1;
-    font-size: ${relativeScreenDensity(16)}px;
+    font-size: ${({ theme }) => theme.fontSizes[6]}px;
     font-family: Arvo_400Regular;
     text-align: center;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
 `

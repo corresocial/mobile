@@ -46,7 +46,7 @@ function SubscriptionPlan({ backgroundColor, plansAvailable, postRange, headerFo
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(18)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				footerText={headerFooterText}
 			>
 				<BackButton onPress={navigateBackwards} />
@@ -63,8 +63,8 @@ function SubscriptionPlan({ backgroundColor, plansAvailable, postRange, headerFo
 				<ButtonsContainer>
 					<TitleDescriptionButton
 						height={'28%'}
-						color={theme.white3}
-						activeColor={theme.orange1}
+						color={theme.colors.white[3]}
+						activeColor={theme.colors.orange[1]}
 						title={'assinatura mensal'}
 						description={'cobrado todo mês no seu cartão, cancele quando quiser'}
 						highlightedWords={['assinatura', 'mensal', 'cancele', 'quando', 'quiser']}
@@ -74,8 +74,8 @@ function SubscriptionPlan({ backgroundColor, plansAvailable, postRange, headerFo
 					/>
 					<TitleDescriptionButton
 						height={'28%'}
-						color={theme.white3}
-						activeColor={theme.orange1}
+						color={theme.colors.white[3]}
+						activeColor={theme.colors.orange[1]}
 						title={'assinatura anual'}
 						description={'pagamento único com 20% de desconto'}
 						highlightedWords={['assinatura', 'anual', '20%', 'de', 'desconto']}
@@ -87,9 +87,9 @@ function SubscriptionPlan({ backgroundColor, plansAvailable, postRange, headerFo
 					{
 						planSelected && (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={() => saveSubscriptionPlan(planSelected)}
 							/>

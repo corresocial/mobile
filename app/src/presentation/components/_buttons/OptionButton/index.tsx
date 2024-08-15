@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { DimensionValue, TextStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import {
@@ -15,7 +14,7 @@ import {
 	LeftSideText
 } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface OptionButtonProps {
@@ -56,7 +55,7 @@ function OptionButton({
 	SecondSvgIcon,
 	svgIconScale,
 	secondSvgIconScale,
-	leftSideColor = theme.orange2,
+	leftSideColor = theme.colors.orange[2],
 	selectedSideColor,
 	leftSideWidth,
 	leftSideText,
@@ -67,7 +66,7 @@ function OptionButton({
 	shortDescriptionHighlightedWords = [],
 	onPress
 }: OptionButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -98,10 +97,8 @@ function OptionButton({
 				}}
 			>
 				<ContainerSurface
-					style={{
-						backgroundColor: color || theme.white3,
-						marginLeft: buttonPressed || selected ? RFValue(7) : 0
-					}}
+					buttonPressed={buttonPressed}
+					style={{ backgroundColor: color || theme.colors.white[3] }}
 				>
 					<LeftArea
 						style={{
@@ -123,7 +120,7 @@ function OptionButton({
 						<ButtonLabel style={{
 							color: labelColor,
 							textAlign: labelAlign,
-							fontSize: RFValue(labelSize),
+							fontSize: relativeScreenDensity(labelSize),
 						}}
 						>
 							{showMessageWithHighlight(label, highlightedWords)}

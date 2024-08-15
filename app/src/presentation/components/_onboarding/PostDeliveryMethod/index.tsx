@@ -39,7 +39,7 @@ function PostDeliveryMethod({ backgroundColor, itemsColor, navigateBackwards, sa
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<ButtonsContainer>
 					<OptionButton

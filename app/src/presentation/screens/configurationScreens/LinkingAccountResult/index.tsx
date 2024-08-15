@@ -1,11 +1,11 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { LinkingAccountResultScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -42,12 +42,12 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				flexDirection={'column'}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
@@ -64,7 +64,7 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 							<InstructionButtonContainer withPaddingLeft>
 								<InstructionCard
 									fontSize={16}
-									borderLeftWidth={RFValue(4)}
+									borderLeftWidth={relativeScreenDensity(4)}
 									message={getAccountIdentifierLinked()}
 									highlightedWords={getAccountIdentifierLinked().split(' ')}
 
@@ -78,9 +78,9 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 			</DefaultHeaderContainer>
 			<FormContainer>
 				<PrimaryButton
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					label={'continuar'}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SecondSvgIcon={CheckWhiteIcon}
 					onPress={navigateBackwards}
 				/>

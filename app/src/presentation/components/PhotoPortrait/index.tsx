@@ -113,7 +113,7 @@ function PhotoPortrait({
 							<SmallButton
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={TrashWhiteIcon}
 								svgScale={['55%', '55%']}
 								onPress={deleteCurrentPicture}
@@ -129,7 +129,7 @@ function PhotoPortrait({
 							<SmallButton
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
-								color={theme.white3}
+								color={theme.colors.white[3]}
 								SvgIcon={EditWhiteIcon}
 								svgScale={['55%', '55%']}
 								onPress={editCurrentPicture}

@@ -275,7 +275,7 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
 	}
 
-	const navigateToPostCategories = (postType: PostType) => {
+	const navigateToViewPostsByPostType = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
 			searchParams: { ...locationDataContext.searchParams, postType } as any // TODO Type
@@ -329,10 +329,10 @@ function Home({ navigation }: HomeScreenProps) {
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange2}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[2]}>
 			<Container>
 				<FocusAwareStatusBar
-					backgroundColor={theme.orange2}
+					backgroundColor={theme.colors.orange[2]}
 					barStyle={'dark-content'}
 				/>
 				<SubscriptionPresentationModal
@@ -360,16 +360,16 @@ function Home({ navigation }: HomeScreenProps) {
 					renderItem={(() => { }) as any}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={feedIsUpdating}
-							progressBackgroundColor={theme.white3}
+							progressBackgroundColor={theme.colors.white[3]}
 							onRefresh={refreshFeedPosts}
 						/>
 					)}
 					ListHeaderComponent={(
 						<>
-							<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+							<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
 							<AdsCarousel
 								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 								onPressPublicServicesAd={navigateToPublicServices}
@@ -389,7 +389,7 @@ function Home({ navigation }: HomeScreenProps) {
 					CellRendererComponent={() => (
 						<FeedByRange
 							searchEnded={searchEnded}
-							backgroundColor={theme.orange2}
+							backgroundColor={theme.colors.orange[2]}
 							filteredFeedPosts={feedPosts}
 							viewPostsByRange={viewPostsByRange}
 							navigateToProfile={navigateToProfile}

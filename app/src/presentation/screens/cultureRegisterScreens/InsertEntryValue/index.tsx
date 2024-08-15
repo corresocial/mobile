@@ -50,10 +50,10 @@ function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostInputText
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				validationColor={theme.colors.blue[1]}
 				customTitle={'tem custo de entrada?'}
 				customHighlight={['custo', 'de', 'entrada']}
 				inputPlaceholder={'ex: 1kg de alimento'}

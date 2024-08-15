@@ -1,11 +1,10 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
-	background-color: ${({ theme }) => theme.white2};
-	border-radius: ${RFValue(17.5)}px;
+	background-color: ${({ theme }) => theme.colors.white[2]};
+	border-radius: ${relativeScreenDensity(17.5)}px;
 	overflow: hidden;
 	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(13)}px;
 	flex-direction: row;
@@ -38,16 +37,16 @@ export const ButtonArea = styled.TouchableOpacity`
 `
 
 export const Title = styled.Text`
-    font-size: ${relativeScreenDensity(15)}px;
+    font-size: ${({ theme }) => theme.fontSizes[5]}px;
     font-family: Arvo_700Bold;
 `
 
 export const QuestionIndicator = styled.Text`
-    font-size: ${relativeScreenDensity(15)}px;
+    font-size: ${({ theme }) => theme.fontSizes[5]}px;
     font-family: Arvo_400Regular;
 `
 
 export const ObservationText = styled.Text`
-    font-size: ${relativeScreenDensity(12)}px;
+    font-size: ${({ theme }) => theme.fontSizes[2]}px;
     font-family: Arvo_400Regular;
 `

@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 export const CardHeader = styled.View`
 	flex-direction: row;
@@ -9,8 +8,8 @@ export const CardHeader = styled.View`
 `
 
 export const ValueContainer = styled.View`
-	padding-top: ${RFValue(8)}px;
-	padding-bottom: ${RFValue(5)}px;
+	padding-top: ${relativeScreenDensity(8)}px;
+	padding-bottom: ${relativeScreenDensity(5)}px;
 `
 
 interface TextProps {
@@ -19,21 +18,20 @@ interface TextProps {
 
 export const Text = styled.Text<TextProps>`
 	font-family: ${({ bold }) => (bold ? 'Arvo_700Bold' : 'Arvo_400Regular')};
-	font-size: ${RFValue(14)}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const PictureArea = styled.View`
 	width: 100%;
 	height: ${relativeScreenWidth(88)}px;
-	border-width: ${RFValue(2)}px;
-	border-color: ${({ theme }) => theme.black4};
-	border-radius: ${RFValue(15)}px;
-	background-color: ${({ theme }) => theme.black4};
+	border-width: ${relativeScreenDensity(2)}px;
+	border-color: ${({ theme }) => theme.colors.black[4]};
+	border-radius: ${relativeScreenDensity(15)}px;
+	background-color: ${({ theme }) => theme.colors.black[4]};
 	overflow: hidden;
 `
 
 export const ProfilePicture = styled.Image`
 	flex: 1;
-	resize-mode: cover;
 	overflow: hidden;
 `

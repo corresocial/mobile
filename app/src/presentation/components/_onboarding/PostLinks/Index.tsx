@@ -72,7 +72,7 @@ function PostLinks({
 				value={currentLink}
 				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
-				defaultBackgroundColor={theme.white2}
+				defaultBackgroundColor={theme.colors.white[2]}
 				validBackgroundColor={lightColor}
 				withoutBottomLine
 				multiline
@@ -129,7 +129,7 @@ function PostLinks({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
 				relativeHeight={relativeScreenHeight(26)}
@@ -148,7 +148,7 @@ function PostLinks({
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -160,7 +160,7 @@ function PostLinks({
 				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={linksLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
@@ -175,7 +175,7 @@ function PostLinks({
 								value={linkText}
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.linkTextInput}
-								defaultBackgroundColor={theme.white2}
+								defaultBackgroundColor={theme.colors.white[2]}
 								validBackgroundColor={lightColor}
 								withoutBottomLine
 								lastInput
@@ -201,9 +201,9 @@ function PostLinks({
 						(linksLength() > 0 && !keyboardOpened)
 						&& (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={() => saveLinks(linksList)}
 							/>

@@ -125,7 +125,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -139,14 +139,14 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 					onEndReached={loadMorePosts}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={isRefresing}
 							onRefresh={loadCompletedPosts}
 						/>
 					)}
 					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ backgroundColor: theme.orange2 }}
+					contentContainerStyle={{ backgroundColor: theme.colors.orange[2] }}
 					ItemSeparatorComponent={() => <VerticalSpacing height={0.8} />}
 					ListHeaderComponent={<VerticalSpacing />}
 					ListFooterComponent={() => (

@@ -43,7 +43,7 @@ function PostRepeat({ backgroundColor, itemsColor, savePostRepeat, navigateBackw
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<ButtonsContainer>
 					<OptionButton

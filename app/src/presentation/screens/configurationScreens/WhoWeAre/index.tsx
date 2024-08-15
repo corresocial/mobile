@@ -16,7 +16,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -40,10 +40,9 @@ function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
-						color={theme.orange3}
+						color={theme.colors.orange[3]}
 						label={'como fazemos isso?'}
 						highlightedWords={['como']}
-						fontSize={20}
 						SecondSvgIcon={QuestionMarkWhiteIcon}
 						svgIconScale={['50%', '20%']}
 						onPress={() => navigation.navigate('WhoWeAreIncome')}
