@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { PostCategoriesType, SaleCategories } from '@domain/post/entity/types'
+import { IncomeCategories, PostCategoriesType } from '@domain/post/entity/types'
 
 import { useEditContext } from '@contexts/EditContext'
 
@@ -20,7 +20,7 @@ function SelectIncomeCategory({ route, navigation }: SelectIncomeCategoryScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const onSelectCategory = (categoryName: SaleCategories) => {
+	const onSelectCategory = (categoryName: IncomeCategories) => {
 		if (editModeIsTrue()) {
 			return navigation.navigate('SelectIncomeTags', { categorySelected: categoryName, ...route.params })
 		}

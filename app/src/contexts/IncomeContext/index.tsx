@@ -22,7 +22,6 @@ function IncomeProvider({ children }: IncomeProviderProps) {
 	const [incomeDataContext, setIncomeDataContext] = useState(initialValue.incomeDataContext)
 
 	const setIncomeDataOnContext = async (data: IncomeEntityOptional) => {
-		console.log('income', { ...data }) // CURRENT remove
 		setIncomeDataContext({ ...incomeDataContext, ...data })
 	}
 

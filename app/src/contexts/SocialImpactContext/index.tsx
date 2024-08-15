@@ -22,7 +22,6 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
 
 	const setSocialImpactDataOnContext = async (data: SocialImpactEntityOptional) => {
-		console.log({ ...data }) // CURRENT remove
 		setSocialImpactDataContext({ ...socialImpactDataContext, ...data })
 	}
 
@@ -59,4 +58,4 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 
 const useSocialImpactContext = () => useContext(SocialImpactContext)
 
-export { SocialImpactProvider, SocialImpactContext, useSocialImpactContext } // CURRENT Remove
+export { SocialImpactProvider, useSocialImpactContext }

@@ -278,14 +278,6 @@ function CulturePostReview({ route, navigation }: CulturePostReviewScreenProps) 
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
 				/>
-				{/* <VerticalSpacing /> // CURRENT Ver com João
-				<EditCard
-					title={'repetição'}
-					highlightedWords={['repetição']}
-					SecondSvgIcon={RecycleWhiteIcon}
-					value={renderCultureRepeat()}
-					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
-				/> */}
 				<VerticalSpacing />
 				<EditCard
 					title={'que dia começa'}

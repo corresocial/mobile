@@ -148,11 +148,9 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 		return allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']
 	}
 
-	const naigateToReviewPost = (post: PostEntityOptional) => { // CURRENT Repetidos redirects
-		switch (post.postType as any) { // CURRENT Remover any e Verificar funcionamento
-			case 'service': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
-			case 'sale': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'vacancy': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+	const naigateToReviewPost = (post: PostEntityOptional) => {
+		switch (post.postType as any) {
+			case 'income': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
 			case 'culture': return navigation.navigate('CulturePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			case 'socialImpact': return navigation.navigate('SocialImpactPostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			default: return null

@@ -1,8 +1,8 @@
 import React from 'react'
+import { useTheme } from 'styled-components'
 
 import AngleLeftIcon from '@assets/icons/angleLeft-white.svg'
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
-import { theme } from '@common/theme'
 
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
@@ -14,6 +14,8 @@ interface BackButtonProps {
 }
 
 function BackButton({ withoutRightSpacing, onPress }: BackButtonProps) {
+	const theme = useTheme()
+
 	return (
 		<>
 			<SmallButton

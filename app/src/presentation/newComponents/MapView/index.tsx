@@ -82,16 +82,8 @@ function MapView({
 	}
 
 	const formatAddress = () => {
-		const {
-			street,
-			district,
-			city,
-			state,
-			name,
-			number
-		} = location
-		// CURRENT Ajustar operadores
-		return `${name ? `${name} , \n` : ''}${street && `${street}, `}${number && `${number}, `}${district && `${district}`}${city && ` - ${city}, `}${state}`
+		const { street, district, city, state, name, number } = location
+		return `${name ? `${name}, \n` : ''}${street ? `${street}, ` : ''}${number ? `${number}, ` : ''}${district ? `${district}, ` : ''}${city ? `${city}` : ''}${state ? ` - ${state}` : ''}`
 	}
 
 	const getAddressCoordinates = () => {

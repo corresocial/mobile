@@ -184,7 +184,7 @@ function DefaultInput({
 			onIconPress={!!onIconPress}
 			style={{ ...generateInputContainerStyle() }}
 			activeOpacity={onIconPress ? 0.8 : 1}
-			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
+			// underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
 			onPress={() => (!editable ? moveToEditableInput() : textInputRef && textInputRef.current.focus())}
 		>
 			<ContainerInner hasIcon={!!onIconPress}>

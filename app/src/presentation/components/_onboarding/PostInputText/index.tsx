@@ -167,7 +167,7 @@ function PostInputText({
 									? (
 										<PrimaryButton
 											color={theme.colors.green[3]}
-											label={'continuar'}/* CURRENT */
+											label={'continuar'}
 											labelColor={theme.colors.white[3]}
 											SecondSvgIcon={CheckWhiteIcon}
 											onPress={() => saveTextData(inputText.trim())}

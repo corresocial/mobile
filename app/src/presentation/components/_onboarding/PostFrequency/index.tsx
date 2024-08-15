@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
+import { useTheme } from 'styled-components'
 
 import { WeekdaysFrequency } from '@domain/post/entity/types'
 
@@ -10,8 +11,6 @@ import CalendarSomeday from '@assets/icons/calendarSomeday-white.svg'
 import CalendarToday from '@assets/icons/calendarToday-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-import { theme } from '@common/theme'
-// CURRENT REmove direct import
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { OptionButton } from '@components/_buttons/OptionButton'
@@ -36,6 +35,8 @@ function PostFrequency({
 	skipScreen,
 	savePostFrequency
 }: PostFrequencyProps) {
+	const theme = useTheme()
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />

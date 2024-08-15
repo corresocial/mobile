@@ -20,7 +20,6 @@ export type GeocodeAddress = {
 
 export type CurrentCategory = {
 	backgroundColor?: string
-	inactiveColor?: string
 	categoryName: string
 	categoryTitle: string
 	categorySvgIcon: React.FC<SvgProps> | null

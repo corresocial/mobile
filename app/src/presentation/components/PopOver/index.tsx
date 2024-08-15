@@ -336,7 +336,7 @@ function PopOver({
 								<VerticalSpacing />
 								<PrimaryButton
 									color={theme.colors.red[3]}
-									SecondSvgIcon={DeniedWhiteIcon}
+									SvgIcon={DeniedWhiteIcon}
 									label={'remover verificação'}
 									highlightedWords={['verificação']}
 									labelColor={theme.colors.white[3]}

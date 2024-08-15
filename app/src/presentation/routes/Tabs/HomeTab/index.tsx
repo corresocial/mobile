@@ -60,7 +60,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 			Animated.timing(heightAnimatedValue, {
 				toValue: focused ? 0 : initialValue,
 				duration: 300,
-				useNativeDriver: false // CURRENT USE IOS only
+				useNativeDriver: false
 			}).start()
 		}
 
@@ -212,6 +212,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					fontFamily: 'Arvo_700Bold',
 					fontSize: relativeScreenDensity(10),
 					margin: relativeScreenDensity(3),
+					marginLeft: relativeScreenDensity(10)
 				},
 				tabBarActiveBackgroundColor: theme.colors.white[3],
 				tabBarInactiveBackgroundColor: theme.colors.white[3],

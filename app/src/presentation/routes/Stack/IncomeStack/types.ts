@@ -1,4 +1,4 @@
-import { DaysOfWeek, LatLong, LocationViewType, PostRange, PostCategoriesType, IncomeEntity } from '@domain/post/entity/types'
+import { DaysOfWeek, LatLong, LocationViewType, PostRange, IncomeEntity, IncomeCategories } from '@domain/post/entity/types'
 
 import { UserStackParamList } from '../UserStack/types'
 
@@ -11,7 +11,7 @@ export type IncomeStackParamList = {
 
 	SelectIncomeCategory: { editMode: boolean } | undefined
 	SelectIncomeType: { editMode: boolean } | undefined
-	SelectIncomeTags: { categorySelected: PostCategoriesType, editMode?: boolean }
+	SelectIncomeTags: { categorySelected: IncomeCategories, editMode?: boolean }
 	SelectItemStatus: { editMode: boolean } | undefined
 	InsertIncomeLinks: { editMode: boolean, initialValue: string[] } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
