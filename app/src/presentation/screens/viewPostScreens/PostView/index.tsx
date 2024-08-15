@@ -93,7 +93,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const postType = getPostType()!
 
 	useEffect(() => {
-		getPost(!!(postData.macroCategory === 'event' && postData.postId))
+		getPost(!!(postData.macroCategory === 'event' && postData.postId && !loggedUserIsOwner()))
 		return () => {
 			clearEditContext()
 		}
