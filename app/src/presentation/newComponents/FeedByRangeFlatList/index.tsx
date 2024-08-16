@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
 import { FlashList } from '@shopify/flash-list'
@@ -20,11 +20,11 @@ import { theme } from '@common/theme'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
 import { PollCard } from '@components/_cards/PollCard'
-import { PostCard } from '@components/_cards/PostCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PostCardContainer } from '@components/FeedByRange/styles'
 import { EmptyPostsNotifier } from '@newComponents/EmptyPostsNotifier'
 import { InfoDivider } from '@newComponents/InfoDivider'
+import { PostCard } from '@newComponents/PostCard'
 
 interface FeedByRangeFlatListProps {
 	collapseExternalVacancies?: boolean
@@ -53,8 +53,19 @@ function FeedByRangeFlatList({
 	goToLeaderPostsView,
 	onRefresh
 }: FeedByRangeFlatListProps) {
+	const [firstVisibleItem, setFirstVisibleItems] = useState<PostEntity & PollEntity & PetitionEntity & PostRangeDivider>()
 	const { userDataContext } = useAuthContext()
 	const { navigate } = useNavigation<any>()
+
+	const viewabilityConfig = useRef({
+		itemVisiblePercentThreshold: 100
+	}).current
+
+	const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
+		if (viewableItems.length > 0 && viewableItems[0].item) {
+			setFirstVisibleItems(viewableItems[0].item)
+		}
+	}).current
 
 	const hasNearbyPosts = () => {
 		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
@@ -146,6 +157,7 @@ function FeedByRangeFlatList({
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
+						isVisible={firstVisibleItem?.postId === item.postId}
 						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onPress={() => goToPostView(item)}
 					/>
@@ -199,6 +211,8 @@ function FeedByRangeFlatList({
 					onRefresh={onRefresh}
 				/>
 			)}
+			onViewableItemsChanged={onViewableItemsChanged}
+			viewabilityConfig={viewabilityConfig}
 			ListHeaderComponent={listHeaderComponent}
 			ListEmptyComponent={(
 				<NoPostNotifierContainer>
