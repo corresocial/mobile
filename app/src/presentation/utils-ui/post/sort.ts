@@ -19,4 +19,13 @@ const sortPostsByCreatedData = (a: PostEntity, b: PostEntity) => {
 	return 0
 }
 
-export { sortPostCategories, sortPostsByCreatedData }
+const sortPostsByStartData = (a: PostEntity, b: PostEntity) => {
+	const createdAtA = getNewDate(a.startDate || a.createdAt)
+	const createdAtB = getNewDate(b.startDate || b.createdAt)
+
+	if (createdAtA < createdAtB) return 1
+	if (createdAtA > createdAtB) return -1
+	return 0
+}
+
+export { sortPostCategories, sortPostsByCreatedData, sortPostsByStartData }

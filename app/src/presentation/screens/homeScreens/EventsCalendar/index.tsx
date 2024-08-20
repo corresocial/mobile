@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ListRenderItem, View } from 'react-native'
+import uuid from 'react-uuid'
 
 import { useUtils } from '@newutils/useUtils'
 import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks, startOfWeek, endOfWeek, getWeekOfMonth } from 'date-fns'
@@ -15,6 +16,7 @@ import { EventsCalendarScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
 import { formatHour, getNewDate } from '@utils-ui/common/date/dateFormat'
+import { sortPostsByStartData } from '@utils-ui/post/sort'
 
 import { BottomNavigator, ColapsedEventGroup, EventsContainer, EventsFlatList, NoPostNotifierContainer } from './styles'
 import { theme } from '@common/theme'
@@ -74,11 +76,11 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		const endInMs = new Date(currentDate.setHours(23, 59, 59, 999)).getTime()
 
 		const eventsByDay = (events || []).filter((event: CultureEntity) => {
-			const eventDate = getNewDate(event.startDate).getTime()
+			const eventDate = getNewDate(event.startDate || event.createdAt).getTime()
 			return (eventDate > startInMs && eventDate < endInMs)
 		})
 
-		return eventsByDay
+		return eventsByDay.sort(sortPostsByStartData)
 	}
 
 	const getEventsByWeek = () => {
@@ -86,20 +88,20 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		const endInMs = new Date(endOfWeek(currentDate)).getTime()
 
 		const eventsByWeek = (events || []).filter((event: CultureEntity) => {
-			const eventDate = getNewDate(event.startDate).getTime()
+			const eventDate = getNewDate(event.startDate || event.createdAt).getTime()
 			return (eventDate > startInMs && eventDate < endInMs)
 		})
 
-		return eventsByWeek
+		return eventsByWeek.sort(sortPostsByStartData)
 	}
 
 	const getEventsByMonth = () => {
 		const eventsByMonth = (events || []).filter((event: CultureEntity) => {
-			const eventDate = getNewDate(event.startDate)
+			const eventDate = getNewDate(event.startDate || event.createdAt)
 			return (eventDate.getMonth() === currentDate.getMonth() && eventDate.getFullYear() === currentDate.getFullYear())
 		})
 
-		return eventsByMonth
+		return eventsByMonth.sort(sortPostsByStartData)
 	}
 
 	const separateEventsByHour = (dayEvents: CultureEntity[]) => {
@@ -107,7 +109,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		let auxHour = 0
 
 		dayEvents?.reverse().forEach((event) => {
-			const date = getNewDate(event.startDate)
+			const date = getNewDate(event.startDate || event.createdAt)
 			const eventHour = date.getHours()
 
 			if (eventHour > auxHour) {
@@ -127,7 +129,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		let auxDay = 0
 
 		weekEvents?.reverse().forEach((event) => {
-			const date = getNewDate(event.startDate)
+			const date = getNewDate(event.startDate || event.createdAt)
 			const eventDay = date.getDate()
 
 			if (eventDay > auxDay) {
@@ -152,7 +154,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		let auxWeek = 0
 
 		monthEvents?.reverse().forEach((event) => {
-			const date = getNewDate(event.startDate)
+			const date = getNewDate(event.startDate || event.createdAt)
 			const eventWeek = getWeekOfMonth(date)
 
 			if (eventWeek > auxWeek) {
@@ -173,7 +175,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 
 	const getNumberOfPostsByHour = (dayEvents: CultureEntity[], hour: number) => {
 		return dayEvents?.filter((event: CultureEntity) => {
-			const date = getNewDate(event.startDate)
+			const date = getNewDate(event.startDate || event.createdAt)
 			const eventHour = date.getHours()
 			return eventHour === hour
 		}).length
@@ -181,7 +183,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 
 	const getNumberOfPostsByDay = (weekEvents: CultureEntity[], day: number) => {
 		return weekEvents?.filter((event: CultureEntity) => {
-			const date = getNewDate(event.startDate)
+			const date = getNewDate(event.startDate || event.createdAt)
 			const eventDay = date.getDate()
 			return eventDay === day
 		}).length
@@ -189,7 +191,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 
 	const getNumberOfPostsByWeek = (monthEvents: CultureEntity[], week: number) => {
 		return monthEvents?.filter((event: CultureEntity) => {
-			const date = getNewDate(event.startDate)
+			const date = getNewDate(event.startDate || event.createdAt)
 			const eventWeek = getWeekOfMonth(date)
 			return eventWeek === week
 		}).length
@@ -264,10 +266,9 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		const endInMs = new Date(endOfWeek(date)).getTime()
 
 		const eventsByWeek = (events || []).filter((event: CultureEntity) => {
-			const eventDate = getNewDate(event.startDate).getTime()
+			const eventDate = getNewDate(event.startDate || event.createdAt).getTime()
 			return (eventDate > startInMs && eventDate < endInMs)
 		})
-
 		return eventsByWeek
 	}
 
@@ -293,7 +294,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		if (!item.postId) {
 			if (visualization === 'month') {
 				return (
-					<View key={`divider-${index}${Date.now()}`}>
+					<View key={`divider-${index}${uuid()}`}>
 						<InfoDivider
 							title={getDividerTitle(item.date)}
 							subTitle={`${item.numberOfEvents} eventos`}
