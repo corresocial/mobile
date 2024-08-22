@@ -9,7 +9,7 @@ interface ContainerProps {
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	height: ${({ hasMedia }) => (hasMedia ? relativeScreenHeight(50) : relativeScreenHeight(26))}px;
+	height: ${({ hasMedia }) => (hasMedia ? relativeScreenHeight(50) : relativeScreenHeight(24))}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
@@ -54,9 +54,9 @@ export const PictureView = styled.Image`
 `
 
 export const DataContainer = styled.View`
-	height: ${relativeScreenHeight(24.5)}px;
+	height: ${relativeScreenHeight(22.3)}px;
 	width: 100%;
-	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(17)}px;
+	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(15)}px;
 	background-color: ${({ theme }) => theme.colors.white[2]};
 	align-items: center;
 	justify-content: space-between;
@@ -75,6 +75,15 @@ export const UserDataContainer = styled.View`
 	background-color: ${({ theme }) => theme.colors.white[4]};
 	border-radius: ${relativeScreenDensity(15)}px;
 	padding: ${relativeScreenDensity(6)}px;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+`
+
+export const PostStatusContainer = styled.View`
+	height: ${relativeScreenHeight(4)}px;
+	align-items: center;
+	justify-content: center;
 `
 
 export const InfoDataContainer = styled.View`
@@ -86,7 +95,6 @@ export const InfoDataContainer = styled.View`
 
 export const InfoGroup = styled.View`
 	width: 100%;
-	height: ${relativeScreenHeight(4)}px;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
@@ -96,6 +104,7 @@ export const InfoGroup = styled.View`
 export const InfoContainer = styled.View`
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.colors.white[4]};
+	height: ${relativeScreenHeight(4)}px;
 	border-radius: ${relativeScreenDensity(10)}px;
 	padding: ${relativeScreenDensity(6)}px;
 	align-items: center;
@@ -106,8 +115,8 @@ export const InfoContainer = styled.View`
 
 export const InfoTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
-	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.nunito[1])}px;
+	font-family: ${({ theme }) => theme.fonts.nunitoBold};
+	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.nunito[2])}px;
 `
 
 interface PriceLabelProps {
@@ -117,4 +126,33 @@ interface PriceLabelProps {
 export const PriceLabel = styled.Text<PriceLabelProps>`
 	font-family: ${({ theme, bold }) => (bold ? theme.fonts.nunitoBold : theme.fonts.nunitoSemiBold)};
 	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+`
+
+export const MuteButtonContainer = styled.View`
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+`
+
+export const PlayButtonContainer = styled.View`
+	flex: 1;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+	z-index: 2;
+`
+
+export const PlaceHolderThumbnailContainer = styled.View`
+	flex: 1;
+	position: absolute;
+	z-index: 5;
+	top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 `

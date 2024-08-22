@@ -7,30 +7,32 @@ import { UserOwner } from '@domain/user/entity/types'
 import { IconName } from '@assets/icons/iconMap/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
-import { textHasOnlyNumbers } from '@utils-ui/common/validation/validateText'
+import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 
-import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, PictureView, PostDescriptionText, PriceLabel, UserDataContainer, VideoView } from './styles'
+import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, PriceLabel, UserDataContainer, VideoView } from './styles'
 import { theme } from '@common/theme'
 
+import { SaleExchangeValue } from '@components/SaleExchangeValue'
 import { IconComponent } from '@newComponents/IconComponent'
 import { MiniUserIndentifier } from '@newComponents/MiniUserIdentifier'
-
-type PriceValues = { saleValue?: string, exchangeValue?: string, isEvent?: boolean }
 
 interface PostCardProps {
 	post: PostEntity
 	owner: UserOwner
 	isOwner: boolean
 	isVisible?: boolean
+	videoMuted?: boolean
+	hasAutoPlayFunction?: boolean
 	navigateToProfile?: (userId: string) => void
+	onAudioButtonPressed?: () => void
 	onPress: () => void
 }
 
-function PostCard({ post: postData, owner, isOwner, isVisible = false, navigateToProfile, onPress }: PostCardProps) {
+function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, videoMuted = true, isVisible = false, navigateToProfile, onAudioButtonPressed, onPress }: PostCardProps) {
 	const [post, setPost] = useState<PostEntity | any>(postData)
-	const [postCover, setPostCover] = useState('')
 	const [buttonPressed, setButtonPressed] = useState<boolean>(false)
-	const [videoMuted, setVideoMuted] = useState<boolean>(true)
+	const [videoThumbnail, setVideoThumbnail] = useState<string>('')
+	const [videoLoaded, setVideoLoaded] = useState<boolean>(false)
 
 	const videoRef = useRef<Video | null>(null)
 
@@ -42,13 +44,28 @@ function PostCard({ post: postData, owner, isOwner, isVisible = false, navigateT
 	const mediaSource = hasVideos ? post.videosUrl[0] : hasPictures ? post.picturesUrl[0] : ''
 
 	useEffect(() => {
-		console.log('TESTE AAAAAAA')
+		if (hasVideos) {
+			const generateThumbnail = async () => {
+				const thumbnail = await generateVideoThumbnails(mediaSource)
+				setVideoThumbnail(thumbnail as string)
+			}
+			generateThumbnail()
+		}
+	}, [])
+
+	useEffect(() => {
 		if (isVisible) {
 			playVideo()
 		} else {
 			stopVideo()
 		}
 	}, [isVisible])
+
+	useEffect(() => {
+		if (isOwner) {
+			setPost({ ...(postData || {}), ...(postData.unapprovedData || {}) } as PostEntity)
+		}
+	}, [postData, isOwner])
 
 	const pressingButton = () => {
 		setButtonPressed(true)
@@ -137,48 +154,6 @@ function PostCard({ post: postData, owner, isOwner, isVisible = false, navigateT
 		}
 	}
 
-	const getRelativePriceValueLabel = (priceValue: PriceValues) => {
-		const formattedValue = []
-
-		if (priceValue.isEvent && (priceValue.saleValue === '')) {
-			formattedValue.push(
-				<PriceLabel bold>{'gratuito'}</PriceLabel>
-			)
-			return formattedValue
-		}
-
-		if (textHasOnlyNumbers(priceValue.saleValue)) {
-			formattedValue.push(
-				<>
-					<PriceLabel>{'R$'}</PriceLabel>
-					<PriceLabel bold>{`${priceValue.saleValue},00`}</PriceLabel>
-				</>
-			)
-			return formattedValue
-		}
-
-		if (priceValue.saleValue === 'a combinar') {
-			formattedValue.push('a combinar')
-		}
-
-		if (priceValue.exchangeValue) {
-			formattedValue.push('troca')
-		}
-
-		formattedValue.push(
-			<PriceLabel bold>{priceValue.saleValue || ''}</PriceLabel>
-		)
-		return formattedValue
-	}
-
-	const getRelativeValueIcon = (priceValue: PriceValues): IconName => {
-		if (priceValue.saleValue === 'a combinar') { return 'chat' }
-		if (priceValue.exchangeValue && priceValue.saleValue) { return 'trade' }
-		if (priceValue.exchangeValue && !priceValue.saleValue) { return 'exchange' }
-		if (!priceValue.exchangeValue && priceValue.saleValue) { return 'cash' }
-		return 'cash'
-	}
-
 	return (
 		<Container
 			activeOpacity={1}
@@ -192,15 +167,41 @@ function PostCard({ post: postData, owner, isOwner, isVisible = false, navigateT
 					{
 						hasMedia && (
 							hasVideos ? (
-								<VideoView
-									source={{ uri: mediaSource }}
-									resizeMode={ResizeMode.COVER}
-									isLooping
-									ref={videoRef}
-									useNativeControls={false}
-									isMuted={videoMuted}
-
-								/>
+								// VideoView must be in the screen to properly run onLoad
+								<>
+									<VideoView
+										source={{ uri: mediaSource }}
+										resizeMode={ResizeMode.COVER}
+										isLooping
+										ref={videoRef}
+										useNativeControls={false}
+										isMuted={videoMuted}
+										onLoad={() => {
+											setVideoLoaded(true)
+										}}
+									/>
+									{
+										hasAutoPlayFunction && (
+											<MuteButtonContainer>
+												<IconComponent activeOpacity={1} relativeHeight={60} relativeWidth={60} iconName={videoMuted ? 'audio' : 'audioMuted'} onPress={onAudioButtonPressed} />
+											</MuteButtonContainer>
+										)
+									}
+									{
+										(!videoLoaded || !isVisible) && (
+											<PlaceHolderThumbnailContainer>
+												{
+													hasAutoPlayFunction && (
+														<PlayButtonContainer>
+															<IconComponent relativeHeight={70} relativeWidth={70} iconName={'arrowRight'} />
+														</PlayButtonContainer>
+													)
+												}
+												{videoThumbnail && <PictureView source={{ uri: videoThumbnail }} />}
+											</PlaceHolderThumbnailContainer>
+										)
+									}
+								</>
 							) : (
 								<PictureView source={{ uri: mediaSource }} />
 							)
@@ -213,7 +214,18 @@ function PostCard({ post: postData, owner, isOwner, isVisible = false, navigateT
 					</PostDescriptionText>
 					<InfoDataContainer>
 						<UserDataContainer>
-							<MiniUserIndentifier navigateToProfile={miniProfileHandler} owner={owner} postedAt={post.createdAt} />
+							<MiniUserIndentifier userPictureShadow navigateToProfile={miniProfileHandler} owner={owner} postedAt={post.createdAt} />
+							{
+								<PostStatusContainer>
+									{
+										postData.unapprovedData && isOwner && (
+											postData.unapprovedData.reject
+												? <IconComponent relativeHeight={'90%'} relativeWidth={35} iconName={'denied'} />
+												: <IconComponent relativeHeight={'90%'} relativeWidth={35} iconName={'coolDownClock'} />
+										)
+									}
+								</PostStatusContainer>
+							}
 						</UserDataContainer>
 						<InfoGroup>
 							<InfoContainer>
@@ -224,12 +236,28 @@ function PostCard({ post: postData, owner, isOwner, isVisible = false, navigateT
 								<IconComponent relativeWidth={22} iconName={getRelativePostTypeIcon(post.macroCategory)} />
 								<InfoTitle>{getRelativePostTypeLabel(post.macroCategory)}</InfoTitle>
 							</InfoContainer>
-							{
+							{/* {
 								post.priceValue && (
 									<InfoContainer>
 										<IconComponent relativeWidth={22} iconName={getRelativeValueIcon(post.priceValue)} />
 										<InfoTitle>{getRelativePriceValueLabel(post.priceValue)}</InfoTitle>
 									</InfoContainer>
+								)
+							} */}
+							{
+								(post.saleValue || post.exchangeValue) && (
+									<>
+										<InfoContainer>
+											<SaleExchangeValue
+												smallFontSize={12}
+												largeFontSize={12}
+												exchangeFontSize={12}
+												saleValue={post.saleValue}
+												exchangeValue={post.exchangeValue}
+												breakRow
+											/>
+										</InfoContainer>
+									</>
 								)
 							}
 						</InfoGroup>
