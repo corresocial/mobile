@@ -1,6 +1,11 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
+
+export const FlashListContainer = styled.View`
+	width: 100%;
+	height: ${relativeScreenHeight(100)}px;
+`
 
 export const NoPostNotifierContainer = styled.View`
 	height: 100%;

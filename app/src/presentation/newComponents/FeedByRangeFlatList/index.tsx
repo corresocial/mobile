@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
 import { FlashList } from '@shopify/flash-list'
@@ -15,7 +15,7 @@ import { IconName } from '@assets/icons/iconMap/types'
 
 import { isRecentPost } from '@utils-ui/post/validation'
 
-import { NoPostNotifierContainer } from './styles'
+import { FlashListContainer, NoPostNotifierContainer } from './styles'
 import { theme } from '@common/theme'
 
 import { PetitionCard } from '@components/_cards/PetitionCard'
@@ -54,6 +54,8 @@ function FeedByRangeFlatList({
 	onRefresh
 }: FeedByRangeFlatListProps) {
 	const [firstVisibleItem, setFirstVisibleItems] = useState<PostEntity & PollEntity & PetitionEntity & PostRangeDivider>()
+	const [videosMuted, setVideosMuted] = useState<boolean>(true)
+
 	const { userDataContext } = useAuthContext()
 	const { navigate } = useNavigation<any>()
 
@@ -109,6 +111,11 @@ function FeedByRangeFlatList({
 		)
 	}
 
+	const audioToggle = () => {
+		setVideosMuted(!videosMuted)
+		console.log(videosMuted)
+	}
+
 	const posts = () => {
 		const formattedPosts = [
 			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
@@ -158,7 +165,9 @@ function FeedByRangeFlatList({
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
 						isVisible={firstVisibleItem?.postId === item.postId}
+						videoMuted={videosMuted}
 						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
+						onAudioButtonPressed={audioToggle}
 						onPress={() => goToPostView(item)}
 					/>
 				</PostCardContainer>
@@ -196,33 +205,35 @@ function FeedByRangeFlatList({
 	}
 
 	return (
-		<FlashList
-			data={posts() as any}
-			renderItem={renderPostItem as any}
-			contentContainerStyle={{ backgroundColor: backgroundColor }}
-			estimatedItemSize={111}
-			showsVerticalScrollIndicator={false}
-			refreshControl={onRefresh && (
-				<RefreshControl
-					tintColor={theme.colors.black[4]}
-					colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
-					refreshing={feedIsUpdating}
-					progressBackgroundColor={theme.white3}
-					onRefresh={onRefresh}
-				/>
-			)}
-			onViewableItemsChanged={onViewableItemsChanged}
-			viewabilityConfig={viewabilityConfig}
-			ListHeaderComponent={listHeaderComponent}
-			ListEmptyComponent={(
-				<NoPostNotifierContainer>
-					<EmptyPostsNotifier text={'Parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'} />
-				</NoPostNotifierContainer>
-			)}
-			ListFooterComponent={
-				<VerticalSpacing height={20} />
-			}
-		/>
+		<FlashListContainer>
+			<FlashList
+				data={posts() as any}
+				renderItem={renderPostItem as any}
+				contentContainerStyle={{ backgroundColor: backgroundColor }}
+				estimatedItemSize={111}
+				showsVerticalScrollIndicator={false}
+				refreshControl={onRefresh && (
+					<RefreshControl
+						tintColor={theme.colors.black[4]}
+						colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
+						refreshing={feedIsUpdating}
+						progressBackgroundColor={theme.white3}
+						onRefresh={onRefresh}
+					/>
+				)}
+				onViewableItemsChanged={onViewableItemsChanged}
+				viewabilityConfig={viewabilityConfig}
+				ListHeaderComponent={listHeaderComponent}
+				ListEmptyComponent={(
+					<NoPostNotifierContainer>
+						<EmptyPostsNotifier text={'Parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'} />
+					</NoPostNotifierContainer>
+				)}
+				ListFooterComponent={
+					<VerticalSpacing height={20} />
+				}
+			/>
+		</FlashListContainer>
 	)
 }
 
