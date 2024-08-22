@@ -22,10 +22,10 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { Body, Container, Header, PostPadding } from './styles'
 import { theme } from '@common/theme'
 
-import { PostCard } from '@components/_cards/PostCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+import { PostCard } from '@newComponents/PostCard'
 
 const { executeCachedRequest } = useCacheRepository()
 
@@ -105,6 +105,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 					owner={getOwnerDataOnly() as PostEntityCommonFields['owner']}
 					isOwner={userDataContext.userId === (item.owner as any).userId}
 					onPress={() => viewPostDetails(item)}
+					hasAutoPlayFunction={false}
 				/>
 			</PostPadding>
 		)

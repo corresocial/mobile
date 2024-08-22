@@ -64,7 +64,6 @@ import { theme } from '@common/theme'
 import { BackButton } from '@components/_buttons/BackButton'
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
-import { PostCard } from '@components/_cards/PostCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { ProfileVerifiedModal } from '@components/_modals/ProfileVerifiedModal'
@@ -80,6 +79,7 @@ import { PopOver } from '@components/PopOver'
 import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+import { PostCard } from '@newComponents/PostCard'
 
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
@@ -456,6 +456,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 					owner={getOwnerDataOnly()}
 					isOwner={isLoggedUser}
 					onPress={() => viewPostDetails(item)}
+					hasAutoPlayFunction={false}
 				/>
 			</PostPadding>
 		)
