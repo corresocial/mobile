@@ -46,6 +46,10 @@ import ArrowRight from '@assets/icons/angleRight-white.svg'
 
 import ArrowLeft from '@assets/icons/angleLeft-white.svg'
 
+import CoolDownClock from '@assets/icons/clockArrow-white.svg'
+import Denied from '@assets/icons/denied-white.svg'
+
+
 
 const icons: IconMap = {
 	x: {
@@ -149,7 +153,20 @@ const icons: IconMap = {
 	},
 	twoPeopleHighFiving: {
 		default: TwoPeopleHighFiving
+	},
+	audio: {
+		default: X
+	},
+	audioMuted: {
+		default: X
+	},
+	coolDownClock: {
+		default: CoolDownClock
+	},
+	denied: {
+		default: Denied
 	}
+
 }
 
 export { icons }
