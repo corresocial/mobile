@@ -7,7 +7,7 @@ export type IconName = 'x' | 'check' | 'description' | 'cash' | 'clip' | 'colorP
 	'mapPoint' | 'arrowRight' | 'arrowLeft' | 'staringEyes' | 'threeDots' | 'share' | 'usedLabel' | 'gift' |
 	'salesCart' | 'briefcase' | 'toolbox' | 'heartAndPerson' | 'paperInfo' | 'handOnHeart' | 'personWalking' |
 	'city' | 'countryBrazil' | 'trade' | 'personAndGlobe' | 'twoPeopleHighFiving' | 'audio' | 'audioMuted' |
-	'coolDownClock' | 'denied'
+	'coolDownClock' | 'denied' | 'playVideo'
 
 export type Icon = {
 	default: FC<SvgProps>

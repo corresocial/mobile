@@ -183,7 +183,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 									{
 										hasAutoPlayFunction && (
 											<MuteButtonContainer>
-												<IconComponent activeOpacity={1} relativeHeight={60} relativeWidth={60} iconName={videoMuted ? 'audio' : 'audioMuted'} onPress={onAudioButtonPressed} />
+												<IconComponent activeOpacity={1} relativeHeight={60} relativeWidth={60} iconName={videoMuted ? 'audioMuted' : 'audio'} onPress={onAudioButtonPressed} />
 											</MuteButtonContainer>
 										)
 									}
@@ -193,7 +193,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 												{
 													hasAutoPlayFunction && (
 														<PlayButtonContainer>
-															<IconComponent relativeHeight={70} relativeWidth={70} iconName={'arrowRight'} />
+															<IconComponent relativeHeight={70} relativeWidth={70} iconName={'playVideo'} />
 														</PlayButtonContainer>
 													)
 												}
