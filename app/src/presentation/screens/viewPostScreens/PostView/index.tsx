@@ -379,6 +379,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 								navigateToProfile={navigateToProfile}
 								owner={postData.owner}
 								postedAt={postData.createdAt}
+								userPictureShadow
 							/>
 						)}
 						onBack={() => navigation.goBack()}
