@@ -228,9 +228,7 @@ function FeedByRangeFlatList({
 						<EmptyPostsNotifier text={'Parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'} />
 					</NoPostNotifierContainer>
 				)}
-				ListFooterComponent={
-					<VerticalSpacing height={20} />
-				}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</FlashListContainer>
 	)

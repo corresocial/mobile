@@ -41,8 +41,8 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
-		await loadUnapprovedPosts(true)
-		await loadUnapprovedProfiles(true)
+		// await loadUnapprovedPosts(true)
+		// await loadUnapprovedProfiles(true)
 		setIsLoading(false)
 	}
 
@@ -65,7 +65,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	const loadMoreRegisters = async () => {
 		// console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
-		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
+		// return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
 	}
 
 	const navigateToUnapprovedUserView = (profileData: CompleteUser) => {
