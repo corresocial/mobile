@@ -113,7 +113,6 @@ function FeedByRangeFlatList({
 
 	const audioToggle = () => {
 		setVideosMuted(!videosMuted)
-		console.log(videosMuted)
 	}
 
 	const posts = () => {
