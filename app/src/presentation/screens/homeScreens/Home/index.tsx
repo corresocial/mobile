@@ -42,7 +42,7 @@ import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 const { getPostsByLocationCloud } = useCloudFunctionService()
 const { localStorage } = useLocationRepository()
-const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
+const { getCurrentLocation, convertGeocodeToAddress, getCoordinatesByIpAddress } = useLocationService()
 const { searchAddressByText, getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
@@ -163,18 +163,18 @@ function Home({ navigation }: HomeScreenProps) {
 					}
 				}
 			}
-
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
+
 			return {
 				latitude: currentPosition.coords.latitude,
 				longitude: currentPosition.coords.longitude
 			}
 		} catch (error) {
 			console.log(error)
-
 			const recentPosition = getMostRecentAddress(recentAddresses)
 			if (!recentPosition) {
-				return null
+				const coordinates = await getCoordinatesByIpAddress()
+				return coordinates
 			}
 
 			return {
