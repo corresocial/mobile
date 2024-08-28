@@ -83,7 +83,6 @@ function Home({ navigation }: HomeScreenProps) {
 	}, [])
 
 	useEffect(() => {
-		console.log(hasLocationPermission, 'update na permissão')
 		if (hasLocationPermission) {
 			findFeedPosts('', true, null as any, false, true)
 		}

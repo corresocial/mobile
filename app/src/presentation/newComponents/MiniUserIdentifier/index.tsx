@@ -58,7 +58,8 @@ function MiniUserIndentifier({ owner, postedAt, userPictureShadow, navigateToPro
 								source={{ uri: getOwnerPicture() || defaultUserProfilePicture }}
 								recyclingKey={getOwnerPicture() || defaultUserProfilePicture}
 								placeholder={UserShadow}
-								placeholderContentFit={'contain'}
+								placeholderContentFit={'cover'}
+								contentFit={'cover'}
 								cachePolicy={'memory-disk'}
 								transition={200}
 							/>
@@ -67,7 +68,7 @@ function MiniUserIndentifier({ owner, postedAt, userPictureShadow, navigateToPro
 
 				) : (
 					<OwnerProfileTouchable activeOpacity={1} onPress={navigationHandler}>
-						<OwnerProfilePicture resizeMode={'contain'} source={{ uri: getOwnerPicture() }} />
+						<OwnerProfilePicture contentFit={'cover'} source={{ uri: getOwnerPicture() }} />
 					</OwnerProfileTouchable>
 				)
 			}

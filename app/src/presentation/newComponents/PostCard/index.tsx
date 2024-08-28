@@ -193,7 +193,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 												{
 													hasAutoPlayFunction && (
 														<PlayButtonContainer>
-															<IconComponent relativeHeight={70} relativeWidth={70} iconName={'playVideo'} />
+															<IconComponent relativeHeight={40} relativeWidth={40} iconName={'playVideo'} />
 														</PlayButtonContainer>
 													)
 												}
@@ -222,7 +222,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 				</MediaContainer>
 				<DataContainer>
 					<PostDescriptionText numberOfLines={3}>
-						{post.description}
+						{'post.description post.description post.description post.description post.description post.description '}
 					</PostDescriptionText>
 					<InfoDataContainer>
 						<UserDataContainer>

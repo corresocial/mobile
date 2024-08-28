@@ -43,6 +43,7 @@ export const UserPictureAreaInner = styled.TouchableOpacity`
 
 export const OwnerTextGroup = styled.View`
 	flex: 1;
+	width: 100%;
 	align-items: column;
 	justify-content: center;
 `
@@ -50,10 +51,10 @@ export const OwnerTextGroup = styled.View`
 export const OwnerName = styled.Text`
 	width: 80%;
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
-	font-size: ${({ theme }) => theme.fontSizes[2]}px;
+	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 `
 
 export const PostDate = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-	font-size: ${({ theme }) => theme.fontSizes[0]}px;
+	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 `

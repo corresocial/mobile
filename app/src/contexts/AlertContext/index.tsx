@@ -101,7 +101,6 @@ function AlertProvider({ children }: AlertProviderProps) {
 		if (!hasPermission) {
 			setLocationPermissionsMoodalIsVisible(true)
 		}
-		console.log('passando aqui', hasPermission)
 		setHasLocationPermission(hasPermission)
 		return hasPermission
 	}, [])
@@ -121,7 +120,6 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const handlePermissionModal = useCallback(async () => {
 		const response = await Permissions.askLocationPermissions()
 		setHasLocationPermission(response)
-		console.log('passando aqui HANDLE', response)
 		return response
 	}, [])
 

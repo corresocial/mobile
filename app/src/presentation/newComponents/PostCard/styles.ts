@@ -10,7 +10,7 @@ interface ContainerProps {
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	height: ${({ hasMedia }) => (hasMedia ? relativeScreenHeight(50) : relativeScreenHeight(24))}px;
+	height: ${({ hasMedia }) => (hasMedia ? relativeScreenDensity(350) : relativeScreenDensity(180))}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
@@ -55,7 +55,7 @@ export const PictureView = styled(Image)`
 `
 
 export const DataContainer = styled.View`
-	height: ${relativeScreenHeight(22.3)}px;
+	flex: 1;
 	width: 100%;
 	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(15)}px;
 	background-color: ${({ theme }) => theme.colors.white[2]};
@@ -117,7 +117,7 @@ export const InfoContainer = styled.View`
 export const InfoTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
 	font-family: ${({ theme }) => theme.fonts.nunitoBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
+	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[1])}px;
 `
 
 export const MuteButtonContainer = styled.View`
