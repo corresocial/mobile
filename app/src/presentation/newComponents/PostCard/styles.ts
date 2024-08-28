@@ -14,7 +14,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	height: ${({ hasMedia, numberOfDescriptionLines }) => (
 		hasMedia
 			? relativeScreenDensity(300) + (numberOfDescriptionLines * relativeScreenDensity(20))
-			: relativeScreenDensity(95) + (numberOfDescriptionLines === 1 ? numberOfDescriptionLines * relativeScreenDensity(40) : numberOfDescriptionLines * relativeScreenDensity(20))
+			: relativeScreenDensity(95) + (numberOfDescriptionLines <= 2 ? numberOfDescriptionLines * relativeScreenDensity(40) : numberOfDescriptionLines * relativeScreenDensity(20))
 	)}px;
 	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
@@ -61,8 +61,12 @@ export const PictureView = styled(Image)`
 	flex: 1;
 `
 
-export const DataContainer = styled.View`
-	flex-shrink: 1;
+interface DataContainerProps {
+	hasMedia?: boolean
+}
+
+export const DataContainer = styled.View<DataContainerProps>`
+	${({ hasMedia }) => (!hasMedia ? 'flex: 1;' : '')}
 	width: 100%;
 	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(15)}px;
 	background-color: ${({ theme }) => theme.colors.white[2]};

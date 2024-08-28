@@ -230,7 +230,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 						)
 					}
 				</MediaContainer>
-				<DataContainer>
+				<DataContainer hasMedia={hasMedia}>
 					<PostDescriptionText
 						numberOfLines={3}
 						ref={textRef}
