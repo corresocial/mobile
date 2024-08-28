@@ -57,9 +57,6 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			<PostRange
 				backgroundColor={theme.colors.pink[2]}
 				itemsColor={theme.colors.pink[3]}
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'city'}
-				backgroundColor={theme.colors.pink[2]}
-				itemsColor={theme.colors.pink[3]}
 				userSubscriptionRange={range || 'city'}
 				cityPlanIsFree
 				plansAvailable={stripeProductsPlans}
