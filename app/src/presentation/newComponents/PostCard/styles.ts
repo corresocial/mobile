@@ -10,7 +10,7 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
 	height: ${({ hasMedia }) => (hasMedia ? relativeScreenHeight(50) : relativeScreenHeight(24))}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -65,7 +65,7 @@ export const DataContainer = styled.View`
 export const PostDescriptionText = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.nunito[2])}px;
+	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
 	text-align: left;
 `
@@ -116,16 +116,7 @@ export const InfoContainer = styled.View`
 export const InfoTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
 	font-family: ${({ theme }) => theme.fonts.nunitoBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.nunito[2])}px;
-`
-
-interface PriceLabelProps {
-	bold?: boolean
-}
-
-export const PriceLabel = styled.Text<PriceLabelProps>`
-	font-family: ${({ theme, bold }) => (bold ? theme.fonts.nunitoBold : theme.fonts.nunitoSemiBold)};
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 `
 
 export const MuteButtonContainer = styled.View`

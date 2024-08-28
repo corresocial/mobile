@@ -36,7 +36,6 @@ export const UserPictureAreaInner = styled.TouchableOpacity<ContainerSurfaceProp
 export const MiniaturePortrait = styled(Image) <ImageProps>`
 	width: 100%;
 	height: 100%;
-	resize-mode: cover;
 `
 
 export const UserInfo = styled.View`

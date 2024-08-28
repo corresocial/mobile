@@ -344,13 +344,13 @@ function Home({ navigation }: HomeScreenProps) {
 				</DropdownContainer>
 				<FeedByRangeFlatList
 					searchEnded={searchEnded}
-					backgroundColor={theme.orange2}
+					backgroundColor={theme.colors.orange[2]}
 					filteredFeedPosts={feedPosts}
 					feedIsUpdating={feedIsUpdating}
 					listHeaderComponent={
 						(
 							<>
-								<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+								<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
 								<AdsCarousel
 									onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 									onPressPublicServicesAd={navigateToPublicServices}

@@ -216,7 +216,7 @@ function FeedByRangeFlatList({
 						tintColor={theme.colors.black[4]}
 						colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 						refreshing={feedIsUpdating}
-						progressBackgroundColor={theme.white3}
+						progressBackgroundColor={theme.colors.white[3]}
 						onRefresh={onRefresh}
 					/>
 				)}

@@ -6,6 +6,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
 import { OwnerDataContainer, OwnerName, OwnerProfilePicture, OwnerProfileTouchable, OwnerTextGroup, PostDate, UserPictureArea, UserPictureAreaInner } from './styles'
+import UserShadow from '@assets/imgs/userShadow.jpg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 const { formatRelativeDate } = UiUtils()
@@ -53,7 +54,14 @@ function MiniUserIndentifier({ owner, postedAt, userPictureShadow, navigateToPro
 							onPressOut={notPressingButton}
 							onPress={releaseButton}
 						>
-							<OwnerProfilePicture resizeMode={'contain'} source={{ uri: getOwnerPicture() }} />
+							<OwnerProfilePicture
+								source={{ uri: getOwnerPicture() || defaultUserProfilePicture }}
+								recyclingKey={getOwnerPicture() || defaultUserProfilePicture}
+								placeholder={UserShadow}
+								placeholderContentFit={'contain'}
+								cachePolicy={'memory-disk'}
+								transition={200}
+							/>
 						</UserPictureAreaInner>
 					</UserPictureArea>
 

@@ -9,7 +9,7 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 
-import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, PriceLabel, UserDataContainer, VideoView } from './styles'
+import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, UserDataContainer, VideoView } from './styles'
 import { theme } from '@common/theme'
 
 import { SaleExchangeValue } from '@components/SaleExchangeValue'
@@ -236,14 +236,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 								<IconComponent relativeWidth={22} iconName={getRelativePostTypeIcon(post.macroCategory)} />
 								<InfoTitle>{getRelativePostTypeLabel(post.macroCategory)}</InfoTitle>
 							</InfoContainer>
-							{/* {
-								post.priceValue && (
-									<InfoContainer>
-										<IconComponent relativeWidth={22} iconName={getRelativeValueIcon(post.priceValue)} />
-										<InfoTitle>{getRelativePriceValueLabel(post.priceValue)}</InfoTitle>
-									</InfoContainer>
-								)
-							} */}
 							{
 								(post.saleValue || post.exchangeValue) && (
 									<>

@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -14,7 +15,7 @@ export const OwnerProfileTouchable = styled.TouchableOpacity`
     align-items: center;
 `
 
-export const OwnerProfilePicture = styled.Image`
+export const OwnerProfilePicture = styled(Image)`
 	width: ${relativeScreenWidth(12)}px;
 	height: ${relativeScreenWidth(12)}px;
 	border-radius: ${relativeScreenDensity(12)}px;
@@ -26,15 +27,15 @@ export const UserPictureArea = styled.View`
 	width: ${relativeScreenWidth(12)}px;
 	height: ${relativeScreenWidth(12)}px;
 	position: relative;
-	background-color: ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const UserPictureAreaInner = styled.TouchableOpacity`
-	border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.black4};
+	border: ${relativeScreenDensity(2)}px solid ${({ theme }) => theme.colors.black[4]};
 	width: 100%;
 	height: 100%;
 	border-radius: ${relativeScreenDensity(14)}px;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	overflow: hidden;
 	justify-content: center;
 	align-items: center;
