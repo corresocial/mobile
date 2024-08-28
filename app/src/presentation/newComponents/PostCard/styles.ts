@@ -6,11 +6,17 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 interface ContainerProps {
 	hasMedia?: boolean
+	numberOfDescriptionLines: number
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	height: ${({ hasMedia }) => (hasMedia ? relativeScreenDensity(350) : relativeScreenDensity(180))}px;
+	height: ${({ hasMedia, numberOfDescriptionLines }) => (
+		hasMedia
+			? relativeScreenDensity(300) + (numberOfDescriptionLines * relativeScreenDensity(20))
+			: relativeScreenDensity(95) + (numberOfDescriptionLines === 1 ? numberOfDescriptionLines * relativeScreenDensity(40) : numberOfDescriptionLines * relativeScreenDensity(20))
+	)}px;
+	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
@@ -23,6 +29,7 @@ interface InnerContainerProps {
 }
 
 export const InnerContainer = styled.View<InnerContainerProps>`
+	flex: 1;
 	width: 100%;
     height: 100%;
 	flex-direction: column;
@@ -55,7 +62,7 @@ export const PictureView = styled(Image)`
 `
 
 export const DataContainer = styled.View`
-	flex: 1;
+	flex-shrink: 1;
 	width: 100%;
 	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(15)}px;
 	background-color: ${({ theme }) => theme.colors.white[2]};
@@ -69,6 +76,7 @@ export const PostDescriptionText = styled.Text`
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
 	text-align: left;
+	line-height: ${relativeScreenDensity(20)}px;
 `
 
 export const UserDataContainer = styled.View`
