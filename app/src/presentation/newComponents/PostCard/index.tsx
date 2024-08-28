@@ -197,13 +197,25 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 														</PlayButtonContainer>
 													)
 												}
-												{videoThumbnail && <PictureView source={{ uri: videoThumbnail }} />}
+												{videoThumbnail && (
+													<PictureView
+														source={{ uri: videoThumbnail }}
+														recyclingKey={videoThumbnail}
+														cachePolicy={'memory-disk'}
+													/>
+												)}
 											</PlaceHolderThumbnailContainer>
 										)
 									}
 								</>
 							) : (
-								<PictureView source={{ uri: mediaSource }} />
+								(
+									<PictureView
+										source={{ uri: mediaSource }}
+										recyclingKey={mediaSource}
+										cachePolicy={'memory-disk'}
+									/>
+								)
 							)
 						)
 					}
