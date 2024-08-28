@@ -23,11 +23,11 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-import { PostCard } from '@components/_cards/PostCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
+import { PostCard } from '@newComponents/PostCard'
 
 const { savePost } = usePostDomain()
 
@@ -134,6 +134,7 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 				owner={item.owner as PostEntityCommonFields['owner']}
 				isOwner={userDataContext.userId === item.owner?.userId}
 				onPress={() => naigateToReviewPost({ ...item, ...item.unapprovedData } as PostEntity)}
+				hasAutoPlayFunction={false}
 			/>
 		)
 	}

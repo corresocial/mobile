@@ -47,6 +47,14 @@ import ArrowRight from '@assets/icons/angleRight-white.svg'
 
 import ArrowLeft from '@assets/icons/angleLeft-white.svg'
 
+import CoolDownClock from '@assets/icons/clockArrow-white.svg'
+import Denied from '@assets/icons/denied-white.svg'
+
+import PlayVideo from '@assets/icons/playVideo.svg'
+
+import Audio from '@assets/icons/audio.svg'
+import AudioMuted from '@assets/icons/audioMuted.svg'
+
 
 const icons: IconMap = {
 	x: {
@@ -153,6 +161,21 @@ const icons: IconMap = {
 	},
 	nailPolishAndScissors: {
 		default: NailPolishAndScissors
+	},
+	audio: {
+		default: Audio
+	},
+	audioMuted: {
+		default: AudioMuted
+	},
+	playVideo: {
+		default: PlayVideo
+	},
+	coolDownClock: {
+		default: CoolDownClock
+	},
+	denied: {
+		default: Denied
 	}
 }
 

@@ -17,8 +17,8 @@ import { theme } from '@common/theme'
 
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 function ViewPostsByMacroCategory({ route, navigation }: ViewPostsByMacroCategoryScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -176,7 +176,7 @@ function ViewPostsByMacroCategory({ route, navigation }: ViewPostsByMacroCategor
 				</InputContainer>
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1, backgroundColor }}>
-				<FeedByRange
+				<FeedByRangeFlatList
 					backgroundColor={backgroundColor}
 					filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByTypeAndMacroCategory }}
 					viewPostsByRange={viewPostsByRange}

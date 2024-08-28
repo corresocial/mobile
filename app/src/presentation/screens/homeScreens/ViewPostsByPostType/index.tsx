@@ -27,8 +27,8 @@ import { theme } from '@common/theme'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '@components/CatalogPostTypeButtons'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -214,18 +214,19 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<FeedByRange
+			<FeedByRangeFlatList
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
 				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
-			>
-				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
-					{getRelativeCatalogMacroCategoryButtons()}
-				</MacroCategoryContainer>
-			</FeedByRange>
+				listHeaderComponent={(
+					<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
+						{getRelativeCatalogMacroCategoryButtons()}
+					</MacroCategoryContainer>
+				)}
+			/>
 		</Container>
 	)
 }

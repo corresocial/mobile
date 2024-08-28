@@ -1,34 +1,68 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { UserOwner } from '@domain/user/entity/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
-import { OwnerDataContainer, OwnerName, OwnerProfilePicture, OwnerProfileTouchable, OwnerTextGroup, PostDate } from './styles'
+import { OwnerDataContainer, OwnerName, OwnerProfilePicture, OwnerProfileTouchable, OwnerTextGroup, PostDate, UserPictureArea, UserPictureAreaInner } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 const { formatRelativeDate } = UiUtils()
 
 interface MiniUserIndentifierProps {
 	owner: UserOwner
 	postedAt: Date
+	userPictureShadow?: boolean
 	navigateToProfile?: () => void
 }
 
-function MiniUserIndentifier({ owner, postedAt, navigateToProfile }: MiniUserIndentifierProps) {
+function MiniUserIndentifier({ owner, postedAt, userPictureShadow, navigateToProfile }: MiniUserIndentifierProps) {
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+
+	function pressingButton() {
+		setButtomPressed(true)
+	}
+
+	function notPressingButton() {
+		setButtomPressed(false)
+	}
+
+	function releaseButton() {
+		setButtomPressed(false)
+		navigationHandler()
+	}
+
 	const getOwnerPicture = (): string => {
 		return owner.profilePictureUrl?.[0] || defaultUserProfilePicture
 	}
 
-	const buttonHandler = () => {
+	const navigationHandler = () => {
 		navigateToProfile && navigateToProfile()
 	}
 
 	return (
 		<OwnerDataContainer>
-			<OwnerProfileTouchable activeOpacity={1} onPress={buttonHandler}>
-				<OwnerProfilePicture source={{ uri: getOwnerPicture() }} />
-			</OwnerProfileTouchable>
+			{
+				userPictureShadow ? (
+					<UserPictureArea>
+						<UserPictureAreaInner
+							style={{ left: buttonPressed ? 0 : relativeScreenDensity(-4) }}
+							activeOpacity={1}
+							onPressIn={pressingButton}
+							onPressOut={notPressingButton}
+							onPress={releaseButton}
+						>
+							<OwnerProfilePicture resizeMode={'contain'} source={{ uri: getOwnerPicture() }} />
+						</UserPictureAreaInner>
+					</UserPictureArea>
+
+				) : (
+					<OwnerProfileTouchable activeOpacity={1} onPress={navigationHandler}>
+						<OwnerProfilePicture resizeMode={'contain'} source={{ uri: getOwnerPicture() }} />
+					</OwnerProfileTouchable>
+				)
+			}
 			<OwnerTextGroup>
 				<OwnerName numberOfLines={2}>{owner.name}</OwnerName>
 				<PostDate>{`${formatRelativeDate(postedAt)}`}</PostDate>

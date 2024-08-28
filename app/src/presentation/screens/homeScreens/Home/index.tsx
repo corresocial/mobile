@@ -1,7 +1,6 @@
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -35,11 +34,11 @@ import { theme } from '@common/theme'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { AdsCarousel } from '@components/AdsCarousel'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 const { getPostsByLocationCloud } = useCloudFunctionService()
 const { localStorage } = useLocationRepository()
@@ -62,7 +61,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
-	const { showEventCalendarPresentationModal } = useAlertContext()
+	const { hasLocationPermission, showEventCalendarPresentationModal, checkLocationPermissions } = useAlertContext()
 
 	const queryClient = useQueryClient()
 	const { executeCachedRequest } = useCacheRepository()
@@ -71,7 +70,6 @@ function Home({ navigation }: HomeScreenProps) {
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
-	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
@@ -79,26 +77,17 @@ function Home({ navigation }: HomeScreenProps) {
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		requestPermissions()
 		loadRecentAddresses()
 		showEventCalendarPresentationModal()
+		checkLocationPermissions()
 	}, [])
 
 	useEffect(() => {
+		console.log(hasLocationPermission, 'update na permissão')
 		if (hasLocationPermission) {
 			findFeedPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
-
-	const requestPermissions = async () => {
-		if (hasLocationPermission) return true
-		const { status } = await Location.requestForegroundPermissionsAsync()
-		if (status === 'granted') {
-			setHasLocationPermission(true)
-			return true
-		}
-		return false
-	}
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -353,50 +342,36 @@ function Home({ navigation }: HomeScreenProps) {
 						findAddressSuggestions={findAddressSuggestions}
 					/>
 				</DropdownContainer>
-				<FlatList
-					style={{ flex: 1, width: '100%' }}
-					showsVerticalScrollIndicator={false}
-					data={[1]}
-					renderItem={(() => { }) as any}
-					refreshControl={(
-						<RefreshControl
-							tintColor={theme.colors.black[4]}
-							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
-							refreshing={feedIsUpdating}
-							progressBackgroundColor={theme.colors.white[3]}
-							onRefresh={refreshFeedPosts}
-						/>
-					)}
-					ListHeaderComponent={(
-						<>
-							<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
-							<AdsCarousel
-								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
-								onPressPublicServicesAd={navigateToPublicServices}
-								onPressUserLocationAd={navigateToEditUserLocation}
-								onPressEventCalendarAd={navigateToEventCalendar}
-							/>
-							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
-								<RequestLocation
-									getLocationPermissions={() => {
-										requestPermissions()
-										findFeedPosts('', true)
-									}}
+				<FeedByRangeFlatList
+					searchEnded={searchEnded}
+					backgroundColor={theme.orange2}
+					filteredFeedPosts={feedPosts}
+					feedIsUpdating={feedIsUpdating}
+					listHeaderComponent={
+						(
+							<>
+								<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+								<AdsCarousel
+									onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
+									onPressPublicServicesAd={navigateToPublicServices}
+									onPressUserLocationAd={navigateToEditUserLocation}
+									onPressEventCalendarAd={navigateToEventCalendar}
 								/>
-							)}
-						</>
-					)}
-					CellRendererComponent={() => (
-						<FeedByRange
-							searchEnded={searchEnded}
-							backgroundColor={theme.colors.orange[2]}
-							filteredFeedPosts={feedPosts}
-							viewPostsByRange={viewPostsByRange}
-							navigateToProfile={navigateToProfile}
-							goToPostView={viewPostDetails}
-							goToLeaderPostsView={viewLeaderPostsDetails}
-						/>
-					)}
+								{!hasLocationEnable && !hasAnyPost() && searchEnded && (
+									<RequestLocation
+										getLocationPermissions={() => {
+											checkLocationPermissions()
+										}}
+									/>
+								)}
+							</>
+						)
+					}
+					viewPostsByRange={viewPostsByRange}
+					navigateToProfile={navigateToProfile}
+					goToPostView={viewPostDetails}
+					goToLeaderPostsView={viewLeaderPostsDetails}
+					onRefresh={refreshFeedPosts}
 				/>
 			</Container>
 		</ScreenContainer>

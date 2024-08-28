@@ -41,8 +41,8 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 
 	const loadUnapprovedRegisters = async () => {
 		setIsLoading(true)
-		await loadUnapprovedPosts(true)
-		await loadUnapprovedProfiles(true)
+		// await loadUnapprovedPosts(true)
+		// await loadUnapprovedProfiles(true)
 		setIsLoading(false)
 	}
 
