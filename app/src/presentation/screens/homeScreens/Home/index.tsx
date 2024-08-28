@@ -154,7 +154,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
 			if (firstLoad) {
-				const recentPosition = getMostRecentAddress(recentAddresses)
+				const addresses = await localStorage.getRecentAddresses()
+				const recentPosition = getMostRecentAddress(addresses)
 
 				if (recentPosition) {
 					return {
@@ -171,7 +172,8 @@ function Home({ navigation }: HomeScreenProps) {
 			}
 		} catch (error) {
 			console.log(error)
-			const recentPosition = getMostRecentAddress(recentAddresses)
+			const addresses = await localStorage.getRecentAddresses()
+			const recentPosition = getMostRecentAddress(addresses)
 			if (!recentPosition) {
 				const coordinates = await getCoordinatesByIpAddress()
 				return coordinates
@@ -342,7 +344,6 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				</DropdownContainer>
 				<FeedByRangeFlatList
-					searchEnded={searchEnded}
 					backgroundColor={theme.colors.orange[2]}
 					filteredFeedPosts={feedPosts}
 					feedIsUpdating={feedIsUpdating}

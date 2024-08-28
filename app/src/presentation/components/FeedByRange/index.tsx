@@ -25,7 +25,6 @@ import { WithoutPostsMessage } from '../WithoutPostsMessage'
 interface FeedByRangeProps {
 	collapseExternalVacancies?: boolean
 	backgroundColor?: string
-	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
@@ -35,7 +34,6 @@ interface FeedByRangeProps {
 }
 
 function FeedByRange({
-	searchEnded,
 	backgroundColor,
 	filteredFeedPosts,
 	children,
@@ -208,7 +206,7 @@ function FeedByRange({
 			}
 			<VerticalSpacing height={10} />
 			{
-				!hasAnyPost() && searchEnded && (
+				!hasAnyPost() && (
 					<WithoutPostsMessage
 						title={'opa!'}
 						message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
