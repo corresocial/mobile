@@ -197,8 +197,6 @@ function FeedByRangeFlatList({
 		}
 	}, [posts, firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
 
-	console.log('RELOAD', posts.length)
-
 	return (
 		<FlashListContainer>
 			<FlatList
