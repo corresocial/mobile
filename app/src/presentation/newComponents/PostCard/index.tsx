@@ -9,7 +9,7 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 
-import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, UserDataContainer, VideoView } from './styles'
+import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, UserDataContainer, VideoIconContainer, VideoView } from './styles'
 import { theme } from '@common/theme'
 
 import { SaleExchangeValue } from '@components/SaleExchangeValue'
@@ -187,6 +187,11 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 											</MuteButtonContainer>
 										)
 									}
+									{!hasAutoPlayFunction && (
+										<VideoIconContainer>
+											<IconComponent iconName={'videoCamera'} relativeHeight={40} relativeWidth={40} />
+										</VideoIconContainer>
+									)}
 									{
 										(!videoLoaded || !isVisible) && (
 											<PlaceHolderThumbnailContainer>
