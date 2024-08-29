@@ -11,11 +11,11 @@ interface ContainerProps {
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	height: ${({ hasMedia, numberOfDescriptionLines }) => (
+	/* height: ${({ hasMedia, numberOfDescriptionLines }) => (
 		hasMedia
 			? relativeScreenDensity(300) + (numberOfDescriptionLines * relativeScreenDensity(20))
 			: relativeScreenDensity(135) + (numberOfDescriptionLines < 2 ? 0 : (numberOfDescriptionLines * relativeScreenDensity(20)))
-	)}px;
+	)}px; */
 	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
