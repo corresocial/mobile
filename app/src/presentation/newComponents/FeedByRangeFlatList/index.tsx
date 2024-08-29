@@ -53,14 +53,13 @@ function FeedByRangeFlatList({
 	const { userDataContext } = useAuthContext()
 	const { navigate } = useNavigation<any>()
 
-	/* const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 100 }).current
+	const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 100 }).current
 
-	 const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
+	const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
 		if (viewableItems.length > 0 && viewableItems[0].item) {
 			setFirstVisibleItems(viewableItems[0].item)
 		}
 	}).current
- */
 
 	const hasNearbyPosts = () => {
 		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
@@ -124,7 +123,7 @@ function FeedByRangeFlatList({
 				action: () => navigate('PostCategories', {
 					postType: 'income', macroCategory: 'vacancy'
 				}),
-				description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias'
+				description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias',
 			} as any)
 		}
 
@@ -217,8 +216,8 @@ function FeedByRangeFlatList({
 						onRefresh={onRefresh}
 					/>
 				)}
-				// onViewableItemsChanged={onViewableItemsChanged}
-				// viewabilityConfig={viewabilityConfig}
+				onViewableItemsChanged={onViewableItemsChanged}
+				viewabilityConfig={viewabilityConfig}
 				ListHeaderComponent={listHeaderComponent}
 				ListEmptyComponent={(
 					<NoPostNotifierContainer>

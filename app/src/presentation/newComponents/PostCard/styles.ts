@@ -8,11 +8,14 @@ interface ContainerProps {
 	hasMedia?: boolean
 }
 
-const minCardHeight = relativeScreenDensity(135)
-
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	min-height: ${minCardHeight};
+	height: ${({ hasMedia }) => (
+		hasMedia
+			? relativeScreenDensity(370)
+			: relativeScreenDensity(175)
+	)}px;
+	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
@@ -34,6 +37,7 @@ export const InnerContainer = styled.View<InnerContainerProps>`
 	margin-left: ${({ buttonPressed }) => (buttonPressed ? relativeScreenWidth(1.5) : 0)}px;
     border: ${relativeScreenDensity(2.5)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
+    position: absolute;
 	overflow: hidden;
 	left: ${-relativeScreenWidth(1.5)}px;
 	gap: ${relativeScreenWidth(2)}px;
@@ -44,7 +48,7 @@ interface MediaContainerProps {
 }
 
 export const MediaContainer = styled.View<MediaContainerProps>`
-	height: ${({ hasMedia }) => (hasMedia ? relativeScreenDensity(240) : 0)}px;
+	flex: ${({ hasMedia }) => (hasMedia ? 1 : 0)};
 	width: 100%;
 `
 
