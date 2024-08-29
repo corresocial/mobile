@@ -6,7 +6,6 @@ import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from
 
 interface ContainerProps {
 	hasMedia?: boolean
-	numberOfDescriptionLines: number
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
