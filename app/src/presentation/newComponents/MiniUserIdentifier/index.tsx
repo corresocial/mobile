@@ -61,7 +61,6 @@ function MiniUserIndentifier({ owner, postedAt, userPictureShadow, navigateToPro
 								placeholderContentFit={'cover'}
 								contentFit={'cover'}
 								cachePolicy={'memory-disk'}
-								transition={200}
 							/>
 						</UserPictureAreaInner>
 					</UserPictureArea>

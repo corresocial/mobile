@@ -30,7 +30,6 @@ interface FeedByRangeFlatListProps {
 	filteredFeedPosts: FeedPosts
 	feedIsUpdating?: boolean
 	listHeaderComponent?: React.ReactElement<any>
-	viewPostsByRange: (postRange: PostRange) => void
 	navigateToProfile: (userId: string, redirect?: string) => void
 	goToPostView: (post: PostEntityOptional) => void
 	goToLeaderPostsView?: (post: PollEntity & PetitionEntity) => void
@@ -43,7 +42,6 @@ function FeedByRangeFlatList({
 	collapseExternalVacancies = true,
 	feedIsUpdating = false,
 	listHeaderComponent = (<></>),
-	viewPostsByRange,
 	navigateToProfile,
 	goToPostView,
 	goToLeaderPostsView,
@@ -55,15 +53,14 @@ function FeedByRangeFlatList({
 	const { userDataContext } = useAuthContext()
 	const { navigate } = useNavigation<any>()
 
-	const viewabilityConfig = useRef({
-		itemVisiblePercentThreshold: 100
-	}).current
+	/* const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 100 }).current
 
-	const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
+	 const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
 		if (viewableItems.length > 0 && viewableItems[0].item) {
 			setFirstVisibleItems(viewableItems[0].item)
 		}
 	}).current
+ */
 
 	const hasNearbyPosts = () => {
 		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
@@ -116,17 +113,19 @@ function FeedByRangeFlatList({
 			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
 			{ dividerText: 'Posts na sua cidade', postRange: 'city' }, ...filteredFeedPosts.city,
 			{ dividerText: 'Posts no Brasil    ', postRange: 'country' }, ...filteredFeedPosts.country
-		]
+		] as PostEntity[]
 
-		const filteredItems = collapseExternalVacancies
-			? formattedPosts.filter((item) => (
-				'externalPostId' in item ? !item.externalPostId || (item.externalPostId && isRecentPost(item.createdAt!)) : true
-			))
-			: formattedPosts
+		const filteredItems = collapseExternalVacancies ? formattedPosts.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate!)))) : formattedPosts
 
-		const vacancyPost = formattedPosts.find((item) => 'macroCategory' in item && item.macroCategory === 'vacancy')
-		if (collapseExternalVacancies && vacancyPost) {
-			filteredItems.splice(1, 0, { ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
+		const vacancyPost = formattedPosts.find((item) => item.macroCategory === 'vacancy')
+		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
+			filteredItems.splice(1, 0, {
+				...vacancyPost,
+				action: () => navigate('PostCategories', {
+					postType: 'income', macroCategory: 'vacancy'
+				}),
+				description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias'
+			} as any)
 		}
 
 		return filteredItems
@@ -218,8 +217,8 @@ function FeedByRangeFlatList({
 						onRefresh={onRefresh}
 					/>
 				)}
-				onViewableItemsChanged={onViewableItemsChanged}
-				viewabilityConfig={viewabilityConfig}
+				// onViewableItemsChanged={onViewableItemsChanged}
+				// viewabilityConfig={viewabilityConfig}
 				ListHeaderComponent={listHeaderComponent}
 				ListEmptyComponent={(
 					<NoPostNotifierContainer>

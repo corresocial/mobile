@@ -43,6 +43,8 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 
 	const mediaSource = hasVideos ? post.videosUrl[0] : hasPictures ? post.picturesUrl[0] : ''
 
+	console.log('RELOAD', 'CARD')
+
 	useEffect(() => {
 		if (hasVideos) {
 			const generateThumbnail = async () => {

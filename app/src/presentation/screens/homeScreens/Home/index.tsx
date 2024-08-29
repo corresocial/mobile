@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
-import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, LatLong, PostEntityOptional, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
@@ -281,15 +281,6 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
-	const viewPostsByRange = (postRange: PostRange) => {
-		const rangeConfig = { // Filtrar enquetes e abaixos
-			near: { postsByRange: feedPosts.nearby, postRange: 'near' as PostRange },
-			city: { postsByRange: feedPosts.city, postRange: 'city' as PostRange },
-			country: { postsByRange: feedPosts.country, postRange: 'country' as PostRange }
-		}
-		navigation.navigate('ViewPostsByRange', { ...rangeConfig[postRange], searchByRange: true })
-	}
-
 	const hasAnyPost = () => {
 		return feedPosts
 			&& (
@@ -367,7 +358,6 @@ function Home({ navigation }: HomeScreenProps) {
 							</>
 						)
 					}
-					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}
 					goToLeaderPostsView={viewLeaderPostsDetails}
