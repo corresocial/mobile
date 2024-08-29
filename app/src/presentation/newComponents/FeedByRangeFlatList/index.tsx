@@ -1,8 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useRef, useState } from 'react'
-import { RefreshControl } from 'react-native'
-
-import { FlashList } from '@shopify/flash-list'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { FlatList, RefreshControl } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -29,7 +27,6 @@ import { PostCard } from '@newComponents/PostCard'
 interface FeedByRangeFlatListProps {
 	collapseExternalVacancies?: boolean
 	backgroundColor?: string
-	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	feedIsUpdating?: boolean
 	listHeaderComponent?: React.ReactElement<any>
@@ -41,7 +38,6 @@ interface FeedByRangeFlatListProps {
 }
 
 function FeedByRangeFlatList({
-	searchEnded,
 	backgroundColor,
 	filteredFeedPosts,
 	collapseExternalVacancies = true,
@@ -104,7 +100,7 @@ function FeedByRangeFlatList({
 			case 'country': if (!hasCountryPosts()) { return <></> } break
 		}
 		return (
-			<PostCardContainer>
+			<PostCardContainer key={item.postRange}>
 				<VerticalSpacing />
 				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
 			</PostCardContainer>
@@ -115,7 +111,7 @@ function FeedByRangeFlatList({
 		setVideosMuted(!videosMuted)
 	}
 
-	const posts = () => {
+	const posts = useMemo(() => {
 		const formattedPosts = [
 			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
 			{ dividerText: 'Posts na sua cidade', postRange: 'city' }, ...filteredFeedPosts.city,
@@ -134,9 +130,9 @@ function FeedByRangeFlatList({
 		}
 
 		return filteredItems
-	}
+	}, [firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
 
-	const renderPostItem = (element: any) => {
+	const renderPostItem = useCallback((element: any) => {
 		const { item } = element
 		const itemType = getItemType(item)
 
@@ -201,15 +197,17 @@ function FeedByRangeFlatList({
 			case 'divider': return renderDivider(item)
 			default: return <></>
 		}
-	}
+	}, [posts, firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
+
+	console.log('RELOAD', posts.length)
 
 	return (
 		<FlashListContainer>
-			<FlashList
-				data={posts() as any}
+			<FlatList
+				data={posts}
 				renderItem={renderPostItem as any}
 				contentContainerStyle={{ backgroundColor: backgroundColor }}
-				estimatedItemSize={111}
+				// estimatedItemSize={111}
 				showsVerticalScrollIndicator={false}
 				refreshControl={onRefresh && (
 					<RefreshControl

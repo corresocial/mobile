@@ -1,8 +1,7 @@
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform } from 'react-native'
+import { FlatList, Keyboard, Platform } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
-import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
 
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
@@ -341,7 +340,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					/>
 				</ChatPopOver>
 			</Header>
-			<FlashList
+			<FlatList
 				initialScrollIndex={messages && getFilteredMessages().length - 1}
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
@@ -365,7 +364,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					/>
 				)}
 				ListHeaderComponentStyle={{ marginBottom: relativeScreenHeight(2) }}
-				estimatedItemSize={71}
 				showsVerticalScrollIndicator={false}
 				ListFooterComponent={() => {
 					if (isBlockedUser && blockedByOwner) {

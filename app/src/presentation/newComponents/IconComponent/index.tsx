@@ -17,7 +17,6 @@ interface IconComponentProps {
 
 function IconComponent({ iconName, iconVariation = 'default', relativeWidth = 20, relativeHeight, activeOpacity = 0.5, onPress }: IconComponentProps) {
 	if (!iconName) {
-		console.warn('Nome do ícone não encontrado')
 		return null
 	}
 

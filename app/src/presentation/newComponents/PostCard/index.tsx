@@ -10,7 +10,6 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 
 import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, UserDataContainer, VideoView } from './styles'
-import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SaleExchangeValue } from '@components/SaleExchangeValue'
@@ -155,14 +154,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 		}
 	}
 
-	const [numberOfDescriptionLines, setNumberOfDescriptionLines] = useState(1)
-	const textRef = useRef(null)
-	const handleLayout = (event: any) => {
-		const { height } = event.nativeEvent.layout
-		const numberOfLines = Math.round(height / relativeScreenDensity(20))
-		setNumberOfDescriptionLines(numberOfLines)
-	}
-
 	return (
 		<Container
 			activeOpacity={1}
@@ -170,7 +161,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
 			hasMedia={hasMedia}
-			numberOfDescriptionLines={numberOfDescriptionLines}
 		>
 			<InnerContainer backgroundColor={getRelativeColor()} buttonPressed={buttonPressed}>
 				<MediaContainer hasMedia={hasMedia}>
@@ -231,11 +221,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 					}
 				</MediaContainer>
 				<DataContainer hasMedia={hasMedia}>
-					<PostDescriptionText
-						numberOfLines={3}
-						ref={textRef}
-						onLayout={handleLayout}
-					>
+					<PostDescriptionText numberOfLines={3}>
 						{post.description}
 					</PostDescriptionText>
 					<InfoDataContainer>

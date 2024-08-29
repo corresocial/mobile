@@ -14,7 +14,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	height: ${({ hasMedia, numberOfDescriptionLines }) => (
 		hasMedia
 			? relativeScreenDensity(300) + (numberOfDescriptionLines * relativeScreenDensity(20))
-			: relativeScreenDensity(95) + (numberOfDescriptionLines <= 2 ? numberOfDescriptionLines * relativeScreenDensity(40) : numberOfDescriptionLines * relativeScreenDensity(20))
+			: relativeScreenDensity(135) + (numberOfDescriptionLines < 2 ? 0 : (numberOfDescriptionLines * relativeScreenDensity(20)))
 	)}px;
 	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
