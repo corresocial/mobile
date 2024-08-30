@@ -11,7 +11,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
 import Aptabase from '@aptabase/react-native'
-import { APTABASE_APP_KEY, APTABASE_HOST } from '@env'
+import { APTABASE_APP_KEY } from '@env'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
@@ -43,7 +43,7 @@ const startSentry = () => {
 
 startSentry()
 
-Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
+Aptabase.init(APTABASE_APP_KEY, { host: 'http://35.224.41.251:8000' })
 
 sendEvent('opened_app', {}, true)
 
