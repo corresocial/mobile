@@ -25,6 +25,7 @@ import { LargeCard } from '@components/_cards/LargeCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { ScreenContainer } from '@newComponents/ScreenContainer'
 
 const { localStorage } = usePostRepository()
@@ -77,6 +78,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.colors.orange[3]}>
+			<FocusAwareStatusBar backgroundColor={theme.colors.orange[3]} barStyle={'dark-content'} />
 			<Container>
 				<SubscriptionPresentationModal
 					visibility={subscriptionModalIsVisible}

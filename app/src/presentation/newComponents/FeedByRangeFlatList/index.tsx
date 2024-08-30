@@ -128,7 +128,7 @@ function FeedByRangeFlatList({
 		}
 
 		return filteredItems
-	}, [firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
+	}, [filteredFeedPosts])
 
 	const renderPostItem = useCallback((element: any) => {
 		const { item } = element
