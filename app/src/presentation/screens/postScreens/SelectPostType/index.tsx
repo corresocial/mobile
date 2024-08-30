@@ -9,6 +9,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { CardsContainer, CardsContent, Container, SubscriptionButtonContainer } from './styles'
@@ -62,6 +63,12 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	const selectPostMacroCategory = (routeNavigate: RedirectStacks, postType: PostType, macroCategory: MacroCategoriesType) => {
 		navigation.navigate(routeNavigate as any, { postType, macroCategory })
+	}
+
+	const adSubscriptionHandle = () => {
+		const userRange = checkFreeTrialRange('city')
+		if (userRange.betweenRange) return
+		setSubscriptionModalIsVisible(true)
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
@@ -181,7 +188,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					SvgIcon={HandOnMoneyWhiteIcon}
 				/>
 				<SubscriptionButtonContainer>
-					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
+					<SubscriptionButton onPress={adSubscriptionHandle} />
 					<VerticalSpacing />
 				</SubscriptionButtonContainer>
 			</Container >
