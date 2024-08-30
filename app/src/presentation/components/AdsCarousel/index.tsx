@@ -1,4 +1,7 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
+
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 
 import { SubscriptionAdContainer, Container } from './styles'
 import CalendarWhiteIcon from '@assets/icons/calendar.svg'
@@ -17,6 +20,14 @@ interface AdsCarouselProps {
 }
 
 function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServicesAd, onPressEventCalendarAd }: AdsCarouselProps) {
+	const userRange = checkFreeTrialRange('city')
+
+	const navigation = useNavigation<any>()
+
+	const navigateToPostScreen = () => {
+		navigation.navigate('Post')
+	}
+
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
@@ -26,9 +37,19 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 				{/* <SubscriptionAdContainer>
 					<UserLocationAdButton onPress={() => onPressUserLocationAd && onPressUserLocationAd()} />
 				</SubscriptionAdContainer> */}
-				<SubscriptionAdContainer>
-					<SubscriptionButton onPress={() => onPressCorreAd && onPressCorreAd()} />
-				</SubscriptionAdContainer>
+				{
+					userRange.betweenRange
+						? (
+							<SubscriptionAdContainer>
+								<SubscriptionButton onPress={navigateToPostScreen} />
+							</SubscriptionAdContainer>
+						)
+						: (
+							<SubscriptionAdContainer>
+								<SubscriptionButton onPress={() => onPressCorreAd && onPressCorreAd()} />
+							</SubscriptionAdContainer>
+						)
+				}
 				<SubscriptionAdContainer>
 					<OptionButton
 						color={theme.colors.white[3]}

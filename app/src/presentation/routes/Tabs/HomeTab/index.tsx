@@ -211,7 +211,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					height: relativeScreenDensity(30),
 					width: '100%',
 				},
-				tabBarBadgeStyle: { // CURRENT No android está muito longe do ícone
+				tabBarBadgeStyle: {
 					borderRadius: 5,
 					backgroundColor: theme.colors.pink[4],
 					fontFamily: 'Arvo_700Bold',

@@ -81,7 +81,7 @@ export function ViewUnapprovedRegistersList({ navigation }: ViewUnapprovedRegist
 				</Header>
 
 				<UnapprovedRegistersList
-					data={[...unapprovedPosts, ...unapprovedPosts]}
+					data={unapprovedPosts}
 					renderItem={renderPost as ListRenderItem<unknown>}
 					onEndReached={loadMoreRegisters}
 					refreshControl={(

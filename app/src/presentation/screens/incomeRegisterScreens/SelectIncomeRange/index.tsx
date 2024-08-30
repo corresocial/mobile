@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectIncomeRange({ route, navigation }: SelectIncomeRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost } = useIncomeContext()
+	const { isSecondPost, setIncomeDataOnContext } = useIncomeContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -38,11 +38,14 @@ function SelectIncomeRange({ route, navigation }: SelectIncomeRangeScreenProps) 
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			return navigation.goBack()
 		}
+
+		setIncomeDataOnContext({ range: postRange })
+		navigation.navigate('SelectIncomeLocation', { locationView: 'approximate' })
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+	const { betweenRange } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
 
 	return (
 		<>
@@ -57,7 +60,8 @@ function SelectIncomeRange({ route, navigation }: SelectIncomeRangeScreenProps) 
 			<PostRange
 				backgroundColor={theme.colors.green[2]}
 				itemsColor={theme.colors.green[3]}
-				userSubscriptionRange={range || 'near'}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				freePlans={betweenRange}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

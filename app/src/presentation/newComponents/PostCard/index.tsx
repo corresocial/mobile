@@ -9,7 +9,7 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
 
-import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, PriceLabel, UserDataContainer, VideoView } from './styles'
+import { Container, DataContainer, InfoContainer, InfoDataContainer, InfoGroup, InfoTitle, InnerContainer, MediaContainer, MuteButtonContainer, PictureView, PlaceHolderThumbnailContainer, PlayButtonContainer, PostDescriptionText, PostStatusContainer, UserDataContainer, VideoIconContainer, VideoView } from './styles'
 import { theme } from '@common/theme'
 
 import { SaleExchangeValue } from '@components/SaleExchangeValue'
@@ -187,28 +187,45 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 											</MuteButtonContainer>
 										)
 									}
+									{!hasAutoPlayFunction && (
+										<VideoIconContainer>
+											<IconComponent iconName={'videoCamera'} relativeHeight={40} relativeWidth={40} />
+										</VideoIconContainer>
+									)}
 									{
 										(!videoLoaded || !isVisible) && (
 											<PlaceHolderThumbnailContainer>
 												{
 													hasAutoPlayFunction && (
 														<PlayButtonContainer>
-															<IconComponent relativeHeight={70} relativeWidth={70} iconName={'playVideo'} />
+															<IconComponent relativeHeight={40} relativeWidth={40} iconName={'playVideo'} />
 														</PlayButtonContainer>
 													)
 												}
-												{videoThumbnail && <PictureView source={{ uri: videoThumbnail }} />}
+												{videoThumbnail && (
+													<PictureView
+														source={{ uri: videoThumbnail }}
+														recyclingKey={videoThumbnail}
+														cachePolicy={'memory-disk'}
+													/>
+												)}
 											</PlaceHolderThumbnailContainer>
 										)
 									}
 								</>
 							) : (
-								<PictureView source={{ uri: mediaSource }} />
+								(
+									<PictureView
+										source={{ uri: mediaSource }}
+										recyclingKey={mediaSource}
+										cachePolicy={'memory-disk'}
+									/>
+								)
 							)
 						)
 					}
 				</MediaContainer>
-				<DataContainer>
+				<DataContainer hasMedia={hasMedia}>
 					<PostDescriptionText numberOfLines={3}>
 						{post.description}
 					</PostDescriptionText>
@@ -236,14 +253,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 								<IconComponent relativeWidth={22} iconName={getRelativePostTypeIcon(post.macroCategory)} />
 								<InfoTitle>{getRelativePostTypeLabel(post.macroCategory)}</InfoTitle>
 							</InfoContainer>
-							{/* {
-								post.priceValue && (
-									<InfoContainer>
-										<IconComponent relativeWidth={22} iconName={getRelativeValueIcon(post.priceValue)} />
-										<InfoTitle>{getRelativePriceValueLabel(post.priceValue)}</InfoTitle>
-									</InfoContainer>
-								)
-							} */}
 							{
 								(post.saleValue || post.exchangeValue) && (
 									<>

@@ -371,6 +371,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 						title={(
 							<UserApprovedStateContainer >
 								<MiniUserIndentifier
+									userPictureShadow
 									navigateToProfile={navigateToProfile}
 									owner={postData.owner}
 									postedAt={postData.createdAt}

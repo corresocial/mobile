@@ -109,7 +109,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 			)
 
 			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt || p.createdAt) }))
-			console.log(posts.map((p) => p.postId))
+			// console.log(posts.map((p) => p.postId))
 
 			if (
 				!posts || (posts && !posts.length)

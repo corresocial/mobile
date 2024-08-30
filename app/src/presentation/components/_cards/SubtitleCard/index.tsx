@@ -13,21 +13,27 @@ interface SubtitleCardProps {
 	text: string
 	highlightedText: string[]
 	seeMoreText?: boolean
+	fontSize?: number
+	backgroundColor?: string
 	SvgIcon?: React.FC<SvgProps>
 	onPress?: () => void
 }
 
-function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: SubtitleCardProps) {
+function SubtitleCard({ text, fontSize, highlightedText, backgroundColor, seeMoreText, SvgIcon, onPress }: SubtitleCardProps) {
 	return (
-		<Container hasIcon={!SvgIcon}>
+		<Container
+			hasIcon={!SvgIcon}
+			backgroundColor={backgroundColor}
+		>
 			{SvgIcon && <SvgIcon width={'15%'} height={relativeScreenDensity(20)} />}
 			<Title
 				hasIcon={!SvgIcon}
+				fontSize={fontSize}
 			>
 				{showMessageWithHighlight(text, highlightedText)}
 			</Title>
-			<RightArea>
-				{seeMoreText && (
+			{seeMoreText && (
+				<RightArea>
 					<SmallButton
 						height={relativeScreenDensity(30)}
 						label={'mais'}
@@ -37,10 +43,10 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 						svgScale={['70%', '15%']}
 						onPress={() => onPress && onPress()}
 					/>
-				)}
-				{/* <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText> */}
-				{/* {onPress && <AngleRightWhitetIcon width={'40%'} height={relativeScreenDensity(18)} />} */}
-			</RightArea>
+					{/* <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText> */}
+					{/* {onPress && <AngleRightWhitetIcon width={'40%'} height={relativeScreenDensity(18)} />} */}
+				</RightArea>
+			)}
 		</Container>
 	)
 }

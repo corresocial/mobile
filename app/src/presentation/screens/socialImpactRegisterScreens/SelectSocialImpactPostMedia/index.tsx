@@ -25,7 +25,7 @@ function SelectSocialImpactPostMedia({ route, navigation }: SelectSocialImpactPo
 		}
 
 		setSocialImpactDataOnContext({ picturesUrl, videosUrl })
-		navigation.navigate('SelectSocialImpactLocation', { locationView: 'approximate' })
+		navigation.navigate('SelectSocialImpactRange')
 	}
 
 	return (

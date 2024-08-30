@@ -25,7 +25,7 @@ function SelectCulturePostMedia({ route, navigation }: SelectCulturePostMediaScr
 		}
 
 		setCultureDataOnContext({ picturesUrl, videosUrl })
-		navigation.navigate('SelectCultureLocation', { locationView: 'approximate' })
+		navigation.navigate('SelectCultureRange')
 	}
 
 	const initialValue = convertToMediaAsset(route.params?.initialValue || { picturesUrl: [], videosUrl: [] })

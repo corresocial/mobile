@@ -18,7 +18,7 @@ import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
-import BellWhiteIcon from '@assets/icons/bell-white.svg'
+// import BellWhiteIcon from '@assets/icons/bell-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -99,7 +99,7 @@ function EditPost({
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [offlinePostAlertModalIsVisible, setOfflinePostAlertModalIsVisible] = useState(false)
 	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
-	const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false)
+	// const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false)
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
@@ -199,7 +199,7 @@ function EditPost({
 				initialPostData,
 				postWithUnapprovedData,
 				postWithUnapprovedData.unapprovedData?.picturesUrl || [],
-				notifyUsersEnabled
+				// notifyUsersEnabled
 			)
 
 			addUserPost(newPost)
@@ -238,10 +238,10 @@ function EditPost({
 		editContext.setEditDataOnContext(newEditState)
 	}
 
-	const userHasGovernmentProfileSeal = () => {
-		return userDataContext.verified
-			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
-	}
+	// const userHasGovernmentProfileSeal = () => {
+	// 	return userDataContext.verified
+	// 		&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
+	// }
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
@@ -260,9 +260,9 @@ function EditPost({
 		setOfflinePostAlertModalIsVisible((previousState) => !previousState)
 	}
 
-	const toggleNotifyUsers = () => {
-		setNotifyUsersEnabled(!notifyUsersEnabled)
-	}
+	// const toggleNotifyUsers = () => {
+	// 	setNotifyUsersEnabled(!notifyUsersEnabled)
+	// }
 
 	const userSubscribeIsValid = () => { // REFACTOR domain
 		const { betweenRange, range } = checkFreeTrialRange('country')
@@ -370,7 +370,7 @@ function EditPost({
 							? <Loader />
 							: (
 								<SaveButtonContainer>
-									{
+									{/* {
 										userHasGovernmentProfileSeal() && unsavedPost && (
 											<PrimaryButton
 												color={notifyUsersEnabled ? theme.colors.orange[1] : theme.colors.white[3]}
@@ -386,7 +386,7 @@ function EditPost({
 												onPress={toggleNotifyUsers}
 											/>
 										)
-									}
+									} */}
 									<PrimaryButton
 										color={networkConnectionIsValid ? theme.colors.green[3] : theme.colors.yellow[3]}
 										label={getHeaderButtonLabel()}
@@ -397,7 +397,7 @@ function EditPost({
 										svgIconScale={['50%', '30%']}
 										minHeight={relativeScreenHeight(5)}
 										relativeHeight={relativeScreenHeight(6)}
-										relativeWidth={userHasGovernmentProfileSeal() && unsavedPost ? '55%' : '100%'}
+										relativeWidth={/* userHasGovernmentProfileSeal() && unsavedPost ? '55%' : */ '100%'}
 										onPress={getHeaderButtonHandler()}
 									/>
 								</SaveButtonContainer>

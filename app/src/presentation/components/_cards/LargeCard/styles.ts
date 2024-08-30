@@ -44,6 +44,7 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
     background-color: ${({ theme }) => theme.colors.white[3]};
 	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
 	right: ${({ theme }) => theme.shadowSize.medium}px;
+	overflow: hidden;
 `
 
 export const ButtonText = styled.Text`

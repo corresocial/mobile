@@ -35,7 +35,7 @@ function HorizontalListPictures({ mediaAssets = [], mediaUriSelected, onSelectMe
 						placeholderContentFit={'contain'}
 						contentFit={'cover'}
 						cachePolicy={'memory-disk'}
-						transition={200}
+					// transition={200}
 					/>
 				</PicturePortrait>
 			</PictureItemButtom>

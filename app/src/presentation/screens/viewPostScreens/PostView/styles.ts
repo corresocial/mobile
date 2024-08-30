@@ -9,7 +9,7 @@ export const Header = styled.View`
 
 export const UserApprovedStateContainer = styled.View`
 	flex-direction: row;
-	width: 70%;
+	flex: 1;
 	align-items: center;
 	justify-content: space-between;
 `

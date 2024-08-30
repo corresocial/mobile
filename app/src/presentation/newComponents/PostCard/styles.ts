@@ -1,4 +1,5 @@
 import { Video } from 'expo-av'
+import { Image } from 'expo-image'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -9,8 +10,13 @@ interface ContainerProps {
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
-	height: ${({ hasMedia }) => (hasMedia ? relativeScreenHeight(50) : relativeScreenHeight(24))}px;
-    background-color: ${({ theme }) => theme.black4};
+	height: ${({ hasMedia }) => (
+		hasMedia
+			? relativeScreenDensity(370)
+			: relativeScreenDensity(175)
+	)}px;
+	min-height: ${relativeScreenDensity(135)}px;
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(25)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
@@ -22,6 +28,7 @@ interface InnerContainerProps {
 }
 
 export const InnerContainer = styled.View<InnerContainerProps>`
+	flex: 1;
 	width: 100%;
     height: 100%;
 	flex-direction: column;
@@ -45,16 +52,29 @@ export const MediaContainer = styled.View<MediaContainerProps>`
 	width: 100%;
 `
 
+export const VideoIconContainer = styled.View`
+	position: absolute;
+	bottom: ${relativeScreenDensity(5)}px;
+	right: ${relativeScreenDensity(5)}px;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+`
+
 export const VideoView = styled(Video)`
 	flex: 1;
 `
 
-export const PictureView = styled.Image`
+export const PictureView = styled(Image)`
 	flex: 1;
 `
 
-export const DataContainer = styled.View`
-	height: ${relativeScreenHeight(22.3)}px;
+interface DataContainerProps {
+	hasMedia?: boolean
+}
+
+export const DataContainer = styled.View<DataContainerProps>`
+	${({ hasMedia }) => (!hasMedia ? 'flex: 1;' : '')}
 	width: 100%;
 	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(15)}px;
 	background-color: ${({ theme }) => theme.colors.white[2]};
@@ -65,9 +85,10 @@ export const DataContainer = styled.View`
 export const PostDescriptionText = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.nunito[2])}px;
+	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
 	text-align: left;
+	line-height: ${relativeScreenDensity(20)}px;
 `
 
 export const UserDataContainer = styled.View`
@@ -116,16 +137,7 @@ export const InfoContainer = styled.View`
 export const InfoTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
 	font-family: ${({ theme }) => theme.fonts.nunitoBold};
-	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes.nunito[2])}px;
-`
-
-interface PriceLabelProps {
-	bold?: boolean
-}
-
-export const PriceLabel = styled.Text<PriceLabelProps>`
-	font-family: ${({ theme, bold }) => (bold ? theme.fonts.nunitoBold : theme.fonts.nunitoSemiBold)};
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[1])}px;
 `
 
 export const MuteButtonContainer = styled.View`

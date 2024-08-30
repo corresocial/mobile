@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
-import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, LatLong, PostEntityOptional, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
@@ -42,7 +42,7 @@ import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 const { getPostsByLocationCloud } = useCloudFunctionService()
 const { localStorage } = useLocationRepository()
-const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
+const { getCurrentLocation, convertGeocodeToAddress, getCoordinatesByIpAddress } = useLocationService()
 const { searchAddressByText, getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
@@ -83,7 +83,6 @@ function Home({ navigation }: HomeScreenProps) {
 	}, [])
 
 	useEffect(() => {
-		console.log(hasLocationPermission, 'update na permissão')
 		if (hasLocationPermission) {
 			findFeedPosts('', true, null as any, false, true)
 		}
@@ -155,7 +154,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
 			if (firstLoad) {
-				const recentPosition = getMostRecentAddress(recentAddresses)
+				const addresses = await localStorage.getRecentAddresses()
+				const recentPosition = getMostRecentAddress(addresses)
 
 				if (recentPosition) {
 					return {
@@ -164,18 +164,19 @@ function Home({ navigation }: HomeScreenProps) {
 					}
 				}
 			}
-
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
+
 			return {
 				latitude: currentPosition.coords.latitude,
 				longitude: currentPosition.coords.longitude
 			}
 		} catch (error) {
 			console.log(error)
-
-			const recentPosition = getMostRecentAddress(recentAddresses)
+			const addresses = await localStorage.getRecentAddresses()
+			const recentPosition = getMostRecentAddress(addresses)
 			if (!recentPosition) {
-				return null
+				const coordinates = await getCoordinatesByIpAddress()
+				return coordinates
 			}
 
 			return {
@@ -280,15 +281,6 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
-	const viewPostsByRange = (postRange: PostRange) => {
-		const rangeConfig = { // Filtrar enquetes e abaixos
-			near: { postsByRange: feedPosts.nearby, postRange: 'near' as PostRange },
-			city: { postsByRange: feedPosts.city, postRange: 'city' as PostRange },
-			country: { postsByRange: feedPosts.country, postRange: 'country' as PostRange }
-		}
-		navigation.navigate('ViewPostsByRange', { ...rangeConfig[postRange], searchByRange: true })
-	}
-
 	const hasAnyPost = () => {
 		return feedPosts
 			&& (
@@ -343,14 +335,13 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				</DropdownContainer>
 				<FeedByRangeFlatList
-					searchEnded={searchEnded}
-					backgroundColor={theme.orange2}
+					backgroundColor={theme.colors.orange[2]}
 					filteredFeedPosts={feedPosts}
 					feedIsUpdating={feedIsUpdating}
 					listHeaderComponent={
 						(
 							<>
-								<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+								<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
 								<AdsCarousel
 									onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
 									onPressPublicServicesAd={navigateToPublicServices}
@@ -367,7 +358,6 @@ function Home({ navigation }: HomeScreenProps) {
 							</>
 						)
 					}
-					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}
 					goToLeaderPostsView={viewLeaderPostsDetails}

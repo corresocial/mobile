@@ -38,6 +38,8 @@ import NailPolishAndScissors from '@assets/icons/nailPolishAndScissors.svg'
 
 import Trade from '@assets/icons/trade.svg'
 import PersonAndGlobe from '@assets/icons/personAndGlobe.svg'
+import VideoCamera from '@assets/icons/video-camera-white.svg'
+
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"
@@ -176,6 +178,10 @@ const icons: IconMap = {
 	},
 	denied: {
 		default: Denied
+	},
+	videoCamera: {
+		default: VideoCamera
+
 	}
 }
 

@@ -150,6 +150,7 @@ function PostPicturePreview({
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
 				maxImages={10 - mediaPack.length ?? 0}
+				allowVideos
 				showMediaBrowser={mediaBrowserOpened}
 			/>
 			<CustomCameraModal
