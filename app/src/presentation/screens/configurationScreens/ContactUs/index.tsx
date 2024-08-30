@@ -15,11 +15,11 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 function ContactUs({ navigation }: ContactUsScreenProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'22%'}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<HorizontalSpacing />
@@ -32,8 +32,8 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 			</DefaultHeaderContainer>
 			<ButtonsContainer>
 				<PrimaryButton
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={16}
 					labelMarginLeft={5}
 					textAlign={'left'}
@@ -42,8 +42,8 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'erros', contactUsType: 'erro' })}
 				/>
 				<PrimaryButton
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={16}
 					labelMarginLeft={5}
 					textAlign={'left'}
@@ -52,8 +52,8 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'denunciar', contactUsType: 'denúncia' })}
 				/>
 				<PrimaryButton
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={16}
 					labelMarginLeft={5}
 					textAlign={'left'}
@@ -62,8 +62,8 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'melhorias', contactUsType: 'melhoria' })}
 				/>
 				<PrimaryButton
-					color={theme.white3}
-					labelColor={theme.black4}
+					color={theme.colors.white[3]}
+					labelColor={theme.colors.black[4]}
 					fontSize={16}
 					labelMarginLeft={5}
 					textAlign={'left'}

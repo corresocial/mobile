@@ -48,7 +48,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 		const vacancyPost = paramsPosts.find((item) => item.macroCategory === 'vacancy' && item.externalPostId)
 		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
-			posts.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
+			posts.unshift({ ...vacancyPost, action: () => navigate('ViewPostsByMacroCategory', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' } as any)
 			return posts
 		}
 
@@ -97,10 +97,10 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const getRelativeBackgroundColor = () => {
 		switch (postType) {
-			case 'income': return theme.green2
-			case 'culture': return theme.blue2
-			case 'socialImpact': return theme.pink2
-			default: return theme.orange2
+			case 'income': return theme.colors.green[2]
+			case 'culture': return theme.colors.blue[2]
+			case 'socialImpact': return theme.colors.pink[2]
+			default: return theme.colors.orange[2]
 		}
 	}
 
@@ -178,7 +178,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	return (
 		<ScreenContainer infinityBottom>
 			<Container >
-				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 				<Header>
 					<DefaultPostViewHeader
 						ignorePlatform

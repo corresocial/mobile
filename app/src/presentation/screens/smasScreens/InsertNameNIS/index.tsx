@@ -45,18 +45,18 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostInputText
 				contextTitle={'consultar seu NIS'}
 				contextHighlightedWords={['NIS']}
 				customTitle={'nos informe seu nome completo, sem acentos'}
 				customHighlight={['nome', 'completo,', 'sem', 'acentos']}
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				height={'50%'}
 				inputPlaceholder={'ex: Joao Pereira'}
 				keyboardOpened={keyboardOpened}
 				progress={[1, 3]}
-				validationColor={keyboardOpened ? theme.white2 : theme.pink1}
+				validationColor={keyboardOpened ? theme.colors.white[2] : theme.colors.pink[1]}
 				validateInputText={validateInputName}
 				navigateBackwards={() => navigation.goBack()}
 				saveTextData={saveNameNIS}

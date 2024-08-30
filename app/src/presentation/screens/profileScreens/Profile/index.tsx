@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { ListRenderItem, RefreshControl, ScrollView, TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { useUtils } from '@newutils/useUtils'
@@ -57,14 +56,13 @@ import ThreeDotsIcon from '@assets/icons/threeDots.svg'
 import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '@assets/icons/wirelessOn-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
-import { PostCard } from '@components/_cards/PostCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { ProfileVerifiedModal } from '@components/_modals/ProfileVerifiedModal'
@@ -80,6 +78,7 @@ import { PopOver } from '@components/PopOver'
 import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+import { PostCard } from '@newComponents/PostCard'
 
 const { remoteStorage } = useUserRepository()
 const { localStorage } = usePostRepository()
@@ -456,6 +455,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 					owner={getOwnerDataOnly()}
 					isOwner={isLoggedUser}
 					onPress={() => viewPostDetails(item)}
+					hasAutoPlayFunction={false}
 				/>
 			</PostPadding>
 		)
@@ -497,7 +497,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 		<ScreenContainer infinityBottom>
 			<Container >
 				<FocusAwareStatusBar
-					backgroundColor={theme.white3}
+					backgroundColor={theme.colors.white[3]}
 					barStyle={'dark-content'}
 				/>
 				<WaitingApproveModal // APPROVE
@@ -529,8 +529,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 						onEndReached={loadMoreUserPosts}
 						refreshControl={(
 							<RefreshControl
-								tintColor={theme.black4}
-								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+								tintColor={theme.colors.black[4]}
+								colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 								refreshing={isRefresing}
 								onRefresh={() => loadRemoteProfileData(false, true)}
 							/>
@@ -540,11 +540,10 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 						ListHeaderComponent={(
 							<>
 								<DefaultHeaderContainer
-									backgroundColor={theme.white3}
+									backgroundColor={theme.colors.white[3]}
 									centralized={false}
 									grow
 									withoutIOSPadding
-									borderBottomWidth={0}
 								>
 									<ProfileHeader>
 										<ProfileInfoContainer>
@@ -564,8 +563,8 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={canRenderRejectIndicator() ? toggleRejectModalVisibility : canRenderWaitingApproveIndicator() ? toggleWaitingApproveModalVisibility : () => { }}
 											>
 												<PhotoPortrait
-													height={isLoggedUser ? RFValue(95) : RFValue(65)}
-													width={isLoggedUser ? RFValue(100) : RFValue(70)}
+													height={isLoggedUser ? relativeScreenDensity(95) : relativeScreenDensity(65)}
+													width={isLoggedUser ? relativeScreenDensity(100) : relativeScreenDensity(70)}
 													borderWidth={3}
 													borderRightWidth={8}
 													pictureUri={getProfilePicture()}
@@ -621,7 +620,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 															<VerticalSpacing />
 															<SmallButton
 																label={'adicionar redes'}
-																labelColor={theme.black4}
+																labelColor={theme.colors.black[4]}
 																SvgIcon={AtSignWhiteIcon}
 																svgScale={['60%', '20%']}
 																height={relativeScreenHeight(5)}
@@ -641,7 +640,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 										<OptionsArea>
 											<SmallButton
 												label={isLoggedUser ? 'editar' : 'chat'}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
 												svgScale={['85%', '25%']}
 												relativeWidth={'28%'}
@@ -649,9 +648,9 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={isLoggedUser ? goToEditProfile : openChat}
 											/>
 											<SmallButton
-												color={theme.orange3}
+												color={theme.colors.orange[3]}
 												label={'compartilhar'}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												highlightedWords={
 													isLoggedUser ? ['compartilhar'] : []
 												}
@@ -675,7 +674,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												setFreeTrialToProfile={userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
 											>
 												<SmallButton
-													color={theme.white3}
+													color={theme.colors.white[3]}
 													SvgIcon={getConfigurationIcon()}
 													relativeWidth={relativeScreenWidth(12)}
 													svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
@@ -697,7 +696,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												labelSize={18}
 												relativeHeight={relativeScreenHeight(8)}
 												leftSideWidth={'25%'}
-												leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+												leftSideColor={hasNetworkConnection ? theme.colors.green[3] : theme.colors.yellow[3]}
 												SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
 												svgIconScale={['60%', '60%']}
 												onPress={() => navigation.navigate('OfflinePostsManagement')}
@@ -721,7 +720,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 									title={'faça uma postagem!'}
 									message={'você precisa fazer um post para que outras pessoas possam te encontrar\ncaso veio aqui apenas para procurar, não se preocupe.'}
 									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
-									backgroundColor={theme.yellow1}
+									backgroundColor={theme.colors.yellow[1]}
 								/>
 							)
 							: <VerticalSpacing bottomNavigatorSpace />

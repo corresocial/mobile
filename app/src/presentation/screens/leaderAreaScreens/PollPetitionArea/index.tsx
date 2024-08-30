@@ -31,7 +31,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 const { getPollsByOwner } = usePollDomain()
 const { getPetitionsByOwner } = usePetitionDomain()
 
-export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
+export function PollPetitionArea({ navigation }: PollPetitionAreaScreenProps) {
 	const { userDataContext } = useAuthContext()
 
 	const theme = useTheme()
@@ -87,7 +87,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 				<HeaderSection>
 					<SmallButton
 						label={'criar enquete'}
-						labelColor={theme.black4}
+						labelColor={theme.colors.black[4]}
 						height={relativeScreenDensity(55)}
 						fontSize={10}
 						textMarginTop
@@ -100,7 +100,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 				<HeaderSection>
 					<SmallButton
 						label={'criar abaixo assinado'}
-						labelColor={theme.black4}
+						labelColor={theme.colors.black[4]}
 						height={relativeScreenDensity(55)}
 						fontSize={10}
 						textMarginTop
@@ -125,7 +125,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 					onPress={() => navigation.navigate('ViewPollList')}
 					seeMoreText
 				/>
-				<VerticalSpacing/>
+				<VerticalSpacing />
 				{
 					polls.map((pollData) => (
 						<CardContainer key={pollData.pollId}>
@@ -135,7 +135,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 								isOwner={userDataContext.userId === pollData.owner.userId}
 								onPress={() => navigateToViewPoll(pollData)}
 							/>
-							<VerticalSpacing/>
+							<VerticalSpacing />
 						</CardContainer>
 					))
 				}
@@ -154,7 +154,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 					onPress={() => navigation.navigate('ViewPetitionList')}
 					seeMoreText
 				/>
-				<VerticalSpacing/>
+				<VerticalSpacing />
 				{
 					petitions.map((petitionData) => (
 						<CardContainer key={petitionData.petitionId}>
@@ -164,7 +164,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 								isOwner={userDataContext.userId === petitionData.owner.userId}
 								onPress={() => navigateToViewPetition(petitionData)}
 							/>
-							<VerticalSpacing/>
+							<VerticalSpacing />
 						</CardContainer>
 					))
 				}
@@ -183,7 +183,7 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} >
+		<ScreenContainer topSafeAreaColor={theme.colors.white[3]} >
 			<Header>
 				<DefaultPostViewHeader
 					ignorePlatform
@@ -196,19 +196,19 @@ export function PollPetitionArea({ navigation } : PollPetitionAreaScreenProps) {
 			</Header>
 			<PollPetitionList
 				data={[1]}
-				renderItem={(() => {}) as any}
+				renderItem={(() => { }) as any}
 				CellRendererComponent={renderPollPetitions}
 				refreshControl={(
 					<RefreshControl
-						tintColor={theme.black4}
-						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+						tintColor={theme.colors.black[4]}
+						colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 						refreshing={isLoading}
 						onRefresh={() => loadPollsAndPetitions(true)}
 					/>
 				)}
 				showsVerticalScrollIndicator={false}
-				ItemSeparatorComponent={() => <VerticalSpacing/>}
-				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace/>}
+				ItemSeparatorComponent={() => <VerticalSpacing />}
+				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</ScreenContainer>
 	)

@@ -1,5 +1,4 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { VerifiedLabelName } from '@domain/user/entity/types'
 
@@ -8,37 +7,38 @@ import ImpactBadge from '@assets/icons/impactLabel.svg'
 import LeaderBadgeIcon from '@assets/icons/leaderLabel.svg'
 import VerifiedCitizenRegistrationIcon from '@assets/icons/questionary-white.svg'
 import VerifiedBadgeIcon from '@assets/icons/verifiedLabel.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface VerifiedUserBadgeProps {
 	verifiedLabel: VerifiedLabelName
 }
 
 function VerifiedUserBadge({ verifiedLabel }: VerifiedUserBadgeProps) {
-	const defaultBadgeIconSize = RFValue(22)
+	const defaultBadgeIconSize = relativeScreenDensity(22)
 
 	const userBadges: Record<VerifiedLabelName, { icon: React.ReactNode; description: string }> = {
 		default: {
-			icon: <VerifiedBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			icon: <VerifiedBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: relativeScreenDensity(6) }} />,
 			description: 'perfil verificado',
 		},
 		impact: {
-			icon: <ImpactBadge height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			icon: <ImpactBadge height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: relativeScreenDensity(6) }} />,
 			description: 'perfil de impacto',
 		},
 		leader: {
-			icon: <LeaderBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			icon: <LeaderBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: relativeScreenDensity(6) }} />,
 			description: 'líder social',
 		},
 		government: {
-			icon: <VerifiedBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			icon: <VerifiedBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: relativeScreenDensity(6) }} />,
 			description: 'perfil governamental',
 		},
 		coordinator: {
-			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: relativeScreenDensity(6) }} />,
 			description: 'coordenador',
 		},
 		questionnaireAdministrator: {
-			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			icon: <VerifiedCitizenRegistrationIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: relativeScreenDensity(6) }} />,
 			description: 'aplicador de questionário',
 		},
 	}

@@ -46,7 +46,6 @@ import { PlaceModality } from '@components/_cards/PlaceModalityCard'
 import { PostRangeCard } from '@components/_cards/PostRangeCard'
 import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
 import { SocialImpactTypeCard } from '@components/_cards/SocialImpactType'
-import { VacancyPurposeCard } from '@components/_cards/VacancyPurposeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { GalleryModal } from '@components/_modals/GalleryModal'
 import { RejectConfirmationModal } from '@components/_modals/RejectConfirmationModal'
@@ -242,9 +241,9 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const getRelativeColor = (light?: boolean) => {
 		switch (postData.postType) {
-			case 'income': return light ? theme.green1 : theme.green2
-			case 'socialImpact': return light ? theme.pink1 : theme.pink2
-			case 'culture': return light ? theme.blue1 : theme.blue2
+			case 'income': return light ? theme.colors.green[1] : theme.colors.green[2]
+			case 'socialImpact': return light ? theme.colors.pink[1] : theme.colors.pink[2]
+			case 'culture': return light ? theme.colors.blue[1] : theme.colors.blue[2]
 		}
 	}
 
@@ -265,7 +264,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 				closeModal={toggleRejectConfirmationModalVisibility}
 				onPressButton={rejectUserPost}
 			/>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -287,7 +286,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 				<OptionsArea>
 					<SmallButton
 						label={'rejeitar'}
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						SvgIcon={DeniedWhiteIcon}
 						relativeWidth={'40%'}
 						height={relativeScreenWidth(12)}
@@ -295,7 +294,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 					/>
 					<SmallButton
 						label={'aprovar'}
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						SvgIcon={CheckWhiteIcon}
 						relativeWidth={'40%'}
 						height={relativeScreenWidth(12)}
@@ -368,13 +367,6 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 						)
 					}
 					{
-						getPostField('vacancyPurpose' as any) && getPostField('macroCategory') === 'vacancy' && (
-							<VacancyPurposeCard
-								vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
-							/>
-						)
-					}
-					{
 						!arrayIsEmpty(getPostField('links')) && (
 							<LinkCard
 								links={getPostField('links')}
@@ -398,7 +390,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 										<ImageCarousel
 											picturesUrl={getPostField('picturesUrl') || []}
 											videosThumbnails={getPostField('videosUrl') || []}
-											indicatorColor={theme.blue1}
+											indicatorColor={theme.colors.blue[1]}
 											square
 											showFullscreenIcon
 										/>
@@ -408,7 +400,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 							: Object.keys((postData.unapprovedData || {})).length <= 2 && (
 								<ImageCarousel
 									picturesUrl={[defaultUserProfilePicture]}
-									indicatorColor={theme.blue1}
+									indicatorColor={theme.colors.blue[1]}
 									square
 								/>
 							)

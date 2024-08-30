@@ -16,7 +16,7 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface HorizontalListPicturesProps {
 	mediaAssets: MediaAsset[]
-	mediaUriSelected: number
+	mediaUriSelected?: number
 	onSelectMedia: (index: number) => void
 }
 
@@ -25,17 +25,17 @@ function HorizontalListPictures({ mediaAssets = [], mediaUriSelected, onSelectMe
 		return (
 			<PictureItemButtom
 				activeOpacity={1}
-				pictureSelected={mediaUriSelected === index}
+				pictureSelected={mediaUriSelected === index || (!mediaUriSelected && mediaUriSelected !== 0)}
 				key={uuid()}
 				onPress={() => onSelectMedia(index)}
 			>
-				<PicturePortrait pictureSelected={mediaUriSelected === index}>
+				<PicturePortrait pictureSelected={mediaUriSelected === index || (!mediaUriSelected && mediaUriSelected !== 0)}>
 					<Picture
 						source={{ uri: asset.videoThumbnail || asset.url }}
 						placeholderContentFit={'contain'}
 						contentFit={'cover'}
 						cachePolicy={'memory-disk'}
-						transition={200}
+					// transition={200}
 					/>
 				</PicturePortrait>
 			</PictureItemButtom>

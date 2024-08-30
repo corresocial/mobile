@@ -199,8 +199,8 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 					<>
 						<SmallButton
 							label={'baixar respostas individuais'}
-							labelColor={theme.white3}
-							color={theme.green3}
+							labelColor={theme.colors.white[3]}
+							color={theme.colors.green[3]}
 							SvgIcon={DownloadWhiteIcon}
 							relativeWidth={'98%'}
 							height={relativeScreenWidth(12)}
@@ -209,8 +209,8 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 						<VerticalSpacing />
 						<SmallButton
 							label={'responder enquete'}
-							labelColor={theme.black4}
-							color={theme.yellow3}
+							labelColor={theme.colors.black[4]}
+							color={theme.colors.yellow[3]}
 							SvgIcon={DocumentWhiteIcon}
 							relativeWidth={'98%'}
 							height={relativeScreenWidth(12)}

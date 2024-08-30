@@ -61,11 +61,11 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
@@ -77,7 +77,7 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 					/>
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2}>
+			<FormContainer backgroundColor={theme.colors.orange[2]}>
 				{
 					isLoading
 						? (
@@ -92,7 +92,7 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 									relativeHeight={relativeScreenHeight(15)}
 									SvgIcon={notificationIsEnabled ? XWhiteIcon : CheckWhiteIcon}
 									svgIconScale={['50%', '50%']}
-									leftSideColor={notificationIsEnabled ? theme.red3 : theme.green3}
+									leftSideColor={notificationIsEnabled ? theme.colors.red[3] : theme.colors.green[3]}
 									leftSideWidth={'22%'}
 									onPress={toggleNotificationState}
 								/>

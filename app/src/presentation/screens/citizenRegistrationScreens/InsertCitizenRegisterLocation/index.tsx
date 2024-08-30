@@ -72,13 +72,13 @@ function InsertCitizenRegisterLocation({ route, navigation }: InsertCitizenRegis
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<SelectPostLocation
 				customTitle={'onde mora esse cidadão?'}
 				customTitleHighligh={['onde', 'enquete']}
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				initialValue={getInitialCoordinateValue()}
-				validationColor={theme.orange1}
+				validationColor={theme.colors.orange[1]}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>

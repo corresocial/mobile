@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
-import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
 import {
@@ -12,7 +11,7 @@ import {
 	FullScreenIconContainer
 } from './styles'
 import FullscreenIcon from '@assets/icons/fullscreen-white.svg'
-import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
@@ -69,7 +68,7 @@ function MediaCarousel({
 			style={{
 				width: '100%',
 				height: square ? relativeWidth : relativeScreenHeight(28),
-				marginVertical: RFValue(marginVertical)
+				marginVertical: relativeScreenDensity(marginVertical)
 			}}
 		>
 			{

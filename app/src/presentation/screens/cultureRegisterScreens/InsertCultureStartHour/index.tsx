@@ -30,10 +30,10 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostTime
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				validationColor={theme.colors.blue[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -27,5 +28,5 @@ export const FloatButtonContainer = styled.View`
     width: 85%;
     height: 15%;
     position: absolute;
-    bottom: ${RFValue(10)}px;
+    bottom: ${relativeScreenDensity(10)}px;
 `

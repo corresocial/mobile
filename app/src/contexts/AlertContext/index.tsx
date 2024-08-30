@@ -7,9 +7,12 @@ import { useUtils } from '@newutils/useUtils'
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { AlertContextProps, AlertModalContent, AlertProviderProps, InitialNotificationStateType } from './types'
 
+import { Permissions } from '@common/permissions/permissions'
+
 import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { DefaultAlertModal } from '@components/_modals/DefaultAlertModal'
 import { EventCalendarPresentationModal } from '@components/_modals/EventCalendarPresentationModal'
+import { LocationPermissionModal } from '@components/_modals/LocationPermissionModal'
 import { WaitingApproveModal } from '@components/_modals/WaitingApproveModal'
 
 const { objectValuesAreEquals } = useUtils()
@@ -24,11 +27,13 @@ const initialNotificationState = { // private
 
 const initialValue: AlertContextProps = {
 	notificationState: initialNotificationState,
+	hasLocationPermission: true,
 	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => { },
 	showAlertNotificationModal: () => { },
 	showDefaultAlertModal: (modalContent: AlertModalContent) => { },
 	showEventCalendarPresentationModal: () => { },
-	showWaitingApproveModal: () => { }
+	showWaitingApproveModal: () => { },
+	checkLocationPermissions: () => new Promise<boolean>(() => { })
 }
 
 const AlertContext = createContext<AlertContextProps>(initialValue)
@@ -39,7 +44,10 @@ function AlertProvider({ children }: AlertProviderProps) {
 
 	const [defaultAlertModalContent, setDefaultAlertModalContent] = useState({ visibility: false } as AlertModalContent)
 	const [eventCalendarPresentationModalIsVisible, setEventCalendarPresentationModalIsVisible] = useState(false)
+	const [locationPermissionsMoodalIsVisible, setLocationPermissionsMoodalIsVisible] = useState(false)
 	const [waitingApproveModalIsVisible, setWaitingApproveModalIsVisible] = useState(false)
+
+	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 
 	const navigation = useNavigation<UserStackNavigationProps>()
 
@@ -88,6 +96,15 @@ function AlertProvider({ children }: AlertProviderProps) {
 
 	const closeDefaultAlertModal = () => setDefaultAlertModalContent({ ...defaultAlertModalContent, visibility: false })
 
+	const checkLocationPermissions = useCallback(async (): Promise<boolean> => {
+		const hasPermission = await Permissions.hasLocationPermissions()
+		if (!hasPermission) {
+			setLocationPermissionsMoodalIsVisible(true)
+		}
+		setHasLocationPermission(hasPermission)
+		return hasPermission
+	}, [])
+
 	const handlerAlertNotificationModal = useCallback(() => {
 		setAlertNotificationIsVisible(false)
 		updateNotificationState({ notificationAlertModal: false, configNotificationButton: false })
@@ -100,6 +117,12 @@ function AlertProvider({ children }: AlertProviderProps) {
 		navigation.navigate('EventsCalendar' as any)
 	}, [])
 
+	const handlePermissionModal = useCallback(async () => {
+		const response = await Permissions.askLocationPermissions()
+		setHasLocationPermission(response)
+		return response
+	}, [])
+
 	const updateNotificationState = useCallback(async (state: Partial<InitialNotificationStateType>) => {
 		if (objectValuesAreEquals(notificationState, state)) return // REFACTOR Otimização de contexto
 
@@ -110,12 +133,14 @@ function AlertProvider({ children }: AlertProviderProps) {
 
 	const alertDataProvider = useMemo(() => ({
 		notificationState,
+		hasLocationPermission,
 		updateNotificationState,
 		showAlertNotificationModal,
 		showEventCalendarPresentationModal,
 		showWaitingApproveModal,
-		showDefaultAlertModal
-	}), [defaultAlertModalContent, notificationState])
+		showDefaultAlertModal,
+		checkLocationPermissions
+	}), [defaultAlertModalContent, notificationState, hasLocationPermission])
 
 	return (
 		<AlertContext.Provider value={alertDataProvider}>
@@ -127,6 +152,11 @@ function AlertProvider({ children }: AlertProviderProps) {
 				visibility={alertNotificationModalIsVisible}
 				closeModal={() => setAlertNotificationIsVisible(false)}
 				onPressButton={handlerAlertNotificationModal}
+			/>
+			<LocationPermissionModal
+				visibility={locationPermissionsMoodalIsVisible}
+				closeModal={() => setLocationPermissionsMoodalIsVisible(false)}
+				onPressButton={handlePermissionModal}
 			/>
 			<EventCalendarPresentationModal
 				visibility={eventCalendarPresentationModalIsVisible}

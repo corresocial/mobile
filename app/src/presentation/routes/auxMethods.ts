@@ -10,7 +10,7 @@ import { PollStackParamList } from './Stack/PollStack/types'
 import { StackLabelProps } from './types'
 
 const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => {
-	return navigation.navigate(`PostView${stackLabel || ''}`, { postData })
+	return navigation.push(`PostView${stackLabel || ''}`, { postData })
 }
 
 const navigateToProfileView = (navigation: NativeStackNavigationProp<any>, userId?: string, stackLabel?: StackLabelProps | '', redirect?: string) => {

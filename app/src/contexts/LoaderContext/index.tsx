@@ -1,8 +1,9 @@
 import React, { createContext, useMemo, useState, useCallback, useContext } from 'react'
 import { View } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { LoaderContextType, LoaderProviderProps } from './types'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { Loader } from '@components/Loader'
 
@@ -18,8 +19,8 @@ const LoaderContext = createContext<LoaderContextType>(initialValue)
 function LoaderProvider({ children }: LoaderProviderProps) {
 	const [loaderIsVisible, setLoaderIsVisible] = useState(initialValue.loaderIsVisible)
 
-	const getLoaderYAxisCenter = useCallback(() => relativeScreenHeight(50) - (RFValue(loaderScale) / 2), [loaderIsVisible])
-	const getLoaderXAxisCenter = useCallback(() => relativeScreenWidth(50) - (RFValue(loaderScale) / 2), [loaderIsVisible])
+	const getLoaderYAxisCenter = useCallback(() => relativeScreenHeight(50) - (relativeScreenDensity(loaderScale) / 2), [loaderIsVisible])
+	const getLoaderXAxisCenter = useCallback(() => relativeScreenWidth(50) - (relativeScreenDensity(loaderScale) / 2), [loaderIsVisible])
 
 	const loaderScale = 70
 	const loaderYAxisCenter = getLoaderYAxisCenter()

@@ -24,11 +24,11 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 			>
 				<InstructionCard
 					message={'pronto! \n\nrecebemos seu feedback, nossa equipe vai avalizar e tratar o ocorrido.'}
@@ -38,8 +38,8 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 			</DefaultHeaderContainer>
 			<Body>
 				<PrimaryButton
-					color={theme.green3}
-					labelColor={theme.white3}
+					color={theme.colors.green[3]}
+					labelColor={theme.colors.white[3]}
 					fontSize={18}
 					labelMarginLeft={5}
 					textAlign={'left'}

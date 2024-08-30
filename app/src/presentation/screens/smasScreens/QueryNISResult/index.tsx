@@ -65,12 +65,12 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-			<StatusBar backgroundColor={status === 200 ? theme.pink2 : theme.red2} />
+			<StatusBar backgroundColor={status === 200 ? theme.colors.pink[2] : theme.colors.red[2]} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(70)}
 				relativeHeight={relativeScreenHeight(70)}
 				centralized
-				backgroundColor={status === 200 ? theme.pink2 : theme.red2}
+				backgroundColor={status === 200 ? theme.colors.pink[2] : theme.colors.red[2]}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -93,14 +93,14 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 					/>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
-			< FormContainer backgroundColor={theme.white3}>
+			< FormContainer backgroundColor={theme.colors.white[3]}>
 				{
 					status === 200 && !nisIsSaved
 						? (
 							<PrimaryButton
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								label={'não, obrigado'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SvgIcon={XWhiteIcon}
 								onPress={backToInicialStackScreen}
 							/>
@@ -108,9 +108,9 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 						: <></>
 				}
 				<PrimaryButton
-					color={theme.green3}
+					color={theme.colors.green[3]}
 					label={status === 200 && !nisIsSaved ? 'sim, salvar' : 'concluir'}
-					labelColor={theme.white3}
+					labelColor={theme.colors.white[3]}
 					SecondSvgIcon={CheckWhiteIcon}
 					onPress={status === 200 ? saveNis : backToInicialStackScreen}
 				/>

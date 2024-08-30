@@ -1,14 +1,13 @@
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ImpactWhiteIcon from '@assets/icons/impactLabel.svg'
 import TrashIcon from '@assets/icons/trash-white.svg'
 import XIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
@@ -48,8 +47,8 @@ function ChatPopOver({
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(15) }}
-			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
+			popoverStyle={{ backgroundColor: theme.colors.black[4], borderRadius: relativeScreenDensity(15) }}
+			backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >
@@ -59,18 +58,18 @@ function ChatPopOver({
 			)}
 		>
 			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
+				<FocusAwareStatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
-						<XIcon width={RFValue(25)} height={RFValue(25)} />
+						<XIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
 					<VerticalSpacing />
 					<PrimaryButton
-						color={theme.red3}
+						color={theme.colors.red[3]}
 						label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}
 						highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						fontSize={13}
 						SvgIcon={DeniedWhiteIcon}
 						justifyContent={'space-around'}
@@ -83,10 +82,10 @@ function ChatPopOver({
 							<>
 								<VerticalSpacing />
 								<PrimaryButton
-									color={theme.red3}
+									color={theme.colors.red[3]}
 									label={'apagar conversa'}
 									highlightedWords={['apagar', 'conversa']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									fontSize={13}
 									SvgIcon={TrashIcon}
 									justifyContent={'space-around'}
@@ -102,10 +101,10 @@ function ChatPopOver({
 							<>
 								<VerticalSpacing />
 								<PrimaryButton
-									color={theme.pink3}
+									color={theme.colors.pink[3]}
 									label={'marcar como \nfinalizado'}
 									highlightedWords={['marcar', 'como', '\nfinalizado']}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									justifyContent={'space-around'}
 									textAlign={'left'}
 									fontSize={13}

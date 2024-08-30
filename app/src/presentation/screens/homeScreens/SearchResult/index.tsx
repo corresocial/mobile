@@ -21,8 +21,8 @@ import { theme } from '@common/theme'
 
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 const { searchPostsCloud } = useCloudFunctionService()
 
@@ -132,7 +132,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={searchByRange ? route.params.categoryLabel : getRelativePath()}
@@ -150,7 +150,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<FeedByRange
+			<FeedByRangeFlatList
 				backgroundColor={backgroundColor}
 				filteredFeedPosts={resultPosts}
 				viewPostsByRange={viewPostsByRange}

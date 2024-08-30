@@ -5,7 +5,7 @@ import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { useSocialImpactContext } from '@contexts/SocialImpactContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSocialImpactRangeScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext } = useSocialImpactContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -36,38 +36,20 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
 
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'EditSocialImpactPostReview',
-					params: {
-						postData: {
-							...socialImpactDataContext,
-							range: postRange,
-							repeat: 'unrepeatable'
-						},
-						unsavedPost: true
-					}
-				}]
-			})
-		} else {
-			setSocialImpactDataOnContext({ range: postRange })
-			navigation.navigate('SelectSocialImpactLocationView')
-		}
+		setSocialImpactDataOnContext({ range: postRange })
+		navigation.navigate('SelectSocialImpactLocation', { locationView: 'approximate' })
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+	const { betweenRange } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
@@ -76,14 +58,14 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
-				backgroundColor={theme.pink2}
-				itemsColor={theme.pink3}
-				userSubscriptionRange={range || 'city'}
+				backgroundColor={theme.colors.pink[2]}
+				itemsColor={theme.colors.pink[3]}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'city'}
 				cityPlanIsFree
+				freePlans={betweenRange}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[5, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)

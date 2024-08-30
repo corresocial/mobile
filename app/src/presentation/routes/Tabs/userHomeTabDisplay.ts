@@ -19,11 +19,10 @@ const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
 			tabBarStyle: {
 				display: routeName === undefined || visibleRoutes.includes(routeName) ? 'flex' : 'none',
 				position: 'absolute',
-				height: Platform.OS === 'ios' ? relativeScreenDensity(75) : relativeScreenDensity(60),
-				borderTopColor: theme.black4,
-				borderTopWidth: 5,
+				height: Platform.OS === 'ios' ? relativeScreenDensity(77) : relativeScreenDensity(60),
+				borderTopColor: theme.colors.black[4],
+				borderTopWidth: relativeScreenDensity(2),
 				marginBottom: 0,
-				backgroundColor: theme.black4
 			}
 		})
 	}, [navigation, route])

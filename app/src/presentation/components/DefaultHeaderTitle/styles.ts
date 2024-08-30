@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
@@ -8,6 +7,6 @@ export const Container = styled.View`
 `
 
 export const Title = styled.Text`
-	font-size: ${RFValue(18)}px;
+	font-size: ${({ theme }) => theme.fontSizes[8]}px;
 	font-family: Arvo_700Bold;
 `

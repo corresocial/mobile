@@ -1,13 +1,12 @@
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 	padding-bottom: ${relativeScreenHeight(10)}px;
 `
 
@@ -16,13 +15,13 @@ export const Header = styled.View`
 	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	flex-direction: row;
 	justify-content: space-between;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	align-items: center;
 `
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(25)}px;
+	font-size: ${({ theme }) => theme.fontSizes[15]}px;
 `
 
 export const OptionsArea = styled.View`
@@ -44,11 +43,11 @@ export const IconArea = styled.View`
 
 export const ConversationArea = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme }) => theme.colors.orange[2]};
 `
 
 export const ConversationCardContainer = styled.View`
-	padding: 0px ${RFValue(10)}px;
+	padding: 0px ${relativeScreenDensity(10)}px;
 `
 
 export const ConversationList = styled.FlatList``
@@ -57,7 +56,7 @@ export const ConversationList = styled.FlatList``
 
 export const HorizontalHeaderScroll = styled.ScrollView`
 	width: 100%;
-	padding-bottom: ${RFValue(10)}px;
+	padding-bottom: ${relativeScreenDensity(10)}px;
 `
 
 export const SelectPeriodButtonContainer = styled.View`
@@ -65,5 +64,5 @@ export const SelectPeriodButtonContainer = styled.View`
 	align-items: center;
 	flex-direction: row;
 	width: ${relativeScreenWidth(100)}px;
-	padding: ${RFValue(5)}px ${RFValue(15)}px;
+	padding: ${relativeScreenDensity(5)}px ${relativeScreenDensity(15)}px;
 `

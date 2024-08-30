@@ -115,7 +115,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const backgroundColor = theme.purple2
+	const backgroundColor = theme.colors.purple[2]
 
 	return (
 		<Container>
@@ -128,14 +128,14 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={navigateBackwards}
 			/>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={unsavedPetition ? 'revisar abaixo assinado' : 'editar abaixo assinado'}
 					highlightedWords={unsavedPetition ? ['revisar'] : ['editar']}
 					destructiveButton={((!!Object.keys(editDataContext.unsaved).length || unsavedPetition))}
 					onBackPress={cancelAllChangesAndGoBack}
-					endButtonColor={theme.red3}
+					endButtonColor={theme.colors.red[3]}
 					endButtonSvgIcon={TrashWhiteIcon}
 				/>
 				{
@@ -144,10 +144,10 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 							: (
 								<SaveButtonContainer>
 									<PrimaryButton
-										color={theme.green3}
+										color={theme.colors.green[3]}
 										label={'publicar abaixo assinado'}
 										highlightedWords={['publicar']}
-										labelColor={theme.white3}
+										labelColor={theme.colors.white[3]}
 										fontSize={13}
 										SecondSvgIcon={PlusWhiteIcon}
 										svgIconScale={['50%', '30%']}

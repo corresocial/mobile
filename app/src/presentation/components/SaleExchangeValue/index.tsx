@@ -1,10 +1,10 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 const { textHasOnlyNumbers } = UiUtils()
 
@@ -32,7 +32,7 @@ function SaleExchangeValue({
 
 	if (saleValue === 'a combinar') {
 		return (
-			<LargeFont style={{ fontSize: RFValue(exchangeFontSize - 0.5) }}>
+			<LargeFont style={{ fontSize: relativeScreenDensity(exchangeFontSize - 0.5) }}>
 				{saleValue}
 			</LargeFont>
 		)
@@ -48,13 +48,13 @@ function SaleExchangeValue({
 								hasSaleValue
 								&& (
 									<>
-										<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
+										<SmallFont style={{ fontSize: relativeScreenDensity(smallFontSize) }}>
 											{'r$'}
 										</SmallFont>
-										<LargeFont style={{ fontSize: RFValue(largeFontSize) }}>
+										<LargeFont style={{ fontSize: relativeScreenDensity(largeFontSize) }}>
 											{saleValue}
 										</LargeFont>
-										<Decimals style={{ fontSize: RFValue(smallFontSize) }}>
+										<Decimals style={{ fontSize: relativeScreenDensity(smallFontSize) }}>
 											{',00'}
 										</Decimals>
 									</>
@@ -65,7 +65,7 @@ function SaleExchangeValue({
 					: (
 						hasSaleValue && (
 							<ExchangeWord
-								style={{ fontSize: RFValue(smallFontSize) }}
+								style={{ fontSize: relativeScreenDensity(smallFontSize) }}
 								numberOfLines={1}
 							>
 								{'vende'}
@@ -78,7 +78,7 @@ function SaleExchangeValue({
 					hasExchangeValue
 					&& (
 						<ExchangeWord
-							style={{ fontSize: RFValue(exchangeFontSize), fontFamily: 'Arvo_400Regular' }}
+							style={{ fontSize: relativeScreenDensity(exchangeFontSize), fontFamily: 'Arvo_400Regular' }}
 						>
 							{showMessageWithHighlight(`${hasSaleValue ? ' ou ' : ''}troca`, ['troca'])}
 						</ExchangeWord>

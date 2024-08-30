@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-
+// REFACTOR REmove direct import
 interface FilterButtonProps {
 	height?: string | number
 	backgroundColor?: string
@@ -18,14 +17,14 @@ interface FilterButtonProps {
 
 function FilterButton({
 	height = relativeScreenHeight(9),
-	backgroundColor = theme.white3,
+	backgroundColor = theme.colors.white[3],
 	backgroundSelected,
 	label,
 	fontSize = 13,
 	selected = false,
 	onSelect
 }: FilterButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -50,18 +49,16 @@ function FilterButton({
 			<ContainerBottom
 				style={{
 					height: height as number,
-					marginRight: RFValue(10),
+					marginRight: relativeScreenDensity(10),
 				}}
 			>
 				<ContainerSurface
-					style={{
-						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? RFValue(-5) : buttonPressed ? RFValue(-5) : 0
-					}}
+					buttonPressed={buttonPressed || selected}
+					style={{ backgroundColor: selected ? backgroundSelected : backgroundColor }}
 				>
 					<Label
 						style={{
-							fontSize: RFValue(fontSize),
+							fontSize: fontSize,
 							fontFamily: 'Arvo_400Regular'
 						}}
 					>

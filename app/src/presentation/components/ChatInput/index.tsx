@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, InputMessage, SendButtonAreaInner, SideButtonArea } from './styles'
 import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
 import CheckLabelWhiteIcon from '@assets/icons/checkLabel-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -42,9 +42,9 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 			{
 				showImpactReportButton && (
 					<SmallButton
-						color={theme.pink3}
-						relativeWidth={RFValue(40)}
-						height={RFValue(40)}
+						color={theme.colors.pink[3]}
+						relativeWidth={relativeScreenDensity(40)}
+						height={relativeScreenDensity(40)}
 						rounded
 						SvgIcon={CheckLabelWhiteIcon}
 						svgScale={['75%', '75%']}
@@ -69,7 +69,7 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 				onPress={releaseSendButton}
 			>
 				<SendButtonAreaInner
-					activeColor={theme.green3}
+					activeColor={theme.colors.green[3]}
 					hasInputMessage={!!message}
 					buttonPressed={sendButtonPressed}
 				>

@@ -6,11 +6,9 @@ export type ProfileTabScreenProps = NativeStackScreenProps<ProfileStackParamList
 export type PostViewProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'PostViewProfile'>
 export type ProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'Profile'>
 
-export type EditServicePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditServicePost'>
-export type EditSalePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditSalePost'>
-export type EditVacancyPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditVacancyPost'>
-export type EditSocialImpactPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditSocialImpactPost'>
-export type EditCulturePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditCulturePost'>
+export type IncomePostReviewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'IncomePostReview'>
+export type SocialImpactPostReviewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'SocialImpactPostReview'>
+export type CulturePostReviewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'CulturePostReview'>
 
 export type EditProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditProfile'>
 export type EditUserNameScreenProps = NativeStackScreenProps<ProfileStackParamList, 'EditUserName'>

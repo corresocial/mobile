@@ -21,7 +21,7 @@ import { ProgressBar } from '../../ProgressBar'
 interface PostLocationViewProps {
 	backgroundColor: string
 	itemsColor: string
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	saveLocationViewType: (locationView: LocationViewType) => void
 	navigateBackwards: () => void
 }
@@ -41,14 +41,18 @@ function PostLocationView({ backgroundColor, itemsColor, progress, saveLocationV
 					message={'como você prefere que outros usuários vejam sua localização?'}
 					highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{
+						progress && (
+							<ProgressBar
+								value={progress[0]}
+								range={progress[1]}
+							/>
+						)
+					}
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 			>
 				<ButtonsContainer>
 					<OptionButton

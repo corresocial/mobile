@@ -30,10 +30,10 @@ function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndD
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostDate
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				validationColor={theme.colors.pink[1]}
 				customTitle={'que dia termina?'}
 				customHighlight={['dia', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}

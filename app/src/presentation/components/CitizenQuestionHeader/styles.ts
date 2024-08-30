@@ -11,7 +11,7 @@ export const HeaderContainer = styled.View`
     padding-right: ${relativeScreenDensity(15)}px;
     height: ${relativeScreenDensity(55)}px;
     width: 100%;
-    background-color: ${({ theme }) => theme.orange1};
+    background-color: ${({ theme }) => theme.colors.orange[1]};
 `
 
 export const ButtonsContainer = styled.View`

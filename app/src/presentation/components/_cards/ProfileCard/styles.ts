@@ -1,5 +1,4 @@
 import { ImageBackground } from 'expo-image'
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -7,26 +6,31 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 export const Container = styled.TouchableOpacity`
 	width: 98%;
 	height: ${relativeScreenDensity(100)}px;
-    background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(23)}px;
+    background-color: ${({ theme }) => theme.colors.black[4]};
+    border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
-export const ContainerInner = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerInner = styled.View<ContainerSurfaceProps>`
 	width: 100%;
     height: 100%;
 	flex-direction: row;
-	background-color: ${({ theme }) => theme.white3};
-    border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(23)}px;
+	background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
+    border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(2)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const LeftArea = styled.View`
-	background-color: ${({ theme }) => theme.orange1};
+	background-color: ${({ theme }) => theme.colors.orange[1]};
 	height: 100%;
 	flex: 1;
 	overflow: hidden;
@@ -41,26 +45,26 @@ export const SidePicture = styled(ImageBackground)`
 
 export const UserName = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${RFValue(15)}px;
+	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `
 
 export const DescriptionContainer = styled.View`
-	border-left-width: ${RFValue(2.5)}px;
-	padding: 0px ${RFValue(6)}px;
+	border-left-width: ${relativeScreenDensity(2.5)}px;
+	padding: 0px ${relativeScreenDensity(6)}px;
 	overflow: hidden;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const UserDescription = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(13)}px;
+	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 `
 
 export const RightArea = styled.View`
 	width: 70%;
 	height: 100%;
-	background-color: ${({ theme }) => theme.white3};
-	padding: ${RFValue(7)}px ${RFValue(7)}px;
+	background-color: ${({ theme }) => theme.colors.white[3]};
+	padding: ${relativeScreenDensity(7)}px ${relativeScreenDensity(7)}px;
 `
 
 export const RightAreaLimits = styled.View`

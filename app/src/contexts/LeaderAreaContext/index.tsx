@@ -68,7 +68,7 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 				refresh
 			)
 
-			profiles = profiles.map((p: UserEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
+			profiles = profiles.map((p: UserEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt || p.createdAt) }))
 
 			if (
 				!profiles || (profiles && !profiles.length)
@@ -108,8 +108,8 @@ function LeaderAreaProvider({ children }: LeaderAreaProviderProps) {
 				refresh
 			)
 
-			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt) }))
-			console.log(posts.map((p) => p.postId))
+			posts = posts.map((p: PostEntity) => ({ ...p, updatedAt: getNewDate(p.updatedAt || p.createdAt) }))
+			// console.log(posts.map((p) => p.postId))
 
 			if (
 				!posts || (posts && !posts.length)

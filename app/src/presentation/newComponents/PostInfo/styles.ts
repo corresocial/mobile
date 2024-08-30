@@ -16,7 +16,7 @@ interface DescriptionTextProps {
 }
 
 const CommonText = styled.Text`
-	font-size: ${({ theme }) => theme.fontSizes.arvo[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
@@ -26,7 +26,7 @@ interface TitleProps {
 
 export const Title = styled(CommonText) <TitleProps>`
 	color: ${({ theme }) => theme.colors.black[4]};
-	${({ theme, titleLarge }) => titleLarge && `font-size: ${theme.fontSizes.arvo[4]}px};`}
+	${({ theme, titleLarge }) => titleLarge && `font-size: ${theme.fontSizes[6]}px};`}
 `
 
 export const ColumnContainer = styled.View`
@@ -45,28 +45,28 @@ export const Content = styled.View<ContentProps>`
 
 export const Value = styled(CommonText)`
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const DateTimeLabel = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 // Descrição
 
 export const HyperlinkContainer = styled(Autolink) <DescriptionTextProps>`
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 `
 
 export const LongText = styled(CommonText) <DescriptionTextProps>`
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 `
 
 export const SeeMoreLabel = styled(CommonText)`
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 	color: ${({ theme }) => theme.colors.orange[3]};
 `
@@ -100,11 +100,11 @@ interface PriceLabelProps {
 
 export const PriceLabel = styled.Text<PriceLabelProps>`
 	font-family: ${({ theme, bold }) => (bold ? theme.fonts.nunitoBold : theme.fonts.nunitoSemiBold)};
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const ListItem = styled.Text`
 	padding-left: ${relativeScreenDensity(10)}px;
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
-	font-size: ${({ theme }) => theme.fontSizes.nunito[3]}px;
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

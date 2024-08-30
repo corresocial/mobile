@@ -16,7 +16,7 @@ function UserLocationAdButton({ customTitle = '', onPress }: UserLocationAdButto
 
 	return (
 		<OptionButton
-			color={theme.white3}
+			color={theme.colors.white[3]}
 			label={customTitle || 'você aí de Londrina'}
 			highlightedWords={[...customTitle.split(' '), 'Londrina']}
 			labelSize={17}
@@ -25,7 +25,7 @@ function UserLocationAdButton({ customTitle = '', onPress }: UserLocationAdButto
 			shortDescriptionHighlightedWords={['benefício', 'emergencial']}
 			SvgIcon={CityWhiteIcon}
 			svgIconScale={['65%', '65%']}
-			leftSideColor={theme.yellow3}
+			leftSideColor={theme.colors.yellow[3]}
 			leftSideWidth={'25%'}
 			onPress={onPress}
 		/>

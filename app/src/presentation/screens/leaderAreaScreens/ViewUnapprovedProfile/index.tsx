@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Linking, TouchableOpacity } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Chat } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
@@ -289,19 +288,18 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 			/>
 			<Container >
 				<DefaultHeaderContainer
-					backgroundColor={theme.white3}
+					backgroundColor={theme.colors.white[3]}
 					centralized={false}
 					grow
 					withoutIOSPadding
-					borderBottomWidth={0}
 				>
 					<ProfileHeader>
 						<ProfileInfoContainer>
 							<BackButton onPress={navigationBackwards} />
 							<HorizontalSpacing width={relativeScreenWidth(3)} />
 							<PhotoPortrait
-								height={RFValue(65)}
-								width={RFValue(70)}
+								height={relativeScreenDensity(65)}
+								width={relativeScreenDensity(70)}
 								borderWidth={3}
 								borderRightWidth={8}
 								pictureUri={getProfilePicture()}
@@ -317,7 +315,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 						<OptionsArea>
 							<SmallButton
 								label={'rejeitar'}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={DeniedWhiteIcon}
 								relativeWidth={'40%'}
 								height={relativeScreenWidth(12)}
@@ -325,7 +323,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 							/>
 							<SmallButton
 								label={'aprovar'}
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SvgIcon={CheckWhiteIcon}
 								relativeWidth={'40%'}
 								height={relativeScreenWidth(12)}
@@ -392,7 +390,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 									>
 										<ImageCarousel
 											picturesUrl={getUserField('profilePictureUrl').length ? getUserField('profilePictureUrl') : [defaultUserProfilePicture]}
-											indicatorColor={theme.blue1}
+											indicatorColor={theme.colors.blue[1]}
 											square
 											showFullscreenIcon
 										/>

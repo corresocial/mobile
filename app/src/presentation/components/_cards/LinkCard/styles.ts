@@ -8,7 +8,7 @@ export const LinksContainer = styled.View`
 `
 
 export const LinkContainer = styled.TouchableOpacity`
-	background-color: ${({ theme }) => theme.white2};
+	background-color: ${({ theme }) => theme.colors.white[2]};
 	margin-bottom: ${relativeScreenDensity(7)}px;
 	border-radius: ${relativeScreenDensity(100)}px;
 	padding: ${relativeScreenDensity(10)}px  ${relativeScreenDensity(20)}px;
@@ -18,6 +18,6 @@ export const LinkContainer = styled.TouchableOpacity`
 
 export const TextLink = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-	font-size: ${relativeScreenDensity(14)}px;
-	color: ${({ theme }) => theme.orange3};
+	font-size: ${({ theme }) => theme.fontSizes[4]}px;
+	color: ${({ theme }) => theme.colors.orange[3]};
 `

@@ -1,7 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -11,11 +10,11 @@ export const CarouselItemContainer = styled.View`
     align-items: center;
     justify-content: center;
     height: ${relativeScreenHeight(45)}px;
-    padding:  ${RFValue(30)}px;
+    padding:  ${relativeScreenDensity(30)}px;
 `
 
 export const Slogan = styled.Text`
-    font-size: ${RFValue(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     font-family: Arvo_400Regular;
 `
 

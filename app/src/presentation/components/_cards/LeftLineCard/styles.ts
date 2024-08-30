@@ -1,10 +1,11 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	width: 100%;
-	border-left-width: ${RFValue(2.5)}px;
-	padding: 0px ${RFValue(6)}px;
+	border-left-width: ${relativeScreenDensity(2.5)}px;
+	padding: 0px ${relativeScreenDensity(6)}px;
 	overflow: hidden;
 `
 

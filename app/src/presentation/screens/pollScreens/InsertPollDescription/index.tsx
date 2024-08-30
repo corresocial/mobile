@@ -49,11 +49,11 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.colors.purple[2]}
+				validationColor={theme.colors.purple[1]}
 				customTitle={'fale sobre a sua enquete'}
 				customHighlight={['fale', 'sobre', 'enquete']}
 				inputPlaceholder={'descreva sua enquete...'}

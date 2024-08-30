@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 
 import { PlaceModalityType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCulturePlaceModalityScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -15,7 +14,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceModalityScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -23,20 +21,16 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ eventPlaceModality })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setCultureDataOnContext({ eventPlaceModality })
-		navigation.navigate('SelectCultureRange')
 	}
 
 	return (
 		<PostSelectButton
 			title={'é online ou presencial?'}
 			highlightedWords={['online', 'presencial']}
-			headerBackgroundColor={theme.blue2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.blue[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -46,7 +40,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				relativeHeight={'25%'}
 				SvgIcon={ComputerAndPhoneWhiteIcon}
 				svgIconScale={['55%', '55%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('online')}
 			/>
@@ -57,7 +51,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				relativeHeight={'25%'}
 				SvgIcon={ShopWhiteIcon}
 				svgIconScale={['55%', '55%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('presential')}
 			/>
@@ -69,7 +63,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				SvgIcon={ComputerAndPhoneWhiteIcon}
 				SecondSvgIcon={ShopWhiteIcon}
 				svgIconScale={['45%', '55%']}
-				leftSideColor={theme.blue3}
+				leftSideColor={theme.colors.blue[3]}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('both')}
 			/>

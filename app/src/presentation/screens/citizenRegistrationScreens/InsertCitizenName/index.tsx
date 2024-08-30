@@ -69,12 +69,12 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<PostInputText // REFACTOR Deve mudar de nome, sendo usado não só nos posts
 				multiline
 				initialValue={citizenRegistrationIdentifier.name}
-				backgroundColor={theme.orange2}
-				validationColor={theme.orange1}
+				backgroundColor={theme.colors.orange[2]}
+				validationColor={theme.colors.orange[1]}
 				customTitle={'2 - Qual é o seu nome?'}
 				customHighlight={['2', 'nome?']}
 				inputPlaceholder={'escreva seu nome aqui...'}

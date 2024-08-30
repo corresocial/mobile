@@ -64,7 +64,7 @@ function SearchInput({
 				value={value}
 				keyboardType={keyboardType || 'ascii-capable'}
 				placeholder={placeholder || 'pesquisar'}
-				placeholderTextColor={theme.black1}
+				placeholderTextColor={theme.colors.black[1]}
 				returnKeyType={'search'}
 				onFocus={() => setFocused(true)}
 				onBlur={() => setFocused(false)}

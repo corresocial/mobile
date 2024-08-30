@@ -22,8 +22,8 @@ function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
 				<FilterButton
 					key={uuid()}
 					height={relativeScreenHeight(4)}
-					backgroundColor={theme.white3}
-					backgroundSelected={selectedColor || theme.orange1}
+					backgroundColor={theme.colors.white[3]}
+					backgroundSelected={selectedColor || theme.colors.orange[1]}
 					label={customTag}
 					fontSize={13}
 					selected

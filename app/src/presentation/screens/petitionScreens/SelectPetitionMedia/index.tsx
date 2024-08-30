@@ -29,9 +29,9 @@ function SelectPetitionMedia({ route, navigation }: SelectPetitionMediaScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.colors.purple[2]}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
 				saveMedia={saveMedia}

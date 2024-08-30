@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -8,7 +7,7 @@ export const MediaBrowserModalContainer = styled.Modal`
 `
 
 interface MediaBrowserHeaderProps {
-	isIos: boolean
+    isIos: boolean
 }
 
 export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
@@ -27,13 +26,13 @@ export const HeaderTextContent = styled.View`
 	justify-content: space-between;
 `
 interface HeaderTextContentProps {
-	flex?: number
+    flex?: number
 }
 
 export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
 	flex: ${({ flex }) => flex};
     padding-left: ${relativeScreenWidth(3)}px;
-    font-size: ${RFValue(20)}px;
+    font-size: ${({ theme }) => theme.fontSizes[10]}px;
     text-align: left;
 	font-family: Arvo_700Bold;
 `
@@ -71,8 +70,8 @@ export const ConfirmSelectionButton = styled.View`
 `
 
 export const NotPermissionText = styled.Text`
- 	color:  ${({ theme }) => theme.white1};
-	font-size: 17px;
+ 	color:  ${({ theme }) => theme.colors.white[1]};
+	font-size: 17px; // REFACTOR relative
 	text-align: center;
    	align-self: center;
  	position: absolute;
@@ -80,7 +79,7 @@ export const NotPermissionText = styled.Text`
 `
 
 interface IndicatorContainerProps {
-	isLoadingMore: boolean
+    isLoadingMore: boolean
 }
 
 export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`
@@ -94,7 +93,7 @@ export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`
 `
 
 export const ActivityIndicatorBg = styled.View`
-    background-color: ${({ theme }) => theme.white3};
+    background-color: ${({ theme }) => theme.colors.white[3]};
     padding: 2px;
     border-radius: 100px;
 `
@@ -110,13 +109,13 @@ export const InvalidAssetContainer = styled.View`
 `
 
 export const InvalidAssetAlert = styled.View`
-    background-color: ${({ theme }) => theme.white3};
-    padding: ${RFValue(15)}px;
-    border-radius: ${RFValue(10)}px;
+    background-color: ${({ theme }) => theme.colors.white[3]};
+    padding: ${relativeScreenDensity(15)}px;
+    border-radius: ${relativeScreenDensity(10)}px;
 `
 
 export const InvalidDurationText = styled.Text`
-    font-size: ${RFValue(14)}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
     text-align: center;
 	font-family: Arvo_700Bold;
 `

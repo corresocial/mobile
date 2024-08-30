@@ -150,6 +150,7 @@ function PostPicturePreview({
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
 				maxImages={10 - mediaPack.length ?? 0}
+				allowVideos
 				showMediaBrowser={mediaBrowserOpened}
 			/>
 			<CustomCameraModal
@@ -236,8 +237,8 @@ function PostPicturePreview({
 				<SmallButton
 					relativeWidth={relativeScreenWidth(35)}
 					height={relativeScreenWidth(20)}
-					color={theme.green3}
-					labelColor={theme.white3}
+					color={theme.colors.green[3]}
+					labelColor={theme.colors.white[3]}
 					SvgIcon={CheckIcon}
 					onPress={savePictures}
 				/>

@@ -16,7 +16,7 @@ function PublicServicesAdButton({ customTitle = '', onPress }: PublicServicesAdB
 
 	return (
 		<OptionButton
-			color={theme.white3}
+			color={theme.colors.white[3]}
 			label={customTitle || 'serviços públicos'}
 			highlightedWords={[...customTitle.split(' '), 'serviços', 'públicos']}
 			labelSize={17}
@@ -25,7 +25,7 @@ function PublicServicesAdButton({ customTitle = '', onPress }: PublicServicesAdB
 			shortDescriptionHighlightedWords={['Londrina', 'EM', 'BREVE']}
 			SvgIcon={PublicServicesWhiteIcon}
 			svgIconScale={['65%', '65%']}
-			leftSideColor={theme.pink3}
+			leftSideColor={theme.colors.pink[3]}
 			leftSideWidth={'25%'}
 			onPress={onPress}
 		/>

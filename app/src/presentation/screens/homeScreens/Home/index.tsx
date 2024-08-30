@@ -1,13 +1,12 @@
 import { getLocales } from 'expo-localization'
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
-import { FeedPosts, LatLong, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, LatLong, PostEntityOptional, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { useLocationRepository } from '@data/application/location/useLocationRepository'
@@ -35,15 +34,15 @@ import { theme } from '@common/theme'
 import { ScreenContainer } from '@components/_containers/ScreenContainer'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { AdsCarousel } from '@components/AdsCarousel'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 const { getPostsByLocationCloud } = useCloudFunctionService()
 const { localStorage } = useLocationRepository()
-const { getCurrentLocation, convertGeocodeToAddress } = useLocationService()
+const { getCurrentLocation, convertGeocodeToAddress, getCoordinatesByIpAddress } = useLocationService()
 const { searchAddressByText, getReverseGeocodeByMapsApi } = useGoogleMapsService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
@@ -62,7 +61,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
-	const { showEventCalendarPresentationModal } = useAlertContext()
+	const { hasLocationPermission, showEventCalendarPresentationModal, checkLocationPermissions } = useAlertContext()
 
 	const queryClient = useQueryClient()
 	const { executeCachedRequest } = useCacheRepository()
@@ -71,7 +70,6 @@ function Home({ navigation }: HomeScreenProps) {
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
-	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
@@ -79,9 +77,9 @@ function Home({ navigation }: HomeScreenProps) {
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		requestPermissions()
 		loadRecentAddresses()
 		showEventCalendarPresentationModal()
+		checkLocationPermissions()
 	}, [])
 
 	useEffect(() => {
@@ -89,16 +87,6 @@ function Home({ navigation }: HomeScreenProps) {
 			findFeedPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
-
-	const requestPermissions = async () => {
-		if (hasLocationPermission) return true
-		const { status } = await Location.requestForegroundPermissionsAsync()
-		if (status === 'granted') {
-			setHasLocationPermission(true)
-			return true
-		}
-		return false
-	}
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -166,7 +154,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
 			if (firstLoad) {
-				const recentPosition = getMostRecentAddress(recentAddresses)
+				const addresses = await localStorage.getRecentAddresses()
+				const recentPosition = getMostRecentAddress(addresses)
 
 				if (recentPosition) {
 					return {
@@ -175,18 +164,19 @@ function Home({ navigation }: HomeScreenProps) {
 					}
 				}
 			}
-
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
+
 			return {
 				latitude: currentPosition.coords.latitude,
 				longitude: currentPosition.coords.longitude
 			}
 		} catch (error) {
 			console.log(error)
-
-			const recentPosition = getMostRecentAddress(recentAddresses)
+			const addresses = await localStorage.getRecentAddresses()
+			const recentPosition = getMostRecentAddress(addresses)
 			if (!recentPosition) {
-				return null
+				const coordinates = await getCoordinatesByIpAddress()
+				return coordinates
 			}
 
 			return {
@@ -275,7 +265,7 @@ function Home({ navigation }: HomeScreenProps) {
 		navigateToLeaderPostsView(leaderPostData, navigation, 'Home')
 	}
 
-	const navigateToPostCategories = (postType: PostType) => {
+	const navigateToViewPostsByPostType = (postType: PostType) => {
 		if (!hasAnyPost()) return
 		setLocationDataOnContext({
 			searchParams: { ...locationDataContext.searchParams, postType } as any // TODO Type
@@ -289,15 +279,6 @@ function Home({ navigation }: HomeScreenProps) {
 			return navigateToProfileView(navigation, '', '', redirect)
 		}
 		navigateToProfileView(navigation, userId, 'Home', redirect)
-	}
-
-	const viewPostsByRange = (postRange: PostRange) => {
-		const rangeConfig = { // Filtrar enquetes e abaixos
-			near: { postsByRange: feedPosts.nearby, postRange: 'near' as PostRange },
-			city: { postsByRange: feedPosts.city, postRange: 'city' as PostRange },
-			country: { postsByRange: feedPosts.country, postRange: 'country' as PostRange }
-		}
-		navigation.navigate('ViewPostsByRange', { ...rangeConfig[postRange], searchByRange: true })
 	}
 
 	const hasAnyPost = () => {
@@ -329,10 +310,10 @@ function Home({ navigation }: HomeScreenProps) {
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange2}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[2]}>
 			<Container>
 				<FocusAwareStatusBar
-					backgroundColor={theme.orange2}
+					backgroundColor={theme.colors.orange[2]}
 					barStyle={'dark-content'}
 				/>
 				<SubscriptionPresentationModal
@@ -353,50 +334,34 @@ function Home({ navigation }: HomeScreenProps) {
 						findAddressSuggestions={findAddressSuggestions}
 					/>
 				</DropdownContainer>
-				<FlatList
-					style={{ flex: 1, width: '100%' }}
-					showsVerticalScrollIndicator={false}
-					data={[1]}
-					renderItem={(() => { }) as any}
-					refreshControl={(
-						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
-							refreshing={feedIsUpdating}
-							progressBackgroundColor={theme.white3}
-							onRefresh={refreshFeedPosts}
-						/>
-					)}
-					ListHeaderComponent={(
-						<>
-							<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
-							<AdsCarousel
-								onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
-								onPressPublicServicesAd={navigateToPublicServices}
-								onPressUserLocationAd={navigateToEditUserLocation}
-								onPressEventCalendarAd={navigateToEventCalendar}
-							/>
-							{!hasLocationEnable && !hasAnyPost() && searchEnded && (
-								<RequestLocation
-									getLocationPermissions={() => {
-										requestPermissions()
-										findFeedPosts('', true)
-									}}
+				<FeedByRangeFlatList
+					backgroundColor={theme.colors.orange[2]}
+					filteredFeedPosts={feedPosts}
+					feedIsUpdating={feedIsUpdating}
+					listHeaderComponent={
+						(
+							<>
+								<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
+								<AdsCarousel
+									onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
+									onPressPublicServicesAd={navigateToPublicServices}
+									onPressUserLocationAd={navigateToEditUserLocation}
+									onPressEventCalendarAd={navigateToEventCalendar}
 								/>
-							)}
-						</>
-					)}
-					CellRendererComponent={() => (
-						<FeedByRange
-							searchEnded={searchEnded}
-							backgroundColor={theme.orange2}
-							filteredFeedPosts={feedPosts}
-							viewPostsByRange={viewPostsByRange}
-							navigateToProfile={navigateToProfile}
-							goToPostView={viewPostDetails}
-							goToLeaderPostsView={viewLeaderPostsDetails}
-						/>
-					)}
+								{!hasLocationEnable && !hasAnyPost() && searchEnded && (
+									<RequestLocation
+										getLocationPermissions={() => {
+											checkLocationPermissions()
+										}}
+									/>
+								)}
+							</>
+						)
+					}
+					navigateToProfile={navigateToProfile}
+					goToPostView={viewPostDetails}
+					goToLeaderPostsView={viewLeaderPostsDetails}
+					onRefresh={refreshFeedPosts}
 				/>
 			</Container>
 		</ScreenContainer>

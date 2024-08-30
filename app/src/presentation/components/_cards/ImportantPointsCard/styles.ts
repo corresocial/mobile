@@ -1,6 +1,7 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+import { relativeScreenDensity } from '@common/screenDimensions'
+
 export const ImportantPointsContainer = styled.View`
-	padding: ${RFValue(10)}px;
+	padding: ${relativeScreenDensity(10)}px;
 `

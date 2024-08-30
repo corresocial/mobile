@@ -49,8 +49,8 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 		<PostSelectButton
 			title={'além do nome e email, que outras informações você quer solicitar para assinar?'}
 			highlightedWords={['nome', 'email,', 'informações', 'você', 'quer', 'solicitar', 'para', 'assinar?']}
-			headerBackgroundColor={theme.purple2}
-			backgroundColor={theme.white3}
+			headerBackgroundColor={theme.colors.purple[2]}
+			backgroundColor={theme.colors.white[3]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
@@ -60,8 +60,8 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 				relativeHeight={'18%'}
 				SvgIcon={DocumentPencilWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.white3}
-				selectedSideColor={theme.purple3}
+				leftSideColor={theme.colors.white[3]}
+				selectedSideColor={theme.colors.purple[3]}
 				leftSideWidth={'25%'}
 				selected={selectedOptions.includes('rg')}
 				onPress={() => selectIdentificationOption('rg')}
@@ -73,8 +73,8 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 				relativeHeight={'18%'}
 				SvgIcon={DescriptionWhiteIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.white3}
-				selectedSideColor={theme.purple3}
+				leftSideColor={theme.colors.white[3]}
+				selectedSideColor={theme.colors.purple[3]}
 				leftSideWidth={'25%'}
 				selected={selectedOptions.includes('cpf')}
 				onPress={() => selectIdentificationOption('cpf')}
@@ -86,16 +86,16 @@ function SelectIdentificationRequest({ route, navigation }: SelectIdentification
 				relativeHeight={'18%'}
 				SvgIcon={PhoneDeviceWhiteIcon}
 				svgIconScale={['80%', '80%']}
-				leftSideColor={theme.white3}
-				selectedSideColor={theme.purple3}
+				leftSideColor={theme.colors.white[3]}
+				selectedSideColor={theme.colors.purple[3]}
 				leftSideWidth={'25%'}
 				selected={selectedOptions.includes('telefone')}
 				onPress={() => selectIdentificationOption('telefone')}
 			/>
 			<PrimaryButton
-				color={theme.green3}
+				color={theme.colors.green[3]}
 				label={'continuar'}
-				labelColor={theme.white3}
+				labelColor={theme.colors.white[3]}
 				SecondSvgIcon={CheckWhiteIcon}
 				onPress={saveIdentificationRequest}
 			/>

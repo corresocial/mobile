@@ -34,7 +34,7 @@ const { getNewDate } = UiUtils()
 
 const { getLastItem } = useUtils()
 
-export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
+export function ViewPetitionList({ navigation }: ViewPetitionListScreenProps) {
 	const { userDataContext } = useAuthContext()
 
 	const theme = useTheme()
@@ -111,7 +111,7 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.white3} infinityBottom>
+		<ScreenContainer topSafeAreaColor={theme.colors.white[3]} infinityBottom>
 			<Container>
 				<Header>
 					<DefaultPostViewHeader
@@ -131,15 +131,15 @@ export function ViewPetitionList({ navigation } : ViewPetitionListScreenProps) {
 					showsVerticalScrollIndicator={false}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={isLoading}
 							onRefresh={() => loadPetitions(true)}
 						/>
 					)}
-					ListHeaderComponent={() => <VerticalSpacing/>}
-					ItemSeparatorComponent={() => <VerticalSpacing/>}
-					ListFooterComponent={() => <VerticalSpacing bottomNavigatorSpace/>}
+					ListHeaderComponent={() => <VerticalSpacing />}
+					ItemSeparatorComponent={() => <VerticalSpacing />}
+					ListFooterComponent={() => <VerticalSpacing bottomNavigatorSpace />}
 				/>
 			</Container>
 		</ScreenContainer>

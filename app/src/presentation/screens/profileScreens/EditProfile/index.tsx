@@ -196,7 +196,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -210,8 +210,8 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 							: (
 								<SaveButtonContainer>
 									<PrimaryButton
-										color={theme.green3}
-										labelColor={theme.white3}
+										color={theme.colors.green[3]}
+										labelColor={theme.colors.white[3]}
 										label={'salvar alterações'}
 										highlightedWords={['salvar']}
 										fontSize={16}
@@ -226,7 +226,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					)
 				}
 			</Header>
-			<Body style={{ backgroundColor: hasUpdateError ? theme.red2 : theme.orange2 }}	>
+			<Body style={{ backgroundColor: hasUpdateError ? theme.colors.red[2] : theme.colors.orange[2] }}	>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<VerticalSpacing />
 					<EditCard

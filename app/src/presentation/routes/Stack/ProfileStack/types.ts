@@ -1,4 +1,4 @@
-import { CultureEntity, IncomeEntity, LatLong, PostEntity, SocialImpactEntity, VacancyEntity } from '@domain/post/entity/types'
+import { CultureEntity, IncomeEntity, LatLong, PostEntity, SocialImpactEntity } from '@domain/post/entity/types'
 import { SocialMedia, UserEntity, VerifiedLabelName } from '@domain/user/entity/types'
 
 import { StackLabelProps } from '../../types'
@@ -11,11 +11,9 @@ export type ProfileStackParamList = {
 	PostViewProfile: { postData: PostEntity, redirectedPostId: string }
 	SearchProfile: { verifiedLabel: VerifiedLabelName, profileId: string } | undefined
 
-	EditServicePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditSalePost: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditVacancyPost: { postData: VacancyEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditSocialImpactPost: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
-	EditCulturePost: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	IncomePostReview: { postData: IncomeEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	SocialImpactPostReview: { postData: SocialImpactEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	CulturePostReview: { postData: CultureEntity, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 
 	EditProfile: { user: UserEntity }
 	EditUserName: { userName: string, userId: string }

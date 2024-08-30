@@ -22,10 +22,10 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { Body, Container, Header, PostPadding } from './styles'
 import { theme } from '@common/theme'
 
-import { PostCard } from '@components/_cards/PostCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+import { PostCard } from '@newComponents/PostCard'
 
 const { executeCachedRequest } = useCacheRepository()
 
@@ -105,6 +105,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 					owner={getOwnerDataOnly() as PostEntityCommonFields['owner']}
 					isOwner={userDataContext.userId === (item.owner as any).userId}
 					onPress={() => viewPostDetails(item)}
+					hasAutoPlayFunction={false}
 				/>
 			</PostPadding>
 		)
@@ -125,7 +126,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -139,14 +140,14 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 					onEndReached={loadMorePosts}
 					refreshControl={(
 						<RefreshControl
-							tintColor={theme.black4}
-							colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+							tintColor={theme.colors.black[4]}
+							colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 							refreshing={isRefresing}
 							onRefresh={loadCompletedPosts}
 						/>
 					)}
 					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ backgroundColor: theme.orange2 }}
+					contentContainerStyle={{ backgroundColor: theme.colors.orange[2] }}
 					ItemSeparatorComponent={() => <VerticalSpacing height={0.8} />}
 					ListHeaderComponent={<VerticalSpacing />}
 					ListFooterComponent={() => (

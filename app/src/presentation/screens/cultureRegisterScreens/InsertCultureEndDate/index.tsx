@@ -30,10 +30,10 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostDate
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				validationColor={theme.colors.blue[1]}
 				customTitle={'que dia termina?'}
 				customHighlight={['dia', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : undefined}

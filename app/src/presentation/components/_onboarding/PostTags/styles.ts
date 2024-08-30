@@ -9,7 +9,7 @@ export const Container = styled.View`
 
 export const ContainerBottom = styled.View`
     flex: 1;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 `
 
 export const InputTagArea = styled.View`

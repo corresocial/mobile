@@ -18,7 +18,6 @@ import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
 import PeperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
-import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '@assets/icons/service-white.svg'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
@@ -28,8 +27,8 @@ import { theme } from '@common/theme'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '@components/CatalogPostTypeButtons'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { FeedByRangeFlatList } from '@newComponents/FeedByRangeFlatList'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -54,10 +53,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}, [searchText])
 
 	const setCurrentCategoryColorsOnContext = () => {
-		const currentCategory = {
-			backgroundColor: getRelativeBackgroundColor(),
-			inactiveColor: getInactiveCardColor()
-		}
+		const currentCategory = { backgroundColor: getRelativeBackgroundColor() }
 
 		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
 	}
@@ -146,19 +142,10 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 
 	const getRelativeBackgroundColor = () => {
 		switch (locationDataContext.searchParams.postType) {
-			case 'income': return theme.green2
-			case 'culture': return theme.blue2
-			case 'socialImpact': return theme.pink2
-			default: return theme.orange2
-		}
-	}
-
-	const getInactiveCardColor = () => {
-		switch (locationDataContext.searchParams.postType) {
-			case 'income': return theme.green1
-			case 'culture': return theme.blue1
-			case 'socialImpact': return theme.pink1
-			default: return theme.orange1
+			case 'income': return theme.colors.green[2]
+			case 'culture': return theme.colors.blue[2]
+			case 'socialImpact': return theme.colors.pink[2]
+			default: return theme.colors.orange[2]
 		}
 	}
 
@@ -203,12 +190,12 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
-		navigation.navigate('PostCategories')
+		navigation.navigate('ViewPostsByMacroCategory')
 	}
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={getRelaticeHeaderText()}
@@ -227,18 +214,19 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<FeedByRange
+			<FeedByRangeFlatList
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
 				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
-			>
-				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
-					{getRelativeCatalogMacroCategoryButtons()}
-				</MacroCategoryContainer>
-			</FeedByRange>
+				listHeaderComponent={(
+					<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
+						{getRelativeCatalogMacroCategoryButtons()}
+					</MacroCategoryContainer>
+				)}
+			/>
 		</Container>
 	)
 }

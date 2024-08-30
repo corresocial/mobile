@@ -1,5 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 export const CardHeader = styled.View`
 	flex-direction: row;
@@ -7,11 +8,11 @@ export const CardHeader = styled.View`
 `
 
 export const ValueContainer = styled.View`
-	padding-top: ${RFValue(8)}px;
-	padding-bottom: ${RFValue(5)}px;
+	padding-top: ${relativeScreenDensity(8)}px;
+	padding-bottom: ${relativeScreenDensity(5)}px;
 `
 
 export const Text = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `

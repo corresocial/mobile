@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 interface SelectButtonProps {
@@ -29,9 +28,9 @@ interface SelectButtonProps {
 function SelectButton({
 	width = relativeScreenWidth(39),
 	height = relativeScreenHeight(9),
-	marginVertical = RFValue(6),
+	marginVertical = relativeScreenDensity(6),
 	marginHorizontal = 0,
-	backgroundColor = theme.white3,
+	backgroundColor = theme.colors.white[3],
 	backgroundSelected,
 	label,
 	labelColor,
@@ -44,7 +43,7 @@ function SelectButton({
 	flexSelected = 0,
 	onSelect
 }: SelectButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
@@ -69,23 +68,23 @@ function SelectButton({
 				style={{
 					width,
 					height,
-					marginVertical: RFValue(marginVertical),
-					marginHorizontal: RFValue(marginHorizontal),
+					marginVertical: relativeScreenDensity(marginVertical),
+					marginHorizontal: relativeScreenDensity(marginHorizontal),
 					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0,
 					flex: selected ? flexSelected : 0,
-				}}
+				} as any}
 			>
 				<ContainerSurface
+					buttonPressed={buttonPressed}
 					style={{
 						paddingHorizontal: selected ? relativeScreenWidth(2.5) : 0,
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						transform: [{ translateX: buttonPressed ? 0 : -relativeScreenWidth(selected ? 0.3 : 2) }],
 						height,
-					}}
+					} as any}
 				>
 					<Label
 						style={{
-							fontSize: RFValue(fontSize),
+							fontSize: relativeScreenDensity(fontSize),
 							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular',
 							color: labelColor,
 						}}

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactTagsScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -13,7 +12,6 @@ import { theme } from '@common/theme'
 import { PostTags } from '@components/_onboarding/PostTags'
 
 function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const getSocialImpactCategorySelected = () => {
@@ -32,22 +30,18 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 				tags: tagsSelected
 			})
 			navigation.goBack()
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setSocialImpactDataOnContext({ tags: tagsSelected })
-		navigation.navigate('SelectSocialImpactExhibitionRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostTags
-				backgroundColor={theme.pink2}
-				lightColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				lightColor={theme.colors.pink[1]}
 				currentCategory={socialImpactCategories[getSocialImpactCategorySelected()]}
 				navigateBackwards={() => navigation.goBack()}
 				addNewTag={addNewTag}

@@ -4,14 +4,14 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 
 export const PollPetitionList = styled.FlatList`
 	flex: 1;
-	background-color: ${({ theme }) => theme.purple2};
+	background-color: ${({ theme }) => theme.colors.purple[2]};
 	width: ${relativeScreenWidth(100)}px;
 `
 
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	padding: ${relativeScreenDensity(10)}px;
 `
 

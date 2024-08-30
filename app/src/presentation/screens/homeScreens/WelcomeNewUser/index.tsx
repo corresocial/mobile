@@ -57,10 +57,10 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				relativeHeight={'30%'}
 			>
 				<InstructionCard
@@ -70,14 +70,14 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				/>
 			</DefaultHeaderContainer>
 			<ContainerButtons>
-				<FormContainer backgroundColor={theme.white2} >
+				<FormContainer backgroundColor={theme.colors.white[2]} >
 					<OptionButton
 						label={'procurando'}
 						highlightedWords={['procurando']}
 						shortDescription={'quero encontrar um serviço, item para compra e/ou troca, vagas e cultura.'}
 						relativeHeight={'30%'}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.orange3}
+						leftSideColor={theme.colors.orange[3]}
 						SvgIcon={LoupWhiteIcon}
 						svgIconScale={['40%', '50%']}
 						onPress={goToHome}
@@ -88,7 +88,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 						shortDescription={'quero fazer vendas, anunciar meus serviços, vagas, iniciativas sociais ou arte.'}
 						relativeHeight={'30%'}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.orange3}
+						leftSideColor={theme.colors.orange[3]}
 						svgIconScale={['40%', '50%']}
 						SvgIcon={SalesCartWhiteIcon}
 						onPress={goToProfile}

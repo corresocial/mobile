@@ -1,7 +1,7 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container } from './styles'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface SelectButtonsContainerProps {
 	backgroundColor: string
@@ -14,7 +14,7 @@ function SelectButtonsContainer({ backgroundColor, noPadding, children }: Select
 		<Container
 			style={{
 				backgroundColor,
-				padding: noPadding ? 0 : RFValue(20)
+				padding: noPadding ? 0 : relativeScreenDensity(20)
 			}}
 		>
 			{children}

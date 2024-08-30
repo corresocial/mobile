@@ -18,7 +18,7 @@ import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
-import BellWhiteIcon from '@assets/icons/bell-white.svg'
+// import BellWhiteIcon from '@assets/icons/bell-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -99,7 +99,7 @@ function EditPost({
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [offlinePostAlertModalIsVisible, setOfflinePostAlertModalIsVisible] = useState(false)
 	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
-	const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false)
+	// const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false)
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
@@ -160,20 +160,16 @@ function EditPost({
 			if (offlinePost && !hasValidConnection) return
 
 			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved, completed: false } as PostEntity
-			const { createdAt, postType, macroCategory, ...unapprovedData } = postDataToSave
+			const { postType, macroCategory, ...unapprovedData } = postDataToSave
 			const postWithUnapprovedData = {
 				...approvedPostData,
 				owner,
-				createdAt,
+				createdAt: new Date(),
 				postType,
 				macroCategory,
-				updatedAt: new Date(),
 				completed: false,
 				unapprovedData: { ...unapprovedData, updatedAt: new Date(), reject: false }
 			} as PostEntity
-
-			console.log('postWithUnapprovedData')
-			console.log(postWithUnapprovedData)
 
 			if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 				await localPostStorage.saveOfflinePost({ ...postWithUnapprovedData, owner })
@@ -202,8 +198,8 @@ function EditPost({
 				range,
 				initialPostData,
 				postWithUnapprovedData,
-				editDataContext.unsaved.picturesUrl || [],
-				notifyUsersEnabled
+				postWithUnapprovedData.unapprovedData?.picturesUrl || [],
+				// notifyUsersEnabled
 			)
 
 			addUserPost(newPost)
@@ -242,10 +238,10 @@ function EditPost({
 		editContext.setEditDataOnContext(newEditState)
 	}
 
-	const userHasGovernmentProfileSeal = () => {
-		return userDataContext.verified
-			&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
-	}
+	// const userHasGovernmentProfileSeal = () => {
+	// 	return userDataContext.verified
+	// 		&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
+	// }
 
 	const cancelAllChangesAndGoBack = () => {
 		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
@@ -264,9 +260,9 @@ function EditPost({
 		setOfflinePostAlertModalIsVisible((previousState) => !previousState)
 	}
 
-	const toggleNotifyUsers = () => {
-		setNotifyUsersEnabled(!notifyUsersEnabled)
-	}
+	// const toggleNotifyUsers = () => {
+	// 	setNotifyUsersEnabled(!notifyUsersEnabled)
+	// }
 
 	const userSubscribeIsValid = () => { // REFACTOR domain
 		const { betweenRange, range } = checkFreeTrialRange('country')
@@ -340,7 +336,7 @@ function EditPost({
 				visibility={offlinePostAlertModalIsVisible}
 				onPressButton={toggleOfflinePostAlertModal}
 			/>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
@@ -348,7 +344,7 @@ function EditPost({
 					destructiveButton={((!!Object.keys(editDataContext.unsaved).length || unsavedPost) && !offlinePost)}
 					onBackPress={cancelAllChangesAndGoBack}
 					endButton={offlinePost}
-					endButtonColor={theme.red3}
+					endButtonColor={theme.colors.red[3]}
 					endButtonSvgIcon={TrashWhiteIcon}
 					endButtonPress={removeOfflinePost}
 				/>
@@ -359,7 +355,7 @@ function EditPost({
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
-								backgroundColor={theme.red1}
+								backgroundColor={theme.colors.red[1]}
 								flex={0}
 								fontSize={14}
 								lineHeight={20}
@@ -374,12 +370,12 @@ function EditPost({
 							? <Loader />
 							: (
 								<SaveButtonContainer>
-									{
+									{/* {
 										userHasGovernmentProfileSeal() && unsavedPost && (
 											<PrimaryButton
-												color={notifyUsersEnabled ? theme.orange1 : theme.white3}
+												color={notifyUsersEnabled ? theme.colors.orange[1] : theme.colors.white[3]}
 												label={'   notificar \n   usuários'}
-												labelColor={theme.black4}
+												labelColor={theme.colors.black[4]}
 												highlightedWords={['notificar', 'usuários']}
 												fontSize={12}
 												SecondSvgIcon={BellWhiteIcon}
@@ -390,18 +386,18 @@ function EditPost({
 												onPress={toggleNotifyUsers}
 											/>
 										)
-									}
+									} */}
 									<PrimaryButton
-										color={networkConnectionIsValid ? theme.green3 : theme.yellow3}
+										color={networkConnectionIsValid ? theme.colors.green[3] : theme.colors.yellow[3]}
 										label={getHeaderButtonLabel()}
-										labelColor={networkConnectionIsValid ? theme.white3 : theme.black4}
+										labelColor={networkConnectionIsValid ? theme.colors.white[3] : theme.colors.black[4]}
 										highlightedWords={getHeaderButtonLabelHighlightedWords()}
 										fontSize={13}
 										SecondSvgIcon={getHeaderButtonIcon()}
 										svgIconScale={['50%', '30%']}
 										minHeight={relativeScreenHeight(5)}
 										relativeHeight={relativeScreenHeight(6)}
-										relativeWidth={userHasGovernmentProfileSeal() && unsavedPost ? '55%' : '100%'}
+										relativeWidth={/* userHasGovernmentProfileSeal() && unsavedPost ? '55%' : */ '100%'}
 										onPress={getHeaderButtonHandler()}
 									/>
 								</SaveButtonContainer>

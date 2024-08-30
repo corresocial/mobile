@@ -14,7 +14,7 @@ export const InputsContainer = styled.View`
 `
 
 export const TwoPoints = styled.Text`
-    font-size: 40px;
+    font-size: 40px; // REFACTOR relative
     font-family: Arvo_700Bold;
 `
 

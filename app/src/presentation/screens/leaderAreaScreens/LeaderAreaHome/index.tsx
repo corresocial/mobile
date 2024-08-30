@@ -63,7 +63,6 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 	)
 
 	const loadMoreRegisters = async () => {
-		// console.log('currentLoadedRegisters =>', unapprovedPosts && unapprovedPosts.length)
 		return unapprovedPosts && unapprovedPosts.length ? loadUnapprovedPosts() : null
 	}
 
@@ -108,9 +107,9 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 	}
 
 	return (
-		<ScreenContainer topSafeAreaColor={theme.orange2}>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[2]}>
 			<Container>
-				<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+				<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 				<HeaderButtonsContainer>
 					<Row>
 						{
@@ -122,7 +121,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 										labelSize={11}
 										relativeHeight={relativeScreenDensity(70)}
 										leftSideWidth={'28%'}
-										leftSideColor={theme.purple3}
+										leftSideColor={theme.colors.purple[3]}
 										SvgIcon={FormHearthWhiteIcon}
 										svgIconScale={['80%', '120%']}
 										onPress={() => navigation.navigate('PollPetitionArea')}
@@ -137,7 +136,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 								labelSize={11}
 								relativeHeight={relativeScreenDensity(70)}
 								leftSideWidth={'28%'}
-								leftSideColor={theme.orange3}
+								leftSideColor={theme.colors.orange[3]}
 								SvgIcon={ProfileWhiteIcon}
 								svgIconScale={currentUserHasPermissionToAccessPollsAndPetitions() ? ['80%', '80%'] : ['80%', '60%']}
 								onPress={() => navigation.navigate('SearchProfile')}
@@ -150,7 +149,7 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 						labelSize={13}
 						relativeHeight={relativeScreenDensity(70)}
 						leftSideWidth={'28%'}
-						leftSideColor={theme.orange3}
+						leftSideColor={theme.colors.orange[3]}
 						SvgIcon={LogoCorreWhiteIcon}
 						svgIconScale={['60%', '60%']}
 						onPress={() => navigation.navigate('CitizenRegistrationArea')}
@@ -166,8 +165,8 @@ export function LeaderAreaHome({ navigation }: LeaderAreaHomeScreenProps) {
 							onEndReached={loadMoreRegisters}
 							refreshControl={(
 								<RefreshControl
-									tintColor={theme.black4}
-									colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
+									tintColor={theme.colors.black[4]}
+									colors={[theme.colors.orange[3], theme.colors.pink[3], theme.colors.green[3], theme.colors.blue[3]]}
 									refreshing={isLoading}
 									onRefresh={loadUnapprovedRegisters}
 								/>

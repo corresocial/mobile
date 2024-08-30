@@ -4,7 +4,6 @@ import { StatusBar } from 'react-native'
 import { EventRepeatType } from '@domain/post/entity/types'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactRepeatScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -13,7 +12,6 @@ import { theme } from '@common/theme'
 import { PostRepeat } from '@components/_onboarding/PostRepeat'
 
 function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepeatScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -21,20 +19,16 @@ function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepea
 	const saveSocialImpactRepeat = async (repeat: EventRepeatType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ repeat })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setSocialImpactDataOnContext({ repeat })
-		navigation.navigate('InsertSocialImpactStartDate')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostRepeat
-				backgroundColor={theme.pink2}
-				itemsColor={theme.pink3}
+				backgroundColor={theme.colors.pink[2]}
+				itemsColor={theme.colors.pink[3]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRepeat={saveSocialImpactRepeat}
 			/>

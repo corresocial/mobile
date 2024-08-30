@@ -1,10 +1,10 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AddressSelectedArea, AddressSelectedText, IconArea, InitialDropdown, InitialDropdownContainer, PresentationText } from './styles'
 import AngleDownWhiteIcon from '@assets/icons/angleDown-white.svg'
 import AngleUpWhiteIcon from '@assets/icons/angleUp-white.svg'
 import CityIcon from '@assets/icons/mapPoint-white.svg'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface DefaultDropdownHeaderProps {
 	text?: string
@@ -26,7 +26,7 @@ function DefaultDropdownHeader({
 				onPress={toggleDropdownVisibility}
 			>
 				<IconArea>
-					<CityIcon width={RFValue(30)} height={RFValue(30)} />
+					<CityIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 				</IconArea>
 				<AddressSelectedArea>
 					<PresentationText>{'o que está rolando por perto de:'}</PresentationText>
@@ -38,12 +38,12 @@ function DefaultDropdownHeader({
 					absolute
 						? (
 							<IconArea >
-								<AngleUpWhiteIcon width={RFValue(22)} height={RFValue(22)} />
+								<AngleUpWhiteIcon width={relativeScreenDensity(22)} height={relativeScreenDensity(22)} />
 							</IconArea>
 						)
 						: (
 							<IconArea >
-								<AngleDownWhiteIcon width={RFValue(22)} height={RFValue(22)} />
+								<AngleDownWhiteIcon width={relativeScreenDensity(22)} height={relativeScreenDensity(22)} />
 							</IconArea>
 						)
 				}

@@ -1,5 +1,3 @@
-import { SaleCategories } from '@domain/post/entity/types'
-
 import AnimalsIcon from '@assets/icons/categories/animals.svg'
 import ArtIcon from '@assets/icons/categories/art.svg'
 import AutoAndPartsIcon from '@assets/icons/categories/autoAndParts.svg'
@@ -21,10 +19,6 @@ import TechAndCellPhoneIcon from '@assets/icons/categories/techAndCellPhone.svg'
 import ToolsAndConstructionIcon from '@assets/icons/categories/toolsAndConstruction.svg'
 import ToysIcon from '@assets/icons/categories/toys.svg'
 import UsedIcon from '@assets/icons/categories/used.svg'
-
-export const updateSaleTags = (category: SaleCategories, tag: string) => {
-	saleCategories[category].tags = [...saleCategories[category].tags, tag]
-}
 
 const saleCategories = {
 	food: {

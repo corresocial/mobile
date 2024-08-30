@@ -34,9 +34,12 @@ import CountryBrazil from '@assets/icons/brazil.svg'
 import City from '@assets/icons/city.svg'
 import PersonWalking from '@assets/icons/walkingPersonLeft.svg'
 import TwoPeopleHighFiving from '@assets/icons/twoPeopleHighFiving.svg'
+import NailPolishAndScissors from '@assets/icons/nailPolishAndScissors.svg'
 
 import Trade from '@assets/icons/trade.svg'
 import PersonAndGlobe from '@assets/icons/personAndGlobe.svg'
+import VideoCamera from '@assets/icons/video-camera-white.svg'
+
 
 // REFACTOR Definir o novos ícones somente como "icon.svg" sendo o default branco
 // Para itens coloridos que não sejam brancos "icon-red.svg"
@@ -45,6 +48,14 @@ import PersonAndGlobe from '@assets/icons/personAndGlobe.svg'
 import ArrowRight from '@assets/icons/angleRight-white.svg'
 
 import ArrowLeft from '@assets/icons/angleLeft-white.svg'
+
+import CoolDownClock from '@assets/icons/clockArrow-white.svg'
+import Denied from '@assets/icons/denied-white.svg'
+
+import PlayVideo from '@assets/icons/playVideo.svg'
+
+import Audio from '@assets/icons/audio.svg'
+import AudioMuted from '@assets/icons/audioMuted.svg'
 
 
 const icons: IconMap = {
@@ -149,6 +160,28 @@ const icons: IconMap = {
 	},
 	twoPeopleHighFiving: {
 		default: TwoPeopleHighFiving
+	},
+	nailPolishAndScissors: {
+		default: NailPolishAndScissors
+	},
+	audio: {
+		default: Audio
+	},
+	audioMuted: {
+		default: AudioMuted
+	},
+	playVideo: {
+		default: PlayVideo
+	},
+	coolDownClock: {
+		default: CoolDownClock
+	},
+	denied: {
+		default: Denied
+	},
+	videoCamera: {
+		default: VideoCamera
+
 	}
 }
 

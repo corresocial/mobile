@@ -191,7 +191,7 @@ function CustomMapView({
 									coordinates={rangeCoordinates}
 									fillColor={placeColor || 'rgba(250, 153, 56, 0.25)'}
 									strokeWidth={5}
-									strokeColor={theme.black4}
+									strokeColor={theme.colors.black[4]}
 								/>
 							)
 						}

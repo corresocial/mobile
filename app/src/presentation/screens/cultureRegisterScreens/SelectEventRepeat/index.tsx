@@ -3,7 +3,6 @@ import { StatusBar } from 'react-native'
 
 import { EventRepeatType } from '@domain/post/entity/types'
 
-import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectEventRepeatScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -13,7 +12,6 @@ import { theme } from '@common/theme'
 import { PostRepeat } from '@components/_onboarding/PostRepeat'
 
 function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -21,20 +19,16 @@ function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) 
 	const saveCultureRepeat = async (repeat: EventRepeatType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ repeat })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
-
-		setCultureDataOnContext({ repeat })
-		navigation.navigate('InsertCultureStartDate')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostRepeat
-				backgroundColor={theme.blue2}
-				itemsColor={theme.blue3}
+				backgroundColor={theme.colors.blue[2]}
+				itemsColor={theme.colors.blue[3]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRepeat={saveCultureRepeat}
 			/>

@@ -101,7 +101,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'sair'}
@@ -133,7 +133,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={CheckWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('ViewCompletedPosts')}
 				/>
@@ -145,7 +145,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={notificationState.configNotificationButton ? BellAlertWhiteIcon : BellWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationSettings')}
 				/>
@@ -157,7 +157,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={PublicServicesWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
 				/>
@@ -169,7 +169,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={notificationState.configNotificationEntryMethod ? DescriptionAlertWhiteIcon : DescriptionWhiteIcon}
 					svgIconScale={notificationState.configNotificationEntryMethod ? ['60%', '60%'] : ['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('EntryMethodManagement', 'configNotificationEntryMethod')}
 				/>
@@ -181,7 +181,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={QuestionMarkWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('WhoWeAre')}
 				/>
@@ -193,7 +193,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					labelSize={18}
 					SvgIcon={ChatWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('ContactUs')}
 				/>
@@ -205,7 +205,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					labelSize={18}
 					SvgIcon={HandOnMoneyWhiteIcon}
 					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={performUserSubscription}
 				/>
@@ -217,7 +217,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					labelSize={18}
 					SvgIcon={HandOnHeartWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => openLink('https://voluntariado.corre.social/')}
 				/>
@@ -229,7 +229,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					labelSize={18}
 					SvgIcon={ShareWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={shareMessage}
 				/>
@@ -241,14 +241,14 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					labelSize={18}
 					SvgIcon={EyeDashedWhiteIcon}
 					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
+					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('PrivacyAndSecurity')}
 				/>
 				<VerticalSpacing />
 				<PrimaryButton
-					color={theme.red3}
-					labelColor={theme.white3}
+					color={theme.colors.red[3]}
+					labelColor={theme.colors.white[3]}
 					label={'sair'}
 					highlightedWords={['sair']}
 					fontSize={20}

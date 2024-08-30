@@ -10,9 +10,9 @@ export const QuestionContainer = styled.View`
 `
 
 export const QuestionTitle = styled.Text`
-    font-size: ${relativeScreenDensity(14)}px;
+    font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	font-family: Arvo_700Bold;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
     padding-right: ${relativeScreenDensity(40)}px;
 `
 
@@ -23,8 +23,8 @@ export const AnswerContainer = styled.View`
 `
 
 export const AnswerText = styled.Text`
-    font-size: ${relativeScreenDensity(12)}px;
+    font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
     text-align: justify;
 `

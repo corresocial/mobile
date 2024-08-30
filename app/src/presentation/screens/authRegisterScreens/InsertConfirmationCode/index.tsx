@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Platform, StatusBar, TextInput } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { UserCredential } from 'firebase/auth'
 
@@ -17,6 +16,7 @@ import { useAuthenticationService } from '@services/authentication/useAuthentica
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -201,15 +201,15 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	const getRelativeHeaderErrorStyle = () => {
-		if (expiredCodeAfterSubmit) return theme.yellow2
-		if (invalidCodeAfterSubmit) return theme.red2
-		return theme.blue2
+		if (expiredCodeAfterSubmit) return theme.colors.yellow[2]
+		if (invalidCodeAfterSubmit) return theme.colors.red[2]
+		return theme.colors.blue[2]
 	}
 
 	const getRelativeInputErrorStyle = () => {
-		if (expiredCodeAfterSubmit) return theme.yellow1
-		if (invalidCodeAfterSubmit) return theme.red1
-		return theme.blue1
+		if (expiredCodeAfterSubmit) return theme.colors.yellow[1]
+		if (invalidCodeAfterSubmit) return theme.colors.red[1]
+		return theme.colors.blue[1]
 	}
 
 	const getFormatedCellNumber = () => {
@@ -222,12 +222,12 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.blue[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				flexDirection={'column'}
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.blue2}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? getRelativeHeaderErrorStyle() : theme.colors.blue[2]}
 			>
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
@@ -241,7 +241,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
 						fontSize={16}
-						borderLeftWidth={RFValue(4)}
+						borderLeftWidth={relativeScreenDensity(4)}
 						message={getFormatedCellNumber()}
 						highlightedWords={getFormatedCellNumber().split(' ')}
 					>
@@ -265,8 +265,8 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									hasMultipleInputs
 									previousInputRef={isLastInput ? null : !isFirstInput && inputsConfig[index - 1].ref}
 									nextInputRef={!isLastInput && inputsConfig[index + 1].ref}
-									defaultBackgroundColor={theme.white2}
-									validBackgroundColor={theme.blue1}
+									defaultBackgroundColor={theme.colors.white[2]}
+									validBackgroundColor={theme.colors.blue[1]}
 									invalidBackgroundColor={getRelativeInputErrorStyle()}
 									maxLength={1}
 									textIsValid={insertedCodeIsValid}
@@ -289,9 +289,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 							? <Loader />
 							: allInputCodesIsValid() && !expiredCodeAfterSubmit && (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									SecondSvgIcon={CheckWhiteIcon}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									label={'continuar'}
 									highlightedWords={['continuar']}
 									startsHidden

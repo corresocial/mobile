@@ -4,19 +4,24 @@ import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimens
 
 export const Container = styled.TouchableOpacity`
 	height: ${relativeScreenDensity(95)}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
-export const ContainerInner = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerInner = styled.View<ContainerSurfaceProps>`
 	width: 100%;
     height: 100%;
-	background-color: ${({ theme }) => theme.white3};
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(2)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const QuestionaryContainer = styled.View`
@@ -31,13 +36,13 @@ export const CitizenNameContainer = styled.View`
     border-left-width: ${relativeScreenDensity(2.5)}px;
 	padding: 0px ${relativeScreenDensity(7)}px;
 	overflow: hidden;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const CitizenNameText = styled.Text`
-    font-size: ${relativeScreenDensity(18)}px;
+    font-size: ${({ theme }) => theme.fontSizes[8]}px;
 	font-family: Arvo_700Bold;
-	color: ${({ theme }) => theme.black4};
+	color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const CreatorDataContainer = styled.View`
@@ -50,8 +55,8 @@ export const CreatorContainer = styled.View`
 `
 
 export const InfoText = styled.Text`
-	font-size: ${relativeScreenDensity(12)}px;
-	color: ${({ theme }) => theme.black4};
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
+	color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const CreatorNameText = styled(InfoText)`

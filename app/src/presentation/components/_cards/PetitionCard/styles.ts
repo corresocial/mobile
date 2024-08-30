@@ -10,22 +10,27 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: 98%;
 	height: ${({ hasPicture }) => (hasPicture ? relativeScreenDensity(225) : relativeScreenDensity(180))}px;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: relative;
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
-export const ContainerInner = styled.View`
+interface ContainerSurfaceProps {
+	buttonPressed: boolean
+}
+
+export const ContainerInner = styled.View<ContainerSurfaceProps>`
 	width: 100%;
     height: 100%;
 	flex-direction: column;
-	background-color: ${({ theme }) => theme.white3};
-    border: ${relativeScreenDensity(3)}px solid ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.colors.white[3]};
+    border: ${relativeScreenDensity(2.2)}px solid ${({ theme }) => theme.colors.black[4]};
     border-radius: ${relativeScreenDensity(23)}px;
     position: absolute;
 	overflow: hidden;
-	left: ${-relativeScreenWidth(2)}px;
+	transform: ${({ theme, buttonPressed }) => (buttonPressed ? `translateX(${theme.shadowSize.medium}px)` : 'translateX(0px)')};
+	right: ${({ theme }) => theme.shadowSize.medium}px;
 `
 
 export const Content = styled.View`
@@ -38,7 +43,7 @@ export const Content = styled.View`
 export const ImageArea = styled(ImageBackground)`
 	flex: 1;
 	justify-content: flex-end;
-	border-color: ${({ theme }) => theme.black4};
+	border-color: ${({ theme }) => theme.colors.black[4]};
 	border-top-width: ${relativeScreenDensity(3)}px;
 `
 
@@ -56,5 +61,5 @@ export const TitleContainer = styled.View`
 export const Title = styled.Text`
 	text-align: left;
 	font-family: Arvo_700Bold;
-	font-size: ${relativeScreenDensity(15)}px;
+	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `

@@ -77,9 +77,9 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<PostFrequency
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				savePostFrequency={saveSocialImpactFrequency}

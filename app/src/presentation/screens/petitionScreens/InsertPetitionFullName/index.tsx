@@ -55,11 +55,11 @@ function InsertPetitionFullName({ navigation }: InsertPetitionFullNameScreenProp
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.colors.purple[2]}
+				validationColor={theme.colors.purple[1]}
 				customTitle={'qual o seu nome completo?'}
 				customHighlight={['nome', 'completo?']}
 				inputPlaceholder={'escreva seu nome aqui...'}

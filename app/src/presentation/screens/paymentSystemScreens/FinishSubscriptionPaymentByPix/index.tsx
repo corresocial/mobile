@@ -100,9 +100,9 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				relativeHeight={relativeScreenHeight(16)}
 				centralized
 			>
@@ -125,7 +125,7 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 
 					<PaymentStatusArea>
 						<SmallButton
-							color={theme.green3}
+							color={theme.colors.green[3]}
 							onPress={() => { }}
 							SvgIcon={PixWhiteIcon}
 							svgScale={['70%', '70%']}
@@ -159,17 +159,17 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 					</QRCodeArea>
 
 					<PrimaryButton
-						color={theme.green3}
+						color={theme.colors.green[3]}
 						label={'copiar código'}
 						highlightedWords={['copiar']}
 						fontSize={18}
-						labelColor={theme.white3}
+						labelColor={theme.colors.white[3]}
 						SecondSvgIcon={CopyWhiteIcon}
 						onPress={copyToClipboard}
 					/>
 					<VerticalSpacing />
 					<PrimaryButton
-						color={theme.white2}
+						color={theme.colors.white[2]}
 						label={'como funciona?'}
 						highlightedWords={['como', 'funciona']}
 						SecondSvgIcon={QuestionMarkWhiteIcon}

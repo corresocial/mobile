@@ -1,25 +1,24 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 export const Container = styled.View`
 	height: ${relativeScreenHeight(25)}px;
 
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.colors.white[3]};
 	align-items: flex-start;
 	justify-content: space-between;
-	padding: ${15}px ${30}px;
-	border-left-width: ${RFValue(5)}px;
-	border-color: ${({ theme }) => theme.black4};
+	padding: ${15}px ${30}px; // REFACTOR relative
+	border-left-width: ${relativeScreenDensity(5)}px;
+	border-color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
-	font-size: ${20}px;
+	font-size: ${20}px; // REFACTOR relative
 `
 
 export const Text = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${13}px;
+	font-size: ${13}px; // REFACTOR relative
 `

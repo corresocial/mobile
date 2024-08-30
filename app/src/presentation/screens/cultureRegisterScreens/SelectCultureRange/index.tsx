@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { PostRange as PostRangeType } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 import { StripeContext } from '@contexts/StripeContext'
 
@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -36,40 +36,20 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
 
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'EditCulturePostReview',
-					params: {
-						postData: {
-							...cultureDataContext,
-							range: postRange
-						},
-						unsavedPost: true
-					}
-				}]
-			})
-		} else {
-			setCultureDataOnContext({ range: postRange })
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
-		}
+		setCultureDataOnContext({ range: postRange })
+		navigation.navigate('SelectCultureLocation', { locationView: 'approximate' })
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+	const { betweenRange } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
@@ -78,13 +58,13 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
-				backgroundColor={theme.blue2}
-				itemsColor={theme.blue3}
-				userSubscriptionRange={range || 'near'}
+				backgroundColor={theme.colors.blue[2]}
+				itemsColor={theme.colors.blue[3]}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				freePlans={betweenRange}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, isSecondPost ? 4 : 5]}
 			/>
 		</>
 	)

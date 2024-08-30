@@ -72,7 +72,7 @@ function PostDate({
 							<HorizontalSpacing />
 							<SmallButton
 								SvgIcon={TrashWhiteIcon}
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								height={relativeScreenWidth(11)}
 								relativeWidth={relativeScreenWidth(11)}
 								svgScale={['60%', '60%']}
@@ -84,7 +84,7 @@ function PostDate({
 				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				<InputsContainer>
@@ -93,7 +93,7 @@ function PostDate({
 						pickerType={'date'}
 						fields={['dia', 'mês', 'ano']}
 						initialValue={initialValue}
-						defaultBackgroundColor={theme.white2}
+						defaultBackgroundColor={theme.colors.white[2]}
 						validBackgroundColor={validationColor}
 						onDateSelect={(selectedDate: Date) => setDate(selectedDate)}
 					/>
@@ -102,9 +102,9 @@ function PostDate({
 					{
 						date && (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								label={'continuar'}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={savePostDate}
 							/>

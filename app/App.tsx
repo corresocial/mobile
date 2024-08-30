@@ -60,8 +60,8 @@ function App() {
 
 	if (!fontsLoaded) {
 		return (
-			<LoaderContainer style={{ backgroundColor: theme.orange3 }}>
-				<ActivityIndicator size={'large'} color={theme.orange4} />
+			<LoaderContainer style={{ backgroundColor: theme.colors.orange[3] }}>
+				<ActivityIndicator size={'large'} color={theme.colors.orange[4]} />
 			</LoaderContainer>
 		)
 	}

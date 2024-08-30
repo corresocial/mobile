@@ -1,10 +1,10 @@
 import React from 'react'
 import { TouchableOpacity, View, ViewStyle } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, Title } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 interface DefaultHeaderTitleProps {
 	title: string
@@ -36,8 +36,8 @@ function DefaultHeaderTitle({
 					{
 						SvgIcon && (
 							<SvgIcon
-								height={RFValue(dimensions)}
-								width={RFValue(dimensions)}
+								height={relativeScreenDensity(dimensions)}
+								width={relativeScreenDensity(dimensions)}
 							/>
 						)
 					}
@@ -47,8 +47,8 @@ function DefaultHeaderTitle({
 		return (
 			SvgIcon && (
 				<SvgIcon
-					height={RFValue(dimensions)}
-					width={RFValue(dimensions)}
+					height={relativeScreenDensity(dimensions)}
+					width={relativeScreenDensity(dimensions)}
 				/>
 			)
 		)
@@ -72,16 +72,16 @@ function DefaultHeaderTitle({
 				{
 					!!SecondSvgIcon && (
 						<SecondSvgIcon
-							height={RFValue(dimensions)}
-							width={RFValue(dimensions)}
-							style={{ marginRight: RFValue(10) }}
+							height={relativeScreenDensity(dimensions)}
+							width={relativeScreenDensity(dimensions)}
+							style={{ marginRight: relativeScreenDensity(10) }}
 						/>
 					)
 				}
 				<Title style={{
-					marginLeft: invertTextAndIcon || !SvgIcon ? 0 : RFValue(10),
+					marginLeft: invertTextAndIcon || !SvgIcon ? 0 : relativeScreenDensity(10),
 					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
-					fontSize: RFValue(fontSize)
+					fontSize: relativeScreenDensity(fontSize)
 				}}
 				>
 					{showMessageWithHighlight(title, highlightedWords)}

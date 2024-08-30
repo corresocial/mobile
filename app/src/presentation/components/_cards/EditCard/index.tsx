@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -7,7 +6,7 @@ import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
 
@@ -74,8 +73,8 @@ function EditCard({
 		>
 			<CardHeader
 				style={{
-					paddingHorizontal: profilePicturesUrl.length || videosUrl.length ? RFValue(15) : 0,
-					paddingVertical: profilePicturesUrl.length || videosUrl.length ? RFValue(10) : 0
+					paddingHorizontal: profilePicturesUrl.length || videosUrl.length ? relativeScreenDensity(15) : 0,
+					paddingVertical: profilePicturesUrl.length || videosUrl.length ? relativeScreenDensity(10) : 0
 				}}
 			>
 				<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>

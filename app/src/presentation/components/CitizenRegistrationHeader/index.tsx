@@ -89,7 +89,7 @@ export function CitizenRegistrationHeader({ message, congratulationMessage, cust
 				grow={!customHeaderHeight}
 				centralized
 				withoutIOSPadding
-				backgroundColor={theme.orange2}
+				backgroundColor={theme.colors.orange[2]}
 				flexDirection={'column'}
 			>
 				<VerticalSpacing />

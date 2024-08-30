@@ -25,7 +25,6 @@ import { WithoutPostsMessage } from '../WithoutPostsMessage'
 interface FeedByRangeProps {
 	collapseExternalVacancies?: boolean
 	backgroundColor?: string
-	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
 	viewPostsByRange: (postRange: PostRange) => void
@@ -35,7 +34,6 @@ interface FeedByRangeProps {
 }
 
 function FeedByRange({
-	searchEnded,
 	backgroundColor,
 	filteredFeedPosts,
 	children,
@@ -52,9 +50,9 @@ function FeedByRange({
 		if (!items) return []
 		const filteredItems = collapseExternalVacancies ? items.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) : items
 
-		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy')
+		const vacancyPost = items.find((item) => item.macroCategory === 'vacancy' && item.owner.userId === 'jobSecretaryId')
 		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
-			filteredItems.unshift({ ...vacancyPost, action: () => navigate('PostCategories', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
+			filteredItems.unshift({ ...vacancyPost, action: () => navigate('ViewPostsByMacroCategory', { postType: 'income', macroCategory: 'vacancy' }), description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias' })
 		}
 
 		if (filteredItems.length >= 5) return filteredItems.slice(0, 5)
@@ -208,7 +206,7 @@ function FeedByRange({
 			}
 			<VerticalSpacing height={10} />
 			{
-				!hasAnyPost() && searchEnded && (
+				!hasAnyPost() && (
 					<WithoutPostsMessage
 						title={'opa!'}
 						message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}

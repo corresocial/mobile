@@ -25,7 +25,7 @@ function WhoWeAreTransformationTemp({ route, navigation }: WhoWeAreTransformatio
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -50,7 +50,7 @@ function WhoWeAreTransformationTemp({ route, navigation }: WhoWeAreTransformatio
 				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
-						color={theme.orange3}
+						color={theme.colors.orange[3]}
 						label={'acensão social!'}
 						highlightedWords={['acensão']}
 						SecondSvgIcon={HandOnCorreWhiteIcon}

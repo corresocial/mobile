@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -24,6 +23,6 @@ interface PostInfoTextProps {
 export const PostInfoText = styled.Text<PostInfoTextProps>`
 	${({ hasSeccondSvgIcon }) => (!hasSeccondSvgIcon ? 'flex: 1' : 'margin-right: 4%')};
 	margin-left: ${({ topic }) => (topic ? 0 : relativeScreenWidth(4))}px;
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	font-family: Arvo_400Regular;
 `

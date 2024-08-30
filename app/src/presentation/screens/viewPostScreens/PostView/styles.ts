@@ -7,10 +7,11 @@ export const Header = styled.View`
 	width: 100%;
 `
 
-export const UserAndValueContainer = styled.View`
+export const UserApprovedStateContainer = styled.View`
 	flex-direction: row;
-	justify-content: space-between;
+	flex: 1;
 	align-items: center;
+	justify-content: space-between;
 `
 
 export const OptionsArea = styled.View`

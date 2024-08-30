@@ -3,7 +3,6 @@ import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { trackEvent } from '@aptabase/react-native'
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
@@ -27,7 +26,7 @@ import {
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
 import CloseIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -210,7 +209,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 				)
 			}
 
-			<StatusBar backgroundColor={theme.black4} />
+			<StatusBar backgroundColor={theme.colors.black[4]} />
 			<GalleryContainer>
 				<Carousel
 					enabled={carouselEnabled}
@@ -233,12 +232,12 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 					<>
 						<CloseButtonArea isPressing={isPressingCloseButton}>
 							<SmallButton
-								color={theme.red3}
+								color={theme.colors.red[3]}
 								SvgIcon={CloseIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={closeButtonHandler}
-								onPressStart={() => setIsPressingCloseButton(true)}
+								onPressStart={() => setIsPressingCloseButton(true)} // REFACTOR REmover
 								onPressRelease={() => setIsPressingCloseButton(false)}
 							/>
 						</CloseButtonArea>
@@ -247,11 +246,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 							!hideArrows && isShowingVideo() && (
 								<>
 									<LeftButton onPress={() => goToNext(-1)}>
-										<AngleLeftWhiteIcon height={RFValue(30)} width={RFValue(30)} />
+										<AngleLeftWhiteIcon height={relativeScreenDensity(30)} width={relativeScreenDensity(30)} />
 									</LeftButton>
 
 									<RightButton onPress={() => goToNext(1)}>
-										<AngleRightWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+										<AngleRightWhiteIcon width={relativeScreenDensity(30)} height={relativeScreenDensity(30)} />
 									</RightButton>
 								</>
 							)

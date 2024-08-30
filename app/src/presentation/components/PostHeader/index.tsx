@@ -91,7 +91,7 @@ function PostHeader({
 				{
 					(!isAuthor || hasCustomHighlightedButton) && (
 						<SmallButton
-							color={theme.white3}
+							color={theme.colors.white[3]}
 							SvgIcon={ShareWhiteIcon}
 							relativeWidth={relativeScreenWidth(11)}
 							height={relativeScreenWidth(11)}
@@ -104,7 +104,7 @@ function PostHeader({
 						? (
 							<SmallButton
 								label={'post foi concluído'}
-								labelColor={theme.black4}
+								labelColor={theme.colors.black[4]}
 								SvgIcon={DeniedWhiteIcon}
 								relativeWidth={hasCustomHighlightedButton ? '65%' : '80%'}
 								height={relativeScreenWidth(12)}
@@ -113,9 +113,9 @@ function PostHeader({
 						)
 						: (
 							<SmallButton
-								color={inactiveHighlightedButton ? theme.white3 : theme.green3}
+								color={inactiveHighlightedButton ? theme.colors.white[3] : theme.colors.green[3]}
 								label={highlightedButtonText || (isAuthor ? 'compartilhar' : 'conversar')}
-								labelColor={inactiveHighlightedButton ? theme.black4 : theme.white3}
+								labelColor={inactiveHighlightedButton ? theme.colors.black[4] : theme.colors.white[3]}
 								SvgIcon={highlightedButtonIcon || (isAuthor ? ShareWhiteIcon : ChatWhiteIcon)}
 								relativeWidth={isAuthor ? hasCustomHighlightedButton ? '65%' : '80%' : '63%'}
 								height={relativeScreenWidth(12)}

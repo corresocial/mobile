@@ -1,10 +1,9 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, ContainerInner, Description, Title } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
+import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
 
 interface InfoCardProps {
 	height?: string | number
@@ -30,10 +29,10 @@ function InfoCard({
 			style={{ height }}
 		>
 			<ContainerInner style={{ backgroundColor: color }} hasSvgIcon={!!SvgIcon}>
-				{SvgIcon && <SvgIcon height={RFValue(40)} width={RFValue(40)} />}
+				{SvgIcon && <SvgIcon height={relativeScreenDensity(40)} width={relativeScreenDensity(40)} />}
 				<Title
 					style={{
-						fontSize: RFValue(titleFontSize),
+						fontSize: relativeScreenDensity(titleFontSize),
 						marginBottom: description ? relativeScreenHeight(2) : 0
 					}}
 				>

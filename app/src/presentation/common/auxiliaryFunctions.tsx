@@ -1,7 +1,8 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
+
+import { relativeScreenDensity } from '@common/screenDimensions'
 
 const showMessageWithHighlight = (message: string, highlightedWords?: string[], subtitleWords: string[] = []) => {
 	if (!highlightedWords) return message
@@ -40,7 +41,7 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 			return (
 				<Text style={{
 					fontFamily: 'Arvo_400Regular',
-					fontSize: RFValue(12)
+					fontSize: relativeScreenDensity(12)
 				}}
 				>
 					{`${word} `}

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
-import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { useSocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { InsertSocialImpactDescriptionScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 
@@ -12,10 +12,14 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useSocialImpactContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		getAditionalDataFromLastPost()
+	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -37,26 +41,24 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 	const saveSocialImpactTitle = (inputText: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ description: inputText })
-			navigation.goBack()
-			return
+			return navigation.goBack()
 		}
 
-		setSocialImpactDataOnContext({ description: inputText })
-		navigation.navigate('SelectSocialImpactRange')
+		setSocialImpactDataOnContext({ description: inputText, ...(route.params || {}) })
+		navigation.navigate('SelectSocialImpactPostMedia')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.colors.pink[2]}
+				validationColor={theme.colors.pink[1]}
 				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, isSecondPost ? 5 : 6]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactTitle}
 				navigateBackwards={() => navigation.goBack()}

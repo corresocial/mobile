@@ -2,7 +2,7 @@ import React,
 { useState } from 'react'
 
 import { Container, ContainerInner, LastMessageArea, UserInfo } from './styles'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { LeftLineCard } from '@components/_cards/LeftLineCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
@@ -49,7 +49,7 @@ function ConversationCard({
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
 		>
-			<ContainerInner style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}>
+			<ContainerInner buttonPressed={buttonPressed}>
 				<UserInfo>
 					<SmallUserIdentification
 						pictureDimensions={45}

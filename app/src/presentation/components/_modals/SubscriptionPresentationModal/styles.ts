@@ -1,4 +1,3 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const Body = styled.View`
@@ -31,6 +30,6 @@ interface DescriptionProps {
 export const Description = styled.Text<DescriptionProps>`
 	width: ${({ fullWidth }) => (fullWidth ? '100%' : '48%')};
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(12)}px;
+	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	text-align: center;
 `

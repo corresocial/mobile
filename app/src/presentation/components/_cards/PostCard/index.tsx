@@ -25,7 +25,6 @@ import {
 import ClockArrowWhiteIcon from '@assets/icons/clockArrow-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import VideoCameraIcon from '@assets/icons/video-camera-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -69,10 +68,10 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 
 	const getRelativeColor = (lightColor?: boolean) => {
 		switch (post.postType) {
-			case 'income': return lightColor ? theme.green1 : theme.green3
-			case 'socialImpact': return lightColor ? theme.pink1 : theme.pink3
-			case 'culture': return lightColor ? theme.blue1 : theme.blue3
-			default: return lightColor ? theme.orange1 : theme.orange3
+			case 'income': return lightColor ? theme.colors.green[1] : theme.colors.green[3]
+			case 'socialImpact': return lightColor ? theme.colors.pink[1] : theme.colors.pink[3]
+			case 'culture': return lightColor ? theme.colors.blue[1] : theme.colors.blue[3]
+			default: return lightColor ? theme.colors.orange[1] : theme.colors.orange[3]
 		}
 	}
 
@@ -143,7 +142,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
+				buttonPressed={buttonPressed}
 			>
 				<LeftArea
 					hasMediaOrSaleValue={enableLeftAreaSpacing()}
@@ -157,7 +156,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 							placeholder={blurhash}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
-							transition={200}
+						// transition={200}
 						>
 							{
 								(checkMediaType(getMediaSource()) === 'video' || postCover) && (

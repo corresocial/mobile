@@ -164,7 +164,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<SocialLoginAlertModal
 				visibility={loginAlertModalIsVisible}
 				accountIdentifier={completeCellNumber}
@@ -181,7 +181,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2}
+				backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.orange[2]}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -197,8 +197,8 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 						relativeWidth={'30%'}
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.orange1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.orange[1]}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -213,8 +213,8 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 						relativeWidth={'65%'}
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.orange1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.orange[1]}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}
@@ -231,9 +231,9 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 						? <Loader />
 						: (
 							<PrimaryButton
-								color={theme.green3}
+								color={theme.colors.green[3]}
 								SecondSvgIcon={CheckWhiteIcon}
-								labelColor={theme.white3}
+								labelColor={theme.colors.white[3]}
 								label={'continuar'}
 								highlightedWords={['continuar']}
 								startsHidden

@@ -2,18 +2,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { SocialImpactStackParamList } from './types'
 
-export type SelectSocialImpactTypeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactType'>
-export type SelectSocialImpactPurposeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactPurpose'>
 export type InsertSocialImpactDescriptionScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactDescription'>
+export type SelectSocialImpactPostMediaScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactPostMedia'>
+export type SelectSocialImpactLocationScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactLocation'>
+export type SocialImpactPostReviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactPostReview'>
+
+export type SelectSocialImpactTypeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactType'>
 export type InsertSocialImpactLinksScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactLinks'>
-export type SocialImpactPicturePreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactPicturePreview'>
 export type SelectSocialImpactCategoryScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactCategory'>
 export type SelectSocialImpactTagsScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactTags'>
 export type SelectSocialImpactExhibitionRangeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactExhibitionRange'>
 export type SelectSocialImpactRangeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactRange'>
-export type InsertSocialImpactLocationScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactLocation'>
 export type SelectSocialImpactLocationViewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactLocationView'>
-export type SocialImpactLocationViewPreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactLocationViewPreview'>
 export type SelectSocialImpactFrequencyScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactFrequency'>
 export type SelectSocialImpactDaysOfWeekScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactDaysOfWeek'>
 export type InsertSocialImpactStartDateScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactStartDate'>
@@ -21,4 +21,3 @@ export type InsertSocialImpactEndDateScreenProps = NativeStackScreenProps<Social
 export type InsertSocialImpactStartHourScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactStartHour'>
 export type InsertSocialImpactEndHourScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactEndHour'>
 export type SelectSocialImpactRepeatScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactRepeat'>
-export type EditSocialImpactPostReviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'EditSocialImpactPostReview'>

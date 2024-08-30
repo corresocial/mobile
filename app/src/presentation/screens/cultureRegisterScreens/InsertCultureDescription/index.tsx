@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
-import { CultureContext } from '@contexts/CultureContext'
+import { useCultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { InsertCultureDescriptionScreenProps } from '@routes/Stack/CultureStack/screenProps'
@@ -12,10 +12,16 @@ import { theme } from '@common/theme'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		getAditionalDataFromLastPost()
+	}, [])
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -41,21 +47,18 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 			return
 		}
 
-		setCultureDataOnContext({ description: inputText })
-		navigation.navigate('SelectCultureRange')
+		setCultureDataOnContext({ description: inputText, ...(route.params || {}) })
+		navigation.navigate('SelectCulturePostMedia')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.blue[2]} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.colors.blue[2]}
+				validationColor={theme.colors.blue[1]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureTitle}
 				navigateBackwards={() => navigation.goBack()}

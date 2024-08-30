@@ -179,8 +179,8 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 				HeaderFooter={isAuthor() && (
 					<SmallButton
 						label={'responder abaixo assinado'}
-						labelColor={theme.black4}
-						color={theme.yellow3}
+						labelColor={theme.colors.black[4]}
+						color={theme.colors.yellow[3]}
 						SvgIcon={DocumentPencilWhiteIcon}
 						relativeWidth={'98%'}
 						height={relativeScreenWidth(12)}
@@ -228,7 +228,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 							>
 								<ImageCarousel
 									picturesUrl={petitionData.picturesUrl || []}
-									indicatorColor={theme.purple1}
+									indicatorColor={theme.colors.purple[1]}
 									square
 									showFullscreenIcon
 								/>

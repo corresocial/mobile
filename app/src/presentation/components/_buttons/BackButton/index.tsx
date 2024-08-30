@@ -1,9 +1,8 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
+import { useTheme } from 'styled-components'
 
 import AngleLeftIcon from '@assets/icons/angleLeft-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
-import { theme } from '@common/theme'
+import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
@@ -15,17 +14,19 @@ interface BackButtonProps {
 }
 
 function BackButton({ withoutRightSpacing, onPress }: BackButtonProps) {
+	const theme = useTheme()
+
 	return (
 		<>
 			<SmallButton
 				relativeWidth={relativeScreenWidth(11)}
 				height={relativeScreenWidth(11)}
-				color={theme.white3}
+				color={theme.colors.white[3]}
 				SvgIcon={AngleLeftIcon}
 				onPress={onPress}
 				svgScale={['55%', '55%']}
 			/>
-			<HorizontalSpacing width={withoutRightSpacing ? 0 : RFValue(10)} />
+			<HorizontalSpacing width={withoutRightSpacing ? 0 : relativeScreenDensity(10)} />
 		</>
 	)
 }

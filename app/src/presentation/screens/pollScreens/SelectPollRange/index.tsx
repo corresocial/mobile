@@ -37,10 +37,10 @@ function SelectPollRange({ route, navigation }: SelectPollRangeScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<PostRange
-				backgroundColor={theme.purple2}
-				itemsColor={theme.purple3}
+				backgroundColor={theme.colors.purple[2]}
+				itemsColor={theme.colors.purple[3]}
 				hiddenValues
 				userSubscriptionRange={range || 'near'}
 				navigateBackwards={() => navigation.goBack()}

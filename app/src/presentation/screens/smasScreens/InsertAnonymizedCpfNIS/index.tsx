@@ -96,13 +96,13 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.colors.pink[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(35)}
 				relativeHeight={'55%'}
 				centralized
 				flexDirection={'column'}
-				backgroundColor={theme.pink2}
+				backgroundColor={theme.colors.pink[2]}
 			>
 				<InstructionButtonContainer >
 					<BackButton onPress={navigateBackwards} />
@@ -125,7 +125,7 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white3}
+				backgroundColor={theme.colors.white[3]}
 				justifyContent={'center'}
 			>
 				<InputsContainer>
@@ -134,8 +134,8 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 						relativeWidth={'45%'}
 						textInputRef={inputRefs.firstCpfValuesRef}
 						nextInputRef={inputRefs.lastCpfValuesRef}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.pink1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.pink[1]}
 						maxLength={3}
 						fontSize={22}
 						placeholder={'123'}
@@ -149,8 +149,8 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 						relativeWidth={'45%'}
 						previousInputRef={inputRefs.firstCpfValuesRef}
 						textInputRef={inputRefs.lastCpfValuesRef}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.pink1}
+						defaultBackgroundColor={theme.colors.white[2]}
+						validBackgroundColor={theme.colors.pink[1]}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'45'}
@@ -169,9 +169,9 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 								<PrimaryButton
 									startsHidden
 									keyboardHideButton={false}
-									color={theme.green3}
+									color={theme.colors.green[3]}
 									label={'continuar'}
-									labelColor={theme.white3}
+									labelColor={theme.colors.white[3]}
 									SecondSvgIcon={CheckWhiteIcon}
 									onPress={saveDateOfBirthNIS}
 								/>
