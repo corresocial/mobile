@@ -156,7 +156,7 @@ function PostCard({ post: postData, owner, isOwner, navigateToProfile, onPress }
 							placeholder={blurhash}
 							placeholderContentFit={'contain'}
 							cachePolicy={'memory-disk'}
-							transition={200}
+						// transition={200}
 						>
 							{
 								(checkMediaType(getMediaSource()) === 'video' || postCover) && (

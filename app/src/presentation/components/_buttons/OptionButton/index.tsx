@@ -111,7 +111,7 @@ function OptionButton({
 						{
 							leftSideText && (
 								<LeftSideText leftSideTextColor={leftSideTextColor as string}>
-									{showMessageWithHighlight(leftSideText, ['incluso', '\ngrátis', 'seu', '35,00', '60,00'])}
+									{showMessageWithHighlight(leftSideText, ['incluso', '\ngrátis', 'seu', '35,00', '60,00', 'grátis'])}
 								</LeftSideText>
 							)
 						}

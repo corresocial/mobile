@@ -105,7 +105,7 @@ function PetitionCard({ petitionData, owner, isOwner, navigateToProfile, onPress
 								placeholder={'L1Nb%B%4fQ%4?KfRfQfRfQfQfQfQ'}
 								placeholderContentFit={'contain'}
 								cachePolicy={'memory-disk'}
-								transition={200}
+							// transition={200}
 							>
 								<ButtonContainer>
 									<SmallButton

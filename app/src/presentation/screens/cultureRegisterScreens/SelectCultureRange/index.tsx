@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost } = useCultureContext()
+	const { isSecondPost, setCultureDataOnContext } = useCultureContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -38,11 +38,14 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			return navigation.goBack()
 		}
+
+		setCultureDataOnContext({ range: postRange })
+		navigation.navigate('SelectCultureLocation', { locationView: 'approximate' })
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+	const { betweenRange } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
 
 	return (
 		<>
@@ -57,7 +60,8 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			<PostRange
 				backgroundColor={theme.colors.blue[2]}
 				itemsColor={theme.colors.blue[3]}
-				userSubscriptionRange={range || 'near'}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				freePlans={betweenRange}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

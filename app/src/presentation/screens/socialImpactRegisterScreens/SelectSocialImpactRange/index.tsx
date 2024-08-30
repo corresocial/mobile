@@ -19,7 +19,7 @@ import { PostRange } from '@components/_onboarding/PostRange'
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost } = useSocialImpactContext()
+	const { isSecondPost, setSocialImpactDataOnContext } = useSocialImpactContext()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -38,11 +38,14 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			return navigation.goBack()
 		}
+
+		setSocialImpactDataOnContext({ range: postRange })
+		navigation.navigate('SelectSocialImpactLocation', { locationView: 'approximate' })
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
-	const { range } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
+	const { betweenRange } = checkFreeTrialRange(userDataContext.subscription?.subscriptionRange)
 
 	return (
 		<>
@@ -57,8 +60,9 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			<PostRange
 				backgroundColor={theme.colors.pink[2]}
 				itemsColor={theme.colors.pink[3]}
-				userSubscriptionRange={range || 'city'}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'city'}
 				cityPlanIsFree
+				freePlans={betweenRange}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

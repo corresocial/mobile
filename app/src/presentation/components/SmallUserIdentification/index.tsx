@@ -80,7 +80,7 @@ function SmallUserIdentification({
 						placeholder={UserShadow}
 						placeholderContentFit={'contain'}
 						cachePolicy={'memory-disk'}
-						transition={200}
+					// transition={200}
 					/>
 				</UserPictureAreaInner>
 			</UserPictureArea>

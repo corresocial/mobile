@@ -25,7 +25,7 @@ function SelectIncomePostMedia({ route, navigation }: SelectIncomePostMediaScree
 		}
 
 		setIncomeDataOnContext({ picturesUrl, videosUrl })
-		navigation.navigate('SelectIncomeLocation', { locationView: 'approximate' })
+		navigation.navigate('SelectIncomeRange')
 	}
 
 	return (
