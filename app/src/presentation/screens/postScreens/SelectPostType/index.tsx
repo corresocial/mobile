@@ -24,7 +24,7 @@ import { LargeCard } from '@components/_cards/LargeCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { ScreenContainer } from '@newComponents/ScreenContainer'
 
 const { localStorage } = usePostRepository()
 
@@ -69,9 +69,8 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const cardDimensions = { relativeWidth: 28, relativeHeight: 110 }
 
 	return (
-		<>
+		<ScreenContainer topSafeAreaColor={theme.colors.orange[3]}>
 			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 				<SubscriptionPresentationModal
 					visibility={subscriptionModalIsVisible}
 					profilePictureUri={profilePictureUrl}
@@ -81,6 +80,8 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<SubtitleCard
 					text={'O que você quer postar?'}
 					highlightedText={['postar?']}
+					backgroundColor={theme.colors.orange[3]}
+					fontSize={theme.fontSizes[7]}
 					SvgIcon={DescriptionWhiteIcon}
 				/>
 				<CardsContainer>
@@ -184,7 +185,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					<VerticalSpacing />
 				</SubscriptionButtonContainer>
 			</Container >
-		</>
+		</ScreenContainer>
 	)
 }
 
