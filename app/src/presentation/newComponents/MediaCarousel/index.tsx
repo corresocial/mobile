@@ -58,7 +58,7 @@ function MediaCarousel({
 				pictureUri={url}
 				maxWidth={relativeWidth}
 				resizeMode={'cover'}
-				videoIndicator={url.includes('videosThumbnails')}
+				videoIndicator={(videosThumbnails || []).includes(url)}
 			/>
 		</View>
 	))

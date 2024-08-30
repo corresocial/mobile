@@ -54,8 +54,8 @@ export const MediaContainer = styled.View<MediaContainerProps>`
 
 export const VideoIconContainer = styled.View`
 	position: absolute;
-	bottom: ${relativeScreenDensity(5)}px;
-	right: ${relativeScreenDensity(5)}px;
+	top: ${relativeScreenDensity(10)}px;
+	left: ${relativeScreenDensity(10)}px;
 	justify-content: center;
 	align-items: center;
 	z-index: 10;
