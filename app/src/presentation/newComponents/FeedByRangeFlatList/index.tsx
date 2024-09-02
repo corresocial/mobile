@@ -195,7 +195,7 @@ function FeedByRangeFlatList({
 			case 'divider': return renderDivider(item)
 			default: return <></>
 		}
-	}, [posts, firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
+	}, [filteredFeedPosts])
 
 	return (
 		<FlashListContainer>
