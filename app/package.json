@@ -1,6 +1,6 @@
 {
 	"name": "corre",
-	"version": "0.10.0",
+	"version": "0.10.2",
 	"scripts": {
 		"start": "expo start",
 		"expo": "npx expo start --go",
