@@ -408,7 +408,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									/>
 								)
 								: (
-									(getPostField('macroCategory', 'culture') === 'event') ? (
+									(getPostField('macroCategory', 'culture') === 'event') && !isAuthor ? (
 										<StandardButton
 											text={isAuthor ? 'compartilhar'
 												: postData.presenceList?.includes(userDataContext.userId)

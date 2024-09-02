@@ -97,7 +97,7 @@ function FeedByRangeFlatList({
 		}
 		return (
 			<PostCardContainer key={item.postRange}>
-				<VerticalSpacing />
+				{item.postRange !== 'near' && <VerticalSpacing />}
 				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
 			</PostCardContainer>
 		)
@@ -116,11 +116,11 @@ function FeedByRangeFlatList({
 
 		const filteredItems = collapseExternalVacancies ? formattedPosts.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate!)))) : formattedPosts
 
-		const vacancyPost = formattedPosts.find((item) => item.macroCategory === 'vacancy')
+		const vacancyPost = formattedPosts.find((item) => item.macroCategory === 'vacancy' && item.externalPostId)
 		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
 			filteredItems.splice(1, 0, {
 				...vacancyPost,
-				action: () => navigate('PostCategories', {
+				action: () => navigate('ViewPostsByMacroCategory', {
 					postType: 'income', macroCategory: 'vacancy'
 				}),
 				description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias',
@@ -195,7 +195,7 @@ function FeedByRangeFlatList({
 			case 'divider': return renderDivider(item)
 			default: return <></>
 		}
-	}, [filteredFeedPosts])
+	}, [filteredFeedPosts, videosMuted, firstVisibleItem])
 
 	return (
 		<FlashListContainer>
@@ -203,7 +203,6 @@ function FeedByRangeFlatList({
 				data={posts}
 				renderItem={renderPostItem as any}
 				contentContainerStyle={{ backgroundColor: backgroundColor }}
-				// estimatedItemSize={111}
 				showsVerticalScrollIndicator={false}
 				refreshControl={onRefresh && (
 					<RefreshControl

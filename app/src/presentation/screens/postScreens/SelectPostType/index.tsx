@@ -9,7 +9,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
-import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { CardsContainer, CardsContent, Container, SubscriptionButtonContainer } from './styles'
@@ -67,8 +66,6 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	}
 
 	const adSubscriptionHandle = () => {
-		const userRange = checkFreeTrialRange('city')
-		if (userRange.betweenRange) return
 		setSubscriptionModalIsVisible(true)
 	}
 

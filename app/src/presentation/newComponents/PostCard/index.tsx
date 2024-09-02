@@ -254,7 +254,7 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 								<InfoTitle>{getRelativePostTypeLabel(post.macroCategory)}</InfoTitle>
 							</InfoContainer>
 							{
-								(post.saleValue || post.exchangeValue) && (
+								(post.saleValue || post.exchangeValue) && (post.macroCategory === 'service' || post.macroCategory === 'sale') && (
 									<>
 										<InfoContainer>
 											<SaleExchangeValue
