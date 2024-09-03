@@ -58,7 +58,11 @@ export class CreateCitizenRegister implements UseCase<Input, Output> {
 			...coordinatorIdentification,
 			censusTakerId: citizenRegisterData.censusTakerId ? citizenRegisterData.censusTakerId : this.currentUser.userId || '',
 			censusTakerName: citizenRegisterData.censusTakerName ? citizenRegisterData.censusTakerName : this.currentUser.name || '',
-			createdAt: new Date(citizenRegisterData.createdAt || new Date())
+			createdAt: new Date(citizenRegisterData.createdAt || new Date()),
+			incomeStatus: {
+				status: 'uncontacted',
+				suggestedOpportunityIds: []
+			}
 		} as CitizenRegisterEntity
 
 		const { data } = new CitizenRegister(newCitizenRegister, true)
