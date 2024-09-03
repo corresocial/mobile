@@ -8,10 +8,11 @@ import { OptionButton } from '../OptionButton'
 
 interface SubscriptionButtonProps {
 	customTitle?: string
+	customDescription?: string
 	onPress: () => void
 }
 
-function SubscriptionButton({ customTitle = '', onPress }: SubscriptionButtonProps) {
+function SubscriptionButton({ customTitle = '', customDescription = '', onPress }: SubscriptionButtonProps) {
 	const theme = useTheme()
 
 	return (
@@ -21,7 +22,7 @@ function SubscriptionButton({ customTitle = '', onPress }: SubscriptionButtonPro
 			highlightedWords={[...(customTitle).split(' '), 'apoie', 'o', 'corre', 'PROMOÇÃO']}
 			labelSize={17}
 			relativeHeight={relativeScreenHeight(12)}
-			shortDescription={'com uma assinatura mensal você alcança muito mais clientes e ajuda cidadãos do nosso país'}
+			shortDescription={customDescription || 'com uma assinatura mensal você alcança muito mais clientes e ajuda cidadãos do nosso país'}
 			SvgIcon={LogoOutlinedWhiteIcon}
 			svgIconScale={['65%', '65%']}
 			leftSideColor={theme.colors.orange[3]}

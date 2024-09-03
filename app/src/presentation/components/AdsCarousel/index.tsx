@@ -28,6 +28,9 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 		navigation.navigate('Post')
 	}
 
+	const promotionTitle = 'PROMOÇÃO'
+	const promotionText = 'aproveite 3 meses gratuitos de nosso aplicativo para alcançar a cidade ou o país todo com suas postagens!'
+
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
@@ -41,12 +44,18 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 					userRange.betweenRange
 						? (
 							<SubscriptionAdContainer>
-								<SubscriptionButton onPress={navigateToPostScreen} />
+								<SubscriptionButton
+									customTitle={promotionTitle}
+									customDescription={promotionText}
+									onPress={navigateToPostScreen}
+								/>
 							</SubscriptionAdContainer>
 						)
 						: (
 							<SubscriptionAdContainer>
-								<SubscriptionButton onPress={() => onPressCorreAd && onPressCorreAd()} />
+								<SubscriptionButton
+									onPress={() => onPressCorreAd && onPressCorreAd()}
+								/>
 							</SubscriptionAdContainer>
 						)
 				}
