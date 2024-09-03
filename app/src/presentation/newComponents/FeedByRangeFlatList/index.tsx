@@ -158,7 +158,7 @@ function FeedByRangeFlatList({
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						isVisible={firstVisibleItem?.postId === item.postId && homeTabIsFocused}
+						isVisible={(firstVisibleItem?.postId === item.postId) && homeTabIsFocused}
 						videoMuted={videosMuted}
 						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onAudioButtonPressed={audioToggle}
@@ -196,7 +196,7 @@ function FeedByRangeFlatList({
 			case 'divider': return renderDivider(item)
 			default: return <></>
 		}
-	}, [filteredFeedPosts, videosMuted, firstVisibleItem])
+	}, [filteredFeedPosts, videosMuted, firstVisibleItem, homeTabIsFocused])
 
 	return (
 		<FlashListContainer>
