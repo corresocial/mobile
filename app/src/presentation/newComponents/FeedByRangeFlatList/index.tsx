@@ -1,5 +1,5 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -10,6 +10,7 @@ import { useAuthContext } from '@contexts/AuthContext'
 
 import { PostRangeDivider } from './types'
 import { IconName } from '@assets/icons/iconMap/types'
+import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 
 import { isRecentPost } from '@utils-ui/post/validation'
 
@@ -61,6 +62,14 @@ function FeedByRangeFlatList({
 			setFirstVisibleItems(viewableItems[0].item)
 		}
 	}).current
+
+	const flatListRef = useRef<FlatList>(null)
+	const navigation = useNavigation<HomeScreenProps['navigation']>()
+	useEffect(() => {
+		navigation.getParent()?.setParams({
+			scrollToTop: () => flatListRef.current?.scrollToOffset({ animated: true, offset: 0 })
+		})
+	}, [navigation])
 
 	const hasNearbyPosts = () => {
 		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
@@ -201,6 +210,7 @@ function FeedByRangeFlatList({
 	return (
 		<FlashListContainer>
 			<FlatList
+				ref={flatListRef}
 				data={posts}
 				renderItem={renderPostItem as any}
 				contentContainerStyle={{ backgroundColor: backgroundColor }}

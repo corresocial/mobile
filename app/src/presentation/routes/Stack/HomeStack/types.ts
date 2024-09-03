@@ -6,7 +6,7 @@ import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 export type HomeStackParamList = {
-	Home: { userId?: string }
+	Home: { userId?: string, scrollToTop?(): void }
 	ViewPostsByRange: { postsByRange: PostEntity[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean, collapseExternalVacancies?: boolean }
 	ViewPostsByPostType: { postType: PostType }
 	ViewPostsByMacroCategory: undefined | { postType: PostType, macroCategory: MacroCategoriesType }

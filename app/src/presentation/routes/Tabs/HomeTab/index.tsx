@@ -28,6 +28,7 @@ import { Post } from '@screens/postScreens/Post'
 import { ChatStack } from '../../Stack/ChatStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { ProfileStack } from '../../Stack/ProfileStack'
+import { HomeStackTabScreenProps } from './screenProps'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -226,9 +227,14 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 			<Tab.Screen
 				name={'HomeStack'}
 				component={HomeStack}
-				options={{
-					tabBarIcon: ({ focused }) => renderHomeIcon(focused),
-				}}
+				options={{ tabBarIcon: ({ focused }) => renderHomeIcon(focused) }}
+				listeners={(nav: HomeStackTabScreenProps) => ({
+					tabPress: (e) => {
+						const scrollToTop = nav.route.params?.scrollToTop
+						const navRoute = route.name
+						if (scrollToTop && navRoute === 'HomeTab' && nav.navigation.isFocused()) scrollToTop()
+					}
+				})}
 			/>
 			<Tab.Screen
 				name={'Post'}
