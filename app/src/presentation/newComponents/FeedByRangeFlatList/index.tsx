@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 
@@ -52,6 +52,7 @@ function FeedByRangeFlatList({
 
 	const { userDataContext } = useAuthContext()
 	const { navigate } = useNavigation<any>()
+	const homeTabIsFocused = useIsFocused()
 
 	const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 100 }).current
 
@@ -157,7 +158,7 @@ function FeedByRangeFlatList({
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						isVisible={firstVisibleItem?.postId === item.postId}
+						isVisible={firstVisibleItem?.postId === item.postId && homeTabIsFocused}
 						videoMuted={videosMuted}
 						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onAudioButtonPressed={audioToggle}

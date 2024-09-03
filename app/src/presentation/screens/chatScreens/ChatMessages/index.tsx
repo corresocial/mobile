@@ -109,7 +109,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	useEffect(() => {
 		setTimeout(() => {
 			setFirstRender(false)
-		}, 1000)
+		}, 500)
 	}, [])
 
 	const loadChatMessages = async () => {
@@ -270,12 +270,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
 			return
 		}
-		// console.log(numberOfMessages, currentNumberOfMessages)
+
 		if (numberOfMessages < currentNumberOfMessages) {
 			setNumberOfMessages(getFilteredMessages().length)
 			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
 		}
-	}, 500)
+	}, 1000)
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -344,6 +344,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				initialScrollIndex={messages && getFilteredMessages().length - 1}
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
+				onScrollToIndexFailed={() => console.log('Error when scroll')}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<>
 						<MessageCard

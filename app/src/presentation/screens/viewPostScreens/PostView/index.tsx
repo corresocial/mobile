@@ -413,7 +413,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 											text={isAuthor ? 'compartilhar'
 												: postData.presenceList?.includes(userDataContext.userId)
 													? 'não vou mais' : 'eu vou!'}
-											backgroundColor={postData.presenceList && postData.presenceList.length ? theme.colors.red[3] : theme.colors.green[3]}
+											backgroundColor={postData.presenceList && postData.presenceList.length && postData.presenceList?.includes(userDataContext.userId) ? theme.colors.red[3] : theme.colors.green[3]}
 											icon={isAuthor ? 'share' : 'personWalking'}
 											iconWidth={35}
 											textTheme={'light'}
