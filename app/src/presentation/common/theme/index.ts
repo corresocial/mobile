@@ -70,11 +70,11 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 		pink: (opacity?: number) => `rgba(232, 48, 110, ${opacity ? opacity / 100 : '0.7'})`,
 	},
 
-	fonts: {
-		arvoRegular: 'Arvo_400Regular',
-		arvoBold: 'Arvo_700Bold',
-		nunitoSemiBold: 'Nunito_600SemiBold',
-		nunitoBold: 'Nunito_700Bold'
+	fonts: { // CURRENT
+		arvoRegular: 'System',
+		arvoBold: 'System',
+		nunitoSemiBold: 'System',
+		nunitoBold: 'System'
 	},
 
 	fontSizes: {

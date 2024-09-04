@@ -4,7 +4,6 @@ import { ScrollView, StatusBar } from 'react-native'
 
 import { mergeArraysByKey } from '@newutils/methods/mergeArraysByKey'
 import { useUtils } from '@newutils/useUtils'
-import * as Sentry from 'sentry-expo'
 
 import { Id } from '@domain/post/entity/types'
 import { CompleteUser, PrivateUserEntity, SocialMedia, UserEntity } from '@domain/user/entity/types'
@@ -128,7 +127,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			await updateUser()
 			setIsLoading(false)
 		} catch (err) {
-			Sentry.Native.captureException(err)
 			console.log(err)
 			setIsLoading(false)
 			setHasUpdateError(true)

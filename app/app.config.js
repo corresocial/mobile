@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-default-export */
 export default {
 	expo: {
@@ -15,16 +16,31 @@ export default {
 			backgroundColor: '#FA9938',
 			statusBarStyle: 'dark'
 		},
-		hooks: {
-			postPublish: [{
-				file: 'sentry-expo/upload-sourcemaps',
-				config: {
-					organization: 'corre-dev',
-					project: 'react-native'
-				}
-			}]
-		},
+		// hooks: {
+		// 	postPublish: [{
+		// 		file: 'sentry-expo/upload-sourcemaps',
+		// 		config: {
+		// 			organization: 'corre-dev',
+		// 			project: 'react-native'
+		// 		}
+		// 	}]
+		// },
 		plugins: [
+			// [
+			// 	'expo-font',
+			// 	{
+			// 		fonts: [
+			// 			'node_modules/@expo-google-fonts/arvo/Arvo_700Bold.ttf',
+			// 			'node_modules/@expo-google-fonts/arvo/Arvo_400Regular.ttf',
+			// 			'node_modules/@expo-google-fonts/nunito/Nunito_700Bold.ttf',
+			// 			'node_modules/@expo-google-fonts/nunito/Nunito_600SemiBold.ttf',
+			// 			'src/presentation/assets/fonts/Arvo_700Bold.ttf',
+			// 			'src/presentation/assets/fonts/Arvo_400Regular.ttf',
+			// 			'src/presentation/assets/fonts/Nunito_700Bold.ttf',
+			// 			'src/presentation/assets/fonts/Nunito_600SemiBold.ttf'
+			// 		]
+			// 	}
+			// ],
 			'react-native-compressor',
 			'expo-av', [
 				'expo-updates',
@@ -32,16 +48,28 @@ export default {
 					username: 'wellington-souza-abreu'
 				}
 			],
+			'@react-native-firebase/app',
+			'@react-native-firebase/auth',
+			'@react-native-firebase/crashlytics',
+			// '@react-native-firebase/database',
+			// '@react-native-firebase/firestore',
+			// '@react-native-firebase/analytics',
+			// '@react-native-firebase/storage',
 			[
 				'expo-build-properties',
 				{
 					ios: {
-						useFrameworks: 'static'
+						useFrameworks: 'static',
+						use_modular_headers: true,
+						autolinking: true,
+						deploymentTarget: '13.4'
+						// newArchEnabled: true
+						// privacyManifestAggregationEnabled: true
 					},
 					android: {
 						compileSdkVersion: 34,
 						targetSdkVersion: 34,
-						buildToolsVersion: '31.0.0',
+						buildToolsVersion: '34.0.0',
 						enableProguardInReleaseBuilds: true,
 						extraProguardRules: '-keep public class com.horcrux.svg.** {*;}',
 						usesCleartextTraffic: true
@@ -76,9 +104,9 @@ export default {
 					color: '#FA9938'
 				}
 			],
-			'./plugins/react-native-maps-plugin.js',
-			'./plugins/android-material-plugins.js',
-			'sentry-expo',
+			// './plugins/react-native-maps-plugin.js', // Habilitar ou remover
+			// './plugins/android-material-plugins.js',
+			// 'sentry-expo',
 			'expo-localization', [
 				'@stripe/stripe-react-native',
 				{
@@ -96,7 +124,7 @@ export default {
 		],
 		ios: {
 			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
-			buildNumber: '69',
+			buildNumber: '70',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -107,7 +135,8 @@ export default {
 				]
 			},
 			supportsTablet: true,
-			googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,
+			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,
+			googleServicesFile: './google-services-info.plist',
 			splash: {
 				image: './assets/splash-screen.png',
 				resizeMode: 'contain',
@@ -118,9 +147,9 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 69,
+			versionCode: 70,
 			package: 'com.corresocial.corresocial',
-			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+			googleServicesFile: './google-services.json',
 			icon: './assets/icon.png',
 			adaptiveIcon: {
 				foregroundImage: './assets/adaptive-icon-foreground.png',

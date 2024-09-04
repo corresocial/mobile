@@ -1,6 +1,7 @@
 node_modules/
 .env
 google-services.json
+google-services*
 GoogleService-Info.plist
 **/cred-dev.json
 **/cred-prod.json
