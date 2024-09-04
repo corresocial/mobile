@@ -1,9 +1,8 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
-
-import { UserCredential } from 'firebase/auth'
 
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
@@ -148,7 +147,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				if (!tokenGoogle) return await promptAsyncGoogle()
 
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const linkedUser: UserCredential['user'] = await linkAuthProvider(googleCredential)
+				const linkedUser: FirebaseAuthTypes.User = await linkAuthProvider(googleCredential)
 
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 

@@ -1,16 +1,22 @@
-import { AuthCredential, getAuth, linkWithCredential } from 'firebase/auth'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-async function linkAuthProvider(credential: AuthCredential) {
-	const auth = getAuth()
-	return linkWithCredential(auth.currentUser as any, credential)
-		.then((usercred) => {
-			const { user } = usercred
-			console.log('Account linking success')
-			return user
-		}).catch((error) => {
-			console.log(error)
-			throw new Error(error.code)
-		})
+import { firebaseAuth } from '@infrastructure/firebase'
+
+async function linkAuthProvider(credential: FirebaseAuthTypes.AuthCredential) {
+	try {
+		const currentUser = firebaseAuth?.currentUser
+		if (!currentUser) {
+			throw new Error('No current user')
+		}
+
+		const usercred = await currentUser.linkWithCredential(credential)
+		const { user } = usercred
+		console.log('Account linking success')
+		return user
+	} catch (error: any) {
+		console.log(error)
+		throw Error(error.code ? error.code : error)
+	}
 }
 
 export { linkAuthProvider }

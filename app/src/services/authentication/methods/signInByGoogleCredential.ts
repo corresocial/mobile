@@ -1,11 +1,15 @@
-import { OAuthCredential, signInWithCredential } from 'firebase/auth'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-import { auth } from '@infrastructure/firebase/index'
+import { firebaseAuth } from '@infrastructure/firebase'
 
-async function signInByGoogleCredential(googleCredential: OAuthCredential) {
+async function signInByGoogleCredential(googleCredential: FirebaseAuthTypes.AuthCredential) {
 	try {
-		const userCredential = await signInWithCredential(auth, googleCredential)
-		return { email: userCredential.user.email || '', userId: userCredential.user.uid || '' }
+		const userCredential = await firebaseAuth.signInWithCredential(googleCredential)
+		const user = userCredential?.user
+		return {
+			email: user?.email || '',
+			userId: user?.uid || ''
+		}
 	} catch (err) {
 		console.log(err)
 		return { email: '', userId: '' }

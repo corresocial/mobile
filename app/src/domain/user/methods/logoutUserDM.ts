@@ -3,7 +3,7 @@ import { ChatDomainInterface } from '@domain/chat/ChatDomainInterface'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { auth } from '@infrastructure/firebase' // REFACTOR
+import { firebaseAuth } from '@infrastructure/firebase' // REFACTOR
 
 async function logoutUserDM(
 	useUserRepository: () => UserRepositoryInterface,
@@ -21,7 +21,7 @@ async function logoutUserDM(
 		await localPostsStorage.clearOfflinePosts()
 		await updateUserTokenNotification(userId, '')
 		removeChatListeners()
-		await auth.signOut()
+		await firebaseAuth.signOut()
 	} catch (error: any) {
 		console.log(error)
 		// throw new Error(error)

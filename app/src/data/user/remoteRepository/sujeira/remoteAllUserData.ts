@@ -1,20 +1,17 @@
-import { deleteUser } from 'firebase/auth'
-
 import { Id } from '@domain/globalTypes'
 import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { deletePost } from '@data/post/remoteStorage/deletePost' // from data/post
 import { deletePostMedias } from '@data/post/remoteStorage/deletePostMedias' // from data/post
 
-import { auth } from '@infrastructure/firebase/index'
+import { firebaseAuth } from '@infrastructure/firebase'
 
 import { deleteUserData } from '../deleteUserData'
 import { deleteUserProfilePicture } from '../deleteUserProfilePicture'
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostEntityOptional[] = []) => {
 	// REFACTOR Deve virar um domain method
-
-	const user = auth.currentUser // REFACTOR Requer Autenticação(services) e Posts(data) estruturados
+	const user = firebaseAuth.currentUser // REFACTOR Requer Autenticação(services) e Posts(data) estruturados
 
 	posts.map(async (post) => {
 		await deletePost(post.postId as Id, userId)
@@ -24,7 +21,7 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 
 	await deleteUserProfilePicture(userPictureUrl)
 	await deleteUserData(userId)
-	await deleteUser(user as any)
+	await user?.delete()
 
 	return true
 }

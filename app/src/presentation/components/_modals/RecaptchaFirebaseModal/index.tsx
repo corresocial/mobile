@@ -36,6 +36,7 @@ interface State {
 	reject?: (error: Error) => void;
 }
 
+// CURRENT Remover
 class CustomRecaptchaModal
 	extends React.Component<Props, State>
 	implements FirebaseAuthApplicationVerifier {

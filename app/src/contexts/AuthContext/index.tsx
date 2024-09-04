@@ -16,7 +16,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContextType, AuthProviderProps } from './types'
 import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
-import { auth } from '@infrastructure/firebase'
+import { firebaseAuth } from '@infrastructure/firebase'
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -66,7 +66,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	useEffect(() => {
 		console.log('[auth]: Sessão inciada!')
-		const unsubscribe = auth.onAuthStateChanged(async (user) => {
+		const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
 			console.log(user ? '[auth]: Usuário logado!' : '[auth]: Usuário não logado!')
 			const hasValidLocalUser = await localStorage.hasValidLocalUser()
 			if (user && hasValidLocalUser) return
@@ -81,9 +81,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 		try {
 			const authenticatedUser = requireAuth
 				? await handleMethodWithDeviceAuthentication(async () => {
-					return setRemoteUserOnLocal(userId || auth.currentUser?.uid, true)
+					return setRemoteUserOnLocal(userId || firebaseAuth.currentUser?.uid, true)
 				})
-				: setRemoteUserOnLocal(userId || auth.currentUser?.uid, true)
+				: setRemoteUserOnLocal(userId || firebaseAuth.currentUser?.uid, true)
 
 			sendEvent('user_authed', { authType: 'login' }, true)
 

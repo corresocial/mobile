@@ -7,7 +7,6 @@ import { useAuthContext } from '@contexts/AuthContext'
 
 import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import Firebase from '@infrastructure/firebase/index'
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
@@ -22,15 +21,12 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
-import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
 
 const { requestPhoneVerificationCode } = useUserDomain()
 
 const { checkUserPhoneAlreadyRegistredCloud } = useCloudFunctionService()
-
-const firebaseConfig = Firebase ? Firebase.options : undefined
 
 const headerMessages = {
 	instruction: {
@@ -67,7 +63,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const recaptchaVerifier = React.useRef(null)
 	const inputRefs = {
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
@@ -146,7 +141,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
-		const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
+		const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber)
 
 		setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
 		setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
@@ -184,11 +179,11 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				closeModal={toggleLoginAlertModalVisibility}
 				onPressButton={requestCellNumberVerificationCode}
 			/>
-			<CustomRecaptchaModal
+			{/* <CustomRecaptchaModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
 				languageCode={'pt-BR'}
-			/>
+			/> */}
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

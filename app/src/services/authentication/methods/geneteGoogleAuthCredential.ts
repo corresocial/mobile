@@ -1,7 +1,7 @@
-import { GoogleAuthProvider } from 'firebase/auth'
+import { authProviders } from '@infrastructure/firebase'
 
 function generateGoogleAuthCredential(accessTokenId: string) {
-	return GoogleAuthProvider.credential(null, accessTokenId)
+	return authProviders.GoogleAuthProvider.credential(null, accessTokenId)
 }
 
 export { generateGoogleAuthCredential }
