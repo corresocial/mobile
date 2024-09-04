@@ -1,17 +1,15 @@
-import { doc, getDoc } from 'firebase/firestore'
-
 import { UserEntity } from '@domain/user/entity/types'
 
 import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
-async function getUserData(userId: string) { // BEFORE getUser
+async function getUserData(userId: string) {
 	try {
-		const userRef = doc(firestore, USER_COLLECTION, userId)
-		const userSnap = await getDoc(userRef)
+		const userRef = firebaseFirestore.collection(USER_COLLECTION).doc(userId)
 
-		if (userSnap.exists()) {
+		const userSnap = await userRef.get()
+		if (userSnap.exists) {
 			return { ...userSnap.data() as UserEntity, userId: userSnap.id }
 		}
 
