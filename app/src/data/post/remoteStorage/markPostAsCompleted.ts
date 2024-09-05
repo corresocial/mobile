@@ -1,6 +1,6 @@
 import { PostEntityOptional } from '@domain/post/entity/types'
 
-import { updatePostData } from './updatePostData' // from data/post
+import { updatePostData } from './updatePostData'
 
 const markPostAsComplete = async (postId: string, postData: PostEntityOptional, state: boolean) => {
 	try {

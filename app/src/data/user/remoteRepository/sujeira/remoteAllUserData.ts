@@ -14,7 +14,7 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 	const user = firebaseAuth.currentUser // REFACTOR Requer Autenticação(services) e Posts(data) estruturados
 
 	posts.map(async (post) => {
-		await deletePost(post.postId as Id, userId)
+		await deletePost(post.postId as Id)
 		await deletePostMedias(post.picturesUrl || [], 'pictures')
 		return true
 	})

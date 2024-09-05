@@ -47,7 +47,6 @@ const headerMessages = {
 	}
 }
 
-// REFACTOR Verificar se é viável transformar em componente depois de remover mensagens de erro on screen
 export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
 	const { setUserRegisterDataOnContext, setUserAuthDataOnContext } = useAuthContext()
 
@@ -179,11 +178,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				closeModal={toggleLoginAlertModalVisibility}
 				onPressButton={requestCellNumberVerificationCode}
 			/>
-			{/* <CustomRecaptchaModal
-				ref={recaptchaVerifier}
-				firebaseConfig={firebaseConfig}
-				languageCode={'pt-BR'}
-			/> */}
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

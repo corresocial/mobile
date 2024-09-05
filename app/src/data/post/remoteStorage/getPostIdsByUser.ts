@@ -1,18 +1,15 @@
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
-
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 export async function getPostIdsByUser(userId: string) {
 	try {
-		const collectionRef = collection(firestore, POST_COLLECTION)
-		const postsByUserQuery = query(
-			collectionRef,
-			where('owner.userId', '==', userId),
-			orderBy('createdAt', 'desc'),
-		)
-		const postsSnap = await getDocs(postsByUserQuery)
+		const postsByUserQuery = firebaseFirestore
+			.collection(POST_COLLECTION)
+			.where('owner.userId', '==', userId)
+			.orderBy('createdAt', 'desc')
+
+		const postsSnap = await postsByUserQuery.get()
 		return postsSnap.docs.map((doc) => doc.id)
 	} catch (error) {
 		console.log(error)

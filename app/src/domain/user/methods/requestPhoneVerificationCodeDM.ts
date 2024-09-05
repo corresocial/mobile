@@ -2,7 +2,6 @@ import { AuthenticationServiceInterface } from '@services/authentication/Authent
 
 async function requestPhoneVerificationCodeDM(useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string) {
 	const { getPhoneVerificationCodeId } = useAuthenticationService()
-
 	return getPhoneVerificationCodeId(completeNumber)
 }
 

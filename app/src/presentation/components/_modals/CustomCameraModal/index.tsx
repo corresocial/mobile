@@ -33,17 +33,19 @@ interface CustomCameraModalProps {
 	setPictureUri: (uri: string) => void;
 }
 
+// CURRENT Códigos comentados sãos importantes
+
 function CustomCameraModal({
 	cameraOpened,
 	onClose,
 	setPictureUri,
 }: CustomCameraModalProps) {
 	const [isLoading, setIsLoading] = useState(true)
-	const [cameraType, setCameraType] = useState(CameraType.back)
-	const [flashMode, setFlashMode] = useState(FlashMode.off)
+	// const [cameraType, setCameraType] = useState(CameraType.back)
+	// const [flashMode, setFlashMode] = useState(FlashMode.off)
 	const [cameraHasPermission, setCameraHasPermission] = useState(false)
 	const [mediaLibrayHasPermission, setMediaLibraryHasPermission] = useState(false)
-	const cameraRef = useRef<Camera>(null)
+	// const cameraRef = useRef<Camera>(null)
 
 	useEffect(() => {
 		getMediaLibraryPermissions()
@@ -68,27 +70,27 @@ function CustomCameraModal({
 		setMediaLibraryHasPermission(status === 'granted')
 	}
 
-	const toggleFlashMode = () => {
-		setFlashMode(
-			flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch
-		)
-	}
+	// const toggleFlashMode = () => {
+	// 	setFlashMode(
+	// 		flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch
+	// 	)
+	// }
 
-	const toggleCameraType = () => {
-		setCameraType(
-			cameraType === CameraType.back ? CameraType.front : CameraType.back
-		)
-	}
+	// const toggleCameraType = () => {
+	// 	setCameraType(
+	// 		cameraType === CameraType.back ? CameraType.front : CameraType.back
+	// 	)
+	// }
 
-	const takePicture = async () => {
-		if (cameraRef.current !== null) {
-			const { uri: imageUri } = await cameraRef.current.takePictureAsync()
-			const compressedUri = await compressImage(imageUri)
+	// const takePicture = async () => {
+	// 	if (cameraRef.current !== null) {
+	// 		const { uri: imageUri } = await cameraRef.current.takePictureAsync()
+	// 		const compressedUri = await compressImage(imageUri)
 
-			setPictureUri(compressedUri)
-			onClose()
-		}
-	}
+	// 		setPictureUri(compressedUri)
+	// 		onClose()
+	// 	}
+	// }
 
 	return (
 		<Modal visible={cameraOpened} onRequestClose={onClose}>
@@ -124,7 +126,7 @@ function CustomCameraModal({
 				</NotPermissionContainer>
 			) : (
 				<Container>
-					<CameraContainer>
+					{/* <CameraContainer>
 						<Camera
 							ref={cameraRef}
 							style={{ flex: 1 }}
@@ -157,7 +159,7 @@ function CustomCameraModal({
 								<XButtonOutlined height={'100%'} width={'100%'} />
 							</ContainerIcon>
 						</Footer>
-					</View>
+					</View> */}
 				</Container >
 			)}
 		</Modal >

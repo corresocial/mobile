@@ -206,9 +206,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const removeUserPost = async (postData: PostEntity) => {
-		try {
+		try { // REFACTOR domain
 			if (!postData) return
-			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+			await remoteStorage.deletePost(postData.postId)
 			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
 			const postsWithoutDeletedPost = userPostsContext.filter((post) => post.postId !== postData.postId)
 			setUserPosts(postsWithoutDeletedPost)

@@ -1,8 +1,6 @@
-import { deleteObject, getMetadata, ref } from 'firebase/storage'
+import { firebaseStorage } from '@infrastructure/firebase/index'
 
-import { StorageFolder } from '@data/user/remoteRepository/uploadUserMedia'
-
-import { storage } from '@infrastructure/firebase/index'
+import { StorageFolder } from './uploadPostMedias'
 
 async function deletePostMedias(postMedias: string[], storagePath: StorageFolder) {
 	try {
@@ -11,15 +9,15 @@ async function deletePostMedias(postMedias: string[], storagePath: StorageFolder
 			const endIndex = mediaUrl.indexOf('?alt')
 			const mediaPath = `${storagePath}/posts/${mediaUrl.substring(startIndex, endIndex)}`
 
-			const mediaStorageRef = ref(storage, mediaPath)
-			const fileExists = await getMetadata(mediaStorageRef)
+			const mediaStorageRef = firebaseStorage.ref(mediaPath)
+			const fileExists = await mediaStorageRef.getMetadata()
 
 			if (!fileExists) {
-				console.log(`File not found: ${mediaPath}`)
+				console.log(`Arquivo não encontrado: ${mediaPath}`)
 				return true
 			}
 
-			await deleteObject(mediaStorageRef)
+			await mediaStorageRef.delete()
 		})
 
 		return true
