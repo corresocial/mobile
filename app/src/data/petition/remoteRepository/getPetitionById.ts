@@ -1,16 +1,14 @@
-import { doc, getDoc } from 'firebase/firestore'
-
 import { PetitionEntity } from '@domain/petition/entity/types'
 
 import { PETITION_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function getPetitionDataById(petitionId: string) {
-	const postRef = doc(firestore, PETITION_COLLECTION, petitionId)
-	const postSnap = await getDoc(postRef)
+	const postRef = firebaseFirestore.collection(PETITION_COLLECTION).doc(petitionId)
+	const postSnap = await postRef.get()
 
-	if (postSnap.exists()) {
+	if (postSnap.exists) {
 		return { ...postSnap.data(), petitionId } as PetitionEntity
 	}
 }

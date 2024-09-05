@@ -1,19 +1,16 @@
-import { doc, setDoc } from 'firebase/firestore'
-
 import { PollEntityOptional } from '@domain/poll/entity/types'
 
 import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
-type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number }
+type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number };
 
 async function updatePoll(pollId: string, data: PollEntityOptional) {
 	const createdAt = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {}
-	const docRef = doc(firestore, POLL_COLLECTION, pollId)
+	const docRef = firebaseFirestore.collection(POLL_COLLECTION).doc(pollId)
 
-	await setDoc(
-		docRef,
+	await docRef.set(
 		{ ...data, updatedAt: new Date(), ...createdAt },
 		{ merge: true }
 	)
