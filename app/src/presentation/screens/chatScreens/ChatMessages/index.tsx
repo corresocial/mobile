@@ -2,7 +2,6 @@ import React, { RefObject, useContext, useEffect, useRef, useState } from 'react
 import { FlatList, Keyboard, Platform } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
-import _ from 'lodash'
 
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
@@ -44,6 +43,8 @@ const { convertTextToNumber } = UiUtils()
 
 const { sendImpactReport } = useImpactReportDomain()
 
+// Essas coisas não são domain
+
 const {
 	existsOnDatabase,
 	getRemoteChatDataByUser,
@@ -59,7 +60,7 @@ const {
 	hasBlockedUserOnConversation,
 } = useChatDomain()
 
-// https://www.youtube.com/watch?v=fpAlf1vPCE4
+// https://www.youtube.com/watch?v=fpAlf1vPCE4 // REFACTOR
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { chatDataContext } = useContext(ChatContext)
@@ -256,7 +257,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [numberOfMessages, setNumberOfMessages] = useState(0)
 
-	const scrollToEnd = _.throttle((animated: boolean, height?: number) => {
+	const scrollToEnd = (animated: boolean, height?: number) => {
 		const currentNumberOfMessages = getFilteredMessages().length
 
 		if (currentNumberOfMessages <= 0) return
@@ -275,7 +276,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			setNumberOfMessages(getFilteredMessages().length)
 			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
 		}
-	}, 1000)
+	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

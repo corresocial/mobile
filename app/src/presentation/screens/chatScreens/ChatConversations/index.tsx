@@ -289,7 +289,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 													showsVerticalScrollIndicator={false}
 													ItemSeparatorComponent={() => <VerticalSpacing />}
 													ListHeaderComponent={<VerticalSpacing />}
-													ListFooterComponent={<VerticalSpacing height={10} />}
+													ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 												/>
 											</>
 										) : <></>
