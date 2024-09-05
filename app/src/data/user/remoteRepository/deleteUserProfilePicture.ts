@@ -1,24 +1,24 @@
-import { deleteObject, getMetadata, ref } from 'firebase/storage'
-
-import { storage } from '@infrastructure/firebase/index'
+import { firebaseStorage } from '@infrastructure/firebase'
 
 async function deleteUserProfilePicture(profilePictures: string[]) {
-	try {
-		profilePictures.map(async (pictureUrl: string) => {
-			const startIndex = pictureUrl.indexOf('users%2F') + 8 // REFACTOR Tratativas muito instáveis
+	try { // REFACTOR Melhorar busca de assets name
+		await Promise.all(profilePictures.map(async (pictureUrl: string) => {
+			const startIndex = pictureUrl.indexOf('users%2F') + 8
 			const endIndex = pictureUrl.indexOf('?alt')
 			const picturePath = `pictures/users/${pictureUrl.substring(startIndex, endIndex)}`
 
-			const pictureStorageRef = ref(storage, picturePath)
-			const fileExists = await getMetadata(pictureStorageRef)
-
-			if (!fileExists) {
-				console.log(`File not found: ${picturePath}`)
-				return true
+			try {
+				const pictureStorageRef = firebaseStorage.ref(picturePath)
+				await pictureStorageRef.getMetadata()
+				await pictureStorageRef.delete()
+			} catch (error: any) {
+				if (error?.code === 'storage/object-not-found') {
+					console.log(`File not found: ${pictureUrl}`)
+					return
+				}
+				throw error
 			}
-
-			await deleteObject(pictureStorageRef)
-		})
+		}))
 
 		return true
 	} catch (error) {

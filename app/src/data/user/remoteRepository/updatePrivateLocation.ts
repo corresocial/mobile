@@ -1,19 +1,18 @@
-import { doc, updateDoc, setDoc } from 'firebase/firestore'
+import { doc, updateDoc, setDoc } from '@react-native-firebase/firestore'
 
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase'
 
 async function updatePrivateLocation(userId: string, data: PrivateUserEntity['location']) {
 	try {
+		const docRef = doc(firebaseFirestore, USER_COLLECTION, userId, 'private', 'location')
 		try {
-			const docRef = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
 			await updateDoc(docRef, { ...data })
 		} catch (error) {
-			const collectionRef = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
-			await setDoc(collectionRef, { ...data })
+			await setDoc(docRef, { ...data })
 		}
 
 		return true

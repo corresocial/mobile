@@ -1,22 +1,20 @@
-import { doc, setDoc } from 'firebase/firestore'
-
 import { UserEntityOptional } from '@domain/user/entity/types'
 
 import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function updateUserData(userId: string, data: UserEntityOptional, merge = true) {
 	try {
-		const docRef = doc(firestore, USER_COLLECTION, userId)
+		const docRef = firebaseFirestore.collection(USER_COLLECTION).doc(userId)
 
-		const success = await setDoc(
-			docRef,
+		const options = merge ? { merge: true } : {}
+		const success = await docRef.set(
 			{ ...data, updatedAt: new Date() },
-			{ merge: merge },
+			options
 		)
 			.then(() => true)
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err)
 				return false
 			})

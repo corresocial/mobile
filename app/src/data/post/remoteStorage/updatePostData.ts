@@ -11,9 +11,10 @@ async function updatePostData(postId: string, data: PostEntityOptional, merge = 
 		const createdAtPost = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {}
 		const docRef = firebaseFirestore.collection(POST_COLLECTION).doc(postId)
 
+		const options = merge ? { merge: true } : {}
 		await docRef.set(
 			{ ...data, updatedAt: new Date(), ...createdAtPost },
-			{ merge: merge }
+			options
 		)
 
 		return true
