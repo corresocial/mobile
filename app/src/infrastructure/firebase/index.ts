@@ -17,38 +17,39 @@ import database from '@react-native-firebase/database'
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
 
-// import { getEnvVars } from '@infrastructure/environment'
+import { getEnvVars } from '@infrastructure/environment'
 
-// const {
-// 	FIREBASE_apiKey,
-// 	FIREBASE_authDomain,
-// 	FIREBASE_databaseURL,
-// 	FIREBASE_smas_databaseURL,
-// 	FIREBASE_projectId,
-// 	FIREBASE_storageBucket,
-// 	FIREBASE_messagingSenderId,
-// 	FIREBASE_appId,
-// 	FIREBASE_measurementId,
-// } = getEnvVars()
+const {
+	FIREBASE_apiKey,
+	FIREBASE_authDomain,
+	FIREBASE_databaseURL,
+	FIREBASE_smas_databaseURL,
+	FIREBASE_projectId,
+	FIREBASE_storageBucket,
+	FIREBASE_messagingSenderId,
+	FIREBASE_appId,
+	FIREBASE_measurementId,
+} = getEnvVars()
 
-// const firebaseConfig = {
-// 	apiKey: FIREBASE_apiKey,
-// 	authDomain: FIREBASE_authDomain,
-// 	projectId: FIREBASE_projectId,
-// 	storageBucket: FIREBASE_storageBucket,
-// 	messagingSenderId: FIREBASE_messagingSenderId,
-// 	appId: FIREBASE_appId,
-// 	measurementId: FIREBASE_measurementId,
-// 	databaseURL: FIREBASE_databaseURL,
-// 	smasDatabaseURL: FIREBASE_smas_databaseURL
-// }
+const firebaseConfig = {
+	apiKey: FIREBASE_apiKey,
+	authDomain: FIREBASE_authDomain,
+	projectId: FIREBASE_projectId,
+	storageBucket: FIREBASE_storageBucket,
+	messagingSenderId: FIREBASE_messagingSenderId,
+	appId: FIREBASE_appId,
+	measurementId: FIREBASE_measurementId,
+	databaseURL: FIREBASE_databaseURL,
+	smasDatabaseURL: FIREBASE_smas_databaseURL
+}
 
 firebase.setReactNativeAsyncStorage(AsyncStorage)
 
 export const firebaseAuth = auth()
 export const firebaseFirestore = firestore()
 export const firebaseStorage = storage()
-export const firebaseRealTimeDatabase = database()
+export const firebaseDatabase = database()
+export const firebaseSmasDatabase = firebase.app().database(FIREBASE_smas_databaseURL)
 
 export const authProviders = {
 	PhoneAuthProvider: auth.PhoneAuthProvider,

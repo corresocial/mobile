@@ -1,15 +1,12 @@
-import { get, ref } from 'firebase/database'
+import { get } from '@react-native-firebase/database'
 
-import { smasRealTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseSmasDatabase } from '@infrastructure/firebase/index'
 
 async function getNotificationTokenByNis(nis: string) {
 	try {
-		const realTimeDatabaseRef = ref(smasRealTimeDatabase, `${nis}`)
-
-		const token: string = await get(realTimeDatabaseRef)
-			.then((snapshot) => snapshot.val())
-			.catch(() => '')
-
+		const realTimeDatabaseRef = firebaseSmasDatabase.ref(`${nis}`)
+		const snapshot = await get(realTimeDatabaseRef)
+		const token: string = snapshot.val() || ''
 		return token
 	} catch (error) {
 		console.log(error)

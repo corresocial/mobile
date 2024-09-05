@@ -1,12 +1,10 @@
-import { push, ref } from 'firebase/database'
-
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
 async function addNewUserChatId(userId: Id, chatId: Id) {
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}/chatIds`)
-	await push(realTimeDatabaseRef, chatId)
+	const realTimeDatabaseRef = firebaseDatabase.ref(`${userId}/chatIds`)
+	realTimeDatabaseRef.push(chatId)
 }
 
 export { addNewUserChatId }

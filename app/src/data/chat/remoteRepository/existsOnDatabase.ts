@@ -1,18 +1,17 @@
-import { get, ref } from 'firebase/database'
-
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function existsOnDatabase(nodeId?: Id) {
+async function existsOnDatabase(nodeId?: Id): Promise<boolean> {
 	if (!nodeId) return false
-
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${nodeId}`)
-
-	const exists: boolean = await get(realTimeDatabaseRef)
-		.then((snapshot: any) => snapshot.exists())
-
-	return exists
+	try {
+		const realTimeDatabaseRef = firebaseDatabase.ref(`${nodeId}`)
+		const snapshot = await realTimeDatabaseRef.once('value')
+		return snapshot.exists()
+	} catch (error) {
+		console.error('Erro ao verificar existência no banco de dados:', error)
+		return false
+	}
 }
 
 export { existsOnDatabase }

@@ -10,4 +10,6 @@ function DateFnsAdapter(): DateFnsAdapterInterface {
 	}
 }
 
+// CURRENT Remover essa dependência
+
 export { DateFnsAdapter }

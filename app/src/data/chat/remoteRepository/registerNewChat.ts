@@ -1,13 +1,10 @@
-import { ref, set } from 'firebase/database'
-
 import { Chat } from '@domain/chat/entity/types'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
 async function registerNewChat(chatData: Chat) {
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${chatData.chatId}`)
-
-	return set(realTimeDatabaseRef, chatData)
+	const realTimeDatabaseRef = firebaseDatabase.ref(`${chatData.chatId}`)
+	await realTimeDatabaseRef.set(chatData)
 }
 
 export { registerNewChat }
