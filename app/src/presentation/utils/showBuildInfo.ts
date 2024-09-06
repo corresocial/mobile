@@ -12,9 +12,10 @@ export async function showBuildInfo() {
 	const appVersion = Constants.deviceName
 	const platformVersion = Platform.Version
 	const deviceOsVersion = Device.osVersion
-	const { nativeBuildVersion,
+	const {
+		nativeBuildVersion,
 		nativeApplicationVersion,
-		androidId,
+		getAndroidId,
 		applicationId,
 		applicationName,
 		getLastUpdateTimeAsync,
@@ -31,7 +32,7 @@ export async function showBuildInfo() {
 	__DEV__: ${__DEV__}
 
 	lastUpdateTime: ${lastUpdateTime}
-	androidId: ${androidId}
+	androidId: ${getAndroidId()}
 	applicationId: ${applicationId}
 	applicationName: ${applicationName}
 	platformApiLevel: ${platformApiLevel}
