@@ -37,7 +37,7 @@ sendEvent('opened_app', {}, true)
 
 function App() {
 	// CURRENT
-	// const [fontsLoaded] = useFonts(appFonts)
+	const [fontsLoaded] = useFonts(appFonts)
 
 	const routeNameRef = React.useRef<string>()
 	const navigationRef = React.useRef<any>()

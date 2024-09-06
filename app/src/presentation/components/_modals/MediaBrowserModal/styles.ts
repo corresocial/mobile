@@ -7,7 +7,7 @@ export const MediaBrowserModalContainer = styled.Modal`
 `
 
 interface MediaBrowserHeaderProps {
-    isIos: boolean
+	isIos: boolean
 }
 
 export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
@@ -26,7 +26,7 @@ export const HeaderTextContent = styled.View`
 	justify-content: space-between;
 `
 interface HeaderTextContentProps {
-    flex?: number
+	flex?: number
 }
 
 export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
@@ -48,14 +48,12 @@ export const AlbumContainer = styled.View`
     flex-direction: row;
     justify-content: center;
     background-color: black;
-    padding: ${relativeScreenWidth(0.5)}px;
 `
 
 export const MediaFlatListContainer = styled.View`
     flex: 1;
     justify-content: center;
     background-color: black;
-    padding: ${relativeScreenWidth(0.5)}px;
 `
 
 export const MediaFlatList = styled.FlatList`
@@ -79,7 +77,7 @@ export const NotPermissionText = styled.Text`
 `
 
 interface IndicatorContainerProps {
-    isLoadingMore: boolean
+	isLoadingMore: boolean
 }
 
 export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`

@@ -69,7 +69,7 @@ function CustomCameraModal({
 	}
 
 	const toggleFlashMode = () => {
-		setFlashMode(flashMode === 'on' ? 'off' : 'on')
+		setFlashMode(flashMode === 'off' ? 'on' : 'off')
 	}
 
 	const toggleCameraType = () => {
