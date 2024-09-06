@@ -17,31 +17,18 @@ export default {
 			backgroundColor: '#FFAA33',
 			statusBarStyle: 'dark'
 		},
-		// hooks: {
-		// 	postPublish: [{
-		// 		file: 'sentry-expo/upload-sourcemaps',
-		// 		config: {
-		// 			organization: 'corre-dev',
-		// 			project: 'react-native'
-		// 		}
-		// 	}]
-		// },
 		plugins: [
-			// [
-			// 	'expo-font',
-			// 	{
-			// 		fonts: [
-			// 			'node_modules/@expo-google-fonts/arvo/Arvo_700Bold.ttf',
-			// 			'node_modules/@expo-google-fonts/arvo/Arvo_400Regular.ttf',
-			// 			'node_modules/@expo-google-fonts/nunito/Nunito_700Bold.ttf',
-			// 			'node_modules/@expo-google-fonts/nunito/Nunito_600SemiBold.ttf',
-			// 			'src/presentation/assets/fonts/Arvo_700Bold.ttf',
-			// 			'src/presentation/assets/fonts/Arvo_400Regular.ttf',
-			// 			'src/presentation/assets/fonts/Nunito_700Bold.ttf',
-			// 			'src/presentation/assets/fonts/Nunito_600SemiBold.ttf'
-			// 		]
-			// 	}
-			// ],
+			[
+				'expo-font',
+				{
+					fonts: [
+						'./src/presentation/assets/fonts/Arvo_700Bold.ttf',
+						'./src/presentation/assets/fonts/Arvo_400Regular.ttf',
+						'./src/presentation/assets/fonts/Nunito_700Bold.ttf',
+						'./src/presentation/assets/fonts/Nunito_600SemiBold.ttf'
+					]
+				}
+			],
 			[
 				'@sentry/react-native/expo',
 				{
@@ -113,8 +100,6 @@ export default {
 					color: '#FFAA33'
 				}
 			],
-			// './plugins/react-native-maps-plugin.js', // Habilitar ou remover
-			// './plugins/android-material-plugins.js',
 			'expo-localization', [
 				'@stripe/stripe-react-native',
 				{
