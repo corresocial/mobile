@@ -62,9 +62,9 @@ export default {
 						useFrameworks: 'static',
 						use_modular_headers: true,
 						autolinking: true,
-						deploymentTarget: '13.4'
+						deploymentTarget: '13.4',
+						privacyManifestAggregationEnabled: true
 						// newArchEnabled: true
-						// privacyManifestAggregationEnabled: true
 					},
 					android: {
 						compileSdkVersion: 34,
