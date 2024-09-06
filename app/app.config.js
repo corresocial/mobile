@@ -47,10 +47,6 @@ export default {
 			'@react-native-firebase/app',
 			'@react-native-firebase/auth',
 			'@react-native-firebase/crashlytics',
-			// '@react-native-firebase/database',
-			// '@react-native-firebase/firestore',
-			// '@react-native-firebase/analytics',
-			// '@react-native-firebase/storage',
 			[
 				'expo-build-properties',
 				{
@@ -128,7 +124,7 @@ export default {
 				]
 			},
 			supportsTablet: true,
-			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,// CURRENT uncomend
+			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,// CURRENT uncoment
 			googleServicesFile: './google-services-info.plist',
 			splash: {
 				image: './assets/splash-screen.png',
