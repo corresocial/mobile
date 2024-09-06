@@ -7,7 +7,7 @@ export default {
 		owner: 'corresocial',
 		scheme: ['com.corresocial.corresocial', 'corre'], // Scheme abstrato que é usado para as duas plataformas
 		slug: 'corresocial',
-		version: '0.10.2',
+		version: '0.11.0',
 		orientation: 'portrait',
 		userInterfaceStyle: 'light',
 		icon: './assets/icon.png',
@@ -27,6 +27,12 @@ export default {
 						'./src/presentation/assets/fonts/Nunito_700Bold.ttf',
 						'./src/presentation/assets/fonts/Nunito_600SemiBold.ttf'
 					]
+				}
+			],
+			[
+				'expo-location',
+				{
+					locationAlwaysAndWhenInUsePermission: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.'
 				}
 			],
 			[
@@ -121,11 +127,12 @@ export default {
 				NSFaceIDUsageDescription: 'Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.',
 				CFBundleURLTypes: [
 					{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial', 'corre'] }
+					// { CFBundleURLSchemes: ['com.corresocial.corresocial', 'corre'] }
 				]
 			},
 			supportsTablet: true,
-			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,// CURRENT uncoment
-			googleServicesFile: './google-services-info.plist',
+			googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST, // CURRENT uncoment
+			// googleServicesFile: './google-services-info.plist',
 			splash: {
 				image: './assets/splash-screen.png',
 				resizeMode: 'contain',
@@ -138,8 +145,8 @@ export default {
 		android: {
 			versionCode: 70,
 			package: 'com.corresocial.corresocial',
-			googleServicesFile: './google-services.json', // CURRENT uncomend
-			// googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+			// googleServicesFile: './google-services.json', // CURRENT uncomend
+			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
 			adaptiveIcon: {
 				foregroundImage: './assets/adaptive-icon-foreground.png',
