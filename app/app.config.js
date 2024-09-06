@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-default-export */
+
 export default {
 	expo: {
 		name: 'corre',
@@ -41,6 +42,14 @@ export default {
 			// 		]
 			// 	}
 			// ],
+			[
+				'@sentry/react-native/expo',
+				{
+					organization: 'corre-dev',
+					project: 'react-native',
+					url: 'https://sentry.io/'
+				}
+			],
 			'react-native-compressor',
 			'expo-av', [
 				'expo-updates',
@@ -106,7 +115,6 @@ export default {
 			],
 			// './plugins/react-native-maps-plugin.js', // Habilitar ou remover
 			// './plugins/android-material-plugins.js',
-			// 'sentry-expo',
 			'expo-localization', [
 				'@stripe/stripe-react-native',
 				{

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-undef */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
@@ -10,11 +8,17 @@ import { ThemeProvider } from 'styled-components'
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'
+import * as Sentry from '@sentry/react-native'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
+
+import { startSentry } from '@infrastructure/sentry'
+import { errorBoundaryHandler } from '@utils/errorBoundaryHandler'
+
+import { ErrorBoundaryFallback } from '@screens/ErrorBoundaryFallback'
 
 import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
@@ -24,16 +28,7 @@ import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterS
 
 LogBox.ignoreLogs(ignoredLogs)
 
-// CURRENT
-// const startSentry = () => {
-// 	console.log(`Dev Mode: ${__DEV__}`)
-// 	if (!__DEV__ && ENVIRONMENT !== 'dev') {
-// 		Sentry.init(sentryConfig)
-// 	}
-// }
-
-// startSentry()
-
+startSentry()
 sendEvent('opened_app', {}, true)
 
 function App() {
@@ -81,41 +76,45 @@ function App() {
 	})
 
 	return (
-		<NavigationContainer
-			ref={navigationRef}
-			linking={linking}
-			onReady={() => {
-				routeNameRef.current = navigationRef.current.getCurrentRoute().name
-			}}
-			onStateChange={() => {
-				const previousRouteName = routeNameRef.current
-				const currentRouteName = navigationRef.current.getCurrentRoute().name
-				if (previousRouteName !== currentRouteName) {
-					sendEvent('user_opened_screen', { screenName: currentRouteName })
-				}
-				routeNameRef.current = currentRouteName
-			}}
+		<Sentry.ErrorBoundary
+			fallback={ErrorBoundaryFallback}
+			onError={errorBoundaryHandler}
 		>
-			<ThemeProvider theme={theme}>
-				<GestureHandlerRootView style={{ flex: 1 }}>
-					<BottomSheetModalProvider>
-						<AlertProvider>
-							<LoaderProvider>
-								<PersistQueryClientProvider
-									client={queryClient}
-									persistOptions={{ persister: asyncStoragePersister }}
-								>
-									<AuthRegisterStack />
-								</PersistQueryClientProvider>
-							</LoaderProvider>
-						</AlertProvider>
-					</BottomSheetModalProvider>
-				</GestureHandlerRootView>
-			</ThemeProvider>
-		</NavigationContainer >
+			<NavigationContainer
+				ref={navigationRef}
+				linking={linking}
+				onReady={() => {
+					routeNameRef.current = navigationRef.current.getCurrentRoute().name
+				}}
+				onStateChange={() => {
+					const previousRouteName = routeNameRef.current
+					const currentRouteName = navigationRef.current.getCurrentRoute().name
+					if (previousRouteName !== currentRouteName) {
+						sendEvent('user_opened_screen', { screenName: currentRouteName })
+					}
+					routeNameRef.current = currentRouteName
+				}}
+			>
+				<ThemeProvider theme={theme}>
+					<GestureHandlerRootView style={{ flex: 1 }}>
+						<BottomSheetModalProvider>
+							<AlertProvider>
+								<LoaderProvider>
+									<PersistQueryClientProvider
+										client={queryClient}
+										persistOptions={{ persister: asyncStoragePersister }}
+									>
+										<AuthRegisterStack />
+									</PersistQueryClientProvider>
+								</LoaderProvider>
+							</AlertProvider>
+						</BottomSheetModalProvider>
+					</GestureHandlerRootView>
+				</ThemeProvider>
+			</NavigationContainer >
+		</Sentry.ErrorBoundary>
 	)
 }
 
 // eslint-disable-next-line import/no-default-export
-export default App
-// export default Sentry.Native.wrap(App)
+export default Sentry.wrap(App)

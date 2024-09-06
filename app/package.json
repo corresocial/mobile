@@ -124,7 +124,6 @@
 		"react-uuid": "^2.0.0",
 		"stripe": "^12.9.0",
 		"styled-components": "^5.3.5",
-		"undefined": "@sentry/react-native/expo",
 		"uri-scheme": "^1.2.0"
 	},
 	"devDependencies": {
