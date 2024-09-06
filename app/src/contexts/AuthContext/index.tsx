@@ -68,6 +68,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		console.log('[auth]: Sessão inciada!')
 		const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
 			console.log(user ? '[auth]: Usuário logado!' : '[auth]: Usuário não logado!')
+			console.log(hasValidLocalUser)
 			const hasValidLocalUser = await localStorage.hasValidLocalUser()
 			if (user && hasValidLocalUser) return
 			if (!user) return navigateToAuthScreen()

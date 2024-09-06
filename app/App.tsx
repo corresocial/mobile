@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { createURL } from 'expo-linking'
-import * as SplashScreen from 'expo-splash-screen'
 import React from 'react'
 import { ActivityIndicator, LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -35,8 +34,6 @@ LogBox.ignoreLogs(ignoredLogs)
 
 startSentry()
 sendEvent('opened_app', {}, true)
-
-SplashScreen.preventAutoHideAsync()
 
 function App() {
 	// CURRENT
