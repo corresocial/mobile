@@ -36,6 +36,7 @@
 		"@react-native-firebase/database": "^20.4.0",
 		"@react-native-firebase/firestore": "^20.4.0",
 		"@react-native-firebase/storage": "^20.4.0",
+		"@react-native-google-signin/google-signin": "^13.0.1",
 		"@react-native/babel-preset": "^0.75.2",
 		"@react-native/js-polyfills": "^0.75.2",
 		"@react-native/metro-babel-transformer": "^0.75.2",

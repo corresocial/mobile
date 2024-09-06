@@ -1,3 +1,4 @@
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React from 'react'
@@ -32,40 +33,18 @@ const { generateGoogleAuthCredential, signInByGoogleCredential } = useAuthentica
 const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
-const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const { setUserRegisterDataOnContext, performQuickSignin } = useAuthContext()
 
 	const newUser = route.params?.newUser
 
-	const keys = {
-		clientId: AUTH_CLIENT_ID,
-		expoClientId: AUTH_EXPO_CLIENT_ID,
-		androidClientId: AUTH_ANDROID_CLIENT_ID,
-		iosClientId: AUTH_IOS_CLIENT_ID
-	}
-
 	const [isLoading, setIsLoading] = React.useState(false)
 	const [hasError, setHasError] = React.useState(false)
 
 	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
-	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
 	// eslint-disable-next-line no-unused-vars
-	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
-
-	React.useEffect(() => {
-		if (response?.type === 'success') {
-			const { authentication } = response
-			setTokenGoogle(authentication?.accessToken)
-		}
-
-		if (tokenGoogle) {
-			performSigninWithGoogle()
-		}
-	}, [response, tokenGoogle])
-
 	const navigateBackwards = () => navigation.goBack()
 
 	const performSigninWithCellNumber = async () => {
@@ -74,36 +53,45 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const performSigninWithGoogle = async () => {
 		try {
+			const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
+
+			const support = await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+			console.log('support google play', support)
+
+			GoogleSignin.configure({
+				webClientId: AUTH_IOS_CLIENT_ID,
+				iosClientId: AUTH_IOS_CLIENT_ID,
+				// googleServicePlistPath: AUTH_ANDROID_CLIENT_ID
+			})
+			const { data } = await GoogleSignin.signIn()
+			console.log(data)
+
 			setIsLoading(true)
 			setHasError(false)
-			if (tokenGoogle) {
-				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const { userId, email } = await signInByGoogleCredential(googleCredential)
+			const googleCredential = generateGoogleAuthCredential(data?.idToken!)
+			const { userId, email } = await signInByGoogleCredential(googleCredential)
 
-				if (userId && email) {
-					setAuthenticatedUser({ userId, email })
-					const userAlreadyExists = await remoteStorage.userExists(userId)
+			if (userId && email) {
+				setAuthenticatedUser({ userId, email })
+				const userAlreadyExists = await remoteStorage.userExists(userId)
 
-					if (!newUser && !userAlreadyExists) {
-						console.log('Usuário não está cadastrado, quer cadastrar?')
-						toggleSocialLoginAlertModalVisibility()
-						return
-					}
-
-					if (newUser && userAlreadyExists) {
-						console.log('Usuário já está cadastrado, quer logar?')
-						toggleSocialLoginAlertModalVisibility()
-						return
-					}
-
-					if (newUser) {
-						return navigateToCreateNewAccount({ userId, email })
-					}
-
-					await performLoginOnApp({ userId })
+				if (!newUser && !userAlreadyExists) {
+					console.log('Usuário não está cadastrado, quer cadastrar?')
+					toggleSocialLoginAlertModalVisibility()
+					return
 				}
-			} else {
-				await promptAsyncGoogle()
+
+				if (newUser && userAlreadyExists) {
+					console.log('Usuário já está cadastrado, quer logar?')
+					toggleSocialLoginAlertModalVisibility()
+					return
+				}
+
+				if (newUser) {
+					return navigateToCreateNewAccount({ userId, email })
+				}
+
+				await performLoginOnApp({ userId })
 			}
 		} catch (error) {
 			console.log(error)

@@ -2,7 +2,7 @@ import { firebaseAuth } from '@infrastructure/firebase'
 
 async function getPhoneVerificationCodeId(completeNumber: string) {
 	try {
-		const confirmation = await firebaseAuth.signInWithPhoneNumber(completeNumber)
+		const confirmation = await firebaseAuth.signInWithPhoneNumber(completeNumber, true)
 		return confirmation.verificationId
 	} catch (err: any) {
 		console.log(err.code)

@@ -35,7 +35,7 @@ const firebaseConfig = {
 	databaseURL: FIREBASE_databaseURL,
 }
 
-firebase.initializeApp(firebaseConfig)
+// firebase.initializeApp(firebaseConfig)
 
 firebase.setReactNativeAsyncStorage(AsyncStorage)
 
