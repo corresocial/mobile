@@ -131,8 +131,8 @@ export default {
 				]
 			},
 			supportsTablet: true,
-			googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST, // CURRENT uncoment
-			// googleServicesFile: './google-services-info.plist',
+			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST, // CURRENT uncoment
+			googleServicesFile: './google-services-info.plist',
 			splash: {
 				image: './assets/splash-screen.png',
 				resizeMode: 'contain',
@@ -145,8 +145,8 @@ export default {
 		android: {
 			versionCode: 70,
 			package: 'com.corresocial.corresocial',
-			// googleServicesFile: './google-services.json', // CURRENT uncomend
-			googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+			googleServicesFile: './google-services.json', // CURRENT uncomend
+			// googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
 			adaptiveIcon: {
 				foregroundImage: './assets/adaptive-icon-foreground.png',
