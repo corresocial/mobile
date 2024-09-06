@@ -44,7 +44,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
-	// eslint-disable-next-line no-unused-vars
+
 	const navigateBackwards = () => navigation.goBack()
 
 	const performSigninWithCellNumber = async () => {

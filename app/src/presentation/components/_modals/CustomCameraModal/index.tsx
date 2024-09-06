@@ -1,4 +1,4 @@
-import { Camera, CameraType, FlashMode } from 'expo-camera'
+import { Camera, CameraView, CameraType, FlashMode } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState, useRef } from 'react'
 import { ActivityIndicator, Modal, StatusBar, View } from 'react-native'
@@ -33,19 +33,17 @@ interface CustomCameraModalProps {
 	setPictureUri: (uri: string) => void;
 }
 
-// CURRENT Códigos comentados sãos importantes
-
 function CustomCameraModal({
 	cameraOpened,
 	onClose,
 	setPictureUri,
 }: CustomCameraModalProps) {
 	const [isLoading, setIsLoading] = useState(true)
-	// const [cameraType, setCameraType] = useState(CameraType.back)
-	// const [flashMode, setFlashMode] = useState(FlashMode.off)
+	const [cameraFacing, setCameraFacing] = useState<CameraType>('back')
+	const [flashMode, setFlashMode] = useState<FlashMode>('off')
 	const [cameraHasPermission, setCameraHasPermission] = useState(false)
 	const [mediaLibrayHasPermission, setMediaLibraryHasPermission] = useState(false)
-	// const cameraRef = useRef<Camera>(null)
+	const cameraRef = useRef<CameraView>(null)
 
 	useEffect(() => {
 		getMediaLibraryPermissions()
@@ -70,27 +68,27 @@ function CustomCameraModal({
 		setMediaLibraryHasPermission(status === 'granted')
 	}
 
-	// const toggleFlashMode = () => {
-	// 	setFlashMode(
-	// 		flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch
-	// 	)
-	// }
+	const toggleFlashMode = () => {
+		setFlashMode(flashMode === 'on' ? 'off' : 'on')
+	}
 
-	// const toggleCameraType = () => {
-	// 	setCameraType(
-	// 		cameraType === CameraType.back ? CameraType.front : CameraType.back
-	// 	)
-	// }
+	const toggleCameraType = () => {
+		setCameraFacing(
+			cameraFacing === 'back' ? 'front' : 'back'
+		)
+	}
 
-	// const takePicture = async () => {
-	// 	if (cameraRef.current !== null) {
-	// 		const { uri: imageUri } = await cameraRef.current.takePictureAsync()
-	// 		const compressedUri = await compressImage(imageUri)
+	const takePicture = async () => {
+		if (cameraRef.current !== null) {
+			const asset = await cameraRef.current.takePictureAsync()
 
-	// 		setPictureUri(compressedUri)
-	// 		onClose()
-	// 	}
-	// }
+			if (!asset) return
+			const compressedUri = await compressImage(asset?.uri)
+
+			setPictureUri(compressedUri)
+			onClose()
+		}
+	}
 
 	return (
 		<Modal visible={cameraOpened} onRequestClose={onClose}>
@@ -126,12 +124,12 @@ function CustomCameraModal({
 				</NotPermissionContainer>
 			) : (
 				<Container>
-					{/* <CameraContainer>
-						<Camera
+					<CameraContainer>
+						<CameraView
 							ref={cameraRef}
 							style={{ flex: 1 }}
-							type={cameraType}
-							flashMode={flashMode}
+							facing={cameraFacing}
+							flash={flashMode}
 							ratio={'1:1'}
 							onMountError={(err) => console.log(err)}
 						/>
@@ -141,7 +139,7 @@ function CustomCameraModal({
 							<CameraControlsContainer>
 								<ContainerIcon onPress={toggleFlashMode}>
 									{
-										flashMode === FlashMode.torch
+										flashMode === 'on'
 											? <CameraFlashOnOutlined height={'100%'} width={'100%'} />
 											: <CameraFlashOutlined height={'100%'} width={'100%'} />
 									}
@@ -159,7 +157,7 @@ function CustomCameraModal({
 								<XButtonOutlined height={'100%'} width={'100%'} />
 							</ContainerIcon>
 						</Footer>
-					</View> */}
+					</View>
 				</Container >
 			)}
 		</Modal >
