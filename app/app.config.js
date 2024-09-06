@@ -13,7 +13,7 @@ export default {
 		splash: {
 			image: './assets/splash-screen.png',
 			resizeMode: 'contain',
-			backgroundColor: '#FA9938',
+			backgroundColor: '#FFAA33',
 			statusBarStyle: 'dark'
 		},
 		// hooks: {
@@ -101,7 +101,7 @@ export default {
 				'expo-notifications',
 				{
 					icon: './assets/notification-icon.png',
-					color: '#FA9938'
+					color: '#FFAA33'
 				}
 			],
 			// './plugins/react-native-maps-plugin.js', // Habilitar ou remover
@@ -135,12 +135,12 @@ export default {
 				]
 			},
 			supportsTablet: true,
-			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,
+			// googleServicesFile: process.env.GOOGLE_SERVICES_INFO_PLIST,// CURRENT uncomend
 			googleServicesFile: './google-services-info.plist',
 			splash: {
 				image: './assets/splash-screen.png',
 				resizeMode: 'contain',
-				backgroundColor: '#FA9938'
+				backgroundColor: '#FFAA33'
 			},
 			config: {
 				googleMapsApiKey: process.env.MAPS_API_IOS
@@ -149,11 +149,12 @@ export default {
 		android: {
 			versionCode: 70,
 			package: 'com.corresocial.corresocial',
-			googleServicesFile: './google-services.json',
+			googleServicesFile: './google-services.json', // CURRENT uncomend
+			// googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
 			icon: './assets/icon.png',
 			adaptiveIcon: {
 				foregroundImage: './assets/adaptive-icon-foreground.png',
-				backgroundColor: '#FA9938'
+				backgroundColor: '#FFAA33'
 			},
 			permissions: [
 				'android.permission.LOCATION',
