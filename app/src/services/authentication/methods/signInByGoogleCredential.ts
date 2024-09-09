@@ -1,9 +1,20 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
-import { firebaseAuth } from '@infrastructure/firebase'
+import { getEnvVars } from '@infrastructure/environment'
+import { authProviders, firebaseAuth } from '@infrastructure/firebase'
 
-async function signInByGoogleCredential(googleCredential: FirebaseAuthTypes.AuthCredential) {
+async function signInByGoogleCredential() {
 	try {
+		const { AUTH_IOS_CLIENT_ID } = getEnvVars()
+
+		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+		GoogleSignin.configure({
+			webClientId: AUTH_IOS_CLIENT_ID,
+			iosClientId: AUTH_IOS_CLIENT_ID
+		})
+		const { data } = await GoogleSignin.signIn()
+
+		const googleCredential = authProviders.GoogleAuthProvider.credential(data?.idToken!)
 		const userCredential = await firebaseAuth.signInWithCredential(googleCredential)
 		const user = userCredential?.user
 		return {

@@ -1,16 +1,27 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
-import { firebaseAuth } from '@infrastructure/firebase'
+import { getEnvVars } from '@infrastructure/environment'
+import { authProviders, firebaseAuth } from '@infrastructure/firebase'
 
-async function linkAuthProvider(credential: FirebaseAuthTypes.AuthCredential) {
+async function linkAuthProvider() {
 	try {
 		const currentUser = firebaseAuth?.currentUser
 		if (!currentUser) {
 			throw new Error('No current user')
 		}
 
-		const usercred = await currentUser.linkWithCredential(credential)
-		const { user } = usercred
+		const { AUTH_IOS_CLIENT_ID } = getEnvVars()
+
+		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+		GoogleSignin.configure({
+			webClientId: AUTH_IOS_CLIENT_ID,
+			iosClientId: AUTH_IOS_CLIENT_ID
+		})
+
+		const { data } = await GoogleSignin.signIn()
+		const googleCredential = authProviders.GoogleAuthProvider.credential(data?.idToken!)
+
+		const { user } = await currentUser.linkWithCredential(googleCredential)
 		console.log('Account linking success')
 		return user
 	} catch (error: any) {

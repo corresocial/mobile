@@ -36,7 +36,7 @@ import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../infrastructure/environment'
 
-const { generateGoogleAuthCredential, linkAuthProvider, unlinkAuthProvider } = useAuthenticationService()
+const { linkAuthProvider, unlinkAuthProvider } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
@@ -53,7 +53,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		iosClientId: AUTH_IOS_CLIENT_ID
 	}
 
-	const [tokenGoogle, setTokenGoogle] = useState<string | undefined>()
 	const [userPrivateContacts, setUserPrivateContacts] = useState<PrivateUserEntity['contacts']>({ cellNumber: '', email: '' })
 	// eslint-disable-next-line no-unused-vars
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
@@ -78,19 +77,9 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	const loadPrivateContacts = async () => {
 		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
+		console.log(userContacts)
 		setUserPrivateContacts(userContacts as PrivateUserEntity['contacts'])
 	}
-
-	useEffect(() => {
-		if (response?.type === 'success') {
-			const { authentication } = response
-			setTokenGoogle(authentication?.accessToken)
-		}
-
-		if (tokenGoogle) {
-			linkGoogleProvider()
-		}
-	}, [response, tokenGoogle])
 
 	const canRemoveEntryMethod = () => {
 		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email && Platform.OS === 'android'
@@ -143,24 +132,16 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			setIsLoading(true)
 			setHasError(false)
 
-			if (tokenGoogle) {
-				if (!tokenGoogle) return await promptAsyncGoogle()
+			const linkedUser: FirebaseAuthTypes.User = await linkAuthProvider()
+			if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 
-				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const linkedUser: FirebaseAuthTypes.User = await linkAuthProvider(googleCredential)
+			await remoteStorage.updatePrivateContacts(
+				userDataContext.userId,
+				{ email: linkedUser.email ? linkedUser.email : '' }
+			)
 
-				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
-
-				await remoteStorage.updatePrivateContacts(
-					userDataContext.userId,
-					{ email: linkedUser.email ? linkedUser.email : '' }
-				)
-
-				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email ? linkedUser.email : '' })
-				navigateToLinkResultScreen(true, linkedUser.email ? linkedUser.email : '')
-			} else {
-				await promptAsyncGoogle()
-			}
+			setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email ? linkedUser.email : '' })
+			navigateToLinkResultScreen(true, linkedUser.email ? linkedUser.email : '')
 		} catch (error: any) {
 			console.log(error)
 			if (error && (error.message === 'auth/provider-already-linked' || error.message === 'auth/credential-already-in-use"')) {
@@ -247,18 +228,14 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
-								{
-									Platform.OS === 'android' && (
-										<EditCard
-											title={'conta google'}
-											RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
-											SecondSvgIcon={GoogleWhiteIcon}
-											value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
-											pressionable
-											onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
-										/>
-									)
-								}
+								<EditCard
+									title={'conta google'}
+									RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+									SecondSvgIcon={GoogleWhiteIcon}
+									value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
+									pressionable
+									onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
+								/>
 								<VerticalSpacing />
 							</>
 						)

@@ -1,5 +1,3 @@
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -26,9 +24,7 @@ import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { getEnvVars } from '../../../../infrastructure/environment'
-
-const { generateGoogleAuthCredential, signInByGoogleCredential } = useAuthenticationService()
+const { signInByGoogleCredential } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
@@ -53,23 +49,10 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const performSigninWithGoogle = async () => {
 		try {
-			const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
-
-			const support = await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
-			console.log('support google play', support)
-
-			GoogleSignin.configure({
-				webClientId: AUTH_IOS_CLIENT_ID,
-				iosClientId: AUTH_IOS_CLIENT_ID,
-				// googleServicePlistPath: AUTH_ANDROID_CLIENT_ID
-			})
-			const { data } = await GoogleSignin.signIn()
-			console.log(data)
-
 			setIsLoading(true)
 			setHasError(false)
-			const googleCredential = generateGoogleAuthCredential(data?.idToken!)
-			const { userId, email } = await signInByGoogleCredential(googleCredential)
+
+			const { userId, email } = await signInByGoogleCredential()
 
 			if (userId && email) {
 				setAuthenticatedUser({ userId, email })
