@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
@@ -26,12 +26,15 @@ import { LoaderProvider } from './src/contexts/LoaderContext'
 import { theme } from './src/presentation/common/theme'
 import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
 
+startSentry()
+
 LogBox.ignoreLogs(ignoredLogs)
 
-startSentry()
-sendEvent('opened_app', {}, true)
-
 function App() {
+	useEffect(() => {
+		sendEvent('opened_app', {}, true)
+	}, [])
+
 	const routeNameRef = React.useRef<string>()
 	const navigationRef = React.useRef<any>()
 

@@ -79,6 +79,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 	// REFACTOR Quick signin virar um caso de uso
 	const performQuickSignin = async (userId: string, requireAuth = true, noRedirect = false) => {
 		try {
+			if (!firebaseAuth.currentUser?.uid) return
+
 			const authenticatedUser = requireAuth
 				? await handleMethodWithDeviceAuthentication(async () => {
 					return setRemoteUserOnLocal(userId || firebaseAuth.currentUser?.uid, true)
