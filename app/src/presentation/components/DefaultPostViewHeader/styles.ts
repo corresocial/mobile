@@ -16,13 +16,13 @@ export const Container = styled.View<ContainerProps>`
 `
 
 export const PathBar = styled.Text`
-	font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[12]}px;
 	margin-right: ${relativeScreenDensity(10)}px;
 `
 
 export const Title = styled.Text`
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[6]}px;
 	width: 85%;
 `
@@ -32,7 +32,8 @@ interface PathTitleProps {
 }
 
 export const PathTitle = styled.Text<PathTitleProps>`
-	font-family: ${({ bold }) => (bold ? 'Arvo_700Bold' : 'Arvo_400Regular')};
+	${({ theme }) => theme.fonts.arvoBold};
+	font-weight: ${({ bold }) => (bold ? 700 : 400)};
 	font-size: ${({ theme }) => theme.fontSizes[6]}px;
 	padding: 0px ${relativeScreenDensity(10)}px;
 	max-width: 50%;

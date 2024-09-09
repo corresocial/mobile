@@ -80,7 +80,7 @@ function DefaultHeaderTitle({
 				}
 				<Title style={{
 					marginLeft: invertTextAndIcon || !SvgIcon ? 0 : relativeScreenDensity(10),
-					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+					fontWeight: highlightedWords.length > 0 ? 400 : 700,
 					fontSize: relativeScreenDensity(fontSize)
 				}}
 				>

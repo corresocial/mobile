@@ -3,8 +3,8 @@ import styled from 'styled-components/native'
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps {
-    width: number | string
-    height: number | string
+	width: number | string
+	height: number | string
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
@@ -13,9 +13,9 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 `
 
 interface ContainerBackgroundProps {
-    reversed?: boolean
-    selected?: boolean
-    selectedColor?: string
+	reversed?: boolean
+	selected?: boolean
+	selectedColor?: string
 }
 
 export const ContainerBackground = styled.View<ContainerBackgroundProps>`
@@ -31,7 +31,7 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
 `
 
 export const ButtonText = styled.Text`
+	${({ theme }) => theme.fonts.nunitoSemiBold};
     color: ${({ theme }) => theme.colors.black[4]};
-    font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

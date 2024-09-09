@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
-import { useFonts } from 'expo-font'
 import { createURL } from 'expo-linking'
 import React from 'react'
-import { ActivityIndicator, LogBox } from 'react-native'
+import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 
@@ -13,14 +12,11 @@ import * as Sentry from '@sentry/react-native'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { LoaderContainer } from 'App.styles'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
 import { startSentry } from '@infrastructure/sentry'
 import { errorBoundaryHandler } from '@utils/errorBoundaryHandler'
-
-import { appFonts } from '@assets/fonts/appFonts'
 
 import { ErrorBoundaryFallback } from '@screens/ErrorBoundaryFallback'
 
@@ -36,19 +32,8 @@ startSentry()
 sendEvent('opened_app', {}, true)
 
 function App() {
-	// CURRENT
-	const [fontsLoaded] = useFonts(appFonts)
-
 	const routeNameRef = React.useRef<string>()
 	const navigationRef = React.useRef<any>()
-
-	// if (!fontsLoaded) {
-	// 	return (
-	// 		<LoaderContainer style={{ backgroundColor: theme.colors.orange[3] }}>
-	// 			<ActivityIndicator size={'large'} color={theme.colors.orange[4]} />
-	// 		</LoaderContainer>
-	// 	)
-	// }
 
 	const { defaultCachePersistence } = useCacheRepository()
 	const linking = {

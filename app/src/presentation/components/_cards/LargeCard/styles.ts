@@ -49,7 +49,7 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 
 export const ButtonText = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
-    font-family: ${({ theme }) => theme.fonts.nunitoBold};
+    ${({ theme }) => theme.fonts.nunitoBold};
     font-size: ${({ theme }) => theme.fontSizes[3]}px;
 `
 

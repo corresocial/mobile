@@ -17,7 +17,7 @@ export const TermsLabel = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
     font-size: ${({ theme }) => theme.fontSizes[8]}px;
     text-align: center;
-    font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
     margin-bottom:  ${relativeScreenDensity(30)}px;
 `
 
@@ -25,6 +25,6 @@ export const TermsLabelHighlight = styled.Text`
     color: ${({ theme }) => theme.colors.purple[3]};
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
     text-align: center;
-    font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
     font-weight: bold;
 `

@@ -9,7 +9,7 @@ interface DescriptionProps {
 }
 
 export const Description = styled.Text<DescriptionProps>`
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	text-align: center;
 `

@@ -31,12 +31,12 @@ export const InfoArea = styled.View`
 
 export const UserName = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
-    font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const UserDescription = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[3]}px;
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const ExpandedUserDescriptionArea = styled.View`
@@ -46,13 +46,13 @@ export const ExpandedUserDescriptionArea = styled.View`
 
 export const SeeMoreLabel = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 	color: ${({ theme }) => theme.colors.orange[4]};
 `
 
 export const ExpandedUserDescription = styled.Text<TextProps>`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const OptionsArea = styled.View`

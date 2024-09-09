@@ -11,7 +11,7 @@ export const QuestionContainer = styled.View`
 
 export const QuestionTitle = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
-	font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 	color: ${({ theme }) => theme.colors.black[4]};
     padding-right: ${relativeScreenDensity(40)}px;
 `
@@ -24,7 +24,7 @@ export const AnswerContainer = styled.View`
 
 export const AnswerText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 	color: ${({ theme }) => theme.colors.black[4]};
     text-align: justify;
 `

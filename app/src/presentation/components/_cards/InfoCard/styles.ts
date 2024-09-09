@@ -9,7 +9,7 @@ export const Container = styled.View`
 `
 
 interface ContainerInnerProps {
-    hasSvgIcon?: boolean
+	hasSvgIcon?: boolean
 }
 
 export const ContainerInner = styled.View<ContainerInnerProps>`
@@ -32,14 +32,14 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 `
 
 export const Title = styled.Text`
-    font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
     font-size:  ${relativeScreenDensity(22)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const Description = styled.Text`
     width: 100%;
-    font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
     font-size:  ${relativeScreenDensity(13)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

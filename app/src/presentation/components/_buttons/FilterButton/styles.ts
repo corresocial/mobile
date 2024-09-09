@@ -25,6 +25,6 @@ export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 
 export const Label = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[3]}px;
-    font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
     text-align: center;
 `

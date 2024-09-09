@@ -22,7 +22,7 @@ export const CardHeader = styled.View`
 export const TextAddress = styled.Text`
 	flex: 1;
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: ${({ theme }) => theme.fonts.arvoRegular};
+	${({ theme }) => theme.fonts.arvoRegular};
 	padding:${relativeScreenDensity(10)}px;
 `
 

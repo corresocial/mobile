@@ -28,7 +28,7 @@ export const AnimatedTabItemText = styled(Animated.View)`
 `
 
 export const TabItemText = styled.Text`
-	font-family: ${({ theme }) => theme.fonts.nunitoBold};
+	${({ theme }) => theme.fonts.nunitoBold};
 	font-size: ${({ theme }) => theme.fontSizes[0]}px;
 	color: ${({ theme }) => theme.colors.black[4]};
 	margin-top: ${relativeScreenDensity(2)}px;

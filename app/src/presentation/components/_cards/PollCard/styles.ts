@@ -40,6 +40,6 @@ export const TitleContainer = styled.View`
 `
 
 export const Title = styled.Text`
-	font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `

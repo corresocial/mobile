@@ -7,7 +7,7 @@ export const MediaBrowserModalContainer = styled.Modal`
 `
 
 interface MediaBrowserHeaderProps {
-	isIos: boolean
+    isIos: boolean
 }
 
 export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
@@ -26,7 +26,7 @@ export const HeaderTextContent = styled.View`
 	justify-content: space-between;
 `
 interface HeaderTextContentProps {
-	flex?: number
+    flex?: number
 }
 
 export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
@@ -34,7 +34,7 @@ export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
     padding-left: ${relativeScreenWidth(3)}px;
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
     text-align: left;
-	font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const MediaBrowserScrollView = styled.ScrollView`
@@ -77,7 +77,7 @@ export const NotPermissionText = styled.Text`
 `
 
 interface IndicatorContainerProps {
-	isLoadingMore: boolean
+    isLoadingMore: boolean
 }
 
 export const ActivityIndicatorContainer = styled.View<IndicatorContainerProps>`
@@ -115,5 +115,5 @@ export const InvalidAssetAlert = styled.View`
 export const InvalidDurationText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
     text-align: center;
-	font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 `

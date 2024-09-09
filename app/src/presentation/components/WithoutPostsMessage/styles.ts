@@ -10,13 +10,13 @@ export const WithoutPostsContainer = styled.View`
 `
 
 export const WithoutPostsTitle = styled.Text`
-	font-family: Arvo_700Bold;
+	${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[7]}px;
 	margin-bottom: ${relativeScreenDensity(10)}px;
 `
 
 export const WithoutPostsText = styled.Text`
-	font-family: Arvo_400Regular;
+	${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 
 `

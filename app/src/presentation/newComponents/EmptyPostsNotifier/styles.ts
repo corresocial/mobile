@@ -10,7 +10,7 @@ export const Container = styled.View`
 `
 
 export const Description = styled.Text`
-	font-family: ${({ theme }) => theme.fonts.arvoBold};
+	${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	color: ${({ theme }) => theme.colors.black[4]};
 	width: ${relativeScreenWidth(60)}px;

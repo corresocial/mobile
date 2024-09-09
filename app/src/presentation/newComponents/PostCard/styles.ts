@@ -80,15 +80,15 @@ export const DataContainer = styled.View<DataContainerProps>`
 	background-color: ${({ theme }) => theme.colors.white[2]};
 	align-items: center;
 	justify-content: space-between;
+	gap: ${relativeScreenDensity(5)}px;
 `
 
 export const PostDescriptionText = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
-	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
+	${({ theme }) => theme.fonts.nunitoSemiBold};
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
 	text-align: left;
-	line-height: ${relativeScreenDensity(20)}px;
 `
 
 export const UserDataContainer = styled.View`
@@ -136,7 +136,7 @@ export const InfoContainer = styled.View`
 
 export const InfoTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
-	font-family: ${({ theme }) => theme.fonts.nunitoBold};
+	${({ theme }) => theme.fonts.nunitoBold};
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[1])}px;
 `
 

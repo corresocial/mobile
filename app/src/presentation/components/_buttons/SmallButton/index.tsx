@@ -105,7 +105,7 @@ function SmallButton({
 								style={{
 									fontSize: relativeScreenDensity(fontSize),
 									marginLeft: label && flexDirection === 'row' ? relativeScreenDensity(8) : 0,
-									fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+									fontWeight: highlightedWords?.length > 0 ? 400 : 700,
 									color: labelColor,
 									marginTop: textMarginTop ? relativeScreenDensity(5) : 0
 								}}

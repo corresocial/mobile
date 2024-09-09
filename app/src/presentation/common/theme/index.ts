@@ -71,10 +71,12 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	},
 
 	fonts: { // CURRENT
-		arvoRegular: 'System',
-		arvoBold: 'Arvo_700Bold',
-		nunitoSemiBold: 'System',
-		nunitoBold: 'System'
+		arvo: 'Arvo',
+		nunito: 'Nunito',
+		arvoRegular: 'font-family: Arvo; font-weight: 400',
+		arvoBold: 'font-family: Arvo; font-weight: 700',
+		nunitoSemiBold: 'font-family: Nunito; font-weight: 600',
+		nunitoBold: 'font-family: Nunito; font-weight: 700'
 	},
 
 	fontSizes: {

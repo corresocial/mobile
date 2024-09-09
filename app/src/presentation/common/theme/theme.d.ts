@@ -37,6 +37,8 @@ declare module 'styled-components' {
 		transparence: Transparence,
 
 		fonts: {
+			arvo: string
+			nunito: string
 			arvoRegular: string
 			arvoBold: string
 			nunitoSemiBold: string

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTheme } from 'styled-components'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -25,6 +26,8 @@ function SaleExchangeValue({
 	largeFontSize = 18,
 	exchangeFontSize = 18
 }: SaleExchangeValueProps) {
+	const theme = useTheme()
+
 	const hasSaleValue = !!saleValue
 	const hasExchangeValue = !!exchangeValue
 
@@ -78,7 +81,7 @@ function SaleExchangeValue({
 					hasExchangeValue
 					&& (
 						<ExchangeWord
-							style={{ fontSize: relativeScreenDensity(exchangeFontSize), fontFamily: 'Arvo_400Regular' }}
+							style={{ fontSize: relativeScreenDensity(exchangeFontSize), fontFamily: theme.fonts.arvo }}
 						>
 							{showMessageWithHighlight(`${hasSaleValue ? ' ou ' : ''}troca`, ['troca'])}
 						</ExchangeWord>
