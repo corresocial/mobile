@@ -30,11 +30,11 @@ import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
-import { PostCard } from '@components/_cards/PostCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { WithoutNetworkConnectionAlert } from '@components/_modals/WithoutNetworkConnectionAlert'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { PostCard } from '@newComponents/PostCard'
 
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'

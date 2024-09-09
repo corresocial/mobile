@@ -119,9 +119,9 @@ function FeedByRangeFlatList({
 
 	const posts = useMemo(() => {
 		const formattedPosts = [
-			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
-			{ dividerText: 'Posts na sua cidade', postRange: 'city' }, ...filteredFeedPosts.city,
-			{ dividerText: 'Posts no Brasil    ', postRange: 'country' }, ...filteredFeedPosts.country
+			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby.map((p) => ({ ...p, range: 'near' })),
+			/* { dividerText: 'Posts na sua cidade', postRange: 'city' }, */ ...filteredFeedPosts.city.map((p) => ({ ...p, range: 'city' })),
+			/* { dividerText: 'Posts no Brasil    ', postRange: 'country' }, */ ...filteredFeedPosts.country.map((p) => ({ ...p, range: 'country' }))
 		] as PostEntity[]
 
 		const filteredItems = collapseExternalVacancies ? formattedPosts.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate!)))) : formattedPosts
