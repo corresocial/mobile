@@ -74,7 +74,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
+		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPoll = () => {

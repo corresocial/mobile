@@ -84,7 +84,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
+		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPetition = async () => {

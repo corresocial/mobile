@@ -212,7 +212,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${getPostField('postId', postType)}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre.\n\nhttps://corre.social/p/${getPostField('postId', postType)}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
