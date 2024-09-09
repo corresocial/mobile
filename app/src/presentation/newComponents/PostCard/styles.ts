@@ -88,6 +88,7 @@ export const PostDescriptionText = styled.Text`
 	${({ theme }) => theme.fonts.nunitoSemiBold};
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
+	/* line-height: ${relativeScreenDensity(20)}px; */
 	text-align: left;
 `
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { FeedPosts, PostEntityOptional, PostEntity, PostRange } from '@domain/post/entity/types'
+import { FeedPosts, PostEntityOptional, PostEntity } from '@domain/post/entity/types'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -82,21 +82,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const hasPostDescriptionMatch = (post: PostEntity) => {
 		if (!post) return false
 		return !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
-	}
-
-	const viewPostsByRange = (postRange: PostRange) => {
-		const postsByRange = getPostsByRange(postRange)
-		const { postType } = locationDataContext.searchParams
-
-		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType })
-	}
-
-	const getPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return feedPostsByType.nearby || []
-			case 'city': return feedPostsByType.city || []
-			case 'country': return feedPostsByType.country || []
-		}
 	}
 
 	const viewPostViewDetails = (postData: PostEntityOptional) => {
@@ -194,7 +179,9 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}
 
 	return (
-		<Container>
+		<Container
+			backgroundColor={getRelativeBackgroundColor()}
+		>
 			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -217,7 +204,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			<FeedByRangeFlatList
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
-				viewPostsByRange={viewPostsByRange}
 				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
