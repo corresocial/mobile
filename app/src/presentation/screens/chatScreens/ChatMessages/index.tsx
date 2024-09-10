@@ -137,12 +137,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const isUserOwner = (messageUserId: string) => { return userDataContext.userId === messageUserId }
 
-	/* const messagesListenerCallback = async (newMessages: MessageObjects) => {
-		if (!isUserOwner(getLastMessageObject(newMessages).owner)) {
-			setMessages(newMessages)
-		}
-	} */ 			// abordagem listener
-
 	const submitMessage = async (text: string) => {
 		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
@@ -158,6 +152,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		const userBlock = await verifyUsersBlock()
 
+		console.log(newMessageObject)
 		setMessages(newMessages)
 
 		await sendMessage(
