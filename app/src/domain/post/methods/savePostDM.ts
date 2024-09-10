@@ -7,7 +7,6 @@ import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/type
 
 import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
-import { convertPostToDesnormalizedPostDM } from '../core/convertPostToDesnormalizedPostDM'
 import { mediaUrlUpdatedDM } from '../core/editPostValidationDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
 import { updateLocationDataOnPostsDM } from './updateLocationDataOnPostsDM'
@@ -75,6 +74,16 @@ async function savePostDM(
 	const newPostWithUploadedPictures = {
 		...newPostData,
 		unapprovedData: { ...newPostData.unapprovedData, picturesUrl: newPostPicturesUrl, videosUrl: newPostVideosUrl }
+	} as any
+
+	if (newPostWithUploadedPictures?.unapprovedData) {
+		if (Array.isArray(newPostWithUploadedPictures.unapprovedData.picturesUrl)) {
+			delete newPostWithUploadedPictures?.unapprovedData.picturesUrl
+		}
+
+		if (Array.isArray(newPostWithUploadedPictures.unapprovedData.videosUrl)) {
+			delete newPostWithUploadedPictures?.unapprovedData?.videosUrl
+		}
 	}
 
 	const newStoredPost = await remoteStorage.createPost(newPostWithUploadedPictures as PostEntity)
@@ -92,11 +101,7 @@ async function savePostDM(
 		})
 	}
 
-	const newPostDesnormalized = convertPostToDesnormalizedPostDM(newStoredPost) // PROCESSOS QUE DEVEM SER FEITOS ANTES DE RETORNAR PARA SALVAR NA COLLECTION DE USUÁRIOS
-
-	return {
-		newPost: { ...newPostDesnormalized } as PostEntity,
-	}
+	return { newPost: { ...newStoredPost } as PostEntity }
 }
 
 export { savePostDM }

@@ -198,7 +198,7 @@ function EditPost({
 				range,
 				initialPostData,
 				postWithUnapprovedData,
-				postWithUnapprovedData.unapprovedData?.picturesUrl || [],
+				postWithUnapprovedData.unapprovedData?.picturesUrl || []
 				// notifyUsersEnabled
 			)
 

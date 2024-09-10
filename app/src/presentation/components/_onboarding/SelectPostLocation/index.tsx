@@ -33,9 +33,9 @@ const { searchAddressByText } = useGoogleMapsService()
 const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
-	latitude: -13.890303625634541,
+	latitude: -23.320050,
 	latitudeDelta: 3.54596047458735,
-	longitude: -51.92523987963795,
+	longitude: -51.166359,
 	longitudeDelta: 3.99996047466992
 }
 
