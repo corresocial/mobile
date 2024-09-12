@@ -179,7 +179,7 @@ function CustomMapView({
 									}}
 									radius={approximateRadius}
 									strokeWidth={4}
-									fillColor={'transparent'}
+									fillColor={'rgba(0,0,0,0)'}
 								>
 								</Circle>
 							)

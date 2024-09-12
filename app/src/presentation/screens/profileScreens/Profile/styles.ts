@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const UserPostsFlatList = styled.FlatList`
 	flex: 1;
 	width: ${relativeScreenWidth(100)}px;
-	background-color: 'transparent';
+	background-color: rgba(0,0,0,0);
 `
 
 export const ProfileHeader = styled.View`

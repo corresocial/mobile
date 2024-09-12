@@ -1,6 +1,7 @@
 {
 	"cli": {
 		"version": ">= 3.6.0",
+		"appVersionSource": "local",
 		"promptToConfigurePushNotifications": false
 	},
 	"build": {
@@ -9,7 +10,7 @@
 			"distribution": "internal",
 			"ios": {
 				"simulator": true,
-				"resourceClass": "m-medium"
+				"resourceClass": "medium"
 			},
 			"android": {
 				"buildType": "apk"
@@ -21,7 +22,7 @@
 			"distribution": "internal",
 			"ios": {
 				"simulator": true,
-				"resourceClass": "m-medium"
+				"resourceClass": "medium"
 			},
 			"android": {
 				"buildType": "apk"
@@ -30,7 +31,7 @@
 		},
 		"staging": {
 			"ios": {
-				"resourceClass": "m-medium"
+				"resourceClass": "medium"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
@@ -39,7 +40,13 @@
 		},
 		"production": {
 			"ios": {
-				"resourceClass": "m-medium"
+				"resourceClass": "medium",
+				"buildArtifactPaths": [
+					"ios/build"
+				]
+			},
+			"android": {
+				"resourceClass": "default"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"

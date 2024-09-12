@@ -18,7 +18,7 @@ interface ContextHeaderProps {
 	onClose?: () => void
 }
 
-function ContextHeader({ title, color = 'transparent', rightLabel, icon, rightIcon, onBack, onClose }: ContextHeaderProps) {
+function ContextHeader({ title, color = 'rgba(0,0,0,0)', rightLabel, icon, rightIcon, onBack, onClose }: ContextHeaderProps) {
 	return (
 		<Container color={color}>
 			{

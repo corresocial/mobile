@@ -69,7 +69,20 @@ export default {
 						targetSdkVersion: 34,
 						buildToolsVersion: '34.0.0',
 						enableProguardInReleaseBuilds: true,
-						extraProguardRules: '-keep public class com.horcrux.svg.** {*;}',
+						enableR8: false,
+						extraProguardRules: `
+						-keep public class com.horcrux.svg.** {*;}
+						-keep public class com.stripe.android.pushProvisioning.** { *; }
+						-keep public class com.android.tools.** { *; }
+						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivity$g
+						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Args
+						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Error
+						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter
+						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningEphemeralKeyProvider
+						`,
+
+						// -dontwarn com.stripe.android.pushProvisioning.** { *; }
+						// -dontwarn com.stripe.android.pushProvisioning.**
 						usesCleartextTraffic: true
 					}
 				}
@@ -119,7 +132,7 @@ export default {
 		],
 		ios: {
 			bundleIdentifier: 'corre', // Para deixar como o package do android é preciso criar outro app no Apple Store Connect
-			buildNumber: '70',
+			buildNumber: '71',
 			infoPlist: {
 				NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 				NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -143,7 +156,7 @@ export default {
 			}
 		},
 		android: {
-			versionCode: 70,
+			versionCode: 71,
 			package: 'com.corresocial.corresocial',
 			googleServicesFile: './google-services.json', // CURRENT uncomend
 			// googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
