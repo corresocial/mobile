@@ -12,9 +12,12 @@ async function signInByGoogleCredential() {
 			webClientId: AUTH_IOS_CLIENT_ID,
 			iosClientId: AUTH_IOS_CLIENT_ID
 		})
-		const { data } = await GoogleSignin.signIn()
+		const res = await GoogleSignin.signIn()
+		console.log(res)
 
-		const googleCredential = authProviders.GoogleAuthProvider.credential(data?.idToken!)
+		if (!res || (res && !res.data)) return { email: '', userId: '' }
+
+		const googleCredential = authProviders.GoogleAuthProvider.credential(res.data?.idToken!)
 		const userCredential = await firebaseAuth.signInWithCredential(googleCredential)
 		const user = userCredential?.user
 		return {
