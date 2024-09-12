@@ -152,7 +152,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		const userBlock = await verifyUsersBlock()
 
-		console.log(newMessageObject)
 		setMessages(newMessages)
 
 		await sendMessage(
@@ -253,24 +252,24 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [numberOfMessages, setNumberOfMessages] = useState(0)
 
 	const scrollToEnd = (animated: boolean, height?: number) => {
-		const currentNumberOfMessages = getFilteredMessages().length
+		// const currentNumberOfMessages = getFilteredMessages().length
 
-		if (currentNumberOfMessages <= 0) return
+		// if (currentNumberOfMessages <= 0) return
 
-		if (firstRender) {
-			if (height) {
-				!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })
-				return
-			}
+		// if (firstRender) {
+		// 	if (height) {
+		// 		!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })
+		// 		return
+		// 	}
 
-			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
-			return
-		}
+		// 	!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
+		// 	return
+		// }
 
-		if (numberOfMessages < currentNumberOfMessages) {
-			setNumberOfMessages(getFilteredMessages().length)
-			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
-		}
+		// if (numberOfMessages < currentNumberOfMessages) {
+		// 	setNumberOfMessages(getFilteredMessages().length)
+		// 	!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
+		// }
 	}
 
 	return (
@@ -337,7 +336,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				</ChatPopOver>
 			</Header>
 			<FlatList
-				initialScrollIndex={messages && getFilteredMessages().length - 1}
+				// initialScrollIndex={messages && getFilteredMessages().length - 1}
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				onScrollToIndexFailed={() => console.log('Error when scroll')}

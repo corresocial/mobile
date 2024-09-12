@@ -13,7 +13,6 @@ async function signInByGoogleCredential() {
 			iosClientId: AUTH_IOS_CLIENT_ID
 		})
 		const res = await GoogleSignin.signIn()
-		console.log(res)
 
 		if (!res || (res && !res.data)) return { email: '', userId: '' }
 
