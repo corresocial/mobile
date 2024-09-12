@@ -182,8 +182,6 @@ function CustomModal({
 										defaultBackgroundColor={theme.colors.white[2]}
 										validBackgroundColor={theme.colors.orange[1]}
 										fontSize={15}
-										multiline
-										numberOfLines={5}
 										keyboardType={customInput.keyboardType || 'email-address'}
 										placeholder={customInput.placeholder}
 										validateText={customInput.validateText}
