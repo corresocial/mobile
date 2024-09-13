@@ -69,20 +69,19 @@ export default {
 						targetSdkVersion: 34,
 						buildToolsVersion: '34.0.0',
 						enableProguardInReleaseBuilds: true,
-						enableR8: false,
+						enableShrinkResourcesInReleaseBuilds: true,
+						newArchEnabled: true,
+						enableR8: true,
 						extraProguardRules: `
 						-keep public class com.horcrux.svg.** {*;}
 						-keep public class com.stripe.android.pushProvisioning.** { *; }
-						-keep public class com.android.tools.** { *; }
+						-keep class com.android.tools.** { *; }
 						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivity$g
 						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Args
 						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Error
 						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter
 						-dontwarn com.stripe.android.pushProvisioning.PushProvisioningEphemeralKeyProvider
 						`,
-
-						// -dontwarn com.stripe.android.pushProvisioning.** { *; }
-						// -dontwarn com.stripe.android.pushProvisioning.**
 						usesCleartextTraffic: true
 					}
 				}
@@ -175,7 +174,8 @@ export default {
 				'android.permission.USE_FINGERPRINT',
 				'android.permission.FOREGROUND_SERVICE',
 				'android.permission.CAMERA',
-				'android.permission.INTERNET'
+				'android.permission.INTERNET',
+				'android.permission.AD_ID'
 			],
 			config: {
 				googleMaps: {
