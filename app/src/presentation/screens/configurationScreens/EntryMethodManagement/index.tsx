@@ -1,5 +1,4 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
@@ -34,28 +33,16 @@ import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { getEnvVars } from '../../../../infrastructure/environment'
-
 const { linkAuthProvider, unlinkAuthProvider } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
-const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
-
 function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const keys = {
-		clientId: AUTH_CLIENT_ID,
-		expoClientId: AUTH_EXPO_CLIENT_ID,
-		androidClientId: AUTH_ANDROID_CLIENT_ID,
-		iosClientId: AUTH_IOS_CLIENT_ID
-	}
-
 	const [userPrivateContacts, setUserPrivateContacts] = useState<PrivateUserEntity['contacts']>({ cellNumber: '', email: '' })
 	// eslint-disable-next-line no-unused-vars
-	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)

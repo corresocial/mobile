@@ -41,12 +41,11 @@
 		"production": {
 			"ios": {
 				"resourceClass": "medium",
-				"buildArtifactPaths": [
-					"ios/build"
-				]
+				"applicationArchivePath": "ios/build"
 			},
 			"android": {
-				"resourceClass": "default"
+				"resourceClass": "default",
+				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
