@@ -22,21 +22,17 @@
 			"distribution": "internal",
 			"ios": {
 				"simulator": true,
-				"resourceClass": "medium"
+				"resourceClass": "medium",
+				"applicationArchivePath": "ios/build"
 			},
 			"android": {
-				"buildType": "apk"
-			},
-			"channel": "development"
-		},
-		"staging": {
-			"ios": {
-				"resourceClass": "medium"
+				"buildType": "apk",
+				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "staging"
+			"channel": "development"
 		},
 		"production": {
 			"ios": {

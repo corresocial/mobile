@@ -67,6 +67,7 @@ export default () => {
 							// newArchEnabled: true
 						},
 						android: {
+							minSdkVersion: 21,
 							compileSdkVersion: 34,
 							targetSdkVersion: 34,
 							buildToolsVersion: '34.0.0',
