@@ -43,8 +43,6 @@ const startSentry = () => {
 
 startSentry()
 
-Aptabase.init(APTABASE_APP_KEY, { host: APTABASE_HOST })
-
 sendEvent('opened_app', {}, true)
 
 function App() {

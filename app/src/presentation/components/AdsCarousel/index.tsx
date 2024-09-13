@@ -9,7 +9,9 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
+import { PublicServicesAdButton } from '@components/_buttons/PublicServicesAdButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
+import { UserLocationAdButton } from '@components/_buttons/UserLocationAdButton'
 import { CustomCarousel } from '@components/CustomCarousel'
 
 interface AdsCarouselProps {
@@ -34,12 +36,12 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
-				{/* <SubscriptionAdContainer>
-					<PublicServicesAdButton onPress={() => { }} />
-				</SubscriptionAdContainer> */}
-				{/* <SubscriptionAdContainer>
+				<SubscriptionAdContainer>
+					<PublicServicesAdButton onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()} />
+				</SubscriptionAdContainer>
+				<SubscriptionAdContainer>
 					<UserLocationAdButton onPress={() => onPressUserLocationAd && onPressUserLocationAd()} />
-				</SubscriptionAdContainer> */}
+				</SubscriptionAdContainer>
 				{
 					userRange.betweenRange
 						? (

@@ -18,6 +18,7 @@ import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
 import PeperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
+import PublicServicesWhiteIton from '@assets/icons/publicServices-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '@assets/icons/service-white.svg'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
@@ -82,21 +83,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const hasPostDescriptionMatch = (post: PostEntity) => {
 		if (!post) return false
 		return !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
-	}
-
-	const viewPostsByRange = (postRange: PostRange) => {
-		const postsByRange = getPostsByRange(postRange)
-		const { postType } = locationDataContext.searchParams
-
-		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType })
-	}
-
-	const getPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return feedPostsByType.nearby || []
-			case 'city': return feedPostsByType.city || []
-			case 'country': return feedPostsByType.country || []
-		}
 	}
 
 	const viewPostViewDetails = (postData: PostEntityOptional) => {
@@ -169,9 +155,9 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			)
 			case 'socialImpact': return (
 				<CatalogPostTypeButtons
-					buttonLabels={['informativos', 'iniciativas', 'doações']}
-					buttonValues={['informative', 'iniciative', 'donation']}
-					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
+					buttonLabels={['serviços públicos', 'informativos', 'iniciativas', 'doações']}
+					buttonValues={['publicServices', 'informative', 'iniciative', 'donation']}
+					buttonIcons={[PublicServicesWhiteIton, PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
 					onPress={(macroCategory: MacroCategoriesType) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
@@ -217,7 +203,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			<FeedByRangeFlatList
 				backgroundColor={getRelativeBackgroundColor()}
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
-				viewPostsByRange={viewPostsByRange}
 				collapseExternalVacancies
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostViewDetails}
