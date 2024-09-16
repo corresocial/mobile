@@ -114,7 +114,7 @@ export default {
 				backgroundColor: '#FA9938'
 			},
 			config: {
-				googleMapsApiKey: process.env.MAPS_API_IOS
+				googleMapsApiKey: process.env.IOS_MAPS_API_KEY
 			}
 		},
 		android: {
@@ -140,7 +140,7 @@ export default {
 			],
 			config: {
 				googleMaps: {
-					apiKey: process.env.MAPS_API_ANDROID
+					apiKey: process.env.ANDROID_MAPS_API_KEY
 				}
 			}
 		},
