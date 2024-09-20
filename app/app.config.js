@@ -3,6 +3,9 @@
 export default () => {
 	const GOOGLE_SERVICES_INFO_PLIST = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services-info.plist`
 	const GOOGLE_SERVICES_JSON = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services.json`
+	const IOS_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_IOS_MAPS_API_KEY : process.env.IOS_MAPS_API_KEY
+	const ANDROID_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
+
 	return ({
 		expo: {
 			name: 'corre',
@@ -123,7 +126,7 @@ export default () => {
 			updates: {
 				enabled: true,
 				requestHeaders: {
-					'expo-channel-name': 'development'
+					'expo-channel-name': process.env.EXPO_CHANNEL_NAME || 'development'
 				},
 				fallbackToCacheTimeout: 0,
 				url: 'https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4',
@@ -134,7 +137,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '75',
+				buildNumber: '76',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -152,11 +155,11 @@ export default () => {
 					backgroundColor: '#FFAA33'
 				},
 				config: {
-					googleMapsApiKey: process.env.IOS_MAPS_API_KEY
+					googleMapsApiKey: IOS_MAPS_API_KEY
 				}
 			},
 			android: {
-				versionCode: 75,
+				versionCode: 76,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
@@ -179,7 +182,7 @@ export default () => {
 				],
 				config: {
 					googleMaps: {
-						apiKey: process.env.ANDROID_MAPS_API_KEY
+						apiKey: ANDROID_MAPS_API_KEY
 					}
 				}
 			},
@@ -191,7 +194,7 @@ export default () => {
 					projectId: '82d2d182-5397-4921-9056-8aa7efc9a9a4'
 				}
 			},
-			runtimeVersion: '1.0.0',
+			runtimeVersion: '1.0.0'
 			// runtimeVersion: {
 			// 	policy: 'appVersion'
 			// }

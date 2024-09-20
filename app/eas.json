@@ -15,6 +15,9 @@
 			"android": {
 				"buildType": "apk"
 			},
+			"env": {
+				"EXPO_CHANNEL_NAME": "development-build"
+			},
 			"channel": "development-build"
 		},
 		"development": {
@@ -29,7 +32,8 @@
 				"resourceClass": "medium"
 			},
 			"env": {
-				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1",
+				"EXPO_CHANNEL_NAME": "development"
 			},
 			"channel": "development"
 		},
@@ -40,10 +44,11 @@
 			},
 			"android": {
 				"resourceClass": "large",
-				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}",
+				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
 			},
 			"env": {
-				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1",
+				"EXPO_CHANNEL_NAME": "v0.11.0"
 			},
 			"channel": "v0.11.0"
 		}
