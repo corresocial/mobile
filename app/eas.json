@@ -22,8 +22,7 @@
 			"distribution": "internal",
 			"ios": {
 				"simulator": true,
-				"resourceClass": "medium",
-				"applicationArchivePath": "ios/build"
+				"resourceClass": "medium"
 			},
 			"android": {
 				"buildType": "apk",
@@ -32,23 +31,21 @@
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.11.1"
+			"channel": "development"
 		},
 		"production": {
 			"ios": {
 				"resourceClass": "medium",
-				"applicationArchivePath": "ios/build",
-				"image": "auto"
+				"applicationArchivePath": "ios/build"
 			},
 			"android": {
 				"resourceClass": "large",
 				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}",
-				"image": "latest"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.11.1"
+			"channel": "v0.11.0"
 		}
 	},
 	"submit": {
