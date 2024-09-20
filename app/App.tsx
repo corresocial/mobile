@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components'
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'
-import * as Sentry from '@sentry/react-native'
+// import * as Sentry from '@sentry/react-native'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -61,45 +61,41 @@ function App() {
 	})
 
 	return (
-		<Sentry.ErrorBoundary
-			fallback={ErrorBoundaryFallback}
-			onError={errorBoundaryHandler}
+		<NavigationContainer
+			ref={navigationRef}
+			linking={linking}
+			onReady={() => {
+				routeNameRef.current = navigationRef.current.getCurrentRoute().name
+			}}
+			onStateChange={() => {
+				const previousRouteName = routeNameRef.current
+				const currentRouteName = navigationRef.current.getCurrentRoute().name
+				if (previousRouteName !== currentRouteName) {
+					sendEvent('user_opened_screen', { screenName: currentRouteName })
+				}
+				routeNameRef.current = currentRouteName
+			}}
 		>
-			<NavigationContainer
-				ref={navigationRef}
-				linking={linking}
-				onReady={() => {
-					routeNameRef.current = navigationRef.current.getCurrentRoute().name
-				}}
-				onStateChange={() => {
-					const previousRouteName = routeNameRef.current
-					const currentRouteName = navigationRef.current.getCurrentRoute().name
-					if (previousRouteName !== currentRouteName) {
-						sendEvent('user_opened_screen', { screenName: currentRouteName })
-					}
-					routeNameRef.current = currentRouteName
-				}}
-			>
-				<ThemeProvider theme={theme}>
-					<GestureHandlerRootView style={{ flex: 1 }}>
-						<BottomSheetModalProvider>
-							<AlertProvider>
-								<LoaderProvider>
-									<PersistQueryClientProvider
-										client={queryClient}
-										persistOptions={{ persister: asyncStoragePersister }}
-									>
-										<AuthRegisterStack />
-									</PersistQueryClientProvider>
-								</LoaderProvider>
-							</AlertProvider>
-						</BottomSheetModalProvider>
-					</GestureHandlerRootView>
-				</ThemeProvider>
-			</NavigationContainer >
-		</Sentry.ErrorBoundary>
+			<ThemeProvider theme={theme}>
+				<GestureHandlerRootView style={{ flex: 1 }}>
+					<BottomSheetModalProvider>
+						<AlertProvider>
+							<LoaderProvider>
+								<PersistQueryClientProvider
+									client={queryClient}
+									persistOptions={{ persister: asyncStoragePersister }}
+								>
+									<AuthRegisterStack />
+								</PersistQueryClientProvider>
+							</LoaderProvider>
+						</AlertProvider>
+					</BottomSheetModalProvider>
+				</GestureHandlerRootView>
+			</ThemeProvider>
+		</NavigationContainer >
 	)
 }
 
 // eslint-disable-next-line import/no-default-export
-export default Sentry.wrap(App)
+export default App
+// export default Sentry.wrap(App)

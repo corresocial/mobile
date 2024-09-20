@@ -27,26 +27,28 @@
 			},
 			"android": {
 				"buildType": "apk",
-				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
+				"resourceClass": "medium"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "development"
+			"channel": "v0.11.1"
 		},
 		"production": {
 			"ios": {
 				"resourceClass": "medium",
-				"applicationArchivePath": "ios/build"
+				"applicationArchivePath": "ios/build",
+				"image": "auto"
 			},
 			"android": {
-				"resourceClass": "default",
-				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
+				"resourceClass": "large",
+				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}",
+				"image": "latest"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.11.0"
+			"channel": "v0.11.1"
 		}
 	},
 	"submit": {

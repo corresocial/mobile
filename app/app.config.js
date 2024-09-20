@@ -67,25 +67,25 @@ export default () => {
 							// newArchEnabled: true
 						},
 						android: {
-							minSdkVersion: 21,
+							minSdkVersion: 23,
 							compileSdkVersion: 34,
 							targetSdkVersion: 34,
 							buildToolsVersion: '34.0.0',
 							enableProguardInReleaseBuilds: true,
 							enableShrinkResourcesInReleaseBuilds: true,
-							// newArchEnabled: true,
 							enableR8: true,
+							usesCleartextTraffic: true,
+							// newArchEnabled: false,
 							extraProguardRules: `
 							-keep public class com.horcrux.svg.** {*;}
 							-keep public class com.stripe.android.pushProvisioning.** { *; }
-							-keep class com.android.tools.** { *; }
+							-keep public class com.android.tools.** { *; }
 							-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivity$g
 							-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Args
 							-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Error
 							-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter
 							-dontwarn com.stripe.android.pushProvisioning.PushProvisioningEphemeralKeyProvider
-							`,
-							usesCleartextTraffic: true
+							`
 						}
 					}
 				],
@@ -134,7 +134,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '73',
+				buildNumber: '75',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -156,7 +156,7 @@ export default () => {
 				}
 			},
 			android: {
-				versionCode: 73,
+				versionCode: 75,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',

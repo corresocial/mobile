@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, BackHandler, StatusBar } from 'react-native'
+import { BackHandler, StatusBar } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 
@@ -45,8 +45,6 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	const hasStoredUser = userId && userName
 
 	useEffect(() => {
-		Alert.alert('process.env.IOS_MAPS_API_KEY', process.env.IOS_MAPS_API_KEY)
-		Alert.alert('process.env.ANDROID_MAPS_API_KEY', process.env.ANDROID_MAPS_API_KEY)
 		loadLocalUser()
 	}, [])
 
