@@ -14,11 +14,11 @@ export const Container = styled.View`
 `
 
 export const Title = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${20}px; // REFACTOR relative
 `
 
 export const Text = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-size: ${13}px; // REFACTOR relative
 `

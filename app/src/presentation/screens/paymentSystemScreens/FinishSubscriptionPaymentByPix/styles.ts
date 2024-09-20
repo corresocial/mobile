@@ -26,7 +26,7 @@ export const TitleArea = styled.View`
 
 export const Title = styled.Text`
 	margin-left: ${relativeScreenDensity(10)}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-size: ${({ theme }) => theme.fontSizes[10]}px;
 `
 
@@ -38,7 +38,7 @@ export const PaymentStatusArea = styled.View`
 
 export const PaymentStatusText = styled.Text`
 	margin-left: ${relativeScreenDensity(20)}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 

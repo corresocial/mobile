@@ -16,12 +16,12 @@ export const AddressArea = styled.View`
 `
 
 export const HighlightedAddress = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `
 
 export const Address = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `
 

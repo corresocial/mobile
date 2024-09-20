@@ -73,7 +73,7 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	text-align-vertical: ${({ hasMultiline }) => (hasMultiline ? 'top' : 'center')};
 	width: ${({ hasIcon, hasDoubleIcon }) => (hasDoubleIcon ? '70%' : hasIcon ? '85%' : '100%')};
 
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 
 	color: ${({ theme }) => theme.colors.black[4]};
     max-height: ${relativeScreenHeight(25)}px;

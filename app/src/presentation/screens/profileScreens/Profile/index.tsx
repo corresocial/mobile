@@ -574,7 +574,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 											</TouchableOpacity>
 											<InfoArea>
 												<UserName numberOfLines={3}>
-													{getUserField('name') as string}
+													{'getUserField(\'name\') as string'}
 												</UserName>
 												{renderUserVerifiedType()}
 												{

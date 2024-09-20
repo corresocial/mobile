@@ -9,16 +9,16 @@ interface DescriptionTextProps {
 
 export const HyperlinkContainer = styled(Autolink) <DescriptionTextProps>`
 	font-size: ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(14))}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	`
 
 export const LongText = styled.Text<DescriptionTextProps>`
 	font-size: ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(14))}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	`
 
 export const SeeMoreLabel = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	color: ${({ theme }) => theme.colors.orange[4]};
 `

@@ -29,7 +29,7 @@ export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 
 export const Label = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[5]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
     padding: ${relativeScreenHeight(0.7)}px ${relativeScreenWidth(3)}px;
     text-align: center;
 `

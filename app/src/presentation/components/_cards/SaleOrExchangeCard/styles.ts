@@ -16,28 +16,28 @@ export const ExchangeArea = styled.View`
 
 export const SmallFont = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[6]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	padding-bottom: 1%;
 
 `
 export const SmallFontBold = styled(SmallFont)`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 `
 
 export const LargeFont = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[14]}px;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	margin-left: 1px;
 `
 
 export const ExchangeText = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 `
 
 export const Decimals = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	margin-right: 1%;
 	padding-bottom: 1%;
 `

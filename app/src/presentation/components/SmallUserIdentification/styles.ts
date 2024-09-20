@@ -57,10 +57,10 @@ interface UserNameProps {
 
 export const UserName = styled.Text<UserNameProps>`
 	font-size: ${({ userNameFontSize }) => relativeScreenDensity(userNameFontSize)}px;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 `
 
 export const PostDateTime = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 `

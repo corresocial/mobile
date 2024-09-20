@@ -32,13 +32,13 @@ export const TitleContainer = styled.View`
 `
 
 export const Title = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const SubTitle = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
     font-size: ${({ theme }) => theme.fontSizes[2]}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

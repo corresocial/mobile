@@ -7,7 +7,7 @@ export const Container = styled.KeyboardAvoidingView`
 `
 
 export const HeaderDescription = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `
 

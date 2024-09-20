@@ -60,6 +60,6 @@ export const TitleContainer = styled.View`
 
 export const Title = styled.Text`
 	text-align: left;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `

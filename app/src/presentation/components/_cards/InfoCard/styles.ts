@@ -32,14 +32,14 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 `
 
 export const Title = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
     font-size:  ${relativeScreenDensity(22)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const Description = styled.Text`
     width: 100%;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
     font-size:  ${relativeScreenDensity(13)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

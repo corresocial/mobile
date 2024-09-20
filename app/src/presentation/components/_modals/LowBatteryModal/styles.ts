@@ -40,13 +40,13 @@ export const CardTitleContainer = styled.View`
 
 export const CardTitleText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	color: ${({ theme }) => theme.colors.black[4]};
     margin-left: ${relativeScreenDensity(12)}px;
 `
 
 export const CardDescriptionText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	color: ${({ theme }) => theme.colors.black[4]};
 `

@@ -17,7 +17,7 @@ export const LinkContainer = styled.TouchableOpacity`
 `
 
 export const TextLink = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	color: ${({ theme }) => theme.colors.orange[3]};
 `

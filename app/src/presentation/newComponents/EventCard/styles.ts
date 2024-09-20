@@ -66,7 +66,7 @@ export const PriceLabelContainer = styled.View<PriceLabelContainerProps>`
 `
 
 export const PriceLabel = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[0]}px;
 	color: ${({ theme }) => theme.colors.black[4]};
 `
@@ -94,7 +94,7 @@ interface PostDescriptionProps {
 }
 
 export const PostDescription = styled.Text<PostDescriptionProps>`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 	`
 

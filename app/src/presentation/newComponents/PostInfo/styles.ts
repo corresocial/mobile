@@ -17,7 +17,7 @@ interface DescriptionTextProps {
 
 const CommonText = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 `
 
 interface TitleProps {

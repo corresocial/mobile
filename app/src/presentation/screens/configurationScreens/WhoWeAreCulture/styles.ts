@@ -28,11 +28,11 @@ export const Body = styled.View`
 
 export const Title = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[20]}px;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 `
 
 export const Description = styled.Text`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	line-height: ${relativeScreenDensity(20)}px;
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
 `

@@ -17,7 +17,7 @@ interface TextProps {
 }
 
 export const Text = styled.Text<TextProps>`
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	font-weight: ${({ bold }) => (bold ? 700 : 400)};
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

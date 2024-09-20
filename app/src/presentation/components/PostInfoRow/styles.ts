@@ -24,5 +24,5 @@ export const PostInfoText = styled.Text<PostInfoTextProps>`
 	${({ hasSeccondSvgIcon }) => (!hasSeccondSvgIcon ? 'flex: 1' : 'margin-right: 4%')};
 	margin-left: ${({ topic }) => (topic ? 0 : relativeScreenWidth(4))}px;
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 `

@@ -17,12 +17,12 @@ export const Container = styled.View<ContainerProps>`
 `
 
 export const Title = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 
 export const RightLabel = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[6]}px;
 	text-align: center;
 `

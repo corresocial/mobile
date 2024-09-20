@@ -3,9 +3,9 @@ import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenDensity } from '@common/screenDimensions'
 
 interface InputContainerProps {
-	defaultColor: string,
-	validColor: string,
-	valid?: boolean
+    defaultColor: string,
+    validColor: string,
+    valid?: boolean
 }
 
 export const InputContainer = styled.TouchableOpacity<InputContainerProps>`
@@ -26,7 +26,7 @@ export const InputInfoSection = styled.View`
 `
 
 interface InputTextUnderLineProps {
-	valid?: boolean
+    valid?: boolean
 }
 
 export const InputTextUnderLine = styled.View<InputTextUnderLineProps>`
@@ -36,13 +36,13 @@ export const InputTextUnderLine = styled.View<InputTextUnderLineProps>`
 `
 
 interface InputTextProps {
-	valid?: boolean
+    valid?: boolean
 }
 
 export const InputText = styled.Text<InputTextProps>`
     flex: 1;
     font-size: ${({ theme }) => theme.fontSizes[6]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
     font-weight: ${({ valid }) => (valid ? 700 : 400)};
     vertical-align: middle;
     text-align: center;

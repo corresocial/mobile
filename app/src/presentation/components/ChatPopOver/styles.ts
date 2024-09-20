@@ -26,7 +26,7 @@ export const CloseIcon = styled.TouchableOpacity`
 `
 
 export const UserName = styled.Text`
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 	font-size: ${({ theme }) => theme.fontSizes[6]}px;
 	width: 92%;
 	margin-bottom: ${relativeScreenDensity(15)}px;

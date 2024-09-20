@@ -15,7 +15,7 @@ export const CarouselItemContainer = styled.View`
 
 export const Slogan = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 `
 
 export const EasterEgg = styled.TouchableOpacity`

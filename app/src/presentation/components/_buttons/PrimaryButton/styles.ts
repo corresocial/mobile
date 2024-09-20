@@ -17,7 +17,7 @@ export const ContainerBottom = styled(Animatable.View as any)`
     background-color: ${({ theme }) => theme.colors.black[4]};
 `
 interface ContainerSurfaceProps {
-	buttonPressed: boolean
+    buttonPressed: boolean
 }
 
 export const ContainerSurface = styled.View<ContainerSurfaceProps>`
@@ -36,6 +36,6 @@ export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
     text-align: center;
 `

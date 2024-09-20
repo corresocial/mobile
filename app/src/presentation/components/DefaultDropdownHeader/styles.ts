@@ -34,11 +34,11 @@ export const AddressSelectedArea = styled.View`
 
 export const PresentationText = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoRegular};
+	font-family: 'Arvo_400Regular';
 	margin-bottom: ${relativeScreenDensity(3)}px;
 `
 
 export const AddressSelectedText = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 `

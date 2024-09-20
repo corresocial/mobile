@@ -54,5 +54,5 @@ export const ContainerSurface = styled.View<ConainerSurfaceProps>`
 export const ButtonLabel = styled.Text`
     margin-left: ${relativeScreenDensity(8)}px;
     color: ${({ theme }) => theme.colors.white[3]};
-	${({ theme }) => theme.fonts.arvoBold};
+	font-family: 'Arvo_700Bold';
 `
