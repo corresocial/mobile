@@ -23,7 +23,7 @@ export const Text = styled.Text`
 	flex: 1;
 	text-align: center;
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const RightOptions = styled.View`

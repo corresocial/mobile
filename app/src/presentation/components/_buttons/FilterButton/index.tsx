@@ -59,7 +59,7 @@ function FilterButton({
 					<Label
 						style={{
 							fontSize: fontSize,
-							fontFamily: theme.fonts.arvo
+							fontFamily: theme.fonts.arvoRegular
 						}}
 					>
 						{label}

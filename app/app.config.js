@@ -191,7 +191,10 @@ export default () => {
 					projectId: '82d2d182-5397-4921-9056-8aa7efc9a9a4'
 				}
 			},
-			runtimeVersion: '1.0.0'
+			runtimeVersion: '1.0.0',
+			// runtimeVersion: {
+			// 	policy: 'appVersion'
+			// }
 		}
 	})
 }

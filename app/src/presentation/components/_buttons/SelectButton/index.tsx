@@ -85,8 +85,7 @@ function SelectButton({
 					<Label
 						style={{
 							fontSize: relativeScreenDensity(fontSize),
-							fontFamily: theme.fonts.arvo,
-							fontWeight: selected || boldLabel ? 700 : 400,
+							fontFamily: selected || boldLabel ? theme.fonts.arvoBold : theme.fonts.arvoRegular,
 							color: labelColor,
 						}}
 					>

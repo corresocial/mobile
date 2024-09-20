@@ -10,5 +10,5 @@ export const Container = styled.View`
 `
 
 export const Text = styled.Text`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `

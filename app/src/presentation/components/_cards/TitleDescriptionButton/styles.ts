@@ -44,12 +44,12 @@ export const Title = styled.Text<TitleProps>`
     width: ${({ checked }) => (checked ? '70%' : '100%')};
     font-size:  ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(22))}px;
     color:  ${({ textColor, theme }) => (textColor || theme.colors.black[4])};
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const Description = styled.Text<TextProps>`
     width: 100%;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
     font-size:  ${relativeScreenDensity(14)}px;
 	color:  ${({ textColor, theme }) => (textColor || theme.colors.black[4])};
 `
@@ -63,21 +63,21 @@ export const Footer = styled.View`
 
 export const SmallThinFont = styled.Text`
 	text-align: right;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
     font-size:  ${relativeScreenDensity(18)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const SmallStrongFont = styled.Text`
 	text-align: right;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
     font-size:  ${relativeScreenDensity(18)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const LargeStrongFont = styled.Text`
 	text-align: right;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
     font-size:  ${relativeScreenDensity(25)}px;
     color: ${({ theme }) => theme.colors.black[4]};
 `

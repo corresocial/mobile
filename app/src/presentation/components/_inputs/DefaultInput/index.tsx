@@ -163,10 +163,9 @@ function DefaultInput({
 	const getTextInputStyle = () => {
 		return {
 			color: theme.colors.black[4],
-			fontFamily: theme.fonts.arvo,
-			weight: invalidTextAfterSubmit
-				? 400
-				: validated || textIsValid ? 700 : 400
+			fontFamily: invalidTextAfterSubmit
+				? theme.fonts.arvoRegular
+				: validated || textIsValid ? theme.fonts.arvoBold : theme.fonts.arvoRegular
 		}
 	}
 

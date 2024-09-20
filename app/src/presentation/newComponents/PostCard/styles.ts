@@ -85,7 +85,7 @@ export const DataContainer = styled.View<DataContainerProps>`
 
 export const PostDescriptionText = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
-	${({ theme }) => theme.fonts.nunitoSemiBold};
+	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
 	/* line-height: ${relativeScreenDensity(20)}px; */
@@ -137,7 +137,7 @@ export const InfoContainer = styled.View`
 
 export const InfoTitle = styled.Text`
 	color: ${({ theme }) => theme.colors.black[4]};
-	${({ theme }) => theme.fonts.nunitoBold};
+	font-family: ${({ theme }) => theme.fonts.nunitoBold};
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[1])}px;
 `
 

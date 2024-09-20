@@ -31,11 +31,11 @@ export const Body = styled.View`
 
 export const BoldPhrase = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const Description = styled.Text`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	line-height: ${relativeScreenDensity(20)}px;
 	font-size: ${({ theme }) => theme.fontSizes[6]}px;
 `

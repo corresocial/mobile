@@ -8,5 +8,5 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `

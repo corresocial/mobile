@@ -14,25 +14,25 @@ export const ExchangeArea = styled.View`
 
 export const SmallFont = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	padding-bottom: 1%;
 `
 
 export const LargeFont = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	margin-left: 1px;
 	align-self: flex-start;
 `
 
 export const ExchangeWord = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[8]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const Decimals = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	margin-right: 1%;
 	padding-bottom: 1%;
 `

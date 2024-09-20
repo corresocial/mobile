@@ -11,19 +11,19 @@ export const Container = styled.View`
 export const Message = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
     line-height: ${relativeScreenDensity(22)}px;
     flex-wrap: wrap;
 `
 
 export const MessageTitle = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[14]}px;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	color: ${({ theme }) => theme.colors.black[4]};
 `
 
 export const RedirectLink = styled.Text`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 	color: ${({ theme }) => theme.colors.orange[3]};
 `

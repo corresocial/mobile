@@ -71,8 +71,6 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	},
 
 	fonts: { // CURRENT
-		arvo: 'Arvo',
-		nunito: 'Nunito',
 		arvoRegular: 'Arvo_400Regular',
 		arvoBold: 'Arvo_700Bold',
 		nunitoSemiBold: 'Nunito_600SemiBold',

@@ -30,12 +30,12 @@ export const InfoArea = styled.View`
 
 export const UserName = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const SeeMoreLabel = styled.Text`
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	color: ${({ theme }) => theme.colors.orange[4]};
 `
 

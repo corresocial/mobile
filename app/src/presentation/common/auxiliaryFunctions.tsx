@@ -24,15 +24,13 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 			return (
 				<Text
 					style={{
-						fontFamily: theme.fonts.arvo,
-						fontWeight: 700
+						fontFamily: theme.fonts.arvoBold
 					}}
 					key={uuid()}
 				>
 					{`${wordWithoutSymbols}`}
 					<Text style={{
-						fontFamily: theme.fonts.arvo,
-						fontWeight: 400
+						fontFamily: theme.fonts.arvoRegular
 					}}
 					>
 						{`${symbolRemoved} `}
@@ -44,8 +42,7 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 		if (subtitleWords.length && subtitleWords.includes(wordWithoutSymbols as never)) {
 			return (
 				<Text style={{
-					fontFamily: theme.fonts.arvo,
-					fontWeight: 400,
+					fontFamily: theme.fonts.arvoRegular,
 					fontSize: relativeScreenDensity(12)
 				}}
 				>

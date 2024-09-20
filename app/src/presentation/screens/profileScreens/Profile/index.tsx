@@ -574,7 +574,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 											</TouchableOpacity>
 											<InfoArea>
 												<UserName numberOfLines={3}>
-													{'getUserField(\'name\') as string'}
+													{getUserField('name')}
 												</UserName>
 												{renderUserVerifiedType()}
 												{
@@ -584,7 +584,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 																&& setUserDescriptionIsExpanded(true)}
 														>
 															<UserDescription numberOfLines={3}>
-																{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
+																{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
 															</UserDescription>
 														</TouchableOpacity>
 													)
@@ -648,7 +648,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={isLoggedUser ? goToEditProfile : openChat}
 											/>
 											<SmallButton
-												color={theme.colors.orange[3]}
+												color={theme.colors.red[3]}
 												label={'compartilhar'}
 												labelColor={theme.colors.black[4]}
 												highlightedWords={
@@ -661,7 +661,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={shareProfile}
 											/>
 											<PopOver
-												title={getUserField('name') as string}
+												title={getUserField('name')}
 												isAdmin={userIsAdmin()}
 												isLeader={userIsLeader()}
 												buttonLabel={'denunciar perfil'}

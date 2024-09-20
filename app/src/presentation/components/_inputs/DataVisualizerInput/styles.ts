@@ -42,7 +42,7 @@ interface InputTextProps {
 export const InputText = styled.Text<InputTextProps>`
     flex: 1;
     font-size: ${({ theme }) => theme.fontSizes[6]}px;
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
     font-weight: ${({ valid }) => (valid ? 700 : 400)};
     vertical-align: middle;
     text-align: center;

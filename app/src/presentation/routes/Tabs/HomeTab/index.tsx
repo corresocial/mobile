@@ -217,8 +217,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				tabBarBadgeStyle: {
 					borderRadius: 5,
 					backgroundColor: theme.colors.pink[4],
-					fontFamily: theme.fonts.arvo,
-					fontWeight: 700,
+					fontFamily: theme.fonts.arvoBold,
 					fontSize: relativeScreenDensity(10),
 					margin: relativeScreenDensity(3),
 					marginLeft: relativeScreenDensity(10)

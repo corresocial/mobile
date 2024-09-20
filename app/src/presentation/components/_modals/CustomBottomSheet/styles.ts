@@ -26,7 +26,7 @@ export const HeaderTitleContainer = styled.View`
 // REFACTOR relative
 export const BottomSheetHeaderText = styled.Text`
     font-size: 18px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const CloseModalArea = styled.TouchableOpacity`

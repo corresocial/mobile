@@ -50,11 +50,11 @@ export const OwnerTextGroup = styled.View`
 
 export const OwnerName = styled.Text`
 	width: 80%;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 `
 
 export const PostDate = styled.Text`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[1]}px;
 `

@@ -33,6 +33,6 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 
 export const Title = styled.Text`
 	text-align: center;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `

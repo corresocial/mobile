@@ -16,7 +16,7 @@ export const InputsContainer = styled.View`
 // REFACTOR relative
 export const TwoPoints = styled.Text`
     font-size: 40px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const ButtonContainer = styled.View`

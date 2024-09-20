@@ -81,7 +81,7 @@ function SaleExchangeValue({
 					hasExchangeValue
 					&& (
 						<ExchangeWord
-							style={{ fontSize: relativeScreenDensity(exchangeFontSize), fontFamily: theme.fonts.arvo }}
+							style={{ fontSize: relativeScreenDensity(exchangeFontSize), fontFamily: theme.fonts.arvoRegular }}
 						>
 							{showMessageWithHighlight(`${hasSaleValue ? ' ou ' : ''}troca`, ['troca'])}
 						</ExchangeWord>

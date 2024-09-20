@@ -34,7 +34,7 @@ export const MediaBrowserHeaderText = styled.Text<HeaderTextContentProps>`
     padding-left: ${relativeScreenWidth(3)}px;
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
     text-align: left;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const MediaBrowserScrollView = styled.ScrollView`
@@ -115,5 +115,5 @@ export const InvalidAssetAlert = styled.View`
 export const InvalidDurationText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
     text-align: center;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `

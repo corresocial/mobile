@@ -41,7 +41,7 @@ export const CitizenNameContainer = styled.View`
 
 export const CitizenNameText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[8]}px;
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	color: ${({ theme }) => theme.colors.black[4]};
 `
 
@@ -60,9 +60,9 @@ export const InfoText = styled.Text`
 `
 
 export const CreatorNameText = styled(InfoText)`
-	font-family: 'Arvo_700Bold';
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const CreatedAtText = styled(InfoText)`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `

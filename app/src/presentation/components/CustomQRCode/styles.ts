@@ -25,7 +25,7 @@ export const ClipboardArea = styled.View<ClipboardProps>`
 `
 
 export const CliboardText = styled.Text<ClipboardProps>`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-weight: ${({ valueHasCliped }) => (valueHasCliped ? 700 : 400)};
 	font-size: ${({ theme }) => theme.fontSizes[5]}px;
 `
