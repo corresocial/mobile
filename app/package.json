@@ -62,6 +62,7 @@
     "expo-print": "~13.0.1",
     "expo-screen-orientation": "~7.0.5",
     "expo-sharing": "~12.0.1",
+    "expo-system-ui": "^3.0.7",
     "expo-updates": "~0.25.24",
     "expo-web-browser": "~13.0.3",
     "lottie-react-native": "6.7.0",
