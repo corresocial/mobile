@@ -113,6 +113,7 @@ function Home({ navigation }: HomeScreenProps) {
 			setSearchEnded(false)
 			let searchParams = {}
 			if (currentPosition || !hasLocationPermission) {
+				await checkLocationPermissions()
 				const coordinates = await getCurrentPositionCoordinates(firstLoad)
 				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {

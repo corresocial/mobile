@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { platformIsAndroid, relativeScreenDensity } from '@common/screenDimensions'
 
 export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlight pra facilitar sua vida
 	colors: {
@@ -70,11 +70,11 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 		pink: (opacity?: number) => `rgba(232, 48, 110, ${opacity ? opacity / 100 : '0.7'})`,
 	},
 
-	fonts: { // CURRENT
-		arvoRegular: 'Arvo_400Regular',
-		arvoBold: 'Arvo_700Bold',
-		nunitoSemiBold: 'Nunito_600SemiBold',
-		nunitoBold: 'Nunito_700Bold'
+	fonts: {
+		arvoRegular: platformIsAndroid ? 'Arvo_400Regular' : 'Arvo-Regular',
+		arvoBold: platformIsAndroid ? 'Arvo_700Bold' : 'Arvo-Bold',
+		nunitoSemiBold: platformIsAndroid ? 'Nunito_600SemiBold' : 'Nunito-SemiBold',
+		nunitoBold: platformIsAndroid ? 'Nunito_700Bold' : 'Nunito-Bold'
 	},
 
 	fontSizes: {

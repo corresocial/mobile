@@ -648,7 +648,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												onPress={isLoggedUser ? goToEditProfile : openChat}
 											/>
 											<SmallButton
-												color={theme.colors.red[3]}
+												color={theme.colors.yellow[3]}
 												label={'compartilhar'}
 												labelColor={theme.colors.black[4]}
 												highlightedWords={

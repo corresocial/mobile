@@ -46,12 +46,7 @@ export default () => {
 					}
 				],
 				'react-native-compressor',
-				'expo-av', [
-					'expo-updates',
-					{
-						username: 'wellington-souza-abreu'
-					}
-				],
+				'expo-av',
 				'@react-native-firebase/app',
 				'@react-native-firebase/auth',
 				'@react-native-firebase/crashlytics',
@@ -126,8 +121,13 @@ export default () => {
 				]
 			],
 			updates: {
+				enabled: true,
+				requestHeaders: {
+					'expo-channel-name': 'development'
+				},
 				fallbackToCacheTimeout: 0,
-				url: 'https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4'
+				url: 'https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4',
+
 			},
 			assetBundlePatterns: [
 				'**/*'
