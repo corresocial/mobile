@@ -6,13 +6,16 @@ export default () => {
 	const IOS_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_IOS_MAPS_API_KEY : process.env.IOS_MAPS_API_KEY
 	const ANDROID_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
 
+	const version = '0.11.0'
+	const easUpdateChannel = 'v0.11.0'
+
 	return ({
 		expo: {
 			name: 'corre',
 			owner: 'corresocial',
 			scheme: ['com.corresocial.corresocial', 'corre'],
 			slug: 'corresocial',
-			version: '0.11.0',
+			version: version,
 			orientation: 'portrait',
 			userInterfaceStyle: 'light',
 			icon: './assets/icon.png',
@@ -126,7 +129,7 @@ export default () => {
 			updates: {
 				enabled: true,
 				requestHeaders: {
-					'expo-channel-name': process.env.EXPO_CHANNEL_NAME || 'development'
+					'expo-channel-name': easUpdateChannel || 'development'
 				},
 				fallbackToCacheTimeout: 0,
 				url: 'https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4',

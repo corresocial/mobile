@@ -87,8 +87,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.colors.pink[3]} barStyle={'dark-content'} />
-			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.colors.pink[3]} withoutPadding>
+			<StatusBar backgroundColor={theme.colors.orange[3]} barStyle={'dark-content'} />
+			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.colors.orange[3]} withoutPadding>
 				<CustomCarousel>
 					<CarouselItemContainer >
 						<Logo height={relativeScreenHeight(7)} width={relativeScreenWidth(50)} />
@@ -130,7 +130,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 						: <></>
 				}
 				<OptionButton
-					label={`entrar em ${hasStoredUser ? 'outra' : 'uma'} conta`}
+					label={`entrar em ${hasStoredUser ? 'outra' : 'uma'} contaxxx`}
 					highlightedWords={['entrar', 'em', hasStoredUser ? 'outra' : 'uma', 'conta']}
 					labelSize={16}
 					relativeHeight={hasStoredUser ? '20%' : '30%'}

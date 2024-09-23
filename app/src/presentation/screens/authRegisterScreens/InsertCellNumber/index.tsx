@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StatusBar, Platform, TextInput } from 'react-native'
+import { StatusBar, Platform, TextInput, Alert } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -128,6 +128,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			setIsLoading(false)
 		} catch (error: any) {
 			console.log(error)
+			Alert.alert('DEBUG', error)
 			setIsLoading(false)
 			if (error.message === 'auth/too-many-requests') {
 				setRequestLimitsAlert(true)
@@ -141,6 +142,8 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
 		const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber)
+
+		if (!verificationCodeId) throw new Error('Erro ao solicitar código de verificaçã')
 
 		setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
 		setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
