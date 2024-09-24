@@ -1,8 +1,6 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-undef */
 import * as Updates from 'expo-updates'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Animated, StatusBar } from 'react-native'
+import { ActivityIndicator, StatusBar } from 'react-native'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -25,19 +23,12 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	const { performQuickSignin } = useAuthContext()
 	const { navigateToAuthScreen } = useAuthNavigation()
 
-	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
 
 	const { isChecking, isDownloading, isUpdatePending } = Updates.useUpdates()
 
 	useEffect(() => {
-		Animated.timing(imagesSvgOpacity, {
-			toValue: 1,
-			duration: 1000,
-			useNativeDriver: false
-		}).start()
-
-		setTimeout(checkUpdates, 1000)
+		checkUpdates()
 		checkCacheImageValidation()
 	}, [])
 
@@ -57,7 +48,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			return redirectToApp()
 		} catch (error: any) {
 			console.log(error)
-			redirectToApp()
+			return redirectToApp()
 		}
 	}
 
@@ -139,7 +130,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 				isUpdatePending || isChecking || isDownloading
 					? <ActivityIndicator size={'large'} color={theme.colors.orange[3]} />
 					: (
-						<LogoContainer style={{ opacity: imagesSvgOpacity }}>
+						<LogoContainer >
 							<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
 							<ActivityIndicator size={'large'} color={theme.colors.orange[3]} />
 						</LogoContainer>
