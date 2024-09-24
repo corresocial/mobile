@@ -14,7 +14,8 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 			1: '#7A7474',
 			2: '#4D4847',
 			3: '#262626',
-			4: '#0F1317',
+			4: '#000000',
+			// 4: '#0F1317',
 		},
 		orange: {
 			1: '#FFE4BF',

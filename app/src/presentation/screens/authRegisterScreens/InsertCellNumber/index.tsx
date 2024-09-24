@@ -105,7 +105,8 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 			if (DDDIsValid && cellNumberIsValid) {
 				setCompleteCellNumber(fullCellNumber)
-				const phoneAlreadyRegistred = await checkUserPhoneAlreadyRegistredCloud(fullCellNumber)
+				// CURRENT
+				const phoneAlreadyRegistred = true // await checkUserPhoneAlreadyRegistredCloud(fullCellNumber)
 
 				console.log(`Usuário já registrado: ${phoneAlreadyRegistred}`)
 				if (!newUser && !phoneAlreadyRegistred) {

@@ -1,7 +1,0 @@
-{
-	"projects": {
-		"default": "corresocialapp",
-		"prod": "corresocial-66840",
-		"dev": "corresocialapp"
-	}
-}
