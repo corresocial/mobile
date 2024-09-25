@@ -39,7 +39,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '80',
+				buildNumber: '81',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -61,7 +61,7 @@ export default () => {
 				}
 			},
 			android: {
-				versionCode: 80,
+				versionCode: 81,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
