@@ -125,7 +125,7 @@ function CustomModal({
 						<Header>
 							{TitleIcon && <TitleIcon width={'20%'} style={iconStyle} />}
 							<Title
-								hasHighlightedWords={!!titleHighlightedWords}
+								hasHighlightedWords={!!(titleHighlightedWords && titleHighlightedWords.length)}
 								textAlign={titleAlign}
 							>
 								{titleHighlightedWords ? showMessageWithHighlight(title || '', titleHighlightedWords) : title}

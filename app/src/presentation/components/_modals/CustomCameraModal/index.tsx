@@ -1,4 +1,5 @@
 import { Camera, CameraView, CameraType, FlashMode } from 'expo-camera'
+import * as Device from 'expo-device'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState, useRef } from 'react'
 import { ActivityIndicator, Modal, StatusBar, View } from 'react-native'
@@ -39,6 +40,7 @@ function CustomCameraModal({
 	setPictureUri,
 }: CustomCameraModalProps) {
 	const [isLoading, setIsLoading] = useState(true)
+	const [isCameraReady, setIsCameraReady] = useState(false)
 	const [cameraFacing, setCameraFacing] = useState<CameraType>('back')
 	const [flashMode, setFlashMode] = useState<FlashMode>('off')
 	const [cameraHasPermission, setCameraHasPermission] = useState(false)
@@ -79,7 +81,7 @@ function CustomCameraModal({
 	}
 
 	const takePicture = async () => {
-		if (cameraRef.current !== null) {
+		if (cameraRef && cameraRef.current !== null && (isCameraReady || !Device.isDevice)) {
 			const asset = await cameraRef.current.takePictureAsync()
 
 			if (!asset) return
@@ -131,6 +133,7 @@ function CustomCameraModal({
 							facing={cameraFacing}
 							flash={flashMode}
 							ratio={'1:1'}
+							onCameraReady={() => setIsCameraReady(true)}
 							onMountError={(err) => console.log(err)}
 						/>
 					</CameraContainer>

@@ -87,8 +87,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.colors.pink[3]} barStyle={'dark-content'} />
-			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.colors.pink[3]} withoutPadding>
+			<StatusBar backgroundColor={theme.colors.blue[3]} barStyle={'dark-content'} />
+			<DefaultHeaderContainer relativeHeight={'50%'} backgroundColor={theme.colors.blue[3]} withoutPadding>
 				<CustomCarousel>
 					<CarouselItemContainer >
 						<Logo height={relativeScreenHeight(7)} width={relativeScreenWidth(50)} />

@@ -62,8 +62,7 @@ interface TitleProps {
 
 export const Title = styled.Text<TitleProps>`
 	flex: 1;
-	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-    font-weight: ${({ hasHighlightedWords }) => (hasHighlightedWords ? 400 : 700)};
+	font-family: ${({ theme, hasHighlightedWords }) => (!hasHighlightedWords ? theme.fonts.arvoBold : theme.fonts.arvoRegular)};
 	text-align: ${({ textAlign }) => (textAlign || 'left')};
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
     color: ${({ theme }) => theme.colors.black[3]};
