@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser'
 import React from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -53,8 +53,6 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			setHasError(false)
 
 			const { userId, email } = await signInByGoogleCredential()
-			Alert.alert('userId', userId)
-			Alert.alert('email', email)
 
 			if (userId && email) {
 				setAuthenticatedUser({ userId, email })

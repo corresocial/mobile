@@ -128,7 +128,11 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			/>
 			{
 				isUpdatePending || isChecking || isDownloading
-					? <ActivityIndicator size={'large'} color={theme.colors.orange[3]} />
+					? (
+						<LogoContainer >
+							<ActivityIndicator size={'large'} color={theme.colors.black[4]} />
+						</LogoContainer>
+					)
 					: (
 						<LogoContainer >
 							<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />

@@ -11,7 +11,10 @@ async function signInByGoogleCredential() {
 		GoogleSignin.configure({
 			webClientId: AUTH_WEB_CLIENT_ID,
 			iosClientId: AUTH_IOS_CLIENT_ID,
-			offlineAccess: true
+			offlineAccess: true,
+			scopes: [],
+			forceCodeForRefreshToken: true,
+			profileImageSize: 120
 		})
 		const res = await GoogleSignin.signIn()
 		if (!res || (res && !res.data)) return { email: '', userId: '' }

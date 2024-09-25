@@ -77,8 +77,7 @@ interface DescriptionProps {
 
 export const Description = styled.Text<DescriptionProps>`
 	margin-bottom: ${relativeScreenDensity(20)}px;
-	font-family: ${({ theme }) => theme.fonts.arvoRegular};
-    font-weight: ${({ bolded }) => (bolded ? 700 : 400)};
+	font-family: ${({ theme, bolded }) => (bolded ? theme.fonts.arvoBold : theme.fonts.arvoRegular)};
     font-size: ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(13))}px;
     text-align: ${({ textAlign }) => (textAlign || 'left')};
     color: ${({ theme }) => theme.colors.black[3]};

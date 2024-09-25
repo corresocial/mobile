@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, BackHandler, StatusBar } from 'react-native'
+import { BackHandler, StatusBar } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 
@@ -11,8 +11,6 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import { getEnvVars } from '@infrastructure/environment'
-import { firebase, firebaseAuth } from '@infrastructure/firebase'
 import { showBuildInfo } from '@utils/showBuildInfo'
 
 import { Container, CarouselItemContainer, Slogan, EasterEgg } from './styles'
@@ -48,10 +46,6 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	useEffect(() => {
 		loadLocalUser()
-		// CURRENT
-		Alert.alert('ENVs', JSON.stringify(getEnvVars()))
-		Alert.alert('firebase.SDK_VERSION', firebase.SDK_VERSION)
-		Alert.alert('firebaseAuth.app', JSON.stringify(firebaseAuth.app.options))
 	}, [])
 
 	const loadLocalUser = async () => {

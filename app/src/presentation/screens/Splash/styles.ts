@@ -8,4 +8,8 @@ export const Container = styled.View`
     position: relative;
 `
 
-export const LogoContainer = styled.View``
+export const LogoContainer = styled.View`
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+`
