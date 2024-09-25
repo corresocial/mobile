@@ -40,7 +40,7 @@
 				"applicationArchivePath": "ios/build"
 			},
 			"android": {
-				"resourceClass": "large",
+				"resourceClass": "medium",
 				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
 			},
 			"env": {
