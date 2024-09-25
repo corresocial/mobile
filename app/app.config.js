@@ -39,7 +39,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '79',
+				buildNumber: '80',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -61,7 +61,7 @@ export default () => {
 				}
 			},
 			android: {
-				versionCode: 79,
+				versionCode: 80,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
@@ -195,11 +195,9 @@ export default () => {
 					}
 				],
 				[
-					'@react-native-google-signin/google-signin',
-					{
-						iosUrlScheme: process.env.IOS_URL_SCHEME
-					}
-				]
+					'@react-native-google-signin/google-signin'
+				],
+				['./plugins/gradle-config.js']
 			],
 			web: {
 				favicon: './assets/favicon.png'

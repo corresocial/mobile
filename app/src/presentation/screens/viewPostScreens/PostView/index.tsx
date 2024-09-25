@@ -92,7 +92,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const postType = getPostType()!
 
 	useEffect(() => {
-		getPost(!!(postData.macroCategory === 'event' && postData.postId && !loggedUserIsOwner()))
+		getPost(!!(postData?.macroCategory === 'event' && postData.postId && !loggedUserIsOwner()))
 		return () => {
 			clearEditContext()
 		}
@@ -311,7 +311,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const getSeeMoreTitle = (): string => {
-		switch (postData.macroCategory) {
+		switch (postData?.macroCategory) {
 			case 'art': return 'Ver mais artes'
 			case 'event': return 'Ver mais Eventos'
 			case 'donation': return 'Ver mais Social'
@@ -327,16 +327,16 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	const seeMorePressHandler = () => {
 		setIsLoadingMore(true)
-		if (!postData.macroCategory || route.name !== 'PostViewHome') return
+		if (!postData?.macroCategory || route.name !== 'PostViewHome') return
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
 
 		setIsLoadingMore(false)
-		if (postData.macroCategory === 'event') {
+		if (postData?.macroCategory === 'event') {
 			return navigation.navigate('EventsCalendar')
 		}
 
 		const commomRedirect = ['art', 'donation', 'education', 'informative', 'iniciative', 'sale', 'service', 'vacancy']
-		if (commomRedirect.includes(postData.macroCategory)) {
+		if (commomRedirect.includes(postData?.macroCategory)) {
 			return navigation.navigate('ViewPostsByMacroCategory')
 		}
 	}

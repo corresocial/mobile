@@ -91,8 +91,6 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 		}
 	}
 
-
-
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.colors.pink[3]} barStyle={'dark-content'} />
