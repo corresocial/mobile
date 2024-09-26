@@ -13,7 +13,7 @@ async function getPhoneVerificationCodeId(completeNumber: string) {
 			case 'auth/cancelled-popup-request':
 				throw new Error('auth/too-many-requests')
 			default:
-				throw new Error('Houve um erro ao tentar lhe enviar o código de verificação!')
+				throw new Error(`Houve um erro ao tentar lhe enviar o código de verificação!\n${err}`)
 		}
 	}
 }

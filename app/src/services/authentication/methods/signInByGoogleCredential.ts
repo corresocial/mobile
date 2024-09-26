@@ -11,8 +11,8 @@ async function signInByGoogleCredential() {
 		GoogleSignin.configure({
 			webClientId: AUTH_WEB_CLIENT_ID,
 			iosClientId: AUTH_IOS_CLIENT_ID,
-			offlineAccess: true,
-			scopes: [],
+			// offlineAccess: true,
+			// scopes: [],
 			forceCodeForRefreshToken: true,
 			profileImageSize: 120
 		})
