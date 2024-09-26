@@ -35,7 +35,7 @@ export function AuthRegisterStack() {
 					name={'SelectAuthRegister'}
 					component={SelectAuthRegister}
 					options={{
-						...TransitionPresets.FadeFromBottomAndroid
+						...TransitionPresets.ModalFadeTransition
 					}}
 				/>
 				<Stack.Screen name={'AcceptTermsAndConditions'} component={AcceptTermsAndConditions} />

@@ -8,14 +8,21 @@ async function signInByGoogleCredential() {
 	try {
 		const { AUTH_IOS_CLIENT_ID, AUTH_WEB_CLIENT_ID } = getEnvVars()
 		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+
 		GoogleSignin.configure({
 			webClientId: AUTH_WEB_CLIENT_ID,
 			iosClientId: AUTH_IOS_CLIENT_ID,
-			// offlineAccess: true,
-			// scopes: [],
+			offlineAccess: true,
+			scopes: [],
 			forceCodeForRefreshToken: true,
 			profileImageSize: 120
 		})
+
+		const hasPreviousSignIn = GoogleSignin.hasPreviousSignIn()
+		if (hasPreviousSignIn) {
+			await GoogleSignin.signOut()
+		}
+
 		const res = await GoogleSignin.signIn()
 		if (!res || (res && !res.data)) return { email: '', userId: '' }
 
