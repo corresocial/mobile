@@ -1,5 +1,4 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import { Alert } from 'react-native'
 
 import { getEnvVars } from '@infrastructure/environment'
 import { authProviders, firebaseAuth } from '@infrastructure/firebase'
@@ -35,7 +34,6 @@ async function signInByGoogleCredential() {
 		}
 	} catch (err) {
 		console.log(err)
-		Alert.alert('res', err ? JSON.stringify(err) : 'nulo') // CURRENT
 		return { email: '', userId: '' }
 	}
 }
