@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import * as LocalAuthentication from 'expo-local-authentication'
-import { Alert } from 'react-native'
 
 async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 	try {
@@ -26,7 +25,6 @@ async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 		return false
 	} catch (error) {
 		console.log(error)
-		Alert.alert('FACEID', JSON.stringify(error)) // CURRENT
 		return false
 	}
 }
