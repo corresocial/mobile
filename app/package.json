@@ -86,7 +86,6 @@
     "react-native-autolink": "^4.2.0",
     "react-native-compressor": "^1.9.0",
     "react-native-dotenv": "^3.3.1",
-    "react-native-firebase": "^5.6.0",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-maps": "1.14.0",
     "react-native-modal-datetime-picker": "^18.0.0",
