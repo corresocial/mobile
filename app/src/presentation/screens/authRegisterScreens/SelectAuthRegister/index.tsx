@@ -50,6 +50,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	const loadLocalUser = async () => {
 		const authenticatedLocalUser = await localStorage.getLocalUserData()
+		console.log(authenticatedLocalUser)
 		setLocalUser(authenticatedLocalUser)
 	}
 

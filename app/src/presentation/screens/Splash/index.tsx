@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as Updates from 'expo-updates'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, StatusBar } from 'react-native'
@@ -33,7 +34,7 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	}, [])
 
 	const hasUpdates = async () => {
-		// if (__DEV__) return { isAvailable: false }
+		if (__DEV__) return { isAvailable: false }
 		return Updates.checkForUpdateAsync()
 	}
 

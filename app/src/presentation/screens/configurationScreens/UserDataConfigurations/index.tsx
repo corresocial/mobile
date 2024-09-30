@@ -80,10 +80,8 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				userDataContext.userId,
 				userDataContext.profilePictureUrl || [],
 				userDataContext.posts as PostEntityOptional[]
-			).then(() => {
-				setIsLoading(false)
-				toggleSuccessModalVisibility()
-			})
+			)
+			toggleSuccessModalVisibility()
 
 			clearCache(queryClient)
 			setIsLoading(false)
@@ -105,7 +103,6 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const performLogout = async () => {
 		try {
 			clearCache(queryClient)
-			// navigateToInitialScreen()
 			await logoutUser(
 				useUserRepository,
 				usePostRepository,

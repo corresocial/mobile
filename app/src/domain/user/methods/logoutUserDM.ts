@@ -17,10 +17,14 @@ async function logoutUserDM(
 		const { localStorage: localPostsStorage } = usePostRepository()
 		const { updateUserTokenNotification } = useChatDomain()
 
+		if (!firebaseAuth.currentUser?.uid) throw new Error('Usuário não encontrado ou não está logado!')
+
+		console.log('LOGOUt user')
 		await localStorage.clearLocalUserData()
 		await localPostsStorage.clearOfflinePosts()
 		await updateUserTokenNotification(userId, '')
 		removeChatListeners()
+
 		await firebaseAuth.signOut()
 	} catch (error: any) {
 		console.log(error)

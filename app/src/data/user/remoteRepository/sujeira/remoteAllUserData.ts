@@ -1,8 +1,7 @@
 import { Id } from '@domain/globalTypes'
 import { PostEntityOptional } from '@domain/post/entity/types'
 
-import { deletePost } from '@data/post/remoteStorage/deletePost' // from data/post
-import { deletePostMedias } from '@data/post/remoteStorage/deletePostMedias' // from data/post
+import { usePostRepository } from '@data/post/usePostRepository'
 
 import { firebaseAuth } from '@infrastructure/firebase'
 
@@ -11,12 +10,21 @@ import { deleteUserProfilePicture } from '../deleteUserProfilePicture'
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostEntityOptional[] = []) => {
 	// REFACTOR Deve virar um domain method
+	if (!firebaseAuth.currentUser?.uid) throw new Error('Usuário não encontrado ou não está logado!')
+
 	const user = firebaseAuth.currentUser // REFACTOR Requer Autenticação(services) e Posts(data) estruturados
 
-	posts.map(async (post) => {
-		await deletePost(post.postId as Id)
-		await deletePostMedias(post.picturesUrl || [], 'pictures')
-		return true
+	const { remoteStorage } = usePostRepository()
+
+	const userPosts = await remoteStorage.getPostsByUser(firebaseAuth.currentUser?.uid, 1, null, false, true)
+
+	userPosts.forEach(async (postData) => {
+		try {
+			await remoteStorage.deletePost(postData.postId)
+			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
+		} catch (error: any) {
+			console.log(error)
+		}
 	})
 
 	await deleteUserProfilePicture(userPictureUrl)

@@ -44,7 +44,7 @@ export default () => {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
 					NSPhotoLibraryUsageDescription: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.',
-					NSFaceIDUsageDescription: 'Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.',
+					NSFaceIDUsageDescription: 'Usamos o bloqueio do app com TouchID ou FaceID para garantir a segurança da sua conta.',
 					CFBundleURLTypes: [
 						{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial', 'corre'] }
 					]
@@ -196,6 +196,24 @@ export default () => {
 				],
 				[
 					'@react-native-google-signin/google-signin'
+				],
+				[
+					'expo-asset',
+					{
+						assets: [
+							'./assets',
+							'./src/presentation/assets/icons',
+							'./src/presentation/assets/icons/categories',
+							'./src/presentation/assets/imgs',
+							'./src/presentation/assets/fonts'
+						]
+					}
+				],
+				[
+					'expo-local-authentication',
+					{
+						faceIDPermission: 'Você precisa permitir a utilização do faceID para podermos garantir a segurança da sua conta'
+					}
 				],
 				['./plugins/gradle-config.js']
 			],

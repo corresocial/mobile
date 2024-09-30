@@ -99,27 +99,13 @@ function FeedByRangeFlatList({
 		}
 	}
 
-	const renderDivider = (item: PostRangeDivider): React.ReactElement<any> => {
-		switch (item.postRange) {
-			case 'near': if (!hasNearbyPosts()) { return <></> } break
-			case 'city': if (!hasCityPosts()) { return <></> } break
-			case 'country': if (!hasCountryPosts()) { return <></> } break
-		}
-		return (
-			<PostCardContainer key={item.postRange}>
-				{item.postRange !== 'near' && <VerticalSpacing />}
-				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
-			</PostCardContainer>
-		)
-	}
-
 	const audioToggle = () => {
 		setVideosMuted(!videosMuted)
 	}
 
 	const posts = useMemo(() => {
 		const formattedPosts = [
-			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby.map((p) => ({ ...p, range: 'near' })),
+			/* { dividerText: 'Posts perto de você', postRange: 'near' }, */ ...filteredFeedPosts.nearby.map((p) => ({ ...p, range: 'near' })),
 			/* { dividerText: 'Posts na sua cidade', postRange: 'city' }, */ ...filteredFeedPosts.city.map((p) => ({ ...p, range: 'city' })),
 			/* { dividerText: 'Posts no Brasil    ', postRange: 'country' }, */ ...filteredFeedPosts.country.map((p) => ({ ...p, range: 'country' }))
 		] as PostEntity[]
@@ -139,6 +125,20 @@ function FeedByRangeFlatList({
 
 		return filteredItems
 	}, [filteredFeedPosts])
+
+	const renderDivider = (item: PostRangeDivider): React.ReactElement<any> => {
+		switch (item.postRange) {
+			case 'near': if (!hasNearbyPosts()) { return <></> } break
+			case 'city': if (!hasCityPosts()) { return <></> } break
+			case 'country': if (!hasCountryPosts()) { return <></> } break
+		}
+		return (
+			<PostCardContainer key={item.postRange}>
+				{item.postRange !== 'near' && <VerticalSpacing />}
+				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
+			</PostCardContainer>
+		)
+	}
 
 	const renderPostItem = useCallback((element: any) => {
 		const { item } = element
@@ -162,7 +162,6 @@ function FeedByRangeFlatList({
 		switch (itemType) {
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
-					<VerticalSpacing />
 					<PostCard
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
