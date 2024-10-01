@@ -15,6 +15,7 @@ import { ChatContext } from '@contexts/ChatContext'
 import { ChatMessagesScreenProps } from '@routes/Stack/ChatStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
+import { sortChatMessages } from '@utils-ui/chat'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -83,7 +84,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		const updatedChat = chatDataContext.find((chat) => chat && (chat.chatId === currentChat.chatId))
-		updatedChat && setMessages(updatedChat?.messages)
+		updatedChat && setMessages(Object.values(updatedChat.messages).sort(sortChatMessages) as any)
 		chatCompletedStateHasUpdated(updatedChat) && setCurrentChat(updatedChat as Chat)
 	}, [chatDataContext])
 
@@ -117,7 +118,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const remoteChatData = await getRemoteChatDataByUser(currentChat.user1, currentChat.user2)
 
 		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } })
-		setMessages({ ...remoteChatData.messages })
+		// setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
 	}
@@ -148,16 +149,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
 		const newMessageValue = Object.values(newMessageObject)[0]
-		const newMessages = { ...messages, ...newMessageObject }
 
 		const userBlock = await verifyUsersBlock()
-
-		setMessages(newMessages)
 
 		await sendMessage(
 			{ ...newMessageValue, justOwner: !!userBlock },
 			currentChat.chatId,
-			getRecipientUserName()
+			userDataContext.name
 		)
 
 		!!currentChat.completed && updateChatCompletedState(currentChat.chatId, false)
@@ -252,24 +250,24 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [numberOfMessages, setNumberOfMessages] = useState(0)
 
 	const scrollToEnd = (animated: boolean, height?: number) => {
-		// const currentNumberOfMessages = getFilteredMessages().length
+		const currentNumberOfMessages = getFilteredMessages().length
 
-		// if (currentNumberOfMessages <= 0) return
+		if (currentNumberOfMessages <= 0) return
 
-		// if (firstRender) {
-		// 	if (height) {
-		// 		!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })
-		// 		return
-		// 	}
+		if (firstRender) {
+			if (height) {
+				!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })
+				return
+			}
 
-		// 	!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
-		// 	return
-		// }
+			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
+			return
+		}
 
-		// if (numberOfMessages < currentNumberOfMessages) {
-		// 	setNumberOfMessages(getFilteredMessages().length)
-		// 	!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
-		// }
+		if (numberOfMessages < currentNumberOfMessages) {
+			setNumberOfMessages(getFilteredMessages().length)
+			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
+		}
 	}
 
 	return (

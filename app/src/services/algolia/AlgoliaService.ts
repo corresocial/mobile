@@ -53,7 +53,6 @@ export class AlgoliaService implements AlgoliaServiceInterface {
 
 		// Tipagem da lib está errada, results.hits existe, mas a tipagem não consta
 		const profiles = (results.results[0] as any).hits.reduce((acc: UserEntity[] | any, result: SearchResult<UserEntity>) => {
-			console.log(result)
 			const structuredData = this.removeAlgoliaExtraData(result as any, 'userId')
 			return [...acc, structuredData]
 		}, [] as UserEntity[])

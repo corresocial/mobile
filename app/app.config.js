@@ -187,6 +187,14 @@ export default () => {
 						color: '#FFAA33'
 					}
 				],
+				[
+					'expo-notifications',
+					{
+						icon: './assets/notification-icon.png',
+						color: '#FFAA33',
+						defaultChannel: 'default'
+					}
+				],
 				'expo-localization', [
 					'@stripe/stripe-react-native',
 					{
