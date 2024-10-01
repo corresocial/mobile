@@ -141,7 +141,7 @@ function FeedByRangeFlatList({
 	}
 
 	const renderPostItem = useCallback((element: any) => {
-		const { item } = element
+		const { item, index } = element
 		const itemType = getItemType(item)
 
 		if ((item as any).action) {
@@ -162,6 +162,7 @@ function FeedByRangeFlatList({
 		switch (itemType) {
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
+					{index !== 0 && <VerticalSpacing />}
 					<PostCard
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -177,7 +178,7 @@ function FeedByRangeFlatList({
 
 			case 'poll': return (
 				<PostCardContainer key={item.pollId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -190,7 +191,7 @@ function FeedByRangeFlatList({
 
 			case 'petition': return (
 				<PostCardContainer key={item.petitionId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}

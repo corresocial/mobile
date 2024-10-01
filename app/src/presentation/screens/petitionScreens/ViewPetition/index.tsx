@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { StatusBar, TouchableOpacity } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
@@ -155,6 +155,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 
 	return (
 		<>
+			<StatusBar backgroundColor={theme.colors.white[3]} />
 			<DefaultConfirmationModal
 				visibility={deleteConfirmationModalIsVisible}
 				title={'apagar abaixo assinado'}

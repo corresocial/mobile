@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
@@ -174,6 +175,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	return (
 		<>
+			<StatusBar backgroundColor={theme.colors.white[3]} />
 			<DefaultConfirmationModal
 				visibility={deleteConfirmationModalIsVisible}
 				title={'apagar enquete'}

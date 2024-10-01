@@ -17,7 +17,7 @@ export const ContainerBottom = styled(Animatable.View as any)`
     background-color: ${({ theme }) => theme.colors.black[4]};
 `
 interface ContainerSurfaceProps {
-    buttonPressed: boolean
+	buttonPressed: boolean
 }
 
 export const ContainerSurface = styled.View<ContainerSurfaceProps>`
