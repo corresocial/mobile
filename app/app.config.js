@@ -20,7 +20,7 @@ export default () => {
 			userInterfaceStyle: 'light',
 			icon: './assets/icon.png',
 			splash: {
-				image: './assets/splash-screen.png',
+				image: './assets/splash.png',
 				resizeMode: 'contain',
 				backgroundColor: '#FFAA33',
 				statusBarStyle: 'dark'
@@ -52,7 +52,7 @@ export default () => {
 				supportsTablet: true,
 				googleServicesFile: GOOGLE_SERVICES_INFO_PLIST,
 				splash: {
-					image: './assets/splash-screen.png',
+					image: './assets/splash.png',
 					resizeMode: 'contain',
 					backgroundColor: '#FFAA33'
 				},
@@ -66,7 +66,7 @@ export default () => {
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
 				adaptiveIcon: {
-					foregroundImage: './assets/adaptive-icon-foreground.png',
+					foregroundImage: './assets/foreground.png',
 					backgroundColor: '#FFAA33'
 				},
 				permissions: [
@@ -185,14 +185,14 @@ export default () => {
 				[
 					'expo-notifications',
 					{
-						icon: './assets/notification-icon.png',
+						icon: './assets/notification.png',
 						color: '#FFAA33'
 					}
 				],
 				[
 					'expo-notifications',
 					{
-						icon: './assets/notification-icon.png',
+						icon: './assets/notification.png',
 						color: '#FFAA33',
 						defaultChannel: 'default'
 					}
@@ -212,7 +212,7 @@ export default () => {
 					{
 						assets: [
 							'./assets',
-							'./src/presentation/assets/imgs'
+							'./src/presentation/assets/imgs/'
 						]
 					}
 				],

@@ -6,7 +6,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
 import { OwnerDataContainer, OwnerName, OwnerProfilePicture, OwnerProfileTouchable, OwnerTextGroup, PostDate, UserPictureArea, UserPictureAreaInner } from './styles'
-import UserShadow from '@assets/imgs/userShadow.jpg'
+import UserShadow from '@assets/imgs/user_shadow.jpg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 const { formatRelativeDate } = UiUtils()
