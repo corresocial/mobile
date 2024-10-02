@@ -212,10 +212,7 @@ export default () => {
 					{
 						assets: [
 							'./assets',
-							'./src/presentation/assets/icons',
-							'./src/presentation/assets/icons/categories',
-							'./src/presentation/assets/imgs',
-							'./src/presentation/assets/fonts'
+							'./src/presentation/assets/imgs'
 						]
 					}
 				],
