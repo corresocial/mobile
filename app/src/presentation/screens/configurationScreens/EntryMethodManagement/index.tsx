@@ -1,7 +1,7 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
@@ -33,7 +33,7 @@ import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-const { linkAuthProvider, unlinkAuthProvider } = useAuthenticationService()
+const { signInByGoogleCredential, linkAuthProvider, unlinkAuthProvider } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
@@ -48,6 +48,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const [hasError, setHasError] = useState(false)
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = useState(false)
 	const [unlinkPhoneConfirmationModalIsVisible, setUnlinkPhoneConfirmationModalIsVisible] = useState(false)
+	const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -64,12 +65,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	const loadPrivateContacts = async () => {
 		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
-		console.log(userContacts)
 		setUserPrivateContacts(userContacts as PrivateUserEntity['contacts'])
 	}
 
 	const canRemoveEntryMethod = () => {
-		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email && Platform.OS === 'android'
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
 	}
 
 	const editPhoneProvider = () => {
@@ -110,7 +110,37 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		}
 	}
 
+	const unlinkGoogleProvider = async () => {
+		try {
+			setIsLoading(true)
+			setHasError(false)
+			const registeredEmail = userPrivateContacts.email
+
+			if (registeredEmail) {
+				await unlinkAuthProvider('google.com')
+				await remoteStorage.updatePrivateContacts(
+					userDataContext.userId,
+					{ email: '' }
+				)
+				setUserPrivateContacts({ ...userPrivateContacts, email: '' })
+				navigateToLinkResultScreen(false, registeredEmail)
+			}
+		} catch (error: any) {
+			console.log(error)
+			setHasError(true)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
 	const editGoogleProvider = async () => {
+		const registeredEmail = userPrivateContacts.email
+
+		if (registeredEmail) {
+			if (!canRemoveEntryMethod()) return
+			return toggleUnlinkGoogleConfirmationModalVisibility()
+		}
+
 		await linkGoogleProvider()
 	}
 
@@ -119,7 +149,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			setIsLoading(true)
 			setHasError(false)
 
-			const linkedUser: FirebaseAuthTypes.User = await linkAuthProvider()
+			const googleCredential = await signInByGoogleCredential(true)
+
+			if (!googleCredential) throw new Error('Credenciais inválidas')
+
+			const linkedUser = await linkAuthProvider(googleCredential as FirebaseAuthTypes.AuthCredential, 'google.com') as FirebaseAuthTypes.User
 			if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 
 			await remoteStorage.updatePrivateContacts(
@@ -153,6 +187,10 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		setUnlinkPhoneConfirmationModalIsVisible(!unlinkPhoneConfirmationModalIsVisible)
 	}
 
+	const toggleUnlinkGoogleConfirmationModalVisibility = () => {
+		setUnlinkGoogleConfirmationModalIsVisible(!unlinkGoogleConfirmationModalIsVisible)
+	}
+
 	const getFormatedCellNumber = () => {
 		if (!userPrivateContacts || !userPrivateContacts.cellNumber) return ''
 		const numbetWithoutCountryCode = userPrivateContacts && userPrivateContacts.cellNumber ? userPrivateContacts.cellNumber.slice(3) : ''
@@ -172,12 +210,21 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				closeModal={toggleUnlinkPhoneConfirmationModalVisibility}
 				onPressButton={unlinkPhoneProvider}
 			/>
+			<DefaultConfirmationModal
+				visibility={unlinkGoogleConfirmationModalIsVisible}
+				title={'desvincular'}
+				text={'não poderá mais acessar sua conta utilizando esta conta google. \n\nvocê tem certeza que deseja desvincular este email da sua conta?'}
+				highlightedWords={['você', 'desvincular', 'esta', 'conta', 'google', 'da', 'sua', 'conta', 'desvincular', 'esta', 'conta']}
+				buttonKeyword={'desvincular'}
+				closeModal={toggleUnlinkGoogleConfirmationModalVisibility}
+				onPressButton={unlinkGoogleProvider}
+			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={userPrivateContacts ? userPrivateContacts.email : ''}
 				registerMethod
 				linking
-				hasError={hasError}
+				hasError
 				closeModal={() => {
 					setHasError(false)
 					toggleSocialLoginAlertModalVisibility()
@@ -217,11 +264,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								/>
 								<EditCard
 									title={'conta google'}
-									RightIcon={userPrivateContacts && userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts && userPrivateContacts.email ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={GoogleWhiteIcon}
 									value={userPrivateContacts && userPrivateContacts.email ? userPrivateContacts.email : ''}
 									pressionable
-									onEdit={userPrivateContacts && userPrivateContacts.email ? () => { } : editGoogleProvider}
+									onEdit={editGoogleProvider}
 								/>
 								<VerticalSpacing />
 							</>

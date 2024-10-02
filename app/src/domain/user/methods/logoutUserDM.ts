@@ -19,7 +19,6 @@ async function logoutUserDM(
 
 		if (!firebaseAuth.currentUser?.uid) throw new Error('Usuário não encontrado ou não está logado!')
 
-		console.log('LOGOUt user')
 		await localStorage.clearLocalUserData()
 		await localPostsStorage.clearOfflinePosts()
 		await updateUserTokenNotification(userId, '')

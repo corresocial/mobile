@@ -52,7 +52,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			setIsLoading(true)
 			setHasError(false)
 
-			const { userId, email } = await signInByGoogleCredential()
+			const { userId, email } = await signInByGoogleCredential() as { userId: string, email: string }
 
 			if (userId && email) {
 				setAuthenticatedUser({ userId, email })

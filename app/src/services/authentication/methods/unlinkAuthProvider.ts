@@ -1,6 +1,8 @@
 import { firebaseAuth } from '@infrastructure/firebase'
 
-async function unlinkAuthProvider(providerId: string): Promise<boolean> {
+import { ProviderId } from '../AuthenticationServiceInterface'
+
+async function unlinkAuthProvider(providerId: ProviderId): Promise<boolean> {
 	try {
 		const currentUser = firebaseAuth?.currentUser
 		if (!currentUser) {

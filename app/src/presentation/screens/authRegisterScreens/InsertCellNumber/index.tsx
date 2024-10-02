@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StatusBar, Platform, TextInput, Alert } from 'react-native'
+import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -128,7 +128,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			setIsLoading(false)
 		} catch (error: any) {
 			console.log(error)
-			Alert.alert('DEBUG', error)
 			setIsLoading(false)
 			if (error.message === 'auth/too-many-requests') {
 				setRequestLimitsAlert(true)
@@ -140,15 +139,24 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	}
 
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
-		const currentCellNumber = fullCellNumber || completeCellNumber
-		const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber)
+		try {
+			setLoginAlertModalIsVisible(false)
+			// Modal de recaptcha estava sendo impedido de abrir pois o modal de alerta estava intânciado
+			setTimeout(async () => {
+				const currentCellNumber = fullCellNumber || completeCellNumber
+				const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber)
 
-		if (!verificationCodeId) throw new Error('Erro ao solicitar código de verificaçã')
+				if (!verificationCodeId) throw new Error('Erro ao solicitar código de verificaçã')
 
-		setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
-		setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+				setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+				setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
 
-		navigation.navigate('InsertConfirmationCode')
+				navigation.navigate('InsertConfirmationCode')
+			}, 300)
+		} catch (err) {
+			console.log(err)
+			throw err
+		}
 	}
 
 	const getHeaderMessage = () => {
@@ -178,7 +186,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				visibility={loginAlertModalIsVisible}
 				accountIdentifier={completeCellNumber}
 				registerMethod={newUser}
-				closeModal={toggleLoginAlertModalVisibility}
+				closeModal={() => setLoginAlertModalIsVisible(false)}
 				onPressButton={requestCellNumberVerificationCode}
 			/>
 			<DefaultHeaderContainer

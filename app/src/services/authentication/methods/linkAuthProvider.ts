@@ -1,29 +1,25 @@
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-import { getEnvVars } from '@infrastructure/environment'
-import { authProviders, firebaseAuth } from '@infrastructure/firebase'
+import { firebaseAuth } from '@infrastructure/firebase'
 
-async function linkAuthProvider() {
+import { ProviderId } from '../AuthenticationServiceInterface'
+
+async function linkAuthProvider(authCredential: FirebaseAuthTypes.AuthCredential | null, providerId: ProviderId) {
 	try {
 		const currentUser = firebaseAuth?.currentUser
 		if (!currentUser) {
 			throw new Error('No current user')
 		}
 
-		const { AUTH_IOS_CLIENT_ID } = getEnvVars()
+		if (providerId === 'phone') {
+			const { user } = await currentUser.linkWithCredential(authCredential!)
+			return user
+		}
 
-		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
-		GoogleSignin.configure({
-			webClientId: AUTH_IOS_CLIENT_ID,
-			iosClientId: AUTH_IOS_CLIENT_ID
-		})
-
-		const { data } = await GoogleSignin.signIn()
-		const googleCredential = authProviders.GoogleAuthProvider.credential(data?.idToken!)
-
-		const { user } = await currentUser.linkWithCredential(googleCredential)
-		console.log('Account linking success')
-		return user
+		if (providerId === 'google.com') {
+			const { user } = await currentUser.linkWithCredential(authCredential!)
+			return user
+		}
 	} catch (error: any) {
 		console.log(error)
 		throw Error(error.code ? error.code : error)
