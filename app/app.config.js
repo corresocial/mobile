@@ -80,7 +80,9 @@ export default () => {
 					'android.permission.FOREGROUND_SERVICE',
 					'android.permission.CAMERA',
 					'android.permission.INTERNET',
-					'android.permission.AD_ID'
+					'android.permission.AD_ID',
+					'android.permission.SCHEDULE_EXACT_ALARM',
+					'android.permission.Intent.ACTION_BOOT_COMPLETED'
 				],
 				config: {
 					googleMaps: {
