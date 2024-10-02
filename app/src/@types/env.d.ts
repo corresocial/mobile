@@ -26,6 +26,7 @@ declare module '@env' {
 	export const PROD_FIREBASE_appId: string
 	export const PROD_FIREBASE_measurementId: string
 	export const PROD_FIREBASE_CLOUD_URL: string
+	export const PROD_FIREBASE_smas_databaseURL: string
 	export const PROD_ALGOLIA_ID: string
 	export const PROD_ALGOLIA_KEY: string
 	export const PROD_AUTH_ANDROID_CLIENT_ID: string

@@ -167,6 +167,8 @@ function Home({ navigation }: HomeScreenProps) {
 			}
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
 
+			if (!currentPosition) throw new Error('Could not get current position')
+
 			return {
 				latitude: currentPosition.coords.latitude,
 				longitude: currentPosition.coords.longitude

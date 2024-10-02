@@ -12,7 +12,7 @@ import storage from '@react-native-firebase/storage'
 import { getEnvVars } from '@infrastructure/environment'
 
 const {
-	FIREBASE_smas_databaseURL,
+	FIREBASE_smas_databaseURL
 } = getEnvVars()
 
 firebase.setReactNativeAsyncStorage(AsyncStorage)
