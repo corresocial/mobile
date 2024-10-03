@@ -11,7 +11,7 @@ interface CloudFunctionServiceInterface {
 	searchPostsCloud: (searchText: string, searchParams: FeedSearchParams, searchByRange: boolean, userId: string) => Promise<boolean>
 
 	getNisByUserData: (searchParams: SmasRecoveryNISData, smasService: SmasService) => Promise<{ NIS: string, status: number }>
-	getBenefitDataSmasByNis: (nis: string, smasService: SmasService) => Promise<any>
+	getBenefitDataSmasByNis: (nis: string, smasService: SmasService, userId: string) => Promise<any>
 	notifyUsersOnLocation: (searchParams: NotifyUsersByLocationParams, requestData: RequestData) => Promise<void>
 }
 

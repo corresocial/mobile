@@ -7,8 +7,16 @@ import { getEnvVars } from '@infrastructure/environment'
 
 const { FIREBASE_CLOUD_URL } = getEnvVars()
 
-async function getBenefitDataSmasByNis(nis: string, smasService: SmasService) {
-	return axios.post(`${FIREBASE_CLOUD_URL}/smasAPI`, { nis, queryType: smasService })
+async function getBenefitDataSmasByNis(nis: string, smasService: SmasService, userId: string) {
+	return axios.post(
+		`${FIREBASE_CLOUD_URL}/smasAPI`,
+		{ nis, queryType: smasService },
+		{
+			headers: {
+				userId: userId,
+			},
+		}
+	)
 		.then((res) => {
 			sendEvent('smas_search', { smasService, smasResponse: 'success' })
 			return res.data

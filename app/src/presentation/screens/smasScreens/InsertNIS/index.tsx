@@ -7,6 +7,8 @@ import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
 import { useSmasRepository } from '@data/smas/useSmasRepository'
 
+import { useAuthContext } from '@contexts/AuthContext'
+
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/screenProps'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
@@ -21,6 +23,8 @@ const { getBenefitDataSmasByNis } = useCloudFunctionService()
 const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = useSmasDomain()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
+	const { userDataContext } = useAuthContext()
+
 	const [isLoading, setIsLoading] = React.useState(false)
 	const [storagedNis, setStoragedNis] = React.useState<string>('')
 
@@ -44,7 +48,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const searchByNIS = async (NISValue: string) => {
 		try {
 			setIsLoading(true)
-			const response = await getBenefitDataSmasByNis(NISValue.trim(), smasService)
+			const response = await getBenefitDataSmasByNis(NISValue.trim(), smasService, userDataContext.userId)
 
 			const queryResult = treatSmasApiResponse(response, smasService)
 
