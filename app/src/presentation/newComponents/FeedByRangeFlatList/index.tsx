@@ -7,6 +7,7 @@ import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, PostEntity, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
+import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { PostRangeDivider } from './types'
 import { IconName } from '@assets/icons/iconMap/types'
@@ -52,6 +53,7 @@ function FeedByRangeFlatList({
 	const [videosMuted, setVideosMuted] = useState<boolean>(true)
 
 	const { userDataContext } = useAuthContext()
+	const { loaderIsVisible } = useLoaderContext()
 	const { navigate } = useNavigation<any>()
 	const homeTabIsFocused = useIsFocused()
 
@@ -227,11 +229,11 @@ function FeedByRangeFlatList({
 				onViewableItemsChanged={onViewableItemsChanged}
 				viewabilityConfig={viewabilityConfig}
 				ListHeaderComponent={listHeaderComponent}
-				ListEmptyComponent={(
+				ListEmptyComponent={!loaderIsVisible ? (
 					<NoPostNotifierContainer>
 						<EmptyPostsNotifier text={'Parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'} />
 					</NoPostNotifierContainer>
-				)}
+				) : <></>}
 				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</FlashListContainer>
