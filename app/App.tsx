@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createURL } from 'expo-linking'
+import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -30,10 +31,19 @@ startSentry()
 
 LogBox.ignoreLogs(ignoredLogs)
 
+SplashScreen.preventAutoHideAsync()
+
 function App() {
 	useEffect(() => {
-		sendEvent('opened_app', {}, true)
+		appLoad()
 	}, [])
+
+	const appLoad = async () => {
+		sendEvent('opened_app', {}, true)
+		setTimeout(async () => {
+			await SplashScreen.hideAsync()
+		}, 300)
+	}
 
 	const routeNameRef = React.useRef<string>()
 	const navigationRef = React.useRef<any>()
