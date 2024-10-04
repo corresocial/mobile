@@ -36,8 +36,11 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
 				<SubscriptionAdContainer>
-					<PublicServicesAdButton onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()} />
+					<PublicServicesAdButton
+						onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()}
+					/>
 				</SubscriptionAdContainer>
+				{/* // SMAS */}
 				{/* <SubscriptionAdContainer>
 					<UserLocationAdButton onPress={() => onPressUserLocationAd && onPressUserLocationAd()} />
 				</SubscriptionAdContainer> */}

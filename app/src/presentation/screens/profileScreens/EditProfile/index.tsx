@@ -251,14 +251,15 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					>
 						<HorizontalSocialMediaList socialMedias={filteredSocialMedias()} onPress={openURL} />
 					</EditCard>
-					{/* <VerticalSpacing />
+					{/* // SMAS */}
+					<VerticalSpacing />
 					<EditCard
 						title={'região de moradia'}
 						highlightedWords={['moradia']}
 						pressionable
 						value={getUserAddress() || 'localização utilizada para envio de notificações da prefeitura'}
 						onEdit={() => goToEditScreen('EditUserLocation')}
-					/> */}
+					/>
 					<VerticalSpacing />
 					<EditCard
 						title={'sua foto'}

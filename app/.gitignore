@@ -2,9 +2,9 @@
 google-services.json
 google-services*
 GoogleService-Info.plist
+
 android/
 ios/
-
 node_modules/
 **/cred-dev.json
 **/cred-prod.json
