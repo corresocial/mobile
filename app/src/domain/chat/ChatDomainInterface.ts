@@ -9,7 +9,7 @@ interface ChatDomainInterface {
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
-	getRemoteUserData(userId: Id): Promise<ChatUserData>
+	getRemoteUserData(userId: Id): Promise<ChatUserData | null>
 	getRemoteChatDataByUser(user1: ChatUserIdentification, user2: ChatUserIdentification): Promise<Chat>
 	createNewUser(userId: Id): Promise<boolean>
 	registerNewChat(chatData: Chat): Promise<void>

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch'
+import { searchClient, SearchClient, SearchResult } from 'algoliasearch'
 
 import { UserEntity } from '@domain/user/entity/types'
 
@@ -23,7 +23,7 @@ export class AlgoliaService implements AlgoliaServiceInterface {
 	algoliaClient: SearchClient
 
 	constructor() {
-		const client = algoliasearch(ALGOLIA_ID, ALGOLIA_KEY)
+		const client = searchClient(ALGOLIA_ID, ALGOLIA_KEY)
 		this.algoliaClient = client
 	}
 
@@ -40,18 +40,26 @@ export class AlgoliaService implements AlgoliaServiceInterface {
 	}
 
 	async searchProfileByText(text: string, page: number = 0): Promise<{ profiles: UserEntity[], totalHits: number }> {
-		const postsIndex: SearchIndex = this.algoliaClient.initIndex('usersIndex')
+		const results = await this.algoliaClient.search<UserEntity>({
+			requests: [
+				{
+					query: text,
+					indexName: 'usersIndex',
+					page: page,
+					hitsPerPage: 10
+				}
+			]
+		})
 
-		const results = await postsIndex.search<UserEntity>(text, { page: page, hitsPerPage: 10 })
-
-		const profiles = results.hits.reduce((acc: UserEntity[] | any, result: any) => {
-			const structuredData = this.removeAlgoliaExtraData(result, 'userId')
+		// Tipagem da lib está errada, results.hits existe, mas a tipagem não consta
+		const profiles = (results.results[0] as any).hits.reduce((acc: UserEntity[] | any, result: SearchResult<UserEntity>) => {
+			const structuredData = this.removeAlgoliaExtraData(result as any, 'userId')
 			return [...acc, structuredData]
 		}, [] as UserEntity[])
 
 		return {
 			profiles,
-			totalHits: results.nbHits
+			totalHits: (results.results || []).length
 		}
 	}
 }

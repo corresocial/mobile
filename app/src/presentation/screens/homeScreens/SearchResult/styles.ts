@@ -2,8 +2,13 @@ import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
 
-export const Container = styled.View`
+interface ContainerProps {
+	backgroundColor?: string
+}
+
+export const Container = styled.View<ContainerProps>`
 	flex: 1;
+	background-color: ${({ backgroundColor }) => backgroundColor};
 `
 
 export const Header = styled.View`

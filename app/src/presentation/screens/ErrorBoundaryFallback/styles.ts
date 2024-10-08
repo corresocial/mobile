@@ -34,13 +34,13 @@ export const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontFamily: 'Arvo_700Bold',
+		fontFamily: theme.fonts.arvoBold,
 		fontSize: relativeScreenDensity(30),
 		color: theme.colors.black[4]
 	},
 
 	description: {
-		fontFamily: 'Arvo_400Regular',
+		fontFamily: theme.fonts.arvoRegular,
 		fontSize: relativeScreenDensity(16),
 		color: theme.colors.black[4]
 	}

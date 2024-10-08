@@ -1,14 +1,12 @@
-import { addDoc, collection } from 'firebase/firestore'
-
 import { PollEntityOptional } from '@domain/poll/entity/types'
 
 import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function createPoll(pollData: PollEntityOptional) {
-	const collectionRef = collection(firestore, POLL_COLLECTION)
-	await addDoc(collectionRef, pollData)
+	const collectionRef = firebaseFirestore.collection(POLL_COLLECTION)
+	await collectionRef.add(pollData)
 }
 
 export { createPoll }

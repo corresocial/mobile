@@ -55,7 +55,7 @@ function SocialLoginAlertModal({
 			visibility={visibility}
 			title={'algo deu errado'}
 			titleHighlightedWords={['algo', 'deu', 'errado']}
-			TitleIcon={GoogleWhiteIcon}
+			TitleIcon={accountIdentifier?.includes('+55') ? SmartphoneWhiteIcon : GoogleWhiteIcon}
 			closeModal={closeModal}
 		>
 			<Body>

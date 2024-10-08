@@ -1,5 +1,4 @@
 import React from 'react'
-import uuid from 'react-uuid'
 
 import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@domain/post/entity/types'
 
@@ -18,7 +17,6 @@ import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-// import { DefaultCardContainer } from '../DefaultCardContainer'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 const { formatDate, formatHour } = UiUtils()
@@ -98,7 +96,7 @@ function DateTimeCard({
 	const renderStartDate = () => {
 		return (
 			<PostInfoRow
-				key={uuid()}
+				key={'startDate'}
 				text={showMessageWithHighlight(
 					`começa dia ${formatDate(startDate as Date)}`,
 					[formatDate(startDate as Date)]
@@ -111,7 +109,7 @@ function DateTimeCard({
 	const renderEndDate = () => {
 		return (
 			<PostInfoRow
-				key={uuid()}
+				key={'endDate'}
 				text={showMessageWithHighlight(
 					`termina dia ${formatDate(endDate as Date)}`,
 					[formatDate(endDate as Date)]
@@ -186,12 +184,12 @@ function DateTimeCard({
 					dimensions={28}
 				/>
 			</EditHeaderContainer>
-			<DateTimeContainer editable={onEdit}>
+			<DateTimeContainer editable={!!onEdit}>
 				{
 					daysOfWeek?.length
 						? (
 							<PostInfoRow
-								key={uuid()}
+								key={'daysOfWeek'}
 								SvgIcon={onEdit ? getRelativeFrequencyIcon() : undefined}
 								text={renderWeekDayFrequency()}
 								topic={!onEdit}
@@ -202,7 +200,7 @@ function DateTimeCard({
 				{
 					!hasAnyValueValid() && !onEdit && (
 						<PostInfoRow
-							key={uuid()}
+							key={'invalid'}
 							text={renderInvalidDateTimeWeekMessage()}
 							topic={!onEdit}
 						/>
@@ -219,7 +217,7 @@ function DateTimeCard({
 				{
 					(startTime || endTime) && (
 						<PostInfoRow
-							key={uuid()}
+							key={`${startTime}-${endTime}`}
 							text={renderOpeningAndClosingTime()}
 							topic
 						/>
@@ -229,7 +227,7 @@ function DateTimeCard({
 					repetition
 					&& (
 						<PostInfoRow
-							key={uuid()}
+							key={'repetition'}
 							text={renderRepetition()}
 							topic
 						/>

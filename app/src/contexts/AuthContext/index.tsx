@@ -16,7 +16,7 @@ import { useUserRepository } from '@data/user/useUserRepository'
 import { AuthContextType, AuthProviderProps } from './types'
 import { useAuthNavigation } from '@routes/Stack/hooks/useAuthNavigation'
 
-import { auth } from '@infrastructure/firebase'
+import { firebaseAuth } from '@infrastructure/firebase'
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { getNewDate } from '@utils-ui/common/date/dateFormat'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -66,7 +66,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	useEffect(() => {
 		console.log('[auth]: Sessão inciada!')
-		const unsubscribe = auth.onAuthStateChanged(async (user) => {
+		const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
 			console.log(user ? '[auth]: Usuário logado!' : '[auth]: Usuário não logado!')
 			const hasValidLocalUser = await localStorage.hasValidLocalUser()
 			if (user && hasValidLocalUser) return
@@ -79,11 +79,13 @@ function AuthProvider({ children }: AuthProviderProps) {
 	// REFACTOR Quick signin virar um caso de uso
 	const performQuickSignin = async (userId: string, requireAuth = true, noRedirect = false) => {
 		try {
+			if (!firebaseAuth.currentUser?.uid) return
+
 			const authenticatedUser = requireAuth
 				? await handleMethodWithDeviceAuthentication(async () => {
-					return setRemoteUserOnLocal(userId || auth.currentUser?.uid, true)
+					return setRemoteUserOnLocal(userId || firebaseAuth.currentUser?.uid, true)
 				})
-				: setRemoteUserOnLocal(userId || auth.currentUser?.uid, true)
+				: setRemoteUserOnLocal(userId || firebaseAuth.currentUser?.uid, true)
 
 			sendEvent('user_authed', { authType: 'login' }, true)
 
@@ -206,9 +208,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const removeUserPost = async (postData: PostEntity) => {
-		try {
+		try { // REFACTOR domain
 			if (!postData) return
-			await remoteStorage.deletePost(postData.postId, postData.owner.userId)
+			await remoteStorage.deletePost(postData.postId)
 			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
 			const postsWithoutDeletedPost = userPostsContext.filter((post) => post.postId !== postData.postId)
 			setUserPosts(postsWithoutDeletedPost)

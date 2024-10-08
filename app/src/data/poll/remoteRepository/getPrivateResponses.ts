@@ -1,21 +1,25 @@
-import { collection, getDocs } from 'firebase/firestore'
-
 import { PollEntity } from '@domain/poll/entity/types'
 
 import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function getPrivateResponses(pollId: string) {
-	const collectionRef = collection(firestore, POLL_COLLECTION, pollId, 'responses')
-	const docsSnap = await getDocs(collectionRef)
+	const collectionRef = firebaseFirestore.collection(POLL_COLLECTION).doc(pollId).collection('responses')
 
-	if (docsSnap) {
-		const responses = docsSnap.docs.map((doc) => doc.data())
-		return responses as PollEntity['privateResponses']
+	try {
+		const docsSnap = await collectionRef.get()
+
+		if (!docsSnap.empty) {
+			const responses = docsSnap.docs.map((doc) => doc.data())
+			return responses as PollEntity['privateResponses']
+		}
+
+		return [] as PollEntity['privateResponses']
+	} catch (error) {
+		console.log(error)
+		return [] as PollEntity['privateResponses']
 	}
-
-	return [] as PollEntity['privateResponses']
 }
 
 export { getPrivateResponses }

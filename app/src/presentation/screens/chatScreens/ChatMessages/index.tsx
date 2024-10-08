@@ -2,7 +2,6 @@ import React, { RefObject, useContext, useEffect, useRef, useState } from 'react
 import { FlatList, Keyboard, Platform } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
-import _ from 'lodash'
 
 import { Chat, Message, MessageObjects } from '@domain/chat/entity/types'
 import { useChatDomain } from '@domain/chat/useChatDomain'
@@ -16,6 +15,7 @@ import { ChatContext } from '@contexts/ChatContext'
 import { ChatMessagesScreenProps } from '@routes/Stack/ChatStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
+import { sortChatMessages } from '@utils-ui/chat'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -44,6 +44,8 @@ const { convertTextToNumber } = UiUtils()
 
 const { sendImpactReport } = useImpactReportDomain()
 
+// Essas coisas não são domain
+
 const {
 	existsOnDatabase,
 	getRemoteChatDataByUser,
@@ -59,7 +61,7 @@ const {
 	hasBlockedUserOnConversation,
 } = useChatDomain()
 
-// https://www.youtube.com/watch?v=fpAlf1vPCE4
+// https://www.youtube.com/watch?v=fpAlf1vPCE4 // REFACTOR
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { chatDataContext } = useContext(ChatContext)
@@ -82,7 +84,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		const updatedChat = chatDataContext.find((chat) => chat && (chat.chatId === currentChat.chatId))
-		updatedChat && setMessages(updatedChat?.messages)
+		updatedChat && setMessages(Object.values(updatedChat.messages).sort(sortChatMessages) as any)
 		chatCompletedStateHasUpdated(updatedChat) && setCurrentChat(updatedChat as Chat)
 	}, [chatDataContext])
 
@@ -116,7 +118,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const remoteChatData = await getRemoteChatDataByUser(currentChat.user1, currentChat.user2)
 
 		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } })
-		setMessages({ ...remoteChatData.messages })
+		// setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
 	}
@@ -136,12 +138,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const isUserOwner = (messageUserId: string) => { return userDataContext.userId === messageUserId }
 
-	/* const messagesListenerCallback = async (newMessages: MessageObjects) => {
-		if (!isUserOwner(getLastMessageObject(newMessages).owner)) {
-			setMessages(newMessages)
-		}
-	} */ 			// abordagem listener
-
 	const submitMessage = async (text: string) => {
 		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
@@ -153,16 +149,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
 		const newMessageValue = Object.values(newMessageObject)[0]
-		const newMessages = { ...messages, ...newMessageObject }
 
 		const userBlock = await verifyUsersBlock()
-
-		setMessages(newMessages)
 
 		await sendMessage(
 			{ ...newMessageValue, justOwner: !!userBlock },
 			currentChat.chatId,
-			getRecipientUserName()
+			userDataContext.name
 		)
 
 		!!currentChat.completed && updateChatCompletedState(currentChat.chatId, false)
@@ -256,7 +249,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [numberOfMessages, setNumberOfMessages] = useState(0)
 
-	const scrollToEnd = _.throttle((animated: boolean, height?: number) => {
+	const scrollToEnd = (animated: boolean, height?: number) => {
 		const currentNumberOfMessages = getFilteredMessages().length
 
 		if (currentNumberOfMessages <= 0) return
@@ -275,7 +268,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			setNumberOfMessages(getFilteredMessages().length)
 			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
 		}
-	}, 1000)
+	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -341,7 +334,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				</ChatPopOver>
 			</Header>
 			<FlatList
-				initialScrollIndex={messages && getFilteredMessages().length - 1}
+				// initialScrollIndex={messages && getFilteredMessages().length - 1}
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				onScrollToIndexFailed={() => console.log('Error when scroll')}

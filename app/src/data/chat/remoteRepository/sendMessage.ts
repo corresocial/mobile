@@ -1,18 +1,16 @@
-import { push, ref } from 'firebase/database'
-
 import { Message } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function sendMessage(message: Message, chatId: Id) {
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
+async function sendMessage(message: Message, chatId: Id): Promise<boolean> {
+	const realTimeDatabaseRef = firebaseDatabase.ref(`${chatId}/messages`)
 
 	try {
-		const messageSent = await push(realTimeDatabaseRef, message)
-		return !!messageSent
+		realTimeDatabaseRef.push(message)
+		return true
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return false
 	}
 }

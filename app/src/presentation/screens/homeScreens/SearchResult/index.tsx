@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { FeedPosts, PostEntityOptional, PostRange, PostType } from '@domain/post/entity/types'
+import { FeedPosts, PostEntityOptional, PostType } from '@domain/post/entity/types'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -114,24 +114,10 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		navigateToProfileView(navigation, userId, 'Home', redirect)
 	}
 
-	const viewPostsByRange = (postRange: PostRange) => {
-		const postRangeValue = searchByRange ? '' : postRange
-		const postsByRange = getPostsByRange(postRange)
-		const postType = locationDataContext.searchParams?.postType
-
-		navigation.navigate('ViewPostsByRange', { postsByRange, postRange: postRangeValue, postType })
-	}
-
-	const getPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return resultPosts.nearby || []
-			case 'city': return resultPosts.city || []
-			case 'country': return resultPosts.country || []
-		}
-	}
-
 	return (
-		<Container>
+		<Container
+			backgroundColor={backgroundColor}
+		>
 			<FocusAwareStatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -153,7 +139,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 			<FeedByRangeFlatList
 				backgroundColor={backgroundColor}
 				filteredFeedPosts={resultPosts}
-				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
 				goToPostView={viewPostDetails}
 			/>

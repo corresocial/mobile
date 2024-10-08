@@ -14,8 +14,8 @@ export const ThumbnailContainer = styled.TouchableOpacity<ContainerProps>`
     height: 70px;
     border-radius: 23px;
     border-width: 3px;
-    border-color: ${(props) => (props.active ? 'white' : 'transparent')};
-    background-color: transparent;
+    border-color: ${(props) => (props.active ? 'white' : 'rgba(0,0,0,0)')};
+    background-color: rgba(0,0,0,0);
 `
 
 export const ThumbnailImage = styled.Image`

@@ -14,7 +14,7 @@ import {
 	UsernameTimeContainer
 } from './styles'
 import LeaderSealWhiteIcon from '@assets/icons/leaderLabel.svg'
-import UserShadow from '@assets/imgs/userShadow.jpg'
+import UserShadow from '@assets/imgs/user_shadow.jpg'
 import { relativeScreenDensity } from '@common/screenDimensions'
 
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'

@@ -1,20 +1,21 @@
-import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
-
 import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function deletePoll(pollId: string) {
-	const docRef = doc(firestore, POLL_COLLECTION, pollId)
-	const privateResponsesCollection = collection(firestore, POLL_COLLECTION, pollId, 'responses')
+	const docRef = firebaseFirestore.collection(POLL_COLLECTION).doc(pollId)
+	const privateResponsesCollection = docRef.collection('responses')
 
-	getDocs(privateResponsesCollection).then((querySnapshot) => {
-		querySnapshot.forEach((document) => {
-			deleteDoc(document.ref)
-		})
-	}).then(() => {
-		deleteDoc(docRef)
-	})
+	try {
+		const querySnapshot = await privateResponsesCollection.get()
+		const deletePromises = querySnapshot.docs.map((doc) => doc.ref.delete())
+
+		await Promise.all(deletePromises)
+		await docRef.delete()
+	} catch (error) {
+		console.log(error)
+		throw new Error('Houve um erro ao tentar excluir a enquete')
+	}
 }
 
 export { deletePoll }

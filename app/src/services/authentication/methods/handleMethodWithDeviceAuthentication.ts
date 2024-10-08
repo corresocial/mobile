@@ -3,7 +3,7 @@ import * as LocalAuthentication from 'expo-local-authentication'
 
 async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 	try {
-		const config = {
+		const config: LocalAuthentication.LocalAuthenticationOptions = {
 			cancelLabel: 'cancelLabel',
 			promptMessage: 'Confirme sua identidade',
 			requireConfirmation: false
@@ -11,7 +11,7 @@ async function handleMethodWithDeviceAuthentication(secureMethod: any) {
 
 		const hasDeviceAuthRegistered = await LocalAuthentication.getEnrolledLevelAsync()
 
-		if (!hasDeviceAuthRegistered || __DEV__) {
+		if (!hasDeviceAuthRegistered /* || __DEV__ */) { // CURRENT DEV
 			const result: boolean = await secureMethod()
 			return result
 		}

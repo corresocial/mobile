@@ -1,16 +1,14 @@
-import { ref, update } from 'firebase/database'
-
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function updateChatCompletedState(chatId: Id, state: boolean) {
+async function updateChatCompletedState(chatId: Id, state: boolean): Promise<boolean> {
 	try {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
-		await update(realTimeDatabaseRef, { completed: state })
+		const realTimeDatabaseRef = firebaseDatabase.ref(`${chatId}`)
+		await realTimeDatabaseRef.update({ completed: state })
 		return true
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return false
 	}
 }

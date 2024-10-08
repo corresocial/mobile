@@ -1,8 +1,7 @@
-/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 import * as Updates from 'expo-updates'
 import React, { useEffect, useState } from 'react'
-import { Animated, StatusBar } from 'react-native'
+import { ActivityIndicator, StatusBar } from 'react-native'
 
 import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 
@@ -25,80 +24,32 @@ function Splash({ route, navigation }: SplashScreenProps) {
 	const { performQuickSignin } = useAuthContext()
 	const { navigateToAuthScreen } = useAuthNavigation()
 
-	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
-	// const [storeUpdateModalIsVisible, setStoreUpdateModalIsVisible] = useState(false)
+
+	const { isChecking, isDownloading, isUpdatePending } = Updates.useUpdates()
 
 	useEffect(() => {
-		Animated.timing(imagesSvgOpacity, {
-			toValue: 1,
-			duration: 1000,
-			useNativeDriver: false
-		}).start()
-
 		checkUpdates()
 		checkCacheImageValidation()
 	}, [])
-
-	const checkUpdates = async () => {
-		const otaUpdated = await onFetchUpdateAsync()
-		otaUpdated && await checkStoreUpdates()
-	}
-
-	// REFACTOR Remover daqui
-	// const compareVersions = (version1: string, version2: string) => {
-	// 	const v1 = version1.split('.').map(Number)
-	// 	const v2 = version2.split('.').map(Number)
-
-	// 	for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
-	// 		const num1 = v1[i] || 0
-	// 		const num2 = v2[i] || 0
-
-	// 		if (num1 > num2) return 1
-	// 		if (num1 < num2) return -1
-	// 	}
-
-	// 	return 0
-	// }
-
-	const checkStoreUpdates = async () => {
-		// if (!__DEV__) {
-		// 	const mandatoryVersion = { nativeApplicationVersion: '0.10.1', nativeBuildVersion: '68' }
-
-		// 	const appVersionComparison = compareVersions(Application.nativeApplicationVersion || '9999.9999.9999', mandatoryVersion.nativeApplicationVersion)
-		// 	const buildVersionComparison = compareVersions(Application.nativeBuildVersion || '9999', mandatoryVersion.nativeBuildVersion)
-
-		// 	if (appVersionComparison < 0 || buildVersionComparison < 0) {
-		// 		return setStoreUpdateModalIsVisible(true)
-		// 	}
-		// }
-
-		return redirectToApp()
-	}
-
-	// const navigateToStore = () => {
-	// 	if (Platform.OS === 'android') return Linking.openURL('https://play.google.com/store/apps/details?id=com.corresocial.corresocial')
-	// 	if (Platform.OS === 'ios') return Linking.openURL('https://apps.apple.com/br/app/corre/id1661370868')
-	// }
 
 	const hasUpdates = async () => {
 		if (__DEV__) return { isAvailable: false }
 		return Updates.checkForUpdateAsync()
 	}
 
-	async function onFetchUpdateAsync() {
+	async function checkUpdates() {
 		try {
-			const update = await hasUpdates()
+			const updatesIsAvailable = await hasUpdates()
 
-			if (update.isAvailable) {
+			if (updatesIsAvailable.isAvailable) {
 				await Updates.fetchUpdateAsync()
 				return setConfirmationModalIsVisible(true)
 			}
-
-			return true
+			return redirectToApp()
 		} catch (error: any) {
 			console.log(error)
-			redirectToApp()
+			return redirectToApp()
 		}
 	}
 
@@ -176,25 +127,20 @@ function Splash({ route, navigation }: SplashScreenProps) {
 					onPress: async () => Updates.reloadAsync()
 				}}
 			/>
-			{/* <CustomModal
-				visibility={storeUpdateModalIsVisible}
-				title={'atualizar app na loja'}
-				TitleIcon={SmartphoneWhiteIcon}
-				withoutStatusBar
-				closeModal={() => { }}
-				firstParagraph={{
-					text: 'seu app precisa ser atualizado',
-					textAlign: 'center',
-					fontSize: 15
-				}}
-				affirmativeButton={{
-					label: 'atualizar',
-					onPress: navigateToStore
-				}}
-			/> */}
-			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
-				<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
-			</LogoContainer>
+			{
+				isUpdatePending || isChecking || isDownloading
+					? (
+						<LogoContainer >
+							<ActivityIndicator size={'large'} color={theme.colors.black[4]} />
+						</LogoContainer>
+					)
+					: (
+						<LogoContainer >
+							<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
+							<ActivityIndicator size={'large'} color={theme.colors.orange[3]} />
+						</LogoContainer>
+					)
+			}
 		</Container>
 	)
 }

@@ -1,4 +1,3 @@
-import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -25,46 +24,22 @@ import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { getEnvVars } from '../../../../infrastructure/environment'
-
-const { generateGoogleAuthCredential, signInByGoogleCredential } = useAuthenticationService()
+const { signInByGoogleCredential } = useAuthenticationService()
 
 const { remoteStorage } = useUserRepository()
 
 WebBrowser.maybeCompleteAuthSession()
-const { AUTH_CLIENT_ID, AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const { setUserRegisterDataOnContext, performQuickSignin } = useAuthContext()
 
 	const newUser = route.params?.newUser
 
-	const keys = {
-		clientId: AUTH_CLIENT_ID,
-		expoClientId: AUTH_EXPO_CLIENT_ID,
-		androidClientId: AUTH_ANDROID_CLIENT_ID,
-		iosClientId: AUTH_IOS_CLIENT_ID
-	}
-
 	const [isLoading, setIsLoading] = React.useState(false)
 	const [hasError, setHasError] = React.useState(false)
 
 	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
-	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
-	// eslint-disable-next-line no-unused-vars
-	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {})
-
-	React.useEffect(() => {
-		if (response?.type === 'success') {
-			const { authentication } = response
-			setTokenGoogle(authentication?.accessToken)
-		}
-
-		if (tokenGoogle) {
-			performSigninWithGoogle()
-		}
-	}, [response, tokenGoogle])
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -76,34 +51,30 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 		try {
 			setIsLoading(true)
 			setHasError(false)
-			if (tokenGoogle) {
-				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const { userId, email } = await signInByGoogleCredential(googleCredential)
 
-				if (userId && email) {
-					setAuthenticatedUser({ userId, email })
-					const userAlreadyExists = await remoteStorage.userExists(userId)
+			const { userId, email } = await signInByGoogleCredential() as { userId: string, email: string }
 
-					if (!newUser && !userAlreadyExists) {
-						console.log('Usuário não está cadastrado, quer cadastrar?')
-						toggleSocialLoginAlertModalVisibility()
-						return
-					}
+			if (userId && email) {
+				setAuthenticatedUser({ userId, email })
+				const userAlreadyExists = await remoteStorage.userExists(userId)
 
-					if (newUser && userAlreadyExists) {
-						console.log('Usuário já está cadastrado, quer logar?')
-						toggleSocialLoginAlertModalVisibility()
-						return
-					}
-
-					if (newUser) {
-						return navigateToCreateNewAccount({ userId, email })
-					}
-
-					await performLoginOnApp({ userId })
+				if (!newUser && !userAlreadyExists) {
+					console.log('Usuário não está cadastrado, quer cadastrar?')
+					toggleSocialLoginAlertModalVisibility()
+					return
 				}
-			} else {
-				await promptAsyncGoogle()
+
+				if (newUser && userAlreadyExists) {
+					console.log('Usuário já está cadastrado, quer logar?')
+					toggleSocialLoginAlertModalVisibility()
+					return
+				}
+
+				if (newUser) {
+					return navigateToCreateNewAccount({ userId, email })
+				}
+
+				await performLoginOnApp({ userId })
 			}
 		} catch (error) {
 			console.log(error)

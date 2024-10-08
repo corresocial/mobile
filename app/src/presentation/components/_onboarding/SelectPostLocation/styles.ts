@@ -7,7 +7,7 @@ export const Container = styled.KeyboardAvoidingView`
 `
 
 export const HeaderDescription = styled.Text`
-	font-family: 'Arvo_400Regular';
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 `
 
@@ -18,7 +18,7 @@ export const MapContainer = styled.View`
 
 export const SearchInputContainer = styled.View`
 	padding: ${relativeScreenHeight(1.5)}px ${relativeScreenWidth(5)}px;
-	background-color: transparent;
+	background-color: rgba(0,0,0,0);
 	position: absolute;
 	width: 100%;
 	z-index: 2;

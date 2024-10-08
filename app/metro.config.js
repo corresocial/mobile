@@ -1,27 +1,30 @@
-const { getDefaultConfig } = require('expo/metro-config')
+// Learn more https://docs.expo.io/guides/customizing-metro
+// const { getDefaultConfig } = require('expo/metro-config')
 
-module.exports = (async () => {
-	const {
-		resolver: { sourceExts, assetExts },
-	} = await getDefaultConfig(__dirname)
-	return {
-		transformer: {
-			babelTransformerPath: require.resolve('react-native-svg-transformer'),
-			assetPlugins: ['expo-asset/tools/hashAssetFiles'],
-		},
-		resolver: {
-			assetExts: assetExts.filter((ext) => ext !== 'svg'),
-			sourceExts: [...sourceExts, 'svg', 'jsx', 'js', 'ts', 'tsx', 'cjs']
-		},
-		server: {
-			rewriteRequestUrl: (url) => {
-				if (!url.endsWith('.bundle')) {
-					return url
-				}
-				// https://github.com/facebook/react-native/issues/36794
-				// JavaScriptCore strips query strings, so try to re-add them with a best guess.
-				return `${url}?platform=ios&dev=true&minify=false&modulesOnly=false&runModule=true`
-			}, // ...
-		},
+const { getSentryExpoConfig } = require('@sentry/react-native/metro')
+
+// /** @type {import('expo/metro-config').MetroConfig} */
+const defaultConfig = getSentryExpoConfig(__dirname)
+
+const config = {
+	...defaultConfig,
+	transformer: {
+		...defaultConfig.transformer,
+		inlineRequires: true,
+		assetPlugins: ['expo-asset/tools/hashAssetFiles'],
+		getTransformOptions: async () => ({
+			transform: {
+				experimentalImportSupport: false,
+				inlineRequires: true,
+			},
+		}),
+		babelTransformerPath: require.resolve('react-native-svg-transformer')
+	},
+	resolver: {
+		...defaultConfig.resolver,
+		assetExts: defaultConfig.resolver.assetExts.filter((ext) => ext !== 'svg'),
+		sourceExts: [...defaultConfig.resolver.sourceExts, 'js', 'svg', 'd.ts'],
 	}
-})()
+}
+
+module.exports = config

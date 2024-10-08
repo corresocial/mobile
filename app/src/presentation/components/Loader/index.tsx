@@ -21,6 +21,8 @@ function Loader({ flex, animationScale }: LoaderProps) {
 					autoPlay
 					loop
 					speed={1.5}
+					style={{ flex: 1, pointerEvents: 'none' }}
+					resizeMode={'contain'}
 				/>
 			</AnimationContainer>
 		</Container>

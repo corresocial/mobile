@@ -1,17 +1,17 @@
-import { doc, getDoc } from 'firebase/firestore'
-
 import { PostEntity } from '@domain/post/entity/types'
 
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function getPostById(postId: string) {
 	try {
-		const postRef = doc(firestore, POST_COLLECTION, postId)
-		const postSnap = await getDoc(postRef)
+		const postSnap = await firebaseFirestore
+			.collection(POST_COLLECTION)
+			.doc(postId)
+			.get()
 
-		if (postSnap.exists()) {
+		if (postSnap.exists) {
 			return { postId, ...postSnap.data() } as PostEntity
 		}
 

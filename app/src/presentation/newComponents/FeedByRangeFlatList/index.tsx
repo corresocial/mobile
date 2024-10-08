@@ -7,6 +7,7 @@ import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, PostEntity, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
+import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { PostRangeDivider } from './types'
 import { IconName } from '@assets/icons/iconMap/types'
@@ -52,6 +53,7 @@ function FeedByRangeFlatList({
 	const [videosMuted, setVideosMuted] = useState<boolean>(true)
 
 	const { userDataContext } = useAuthContext()
+	const { loaderIsVisible } = useLoaderContext()
 	const { navigate } = useNavigation<any>()
 	const homeTabIsFocused = useIsFocused()
 
@@ -99,29 +101,15 @@ function FeedByRangeFlatList({
 		}
 	}
 
-	const renderDivider = (item: PostRangeDivider): React.ReactElement<any> => {
-		switch (item.postRange) {
-			case 'near': if (!hasNearbyPosts()) { return <></> } break
-			case 'city': if (!hasCityPosts()) { return <></> } break
-			case 'country': if (!hasCountryPosts()) { return <></> } break
-		}
-		return (
-			<PostCardContainer key={item.postRange}>
-				{item.postRange !== 'near' && <VerticalSpacing />}
-				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
-			</PostCardContainer>
-		)
-	}
-
 	const audioToggle = () => {
 		setVideosMuted(!videosMuted)
 	}
 
 	const posts = useMemo(() => {
 		const formattedPosts = [
-			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
-			{ dividerText: 'Posts na sua cidade', postRange: 'city' }, ...filteredFeedPosts.city,
-			{ dividerText: 'Posts no Brasil    ', postRange: 'country' }, ...filteredFeedPosts.country
+			/* { dividerText: 'Posts perto de você', postRange: 'near' }, */ ...filteredFeedPosts.nearby.map((p) => ({ ...p, range: 'near' })),
+			/* { dividerText: 'Posts na sua cidade', postRange: 'city' }, */ ...filteredFeedPosts.city.map((p) => ({ ...p, range: 'city' })),
+			/* { dividerText: 'Posts no Brasil    ', postRange: 'country' }, */ ...filteredFeedPosts.country.map((p) => ({ ...p, range: 'country' }))
 		] as PostEntity[]
 
 		const filteredItems = collapseExternalVacancies ? formattedPosts.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate!)))) : formattedPosts
@@ -140,8 +128,22 @@ function FeedByRangeFlatList({
 		return filteredItems
 	}, [filteredFeedPosts])
 
+	const renderDivider = (item: PostRangeDivider): React.ReactElement<any> => {
+		switch (item.postRange) {
+			case 'near': if (!hasNearbyPosts()) { return <></> } break
+			case 'city': if (!hasCityPosts()) { return <></> } break
+			case 'country': if (!hasCountryPosts()) { return <></> } break
+		}
+		return (
+			<PostCardContainer key={item.postRange}>
+				{item.postRange !== 'near' && <VerticalSpacing />}
+				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
+			</PostCardContainer>
+		)
+	}
+
 	const renderPostItem = useCallback((element: any) => {
-		const { item } = element
+		const { item, index } = element
 		const itemType = getItemType(item)
 
 		if ((item as any).action) {
@@ -162,7 +164,7 @@ function FeedByRangeFlatList({
 		switch (itemType) {
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PostCard
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -178,7 +180,7 @@ function FeedByRangeFlatList({
 
 			case 'poll': return (
 				<PostCardContainer key={item.pollId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -191,7 +193,7 @@ function FeedByRangeFlatList({
 
 			case 'petition': return (
 				<PostCardContainer key={item.petitionId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -227,11 +229,11 @@ function FeedByRangeFlatList({
 				onViewableItemsChanged={onViewableItemsChanged}
 				viewabilityConfig={viewabilityConfig}
 				ListHeaderComponent={listHeaderComponent}
-				ListEmptyComponent={(
+				ListEmptyComponent={!loaderIsVisible ? (
 					<NoPostNotifierContainer>
 						<EmptyPostsNotifier text={'Parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'} />
 					</NoPostNotifierContainer>
-				)}
+				) : <></>}
 				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</FlashListContainer>

@@ -94,7 +94,7 @@ function DefaultPostViewHeader({
 			<Title
 				numberOfLines={2}
 				style={{
-					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+					fontFamily: highlightedWords?.length > 0 ? theme.fonts.arvoRegular : theme.fonts.arvoBold,
 					width: getTitleWidth(),
 					fontSize: path ? relativeScreenDensity(15) : relativeScreenDensity(20)
 				}}

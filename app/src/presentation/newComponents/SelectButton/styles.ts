@@ -31,7 +31,7 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
 `
 
 export const ButtonText = styled.Text`
+	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
     color: ${({ theme }) => theme.colors.black[4]};
-    font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
     font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

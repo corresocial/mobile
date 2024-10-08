@@ -1,14 +1,12 @@
-import { addDoc, collection } from 'firebase/firestore'
-
 import { PetitionEntityOptional } from '@domain/petition/entity/types'
 
 import { PETITION_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function createPetition(petitionData: PetitionEntityOptional) {
-	const collectionRef = collection(firestore, PETITION_COLLECTION)
-	await addDoc(collectionRef, petitionData)
+	const collectionRef = firebaseFirestore.collection(PETITION_COLLECTION)
+	await collectionRef.add(petitionData)
 }
 
 export { createPetition }

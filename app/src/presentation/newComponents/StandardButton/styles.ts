@@ -51,7 +51,7 @@ interface ButtonTextProps {
 }
 
 export const ButtonText = styled.Text<ButtonTextProps>`
-    font-family: ${({ theme }) => theme.fonts.arvoBold};
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
     font-size: ${({ theme }) => theme.fontSizes[2]}px;
     color: ${({ textTheme, theme }) => (textTheme === 'light' ? theme.colors.white[3] : theme.colors.black[4])};
 `

@@ -1,4 +1,4 @@
-import { ApplicationVerifier, UserCredential } from 'firebase/auth'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
 import { ChatDomainInterface } from '@domain/chat/ChatDomainInterface'
 
@@ -17,8 +17,8 @@ interface UserDomainInterface {
 	getUnapprovedProfiles(useUserRepository: () => UserRepositoryInterface, pageSize?: number, lastUser?: UserEntity | any): Promise<UserEntity[] | void>
 	userExists(useUserRepository: () => UserRepositoryInterface, userId?: string): Promise<boolean>
 
-	requestPhoneVerificationCode: (useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string, recaptchaVerifier: ApplicationVerifier | any) => Promise<string>
-	phoneVerificationCodeIsValid: (useAuthenticationService: () => AuthenticationServiceInterface, verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
+	requestPhoneVerificationCode: (useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string) => Promise<string | null>
+	phoneVerificationCodeIsValid: (useAuthenticationService: () => AuthenticationServiceInterface, verificationCodeId: string, verificationCode: string) => Promise<FirebaseAuthTypes.UserCredential>
 
 	createNewUser: (useUserRepository: () => UserRepositoryInterface, userData: UserRegisterData) => Promise<UserEntity | undefined>
 	approveProfile(useUserRepository: () => UserRepositoryInterface, postData: UserEntity): Promise<UserEntity | void>

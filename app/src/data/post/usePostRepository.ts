@@ -1,12 +1,10 @@
 import { clearOfflinePosts, deleteOfflinePostByDescription, getNumberOfOfflinePosts, getOfflinePosts, saveOfflinePost, } from './localStorage/offlinePosts'
 import { PostRepositoryInterface } from './PostRepositoryInterface'
 import { createPost } from './remoteStorage/createPost'
-import { createPostWithCustomId } from './remoteStorage/createPostWithCustomId'
 import { deletePost } from './remoteStorage/deletePost'
 import { deletePostMedias } from './remoteStorage/deletePostMedias'
 import { getPostById } from './remoteStorage/getPostById'
 import { getPostIdsByUser } from './remoteStorage/getPostIdsByUser'
-import { getPostsByMacroCategory } from './remoteStorage/getPostsByMacroCategory'
 import { getPostsByUser } from './remoteStorage/getPostsByUser'
 import { getUnapprovedPosts } from './remoteStorage/getUnapprovedPosts'
 import { markPostAsComplete } from './remoteStorage/markPostAsCompleted'
@@ -33,11 +31,9 @@ function usePostRepository(): PostRepositoryInterface {
 			getPostsByUser: getPostsByUser,
 			getPostIdsByUser: getPostIdsByUser,
 			getUnapprovedPosts: getUnapprovedPosts,
-			getPostsByMacroCategory: getPostsByMacroCategory,
 
 			// POST
 			createPost: createPost,
-			createPostWithCustomId: createPostWithCustomId,
 
 			// UPDATE
 			updatePostData: updatePostData,

@@ -1,7 +1,7 @@
-import { PhoneAuthProvider } from 'firebase/auth'
+import { authProviders } from '@infrastructure/firebase'
 
 async function generatePhoneAuthCredential(verificationCodeId: string, verificationCode: string) {
-	const credential = PhoneAuthProvider.credential(
+	const credential = authProviders.PhoneAuthProvider.credential(
 		verificationCodeId,
 		verificationCode,
 	)

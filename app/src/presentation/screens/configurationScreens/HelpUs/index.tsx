@@ -1,11 +1,10 @@
 import React from 'react'
-import { Linking, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { HelpUsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Container, ButtonsContainer } from './styles'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
-import HandOnPersonWhiteIcon from '@assets/icons/handOnPerson-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { share } from '@common/share'
@@ -19,15 +18,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 function HelpUs({ navigation }: HelpUsScreenProps) {
 	const shareMessage = () => {
 		share('oi, já conhece o https://corre.social/ !? meu novo app favorito')
-	}
-
-	const openLink = async (link: string) => {
-		const validUrl = await Linking.canOpenURL(link)
-		if (validUrl) {
-			Linking.openURL(link)
-		} else {
-			console.log('URL inválida')
-		}
 	}
 
 	const navigateToSelectSubscriptionRange = () => {
@@ -63,18 +53,6 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 					SecondSvgIcon={HandOnHeartWhiteIcon}
 					svgIconScale={['40%', '30%']}
 					onPress={navigateToSelectSubscriptionRange}
-				/>
-				<PrimaryButton
-					justifyContent={'center'}
-					color={theme.colors.white[3]}
-					labelColor={theme.colors.black[4]}
-					fontSize={17}
-					relativeHeight={'16%'}
-					label={'seja voluntário'}
-					highlightedWords={['voluntário']}
-					SecondSvgIcon={HandOnPersonWhiteIcon}
-					svgIconScale={['40%', '30%']}
-					onPress={() => openLink('https://voluntariado.corre.social/')}
 				/>
 				<PrimaryButton
 					justifyContent={'center'}

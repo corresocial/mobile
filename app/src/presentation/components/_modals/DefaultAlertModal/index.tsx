@@ -11,7 +11,17 @@ interface DefaultAlertModalProps {
 
 // REFACTOR Não utilizar custom modal, criar um novo
 
-function DefaultAlertModal({ data, closeModal }: DefaultAlertModalProps) {
+function DefaultAlertModal({
+	data = {
+		visibility: false,
+		title: 'Ops!',
+		text: 'Ocorreu um erro',
+		type: 'info',
+		handleSuccessMethod: () => { },
+		handleAlternativeMethod: () => { }
+	},
+	closeModal
+}: DefaultAlertModalProps) {
 	return (
 		<CustomModal
 			visibility={!!data?.visibility}
@@ -31,17 +41,6 @@ function DefaultAlertModal({ data, closeModal }: DefaultAlertModalProps) {
 
 		</CustomModal>
 	)
-}
-
-DefaultAlertModal.defaultProps = {
-	data: {
-		visibility: false,
-		title: 'Ops!',
-		text: 'Ocorreu um erro',
-		type: 'info',
-		handleSuccessMethod: () => { },
-		handleAlternativeMethod: () => { },
-	} as DefaultAlertModalProps['data']
 }
 
 export { DefaultAlertModal }

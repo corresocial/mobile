@@ -17,7 +17,7 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { UserDataConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { auth } from '@infrastructure/firebase/index'
+import { firebaseAuth } from '@infrastructure/firebase'
 
 import { Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -58,7 +58,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	}
 
 	const userPerformRecentLogin = () => {
-		const { currentUser } = auth
+		const { currentUser } = firebaseAuth
 		const lastSignin: Date = new Date(currentUser?.metadata.lastSignInTime || Date.now() + 50000)
 		return differenceInMinutes(new Date(), lastSignin) < 5
 	}
@@ -80,10 +80,8 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				userDataContext.userId,
 				userDataContext.profilePictureUrl || [],
 				userDataContext.posts as PostEntityOptional[]
-			).then(() => {
-				setIsLoading(false)
-				toggleSuccessModalVisibility()
-			})
+			)
+			toggleSuccessModalVisibility()
 
 			clearCache(queryClient)
 			setIsLoading(false)
@@ -105,7 +103,6 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const performLogout = async () => {
 		try {
 			clearCache(queryClient)
-			// navigateToInitialScreen()
 			await logoutUser(
 				useUserRepository,
 				usePostRepository,

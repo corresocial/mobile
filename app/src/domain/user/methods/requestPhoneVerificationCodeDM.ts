@@ -1,11 +1,8 @@
-import { ApplicationVerifier } from 'firebase/auth'
-
 import { AuthenticationServiceInterface } from '@services/authentication/AuthenticationServiceInterface'
 
-async function requestPhoneVerificationCodeDM(useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string, recaptchaVerifier: ApplicationVerifier | any | any) {
+async function requestPhoneVerificationCodeDM(useAuthenticationService: () => AuthenticationServiceInterface, completeNumber: string) {
 	const { getPhoneVerificationCodeId } = useAuthenticationService()
-
-	return getPhoneVerificationCodeId(completeNumber, recaptchaVerifier)
+	return getPhoneVerificationCodeId(completeNumber)
 }
 
 export { requestPhoneVerificationCodeDM }

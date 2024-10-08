@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { StatusBar, TouchableOpacity } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
@@ -84,7 +84,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
+		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre.\n\nAbaixo Assinado: ${petitionData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPetition = async () => {
@@ -155,6 +155,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 
 	return (
 		<>
+			<StatusBar backgroundColor={theme.colors.white[3]} />
 			<DefaultConfirmationModal
 				visibility={deleteConfirmationModalIsVisible}
 				title={'apagar abaixo assinado'}

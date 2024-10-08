@@ -29,7 +29,7 @@ interface DescriptionProps {
 
 export const Description = styled.Text<DescriptionProps>`
 	width: ${({ fullWidth }) => (fullWidth ? '100%' : '48%')};
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
 	text-align: center;
 `

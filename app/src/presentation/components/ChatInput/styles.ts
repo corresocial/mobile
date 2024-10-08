@@ -62,7 +62,7 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	padding: 0px ${relativeScreenDensity(10)}px;
 	padding-top: ${relativeScreenDensity(12)}px;
 	padding-bottom: ${relativeScreenDensity(12)}px;
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme }) => theme.fontSizes[3]}px;
 	border-radius: ${relativeScreenDensity(50)}px;
 	background-color: ${({ theme, inputFocused }) => (inputFocused ? theme.colors.white[3] : theme.colors.white[2])};

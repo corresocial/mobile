@@ -12,16 +12,19 @@ export async function showBuildInfo() {
 	const appVersion = Constants.deviceName
 	const platformVersion = Platform.Version
 	const deviceOsVersion = Device.osVersion
-	const { nativeBuildVersion,
+	const {
+		nativeBuildVersion,
 		nativeApplicationVersion,
-		androidId,
+		getAndroidId,
 		applicationId,
 		applicationName,
 		getLastUpdateTimeAsync,
 	} = Application
 	const { platformApiLevel } = Device
 
-	const lastUpdateTime = Platform.OS === 'android' ? await getLastUpdateTimeAsync() : 'indisponível no IOS'
+	const lastUpdateTime = Platform.OS === 'android' && getLastUpdateTimeAsync ? await getLastUpdateTimeAsync() : '---'
+	const androidId = Platform.OS === 'android' ? getAndroidId() : '---'
+	const iosId = Platform.OS === 'ios' ? await Application.getIosIdForVendorAsync() : '---'
 
 	const { appOwnership } = Constants
 	const supportedSdks = Constants.systemVersion
@@ -31,7 +34,8 @@ export async function showBuildInfo() {
 	__DEV__: ${__DEV__}
 
 	lastUpdateTime: ${lastUpdateTime}
-	androidId: ${androidId}
+	androidId: ${androidId || '---'}
+	iosId: ${iosId || '---'}
 	applicationId: ${applicationId}
 	applicationName: ${applicationName}
 	platformApiLevel: ${platformApiLevel}

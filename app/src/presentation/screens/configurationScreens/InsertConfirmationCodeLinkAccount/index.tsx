@@ -141,7 +141,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 				const phoneAuthCredential = await generatePhoneAuthCredential(verificationCodeId, completeCode)
 
-				const linkedUser = await linkAuthProvider(phoneAuthCredential)
+				const linkedUser = await linkAuthProvider(phoneAuthCredential, 'phone')
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 				await remoteStorage.updatePrivateContacts(
 					userDataContext.userId,

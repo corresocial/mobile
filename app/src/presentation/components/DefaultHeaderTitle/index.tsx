@@ -1,6 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import { SvgProps } from 'react-native-svg'
+import { useTheme } from 'styled-components'
 
 import { Container, Title } from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
@@ -29,6 +30,8 @@ function DefaultHeaderTitle({
 	justifyContent = 'flex-start',
 	onPressIcon
 }: DefaultHeaderTitleProps) {
+	const theme = useTheme()
+
 	const renderInteractiveSvgIcon = () => {
 		if (onPressIcon) {
 			return (
@@ -80,7 +83,7 @@ function DefaultHeaderTitle({
 				}
 				<Title style={{
 					marginLeft: invertTextAndIcon || !SvgIcon ? 0 : relativeScreenDensity(10),
-					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+					fontFamily: highlightedWords?.length > 0 ? theme.fonts.arvoRegular : theme.fonts.arvoBold,
 					fontSize: relativeScreenDensity(fontSize)
 				}}
 				>

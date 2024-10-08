@@ -5,7 +5,6 @@ import { useUserDomain } from '@domain/user/useUserDomain'
 
 import { InsertCellNumberLinkAccountScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import Firebase from '@infrastructure/firebase/index'
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
@@ -20,15 +19,12 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
-import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
 
 const { requestPhoneVerificationCode } = useUserDomain()
 
 const { checkUserPhoneAlreadyRegistredCloud } = useCloudFunctionService()
-
-const firebaseConfig = Firebase ? Firebase.options : undefined
 
 const headerMessages = {
 	instruction: {
@@ -50,8 +46,6 @@ const headerMessages = {
 }
 
 export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNumberLinkAccountScreenProps) {
-	const recaptchaVerifier = React.useRef(null)
-
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
 	const [completeCellNumber, setCompleteCellNumber] = useState<string>('')
@@ -134,7 +128,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
 		const currentCellNumber = fullCellNumber || completeCellNumber
 
-		await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
+		await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber)
 			.then((verificationCodeId) => {
 				navigation.navigate('InsertConfirmationCodeLinkAccount', {
 					cellNumber: currentCellNumber, verificationCodeId
@@ -172,11 +166,6 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 				linking
 				closeModal={toggleLoginAlertModalVisibility}
 				onPressButton={() => { }}
-			/>
-			<CustomRecaptchaModal
-				ref={recaptchaVerifier}
-				firebaseConfig={firebaseConfig}
-				languageCode={'pt-BR'}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}

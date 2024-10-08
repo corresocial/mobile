@@ -25,7 +25,6 @@ async function updatePostDM(
 		newPostData
 	)
 
-	console.log('postLocationIsOutsideSubscriptionRange', postLocationIsOutsideSubscriptionRange)
 	if (postLocationIsOutsideSubscriptionRange) {
 		await updateLocationDataOnPostsDM(
 			storedPostData.owner.userId,

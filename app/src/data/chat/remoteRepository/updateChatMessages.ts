@@ -1,13 +1,11 @@
-import { ref, update } from 'firebase/database'
-
 import { MessageObjects } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function updateChatMessages(chatId: Id, messages: MessageObjects) {
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
-	update(realTimeDatabaseRef, messages)
+async function updateChatMessages(chatId: Id, messages: MessageObjects): Promise<void> {
+	const realTimeDatabaseRef = firebaseDatabase.ref(`${chatId}/messages`)
+	await realTimeDatabaseRef.update(messages)
 }
 
 export { updateChatMessages }

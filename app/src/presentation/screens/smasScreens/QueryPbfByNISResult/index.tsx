@@ -77,7 +77,10 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
 				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
 				closeModal={() => setNotificationModalIsVisible(false)}
-				onCloseModal={() => setNotificationModalIsVisible(false)}
+				onCloseModal={() => {
+					setNotificationModalIsVisible(false)
+					navigateBackwards()
+				}}
 				onPressButton={navigateToConfigScreen}
 			/>
 			<DefaultHeaderContainer

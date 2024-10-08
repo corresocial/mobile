@@ -1,42 +1,34 @@
-import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore'
-
 import { PostEntity } from '@domain/post/entity/types'
 
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 export async function getPostsByUser(userId: string, maxDocs = 10, lastDoc: PostEntity | null = null, completed = false, allPosts = false) {
 	try {
-		const collectionRef = collection(firestore, POST_COLLECTION)
+		const collectionRef = firebaseFirestore.collection(POST_COLLECTION)
 		let postsByUserQuery
 
 		if (allPosts) {
-			postsByUserQuery = query(
-				collectionRef,
-				where('owner.userId', '==', userId),
-				orderBy('createdAt', 'desc'),
-			)
+			postsByUserQuery = collectionRef
+				.where('owner.userId', '==', userId)
+				.orderBy('createdAt', 'desc')
 		} else if (lastDoc) {
-			postsByUserQuery = query(
-				collectionRef,
-				where('completed', '==', completed),
-				where('owner.userId', '==', userId),
-				orderBy('createdAt', 'desc'),
-				limit(maxDocs),
-				startAfter(lastDoc.createdAt)
-			)
+			postsByUserQuery = collectionRef
+				.where('completed', '==', completed)
+				.where('owner.userId', '==', userId)
+				.orderBy('createdAt', 'desc')
+				.limit(maxDocs)
+				.startAfter(lastDoc.createdAt)
 		} else {
-			postsByUserQuery = query(
-				collectionRef,
-				where('completed', '==', completed),
-				where('owner.userId', '==', userId),
-				orderBy('createdAt', 'desc'),
-				limit(maxDocs),
-			)
+			postsByUserQuery = collectionRef
+				.where('completed', '==', completed)
+				.where('owner.userId', '==', userId)
+				.orderBy('createdAt', 'desc')
+				.limit(maxDocs)
 		}
 
-		const postsSnap = await getDocs(postsByUserQuery)
+		const postsSnap = await postsByUserQuery.get()
 		return postsSnap.docs.map((doc) => ({ postId: doc.id, ...doc.data() } as PostEntity))
 	} catch (error) {
 		console.log(error)

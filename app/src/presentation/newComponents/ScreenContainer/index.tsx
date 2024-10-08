@@ -142,11 +142,4 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 	)
 }
 
-ScreenContainer.defaultProps = {
-	tone: 'default',
-	enableScreenPadding: false,
-	enableSectionPadding: false,
-	withPadding: false
-}
-
 export { ScreenContainer }

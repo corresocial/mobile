@@ -1,18 +1,26 @@
-import { deleteDoc, doc } from 'firebase/firestore'
-
 import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase'
 
 async function deleteUserData(userId: string) {
 	try {
-		const docRef = doc(firestore, USER_COLLECTION, userId)
-		const privateContactsDoc = doc(firestore, USER_COLLECTION, userId, 'private', 'contacts')
-		const privateLocationDoc = doc(firestore, USER_COLLECTION, userId, 'private', 'location')
+		const docRef = firebaseFirestore.collection(USER_COLLECTION).doc(userId)
+		const privateContactsDoc = firebaseFirestore
+			.collection(USER_COLLECTION)
+			.doc(userId)
+			.collection('private')
+			.doc('contacts')
 
-		await deleteDoc(docRef)
-		await deleteDoc(privateContactsDoc)
-		await deleteDoc(privateLocationDoc)
+		const privateLocationDoc = firebaseFirestore
+			.collection(USER_COLLECTION)
+			.doc(userId)
+			.collection('private')
+			.doc('location')
+
+		await docRef.delete()
+		await privateContactsDoc.delete()
+		await privateLocationDoc.delete()
+
 		return true
 	} catch (error) {
 		console.log(error)

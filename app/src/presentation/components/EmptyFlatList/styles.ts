@@ -11,6 +11,6 @@ export const Container = styled.View`
 `
 
 export const Message = styled.Text`
-	font-family: Arvo_700Bold;
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 	text-align: center;
 `

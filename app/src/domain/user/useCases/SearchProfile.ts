@@ -16,6 +16,13 @@ export class SearchProfile implements UseCase<Input, Output> {
 	}
 
 	async exec({ searchText, pageNumber }: Input): Output { // TEST
-		return this.algoliaService.searchProfileByText(searchText, pageNumber) || { profiles: [], totalHits: 0 }
+		try {
+			return this.algoliaService.searchProfileByText(searchText, pageNumber) || { profiles: [], totalHits: 0 }
+		} catch (error) {
+			return {
+				profiles: [],
+				totalHits: 0
+			}
+		}
 	}
 }

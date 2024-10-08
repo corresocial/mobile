@@ -99,7 +99,8 @@ interface PriceLabelProps {
 }
 
 export const PriceLabel = styled.Text<PriceLabelProps>`
-	font-family: ${({ theme, bold }) => (bold ? theme.fonts.nunitoBold : theme.fonts.nunitoSemiBold)};
+	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
+	font-weight: ${({ theme, bold }) => (bold ? 700 : 600)};
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `
 

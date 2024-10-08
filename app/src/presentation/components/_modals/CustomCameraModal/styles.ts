@@ -4,7 +4,7 @@ import { relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
-    padding: 50px 0px;
+    padding: 20% 0px;
     align-items: center;
     justify-content: space-between;
     background-color: ${({ theme }) => theme.colors.black[4]};
