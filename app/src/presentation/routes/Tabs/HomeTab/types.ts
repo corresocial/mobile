@@ -1,7 +1,7 @@
 import { Chat } from '@domain/chat/entity/types'
 
 export type HomeTabParamList = {
-	HomeStack: undefined
+	HomeStack: undefined | { scrollToTop?(): void }
 	Post: undefined
 	ProfileStack: undefined
 	LeaderAreaStack: undefined

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
 
@@ -74,7 +75,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
+		share(`Olha o que ${isAuthor() ? 'estou anunciando' : 'encontrei'} no corre.\n\nEnquete: ${pollData.title} \n\nBaixe o app e faça parte!\nhttps://corre.social`)
 	}
 
 	const respondPoll = () => {
@@ -174,6 +175,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 
 	return (
 		<>
+			<StatusBar backgroundColor={theme.colors.white[3]} />
 			<DefaultConfirmationModal
 				visibility={deleteConfirmationModalIsVisible}
 				title={'apagar enquete'}

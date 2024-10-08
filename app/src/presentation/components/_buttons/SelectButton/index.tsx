@@ -85,7 +85,7 @@ function SelectButton({
 					<Label
 						style={{
 							fontSize: relativeScreenDensity(fontSize),
-							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular',
+							fontFamily: selected || boldLabel ? theme.fonts.arvoBold : theme.fonts.arvoRegular,
 							color: labelColor,
 						}}
 					>

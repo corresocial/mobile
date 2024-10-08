@@ -1,33 +1,28 @@
-import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore'
-
 import { PollEntity } from '@domain/poll/entity/types'
 
 import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 export async function getPollsByUser(userId: string, maxDocs = 1, lastDoc: PollEntity | null = null) {
 	try {
-		const collectionRef = collection(firestore, POLL_COLLECTION)
+		const collectionRef = firebaseFirestore.collection(POLL_COLLECTION)
 		let pollsByUserQuery
+
 		if (lastDoc) {
-			pollsByUserQuery = query(
-				collectionRef,
-				where('owner.userId', '==', userId),
-				orderBy('createdAt', 'desc'),
-				limit(maxDocs),
-				startAfter(lastDoc.createdAt)
-			)
+			pollsByUserQuery = collectionRef
+				.where('owner.userId', '==', userId)
+				.orderBy('createdAt', 'desc')
+				.limit(maxDocs)
+				.startAfter(lastDoc.createdAt)
 		} else {
-			pollsByUserQuery = query(
-				collectionRef,
-				where('owner.userId', '==', userId),
-				orderBy('createdAt', 'desc'),
-				limit(maxDocs),
-			)
+			pollsByUserQuery = collectionRef
+				.where('owner.userId', '==', userId)
+				.orderBy('createdAt', 'desc')
+				.limit(maxDocs)
 		}
 
-		const pollsSnap = await getDocs(pollsByUserQuery)
+		const pollsSnap = await pollsByUserQuery.get()
 		return pollsSnap.docs.map((doc) => ({ pollId: doc.id, ...doc.data() } as PollEntity))
 	} catch (error) {
 		console.log(error)

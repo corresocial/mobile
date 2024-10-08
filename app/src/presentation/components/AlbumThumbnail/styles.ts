@@ -38,7 +38,7 @@ export const AlbumThumbnailTitle = styled.Text`
     z-index: 2;
     font-size: ${relativeScreenDensity(9)}px;
     text-align: center;
-	font-family: Arvo_700Bold;
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
     position: absolute;
     padding: ${relativeScreenWidth(0.5)}px;
 

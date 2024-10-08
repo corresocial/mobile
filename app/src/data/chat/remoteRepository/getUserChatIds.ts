@@ -1,17 +1,19 @@
-import { get, ref } from 'firebase/database'
-
 import { UserDatabase } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function getUserChatIds(userId: Id) {
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
+async function getUserChatIds(userId: Id): Promise<Id[]> {
+	const realTimeDatabaseRef = firebaseDatabase.ref(`${userId}`)
 
-	const chatData: UserDatabase = await get(realTimeDatabaseRef)
-		.then((snapshot) => snapshot.val())
-
-	return chatData.chatIds || []
+	try {
+		const snapshot = await realTimeDatabaseRef.once('value')
+		const chatData: UserDatabase | null = snapshot.val()
+		return chatData?.chatIds || []
+	} catch (error) {
+		console.error('Erro ao obter IDs dos chats do usuário:', error)
+		return []
+	}
 }
 
 export { getUserChatIds }

@@ -54,8 +54,8 @@ export const MediaContainer = styled.View<MediaContainerProps>`
 
 export const VideoIconContainer = styled.View`
 	position: absolute;
-	bottom: ${relativeScreenDensity(5)}px;
-	right: ${relativeScreenDensity(5)}px;
+	top: ${relativeScreenDensity(10)}px;
+	left: ${relativeScreenDensity(10)}px;
 	justify-content: center;
 	align-items: center;
 	z-index: 10;
@@ -80,6 +80,7 @@ export const DataContainer = styled.View<DataContainerProps>`
 	background-color: ${({ theme }) => theme.colors.white[2]};
 	align-items: center;
 	justify-content: space-between;
+	gap: ${relativeScreenDensity(5)}px;
 `
 
 export const PostDescriptionText = styled.Text`
@@ -87,8 +88,8 @@ export const PostDescriptionText = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.nunitoSemiBold};
 	font-size: ${({ theme }) => relativeScreenDensity(theme.fontSizes[2])}px;
 	width: 100%;
+	/* line-height: ${relativeScreenDensity(20)}px; */
 	text-align: left;
-	line-height: ${relativeScreenDensity(20)}px;
 `
 
 export const UserDataContainer = styled.View`

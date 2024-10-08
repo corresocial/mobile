@@ -299,7 +299,7 @@ function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, vide
 						flex={0.7}
 						numberOfLines={2}
 					>
-						{albumSelected ? albumSelected.albumName : 'Álbums'}
+						{albumSelected ? albumSelected.albumName : 'Álbuns'}
 					</MediaBrowserHeaderText>
 					<MediaBrowserHeaderText
 						flex={0.4}

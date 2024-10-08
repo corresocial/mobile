@@ -334,6 +334,7 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 		<ScreenContainer
 			topSafeAreaColor={theme.colors.blue[1]}
 			tone={'blue'}
+			infinityBottom
 			enableSectionPadding
 			firstSection={(
 				<ContextHeader
@@ -374,42 +375,41 @@ function EventsCalendar({ navigation }: EventsCalendarScreenProps) {
 							</NoPostNotifierContainer>
 						)}
 						showsVerticalScrollIndicator={false}
-						ListHeaderComponent={<VerticalSpacing />}
+						ListHeaderComponent={(
+							<BottomNavigator>
+								<SelectButton
+									manualSelection
+									selected={visualization === 'day'}
+									selectionColor={theme.colors.blue[2]}
+									relativeWidth={30}
+									icon={'calendarEveryday'}
+									text={'dia'}
+									onPress={() => setVisualization('day')}
+								/>
+								<SelectButton
+									manualSelection
+									selected={visualization === 'week'}
+									selectionColor={theme.colors.blue[2]}
+									relativeWidth={30}
+									icon={'calendarEveryday'}
+									text={'semana'}
+									onPress={() => setVisualization('week')}
+								/>
+								<SelectButton
+									manualSelection
+									selected={visualization === 'month'}
+									selectionColor={theme.colors.blue[2]}
+									relativeWidth={30}
+									icon={'calendarEveryday'}
+									text={'mês'}
+									onPress={() => setVisualization('month')}
+								/>
+							</BottomNavigator>
+						)}
 						ItemSeparatorComponent={(item) => (visualization !== 'month' || item.leadingItem.buttonAction) && <VerticalSpacing />}
 						ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 					/>
 				</EventsContainer>
-			)}
-			footerSection={(
-				<BottomNavigator>
-					<SelectButton
-						manualSelection
-						selected={visualization === 'day'}
-						selectionColor={theme.colors.blue[2]}
-						relativeWidth={30}
-						icon={'calendarEveryday'}
-						text={'dia'}
-						onPress={() => setVisualization('day')}
-					/>
-					<SelectButton
-						manualSelection
-						selected={visualization === 'week'}
-						selectionColor={theme.colors.blue[2]}
-						relativeWidth={30}
-						icon={'calendarEveryday'}
-						text={'semana'}
-						onPress={() => setVisualization('week')}
-					/>
-					<SelectButton
-						manualSelection
-						selected={visualization === 'month'}
-						selectionColor={theme.colors.blue[2]}
-						relativeWidth={30}
-						icon={'calendarEveryday'}
-						text={'mês'}
-						onPress={() => setVisualization('month')}
-					/>
-				</BottomNavigator>
 			)}
 		/>
 	)

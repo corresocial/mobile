@@ -1,6 +1,5 @@
 import { AuthenticationServiceInterface } from './AuthenticationServiceInterface'
 import { generatePhoneAuthCredential } from './methods/generatePhoneAuthCredential'
-import { generateGoogleAuthCredential } from './methods/geneteGoogleAuthCredential'
 import { getPhoneVerificationCodeId } from './methods/getPhoneVerificationCodeId'
 import { handleMethodWithDeviceAuthentication } from './methods/handleMethodWithDeviceAuthentication'
 import { linkAuthProvider } from './methods/linkAuthProvider'
@@ -13,7 +12,6 @@ function useAuthenticationService(): AuthenticationServiceInterface {
 		handleMethodWithDeviceAuthentication: handleMethodWithDeviceAuthentication,
 
 		generatePhoneAuthCredential: generatePhoneAuthCredential,
-		generateGoogleAuthCredential: generateGoogleAuthCredential,
 		getPhoneVerificationCodeId: getPhoneVerificationCodeId,
 		validatePhoneVerificationCode: validatePhoneVerificationCode,
 

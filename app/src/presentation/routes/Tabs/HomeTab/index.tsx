@@ -5,6 +5,7 @@ import { RouteProp, useFocusEffect, useIsFocused } from '@react-navigation/nativ
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useContext, useRef } from 'react'
 import { Animated, Platform } from 'react-native'
+import { useTheme } from 'styled-components'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { useAuthContext } from '@contexts/AuthContext'
@@ -21,13 +22,13 @@ import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
 import PlusWhiteIcon from '@assets/icons/plus.svg'
 import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
 import { relativeScreenDensity } from '@common/screenDimensions'
-import { theme } from '@common/theme'
 
 import { Post } from '@screens/postScreens/Post'
 
 import { ChatStack } from '../../Stack/ChatStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { ProfileStack } from '../../Stack/ProfileStack'
+import { HomeStackTabScreenProps } from './screenProps'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -40,6 +41,8 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 	const { userDataContext } = useAuthContext()
 	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
 	const { notificationState } = useContext(AlertContext)
+
+	const theme = useTheme()
 
 	const handlerTourButton = { navigation }
 
@@ -214,7 +217,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 				tabBarBadgeStyle: {
 					borderRadius: 5,
 					backgroundColor: theme.colors.pink[4],
-					fontFamily: 'Arvo_700Bold',
+					fontFamily: theme.fonts.arvoBold,
 					fontSize: relativeScreenDensity(10),
 					margin: relativeScreenDensity(3),
 					marginLeft: relativeScreenDensity(10)
@@ -226,9 +229,14 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 			<Tab.Screen
 				name={'HomeStack'}
 				component={HomeStack}
-				options={{
-					tabBarIcon: ({ focused }) => renderHomeIcon(focused),
-				}}
+				options={{ tabBarIcon: ({ focused }) => renderHomeIcon(focused) }}
+				listeners={(nav: HomeStackTabScreenProps) => ({
+					tabPress: (e) => {
+						const scrollToTop = nav.route.params?.scrollToTop
+						const navRoute = route.name
+						if (scrollToTop && navRoute === 'HomeTab' && nav.navigation.isFocused()) scrollToTop()
+					}
+				})}
 			/>
 			<Tab.Screen
 				name={'Post'}

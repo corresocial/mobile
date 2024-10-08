@@ -23,7 +23,7 @@ export const Container = styled.View<ContainerProps>`
 export const Title = styled.Text<ContainerProps>`
 	flex: 1;
 	width: ${({ hasIcon }) => (hasIcon ? '75%' : '60%')};
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 	font-size: ${({ theme, fontSize }) => fontSize || theme.fontSizes[4]}px;
 `
 

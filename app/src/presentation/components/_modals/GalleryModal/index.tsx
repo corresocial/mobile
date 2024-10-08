@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
-import { trackEvent } from '@aptabase/react-native'
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
@@ -127,7 +126,6 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
-		trackEvent('foi_para_o_próximo', { direction })
 	}
 
 	const goToIndex = (index: number, noAnimation?: boolean) => {

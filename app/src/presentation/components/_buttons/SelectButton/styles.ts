@@ -11,7 +11,7 @@ export const ContainerBottom = styled.View`
 `
 
 interface ContainerSurfaceProps {
-	buttonPressed: boolean
+    buttonPressed: boolean
 }
 
 export const ContainerSurface = styled.View<ContainerSurfaceProps>`
@@ -29,7 +29,7 @@ export const ContainerSurface = styled.View<ContainerSurfaceProps>`
 
 export const Label = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[5]}px;
-    font-family: Arvo_700Bold;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
     padding: ${relativeScreenHeight(0.7)}px ${relativeScreenWidth(3)}px;
     text-align: center;
 `

@@ -1,16 +1,20 @@
-import { User, getAuth, unlink } from 'firebase/auth'
+import { firebaseAuth } from '@infrastructure/firebase'
 
-async function unlinkAuthProvider(providerId: string) {
-	const auth = getAuth()
-	const { currentUser } = auth
+import { ProviderId } from '../AuthenticationServiceInterface'
 
-	return unlink(currentUser as User, providerId)
-		.then(async () => {
-			return true
-		})
-		.catch((error) => {
-			throw new Error(error.code)
-		})
+async function unlinkAuthProvider(providerId: ProviderId): Promise<boolean> {
+	try {
+		const currentUser = firebaseAuth?.currentUser
+		if (!currentUser) {
+			throw new Error('No current user')
+		}
+
+		await currentUser.unlink(providerId)
+		return true
+	} catch (error: any) {
+		console.error(error)
+		throw new Error(error.code || 'An error occurred while unlinking the provider')
+	}
 }
 
 export { unlinkAuthProvider }

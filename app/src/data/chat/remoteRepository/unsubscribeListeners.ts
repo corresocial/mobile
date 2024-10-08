@@ -1,22 +1,20 @@
-import { off, ref } from 'firebase/database'
-
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function unsubscribeUserChatIdsListener(userId: Id) {
-	const listenerRef = ref(realTimeDatabase, `${userId}`)
-	off(listenerRef)
+async function unsubscribeUserChatIdsListener(userId: Id): Promise<void> {
+	const listenerRef = firebaseDatabase.ref(`${userId}`)
+	listenerRef.off('value')
 }
 
-async function unsubscribeUserChatListener(chatId: Id) {
-	const listenerRef = ref(realTimeDatabase, `${chatId}`)
-	off(listenerRef)
+async function unsubscribeUserChatListener(chatId: Id): Promise<void> {
+	const listenerRef = firebaseDatabase.ref(`${chatId}`)
+	listenerRef.off('value')
 }
 
-async function unsubscribeChatMessagesListener(chatId: Id) {
-	const listenerRef = ref(realTimeDatabase, `${chatId}/messages`)
-	off(listenerRef)
+async function unsubscribeChatMessagesListener(chatId: Id): Promise<void> {
+	const listenerRef = firebaseDatabase.ref(`${chatId}/messages`)
+	listenerRef.off('value')
 }
 
 export { unsubscribeUserChatIdsListener, unsubscribeUserChatListener, unsubscribeChatMessagesListener }

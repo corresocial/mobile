@@ -129,7 +129,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			<ButtonsContainer>
 				{
 					isLoading
-						? <Loader />
+						? <Loader flex />
 						: (
 							<>
 								<SmallButton

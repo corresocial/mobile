@@ -62,7 +62,7 @@ interface TitleProps {
 
 export const Title = styled.Text<TitleProps>`
 	flex: 1;
-    font-family: ${({ hasHighlightedWords }) => (hasHighlightedWords ? 'Arvo_400Regular' : 'Arvo_700Bold')};
+	font-family: ${({ theme, hasHighlightedWords }) => (!hasHighlightedWords ? theme.fonts.arvoBold : theme.fonts.arvoRegular)};
 	text-align: ${({ textAlign }) => (textAlign || 'left')};
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
     color: ${({ theme }) => theme.colors.black[3]};
@@ -76,7 +76,7 @@ interface DescriptionProps {
 
 export const Description = styled.Text<DescriptionProps>`
 	margin-bottom: ${relativeScreenDensity(20)}px;
-    font-family: ${({ bolded }) => (bolded ? 'Arvo_700Bold' : 'Arvo_400Regular')};
+	font-family: ${({ theme, bolded }) => (bolded ? theme.fonts.arvoBold : theme.fonts.arvoRegular)};
     font-size: ${({ fontSize }) => (fontSize ? relativeScreenDensity(fontSize) : relativeScreenDensity(13))}px;
     text-align: ${({ textAlign }) => (textAlign || 'left')};
     color: ${({ theme }) => theme.colors.black[3]};

@@ -6,6 +6,7 @@ import { useChatRepository } from '@data/chat/useChatRepository'
 async function sendMessageDM(message: Message, chatId: Id, recipientUserName: string) {
 	const { sendMessage } = useChatRepository()
 
+	console.log('sendMessageDM', { ...message, metadata: { title: recipientUserName } })
 	return sendMessage({ ...message, metadata: { title: recipientUserName } }, chatId)
 
 	/* if (messageSent) { // Migrated to google cloud listener

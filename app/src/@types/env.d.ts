@@ -12,6 +12,8 @@ declare module '@env' {
 	export const FIREBASE_smas_databaseURL: string
 	export const FIREBASE_CLOUD_URL: string
 	export const MAPS_API: string
+	export const IOS_MAPS_API_KEY: string
+	export const ANDROID_MAPS_API_KEY: string
 	export const ALGOLIA_ID: string
 	export const ALGOLIA_KEY: string
 
@@ -24,18 +26,20 @@ declare module '@env' {
 	export const PROD_FIREBASE_appId: string
 	export const PROD_FIREBASE_measurementId: string
 	export const PROD_FIREBASE_CLOUD_URL: string
+	export const PROD_FIREBASE_smas_databaseURL: string
 	export const PROD_ALGOLIA_ID: string
 	export const PROD_ALGOLIA_KEY: string
-	export const PROD_AUTH_EXPO_CLIENT_ID: string
-	export const PROD_AUTH_CLIENT_ID: string
 	export const PROD_AUTH_ANDROID_CLIENT_ID: string
 	export const PROD_AUTH_IOS_CLIENT_ID: string
+	export const AUTH_WEB_CLIENT_ID: string
+	export const PROD_AUTH_WEB_CLIENT_ID: string
 	export const PROD_MAPS_API: string
+	export const PROD_IOS_MAPS_API_KEY: string
+	export const PROD_ANDROID_MAPS_API_KEY: string
 	export const PROD_STRIPE_PUBLISHABLE_KEY: string
 	export const PROD_STRIPE_SECRET_KEY: string
 	export const PROD_STRIPE_API_URL: string
 
-	export const AUTH_EXPO_CLIENT_ID: string
 	export const AUTH_ANDROID_CLIENT_ID: string
 	export const AUTH_IOS_CLIENT_ID: string
 	export const DENUNCIAR_WEBHOOK: string
@@ -50,7 +54,4 @@ declare module '@env' {
 	export const STRIPE_SECRET_KEY: string
 	export const STRIPE_API_URL: string
 	export const SENTRY_AUTH_TOKEN: string
-
-	export const APTABASE_APP_KEY: string
-	export const APTABASE_HOST: string
 }

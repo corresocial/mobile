@@ -51,8 +51,7 @@ function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
 		<>
 			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<PostInputText
-				multiline
-				initialValue={'71296082008'}
+				initialValue={''}
 				backgroundColor={theme.colors.purple[2]}
 				validationColor={theme.colors.purple[1]}
 				customTitle={'qual é o seu CPF?'}

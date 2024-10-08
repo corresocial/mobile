@@ -1,7 +1,6 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import React, { useEffect, useRef, useState } from 'react'
 import { Platform, StatusBar, TextInput } from 'react-native'
-
-import { UserCredential } from 'firebase/auth'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -175,7 +174,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		setHasServerSideError(true)
 	}
 
-	const extractUserIdentification = async ({ user }: UserCredential) => user.uid
+	const extractUserIdentification = async ({ user }: FirebaseAuthTypes.UserCredential) => user.uid
 
 	const allInputCodesIsValid = () => {
 		const inputCodeLength = mergeAllInputCodes().length || 0

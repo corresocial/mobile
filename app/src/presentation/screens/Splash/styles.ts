@@ -1,4 +1,3 @@
-import { Animated } from 'react-native'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
@@ -9,4 +8,8 @@ export const Container = styled.View`
     position: relative;
 `
 
-export const LogoContainer = styled(Animated.View)``
+export const LogoContainer = styled.View`
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+`

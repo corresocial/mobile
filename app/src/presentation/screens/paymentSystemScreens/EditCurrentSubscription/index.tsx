@@ -181,7 +181,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				userDataContext.userId,
 				{ email }
 			)
-			// await updateUserSubscription({ ...userDataContext.subscription/* , receiptEmail: email  */})
+			await updateUserSubscription({ ...userDataContext.subscription/* , receiptEmail: email  */ })
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (error: any) {

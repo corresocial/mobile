@@ -23,9 +23,10 @@ export const HeaderTitleContainer = styled.View`
     gap: ${relativeScreenDensity(10)}px;
 `
 
+// REFACTOR relative
 export const BottomSheetHeaderText = styled.Text`
-    font-size: 18px; // REFACTOR relative
-    font-family: Arvo_700Bold;
+    font-size: 18px;
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const CloseModalArea = styled.TouchableOpacity`

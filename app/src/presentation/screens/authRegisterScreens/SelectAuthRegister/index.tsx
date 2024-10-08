@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, Platform, StatusBar } from 'react-native'
+import { BackHandler, StatusBar } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 
@@ -67,10 +67,6 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	const navigateToAuthFlow = () => {
 		sendEvent('opened_auth_screen', { authType: 'login' }, true)
-		if (Platform.OS === 'ios') {
-			navigation.navigate('InsertCellNumber', { newUser: false })
-			return
-		}
 		navigation.navigate('SelectAuthMethod')
 	}
 

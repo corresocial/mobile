@@ -9,7 +9,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
-import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { CardsContainer, CardsContent, Container, SubscriptionButtonContainer } from './styles'
@@ -25,6 +24,7 @@ import { LargeCard } from '@components/_cards/LargeCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { ScreenContainer } from '@newComponents/ScreenContainer'
 
 const { localStorage } = usePostRepository()
@@ -66,8 +66,6 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	}
 
 	const adSubscriptionHandle = () => {
-		const userRange = checkFreeTrialRange('city')
-		if (userRange.betweenRange) return
 		setSubscriptionModalIsVisible(true)
 	}
 
@@ -77,6 +75,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.colors.orange[3]}>
+			<FocusAwareStatusBar backgroundColor={theme.colors.orange[3]} barStyle={'dark-content'} />
 			<Container>
 				<SubscriptionPresentationModal
 					visibility={subscriptionModalIsVisible}

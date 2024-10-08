@@ -20,6 +20,7 @@ export const Container = styled.View<CardHighlighProps>`
 `
 
 export const CustomText = styled.Text<CardHighlighProps>`
-	font-family: ${({ highlight }) => (highlight ? 'Arvo_700Bold' : 'Arvo_400Regular')};
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
+	font-weight: ${({ highlight }) => (highlight ? 700 : 400)};
 	font-size: ${({ theme }) => theme.fontSizes[4]}px;
 `

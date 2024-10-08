@@ -1,31 +1,11 @@
-import { deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore'
+import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { PostEntityOptional } from '@domain/post/entity/types'
-import { UserEntity } from '@domain/user/entity/types'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
-import { POST_COLLECTION, USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
-
-import { firestore } from '@infrastructure/firebase/index'
-
-async function deletePost(postId: string, userId: string) {
+async function deletePost(postId: string) {
 	try {
-		const docRef = doc(firestore, POST_COLLECTION, postId)
-
-		await deleteDoc(docRef)
-
-		const postOwnerRef = doc(firestore, USER_COLLECTION, userId)
-		const userData = await getDoc(postOwnerRef) as UserEntity | any
-
-		const updatedUserPosts = userData.data()
-			? userData.data().posts.filter((post: PostEntityOptional) => post.postId !== postId)
-			: []
-
-		await updateDoc(postOwnerRef, {
-			...userData.data(), // REFACTOR Testar se realmente precisa consultar os dados do owner para fazer o update
-			posts: updatedUserPosts,
-			updatedAt: new Date()
-		})
-
+		const docRef = firebaseFirestore.collection(POST_COLLECTION).doc(postId)
+		await docRef.delete()
 		return true
 	} catch (error) {
 		console.log(error)

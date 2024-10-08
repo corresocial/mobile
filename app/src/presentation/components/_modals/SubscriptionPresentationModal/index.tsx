@@ -4,7 +4,7 @@ import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
 
 import { Body, Description, ImageContainer, ImageDescription, ProfilePictureContainer } from './styles'
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
-import UserNetworkImage from '@assets/imgs/userNetwork.png'
+import UserNetworkImage from '@assets/imgs/user_network.png'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
 

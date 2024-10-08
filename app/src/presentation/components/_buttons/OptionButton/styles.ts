@@ -18,7 +18,7 @@ export const ContainerBottom = styled(Animatable.View as any)`
 `
 
 interface ContainerSurfaceProps {
-	buttonPressed: boolean
+    buttonPressed: boolean
 }
 
 export const ContainerSurface = styled.View<ContainerSurfaceProps>`
@@ -44,14 +44,14 @@ export const LeftArea = styled.View`
 `
 
 interface LeftSideTextProps {
-	leftSideTextColor?: string
+    leftSideTextColor?: string
 }
 
 export const LeftSideText = styled.Text<LeftSideTextProps>`
 	text-align: center;
 	color: ${({ theme, leftSideTextColor }) => leftSideTextColor || theme.colors.white[3]};
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const LabelDescriptionArea = styled.View`
@@ -64,16 +64,16 @@ export const LabelDescriptionArea = styled.View`
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
     font-size: ${({ theme }) => theme.fontSizes[10]}px;
-    font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const Description = styled.Text`
     color: ${({ theme }) => theme.colors.black[4]};
-    font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `
 
 interface ShortDescriptionProps {
-	fontSize?: number
+    fontSize?: number
 }
 
 export const ShortDescription = styled.Text<ShortDescriptionProps>`
@@ -83,5 +83,5 @@ export const ShortDescription = styled.Text<ShortDescriptionProps>`
 	font-size: ${({ fontSize }) => (fontSize || relativeScreenDensity(11))}px;
 	margin-top: 3%;
     color: ${({ theme }) => theme.colors.black[4]};
-    font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `

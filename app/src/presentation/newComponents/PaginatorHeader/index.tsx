@@ -19,7 +19,7 @@ interface PaginatorHeaderProps {
 	onPrev: () => void
 }
 
-function PaginatorHeader({ color = 'transparent', title, value, previousItem, nextItem, subTitle, highlitedWords, infoContainerWidth = '60%', onNext, onPrev }: PaginatorHeaderProps) {
+function PaginatorHeader({ color = 'rgba(0,0,0,0)', title, value, previousItem, nextItem, subTitle, highlitedWords, infoContainerWidth = '60%', onNext, onPrev }: PaginatorHeaderProps) {
 	const getPreviousItem = (): number | null => {
 		return value ? value - 1 : null
 	}

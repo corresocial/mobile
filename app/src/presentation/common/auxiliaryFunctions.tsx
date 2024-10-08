@@ -4,6 +4,8 @@ import uuid from 'react-uuid'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
 
+import { theme } from './theme'
+
 const showMessageWithHighlight = (message: string, highlightedWords?: string[], subtitleWords: string[] = []) => {
 	if (!highlightedWords) return message
 
@@ -22,13 +24,13 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 			return (
 				<Text
 					style={{
-						fontFamily: 'Arvo_700Bold',
+						fontFamily: theme.fonts.arvoBold
 					}}
 					key={uuid()}
 				>
 					{`${wordWithoutSymbols}`}
 					<Text style={{
-						fontFamily: 'Arvo_400Regular',
+						fontFamily: theme.fonts.arvoRegular
 					}}
 					>
 						{`${symbolRemoved} `}
@@ -40,7 +42,7 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 		if (subtitleWords.length && subtitleWords.includes(wordWithoutSymbols as never)) {
 			return (
 				<Text style={{
-					fontFamily: 'Arvo_400Regular',
+					fontFamily: theme.fonts.arvoRegular,
 					fontSize: relativeScreenDensity(12)
 				}}
 				>

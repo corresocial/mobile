@@ -2,12 +2,12 @@ import { PostEntity, PostRange } from '@domain/post/entity/types'
 
 export type UserAuthData = {
 	cellNumber: string
-	verificationCodeId?: string
+	verificationCodeId?: string | null
 }
 
 export type UserRegisterData = {
 	cellNumber: string
-	verificationCodeId?: string
+	verificationCodeId?: string | null
 	email: string
 	name?: string
 	profilePictureUri?: string

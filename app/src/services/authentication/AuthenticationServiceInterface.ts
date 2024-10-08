@@ -1,18 +1,18 @@
-import { ApplicationVerifier, AuthCredential, OAuthCredential, PhoneAuthCredential, User, UserCredential } from 'firebase/auth'
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
 type UnknowFunction = any
+export type ProviderId = 'phone' | 'google.com'
 
 interface AuthenticationServiceInterface {
 	handleMethodWithDeviceAuthentication: (secureMethod: UnknowFunction) => Promise<any>
 
-	generatePhoneAuthCredential: (verificationCodeId: string, verificationCode: string) => Promise<PhoneAuthCredential>
-	generateGoogleAuthCredential: (accessTokenId: string) => OAuthCredential
-	getPhoneVerificationCodeId: (completeNumber: string, recaptchaVerifier: ApplicationVerifier | any) => Promise<string>
-	validatePhoneVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
+	generatePhoneAuthCredential: (verificationCodeId: string, verificationCode: string) => Promise<FirebaseAuthTypes.AuthCredential>
+	getPhoneVerificationCodeId: (completeNumber: string) => Promise<string | null>
+	validatePhoneVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<FirebaseAuthTypes.UserCredential>
 
-	signInByGoogleCredential: (googleCredential: OAuthCredential) => Promise<{ email: string, userId: string }>
-	linkAuthProvider: (credential: AuthCredential) => Promise<User>
-	unlinkAuthProvider: (providerId: string) => Promise<boolean>
+	signInByGoogleCredential: (justReturnCredential?: boolean) => Promise<{ email: string, userId: string } | FirebaseAuthTypes.AuthCredential | null>
+	linkAuthProvider: (authCredential: FirebaseAuthTypes.AuthCredential | null, providerId: ProviderId) => Promise<FirebaseAuthTypes.User | undefined>
+	unlinkAuthProvider: (providerId: ProviderId) => Promise<boolean>
 
 }
 

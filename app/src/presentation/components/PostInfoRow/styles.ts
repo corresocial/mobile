@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps {
-	withoutMarginTop?: number
+	withoutMarginTop?: boolean
 	topic?: boolean
 }
 
@@ -24,5 +24,5 @@ export const PostInfoText = styled.Text<PostInfoTextProps>`
 	${({ hasSeccondSvgIcon }) => (!hasSeccondSvgIcon ? 'flex: 1' : 'margin-right: 4%')};
 	margin-left: ${({ topic }) => (topic ? 0 : relativeScreenWidth(4))}px;
 	font-size: ${({ theme }) => theme.fontSizes[2]}px;
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `

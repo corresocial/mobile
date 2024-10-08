@@ -18,7 +18,7 @@ import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
-// import BellWhiteIcon from '@assets/icons/bell-white.svg'
+// import BellWhiteIcon from '@assets/icons/bell-white.svg'  // SMAS
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -30,11 +30,11 @@ import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
-import { PostCard } from '@components/_cards/PostCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { WithoutNetworkConnectionAlert } from '@components/_modals/WithoutNetworkConnectionAlert'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { PostCard } from '@newComponents/PostCard'
 
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
@@ -99,7 +99,7 @@ function EditPost({
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [offlinePostAlertModalIsVisible, setOfflinePostAlertModalIsVisible] = useState(false)
 	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
-	// const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false)
+	// const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false) // SMAS
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
@@ -198,7 +198,7 @@ function EditPost({
 				range,
 				initialPostData,
 				postWithUnapprovedData,
-				postWithUnapprovedData.unapprovedData?.picturesUrl || [],
+				postWithUnapprovedData.unapprovedData?.picturesUrl || []
 				// notifyUsersEnabled
 			)
 
@@ -370,7 +370,7 @@ function EditPost({
 							? <Loader />
 							: (
 								<SaveButtonContainer>
-									{/* {
+									{/* { // SMAS
 										userHasGovernmentProfileSeal() && unsavedPost && (
 											<PrimaryButton
 												color={notifyUsersEnabled ? theme.colors.orange[1] : theme.colors.white[3]}
@@ -397,7 +397,7 @@ function EditPost({
 										svgIconScale={['50%', '30%']}
 										minHeight={relativeScreenHeight(5)}
 										relativeHeight={relativeScreenHeight(6)}
-										relativeWidth={/* userHasGovernmentProfileSeal() && unsavedPost ? '55%' : */ '100%'}
+										relativeWidth={/* userHasGovernmentProfileSeal() && unsavedPost ? '55%' : */ '100%'} // SMAS
 										onPress={getHeaderButtonHandler()}
 									/>
 								</SaveButtonContainer>

@@ -10,4 +10,6 @@ function DateFnsAdapter(): DateFnsAdapterInterface {
 	}
 }
 
+// REFACTOR Remover essa dependência
+
 export { DateFnsAdapter }

@@ -73,7 +73,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
 						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
 						pressionable
-						onPress={() => (route.params.isAuthor ? onPressIcon(socialMedia, index) : openURL(socialMedia))}
+						onPress={() => (!socialMedia.link ? onPressIcon(socialMedia, index) : openURL(socialMedia))}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
 					<VerticalSpacing />

@@ -3,9 +3,9 @@
 import * as Application from 'expo-application'
 import { Platform } from 'react-native'
 
-import { trackEvent } from '@aptabase/react-native'
-
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
+
+import { firebaseAnalytics } from '@infrastructure/firebase'
 
 type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'smas_search' | 'recovery_nis' | 'visualized_post' | 'visualized_petition' | 'visualized_poll'
 
@@ -36,10 +36,11 @@ function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: 
 
 		const eventData = value
 		if (sendWithDeviceId && Platform.OS === 'android') {
-			eventData.deviceId = Application.androidId as string
+			eventData.deviceId = Application.getAndroidId()
 		}
 		eventData.appVersion = Application.nativeBuildVersion as string
-		trackEvent(eventName, eventData as any)
+
+		firebaseAnalytics.logEvent(eventName, eventData)
 	} catch (error) {
 		console.log('Erro ao enviar analytics para o Aptabase')
 		console.log(error)

@@ -1,15 +1,13 @@
-import { ref, set } from 'firebase/database'
-
 import { UserDatabase } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
 async function registerNewUser(userId: Id, initialUserData: Partial<UserDatabase>) {
 	if (!userId) return false
 
-	const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
-	set(realTimeDatabaseRef, initialUserData)
+	const realTimeDatabaseRef = firebaseDatabase.ref(`${userId}`)
+	await realTimeDatabaseRef.set(initialUserData) // Adicione await para garantir que a operação seja concluída
 	return true
 }
 

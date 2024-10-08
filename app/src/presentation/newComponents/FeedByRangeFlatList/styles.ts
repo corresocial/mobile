@@ -1,17 +1,15 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
-
 export const FlashListContainer = styled.View`
 	flex: 1;
 	width: 100%;
 `
 
 export const NoPostNotifierContainer = styled.View`
+	flex: 1;
 	height: 100%;
 	width: 100%;
-`
-
-export const PostCardContainer = styled.View`
-	padding: 0px ${relativeScreenDensity(10)}px;
+	align-items: center;
+	justify-content: center;
+	padding-top: 20%;
 `

@@ -5,7 +5,7 @@ interface ChatRepositoryInterface {
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
-	getRemoteUserData(userId: Id): Promise<ChatUserData>
+	getRemoteUserData(userId: Id): Promise<ChatUserData | null>
 	getRemoteChatData(chatId: Id): Promise<Chat>
 	registerNewUser(userId: Id, initialUserData: Partial<ChatUserData>): Promise<boolean> | boolean
 	registerNewChat(initialChatData: Partial<Chat>): Promise<void>

@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
@@ -7,9 +7,11 @@ import { PollEntity } from '@domain/poll/entity/types'
 import { FeedPosts, PostEntity, PostEntityCommonFields, PostEntityOptional, PostRange } from '@domain/post/entity/types'
 
 import { useAuthContext } from '@contexts/AuthContext'
+import { useLoaderContext } from '@contexts/LoaderContext'
 
 import { PostRangeDivider } from './types'
 import { IconName } from '@assets/icons/iconMap/types'
+import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 
 import { isRecentPost } from '@utils-ui/post/validation'
 
@@ -51,7 +53,9 @@ function FeedByRangeFlatList({
 	const [videosMuted, setVideosMuted] = useState<boolean>(true)
 
 	const { userDataContext } = useAuthContext()
+	const { loaderIsVisible } = useLoaderContext()
 	const { navigate } = useNavigation<any>()
+	const homeTabIsFocused = useIsFocused()
 
 	const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 100 }).current
 
@@ -60,6 +64,14 @@ function FeedByRangeFlatList({
 			setFirstVisibleItems(viewableItems[0].item)
 		}
 	}).current
+
+	const flatListRef = useRef<FlatList>(null)
+	const navigation = useNavigation<HomeScreenProps['navigation']>()
+	useEffect(() => {
+		navigation.getParent()?.setParams({
+			scrollToTop: () => flatListRef.current?.scrollToOffset({ animated: true, offset: 0 })
+		})
+	}, [navigation])
 
 	const hasNearbyPosts = () => {
 		return (filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))) && filteredFeedPosts.nearby.filter((item: any) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate)))).length)
@@ -89,6 +101,33 @@ function FeedByRangeFlatList({
 		}
 	}
 
+	const audioToggle = () => {
+		setVideosMuted(!videosMuted)
+	}
+
+	const posts = useMemo(() => {
+		const formattedPosts = [
+			/* { dividerText: 'Posts perto de você', postRange: 'near' }, */ ...filteredFeedPosts.nearby.map((p) => ({ ...p, range: 'near' })),
+			/* { dividerText: 'Posts na sua cidade', postRange: 'city' }, */ ...filteredFeedPosts.city.map((p) => ({ ...p, range: 'city' })),
+			/* { dividerText: 'Posts no Brasil    ', postRange: 'country' }, */ ...filteredFeedPosts.country.map((p) => ({ ...p, range: 'country' }))
+		] as PostEntity[]
+
+		const filteredItems = collapseExternalVacancies ? formattedPosts.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate!)))) : formattedPosts
+
+		const vacancyPost = formattedPosts.find((item) => item.macroCategory === 'vacancy' && item.externalPostId)
+		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
+			filteredItems.splice(1, 0, {
+				...vacancyPost,
+				action: () => navigate('ViewPostsByMacroCategory', {
+					postType: 'income', macroCategory: 'vacancy'
+				}),
+				description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias',
+			} as any)
+		}
+
+		return filteredItems
+	}, [filteredFeedPosts])
+
 	const renderDivider = (item: PostRangeDivider): React.ReactElement<any> => {
 		switch (item.postRange) {
 			case 'near': if (!hasNearbyPosts()) { return <></> } break
@@ -97,41 +136,14 @@ function FeedByRangeFlatList({
 		}
 		return (
 			<PostCardContainer key={item.postRange}>
-				<VerticalSpacing />
+				{item.postRange !== 'near' && <VerticalSpacing />}
 				<InfoDivider leftIcon={getDividerIconName(item.postRange)} title={item.dividerText} />
 			</PostCardContainer>
 		)
 	}
 
-	const audioToggle = () => {
-		setVideosMuted(!videosMuted)
-	}
-
-	const posts = useMemo(() => {
-		const formattedPosts = [
-			{ dividerText: 'Posts perto de você', postRange: 'near' }, ...filteredFeedPosts.nearby,
-			{ dividerText: 'Posts na sua cidade', postRange: 'city' }, ...filteredFeedPosts.city,
-			{ dividerText: 'Posts no Brasil    ', postRange: 'country' }, ...filteredFeedPosts.country
-		] as PostEntity[]
-
-		const filteredItems = collapseExternalVacancies ? formattedPosts.filter((item) => (!item.externalPostId || (item.externalPostId && isRecentPost(item.startDate!)))) : formattedPosts
-
-		const vacancyPost = formattedPosts.find((item) => item.macroCategory === 'vacancy')
-		if (collapseExternalVacancies && vacancyPost && vacancyPost.macroCategory) {
-			filteredItems.splice(1, 0, {
-				...vacancyPost,
-				action: () => navigate('PostCategories', {
-					postType: 'income', macroCategory: 'vacancy'
-				}),
-				description: 'Veja vagas de emprego aqui em Londrina, novas vagas todos os dias',
-			} as any)
-		}
-
-		return filteredItems
-	}, [firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
-
 	const renderPostItem = useCallback((element: any) => {
-		const { item } = element
+		const { item, index } = element
 		const itemType = getItemType(item)
 
 		if ((item as any).action) {
@@ -152,12 +164,12 @@ function FeedByRangeFlatList({
 		switch (itemType) {
 			case 'post': return (
 				<PostCardContainer key={item.postId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PostCard
 						post={item as any}
 						owner={item.owner as PostEntityCommonFields['owner']}
 						isOwner={userDataContext.userId === item.owner.userId}
-						isVisible={firstVisibleItem?.postId === item.postId}
+						isVisible={(firstVisibleItem?.postId === item.postId) && homeTabIsFocused}
 						videoMuted={videosMuted}
 						navigateToProfile={() => navigateToProfile(item.owner.userId, item.owner.redirect)}
 						onAudioButtonPressed={audioToggle}
@@ -168,7 +180,7 @@ function FeedByRangeFlatList({
 
 			case 'poll': return (
 				<PostCardContainer key={item.pollId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PollCard
 						pollData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -181,7 +193,7 @@ function FeedByRangeFlatList({
 
 			case 'petition': return (
 				<PostCardContainer key={item.petitionId}>
-					<VerticalSpacing />
+					{index !== 0 && <VerticalSpacing />}
 					<PetitionCard
 						petitionData={item}
 						owner={item.owner as PostEntityCommonFields['owner']}
@@ -195,15 +207,15 @@ function FeedByRangeFlatList({
 			case 'divider': return renderDivider(item)
 			default: return <></>
 		}
-	}, [posts, firstVisibleItem, videosMuted, filteredFeedPosts, collapseExternalVacancies])
+	}, [filteredFeedPosts, videosMuted, firstVisibleItem, homeTabIsFocused])
 
 	return (
 		<FlashListContainer>
 			<FlatList
+				ref={flatListRef}
 				data={posts}
 				renderItem={renderPostItem as any}
 				contentContainerStyle={{ backgroundColor: backgroundColor }}
-				// estimatedItemSize={111}
 				showsVerticalScrollIndicator={false}
 				refreshControl={onRefresh && (
 					<RefreshControl
@@ -217,11 +229,11 @@ function FeedByRangeFlatList({
 				onViewableItemsChanged={onViewableItemsChanged}
 				viewabilityConfig={viewabilityConfig}
 				ListHeaderComponent={listHeaderComponent}
-				ListEmptyComponent={(
+				ListEmptyComponent={!loaderIsVisible ? (
 					<NoPostNotifierContainer>
 						<EmptyPostsNotifier text={'Parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'} />
 					</NoPostNotifierContainer>
-				)}
+				) : <></>}
 				ListFooterComponent={<VerticalSpacing bottomNavigatorSpace />}
 			/>
 		</FlashListContainer>

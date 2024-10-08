@@ -12,15 +12,11 @@ export const EventsFlatList = styled.FlatList`
 `
 
 export const BottomNavigator = styled.View`
-	position: absolute;
 	bottom: 0px;
-	background-color: ${({ theme }) => theme.colors.white[3]};
 	height: ${relativeScreenDensity(50)}px;
-	width: 100%;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
-	border-top-width: ${relativeScreenDensity(2.5)}px;
 `
 
 export const ColapsedEventGroup = styled.View`

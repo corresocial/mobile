@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
@@ -7,7 +7,6 @@ import { useAuthContext } from '@contexts/AuthContext'
 
 import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
-import Firebase from '@infrastructure/firebase/index'
 import { useAuthenticationService } from '@services/authentication/useAuthenticationService'
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
@@ -22,15 +21,12 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
-import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
 
 const { requestPhoneVerificationCode } = useUserDomain()
 
 const { checkUserPhoneAlreadyRegistredCloud } = useCloudFunctionService()
-
-const firebaseConfig = Firebase ? Firebase.options : undefined
 
 const headerMessages = {
 	instruction: {
@@ -51,7 +47,6 @@ const headerMessages = {
 	}
 }
 
-// REFACTOR Verificar se é viável transformar em componente depois de remover mensagens de erro on screen
 export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
 	const { setUserRegisterDataOnContext, setUserAuthDataOnContext } = useAuthContext()
 
@@ -67,13 +62,17 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const [isLoading, setIsLoading] = useState(false)
 
-	const recaptchaVerifier = React.useRef(null)
 	const inputRefs = {
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
 	}
 
 	const newUser = route.params?.newUser
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => setIsLoading(false))
+		return unsubscribe
+	}, [])
 
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
@@ -131,7 +130,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				!DDDIsValid && setInvalidDDDAfterSubmit(true)
 				!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
 			}
-			setIsLoading(false)
 		} catch (error: any) {
 			console.log(error)
 			setIsLoading(false)
@@ -145,13 +143,24 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	}
 
 	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
-		const currentCellNumber = fullCellNumber || completeCellNumber
-		const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber, recaptchaVerifier.current)
+		try {
+			setLoginAlertModalIsVisible(false)
+			// Modal de recaptcha estava sendo impedido de abrir pois o modal de alerta estava intânciado
+			setTimeout(async () => {
+				const currentCellNumber = fullCellNumber || completeCellNumber
+				const verificationCodeId = await requestPhoneVerificationCode(useAuthenticationService, currentCellNumber)
 
-		setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
-		setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+				if (!verificationCodeId) throw new Error('Erro ao solicitar código de verificaçã')
 
-		navigation.navigate('InsertConfirmationCode')
+				setUserRegisterDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+				setUserAuthDataOnContext({ cellNumber: currentCellNumber, verificationCodeId })
+
+				navigation.navigate('InsertConfirmationCode')
+			}, 300)
+		} catch (err) {
+			console.log(err)
+			throw err
+		}
 	}
 
 	const getHeaderMessage = () => {
@@ -181,13 +190,8 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				visibility={loginAlertModalIsVisible}
 				accountIdentifier={completeCellNumber}
 				registerMethod={newUser}
-				closeModal={toggleLoginAlertModalVisibility}
+				closeModal={() => setLoginAlertModalIsVisible(false)}
 				onPressButton={requestCellNumberVerificationCode}
-			/>
-			<CustomRecaptchaModal
-				ref={recaptchaVerifier}
-				firebaseConfig={firebaseConfig}
-				languageCode={'pt-BR'}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}

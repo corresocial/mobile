@@ -38,15 +38,15 @@ export const ButtonArea = styled.TouchableOpacity`
 
 export const Title = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[5]}px;
-    font-family: Arvo_700Bold;
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const QuestionIndicator = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[5]}px;
-    font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const ObservationText = styled.Text`
     font-size: ${({ theme }) => theme.fontSizes[2]}px;
-    font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `

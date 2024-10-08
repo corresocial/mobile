@@ -9,6 +9,7 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
+import { PublicServicesAdButton } from '@components/_buttons/PublicServicesAdButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { CustomCarousel } from '@components/CustomCarousel'
 
@@ -28,12 +29,18 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 		navigation.navigate('Post')
 	}
 
+	const promotionTitle = 'PROMOÇÃO'
+	const promotionText = 'aproveite 3 meses gratuitos de nosso aplicativo para alcançar a cidade ou o país todo com suas postagens!'
+
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
-				{/* <SubscriptionAdContainer>
-					<PublicServicesAdButton onPress={() => { }} />
-				</SubscriptionAdContainer> */}
+				<SubscriptionAdContainer>
+					<PublicServicesAdButton
+						onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()}
+					/>
+				</SubscriptionAdContainer>
+				{/* // SMAS */}
 				{/* <SubscriptionAdContainer>
 					<UserLocationAdButton onPress={() => onPressUserLocationAd && onPressUserLocationAd()} />
 				</SubscriptionAdContainer> */}
@@ -41,12 +48,18 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 					userRange.betweenRange
 						? (
 							<SubscriptionAdContainer>
-								<SubscriptionButton onPress={navigateToPostScreen} />
+								<SubscriptionButton
+									customTitle={promotionTitle}
+									customDescription={promotionText}
+									onPress={navigateToPostScreen}
+								/>
 							</SubscriptionAdContainer>
 						)
 						: (
 							<SubscriptionAdContainer>
-								<SubscriptionButton onPress={() => onPressCorreAd && onPressCorreAd()} />
+								<SubscriptionButton
+									onPress={() => onPressCorreAd && onPressCorreAd()}
+								/>
 							</SubscriptionAdContainer>
 						)
 				}

@@ -92,7 +92,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	const postType = getPostType()!
 
 	useEffect(() => {
-		getPost(!!(postData.macroCategory === 'event' && postData.postId && !loggedUserIsOwner()))
+		getPost(!!(postData?.macroCategory === 'event' && postData.postId && !loggedUserIsOwner()))
 		return () => {
 			clearEditContext()
 		}
@@ -212,7 +212,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre. no corre.\n\nhttps://corre.social/p/${getPostField('postId', postType)}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre.\n\nhttps://corre.social/p/${getPostField('postId', postType)}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -311,7 +311,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 	}
 
 	const getSeeMoreTitle = (): string => {
-		switch (postData.macroCategory) {
+		switch (postData?.macroCategory) {
 			case 'art': return 'Ver mais artes'
 			case 'event': return 'Ver mais Eventos'
 			case 'donation': return 'Ver mais Social'
@@ -327,16 +327,16 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	const seeMorePressHandler = () => {
 		setIsLoadingMore(true)
-		if (!postData.macroCategory || route.name !== 'PostViewHome') return
+		if (!postData?.macroCategory || route.name !== 'PostViewHome') return
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory: postData.macroCategory, postType: postData.postType } })
 
 		setIsLoadingMore(false)
-		if (postData.macroCategory === 'event') {
+		if (postData?.macroCategory === 'event') {
 			return navigation.navigate('EventsCalendar')
 		}
 
 		const commomRedirect = ['art', 'donation', 'education', 'informative', 'iniciative', 'sale', 'service', 'vacancy']
-		if (commomRedirect.includes(postData.macroCategory)) {
+		if (commomRedirect.includes(postData?.macroCategory)) {
 			return navigation.navigate('ViewPostsByMacroCategory')
 		}
 	}
@@ -408,12 +408,12 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 									/>
 								)
 								: (
-									(getPostField('macroCategory', 'culture') === 'event') ? (
+									(getPostField('macroCategory', 'culture') === 'event') && !isAuthor ? (
 										<StandardButton
 											text={isAuthor ? 'compartilhar'
 												: postData.presenceList?.includes(userDataContext.userId)
 													? 'não vou mais' : 'eu vou!'}
-											backgroundColor={postData.presenceList && postData.presenceList.length ? theme.colors.red[3] : theme.colors.green[3]}
+											backgroundColor={postData.presenceList && postData.presenceList.length && postData.presenceList?.includes(userDataContext.userId) ? theme.colors.red[3] : theme.colors.green[3]}
 											icon={isAuthor ? 'share' : 'personWalking'}
 											iconWidth={35}
 											textTheme={'light'}

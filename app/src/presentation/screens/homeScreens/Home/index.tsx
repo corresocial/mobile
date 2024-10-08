@@ -113,6 +113,7 @@ function Home({ navigation }: HomeScreenProps) {
 			setSearchEnded(false)
 			let searchParams = {}
 			if (currentPosition || !hasLocationPermission) {
+				await checkLocationPermissions()
 				const coordinates = await getCurrentPositionCoordinates(firstLoad)
 				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {
@@ -165,6 +166,8 @@ function Home({ navigation }: HomeScreenProps) {
 				}
 			}
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
+
+			if (!currentPosition) throw new Error('Could not get current position')
 
 			return {
 				latitude: currentPosition.coords.latitude,

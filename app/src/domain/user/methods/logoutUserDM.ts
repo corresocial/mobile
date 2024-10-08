@@ -3,7 +3,7 @@ import { ChatDomainInterface } from '@domain/chat/ChatDomainInterface'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 import { UserRepositoryInterface } from '@data/user/UserRepositoryInterface'
 
-import { auth } from '@infrastructure/firebase' // REFACTOR
+import { firebaseAuth } from '@infrastructure/firebase' // REFACTOR
 
 async function logoutUserDM(
 	useUserRepository: () => UserRepositoryInterface,
@@ -17,11 +17,14 @@ async function logoutUserDM(
 		const { localStorage: localPostsStorage } = usePostRepository()
 		const { updateUserTokenNotification } = useChatDomain()
 
+		if (!firebaseAuth.currentUser?.uid) throw new Error('Usuário não encontrado ou não está logado!')
+
 		await localStorage.clearLocalUserData()
 		await localPostsStorage.clearOfflinePosts()
 		await updateUserTokenNotification(userId, '')
 		removeChatListeners()
-		await auth.signOut()
+
+		await firebaseAuth.signOut()
 	} catch (error: any) {
 		console.log(error)
 		// throw new Error(error)

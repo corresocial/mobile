@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Linking, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -25,8 +25,7 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DescriptionAlertWhiteIcon from '@assets/icons/description-alert-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import EyeDashedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
-import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
-import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
+// import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg' // SMAS
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
@@ -61,7 +60,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const performLogout = async () => {
 		try {
 			clearCache(queryClient)
-			// navigateToInitialScreen()
 			await logoutUser(
 				useUserRepository,
 				usePostRepository,
@@ -80,15 +78,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 
 	const shareMessage = () => {
 		share('oi, já conhece o https://corre.social/ !? meu novo app favorito')
-	}
-
-	const openLink = async (link: string) => {
-		const validUrl = await Linking.canOpenURL(link)
-		if (validUrl) {
-			Linking.openURL(link)
-		} else {
-			console.log('URL inválida')
-		}
 	}
 
 	const navigateToScreen = (screenName: keyof ProfileStackParamList, alertPropForUpdate?: string) => {
@@ -149,8 +138,9 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationSettings')}
 				/>
-				<VerticalSpacing />
-				{/* <OptionButton
+				{/* // SMAS */}
+				{/* <VerticalSpacing />
+				<OptionButton
 					label={'serviços públicos'}
 					highlightedWords={['serviços', 'públicos']}
 					labelSize={18}
@@ -160,8 +150,8 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
-				/>
-				<VerticalSpacing /> */}
+				/> */}
+				<VerticalSpacing />
 				<OptionButton
 					label={'métodos de login'}
 					highlightedWords={['métodos', 'de', 'login']}
@@ -196,30 +186,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideColor={theme.colors.orange[3]}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('ContactUs')}
-				/>
-				<VerticalSpacing />
-				<OptionButton
-					label={'faça uma doação'}
-					highlightedWords={['faça', 'uma', 'doação']}
-					relativeHeight={relativeScreenHeight(9)}
-					labelSize={18}
-					SvgIcon={HandOnMoneyWhiteIcon}
-					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={performUserSubscription}
-				/>
-				<VerticalSpacing />
-				<OptionButton
-					label={'seja voluntário'}
-					highlightedWords={['seja', 'voluntário']}
-					relativeHeight={relativeScreenHeight(9)}
-					labelSize={18}
-					SvgIcon={HandOnHeartWhiteIcon}
-					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => openLink('https://voluntariado.corre.social/')}
 				/>
 				<VerticalSpacing />
 				<OptionButton

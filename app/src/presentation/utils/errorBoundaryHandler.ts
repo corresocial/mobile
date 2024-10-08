@@ -41,7 +41,6 @@ Erro: ${error.message}
 Local do erro: ${errorLocation}
 ID da stackTrace: ${reportId}
 		`,
-
 		}),
 	})
 }

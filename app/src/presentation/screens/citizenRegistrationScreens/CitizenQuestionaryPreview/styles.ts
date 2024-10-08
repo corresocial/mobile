@@ -33,11 +33,11 @@ export const InfoText = styled.Text`
 `
 
 export const CreatorNameText = styled(InfoText)`
-	font-family: Arvo_700Bold;
+	font-family: ${({ theme }) => theme.fonts.arvoBold};
 `
 
 export const CreatedAtText = styled(InfoText)`
-	font-family: Arvo_400Regular;
+	font-family: ${({ theme }) => theme.fonts.arvoRegular};
 `
 
 export const Body = styled.View`

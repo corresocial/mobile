@@ -12,7 +12,23 @@ export type CitizenRegisterEntity = {
 	createdAt: Date
 	location: CitizenRegisterLocation
 	responses: CitizenRegisterQuestionResponse[]
+
+	incomeStatus: CitizenRegisterStatus
+	updates?: CitizenResponseUpdate[]
 }
+
+export interface CitizenResponseUpdate extends CitizenRegisterQuestionResponse {
+	questionId: string
+	timestamp: Date
+	value: string | string[] | number | boolean | SatisfactionType
+}
+
+export type CitizenRegisterStatus = {
+	suggestedOpportunityIds: string[] | [],
+	status: IncomeStatusType
+}
+
+export type IncomeStatusType = 'uncontacted' | 'withoutContact' | 'invalidContact' | 'invalid' | 'awaitingConfirmation' | 'generatingDescription' | 'awaitingRecommendation' | 'recommendationsMade' | 'hired'
 
 export type CitizenRegisterQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'select'
 export type SatisfactionType = 1 | 2 | 3 | 4 | 5

@@ -1,22 +1,20 @@
-import { doc, setDoc } from 'firebase/firestore'
-
 import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
-type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number }
+type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number };
 
 async function updatePostData(postId: string, data: PostEntityOptional, merge = true) {
 	try {
-		const createdAtPost = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {} // Garante que sempre haverá uma data de criação
-		const docRef = doc(firestore, POST_COLLECTION, postId)
+		const createdAtPost = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {}
+		const docRef = firebaseFirestore.collection(POST_COLLECTION).doc(postId)
 
-		await setDoc(
-			docRef,
+		const options = merge ? { merge: true } : {}
+		await docRef.set(
 			{ ...data, updatedAt: new Date(), ...createdAtPost },
-			{ merge: merge }
+			options
 		)
 
 		return true

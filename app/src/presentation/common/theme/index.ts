@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components'
 
-import { relativeScreenDensity } from '@common/screenDimensions'
+import { platformIsAndroid, relativeScreenDensity } from '@common/screenDimensions'
 
 export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlight pra facilitar sua vida
 	colors: {
@@ -14,7 +14,8 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 			1: '#7A7474',
 			2: '#4D4847',
 			3: '#262626',
-			4: '#0F1317',
+			4: '#000000',
+			// 4: '#0F1317',
 		},
 		orange: {
 			1: '#FFE4BF',
@@ -71,10 +72,10 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	},
 
 	fonts: {
-		arvoRegular: 'Arvo_400Regular',
-		arvoBold: 'Arvo_700Bold',
-		nunitoSemiBold: 'Nunito_600SemiBold',
-		nunitoBold: 'Nunito_700Bold'
+		arvoRegular: platformIsAndroid ? 'Arvo_400Regular' : 'Arvo-Regular',
+		arvoBold: platformIsAndroid ? 'Arvo_700Bold' : 'Arvo-Bold',
+		nunitoSemiBold: platformIsAndroid ? 'Nunito_600SemiBold' : 'Nunito-SemiBold',
+		nunitoBold: platformIsAndroid ? 'Nunito_700Bold' : 'Nunito-Bold'
 	},
 
 	fontSizes: {

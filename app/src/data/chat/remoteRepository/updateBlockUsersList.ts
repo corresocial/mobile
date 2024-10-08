@@ -1,17 +1,14 @@
-import { ref, set } from 'firebase/database'
-
 import { Id } from '@domain/globalTypes'
 
-import { realTimeDatabase } from '@infrastructure/firebase/index'
+import { firebaseDatabase } from '@infrastructure/firebase'
 
-async function updateBlockedUsersList(userId: Id, blockedUserIds: Id[]) {
+async function updateBlockedUsersList(userId: Id, blockedUserIds: Id[]): Promise<boolean> {
 	try {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}/blockedUsers`)
-
-		await set(realTimeDatabaseRef, blockedUserIds)
+		const realTimeDatabaseRef = firebaseDatabase.ref(`${userId}/blockedUsers`)
+		await realTimeDatabaseRef.set(blockedUserIds)
 		return true
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return false
 	}
 }
