@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar, Platform, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
@@ -69,6 +69,11 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const newUser = route.params?.newUser
 
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => setIsLoading(false))
+		return unsubscribe
+	}, [])
+
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
 
@@ -125,7 +130,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				!DDDIsValid && setInvalidDDDAfterSubmit(true)
 				!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
 			}
-			setIsLoading(false)
 		} catch (error: any) {
 			console.log(error)
 			setIsLoading(false)
