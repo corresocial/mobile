@@ -3,7 +3,7 @@
 export type CitizenRegisterEntityOptional = Partial<CitizenRegisterEntity>
 export type CitizenRegisterEntity = {
 	citizenRegisterId: string
-	citizenHasAccount?: boolean
+	citizenHasAccount?: boolean // CURRENT remove
 	name: string
 	cellNumber: string
 	censusTakerName: string,
@@ -13,8 +13,9 @@ export type CitizenRegisterEntity = {
 	location: CitizenRegisterLocation
 	responses: CitizenRegisterQuestionResponse[]
 
-	incomeStatus: CitizenRegisterStatus
-	updates?: CitizenResponseUpdate[]
+	employmentStatus: CitizenRegisterStatus // CURRENT Rename
+	// employmentStatus
+	updates?: CitizenResponseUpdate[] // CURRENT Remove
 }
 
 export interface CitizenResponseUpdate extends CitizenRegisterQuestionResponse {
@@ -25,16 +26,17 @@ export interface CitizenResponseUpdate extends CitizenRegisterQuestionResponse {
 
 export type CitizenRegisterStatus = {
 	suggestedOpportunityIds: string[] | [],
-	status: IncomeStatusType
+	status: EmploymentStatusType
 }
 
-export type IncomeStatusType = 'uncontacted' | 'withoutContact' | 'invalidContact' | 'invalid' | 'awaitingConfirmation' | 'generatingDescription' | 'awaitingRecommendation' | 'recommendationsMade' | 'hired'
+export type EmploymentStatusType = 'uncontacted' | 'withoutContact' | 'invalidContact' | 'invalid' | 'awaitingConfirmation' | 'generatingDescription' | 'awaitingRecommendation' | 'recommendationsMade' | 'hired'
 
 export type CitizenRegisterQuestionType = 'textual' | 'numerical' | 'binary' | 'satisfaction' | 'select'
 export type SatisfactionType = 1 | 2 | 3 | 4 | 5
 
 export type CitizenRegisterQuestionResponse = {
 	questionId: string
+	slug: string
 	question: string
 	questionType: CitizenRegisterQuestionType
 	response: string | string[] | number | boolean | SatisfactionType
