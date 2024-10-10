@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar, Platform, TextInput } from 'react-native'
 
-import { CitizenRegisterUseCases } from '@domain/citizenRegister/adapter/CitizenRegisterUseCases'
-
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
 import { InsertCitizenCellNumberScreenProps } from '@routes/Stack/CitizenRegistrationStack/screenProps'
-
-import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 
 import { Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -21,16 +17,12 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
-import { Loader } from '@components/Loader'
-
-const citizenUseCases = new CitizenRegisterUseCases()
 
 export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCellNumberScreenProps) {
 	const { citizenRegistrationIdentifier, saveCitizenRegistrationIdentifier } = useCitizenRegistrationContext()
 
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
-	const [loaderIsVisible, setLoaderIsVisible] = useState(false)
 
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
 	const [invalidCellNumberAfterSubmit, setInvalidCellNumberAfterSubmit] = useState<boolean>(false)
@@ -78,26 +70,18 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 			if (!cellNumberIsValid) return setInvalidCellNumberAfterSubmit(true)
 
 			if (DDDIsValid && cellNumberIsValid) {
-				setLoaderIsVisible(true)
-
 				const fullCellNumber = `+55${DDD}${cellNumber}`
-				const citizenHasAccountOnApp = await citizenUseCases.citizenHasAccountOnApp(useCloudFunctionService, fullCellNumber)
-				saveCitizenRegistrationIdentifier({
-					cellNumber: fullCellNumber,
-					citizenHasAccount: citizenHasAccountOnApp
-				})
+				saveCitizenRegistrationIdentifier({ cellNumber: fullCellNumber })
 
-				setLoaderIsVisible(false)
 				navigation.replace('InsertCitizenName')
 			}
 		} catch (error) {
 			console.log(error)
-			setLoaderIsVisible(false)
 		}
 	}
 
 	const skipScreen = () => {
-		saveCitizenRegistrationIdentifier({ citizenHasAccount: false })
+		saveCitizenRegistrationIdentifier({ cellNumber: '' })
 		navigation.replace('InsertCitizenName')
 	}
 
@@ -154,30 +138,28 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 					/>
 				</InputsContainer>
 				{
-					loaderIsVisible
-						? <Loader />
-						: (DDD || cellNumber)
-							? (
-								<PrimaryButton
-									color={theme.colors.green[3]}
-									SecondSvgIcon={CheckWhiteIcon}
-									labelColor={theme.colors.white[3]}
-									label={'continuar'}
-									highlightedWords={['continuar']}
-									startsHidden
-									onPress={saveCellNumber}
-								/>
-							)
-							: (
-								<PrimaryButton
-									color={theme.colors.yellow[3]}
-									SecondSvgIcon={DeniedWhiteIcon}
-									labelColor={theme.colors.black[4]}
-									label={'não informar'}
-									highlightedWords={['não']}
-									onPress={skipScreen}
-								/>
-							)
+					(DDD || cellNumber)
+						? (
+							<PrimaryButton
+								color={theme.colors.green[3]}
+								SecondSvgIcon={CheckWhiteIcon}
+								labelColor={theme.colors.white[3]}
+								label={'continuar'}
+								highlightedWords={['continuar']}
+								startsHidden
+								onPress={saveCellNumber}
+							/>
+						)
+						: (
+							<PrimaryButton
+								color={theme.colors.yellow[3]}
+								SecondSvgIcon={DeniedWhiteIcon}
+								labelColor={theme.colors.black[4]}
+								label={'não informar'}
+								highlightedWords={['não']}
+								onPress={skipScreen}
+							/>
+						)
 				}
 			</FormContainer>
 		</Container>

@@ -14,6 +14,7 @@ import {
 export class CitizenRegisterResponse extends Entity<CitizenRegisterResponse, CitizenRegisterQuestionResponse> {
 	readonly questionId: Id
 	readonly question: string
+	readonly slug: string
 	readonly questionType: CitizenRegisterQuestionType
 	readonly options?: string[]
 	readonly multiSelect?: boolean
@@ -30,6 +31,7 @@ export class CitizenRegisterResponse extends Entity<CitizenRegisterResponse, Cit
 		this.question = props.question ? props.question.trim() : props.question
 		this.questionType = props.questionType
 		this.response = props.response
+		this.slug = props.slug
 		this.optional = props.optional
 		this.options = props.options
 		this.multiSelect = props.multiSelect
@@ -127,9 +129,10 @@ export class CitizenRegisterResponse extends Entity<CitizenRegisterResponse, Cit
 	}
 
 	data(): CitizenRegisterQuestionResponse {
-		const { questionId, question, questionType, options, multiSelect, allowOtherOptions, response, specificResponse, observations } = this
+		const { questionId, question, questionType, options, multiSelect, allowOtherOptions, response, specificResponse, observations, slug } = this
 		const props: Partial<CitizenRegisterQuestionResponse> = { questionId: questionId.value, question, questionType, response }
 
+		if (slug) props.slug = slug
 		if (options) props.options = options
 		if (multiSelect !== undefined) props.multiSelect = multiSelect
 		if (allowOtherOptions !== undefined) props.allowOtherOptions = allowOtherOptions

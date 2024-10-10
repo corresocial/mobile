@@ -6,12 +6,10 @@ import { CitizenRegisterRemoteRepository } from '@data/citizenRegister/CitizenRe
 
 import { CitizenRegisterEntity, CitizenRegisterEntityOptional } from '../model/entities/types'
 
-import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 import { GoogleMapsService, GoogleMapsServiceInterfaceClass } from '@services/googleMaps/GoogleMapsService'
 
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 import { CitizenRegisterRemoteRepositoryInterface } from '../provider/CitizenRegisterRemoteRepositoryInterface'
-import { CitizenHasAccountOnApp } from '../useCases/CitizenHasAccountOnApp'
 import { CreateCitizenRegister } from '../useCases/CreateCitizenRegister'
 import { DeleteOfflineCitizenRegister } from '../useCases/DeleteOfflineCitizenRegister'
 import { GetCitizenRegistrationsByCoordinatorResponsability } from '../useCases/GetCitizenRecordsOfQuestionnaireAdministrators'
@@ -42,10 +40,6 @@ export class CitizenRegisterUseCases {
 
 	getCitizenRegistrationQuestionary() {
 		return new GetCitizenRegistrationQuestionary().exec()
-	}
-
-	citizenHasAccountOnApp(useCloudFunctionService: () => CloudFunctionServiceInterface, cellNumber: string) {
-		return new CitizenHasAccountOnApp(useCloudFunctionService).exec(cellNumber)
 	}
 
 	createCitizenRegister(currentUser: UserEntity, citizenRegisterData: CitizenRegisterEntityOptional) {

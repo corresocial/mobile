@@ -10,7 +10,6 @@ export class CitizenRegister extends Entity<CitizenRegister, CitizenRegisterEnti
 	readonly citizenRegisterId: Id | null
 	readonly name: UserName
 	readonly cellNumber: string // MODEL
-	readonly citizenHasAccount?: boolean
 	readonly coordinatorId: Id | null
 	readonly censusTakerId: Id
 	readonly createdAt: Date // MODEL
@@ -24,7 +23,6 @@ export class CitizenRegister extends Entity<CitizenRegister, CitizenRegisterEnti
 		this.citizenRegisterId = newRegister && !props.citizenRegisterId ? null : new Id(this.props.citizenRegisterId)
 		this.name = new UserName(props.name)
 		this.cellNumber = props.cellNumber // MODEL
-		this.citizenHasAccount = !!props.citizenHasAccount
 		this.coordinatorId = props.coordinatorId ? new Id(props.coordinatorId) : null
 		this.censusTakerId = new Id(props.censusTakerId)
 		this.censusTakerName = new UserName(props.censusTakerName)
@@ -50,10 +48,6 @@ export class CitizenRegister extends Entity<CitizenRegister, CitizenRegisterEnti
 
 		if (this.coordinatorId) {
 			props.coordinatorId = this.coordinatorId.value
-		}
-
-		if (this.citizenHasAccount !== undefined) {
-			props.citizenHasAccount = this.citizenHasAccount
 		}
 
 		return props as CitizenRegisterEntity

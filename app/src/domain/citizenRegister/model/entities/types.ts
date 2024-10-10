@@ -3,7 +3,6 @@
 export type CitizenRegisterEntityOptional = Partial<CitizenRegisterEntity>
 export type CitizenRegisterEntity = {
 	citizenRegisterId: string
-	citizenHasAccount?: boolean // CURRENT remove
 	name: string
 	cellNumber: string
 	censusTakerName: string,
@@ -12,10 +11,7 @@ export type CitizenRegisterEntity = {
 	createdAt: Date
 	location: CitizenRegisterLocation
 	responses: CitizenRegisterQuestionResponse[]
-
-	employmentStatus: CitizenRegisterStatus // CURRENT Rename
-	// employmentStatus
-	updates?: CitizenResponseUpdate[] // CURRENT Remove
+	employmentStatus: EmploymentStatus
 }
 
 export interface CitizenResponseUpdate extends CitizenRegisterQuestionResponse {
@@ -24,7 +20,7 @@ export interface CitizenResponseUpdate extends CitizenRegisterQuestionResponse {
 	value: string | string[] | number | boolean | SatisfactionType
 }
 
-export type CitizenRegisterStatus = {
+export type EmploymentStatus = {
 	suggestedOpportunityIds: string[] | [],
 	status: EmploymentStatusType
 }
