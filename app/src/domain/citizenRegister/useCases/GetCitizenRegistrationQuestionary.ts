@@ -10,14 +10,15 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 		const citizenRegistrationQuestionary: CitizenRegisterQuestionResponse[] = [
 			{
 				questionId: '3',
+				slug: 'age',
 				question: 'Qual é a sua idade?',
-				response: '',
-				questionType: 'numerical'
+				questionType: 'numerical',
+				response: ''
 			},
 			{
 				questionId: '4',
+				slug: 'skinColor',
 				question: 'Qual é a sua cor?',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Preta',
@@ -26,92 +27,52 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Amarela',
 					'Indígena',
 					'Não Sei Responder'
-				]
+				],
+				response: ''
 			},
 			{
 				questionId: '5',
+				slug: 'gender',
 				question: 'Indique seu sexo',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Mulher',
 					'Homem'
-				]
+				],
+				response: ''
 			},
 			{
 				questionId: '6',
+				slug: 'pcd',
 				question: 'Você é PcD (Pessoa com Deficiência)?',
-				response: '',
-				questionType: 'binary'
+				questionType: 'binary',
+				response: ''
 			},
 			{
 				questionId: '7',
+				slug: 'healthIssues',
+				question: 'Tem algum problema de saúde?',
+				questionType: 'textual',
+				optional: true,
+				response: ''
+			},
+			{
+				questionId: '8',
+				slug: 'maritalStatus',
 				question: 'Qual é o seu Estado Civil?',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Casada(o)',
 					'União estável',
 					'Solteira(o)',
 					'Viúva(o)'
-				]
-			},
-			{
-				questionId: '8',
-				question: 'Indique a sua escolaridade:',
-				response: '',
-				questionType: 'select',
-				options: [
-					'Sem escolaridade',
-					'Ensino fundamental incompleto',
-					'Ensino fundamental completo',
-					'Ensino médio incompleto',
-					'Ensino médio completo',
-					'Ensino superior incompleto',
-					'Ensino superior completo'
-				]
+				],
+				response: ''
 			},
 			{
 				questionId: '9',
-				question: 'Você possui filhos?',
-				response: '',
-				questionType: 'select',
-				options: [
-					'Não tenho filhos',
-					'Um(a) filho(a)',
-					'Dois filhos',
-					'Três filhos',
-					'Mais de três filhos'
-				]
-			},
-			{
-				questionId: '10',
-				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos?',
-				response: '',
-				questionType: 'binary',
-				optional: true,
-			},
-			{
-				questionId: '11',
-				question: 'Se sim, quais são as principais dificuldades que você enfrenta para atender às necessidades dos seus filhos? (Marque todas as opções que se aplicam)',
-				response: '',
-				questionType: 'select',
-				multiSelect: true,
-				allowOtherOptions: true,
-				optional: true,
-				options: [
-					'Falta de recursos financeiros',
-					'Falta de acesso a serviços de saúde',
-					'Falta de acesso à educação de qualidade',
-					'Falta de atividades de lazer adequadas',
-					'Demandas de Pessoa com Deficiência',
-					'Outros (especificar)'
-				]
-			},
-			{
-				questionId: '12',
+				slug: 'timeInNeighborhood',
 				question: 'Há quanto tempo você mora no bairro atual?',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Menos de 1 ano',
@@ -119,12 +80,13 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'De 4 a 7 anos',
 					'Entre 7 e 10 anos',
 					'Mais de 10 anos'
-				]
+				],
+				response: ''
 			},
 			{
-				questionId: '13',
+				questionId: '10',
+				slug: 'incomeRange',
 				question: 'Qual faixa de renda mensal sua família se enquadra?',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Até R$ 600,00',
@@ -133,25 +95,49 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Entre R$ 1.400 e R$ 2.100',
 					'Entre R$ 2.200 e R$ 3.000',
 					'Acima de R$ 3.000'
-				]
+				],
+				response: ''
 			},
 			{
-				questionId: '14',
+				questionId: '11',
+				slug: 'employmentStatus',
 				question: 'Em relação ao emprego, qual é a sua situação atual?',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Empregado(a) com carteira assinada',
 					'Empregado(a) sem carteira assinada',
-					'Autônomo(a)',
 					'Desempregado(a)',
 					'Aposentado(a)'
-				]
+				],
+				response: ''
 			},
 			{
-				questionId: '15',
-				question: 'Se está trabalhando atualmente, com que você trabalha?',
-				response: '',
+				questionId: '12',
+				slug: 'jobSearchArea',
+				question: 'Está procurando emprego? Em qual área?',
+				questionType: 'textual',
+				optional: true,
+				response: ''
+			},
+			{
+				questionId: '13',
+				slug: 'workAvailability',
+				question: 'Que turnos tem disponível para trabalhar? (marque todas que se aplicam)',
+				questionType: 'select',
+				multiSelect: true,
+				options: [
+					'Manhã',
+					'Tarde',
+					'Noite',
+					'Finais de semana'
+				],
+				optional: true,
+				response: ''
+			},
+			{
+				questionId: '14',
+				slug: 'currentJob',
+				question: 'Se está trabalhando atualmente, com que você trabalha? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -167,12 +153,13 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Segurança (vigilante, porteiro)',
 					'Artesanato',
 					'Outros, especifique'
-				]
+				],
+				response: ''
 			},
 			{
-				questionId: '16',
-				question: 'Em qual área você possui experiência? (Marque todas que se aplicam)',
-				response: '',
+				questionId: '15',
+				slug: 'workExperience',
+				question: 'Em qual área você possui experiência? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -185,12 +172,68 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Trabalhos manuais (Costura, artesanato)',
 					'Transporte (motorista, entregador)',
 					'Outra'
-				]
+				],
+				response: ''
+			},
+			{
+				questionId: '16',
+				slug: 'educationLevel',
+				question: 'Indique a sua escolaridade:',
+				questionType: 'select',
+				options: [
+					'Sem escolaridade',
+					'Ensino fundamental incompleto',
+					'Ensino fundamental completo',
+					'Ensino médio incompleto',
+					'Ensino médio completo',
+					'Ensino superior incompleto',
+					'Ensino superior completo'
+				],
+				response: ''
 			},
 			{
 				questionId: '17',
+				slug: 'coursesTaken',
+				question: 'Que cursos você fez ou faz? (técnico, online, graduação, etc.)',
+				questionType: 'textual',
+				optional: true,
+				response: ''
+			},
+			{
+				questionId: '18',
+				slug: 'coursesInterest',
+				question: 'Está procurando ou quer fazer cursos?',
+				questionType: 'textual',
+				optional: true,
+				response: ''
+			},
+			{
+				questionId: '19',
+				slug: 'coursesAvailability',
+				question: 'Qual a sua disponibilidade para fazer cursos? (marque todas que se aplicam)',
+				questionType: 'select',
+				optional: true,
+				multiSelect: true,
+				options: [
+					'Manhã',
+					'Tarde',
+					'Noite',
+					'Finais de semana'
+				],
+				response: ''
+			},
+			{
+				questionId: '20',
+				slug: 'hobbies',
+				question: 'O que você gosta ou gostaria de fazer para se divertir?',
+				questionType: 'textual',
+				optional: true,
+				response: ''
+			},
+			{
+				questionId: '21',
+				slug: 'housingSituation',
 				question: 'Qual é a situação da sua moradia?',
-				response: '',
 				questionType: 'select',
 				options: [
 					'Imóvel próprio',
@@ -199,12 +242,45 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Imóvel alugado por programa de moradia social',
 					'Imóvel cedido',
 					'Imóvel irregular/ocupação'
-				]
+				],
+				response: ''
 			},
 			{
-				questionId: '18',
+				questionId: '22',
+				slug: 'hasChildren',
+				question: 'Você possui filhos?',
+				questionType: 'select',
+				options: [
+					'Não tenho filhos',
+					'Um(a) filho(a)',
+					'Dois filhos',
+					'Três filhos',
+					'Mais de três filhos'
+				],
+				response: ''
+			},
+			{
+				questionId: '23',
+				slug: 'childrenNeeds',
+				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos? (marque todas que se aplicam)',
+				questionType: 'select',
+				multiSelect: true,
+				allowOtherOptions: true,
+				optional: true,
+				options: [
+					'Falta de recursos financeiros',
+					'Falta de acesso a serviços de saúde',
+					'Falta de acesso à educação de qualidade',
+					'Falta de atividades de lazer adequadas',
+					'Demandas de Pessoa com Deficiência',
+					'Outros (especificar)'
+				],
+				response: ''
+			},
+			{
+				questionId: '24',
+				slug: 'householdSize',
 				question: 'Quantas pessoas moram com você?',
-				response: '',
 				questionType: 'select',
 				allowOtherOptions: true,
 				options: [
@@ -214,120 +290,13 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Com mais 3 pessoas',
 					'Com mais 4 pessoas',
 					'Com mais de 4 pessoas, especificar'
-				]
-			},
-			{
-				questionId: '19',
-				question: 'Atualmente você está estudando ou fazendo algum curso?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '20',
-				question: 'Se sim, qual?',
-				response: '',
-				optional: true,
-				questionType: 'textual'
-			},
-			{
-				questionId: '21',
-				question: 'Em qual área você gostaria de trabalhar? (Escolha apenas uma opção)',
-				response: '',
-				questionType: 'select',
-				allowOtherOptions: true,
-				options: [
-					'Tecnologia da Informação',
-					'Saúde',
-					'Educação',
-					'Engenharia',
-					'Administração',
-					'Vendas e Marketing',
-					'Serviços Sociais',
-					'Artes e Design',
-					'Agricultura e Meio Ambiente',
-					'Turismo e Hotelaria',
-					'Indústria e Manufatura',
-					'Direito e Advocacia',
-					'Finanças e Contabilidade',
-					'Recursos Humanos',
-					'Comunicação e Mídia',
-					'Outros (especificar)'
-				]
-			},
-			{
-				questionId: '22',
-				question: 'Você ou alguém da sua família já participou de algum curso profissionalizante nos últimos anos?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '23',
-				question: 'Se sim, qual foi o principal aprendizado que teve com a participação nesse curso? (Marque todas as que se aplicam)',
-				response: '',
-				questionType: 'select',
-				allowOtherOptions: true,
-				optional: true,
-				multiSelect: true,
-				options: [
-					'Adquiriu novas habilidades ou conhecimentos',
-					'Melhorou suas chances de conseguir emprego',
-					'Conseguiu um emprego ou trabalho remunerado',
-					'Outros (especificar)'
-				]
-			},
-			{
-				questionId: '24',
-				question: 'Quais das seguintes oportunidades você considera importante buscar para melhorar sua condição de vida? (Marque todas as opções que se aplicam)',
-				response: '',
-				questionType: 'select',
-				multiSelect: true,
-				allowOtherOptions: true,
-				options: [
-					'Trabalho com carteira assinada',
-					'Curso profissionalizante',
-					'Concluir os estudos básicos (ensino fundamental e médio)',
-					'Cursinho pré-vestibular',
-					'Acesso a programas de apoio ao empreendedorismo',
-					'Acesso a programas de moradia popular',
-					'Outros (especificar)'
-				]
+				],
+				response: ''
 			},
 			{
 				questionId: '25',
-				question: 'Você tem interesse em fazer cursos profissionalizantes?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '26',
-				question: 'Se sim, qual seria a sua disponibilidade para fazer cursos? (Marque todas que se aplicam)',
-				response: '',
-				questionType: 'select',
-				optional: true,
-				multiSelect: true,
-				options: [
-					'Manhã',
-					'Tarde',
-					'Noite',
-					'Finais de semana'
-				]
-			},
-			{
-				questionId: '27',
-				question: 'Possui Cadastro Único?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '28',
-				question: 'Atualmente você e/ou as pessoas da sua casa recebem algum benefício social do Governo Federal, Estadual e/ou da prefeitura?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '29',
-				question: 'Se sim, qual/quais?',
-				response: '',
+				slug: 'socialBenefits',
+				question: 'Você recebe algum benefício social? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -345,97 +314,55 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 					'Programa Estadual de Transferência de Renda',
 					'Programa Municipal de Transferência de Renda – Londrina Cidadã',
 					'Outro (especificar)'
-				]
+				],
+				response: ''
 			},
 			{
-				questionId: '30',
+				questionId: '26',
+				slug: 'receivedSocialProgramInfo',
 				question: 'Você já recebeu informações sobre programas sociais disponíveis na sua região? (Exemplo: viu divulgação em algum local, ouviu de alguém e/ou foi orientado por algum funcionário público)',
-				response: '',
-				questionType: 'binary'
+				questionType: 'binary',
+				response: ''
 			},
 			{
-				questionId: '31',
-				question: 'Você já foi atrás de informações sobre benefícios sociais, seja para você ou para alguém do seu convívio?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '32',
-				question: 'Recebeu doações nos últimos 4 meses?',
-				response: '',
-				questionType: 'binary'
-			},
-			{
-				questionId: '33',
-				question: 'Se sim, qual tipo de doação? (marque todas que se aplicam)',
-				response: '',
+				questionId: '27',
+				slug: 'needDonations',
+				question: 'Você está precisando de doações? (marque todas que se aplicam)',
 				questionType: 'select',
-				multiSelect: true,
 				optional: true,
+				multiSelect: true,
 				allowOtherOptions: true,
 				options: [
 					'Alimentos',
 					'Vestuário',
 					'Móvel',
-					'Outros; Qual?'
-				]
+					'Materiais de construção',
+					'Eletrodomésticos',
+					'Outros, qual?'
+				],
+				response: ''
 			},
 			{
-				questionId: '34',
-				question: 'Qual é o seu principal meio de transporte para se locomover na cidade?',
-				response: '',
-				questionType: 'select',
-				allowOtherOptions: true,
-				multiSelect: false,
-				options: [
-					'Carro',
-					'Moto',
-					'Transporte público (ônibus)',
-					'Bicicleta',
-					'A pé',
-					'Outros (especificar)'
-				]
-			},
-			{
-				questionId: '35',
-				question: 'Qual é a sua principal dificuldade ao se locomover pela cidade?',
-				response: '',
-				questionType: 'select',
-				allowOtherOptions: true,
-				multiSelect: false,
-				options: [
-					'Preço da passagem',
-					'Preço da gasolina',
-					'Falta de infraestrutura para pedestres e ciclistas',
-					'Falta de linhas no transporte público (trajeto ou horários)',
-					'Falta de segurança',
-					'Outros (especificar)'
-				]
-			},
-			{
-				questionId: '36',
-				question: 'Qual destes tipos de eventos culturais você mais gosta de participar? (Marque todas que se aplicam)',
-				response: '',
+				questionId: '28',
+				slug: 'lifeImprovementOpportunities',
+				question: 'Quais das seguintes oportunidades você considera importante buscar para melhorar sua condição de vida? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
 				options: [
-					'Shows de música ao vivo',
-					'Peças de teatro',
-					'Artes visuais (pintura, grafite, etc)',
-					'Festivais de cinema',
-					'Dança (bailes, espetáculos de dança, etc.)',
-					'Feiras de literatura',
-					'Eventos gastronômicos',
-					'Festas tradicionais/culturais',
-					'Palestras e workshops culturais',
-					'Eventos de Hip Hop (batalhas, shows, etc)',
-					'Feiras de artesanato',
-					'Atividades religiosas',
+					'Acesso à saúde',
+					'Moradia',
+					'Geração de renda',
+					'Direito à educação',
+					'Direito das crianças',
+					'Esporte, cultura e lazer',
+					'Cidadania e paz',
+					'Autonomia da mulher',
 					'Outros (especificar)'
-				]
+				],
+				response: ''
 			}
-		]/* .slice(10, 12) as CitizenRegisterQuestionResponse[] */
+		] as CitizenRegisterQuestionResponse[]
 		return citizenRegistrationQuestionary
 	}
 }
