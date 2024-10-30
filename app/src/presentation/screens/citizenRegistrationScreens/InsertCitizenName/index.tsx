@@ -71,7 +71,6 @@ function InsertCitizenName({ navigation }: InsertCitizenNameScreenProps) {
 		<>
 			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<PostInputText // REFACTOR Deve mudar de nome, sendo usado não só nos posts
-				multiline
 				initialValue={citizenRegistrationIdentifier.name}
 				backgroundColor={theme.colors.orange[2]}
 				validationColor={theme.colors.orange[1]}

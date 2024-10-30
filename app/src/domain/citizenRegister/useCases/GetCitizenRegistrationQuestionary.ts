@@ -122,7 +122,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '13',
 				slug: 'workAvailability',
-				question: 'Que turnos tem disponível para trabalhar?',
+				question: 'Que turnos tem disponível para trabalhar? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				options: [
@@ -137,7 +137,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '14',
 				slug: 'currentJob',
-				question: 'Se está trabalhando atualmente, com que você trabalha?',
+				question: 'Se está trabalhando atualmente, com que você trabalha? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -159,7 +159,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '15',
 				slug: 'workExperience',
-				question: 'Em qual área você possui experiência? (Marque todas que se aplicam)',
+				question: 'Em qual área você possui experiência? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -210,7 +210,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '19',
 				slug: 'coursesAvailability',
-				question: 'Qual a sua disponibilidade para fazer cursos? (Marque todas que se aplicam)',
+				question: 'Qual a sua disponibilidade para fazer cursos? (marque todas que se aplicam)',
 				questionType: 'select',
 				optional: true,
 				multiSelect: true,
@@ -262,7 +262,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '23',
 				slug: 'childrenNeeds',
-				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos?',
+				question: 'Você tem enfrentado dificuldades para atender às necessidades dos seus filhos? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -296,7 +296,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '25',
 				slug: 'socialBenefits',
-				question: 'Você recebe algum benefício social?',
+				question: 'Você recebe algum benefício social? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
@@ -327,7 +327,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '27',
 				slug: 'needDonations',
-				question: 'Você está precisando de doações?',
+				question: 'Você está precisando de doações? (marque todas que se aplicam)',
 				questionType: 'select',
 				optional: true,
 				multiSelect: true,
@@ -345,7 +345,7 @@ export class GetCitizenRegistrationQuestionary implements UseCase<Input, Output>
 			{
 				questionId: '28',
 				slug: 'lifeImprovementOpportunities',
-				question: 'Quais das seguintes oportunidades você considera importante buscar para melhorar sua condição de vida? (Marque todas as opções que se aplicam)',
+				question: 'Quais das seguintes oportunidades você considera importante buscar para melhorar sua condição de vida? (marque todas que se aplicam)',
 				questionType: 'select',
 				multiSelect: true,
 				allowOtherOptions: true,
