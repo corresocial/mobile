@@ -10,7 +10,6 @@ export interface CitizenRegistrationIdentifier {
 	citizenRegisterId?: string
 	name?: string
 	cellNumber?: string
-	citizenHasAccount?: boolean
 	location?: CitizenRegisterEntity['location']
 }
 
