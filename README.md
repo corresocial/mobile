@@ -1,4 +1,5 @@
-### Instalação
+
+# Instalação
 
 1. **Dependências globais instaladas:**
     - npm@10.8.0
