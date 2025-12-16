@@ -1,0 +1,19 @@
+{
+    "name": "get-posts-by-algolia",
+    "description": "Cloud Function responsável pelas buscas de posts pelo algolia",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "Wellington Souza",
+    "license": "MIT",
+    "dependencies": {
+        "algoliasearch": "^4.14.3",
+        "firebase-admin": "^10.0.0",
+        "firebase-functions": "^3.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.5",
+        "typescript": "^5.3.3"
+    }
+}

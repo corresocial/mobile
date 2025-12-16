@@ -1,0 +1,22 @@
+{
+    "name": "cloud-backup-storage",
+    "description": "Realizar backup de arquivos sempre que um upload é feito",
+    "main": "index.ts",
+    "scripts": {
+        "start": "node index.ts",
+        "build": "tsc",
+        "deploy": "npm-run-all build deploy-cloud-function",
+        "deploy-cloud-function": "cd deploy && gcloud functions deploy cloudBackupStorage --runtime nodejs18 --trigger-resource [bucketName] --trigger-event google.storage.object.finalize --region southamerica-east1 --set-env-vars BACKUP_BUCKET=gs://[bucketName-destino]"
+    },
+    "author": "Wellington Souza",
+    "license": "MIT",
+    "dependencies": {
+        "firebase-admin": "^10.0.0",
+        "firebase-functions": "^3.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.5",
+        "npm-run-all": "^4.1.5",
+        "typescript": "^5.3.3"
+    }
+}
