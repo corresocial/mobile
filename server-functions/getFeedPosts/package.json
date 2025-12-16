@@ -7,7 +7,7 @@
         "dev": "ts-node-dev -r --respawn --transpile-only --ignore-watch node_modules index.ts",
         "build": "tsc",
         "deploy": "npm-run-all build deploy-cloud-function",
-        "deploy-cloud-function": "cd deploy && gcloud functions deploy getFeedPosts --runtime nodejs18 --trigger-http --entry-point getFeedPosts --region southamerica-east1 --allow-unauthenticated"
+        "deploy-cloud-function": "cd deploy && gcloud functions deploy getFeedPosts --runtime nodejs20 --trigger-http --entry-point getFeedPosts --region southamerica-east1"
     },
     "author": "Wellington Souza",
     "license": "MIT",

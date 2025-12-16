@@ -1,21 +1,18 @@
-import axios from 'axios'
-
-import { getEnvVars } from '@infrastructure/environment'
-
-const { FIREBASE_CLOUD_URL } = getEnvVars()
+import { firebaseFunctions } from '@infrastructure/firebase'
 
 async function checkUserPhoneAlreadyRegistredCloud(phoneNumber: string) {
 	try {
-		const response: boolean = await axios.post(`${FIREBASE_CLOUD_URL}/checkUserPhoneAlreadyRegistred`, { phoneNumber })
-			.then((res) => res.data)
-			.catch((error) => {
-				console.log(error)
-				return false
-			})
+		// 1. Reference the function
+		const checkPhoneFn = firebaseFunctions.httpsCallable('checkUserPhoneAlreadyRegistred')
 
-		return response
+		console.log('checkPhone', checkPhoneFn)
+		// 2. Call it (Auth token is sent automatically)
+		const response = await checkPhoneFn({ phoneNumber })
+
+		// 3. The result is in response.data
+		return response.data as boolean
 	} catch (error) {
-		console.log(error)
+		console.log('Cloud function error:', error)
 		return false
 	}
 }

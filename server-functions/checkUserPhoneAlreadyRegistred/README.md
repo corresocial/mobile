@@ -1,42 +1,13 @@
 # checkUserPhoneAlreadyRegistred
 
-<aside>
-💡 REPOSITÓRIO: [Cloud Functions](https://github.com/corre-social/cloud-functions)
+- REPOSITÓRIO: [Cloud Functions](https://github.com/corre-social/cloud-functions)
 
-</aside>
-
-<aside>
-💡 Função responsável por obter as postagens por localização, retornando um objeto contendo separadamente as postagens de acordo com o alcance (nearby, city, country)
-
-</aside>
+>Função responsável por validar se o telefone que o usuário está tentando cadastrar já está sendo usado
 
 ## Configuração
 
-[Variáveis de Ambiente](https://www.notion.so/Vari-veis-de-Ambiente-a70ccd10fec84c5d8a9a70f3e0e9e2c2?pvs=21)
+Configure suas [Variáveis de Ambiente](https://www.notion.so/Vari-veis-de-Ambiente-a70ccd10fec84c5d8a9a70f3e0e9e2c2?pvs=21)
 
-### Configuração de console Google Cloud Platform
-
-FIREBASE_CONFIG
-
-```jsx
-{
-	"projectId":"",
-	"storageBucket":"",
-	"locationId":""
-}
-```
-
-GCLOUD_PROJECT
-
-```jsx
-GOOGLE_CLOUD_PROJECT_NAME
-```
-
-EVENTARC_CLOUD_EVENT_SOURCE
-
-```jsx
-projects/GOOGLE_CLOUD_PROJECT_NAME/locations/LOCALE/functions/checkUserPhoneAlreadyRegistred
-```
 
 ## Request
 
@@ -65,36 +36,10 @@ true | false
 ## Deploy
 
 <aside>
-💡 É necessário ter o `gcloud sdk` instalado na máquina
-
+💡 É necessário ter o `gcloud sdk` instalado
 </aside>
-
-<aside>
-💡 Estar dentro do diretório raiz da cloud function que deseja realizar o deploy
-
-</aside>
-
-É necessário converter o código para JavaScript antes de fazer o deploy, executando diretamente da pasta da função
 
 ```jsx
 npm run deploy
 ```
 
-OU
-
-```jsx
-npm run build
-```
-
-```jsx
-cd deploy
-```
-
-```jsx
-gcloud functions deploy checkUserPhoneAlreadyRegistred \
-  --runtime nodejs18 \
-  --trigger-http \
-  --entry-point checkUserPhoneAlreadyRegistred \
-  --region southamerica-east1 \
-  --allow-unauthenticated
-```
