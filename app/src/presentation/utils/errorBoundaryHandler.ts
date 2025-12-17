@@ -1,10 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 
 import { useNotionService } from '@services/notion/useNotionService'
-
-import { getEnvVars } from '../../infrastructure/environment'
-
-const { ERROS_WEBHOOK } = getEnvVars()
+import { sendMessageToDiscordContactUs } from '@services/discord/methods/contactUs'
 
 const { sendMessageToNotionContactUs } = useNotionService()
 
@@ -28,19 +25,16 @@ export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
 		message: stackTrace.toString(),
 	})
 
-	await fetch(ERROS_WEBHOOK, {
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			content: `
+	await sendMessageToDiscordContactUs({
+		userId: 'anonymous',
+		userName: 'anonymous',
+		type: 'erro',
+		reportId: reportId || 'unknown',
+		message: `
 Tipo de erro: ${error.name}
 Erro: ${error.message}
 Local do erro: ${errorLocation}
 ID da stackTrace: ${reportId}
 		`,
-		}),
 	})
 }

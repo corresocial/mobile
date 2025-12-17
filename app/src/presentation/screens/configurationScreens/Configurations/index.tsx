@@ -1,142 +1,166 @@
-import React, { useContext, useState } from 'react'
-import { StatusBar } from 'react-native'
+import React, { useContext, useState } from "react";
+import { StatusBar } from "react-native";
 
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from "@tanstack/react-query";
 
-import { useChatDomain } from '@domain/chat/useChatDomain'
-import { useUserDomain } from '@domain/user/useUserDomain'
+import { useChatDomain } from "@domain/chat/useChatDomain";
+import { useUserDomain } from "@domain/user/useUserDomain";
 
-import { useCacheRepository } from '@data/application/cache/useCacheRepository'
-import { usePostRepository } from '@data/post/usePostRepository'
-import { useUserRepository } from '@data/user/useUserRepository'
+import { useCacheRepository } from "@data/application/cache/useCacheRepository";
+import { usePostRepository } from "@data/post/usePostRepository";
+import { useUserRepository } from "@data/user/useUserRepository";
 
-import { AlertContext } from '@contexts/AlertContext/index'
-import { AuthContext } from '@contexts/AuthContext'
-import { ChatContext } from '@contexts/ChatContext'
+import { AlertContext } from "@contexts/AlertContext/index";
+import { AuthContext } from "@contexts/AuthContext";
+import { ChatContext } from "@contexts/ChatContext";
 
-import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
+import { ConfigurationsScreenProps } from "@routes/Stack/ProfileStack/screenProps";
+import { ProfileStackParamList } from "@routes/Stack/ProfileStack/types";
 
-import { Body, Container, Header } from './styles'
-import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
-import BellWhiteIcon from '@assets/icons/bell-white.svg'
-import ChatWhiteIcon from '@assets/icons/chat-white.svg'
-import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import DescriptionAlertWhiteIcon from '@assets/icons/description-alert-white.svg'
-import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
-import EyeDashedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
+import { Body, Container, Header } from "./styles";
+import BellAlertWhiteIcon from "@assets/icons/bell-alert-white.svg";
+import BellWhiteIcon from "@assets/icons/bell-white.svg";
+import ChatWhiteIcon from "@assets/icons/chat-white.svg";
+import CheckWhiteIcon from "@assets/icons/check-white.svg";
+import DescriptionAlertWhiteIcon from "@assets/icons/description-alert-white.svg";
+import DescriptionWhiteIcon from "@assets/icons/description-white.svg";
+import EyeDashedWhiteIcon from "@assets/icons/eyeDashed-white.svg";
 // import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg' // SMAS
-import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
-import ShareWhiteIcon from '@assets/icons/share-white.svg'
-import XWhiteIcon from '@assets/icons/x-white.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
-import { share } from '@common/share'
-import { theme } from '@common/theme'
+import QuestionMarkWhiteIcon from "@assets/icons/questionMark-white.svg";
+import ShareWhiteIcon from "@assets/icons/share-white.svg";
+import XWhiteIcon from "@assets/icons/x-white.svg";
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from "@common/screenDimensions";
+import { share } from "@common/share";
+import { theme } from "@common/theme";
 
-import { OptionButton } from '@components/_buttons/OptionButton'
-import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
-import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
-import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { OptionButton } from "@components/_buttons/OptionButton";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { SubscriptionButton } from "@components/_buttons/SubscriptionButton";
+import { DefaultConfirmationModal } from "@components/_modals/DefaultConfirmationModal";
+import { VerticalSpacing } from "@components/_space/VerticalSpacing";
+import { DefaultPostViewHeader } from "@components/DefaultPostViewHeader";
 
-const { logoutUser } = useUserDomain()
+const { logoutUser } = useUserDomain();
 
-const { clearCache } = useCacheRepository()
+const { clearCache } = useCacheRepository();
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
-	const { notificationState, updateNotificationState } = useContext(AlertContext)
-	const { userDataContext } = useContext(AuthContext)
-	const { removeChatListeners } = useContext(ChatContext)
+	const { notificationState, updateNotificationState } =
+		useContext(AlertContext);
+	const { userDataContext } = useContext(AuthContext);
+	const { removeChatListeners } = useContext(ChatContext);
 
-	const queryClient = useQueryClient()
+	const queryClient = useQueryClient();
 
-	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+	const [
+		defaultConfirmationModalIsVisible,
+		setDefaultConfirmationModalIsVisible,
+	] = useState(false);
 
 	const toggleDefaultConfirmationModalVisibility = () => {
-		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
-	}
+		setDefaultConfirmationModalIsVisible(
+			!defaultConfirmationModalIsVisible,
+		);
+	};
 
 	const performLogout = async () => {
 		try {
-			clearCache(queryClient)
+			clearCache(queryClient);
 			await logoutUser(
 				useUserRepository,
 				usePostRepository,
 				useChatDomain,
 				removeChatListeners,
-				userDataContext.userId
-			)
+				userDataContext.userId,
+			);
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 		}
-	}
+	};
 
 	const performUserSubscription = () => {
-		navigateToScreen('SelectSubscriptionRange')
-	}
+		navigateToScreen("SelectSubscriptionRange");
+	};
 
 	const shareMessage = () => {
-		share('oi, já conhece o https://corre.social/ !? meu novo app favorito')
-	}
+		share(
+			"oi, já conhece o https://corre.social/ !? meu novo app favorito",
+		);
+	};
 
-	const navigateToScreen = (screenName: keyof ProfileStackParamList, alertPropForUpdate?: string) => {
+	const navigateToScreen = (
+		screenName: keyof ProfileStackParamList,
+		alertPropForUpdate?: string,
+	) => {
 		if (alertPropForUpdate) {
-			updateNotificationState({ [alertPropForUpdate]: false })
+			updateNotificationState({ [alertPropForUpdate]: false });
 		}
 
-		navigation.navigate(screenName as any) // TODO Type
-	}
+		navigation.navigate(screenName as any); // TODO Type
+	};
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.colors.white[3]}
+				barStyle={"dark-content"}
+			/>
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
-				title={'sair'}
-				text={'você tem certeza que deseja sair da sua conta?'}
-				highlightedWords={['sair', 'da', 'sua', 'conta']}
-				buttonKeyword={'sair'}
+				title={"sair"}
+				text={"você tem certeza que deseja sair da sua conta?"}
+				highlightedWords={["sair", "da", "sua", "conta"]}
+				buttonKeyword={"sair"}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={performLogout}
 			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={'configurações'}
+					text={"configurações"}
 				/>
 			</Header>
 			<Body
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					paddingVertical: relativeScreenWidth(4),
-					paddingHorizontal: relativeScreenWidth(5)
+					paddingHorizontal: relativeScreenWidth(5),
 				}}
 			>
-				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
-				<VerticalSpacing />
-				<OptionButton
-					label={'corres concluídos'}
-					highlightedWords={['concluídos']}
-					labelSize={18}
-					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={CheckWhiteIcon}
-					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('ViewCompletedPosts')}
+				<SubscriptionButton
+					customTitle={"doação corre."}
+					onPress={performUserSubscription}
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'notificações'}
-					highlightedWords={['notificações']}
+					label={"corres concluídos"}
+					highlightedWords={["concluídos"]}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={notificationState.configNotificationButton ? BellAlertWhiteIcon : BellWhiteIcon}
-					svgIconScale={['50%', '50%']}
+					SvgIcon={CheckWhiteIcon}
+					svgIconScale={["50%", "50%"]}
 					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('NotificationSettings')}
+					leftSideWidth={"22%"}
+					onPress={() => navigateToScreen("ViewCompletedPosts")}
+				/>
+				<VerticalSpacing />
+				<OptionButton
+					label={"notificações"}
+					highlightedWords={["notificações"]}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={
+						notificationState.configNotificationButton
+							? BellAlertWhiteIcon
+							: BellWhiteIcon
+					}
+					svgIconScale={["50%", "50%"]}
+					leftSideColor={theme.colors.orange[3]}
+					leftSideWidth={"22%"}
+					onPress={() => navigateToScreen("NotificationSettings")}
 				/>
 				{/* // SMAS */}
 				{/* <VerticalSpacing />
@@ -153,78 +177,91 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/> */}
 				<VerticalSpacing />
 				<OptionButton
-					label={'métodos de login'}
-					highlightedWords={['métodos', 'de', 'login']}
+					label={"métodos de login"}
+					highlightedWords={["métodos", "de", "login"]}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={notificationState.configNotificationEntryMethod ? DescriptionAlertWhiteIcon : DescriptionWhiteIcon}
-					svgIconScale={notificationState.configNotificationEntryMethod ? ['60%', '60%'] : ['50%', '50%']}
+					SvgIcon={
+						notificationState.configNotificationEntryMethod
+							? DescriptionAlertWhiteIcon
+							: DescriptionWhiteIcon
+					}
+					svgIconScale={
+						notificationState.configNotificationEntryMethod
+							? ["60%", "60%"]
+							: ["50%", "50%"]
+					}
 					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('EntryMethodManagement', 'configNotificationEntryMethod')}
+					leftSideWidth={"22%"}
+					onPress={() =>
+						navigateToScreen(
+							"EntryMethodManagement",
+							"configNotificationEntryMethod",
+						)
+					}
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'quem somos'}
-					highlightedWords={['quem', 'somos']}
+					label={"quem somos"}
+					highlightedWords={["quem", "somos"]}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={QuestionMarkWhiteIcon}
-					svgIconScale={['50%', '50%']}
+					svgIconScale={["50%", "50%"]}
 					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('WhoWeAre')}
+					leftSideWidth={"22%"}
+					onPress={() => navigateToScreen("WhoWeAre")}
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'fale conosco'}
-					highlightedWords={['fale', 'conosco']}
+					label={"fale conosco"}
+					highlightedWords={["fale", "conosco"]}
 					relativeHeight={relativeScreenHeight(9)}
 					labelSize={18}
 					SvgIcon={ChatWhiteIcon}
-					svgIconScale={['50%', '50%']}
+					svgIconScale={["50%", "50%"]}
 					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('ContactUs')}
+					leftSideWidth={"22%"}
+					onPress={() => navigateToScreen("ContactUs")}
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'compartilhe'}
-					highlightedWords={['compartilhe']}
+					label={"compartilhe"}
+					highlightedWords={["compartilhe"]}
 					relativeHeight={relativeScreenHeight(9)}
 					labelSize={18}
 					SvgIcon={ShareWhiteIcon}
-					svgIconScale={['50%', '50%']}
+					svgIconScale={["50%", "50%"]}
 					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
+					leftSideWidth={"22%"}
 					onPress={shareMessage}
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'privacidade \ne segurança'}
-					highlightedWords={['privacidade', 'segurança']}
+					label={"privacidade \ne segurança"}
+					highlightedWords={["privacidade", "segurança"]}
 					relativeHeight={relativeScreenHeight(11)}
 					labelSize={18}
 					SvgIcon={EyeDashedWhiteIcon}
-					svgIconScale={['50%', '50%']}
+					svgIconScale={["50%", "50%"]}
 					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('PrivacyAndSecurity')}
+					leftSideWidth={"22%"}
+					onPress={() => navigateToScreen("PrivacyAndSecurity")}
 				/>
 				<VerticalSpacing />
 				<PrimaryButton
 					color={theme.colors.red[3]}
 					labelColor={theme.colors.white[3]}
-					label={'sair'}
-					highlightedWords={['sair']}
+					label={"sair"}
+					highlightedWords={["sair"]}
 					fontSize={20}
 					SvgIcon={XWhiteIcon}
 					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
 				<VerticalSpacing bottomNavigatorSpace />
 			</Body>
-		</Container >
-	)
+		</Container>
+	);
 }
 
-export { Configurations }
+export { Configurations };

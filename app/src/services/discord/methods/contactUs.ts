@@ -1,8 +1,9 @@
+import auth from '@react-native-firebase/auth'
 import { DiscordContactUsOptions } from '../types/contactUs'
 
 import { getEnvVars } from '@infrastructure/environment'
 
-const { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } = getEnvVars()
+const { FIREBASE_CLOUD_URL } = getEnvVars()
 
 async function sendMessageToDiscordContactUs({
 	userId,
@@ -18,14 +19,6 @@ async function sendMessageToDiscordContactUs({
 				return `${message.substring(0, 1000)}...`
 			}
 			return message
-		}
-
-		const getRelativeWebHook = () => {
-			switch (type) {
-				case 'erro': return ERROS_WEBHOOK
-				case 'denúncia': return DENUNCIAR_WEBHOOK
-				default: return FALECONOSCO_WEBHOOK
-			}
 		}
 
 		const getRelativeTitle = () => {
@@ -56,15 +49,24 @@ async function sendMessageToDiscordContactUs({
 		ID da entidade: ${reportedId || '---'}
 		Mensagem: ${shortMessage}`
 
+		const token = await auth().currentUser?.getIdToken()
+
+		if (!token && type !== 'erro') throw new Error('Usuário não autenticado')
+
+        const headers: any = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+        if (token) {
+            headers.Authorization = `Bearer ${token}`
+        }
+
 		await fetch(
-			`${getRelativeWebHook()}?${new URLSearchParams({ wait: true } as any)}`,
+			`${FIREBASE_CLOUD_URL}/discordIntegration/send-message`,
 			{
 				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ content, wait: true }),
+				headers,
+				body: JSON.stringify({ content, type }),
 			},
 		)
 			.catch((err) => {
