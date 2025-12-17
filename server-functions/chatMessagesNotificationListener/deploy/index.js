@@ -32,33 +32,58 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.chatMessagesNotificationListener = void 0;
+const database_1 = require("firebase-functions/v2/database");
 const admin = __importStar(require("firebase-admin"));
 const expo_server_sdk_1 = require("expo-server-sdk");
-const expo = new expo_server_sdk_1.Expo({
-    useFcmV1: true
-});
-admin.initializeApp();
-exports.chatMessagesNotificationListener = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
+// Initialize Expo
+const expo = new expo_server_sdk_1.Expo({ useFcmV1: true });
+// Initialize Admin
+if (!admin.apps.length) {
+    admin.initializeApp();
+}
+// v2 Configuration
+const functionOptions = {
+    region: 'southamerica-east1', // Matches your README location
+    ref: '/{chatId}/messages/{messageId}', // Matches your README path
+    maxInstances: 10, // Good practice for scalability control
+};
+// Main Export
+exports.chatMessagesNotificationListener = (0, database_1.onValueCreated)(functionOptions, (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(context.params);
-        console.log(event.delta.owner);
-        console.log(event.delta.metadata);
-        const chatId = context.params.chatId;
-        const ownerMessageId = event.delta.owner;
+        // 1. DATA: Get the new message object
+        // In v2, event.data is a DataSnapshot. .val() gets the object.
+        const messageData = event.data.val();
+        // Safety check: if data is null, the node was deleted (shouldn't happen in onValueCreated, but good practice)
+        if (!messageData)
+            return;
+        // 2. PARAMS: Access wildcard variables from event.params
+        const { chatId } = event.params;
+        console.log('Params:', event.params);
+        console.log('Owner:', messageData.owner);
+        console.log('Metadata:', messageData.metadata);
+        const ownerMessageId = messageData.owner;
+        // Logic to find recipient (assuming chatId format "userA-userB")
         const recipientUserId = chatId.split('-').find((id) => id !== ownerMessageId);
+        if (!recipientUserId) {
+            console.log('Recipient not found for chat:', chatId);
+            return;
+        }
         const recipientTokenNotification = yield getUserTokenNotification(recipientUserId);
         if (recipientTokenNotification) {
-            const messageObject = structureMessageObject(event.delta);
+            const messageObject = structureMessageObject(messageData);
             return sendPushNotification(recipientTokenNotification, messageObject);
         }
     }
     catch (error) {
-        console.log(error);
+        console.error('Error in chatMessagesNotificationListener:', error);
     }
-});
+}));
+// --- Helper Functions (Logic Unchanged) ---
 function getUserTokenNotification(userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return admin.database().ref(`/${userId}/tokenNotification`).once('value').then((snapshot) => snapshot.val());
+        const snapshot = yield admin.database().ref(`/${userId}/tokenNotification`).once('value');
+        return snapshot.val();
     });
 }
 function structureMessageObject(messageData) {
@@ -86,7 +111,9 @@ function sendPushNotification(expoPushToken, messageObject) {
             to: expoPushToken,
             sound: 'default',
             title: messageObject.title,
-            body: messageObject.body
+            body: messageObject.body,
+            categoryId: 'default',
+            channelId: 'default'
         });
         try {
             if (!expo_server_sdk_1.Expo.isExpoPushToken(expoPushToken)) {
@@ -94,6 +121,7 @@ function sendPushNotification(expoPushToken, messageObject) {
                 return;
             }
             const chunks = expo.chunkPushNotifications(messages);
+            // Note: You generally only have 1 chunk here, but this is fine
             const tickets = yield expo.sendPushNotificationsAsync(chunks[0]);
             console.log('Notificação enviada:', messageObject.title, expoPushToken);
         }

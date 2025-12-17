@@ -3,9 +3,8 @@
     "description": "Disparar as expo notifications sempre que uma mensagem é salva do realtime database do chat",
     "main": "index.ts",
     "scripts": {
-        "start": "node index.ts",
-        "build": "tsc",
-        "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules index.ts"
+        "start": "tsc && node deploy/index.js",
+        "build": "tsc"
     },
     "author": "Wellington Souza",
     "license": "MIT",

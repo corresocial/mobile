@@ -1,13 +1,16 @@
-import * as functions from 'firebase-functions'
+import { onValueCreated } from 'firebase-functions/v2/database'
 import * as admin from 'firebase-admin'
 import { Expo, ExpoPushMessage } from 'expo-server-sdk'
 
-const expo = new Expo({
-    useFcmV1: true
-})
+// Initialize Expo
+const expo = new Expo({ useFcmV1: true })
 
-admin.initializeApp()
+// Initialize Admin
+if (!admin.apps.length) {
+    admin.initializeApp()
+}
 
+// Interfaces
 interface Message {
     message: string
     dateTime: Date | number
@@ -23,32 +26,56 @@ interface MessageNotificationObject {
     body: string
 }
 
-interface EventFunction extends functions.Event { delta: any }
+// v2 Configuration
+const functionOptions = {
+    region: 'southamerica-east1', // Matches your README location
+    ref: '/{chatId}/messages/{messageId}', // Matches your README path
+    maxInstances: 10, // Good practice for scalability control
+}
 
-exports.chatMessagesNotificationListener = async (event: EventFunction, context: functions.EventContext) => {
+// Main Export
+export const chatMessagesNotificationListener = onValueCreated(functionOptions, async (event) => {
     try {
-        console.log(context.params)
-        console.log(event.delta.owner)
-        console.log(event.delta.metadata)
+        // 1. DATA: Get the new message object
+        // In v2, event.data is a DataSnapshot. .val() gets the object.
+        const messageData = event.data.val() as Message | null
 
-        const chatId = context.params.chatId
-        const ownerMessageId = event.delta.owner
+        // Safety check: if data is null, the node was deleted (shouldn't happen in onValueCreated, but good practice)
+        if (!messageData) return
 
+        // 2. PARAMS: Access wildcard variables from event.params
+        const { chatId } = event.params
+
+        console.log('Params:', event.params)
+        console.log('Owner:', messageData.owner)
+        console.log('Metadata:', messageData.metadata)
+
+        const ownerMessageId = messageData.owner
+
+        // Logic to find recipient (assuming chatId format "userA-userB")
         const recipientUserId = chatId.split('-').find((id: string) => id !== ownerMessageId)
+
+        if (!recipientUserId) {
+            console.log('Recipient not found for chat:', chatId)
+            return
+        }
 
         const recipientTokenNotification = await getUserTokenNotification(recipientUserId)
 
         if (recipientTokenNotification) {
-            const messageObject = structureMessageObject(event.delta)
+            const messageObject = structureMessageObject(messageData)
             return sendPushNotification(recipientTokenNotification, messageObject)
         }
     } catch (error) {
-        console.log(error)
+        console.error('Error in chatMessagesNotificationListener:', error)
     }
-}
+})
+
+// --- Helper Functions (Logic Unchanged) ---
 
 async function getUserTokenNotification(userId: string) {
-    return admin.database().ref(`/${userId}/tokenNotification`).once('value').then((snapshot) => snapshot.val())
+    const snapshot = await admin.database().ref(`/${userId}/tokenNotification`).once('value')
+    return snapshot.val()
 }
 
 function structureMessageObject(messageData: Message) {
@@ -91,6 +118,7 @@ async function sendPushNotification(expoPushToken: string, messageObject: Messag
         }
 
         const chunks = expo.chunkPushNotifications(messages)
+        // Note: You generally only have 1 chunk here, but this is fine
         const tickets = await expo.sendPushNotificationsAsync(chunks[0])
         console.log('Notificação enviada:', messageObject.title, expoPushToken)
     } catch (error) {

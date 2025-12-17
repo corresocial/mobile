@@ -18,26 +18,6 @@
 
 FIREBASE_CONFIG
 
-```jsx
-{
-	"projectId":"",
-	"storageBucket":"",
-	"locationId":""
-}
-```
-
-GCLOUD_PROJECT
-
-```jsx
-GOOGLE_CLOUD_PROJECT_NAME
-```
-
-EVENTARC_CLOUD_EVENT_SOURCE
-
-```jsx
-projects/GOOGLE_CLOUD_PROJECT_NAME/locations/LOCALE/functions/checkUserPhoneAlreadyRegistred
-```
-
 ## Request
 
 - Função disparada ao realizar envio de mensagem no chat (realtime dabase)
@@ -57,7 +37,7 @@ Sem resposta
 Criar uma Cloud Function manualmente no console Google Cloud com as seguintes configurações
 
 ```jsx
-Geração: 1ª
+Geração: 2ª
 Nome: chatMessagesNotificationListener
 Localização: southamerica-east1 (SP)
 Trigger: Firebase Realtime Database (Preview)
@@ -66,16 +46,6 @@ Database: realtimeID(sem 'http' e '.com')
 Path: {chatId}/messages/{messageId}
 Entry_Point: chatMessagesNotificationListener
 Node: Versão 20
-```
-
-```jsx
-gcloud functions deploy chatMessagesNotificationListener \
-  --gen1 \
-  --region=southamerica-east1 \
-  --runtime=nodejs20 \
-  --trigger-event=providers/google.firebase.database/eventTypes/ref.create \
-  --trigger-resource='projects/_/instances/GOOGLE_CLOUD_PROJECT_NAME/refs/{chatId}/messages/{messageId}' \
-  --entry-point=chatMessagesNotificationListener
 ```
 
 - Na pasta `/chatMessagesNotificationListener` rode o comando `npm i`
