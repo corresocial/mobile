@@ -37,9 +37,7 @@ const admin = __importStar(require("firebase-admin"));
 const https_1 = require("firebase-functions/v2/https");
 // Prevent "App already exists" errors during hot-reload or cold starts
 if (!admin.apps.length) {
-    admin.initializeApp( /* {
-        credential: admin.credential.cert(require('./cred-dev.json'))
-    } */);
+    admin.initializeApp();
 }
 const getPostsByLocation_1 = require("./src/getPostsByLocation");
 const getPollsByLocation_1 = require("./src/getPollsByLocation");

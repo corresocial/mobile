@@ -12,9 +12,7 @@ import storage from '@react-native-firebase/storage'
 
 import { getEnvVars } from '@infrastructure/environment'
 
-const {
-	FIREBASE_smas_databaseURL
-} = getEnvVars()
+const { FIREBASE_smas_databaseURL } = getEnvVars()
 
 firebase.setReactNativeAsyncStorage(AsyncStorage)
 
@@ -23,6 +21,7 @@ export const firebaseFirestore = firestore()
 export const firebaseStorage = storage()
 export const firebaseDatabase = database()
 export const firebaseAnalytics = analytics()
+// ✅ Correct: Access functions via the app instance to set the region
 export const firebaseFunctions = firebase.app().functions('southamerica-east1')
 export const firebaseSmasDatabase = firebase.app().database(FIREBASE_smas_databaseURL)
 
