@@ -3,9 +3,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https'
 
 // Prevent "App already exists" errors during hot-reload or cold starts
 if (!admin.apps.length) {
-	admin.initializeApp(/* {
-		credential: admin.credential.cert(require('./cred-dev.json'))
-	} */)
+	admin.initializeApp()
 }
 
 import { PostCollectionRequired } from './domain/entities/post/common'

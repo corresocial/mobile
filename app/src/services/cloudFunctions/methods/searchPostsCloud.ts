@@ -1,19 +1,23 @@
-import axios from 'axios'
-
 import { Id } from '../../../domain/post/entity/types'
 import { FeedSearchParams } from '../types/types'
 
-import { getEnvVars } from '@infrastructure/environment'
+import { firebaseFunctions } from '@infrastructure/firebase'
 
-const { FIREBASE_CLOUD_URL } = getEnvVars()
-
-async function searchPostsCloud(searchText: string, searchParams: FeedSearchParams, searchByRange: boolean, userId: Id) {
-	return axios.post(`${FIREBASE_CLOUD_URL}/searchPostsByAlgolia`, { searchText, searchParams, searchByRange, userId })
-		.then((res) => res.data)
-		.catch((err) => {
-			console.log(err)
-			return false
-		})
+async function searchPostsCloud(
+	searchText: string,
+	searchParams: FeedSearchParams,
+	searchByRange: boolean,
+	userId: Id
+) {
+	try {
+		const searchPostsFn = firebaseFunctions.httpsCallable('searchPostsByAlgolia')
+		const response = await searchPostsFn({ searchText, searchParams, searchByRange })
+		return response.data
+	} catch (error) {
+		console.log(error)
+		console.log('Cloud function error:', error)
+		return false
+	}
 }
 
 export { searchPostsCloud }

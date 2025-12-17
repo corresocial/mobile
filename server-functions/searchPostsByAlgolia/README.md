@@ -16,39 +16,9 @@
 
 ### Configuração de console Google Cloud Platform
 
-FIREBASE_CONFIG
-
-```jsx
-{
-	"projectId":"",
-	"storageBucket":"",
-	"locationId":""
-}
-```
-
-GCLOUD_PROJECT
-
-```jsx
-GOOGLE_CLOUD_PROJECT_NAME
-```
-
-EVENTARC_CLOUD_EVENT_SOURCE
-
-```jsx
-projects/GOOGLE_CLOUD_PROJECT_NAME/locations/LOCALE/functions/getFeedPosts}
-```
-
-ALGOLIA_ID
-
-```jsx
-ALGOLIA_ID
-```
-
-ALGOLIA_KEY
-
-```jsx
-ALGOLIA_KEY
-```
+.env.yaml com algolia id e algolia key
+ALGOLIA_ID=
+ALGOLIA_KEY=
 
 ## Request
 

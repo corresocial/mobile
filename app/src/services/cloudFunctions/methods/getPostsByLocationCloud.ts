@@ -9,6 +9,7 @@ async function getPostsByLocationCloud(searchParams: FeedSearchParams, userId: I
 		const response = await getPostsFn({ searchParams, userId })
 		return response.data as FeedPosts
 	} catch (error) {
+		console.log(error)
 		console.log('Cloud function error:', error)
 		return undefined
 	}

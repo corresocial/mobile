@@ -1,8 +1,11 @@
-import admin from 'firebase-admin'
-import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
+import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import algoliasearch from 'algoliasearch'
 
-admin.initializeApp()
+// Prevent "App already exists" errors
+if (!admin.apps.length) {
+	admin.initializeApp()
+}
 
 const ALGOLIA_ID = process.env.ALGOLIA_ID as string
 const ALGOLIA_KEY = process.env.ALGOLIA_KEY as string
@@ -27,9 +30,18 @@ import {
 import { RequestBody } from './domain/entities/request'
 import { PostCollection, PostCollectionRequired } from './domain/entities/post/common'
 
-exports.searchPostsByAlgolia = functions.https.onRequest(async (req: functions.https.Request, res: functions.Response | any) => {
+export const searchPostsByAlgolia = onCall(async (request) => {
+	// 1. SECURITY: Authenticated users only
+	if (!request.auth) {
+		throw new HttpsError('unauthenticated', 'User must be logged in to search.');
+	}
+
 	try {
-		const { searchText, searchParams, searchByRange, userId }: RequestBody = req.body
+		// 2. INPUT: Get data from request.data (v2 Callable)
+		const { searchText, searchParams, searchByRange }: RequestBody = request.data
+
+		// Securely get userId from the auth token, not the body
+		const userId = request.auth.uid;
 
 		const searchFilters = {
 			completedFilter: '',
@@ -88,7 +100,8 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req: functions.h
 				]
 		)
 			.then((responses) => responses.reduce((acc: PostCollection[], result) => {
-				if (result && result.hits && result.hits.length > 0) {
+				// Check strictly for boolean false since we used short-circuiting (&&) above
+				if (result && typeof result !== 'boolean' && result.hits && result.hits.length > 0) {
 					const structuredPosts = result.hits.map((record) => {
 						const postData = structurePostObject(record)
 						return postData
@@ -96,17 +109,18 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req: functions.h
 					return [...acc, ...structuredPosts]
 				}
 				return acc
-			}, []),)
+			}, []))
 
 		const postsWithLocationFilter = filterLocation(results as PostCollectionRequired[], userId)
 		const filteredPosts = removeDuplicatesByPostId(postsWithLocationFilter)
 
 		const postsByRange = spreadPostsByRange(filteredPosts)
 
-		return res.status(200).send(postsByRange)
+		// 3. RETURN: Directly return data (no res.status needed)
+		return postsByRange
+
 	} catch (err) {
-		console.log(err)
-		console.log('Erro ao buscar posts no algolia, file:searchPosts')
-		return res.status(500).send(err)
+		console.error('Error searching Algolia:', err)
+		throw new HttpsError('internal', 'Unable to search posts', err)
 	}
 })
