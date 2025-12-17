@@ -1,18 +1,18 @@
-import axios from 'axios'
-
 import { FeedPosts, Id } from '../../../domain/post/entity/types'
 import { FeedSearchParams } from '../types/types'
 
-import { getEnvVars } from '@infrastructure/environment'
-
-const { FIREBASE_CLOUD_URL } = getEnvVars()
+import { firebaseFunctions } from '@infrastructure/firebase'
 
 async function getPostsByLocationCloud(searchParams: FeedSearchParams, userId: Id) {
-	return axios.post(`${FIREBASE_CLOUD_URL}/getFeedPosts`, { searchParams, userId })
-		.then((res) => res.data as FeedPosts)
-		.catch((err) => {
-			console.log(err)
-		})
+	try {
+		const getPostsFn = firebaseFunctions.httpsCallable('getFeedPosts')
+		const response = await getPostsFn({ searchParams, userId })
+		return response.data as FeedPosts
+	} catch (error) {
+		console.log(error)
+		console.log('Cloud function error:', error)
+		return undefined
+	}
 }
 
 export { getPostsByLocationCloud }

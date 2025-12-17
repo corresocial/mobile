@@ -1,0 +1,18 @@
+{
+    "name": "cloud-backup-storage",
+    "description": "Realizar backup de arquivos sempre que um upload é feito",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "Wellington Souza",
+    "license": "MIT",
+    "dependencies": {
+        "firebase-admin": "^10.0.0",
+        "firebase-functions": "^3.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.5",
+        "typescript": "^5.3.3"
+    }
+}
