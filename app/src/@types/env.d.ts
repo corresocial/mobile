@@ -37,21 +37,14 @@ declare module '@env' {
 	export const PROD_IOS_MAPS_API_KEY: string
 	export const PROD_ANDROID_MAPS_API_KEY: string
 	export const PROD_STRIPE_PUBLISHABLE_KEY: string
-	export const PROD_STRIPE_SECRET_KEY: string
-	export const PROD_STRIPE_API_URL: string
 
 	export const AUTH_ANDROID_CLIENT_ID: string
 	export const AUTH_IOS_CLIENT_ID: string
-	export const DENUNCIAR_WEBHOOK: string
-	export const ERROS_WEBHOOK: string
-	export const FALECONOSCO_WEBHOOK: string
 	export const NOTION_FALECONOSCO_KEY: string
 	export const NOTION_FALECONOSCO_ID: string
 	export const NOTION_APPICONS_ID: string
 	export const NOTION_APPICONS_KEY: string
 	export const DSN_SENTRY: string
 	export const STRIPE_PUBLISHABLE_KEY: string
-	export const STRIPE_SECRET_KEY: string
-	export const STRIPE_API_URL: string
 	export const SENTRY_AUTH_TOKEN: string
 }
