@@ -3,6 +3,7 @@ ios/
 node_modules/
 **/cred-dev.json
 **/cred-prod.json
+**/.env*
 coverage/**/*
 .expo/
 dist/
