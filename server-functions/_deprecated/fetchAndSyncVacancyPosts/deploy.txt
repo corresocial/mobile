@@ -1,0 +1,13 @@
+export $(grep -v '^#' .env | xargs)
+
+gcloud functions deploy fetchAndSyncVacancyPosts \
+  --gen2 \
+  --region southamerica-east1 \
+  --runtime nodejs20 \
+  --source ./deploy \
+  --entry-point fetchAndSyncVacancyPosts \
+  --allow-unauthenticated \
+  --trigger-http \
+  --timeout 500s \
+  --service-account ${SERVICE_ACCOUNT} \
+  --env-vars-file .env.yaml

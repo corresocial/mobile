@@ -1,0 +1,19 @@
+{
+    "name": "fetch-and-sync-events",
+    "description": "Verifica eventos de site de eventos e salva no banco de dados de eventos, e também syncroniza os eventos, removendo do app quando cancelados",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "Wellington Souza",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^1.7.2",
+        "cheerio": "^1.0.0-rc.12",
+        "firebase-admin": "^10.0.0",
+        "firebase-functions": "^3.14.0",
+        "ngeohash": "^0.6.3",
+        "nodemailer": "^6.9.14",
+        "dotenv": "^16.4.5"
+    }
+}

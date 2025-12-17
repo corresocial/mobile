@@ -1,0 +1,23 @@
+{
+    "name": "chat-messages-notification-listener",
+    "description": "Disparar as expo notifications sempre que uma mensagem é salva do realtime database do chat",
+    "main": "index.ts",
+    "scripts": {
+        "start": "tsc && node deploy/index.js",
+        "build": "tsc"
+    },
+    "author": "Wellington Souza",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^1.6.7",
+        "expo-server-sdk": "^3.11.0",
+        "firebase-admin": "^10.0.0",
+        "firebase-functions": "^3.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.5",
+        "npm-run-all": "^4.1.5",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.3.3"
+    }
+}

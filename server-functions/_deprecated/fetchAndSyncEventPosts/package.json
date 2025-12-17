@@ -1,0 +1,29 @@
+{
+    "name": "fetch-and-sync-events",
+    "description": "Verifica eventos de site de eventos e salva no banco de dados de eventos, e também syncroniza os eventos, removendo do app quando cancelados",
+    "main": "index.ts",
+    "scripts": {
+        "start": "npm run build && functions-framework --target=fetchAndSyncEventPosts --source=deploy --port=3000",
+        "build": "tsc",
+        "dev": "ts-node-dev --respawn --transpile-only --quiet --ignore-watch node_modules index.ts"
+    },
+    "author": "Wellington Souza",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^1.7.2",
+        "cheerio": "^1.0.0-rc.12",
+        "dotenv": "^16.4.5",
+        "firebase-admin": "^10.0.0",
+        "firebase-functions": "^3.14.0",
+        "ngeohash": "^0.6.3",
+        "nodemailer": "^6.9.14"
+    },
+    "devDependencies": {
+        "@types/ngeohash": "^0.6.8",
+        "@types/node": "^20.11.5",
+        "@types/nodemailer": "^6.4.15",
+        "npm-run-all": "^4.1.5",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.3.3"
+    }
+}

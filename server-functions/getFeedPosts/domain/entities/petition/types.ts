@@ -1,0 +1,54 @@
+export type PetitionEntityOptional = Partial<PetitionEntity>
+export type PetitionEntity = {
+    petitionId: string
+    title: string
+    description: string
+    createdAt: Date
+    range: PetitionRange
+    location: PetitionLocation
+    owner: UserOwner
+    idUsersResponded?: string[]
+    completed?: boolean
+    picturesUrl?: string[]
+    videosUrl?: string[]
+    extraIdentificationRequest: ExtraIdentificationRequest[]
+    privateResponses?: PrivatePetitionResponse[]
+}
+
+export type Id = string
+
+export type UserOwner = {
+    userId: string
+    name: string
+    profilePictureUrl?: string[]
+}
+
+type PetitionRange = 'near' | 'city' | 'country'
+type PetitionLocation = {
+    country: string
+    state: string
+    city: string
+    district: string
+    street: string
+    postalCode: string
+    number: string
+    coordinates: Coordinates
+    geohashNearby: string[]
+}
+
+export type Coordinates = {
+    latitude: number
+    longitude: number
+}
+
+export type ExtraIdentificationRequest = 'cpf' | 'rg' | 'telefone'
+
+export type PrivatePetitionResponse = {
+    userId: string
+    userName: string
+    email: string
+    cellNumber: string
+    rg: string
+    cpf: string
+    location: PetitionLocation
+}

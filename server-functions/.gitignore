@@ -1,0 +1,7 @@
+**/node_modules
+**/cred.json
+**/src/config.ts
+**/deploy/src/config.js
+.env
+**/.env
+**/.env.yaml
