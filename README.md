@@ -44,3 +44,31 @@ Consulte o arquivo [`server-functions/README.md`](server-functions/README.md) pa
 - Configuração do Google Cloud SDK.
 - Scripts para deploy de funções individuais ou em massa.
 - Configuração de variáveis de ambiente específicas (ex: Algolia).
+
+## Como contribuir
+
+Para contribuir é muito simples,
+
+1. Utilizar nossos lints e configurações
+2. Escolher uma issue
+3. Comentar diretamente nele a data estimada de entrega, se atribuir no github e no discord `#tech` que está pegando a issue, enviar link.
+
+Sempre que for começar uma nova contribuição, recomece o repositório.
+
+Os commits devem seguir os padrões de [Commit Pattern](https://corre.notion.site/Manual-de-colabora-o-GitHub-2cc8fff6730e80e3b344f0ff4ee82c8c).
+
+```bash
+git clone https://github.com/corre-social/mobile/
+git checkout dev
+# copiar arquivos .env.development e .env.production com variáveis para app
+cd mobile/app
+git pull
+npm i
+git checkout -b feat/fix/XXXX # cria a nova branch que irá trabalhar
+# realizar todos os commits e alterações
+git commit -m "feat/fix/XXX: descrição"
+```
+
+💡 Todo esse processo de alternância de branchs, commits e publicação de novas branchs no github pode ser facilmente realizado pelo próprio VS Code na aba de Source Control, veja [Como gerenciar o git pelo VSCode](https://www.youtube.com/watch?v=HIqyLRKv-YE)
+
+💡 Criar Pull Request diretamente no repositório online.

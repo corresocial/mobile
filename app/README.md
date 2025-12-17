@@ -1,4 +1,11 @@
 
+# Ambiente
+
+Esta aplicação utiliza **Development Builds** do Expo. Diferente do Expo Go, uma development build é uma versão compilada do seu aplicativo que inclui todas as bibliotecas nativas necessárias para o projeto, permitindo testar funcionalidades que exigem código nativo personalizado.
+
+Para saber mais sobre o conceito e como funciona, consulte a documentação oficial:
+- [Introduction to Development Builds](https://docs.expo.dev/develop/development-builds/introduction/)
+
 # Instalação
 
 1. **Dependências globais instaladas:**
@@ -30,38 +37,5 @@
 - `npm run format`: Corrige automaticamente os erros de formatação.
 
 **E Voilà!**
-
-## Contribuir
-
-# Como contribuir
-
-Para contribuir é muito simples,
-
-1. Utilizar nossos lints e configurações
-2. Escolher uma issue
-3. Comentar diretamente nele a data estimada de entrega, se atribuir no github e no discord `#tech` que está pegando a issue, enviar link.
-
-Sempre que for começar uma nova contribuição, recomece o repositório.
-
-Os commits devem seguir os padrões de [Commit Pattern](https://www.notion.so/corre/Manual-de-colabora-o-GitHub-50d8a7d057724c398d01a100a38d703b?pvs=4).
-
-```bash
-git clone https://github.com/corre-social/mobile/
-git checkout dev
-# copiar arquivos .env.development e .env.production com variáveis para app
-cd mobile/app
-git pull
-npm i
-git checkout -b feat/fix/XXXX # cria a nova branch que irá trabalhar
-# realizar todos os commits e alterações
-git commit -m "feat/fix/XXX: descrição"
-```
-
-💡 Todo esse processo de alternância de branchs, commits e publicação de novas branchs no github pode ser facilmente realizado pelo próprio VS Code na aba de Source Control, veja [Como gerenciar o git pelo VSCode](https://www.youtube.com/watch?v=HIqyLRKv-YE)
-
-💡 Criar Pull Request diretamente no repositório online.
-
-# Detalhes do código
-Consulte a [documentação do código](https://www.notion.so/corre/Documenta-o-do-c-digo-65156ce6cfde4357940ebade8a22ebbf?pvs=4)
 
 
