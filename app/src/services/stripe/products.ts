@@ -1,19 +1,11 @@
-import axios from 'axios'
-import auth from '@react-native-firebase/auth'
+import { firebaseFunctions } from '@infrastructure/firebase'
 
 import { StripeProducts } from './types'
 
-import { getEnvVars } from '@infrastructure/environment'
-
-const { FIREBASE_CLOUD_URL } = getEnvVars()
-
 async function getStripeProducts() {
-	const token = await auth().currentUser?.getIdToken()
-	const result = await axios.get(`${FIREBASE_CLOUD_URL}/stripeApi/products`, {
-		headers: { Authorization: `Bearer ${token}` },
-	})
-
-	return result.data.data
+    const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
+    const result = await stripeApi({ action: 'products' })
+    return (result.data as any).data
 }
 
 async function getStripePlans(stripeProducts: any[]) {
