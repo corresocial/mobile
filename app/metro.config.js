@@ -24,6 +24,8 @@ const config = {
 		...defaultConfig.resolver,
 		assetExts: defaultConfig.resolver.assetExts.filter((ext) => ext !== 'svg'),
 		sourceExts: [...defaultConfig.resolver.sourceExts, 'js', 'svg', 'd.ts'],
+		// eslint-disable-next-line camelcase
+		unstable_enablePackageExports: true,
 	}
 }
 

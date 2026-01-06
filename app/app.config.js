@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 /* eslint-disable camelcase */
 /* eslint-disable import/no-default-export */
 export default () => {

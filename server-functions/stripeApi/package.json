@@ -6,9 +6,8 @@
     "start": "tsc && node deploy/index.js",
     "dev": "ts-node-dev -r --respawn --transpile-only --ignore-watch node_modules index.ts",
     "build": "tsc",
-    "deploy": "npm-run-all build deploy-cloud-function deploy-webhook",
-    "deploy-cloud-function": "cd deploy && gcloud functions deploy stripeApi --gen2 --runtime nodejs20 --trigger-http --entry-point stripeApi --region southamerica-east1 --allow-unauthenticated",
-    "deploy-webhook": "cd deploy && gcloud functions deploy stripeWebhook --gen2 --runtime nodejs20 --trigger-http --entry-point stripeWebhook --region southamerica-east1 --allow-unauthenticated"
+    "deploy": "npm-run-all build deploy-cloud-function",
+    "deploy-cloud-function": "cd deploy && gcloud functions deploy stripeApi --gen2 --runtime nodejs20 --trigger-http --entry-point stripeApi --region southamerica-east1 --allow-unauthenticated"
   },
   "keywords": [],
   "author": "",
