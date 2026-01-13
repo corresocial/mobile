@@ -3,9 +3,9 @@ import { firebaseFunctions } from '@infrastructure/firebase'
 import { StripeProducts } from './types'
 
 async function getStripeProducts() {
-    const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
-    const result = await stripeApi({ action: 'products' })
-    return (result.data as any).data
+	const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
+	const result = await stripeApi({ action: 'products' })
+	return (result.data as any).data
 }
 
 async function getStripePlans(stripeProducts: any[]) {

@@ -62,19 +62,25 @@ const express_1 = __importDefault(require("express"));
 const stripe_1 = require("stripe");
 if (!admin.apps.length)
     admin.initializeApp();
-const stripe = new stripe_1.Stripe(process.env.STRIPE_SECRET_KEY || '', {
-    apiVersion: '2025-11-17.clover',
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecretKey) {
+    console.warn('WARNING: STRIPE_SECRET_KEY is missing. Stripe functionality will fail until it is set.');
+}
+const stripe = new stripe_1.Stripe(stripeSecretKey || 'sk_test_placeholder', {
+    apiVersion: '2025-12-15.clover',
 });
 const getCustomerId = (uid) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
+    console.log('getCustomerId', uid);
     const userDoc = yield admin.firestore().collection('users').doc(uid).get();
     return (_a = userDoc.data()) === null || _a === void 0 ? void 0 : _a.stripeCustomerId;
 });
 exports.stripeApi = (0, https_1.onCall)({ region: 'southamerica-east1' }, (request) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     if (!request.auth)
         throw new https_1.HttpsError('unauthenticated', 'User must be logged in');
     const { uid, token } = request.auth;
-    const _a = request.data, { action } = _a, data = __rest(_a, ["action"]);
+    const _c = request.data, { action } = _c, data = __rest(_c, ["action"]);
     const email = token.email || '';
     const name = token.name || '';
     try {
@@ -120,10 +126,11 @@ exports.stripeApi = (0, https_1.onCall)({ region: 'southamerica-east1' }, (reque
                 const customerId = yield getCustomerId(uid);
                 if (!customerId)
                     return { data: [] };
-                return yield stripe.subscriptions.list({
+                const res = yield stripe.subscriptions.list({
                     customer: customerId,
                     status: data.status || 'active',
                 });
+                return res;
             }
             case 'create-subscription': {
                 const customerId = yield getCustomerId(uid);
@@ -131,22 +138,27 @@ exports.stripeApi = (0, https_1.onCall)({ region: 'southamerica-east1' }, (reque
                     throw new https_1.HttpsError('not-found', 'Customer not found');
                 const trialEndDate = Math.round((Date.now() / 1000)) + 31650000;
                 const freeTrialParams = data.freeTrial ? { trial_end: trialEndDate } : {};
-                const subscription = yield stripe.subscriptions.create(Object.assign(Object.assign({ customer: customerId, items: [{ price: data.priceId }] }, freeTrialParams), { payment_behavior: 'default_incomplete', payment_settings: { save_default_payment_method: 'on_subscription' }, expand: ['latest_invoice.payment_intent'] }));
+                const subscription = yield stripe.subscriptions.create(Object.assign(Object.assign({ customer: customerId, items: [{ price: data.priceId }] }, freeTrialParams), { payment_behavior: 'allow_incomplete', payment_settings: { save_default_payment_method: 'on_subscription' }, expand: ['latest_invoice.payment_intent'] }));
+                console.log('sub', JSON.stringify(subscription));
                 return {
                     subscriptionId: subscription.id,
-                    clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+                    clientSecret: (_b = (_a = subscription.latest_invoice) === null || _a === void 0 ? void 0 : _a.payment_intent) === null || _b === void 0 ? void 0 : _b.client_secret,
                 };
             }
             case 'update-subscription': {
+                console.log('update-subscription', data.subscriptionId, data.priceId);
                 const sub = yield stripe.subscriptions.retrieve(data.subscriptionId);
                 if (!sub)
                     throw new https_1.HttpsError('not-found', 'Subscription not found');
-                return yield stripe.subscriptions.update(data.subscriptionId, {
+                console.log('sub-to-update', JSON.stringify(sub));
+                const updatedSub = yield stripe.subscriptions.update(data.subscriptionId, {
                     proration_behavior: 'always_invoice',
                     cancel_at_period_end: false,
                     proration_date: Math.floor((Date.now()) / 1000),
                     items: [{ id: sub.items.data[0].id, price: data.priceId }],
                 });
+                console.log('updated-sub', JSON.stringify(updatedSub));
+                return updatedSub;
             }
             case 'cancel-subscription': {
                 return yield stripe.subscriptions.cancel(data.subscriptionId);
@@ -156,7 +168,7 @@ exports.stripeApi = (0, https_1.onCall)({ region: 'southamerica-east1' }, (reque
                 if (!customerId)
                     throw new https_1.HttpsError('not-found', 'Customer not found');
                 const paymentIntents = yield stripe.paymentIntents.search({
-                    query: `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`,
+                    query: `customer: "${customerId}" AND amount>1 AND status: "succeeded"`,
                     limit: 1,
                 });
                 if (paymentIntents.data.length === 0)
@@ -167,8 +179,8 @@ exports.stripeApi = (0, https_1.onCall)({ region: 'southamerica-east1' }, (reque
                 const customerId = yield getCustomerId(uid);
                 if (!customerId)
                     throw new https_1.HttpsError('not-found', 'Customer not found');
-                const charges = yield stripe.charges.search({
-                    query: `customer: '${customerId}' AND status: 'succeeded'`,
+                const charges = yield stripe.charges.list({
+                    customer: customerId,
                     limit: 1,
                 });
                 if (charges.data.length === 0)

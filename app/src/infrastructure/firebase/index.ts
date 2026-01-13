@@ -21,8 +21,8 @@ export const firebaseFirestore = firestore()
 export const firebaseStorage = storage()
 export const firebaseDatabase = database()
 export const firebaseAnalytics = analytics()
-// ✅ Correct: Access functions via the app instance to set the region
-export const firebaseFunctions = firebase.app().functions('southamerica-east1')
+export const firebaseFunctions = firebase.app().functions('southamerica-east1') || functions()
+// 
 export const firebaseSmasDatabase = firebase.app().database(FIREBASE_smas_databaseURL)
 
 export const authProviders = {

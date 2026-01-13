@@ -5,11 +5,17 @@ import { Stripe } from 'stripe';
 
 if (!admin.apps.length) admin.initializeApp();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-    apiVersion: '2025-11-17.clover',
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecretKey) {
+    console.warn('WARNING: STRIPE_SECRET_KEY is missing. Stripe functionality will fail until it is set.');
+}
+
+const stripe = new Stripe(stripeSecretKey || 'sk_test_placeholder', {
+    apiVersion: '2025-12-15.clover',
 });
 
 const getCustomerId = async (uid: string) => {
+    console.log('getCustomerId', uid);
     const userDoc = await admin.firestore().collection('users').doc(uid).get();
     return userDoc.data()?.stripeCustomerId;
 };
@@ -62,10 +68,11 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
             case 'subscriptions': {
                 const customerId = await getCustomerId(uid);
                 if (!customerId) return { data: [] };
-                return await stripe.subscriptions.list({
+                const res = await stripe.subscriptions.list({
                     customer: customerId,
                     status: data.status || 'active',
                 });
+                return res;
             }
             case 'create-subscription': {
                 const customerId = await getCustomerId(uid);
@@ -76,24 +83,29 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
                     customer: customerId,
                     items: [{ price: data.priceId }],
                     ...freeTrialParams,
-                    payment_behavior: 'default_incomplete',
+                    payment_behavior: 'allow_incomplete',
                     payment_settings: { save_default_payment_method: 'on_subscription' },
                     expand: ['latest_invoice.payment_intent'],
                 });
+                console.log('sub', JSON.stringify(subscription))
                 return {
                     subscriptionId: subscription.id,
-                    clientSecret: (subscription.latest_invoice as any).payment_intent.client_secret,
+                    clientSecret: (subscription.latest_invoice as any)?.payment_intent?.client_secret,
                 };
             }
             case 'update-subscription': {
+                console.log('update-subscription', data.subscriptionId, data.priceId);
                 const sub = await stripe.subscriptions.retrieve(data.subscriptionId);
                 if (!sub) throw new HttpsError('not-found', 'Subscription not found');
-                return await stripe.subscriptions.update(data.subscriptionId, {
+                console.log('sub-to-update', JSON.stringify(sub));
+                const updatedSub = await stripe.subscriptions.update(data.subscriptionId, {
                     proration_behavior: 'always_invoice',
                     cancel_at_period_end: false,
                     proration_date: Math.floor((Date.now()) / 1000),
                     items: [{ id: sub.items.data[0].id, price: data.priceId }],
                 });
+                console.log('updated-sub', JSON.stringify(updatedSub));
+                return updatedSub;
             }
             case 'cancel-subscription': {
                 return await stripe.subscriptions.cancel(data.subscriptionId);
@@ -102,7 +114,7 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
                 const customerId = await getCustomerId(uid);
                 if (!customerId) throw new HttpsError('not-found', 'Customer not found');
                 const paymentIntents = await stripe.paymentIntents.search({
-                    query: `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`,
+                    query: `customer: "${customerId}" AND amount>1 AND status: "succeeded"`,
                     limit: 1,
                 });
                 if (paymentIntents.data.length === 0) throw new HttpsError('not-found', 'No successful payment found');
@@ -111,8 +123,8 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
             case 'send-receipt': {
                 const customerId = await getCustomerId(uid);
                 if (!customerId) throw new HttpsError('not-found', 'Customer not found');
-                const charges = await stripe.charges.search({
-                    query: `customer: '${customerId}' AND status: 'succeeded'`,
+                const charges = await stripe.charges.list({
+                    customer: customerId,
                     limit: 1,
                 });
                 if (charges.data.length === 0) throw new HttpsError('not-found', 'No charge found');

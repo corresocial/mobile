@@ -1,7 +1,7 @@
-# .env*
-# google-services.json
-# google-services*
-# GoogleService-Info.plist
+.env*
+google-services.json
+google-services*
+GoogleService-Info.plist
 
 android/
 ios/

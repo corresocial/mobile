@@ -48,10 +48,12 @@ type CustomCardDetails = {
 }
 
 type RemoteCardDetails = {
-	brand: CardBrand
-	exp_month: number
-	exp_year: number
-	last4: string
+	card: {
+		brand: CardBrand
+		exp_month: number
+		exp_year: number
+		last4: string
+	}
 }
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
@@ -93,6 +95,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 			if (!customerId || !subscriptionId) {
 				navigateToResultScreen(true, {})
+				console.log('customerId', customerId)
 				throw new Error('customerId ou subscriptionId inválido')
 			}
 
@@ -148,9 +151,13 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			customerId: userDataContext.subscription?.customerId || ''
 		}
 
+		console.log('customerData', customerData)
+
 		try {
 			let cardAlreadyRegistered = false
 			if (customerData.customerId) {
+				console.log('Start payment method check')
+				console.log(customerData.customerId)
 				const card = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
 
 				cardAlreadyRegistered = !card ? false : cardDataAreEquals(cardDetails, card)
@@ -192,8 +199,10 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 
 			let subscriptionsId = await getCustomerSubscriptions(customerId)
-			!subscriptionHasActive && subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
-			!subscriptionHasActive && console.log('Assinatura anterior cancelada...')
+			if (!subscriptionHasActive && subscriptionsId) {
+				subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
+				console.log('Assinatura anterior cancelada...')
+			}
 			subscriptionsId = subscriptionHasActive ? subscriptionsId : []
 
 			if (subscriptionsId && subscriptionsId.length) {
@@ -210,6 +219,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 			return { customerId, subscriptionId: subscriptionsId[0] }
 		} catch (error: any) {
+			console.log(error)
 			if (error.response) {
 				console.log('Status:', error.response.status)
 				console.log('Data:', error.response.data)
@@ -230,10 +240,10 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const cardDataAreEquals = (currentCard: CustomCardDetails, remoteCard: RemoteCardDetails) => {
-		if (currentCard.brand.toLowerCase() !== remoteCard.brand.toLowerCase()) return false
-		if (currentCard.last4 !== remoteCard.last4) return false
-		if (currentCard.expiryMonth !== remoteCard.exp_month) return false
-		if (currentCard.expiryYear !== remoteCard.exp_year) return false
+		if (currentCard.brand.toLowerCase() !== remoteCard.card.brand.toLowerCase()) return false
+		if (currentCard.last4 !== remoteCard.card.last4) return false
+		if (currentCard.expiryMonth !== remoteCard.card.exp_month) return false
+		if (currentCard.expiryYear !== remoteCard.card.exp_year) return false
 		return true
 	}
 

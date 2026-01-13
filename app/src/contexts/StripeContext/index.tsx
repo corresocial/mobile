@@ -36,6 +36,7 @@ interface StripeContextState {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
+	getStripeCustomer: () => Promise<any>
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any>
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
@@ -64,6 +65,7 @@ const initialValue = {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
+	getStripeCustomer: () => new Promise(() => { }),
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => new Promise(() => { }),
 	createCustomPaymentMethod: () => new Promise(() => { }),
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
@@ -173,6 +175,11 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return response.data.data.length > 0 ? response.data.data[0] : null
 	}
 
+	async function getStripeCustomer() {
+		const response = await callBackend('/retrieve-customer')
+		return response.data
+	}
+
 	async function updateStripeCustomer(customerId: string, customerData: CustomerData) {
 		await callBackend('/update-customer', { ...customerData })
 	}
@@ -227,7 +234,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 				throw new Error('Não há faturas ativas')
 			}
 
-			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
+			const getSubscriptionEndDate = (sub: any) => {
+				if (!sub) return 0
+				return (sub.current_period_end || sub.items?.data[0]?.current_period_end || 0) * 1000
+			}
+
+			const endSubscriptionDate = paidSubscription && paidSubscription.length
+				? getSubscriptionEndDate(paidSubscription[0])
+				: getSubscriptionEndDate(freeSubscription[0])
 			const currentDate = Math.floor(Date.now())
 
 			if (dateHasExpired(currentDate, endSubscriptionDate, 1)) {
@@ -310,6 +324,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean, requestTrialSubscriptions?: boolean) {
 		const status = requestTrialSubscriptions ? 'trialing' : 'active'
 		const response = await callBackend('/subscriptions', { customer: customerId, status }, 'GET')
+		console.log('Subscriptions:', JSON.stringify(response.data.data))
 
 		const subscriptionsId = response.data.data.length > 0
 			? returnLastSubscriptionData
@@ -399,6 +414,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				subscriptionHasActive,
 				getRangePlanPrice,
 				createCustomer,
+				getStripeCustomer,
 				updateStripeCustomer,
 				createCustomPaymentMethod,
 				getCustomerSubscriptions,
