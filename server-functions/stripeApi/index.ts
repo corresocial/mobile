@@ -113,12 +113,13 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
             case 'refund-last-payment': {
                 const customerId = await getCustomerId(uid);
                 if (!customerId) throw new HttpsError('not-found', 'Customer not found');
-                const paymentIntents = await stripe.paymentIntents.search({
-                    query: `customer: "${customerId}" AND amount>1 AND status: "succeeded"`,
-                    limit: 1,
+                const paymentIntents = await stripe.paymentIntents.list({
+                    customer: customerId,
+                    limit: 10, // Fetch a few to find the latest succeeded one
                 });
-                if (paymentIntents.data.length === 0) throw new HttpsError('not-found', 'No successful payment found');
-                return await stripe.refunds.create({ payment_intent: paymentIntents.data[0].id });
+                const successfulPI = paymentIntents.data.find(pi => pi.status === 'succeeded' && pi.amount > 1);
+                if (!successfulPI) throw new HttpsError('not-found', 'No successful payment found');
+                return await stripe.refunds.create({ payment_intent: successfulPI.id });
             }
             case 'send-receipt': {
                 const customerId = await getCustomerId(uid);
