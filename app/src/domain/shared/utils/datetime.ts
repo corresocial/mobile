@@ -1,5 +1,5 @@
 import { formatDistance, formatRelative, isValid, format } from 'date-fns'
-import brasilLocale from 'date-fns/locale/pt-BR'
+import { ptBR } from 'date-fns/locale'
 
 type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number }
 
@@ -20,7 +20,7 @@ const formatDate = (dateValue: Date) => {
 
 	const date = getNewDate(dateValue)
 	if (!isValid(date)) return ''
-	return format(date, 'dd/MM/yyyy', { locale: brasilLocale })
+	return format(date, 'dd/MM/yyyy', { locale: ptBR })
 }
 
 const formatHour = (dateValue: Date) => {
@@ -28,7 +28,7 @@ const formatHour = (dateValue: Date) => {
 
 	const date = getNewDate(dateValue)
 	if (!isValid(date)) return ''
-	return format(date, 'HH:mm', { locale: brasilLocale })
+	return format(date, 'HH:mm', { locale: ptBR })
 }
 
 const formatRelativeDate = (daveValue: Date | number | string) => {
@@ -38,8 +38,8 @@ const formatRelativeDate = (daveValue: Date | number | string) => {
 	const date = getNewDate(daveValue)
 	if (!isValid(date)) return ''
 
-	const distance = formatDistance(date, currentDate, { locale: brasilLocale })
-	const relative = formatRelative(date, currentDate, { locale: brasilLocale })
+	const distance = formatDistance(date, currentDate, { locale: ptBR })
+	const relative = formatRelative(date, currentDate, { locale: ptBR })
 
 	if (distance.match(/7\sdia?/)) {
 		const hourAndMinutes = `${date.getUTCHours()}:${date.getUTCMinutes()}`

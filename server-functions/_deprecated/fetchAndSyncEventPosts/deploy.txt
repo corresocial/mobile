@@ -1,0 +1,16 @@
+export $(grep -v '^#' .env | xargs)
+
+gcloud functions deploy fetchAndSyncEventPosts \
+  --gen2 \
+  --region southamerica-east1 \
+  --runtime nodejs20 \
+  --source ./deploy \
+  --entry-point fetchAndSyncEventPosts \
+  --allow-unauthenticated \
+  --trigger-http \
+  --timeout 500s \
+  --service-account ${SERVICE_ACCOUNT} \
+  --env-vars-file .env.yaml
+
+
+// A linha de service-account só é utilizada no primeiro deploy

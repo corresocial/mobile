@@ -1,8 +1,8 @@
+import auth from '@react-native-firebase/auth'
+
 import { DiscordContactUsOptions } from '../types/contactUs'
 
-import { getEnvVars } from '@infrastructure/environment'
-
-const { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } = getEnvVars()
+import { firebaseFunctions } from '@infrastructure/firebase'
 
 async function sendMessageToDiscordContactUs({
 	userId,
@@ -18,14 +18,6 @@ async function sendMessageToDiscordContactUs({
 				return `${message.substring(0, 1000)}...`
 			}
 			return message
-		}
-
-		const getRelativeWebHook = () => {
-			switch (type) {
-				case 'erro': return ERROS_WEBHOOK
-				case 'denúncia': return DENUNCIAR_WEBHOOK
-				default: return FALECONOSCO_WEBHOOK
-			}
 		}
 
 		const getRelativeTitle = () => {
@@ -56,21 +48,12 @@ async function sendMessageToDiscordContactUs({
 		ID da entidade: ${reportedId || '---'}
 		Mensagem: ${shortMessage}`
 
-		await fetch(
-			`${getRelativeWebHook()}?${new URLSearchParams({ wait: true } as any)}`,
-			{
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ content, wait: true }),
-			},
-		)
-			.catch((err) => {
-				console.log(err)
-				throw new Error(err)
-			})
+		const { currentUser } = auth()
+		if (!currentUser && type !== 'erro') throw new Error('Usuário não autenticado')
+
+		const discordIntegration = firebaseFunctions.httpsCallable('discordIntegration')
+		await discordIntegration({ content, type })
+
 		return true
 	} catch (error) {
 		console.log(error)

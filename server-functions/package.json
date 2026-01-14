@@ -1,0 +1,15 @@
+{
+  "name": "server-functions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:all": "bash install_all_deps.sh",
+    "deploy:all": "bash deploy_all.sh",
+    "config:all": "bash config_all.sh"
+  },
+  "keywords": [],
+  "author": "Wellington Souza",
+  "license": "ISC",
+  "description": ""
+}

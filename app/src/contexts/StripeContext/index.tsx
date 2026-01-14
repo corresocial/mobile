@@ -4,7 +4,6 @@ import React, { useContext, createContext, useEffect, useState } from 'react'
 
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 import { useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 
 import { PostRange } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
@@ -15,6 +14,7 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
+import { firebaseFunctions } from '@infrastructure/firebase'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
@@ -36,6 +36,7 @@ interface StripeContextState {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
+	getStripeCustomer: () => Promise<any>
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any>
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
@@ -64,6 +65,7 @@ const initialValue = {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
+	getStripeCustomer: () => new Promise(() => { }),
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => new Promise(() => { }),
 	createCustomPaymentMethod: () => new Promise(() => { }),
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
@@ -79,14 +81,7 @@ const initialValue = {
 
 export const StripeContext = createContext<StripeContextState>(initialValue)
 
-const { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } = getEnvVars()
-
-const defaultAxiosHeader = {
-	'Content-Type': 'application/x-www-form-urlencoded',
-	Authorization: `bearer ${STRIPE_SECRET_KEY}`
-}
-
-const axiosConfig = { headers: { ...defaultAxiosHeader } }
+const { STRIPE_PUBLISHABLE_KEY, FIREBASE_CLOUD_URL } = getEnvVars()
 
 export function StripeProvider({ children }: StripeContextProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
@@ -110,6 +105,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 		}
 	}, [])
 
+	const callBackend = async (endpoint: string, data?: any, method: 'GET' | 'POST' | 'DELETE' = 'POST') => {
+		const action = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint
+		const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
+		const payload = { action, ...data }
+		const response = await stripeApi(payload)
+		return response as any
+	}
+
 	async function getProducts() {
 		try {
 			const queryKey = ['stripe.products']
@@ -121,7 +124,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
-			// console.log('STRIPE: Produtos do Stripe obtidos com sucesso!')
 		} catch (error) {
 			console.error('Erro ao obter os produtos do Stripe:', error)
 		}
@@ -168,25 +170,18 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	async function getCustomerPaymentMethods(customerId: string) {
-		const response = await axios.get(`${STRIPE_API_URL}/payment_methods`, {
-			params: {
-				customer: customerId,
-				type: 'card',
-			},
-			...axiosConfig
-		})
-
-		if (response.data && !response.data.length) return false
-
+		const response = await callBackend('/payment-methods', { customer: customerId }, 'GET')
+		if (response.data && !response.data.data.length) return false
 		return response.data.data.length > 0 ? response.data.data[0] : null
 	}
 
+	async function getStripeCustomer() {
+		const response = await callBackend('/retrieve-customer')
+		return response.data
+	}
+
 	async function updateStripeCustomer(customerId: string, customerData: CustomerData) {
-		await axios.post(
-			`${STRIPE_API_URL}/customers/${customerId}`,
-			{ ...customerData },
-			axiosConfig
-		)
+		await callBackend('/update-customer', { ...customerData })
 	}
 
 	async function createCustomPaymentMethod() {
@@ -203,47 +198,27 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	async function attachPaymentMethodToCustomer(customerId: string, paymentMethodId: string) {
-		await axios.post(
-			`${STRIPE_API_URL}/payment_methods/${paymentMethodId}/attach`,
-			{
-				customer: customerId,
-			},
-			axiosConfig
-		)
-
+		await callBackend('/attach-payment-method', { paymentMethodId })
 		return true
 	}
 
 	async function setDefaultPaymentMethodToCustomer(customerId: string, paymentMethodId: string, attach?: boolean) {
 		attach && await attachPaymentMethodToCustomer(customerId, paymentMethodId)
-
-		await axios.post(
-			`${STRIPE_API_URL}/customers/${customerId}`,
-			{
-				invoice_settings: {
-					default_payment_method: paymentMethodId
-				},
-			},
-			axiosConfig
-		)
-
+		await callBackend('/set-default-payment-method', { paymentMethodId })
 		return true
 	}
 
 	async function createCustomer(name: string, paymentMethodId: string, userTrial?: boolean) {
-		const customerData = {
-			name,
-			description: 'Assinante do corre',
-			phone: '',
-			email: '',
-			address: {},
-			payment_method: paymentMethodId,
-		} as CustomerData
+		// Backend creates customer based on Auth token.
+		const result = await callBackend('/create-customer')
+		const { customerId } = result.data
 
-		if (userTrial) delete customerData.payment_method
+		// We need to attach the payment method separately now
+		if (paymentMethodId && !userTrial) {
+			await attachPaymentMethodToCustomer(customerId, paymentMethodId)
+			await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId)
+		}
 
-		const result = await axios.post(`${STRIPE_API_URL}/customers`, { ...customerData }, axiosConfig)
-		const customerId = result.data.id
 		return customerId
 	}
 
@@ -259,11 +234,15 @@ export function StripeProvider({ children }: StripeContextProps) {
 				throw new Error('Não há faturas ativas')
 			}
 
-			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
+			const getSubscriptionEndDate = (sub: any) => {
+				if (!sub) return 0
+				return (sub.current_period_end || sub.items?.data[0]?.current_period_end || 0) * 1000
+			}
 
-			/* console.log(new Date(currentDate))
-			console.log(new Date(endSubscriptionDate)) */
+			const endSubscriptionDate = paidSubscription && paidSubscription.length
+				? getSubscriptionEndDate(paidSubscription[0])
+				: getSubscriptionEndDate(freeSubscription[0])
+			const currentDate = Math.floor(Date.now())
 
 			if (dateHasExpired(currentDate, endSubscriptionDate, 1)) {
 				const numberOfExpiredDays = dateHasExpired(currentDate, endSubscriptionDate, 7, true)
@@ -271,7 +250,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 				showSubscriptionAlertWithCustomMessage(numberOfExpiredDays as number)
 				setSubscriptionHasActive(false)
 			} else {
-				// console.log('STRIPE: Assinatura em dia')
 				setSubscriptionHasActive(true)
 			}
 		} catch (err: any) {
@@ -280,8 +258,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 			setSubscriptionHasActive(false)
 		}
 	}
-
-	// Abstrair
 
 	const handleCancelSubscription = async (alreadyCanceled?: boolean) => {
 		try {
@@ -297,8 +273,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 			throw new Error('O usuário não possui nenhuma assinatura no momento')
 		} catch (error: any) {
 			console.log(error)
-			console.log('Status:', error.response.status)
-			console.log('Data:', error.response.data)
+			console.log('Status:', error.response?.status)
+			console.log('Data:', error.response?.data)
 		}
 	}
 
@@ -330,8 +306,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 		setUserDataOnContext({ subscription: { ...userSubscription } })
 	}
 
-	// Abstrair ˆˆˆ
-
 	const showSubscriptionAlertWithCustomMessage = async (numberOfExpiredDays: number, alreadyCanceled?: boolean) => {
 		if (numberOfExpiredDays <= 7) {
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
@@ -348,107 +322,42 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const userHasSubscription = () => userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near'
 
 	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean, requestTrialSubscriptions?: boolean) {
-		const response = requestTrialSubscriptions
-			? (
-				await axios.get(`${STRIPE_API_URL}/subscriptions`, {
-					params: {
-						customer: customerId,
-						status: 'trialing',
-					},
-					...axiosConfig
-				}))
-			: (
-				await axios.get(`${STRIPE_API_URL}/subscriptions`, {
-					params: {
-						customer: customerId,
-						status: 'active',
-					},
-					...axiosConfig
-				})
-			)
+		const status = requestTrialSubscriptions ? 'trialing' : 'active'
+		const response = await callBackend('/subscriptions', { customer: customerId, status }, 'GET')
+		console.log('Subscriptions:', JSON.stringify(response.data.data))
 
 		const subscriptionsId = response.data.data.length > 0
 			? returnLastSubscriptionData
 				? response.data.data
-				: response.data.data.map((subscription: any) => subscription.id) // TODO Type
+				: response.data.data.map((subscription: any) => subscription.id)
 			: null
 
 		setSubscriptionHasActive(true)
 		return subscriptionsId
 	}
 
-	async function createSubscription(customerId: string, priceId: string, freeTrial?: boolean) { // CARD 4000000760000002
-		const trialEndDate = Math.round((Date.now() / 1000)) + 31650000
-		const freeTrialParams = freeTrial
-			? { trial_end: trialEndDate } // 15/07/2024 23:59
-			: {}
+	async function createSubscription(customerId: string, priceId: string, freeTrial?: boolean) {
+		const response = await callBackend('/create-subscription', { priceId, freeTrial })
 
-		const postData = {
-			customer: customerId,
-			items: [
-				{
-					price: priceId, // Substitua pelo ID real do preço/produto
-				},
-			],
-			...freeTrialParams,
-			payment_behavior: 'error_if_incomplete', // error_if_incomplete
-			expand: ['latest_invoice.payment_intent'],
-		}
+		// Backend returns { subscriptionId, clientSecret }
+		const { subscriptionId, clientSecret } = response.data
 
-		const response = await axios.post(`${STRIPE_API_URL}/subscriptions`, postData, axiosConfig)
-
-		const subscriptionId = response.data.id
-		const subscriptionClientSecret = response.data.latest_invoice && response.data.latest_invoice.payment_intent && response.data.latest_invoice.payment_intent.client_secret
-
-		return { subscriptionId, subscriptionClientSecret }
+		return { subscriptionId, subscriptionClientSecret: clientSecret }
 	}
 
-	const getSubscriptionData = async (subscriptionId: string) => {
-		const res = await axios.get(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, axiosConfig)
-		return res.data
-	}
-
-	const getLastUserPaymentIntentId = async (customerId: string) => {
-		const query = `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`
-		const res = await axios.get(`${STRIPE_API_URL}/payment_intents/search?query=${encodeURIComponent(query)}`, axiosConfig)
-		return res.data.data[0].id
-	}
-
-	async function updateStripeSubscription(subscriptionId: string, newPrice: string) {
-		const remoteSubscriptionData = await getSubscriptionData(subscriptionId)
-
-		const subscriptionData = {
-			proration_behavior: 'always_invoice',
-			cancel_at_period_end: false,
-			proration_date: Math.floor((Date.now()) / 1000), // + 1296000000 (15 dias)
-			items: [
-				{
-					id: remoteSubscriptionData.items.data[0].id,
-					price: newPrice,
-				},
-			]
-		}
-
-		await axios.post(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, subscriptionData, axiosConfig)
+	async function updateStripeSubscription(subscriptionId: string, priceId: string) {
+		await callBackend('/update-subscription', { subscriptionId, priceId })
 	}
 
 	async function cancelSubscription(subscriptionId: string) {
-		const response = await axios.delete(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, axiosConfig)
-
+		const response = await callBackend('/cancel-subscription', { subscriptionId })
 		setSubscriptionHasActive(true)
 		return response.data
 	}
 
 	async function refundSubscriptionValue(customerId: string, subscriptionId: string) {
 		try {
-			const paymentIntentId = await getLastUserPaymentIntentId(customerId)
-
-			const refundsData = {
-				payment_intent: paymentIntentId,
-				// amount: 1000 // Set refunds value in cents
-			}
-
-			await axios.post(`${STRIPE_API_URL}/refunds`, refundsData, axiosConfig)
+			await callBackend('/refund-last-payment')
 		} catch (err) {
 			return null
 		}
@@ -472,17 +381,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	const sendReceiptByEmail = async (customerId: string, email: string) => {
-		const query = `customer: '${customerId}' AND status: 'succeeded'`
-		const result = await axios.get(`${STRIPE_API_URL}/charges/search?query=${encodeURIComponent(query)}`, axiosConfig)
+		const res = await callBackend('/send-receipt', { email })
+		const receiptUrl = res.data.receipt_url
 
-		const receiptUrl = result.data.data[0].receipt_url
-		const chargeId = result.data.data[0].id
-
-		const emailOptions = {
-			receipt_email: email,
-		}
-
-		const res = await axios.post(`${STRIPE_API_URL}/charges/${chargeId}`, emailOptions, axiosConfig)
 		console.log('Charges atualizadas...')
 		console.log(`Último recibo: ${receiptUrl}`)
 		console.log(`New Email: ${res.data.receipt_email}`)
@@ -513,6 +414,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				subscriptionHasActive,
 				getRangePlanPrice,
 				createCustomer,
+				getStripeCustomer,
 				updateStripeCustomer,
 				createCustomPaymentMethod,
 				getCustomerSubscriptions,

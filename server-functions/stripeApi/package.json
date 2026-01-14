@@ -1,0 +1,31 @@
+{
+  "name": "stripe-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node deploy/index.js",
+    "dev": "ts-node-dev -r --respawn --transpile-only --ignore-watch node_modules index.ts",
+    "build": "tsc",
+    "deploy": "npm-run-all build deploy-cloud-function",
+    "deploy-cloud-function": "cd deploy && gcloud functions deploy stripeApi --gen2 --runtime nodejs20 --trigger-http --entry-point stripeApi --region southamerica-east1 --allow-unauthenticated --env-vars-file ../.env.yaml"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "firebase-admin": "^13.6.0",
+    "firebase-functions": "^7.0.1",
+    "stripe": "^20.1.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.2",
+    "npm-run-all": "^4.1.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
