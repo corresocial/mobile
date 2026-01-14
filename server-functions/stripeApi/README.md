@@ -20,7 +20,6 @@ Crie um arquivo `.env.yaml` na raiz da função (`server-functions/stripeApi/.en
 
 ```yaml
 STRIPE_SECRET_KEY: "sua_chave_secreta_do_stripe"
-STRIPE_WEBHOOK_SECRET: "seu_segredo_de_webhook_do_stripe"
 ```
 
 > **Nota**: O arquivo `.env.yaml` é ignorado pelo git para segurança. Não comite este arquivo.
