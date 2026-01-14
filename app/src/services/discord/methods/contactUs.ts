@@ -1,9 +1,8 @@
 import auth from '@react-native-firebase/auth'
+
 import { DiscordContactUsOptions } from '../types/contactUs'
 
-import { getEnvVars } from '@infrastructure/environment'
-
-const { FIREBASE_CLOUD_URL } = getEnvVars()
+import { firebaseFunctions } from '@infrastructure/firebase'
 
 async function sendMessageToDiscordContactUs({
 	userId,
@@ -49,30 +48,12 @@ async function sendMessageToDiscordContactUs({
 		ID da entidade: ${reportedId || '---'}
 		Mensagem: ${shortMessage}`
 
-		const token = await auth().currentUser?.getIdToken()
+		const { currentUser } = auth()
+		if (!currentUser && type !== 'erro') throw new Error('Usuário não autenticado')
 
-		if (!token && type !== 'erro') throw new Error('Usuário não autenticado')
+		const discordIntegration = firebaseFunctions.httpsCallable('discordIntegration')
+		await discordIntegration({ content, type })
 
-        const headers: any = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-        if (token) {
-            headers.Authorization = `Bearer ${token}`
-        }
-
-		await fetch(
-			`${FIREBASE_CLOUD_URL}/discordIntegration/send-message`,
-			{
-				method: 'POST',
-				headers,
-				body: JSON.stringify({ content, type }),
-			},
-		)
-			.catch((err) => {
-				console.log(err)
-				throw new Error(err)
-			})
 		return true
 	} catch (error) {
 		console.log(error)

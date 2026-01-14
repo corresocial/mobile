@@ -2,15 +2,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, TextStyle, ViewStyle } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 
+import { useTheme } from 'styled-components/native'
+
 import {
 	ButtonLabel,
 	TouchableContainer,
 	ContainerSurface,
 	ContainerBottom
 } from './styles'
+
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
-import { theme } from '@common/theme'
 
 import { Timer } from '../../Timer'
 
@@ -63,6 +65,8 @@ function PrimaryButton({
 	const [buttonDisabled, setButtonDisabled] = useState<boolean>(disabled || false)
 	const [timerReset, setTimerReset] = useState<boolean>(disabled || false)
 	const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
+
+	const theme = useTheme()
 
 	const buttonRef = useRef<any>()
 

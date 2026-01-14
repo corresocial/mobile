@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components/native'
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { sendEvent } from '@newutils/methods/analyticsEvents'

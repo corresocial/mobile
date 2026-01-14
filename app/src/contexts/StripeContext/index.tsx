@@ -4,8 +4,6 @@ import React, { useContext, createContext, useEffect, useState } from 'react'
 
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 import { useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
-import auth from '@react-native-firebase/auth'
 
 import { PostRange } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
@@ -16,6 +14,7 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
+import { firebaseFunctions } from '@infrastructure/firebase'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
@@ -37,6 +36,7 @@ interface StripeContextState {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
+	getStripeCustomer: () => Promise<any>
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any>
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
@@ -65,6 +65,7 @@ const initialValue = {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
 	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
+	getStripeCustomer: () => new Promise(() => { }),
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => new Promise(() => { }),
 	createCustomPaymentMethod: () => new Promise(() => { }),
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
@@ -105,17 +106,11 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}, [])
 
 	const callBackend = async (endpoint: string, data?: any, method: 'GET' | 'POST' | 'DELETE' = 'POST') => {
-		const token = await auth().currentUser?.getIdToken()
-		const url = `${FIREBASE_CLOUD_URL}/stripeApi${endpoint}`
-		const headers = { Authorization: `Bearer ${token}` }
-		if (method === 'GET') {
-			return axios.get(url, { params: data, headers })
-		}
-		if (method === 'DELETE') {
-			// axios delete config is 2nd arg
-			return axios.delete(url, { headers, data }) 
-		}
-		return axios.post(url, data, { headers })
+		const action = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint
+		const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
+		const payload = { action, ...data }
+		const response = await stripeApi(payload)
+		return response as any
 	}
 
 	async function getProducts() {
@@ -180,6 +175,11 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return response.data.data.length > 0 ? response.data.data[0] : null
 	}
 
+	async function getStripeCustomer() {
+		const response = await callBackend('/retrieve-customer')
+		return response.data
+	}
+
 	async function updateStripeCustomer(customerId: string, customerData: CustomerData) {
 		await callBackend('/update-customer', { ...customerData })
 	}
@@ -211,14 +211,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 	async function createCustomer(name: string, paymentMethodId: string, userTrial?: boolean) {
 		// Backend creates customer based on Auth token.
 		const result = await callBackend('/create-customer')
-		const customerId = result.data.customerId
+		const { customerId } = result.data
 
 		// We need to attach the payment method separately now
 		if (paymentMethodId && !userTrial) {
 			await attachPaymentMethodToCustomer(customerId, paymentMethodId)
 			await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId)
 		}
-		
+
 		return customerId
 	}
 
@@ -234,7 +234,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 				throw new Error('Não há faturas ativas')
 			}
 
-			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
+			const getSubscriptionEndDate = (sub: any) => {
+				if (!sub) return 0
+				return (sub.current_period_end || sub.items?.data[0]?.current_period_end || 0) * 1000
+			}
+
+			const endSubscriptionDate = paidSubscription && paidSubscription.length
+				? getSubscriptionEndDate(paidSubscription[0])
+				: getSubscriptionEndDate(freeSubscription[0])
 			const currentDate = Math.floor(Date.now())
 
 			if (dateHasExpired(currentDate, endSubscriptionDate, 1)) {
@@ -317,6 +324,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean, requestTrialSubscriptions?: boolean) {
 		const status = requestTrialSubscriptions ? 'trialing' : 'active'
 		const response = await callBackend('/subscriptions', { customer: customerId, status }, 'GET')
+		console.log('Subscriptions:', JSON.stringify(response.data.data))
 
 		const subscriptionsId = response.data.data.length > 0
 			? returnLastSubscriptionData
@@ -330,7 +338,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	async function createSubscription(customerId: string, priceId: string, freeTrial?: boolean) {
 		const response = await callBackend('/create-subscription', { priceId, freeTrial })
-		
+
 		// Backend returns { subscriptionId, clientSecret }
 		const { subscriptionId, clientSecret } = response.data
 
@@ -375,7 +383,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const sendReceiptByEmail = async (customerId: string, email: string) => {
 		const res = await callBackend('/send-receipt', { email })
 		const receiptUrl = res.data.receipt_url
-		
+
 		console.log('Charges atualizadas...')
 		console.log(`Último recibo: ${receiptUrl}`)
 		console.log(`New Email: ${res.data.receipt_email}`)
@@ -406,6 +414,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				subscriptionHasActive,
 				getRangePlanPrice,
 				createCustomer,
+				getStripeCustomer,
 				updateStripeCustomer,
 				createCustomPaymentMethod,
 				getCustomerSubscriptions,

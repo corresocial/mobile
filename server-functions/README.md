@@ -24,6 +24,33 @@ O projeto é organizado por função, onde cada diretório representa uma Cloud 
 - [Node.js](https://nodejs.org/) (Versão 20 recomendada)
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 
+## Configuração de Variáveis de Ambiente
+
+Antes de fazer o deploy, você **deve** configurar as variáveis de ambiente necessárias:
+
+1. Copie o arquivo de exemplo para criar seu arquivo `.env`:
+
+```bash
+cp .env.sample .env
+```
+
+2. Edite o arquivo `.env` e preencha com suas credenciais reais:
+   - **Discord Webhooks**: URLs dos webhooks do seu servidor Discord
+   - **Algolia**: ID e chave de API da sua conta Algolia
+   - **Stripe**: Chave secreta e webhook secret do Stripe
+
+> ⚠️ **IMPORTANTE**: O arquivo `.env` contém credenciais sensíveis e **não deve ser commitado** no repositório. Certifique-se de que está no `.gitignore`.
+
+## Scripts Disponíveis
+
+O projeto contém três scripts auxiliares na raiz:
+
+| Script | Comando | Descrição |
+| --- | --- | --- |
+| `config_all.sh` | `bash config_all.sh` | Gera arquivos `.env.yaml` para cada função baseado no `.env` principal |
+| `install_all_deps.sh` | `npm run install:all` | Instala dependências de todas as funções |
+| `deploy_all.sh` | `bash deploy_all.sh` | Executa config, instalação e deploy de todas as funções |
+
 ## Instalação
 
 Para instalar as dependências de todas as funções de uma vez, execute:
@@ -40,13 +67,28 @@ npm install
 
 ## Deploy
 
-### Deploy de Todas as Funções
+### Configuração do Google Cloud
 
-Para fazer o deploy de todas as funções ativas:
+Certifique-se de ter se autenticado no Google Cloud e selecionado o projeto correto antes de fazer o deploy:
 
 ```bash
-./deploy_all.sh
+gcloud auth login
+gcloud config set project [SEU_ID_DO_PROJETO]
 ```
+
+### Deploy de Todas as Funções (Recomendado)
+
+O script `deploy_all.sh` executa automaticamente todos os passos necessários:
+
+1. **Gera arquivos `.env.yaml`**: Cria arquivos de configuração para cada função baseado no `.env` principal
+2. **Instala dependências**: Executa `npm install` em todas as funções
+3. **Faz o deploy**: Implanta todas as funções no GCP
+
+```bash
+bash deploy_all.sh
+```
+
+> 💡 **Dica**: Este é o método mais seguro, pois garante que tudo está configurado corretamente antes do deploy.
 
 ### Deploy de Funções Individuais
 
@@ -59,31 +101,19 @@ cd checkUserPhoneAlreadyRegistred
 npm run deploy
 ```
 
-> **Nota:** Algumas funções, como `chatMessagesNotificationListener`, podem exigir configuração manual ou passos de build específicos definidos em seus respectivos arquivos README. Por favor, verifique a documentação específica dentro da pasta de cada função, se disponível.
+> **Nota:** Ao fazer deploy individual, certifique-se de que:
+> - O arquivo `.env.yaml` foi gerado (execute `bash config_all.sh` na raiz)
+> - As dependências estão instaladas (`npm install`)
 
-### Configuração
+### Como Funciona a Configuração Automática
 
-Certifique-se de ter se autenticado no Google Cloud e selecionado o projeto correto antes de fazer o deploy:
+O script `config_all.sh` lê o arquivo `.env` principal e gera automaticamente arquivos `.env.yaml` específicos para cada função, incluindo apenas as variáveis relevantes:
 
-```bash
-gcloud auth login
-gcloud config set project [SEU_ID_DO_PROJETO]
-```
+- **discordIntegration**: Recebe webhooks do Discord
+- **searchPostsByAlgolia**: Recebe credenciais do Algolia
+- **stripeApi**: Recebe chaves do Stripe
 
-Algumas funções podem exigir variáveis de ambiente.
-
-#### Configuração Específica: searchPostsByAlgolia
-
-Para a função **searchPostsByAlgolia**, é **obrigatório** configurar um arquivo `.env.yaml` dentro do diretório da função antes de realizar o deploy.
-
-Crie um arquivo chamado `.env.yaml` em `searchPostsByAlgolia/.env.yaml` com o seguinte conteúdo:
-
-```yaml
-ALGOLIA_ID: "SEU_ALGOLIA_ID"
-ALGOLIA_KEY: "SUA_ALGOLIA_KEY"
-```
-
-O script de deploy desta função já está configurado para ler este arquivo automaticamente via flag `--env-vars-file`.
+Isso garante que cada função tenha acesso apenas às variáveis que realmente precisa.
 
 ## Referências
 

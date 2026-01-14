@@ -42,7 +42,7 @@ const { getTextualAddress } = UiLocationUtils()
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
-	const { cancelSubscription, refundSubscriptionValue, sendReceiptByEmail, updateStripeCustomer } = useContext(StripeContext)
+	const { cancelSubscription, refundSubscriptionValue, sendReceiptByEmail, updateStripeCustomer, getStripeCustomer } = useContext(StripeContext)
 	const { userDataContext, updateUserPost, userPostsContext, setUserDataOnContext, getLastUserPost } = useAuthContext()
 
 	const [hasError, setHasError] = useState(false)
@@ -60,8 +60,8 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}, [])
 
 	const loadPrivateEmail = async () => {
-		const userContacts = await remoteStorage.getPrivateContacts(userDataContext.userId)
-		setPrivateEmail(userContacts && userContacts.email ? userContacts.email : '')
+		const stripeCustomer = await getStripeCustomer()
+		setPrivateEmail(stripeCustomer && stripeCustomer.email ? stripeCustomer.email : '')
 	}
 
 	const userHasAnyPost = () => {
@@ -106,9 +106,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			}
 			throw new Error('O usuário não possui nenhuma assinatura no momento')
 		} catch (error: any) {
-			console.log(error)
-			console.log('Status:', error.response.status)
-			console.log('Data:', error.response.data)
+			console.error('Erro ao cancelar assinatura:', error)
 			setHasError(true)
 			setIsLoading(false)
 		}
@@ -171,7 +169,6 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const saveUserEmail = async (email?: string) => {
 		try {
-			setHasError(true)
 			if (!email || !emailIsValid(email) || !userDataContext.subscription?.customerId) throw new Error('Email Inválido')
 
 			setIsLoading(true)
@@ -185,12 +182,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (error: any) {
-			console.log('Erro ao lidar com o stripe...')
-			if (error.response) {
-				console.log(error)
-				console.log('Status:', error.response.status)
-				console.log('Data:', error.response.data)
-			}
+			console.error('Erro ao lidar com o stripe:', error)
 			setHasError(true)
 			setIsLoading(false)
 		}
