@@ -8,8 +8,8 @@ export default () => {
 	const IOS_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_IOS_MAPS_API_KEY : process.env.IOS_MAPS_API_KEY
 	const ANDROID_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
 
-	const version = '0.11.0'
-	const easUpdateChannel = process.env.NODE_ENV === 'production' ? '0.11.0' : 'development-build'
+	const version = '0.12.0'
+	const easUpdateChannel = process.env.NODE_ENV === 'production' ? '0.12.0' : 'development-build'
 
 	return ({
 		expo: {
@@ -41,7 +41,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '85',
+				buildNumber: '86',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -63,7 +63,7 @@ export default () => {
 				}
 			},
 			android: {
-				versionCode: 85,
+				versionCode: 86,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',

@@ -42,8 +42,6 @@ declare module '@env' {
 	export const AUTH_IOS_CLIENT_ID: string
 	export const NOTION_FALECONOSCO_KEY: string
 	export const NOTION_FALECONOSCO_ID: string
-	export const NOTION_APPICONS_ID: string
-	export const NOTION_APPICONS_KEY: string
 	export const DSN_SENTRY: string
 	export const STRIPE_PUBLISHABLE_KEY: string
 	export const SENTRY_AUTH_TOKEN: string

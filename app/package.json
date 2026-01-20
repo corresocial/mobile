@@ -1,6 +1,6 @@
 {
 	"name": "corre",
-	"version": "0.11.0",
+	"version": "0.12.0",
 	"main": "expo/AppEntry.js",
 	"scripts": {
 		"dev": "NODE_ENV=development npx expo start --clear --dev-client",
