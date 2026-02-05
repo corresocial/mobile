@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
-import { onCall, HttpsError } from 'firebase-functions/v2/https'
+import { onRequest, HttpsError } from 'firebase-functions/v2/https'
+import { validateAuthToken, AuthError } from './validateAuthToken'
 
 // Prevent "App already exists" errors during hot-reload or cold starts
 if (!admin.apps.length) {
@@ -33,13 +34,23 @@ const sortByCreatedAt = (a: any, b: any) => {
 	return 0
 }
 
-export const getFeedPosts = onCall(async (request) => {
-	// 1. SECURITY: Ensure user is authenticated
-	if (!request.auth) {
-		throw new HttpsError(
-			'unauthenticated',
-			'The function must be called while authenticated.'
-		);
+export const getFeedPosts = onRequest(async (request, response) => {
+	// 1. SECURITY: Validate authentication token
+	let userId: string;
+	try {
+		const auth = await validateAuthToken(request);
+		userId = auth.uid;
+		console.log(`Authenticated user: ${userId}`);
+	} catch (error) {
+		if (error instanceof AuthError) {
+			response.status(401).json({
+				error: error.message,
+				code: error.code
+			});
+			return;
+		}
+		response.status(401).json({ error: 'Authentication failed' });
+		return;
 	}
 
 	try {
@@ -47,10 +58,8 @@ export const getFeedPosts = onCall(async (request) => {
 		const pollCollectionRef = admin.firestore().collection('polls')
 		const petitionCollectionRef = admin.firestore().collection('petitions')
 
-		// 2. INPUT: Get data from 'request.data' instead of 'req.body'
-		// We do NOT take userId from body anymore for security reasons.
-		const { searchParams } = request.data as RequestBody
-		const userId = request.auth.uid // Securely get the logged-in user's ID
+		// 2. INPUT: Get data from request body
+		const { searchParams } = request.body as RequestBody
 
 		// 3. LOGIC: Existing logic remains the same
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
@@ -95,11 +104,13 @@ export const getFeedPosts = onCall(async (request) => {
 			country: [...postsWithLocationFilter.country, ...countryPolls, ...countryPetitions].sort(sortByCreatedAt)
 		}
 
-		return completeFeed
+		response.status(200).json(completeFeed)
 	} catch (err) {
 		console.error("Error fetching feed:", err)
 
-		// Throw a structured error that the client SDK can catch
-		throw new HttpsError('internal', 'Unable to fetch feed posts', err)
+		response.status(500).json({
+			error: 'Unable to fetch feed posts',
+			code: 'internal'
+		})
 	}
 })

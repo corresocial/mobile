@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,6 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFeedPosts = void 0;
 const admin = __importStar(require("firebase-admin"));
 const https_1 = require("firebase-functions/v2/https");
+const validateAuthToken_1 = require("./validateAuthToken");
 // Prevent "App already exists" errors during hot-reload or cold starts
 if (!admin.apps.length) {
     admin.initializeApp();
@@ -61,19 +72,31 @@ const sortByCreatedAt = (a, b) => {
         return -1;
     return 0;
 };
-exports.getFeedPosts = (0, https_1.onCall)((request) => __awaiter(void 0, void 0, void 0, function* () {
-    // 1. SECURITY: Ensure user is authenticated
-    if (!request.auth) {
-        throw new https_1.HttpsError('unauthenticated', 'The function must be called while authenticated.');
+exports.getFeedPosts = (0, https_1.onRequest)((request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    // 1. SECURITY: Validate authentication token
+    let userId;
+    try {
+        const auth = yield (0, validateAuthToken_1.validateAuthToken)(request);
+        userId = auth.uid;
+        console.log(`Authenticated user: ${userId}`);
+    }
+    catch (error) {
+        if (error instanceof validateAuthToken_1.AuthError) {
+            response.status(401).json({
+                error: error.message,
+                code: error.code
+            });
+            return;
+        }
+        response.status(401).json({ error: 'Authentication failed' });
+        return;
     }
     try {
         const collectionRef = admin.firestore().collection('posts');
         const pollCollectionRef = admin.firestore().collection('polls');
         const petitionCollectionRef = admin.firestore().collection('petitions');
-        // 2. INPUT: Get data from 'request.data' instead of 'req.body'
-        // We do NOT take userId from body anymore for security reasons.
-        const { searchParams } = request.data;
-        const userId = request.auth.uid; // Securely get the logged-in user's ID
+        // 2. INPUT: Get data from request body
+        const { searchParams } = request.body;
         // 3. LOGIC: Existing logic remains the same
         const { nearbyPosts, nearPostIds } = yield (0, getPostsByLocation_1.getNearbyPosts)(collectionRef, searchParams);
         const { cityPosts, cityPostIds } = yield (0, getPostsByLocation_1.getCityPosts)(collectionRef, searchParams, nearPostIds);
@@ -108,11 +131,13 @@ exports.getFeedPosts = (0, https_1.onCall)((request) => __awaiter(void 0, void 0
             city: [...postsWithLocationFilter.city, ...cityPolls, ...cityPetitions].sort(sortByCreatedAt),
             country: [...postsWithLocationFilter.country, ...countryPolls, ...countryPetitions].sort(sortByCreatedAt)
         };
-        return completeFeed;
+        response.status(200).json(completeFeed);
     }
     catch (err) {
         console.error("Error fetching feed:", err);
-        // Throw a structured error that the client SDK can catch
-        throw new https_1.HttpsError('internal', 'Unable to fetch feed posts', err);
+        response.status(500).json({
+            error: 'Unable to fetch feed posts',
+            code: 'internal'
+        });
     }
 }));

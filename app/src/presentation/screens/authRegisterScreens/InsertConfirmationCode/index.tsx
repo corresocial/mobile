@@ -110,7 +110,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				highlightedWords: ['código', 'expirou']
 			},
 			invalid: {
-				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantes',
 				highlightedWords: ['do', 'nosso', 'lado,']
 			}
 		}

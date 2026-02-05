@@ -60,7 +60,6 @@ Os commits devem seguir os padrões de [Commit Pattern](https://corre.notion.sit
 ```bash
 git clone https://github.com/corre-social/mobile/
 git checkout dev
-# copiar arquivos .env.development e .env.production com variáveis para app
 cd mobile/app
 git pull
 npm i

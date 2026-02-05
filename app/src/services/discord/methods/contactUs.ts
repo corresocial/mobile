@@ -2,7 +2,7 @@ import auth from '@react-native-firebase/auth'
 
 import { DiscordContactUsOptions } from '../types/contactUs'
 
-import { firebaseFunctions } from '@infrastructure/firebase'
+import { callCloudFunction } from '@infrastructure/firebase/cloudFunctions'
 
 async function sendMessageToDiscordContactUs({
 	userId,
@@ -51,8 +51,7 @@ async function sendMessageToDiscordContactUs({
 		const { currentUser } = auth()
 		if (!currentUser && type !== 'erro') throw new Error('Usuário não autenticado')
 
-		const discordIntegration = firebaseFunctions.httpsCallable('discordIntegration')
-		await discordIntegration({ content, type })
+		await callCloudFunction('discordIntegration', { content, type })
 
 		return true
 	} catch (error) {

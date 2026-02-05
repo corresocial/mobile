@@ -9,7 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCountryPolls = exports.getCityPolls = exports.getNearbyPolls = void 0;
+exports.getNearbyPolls = getNearbyPolls;
+exports.getCityPolls = getCityPolls;
+exports.getCountryPolls = getCountryPolls;
 function getNearbyPolls(collectionRef, searchParams, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         const queryNearby = collectionRef
@@ -36,9 +38,8 @@ function getNearbyPolls(collectionRef, searchParams, userId) {
         });
     });
 }
-exports.getNearbyPolls = getNearbyPolls;
-function getCityPolls(collectionRef, searchParams, userId, nearPollIds = []) {
-    return __awaiter(this, void 0, void 0, function* () {
+function getCityPolls(collectionRef_1, searchParams_1, userId_1) {
+    return __awaiter(this, arguments, void 0, function* (collectionRef, searchParams, userId, nearPollIds = []) {
         const queryCity = collectionRef
             .where('completed', '==', false)
             .where('location.city', '==', searchParams.city)
@@ -64,9 +65,8 @@ function getCityPolls(collectionRef, searchParams, userId, nearPollIds = []) {
         });
     });
 }
-exports.getCityPolls = getCityPolls;
-function getCountryPolls(collectionRef, searchParams, userId, nearPollIds = [], cityPollIds = []) {
-    return __awaiter(this, void 0, void 0, function* () {
+function getCountryPolls(collectionRef_1, searchParams_1, userId_1) {
+    return __awaiter(this, arguments, void 0, function* (collectionRef, searchParams, userId, nearPollIds = [], cityPollIds = []) {
         const countryQuery = collectionRef
             .where('completed', '==', false)
             .where('location.country', '==', searchParams.country)
@@ -90,4 +90,3 @@ function getCountryPolls(collectionRef, searchParams, userId, nearPollIds = [], 
         });
     });
 }
-exports.getCountryPolls = getCountryPolls;

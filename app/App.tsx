@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
-import { createURL } from 'expo-linking'
 import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
@@ -49,7 +48,7 @@ function App() {
 	const navigationRef = React.useRef<any>()
 
 	const { defaultCachePersistence } = useCacheRepository()
-	const linking = {
+	/* const linking = {
 		prefixes: [createURL('', { scheme: 'com.corresocial.corresocial' }), createURL('', { scheme: 'corre' })],
 		config: {
 			screens: {
@@ -58,7 +57,7 @@ function App() {
 				}
 			},
 		},
-	}
+	} */
 
 	const asyncStoragePersister = createAsyncStoragePersister({ storage: AsyncStorage })
 	const queryClient = new QueryClient({
@@ -77,7 +76,6 @@ function App() {
 		>
 			<NavigationContainer
 				ref={navigationRef}
-				linking={linking}
 				onReady={() => {
 					routeNameRef.current = navigationRef.current.getCurrentRoute().name
 				}}

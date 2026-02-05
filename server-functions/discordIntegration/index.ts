@@ -1,18 +1,30 @@
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onRequest, HttpsError } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import axios from 'axios';
+import { validateAuthToken, AuthError } from './validateAuthToken';
 
 if (!admin.apps.length) {
     admin.initializeApp();
 }
 
-exports.discordIntegration = onCall({ region: 'southamerica-east1' }, async (request) => {
-    const { content, type } = request.data;
+exports.discordIntegration = onRequest({ region: 'southamerica-east1' }, async (request, response) => {
+    const { content, type } = request.body;
 
-    // Allow anonymous error reporting
+    // Allow anonymous error reporting, require auth for other types
     if (type !== 'erro') {
-        if (!request.auth) {
-            throw new HttpsError('unauthenticated', 'User must be logged in');
+        try {
+            const auth = await validateAuthToken(request);
+            console.log(`Authenticated user: ${auth.uid}`);
+        } catch (error) {
+            if (error instanceof AuthError) {
+                response.status(401).json({
+                    error: error.message,
+                    code: error.code
+                });
+                return;
+            }
+            response.status(401).json({ error: 'Authentication failed' });
+            return;
         }
     }
 
@@ -23,19 +35,26 @@ exports.discordIntegration = onCall({ region: 'southamerica-east1' }, async (req
 
     if (!webhookUrl) {
         console.error(`Webhook URL not configured for type: ${type}`);
-        throw new HttpsError('internal', 'Server configuration error');
+        response.status(500).json({
+            error: 'Server configuration error',
+            code: 'internal'
+        });
+        return;
     }
 
     try {
         // Forward to Discord
-        const response = await axios.post(`${webhookUrl}?wait=true`, {
+        const axiosResponse = await axios.post(`${webhookUrl}?wait=true`, {
             content: content
         });
 
-        return response.data;
+        response.status(200).json(axiosResponse.data);
 
     } catch (error: any) {
         console.error('Error forwarding to Discord:', error);
-        throw new HttpsError('internal', 'Failed to send message');
+        response.status(500).json({
+            error: 'Failed to send message',
+            code: 'internal'
+        });
     }
 });

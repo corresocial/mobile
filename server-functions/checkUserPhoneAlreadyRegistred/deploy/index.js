@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,21 +48,45 @@ if (!admin.apps.length) {
     admin.initializeApp();
 }
 // Note: Function name is defined here
-exports.checkUserPhoneAlreadyRegistred = (0, https_1.onCall)((request) => __awaiter(void 0, void 0, void 0, function* () {
-    const { phoneNumber } = request.data;
+exports.checkUserPhoneAlreadyRegistred = (0, https_1.onRequest)((request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    // Validate authentication token
+    // try {
+    // 	const auth = await validateAuthToken(request);
+    // 	console.log(`Authenticated user: ${auth.uid}`);
+    // } catch (error) {
+    // 	if (error instanceof AuthError) {
+    // 		response.status(401).json({
+    // 			error: error.message,
+    // 			code: error.code
+    // 		});
+    // 		return;
+    // 	}
+    // 	response.status(401).json({ error: 'Authentication failed' });
+    // 	return;
+    // }
+    // Parse request body
+    const { phoneNumber } = request.body;
     if (!phoneNumber) {
-        throw new https_1.HttpsError('invalid-argument', 'Missing phoneNumber.');
+        response.status(400).json({
+            error: 'Missing phoneNumber',
+            code: 'invalid-argument'
+        });
+        return;
     }
     try {
         const userRecord = yield admin.auth().getUserByPhoneNumber(phoneNumber);
         console.log(`User found: ${userRecord.uid}`);
-        return true;
+        response.status(200).json(true);
     }
     catch (error) {
         if (error.code === 'auth/user-not-found') {
-            return false;
+            response.status(200).json(false);
+            return;
         }
         console.error('Error fetching user:', error);
-        throw new https_1.HttpsError('internal', 'Unable to check phone number.');
+        response.status(500).json({
+            error: 'Unable to check phone number',
+            code: 'internal'
+        });
     }
 }));

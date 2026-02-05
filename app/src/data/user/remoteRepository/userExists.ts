@@ -6,7 +6,7 @@ async function userExists(userId: string) {
 	try {
 		const userRef = firebaseFirestore.collection(USER_COLLECTION).doc(userId)
 		const userSnap = await userRef.get()
-		return userSnap.exists
+		return userSnap.exists()
 	} catch (error) {
 		console.log(error)
 		return false

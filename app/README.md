@@ -14,7 +14,7 @@ Para saber mais sobre o conceito e como funciona, consulte a documentação ofic
 3. Ainda no git terminal, alterne para a branch dev com o comando `git checkout dev`
 4. Abra o VSCode dentro da pasta `/app`
 5. Execute o comando `npm i` no terminal para intalar as dependências
-6. Criar os arquivos `.env.development` e `.env.production` à raiz do projeto `/app`, as variáveis estão [aqui](https://www.notion.so/corre/Ambientes-de-desenvolvimento-c336978f4cea4c43bcfc2bc52448b1f2?pvs=4)
+6. Criar o arquivo `.env` na raiz do projeto `/app` - ver `env.sample`
 7. Reinicie o VSCode, as instalações de tipagem por vezes exigem isso
 8. Pegue os arquivos do google-services no Notion e coloque-os nos diretórios apropriados:
     - **Android**: `app/build/dev/google-services.json`

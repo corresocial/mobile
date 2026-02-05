@@ -1,7 +1,6 @@
 import { Id } from '../../../domain/post/entity/types'
 import { FeedSearchParams } from '../types/types'
-
-import { firebaseFunctions } from '@infrastructure/firebase'
+import { callCloudFunction } from '@infrastructure/firebase/cloudFunctions'
 
 async function searchPostsCloud(
 	searchText: string,
@@ -10,9 +9,11 @@ async function searchPostsCloud(
 	userId: Id
 ) {
 	try {
-		const searchPostsFn = firebaseFunctions.httpsCallable('searchPostsByAlgolia')
-		const response = await searchPostsFn({ searchText, searchParams, searchByRange })
-		return response.data
+		const response = await callCloudFunction(
+			'searchPostsByAlgolia',
+			{ searchText, searchParams, searchByRange }
+		)
+		return response
 	} catch (error) {
 		console.log(error)
 		console.log('Cloud function error:', error)

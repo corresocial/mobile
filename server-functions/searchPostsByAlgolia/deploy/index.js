@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,6 +49,7 @@ exports.searchPostsByAlgolia = void 0;
 const admin = __importStar(require("firebase-admin"));
 const https_1 = require("firebase-functions/v2/https");
 const algoliasearch_1 = __importDefault(require("algoliasearch"));
+const validateAuthToken_1 = require("./validateAuthToken");
 // Prevent "App already exists" errors
 if (!admin.apps.length) {
     admin.initializeApp();
@@ -48,16 +59,28 @@ const ALGOLIA_KEY = process.env.ALGOLIA_KEY;
 const client = (0, algoliasearch_1.default)(ALGOLIA_ID, ALGOLIA_KEY);
 const postsIndex = client.initIndex('postsIndex');
 const searchFilters_1 = require("./src/searchFilters");
-exports.searchPostsByAlgolia = (0, https_1.onCall)((request) => __awaiter(void 0, void 0, void 0, function* () {
-    // 1. SECURITY: Authenticated users only
-    if (!request.auth) {
-        throw new https_1.HttpsError('unauthenticated', 'User must be logged in to search.');
+exports.searchPostsByAlgolia = (0, https_1.onRequest)((request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    // 1. SECURITY: Validate authentication token
+    let userId;
+    try {
+        const auth = yield (0, validateAuthToken_1.validateAuthToken)(request);
+        userId = auth.uid;
+        console.log(`Authenticated user: ${userId}`);
+    }
+    catch (error) {
+        if (error instanceof validateAuthToken_1.AuthError) {
+            response.status(401).json({
+                error: error.message,
+                code: error.code
+            });
+            return;
+        }
+        response.status(401).json({ error: 'Authentication failed' });
+        return;
     }
     try {
-        // 2. INPUT: Get data from request.data (v2 Callable)
-        const { searchText, searchParams, searchByRange } = request.data;
-        // Securely get userId from the auth token, not the body
-        const userId = request.auth.uid;
+        // 2. INPUT: Get data from request body
+        const { searchText, searchParams, searchByRange } = request.body;
         const searchFilters = {
             completedFilter: '',
             cityFilter: '',
@@ -124,11 +147,14 @@ exports.searchPostsByAlgolia = (0, https_1.onCall)((request) => __awaiter(void 0
         const postsWithLocationFilter = (0, searchFilters_1.filterLocation)(results, userId);
         const filteredPosts = (0, searchFilters_1.removeDuplicatesByPostId)(postsWithLocationFilter);
         const postsByRange = (0, searchFilters_1.spreadPostsByRange)(filteredPosts);
-        // 3. RETURN: Directly return data (no res.status needed)
-        return postsByRange;
+        // 3. RETURN: Return data with HTTP response
+        response.status(200).json(postsByRange);
     }
     catch (err) {
         console.error('Error searching Algolia:', err);
-        throw new https_1.HttpsError('internal', 'Unable to search posts', err);
+        response.status(500).json({
+            error: 'Unable to search posts',
+            code: 'internal'
+        });
     }
 }));

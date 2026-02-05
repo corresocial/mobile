@@ -9,7 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCountryPetitions = exports.getCityPetitions = exports.getNearbyPetitions = void 0;
+exports.getNearbyPetitions = getNearbyPetitions;
+exports.getCityPetitions = getCityPetitions;
+exports.getCountryPetitions = getCountryPetitions;
 function getNearbyPetitions(collectionRef, searchParams, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         const queryNearby = collectionRef
@@ -36,9 +38,8 @@ function getNearbyPetitions(collectionRef, searchParams, userId) {
         });
     });
 }
-exports.getNearbyPetitions = getNearbyPetitions;
-function getCityPetitions(collectionRef, searchParams, userId, nearPetitionIds = []) {
-    return __awaiter(this, void 0, void 0, function* () {
+function getCityPetitions(collectionRef_1, searchParams_1, userId_1) {
+    return __awaiter(this, arguments, void 0, function* (collectionRef, searchParams, userId, nearPetitionIds = []) {
         const queryCity = collectionRef
             .where('completed', '==', false)
             .where('location.city', '==', searchParams.city)
@@ -64,9 +65,8 @@ function getCityPetitions(collectionRef, searchParams, userId, nearPetitionIds =
         });
     });
 }
-exports.getCityPetitions = getCityPetitions;
-function getCountryPetitions(collectionRef, searchParams, userId, nearPetitionIds = [], cityPetitionIds = []) {
-    return __awaiter(this, void 0, void 0, function* () {
+function getCountryPetitions(collectionRef_1, searchParams_1, userId_1) {
+    return __awaiter(this, arguments, void 0, function* (collectionRef, searchParams, userId, nearPetitionIds = [], cityPetitionIds = []) {
         const countryQuery = collectionRef
             .where('completed', '==', false)
             .where('location.country', '==', searchParams.country)
@@ -90,4 +90,3 @@ function getCountryPetitions(collectionRef, searchParams, userId, nearPetitionId
         });
     });
 }
-exports.getCountryPetitions = getCountryPetitions;

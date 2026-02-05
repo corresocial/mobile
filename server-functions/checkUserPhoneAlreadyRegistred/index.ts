@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onRequest } from 'firebase-functions/v2/https';
+import { validateAuthToken, AuthError } from './validateAuthToken';
 
 if (!admin.apps.length) {
 	admin.initializeApp();
@@ -10,23 +11,32 @@ interface RequestData {
 }
 
 // Note: Function name is defined here
-exports.checkUserPhoneAlreadyRegistred = onCall(async (request) => {
-	const { phoneNumber } = request.data as RequestData;
+exports.checkUserPhoneAlreadyRegistred = onRequest(async (request, response) => {
+	// Parse request body
+	const { phoneNumber } = request.body as RequestData;
 
 	if (!phoneNumber) {
-		throw new HttpsError('invalid-argument', 'Missing phoneNumber.');
+		response.status(400).json({
+			error: 'Missing phoneNumber',
+			code: 'invalid-argument'
+		});
+		return;
 	}
 
 	try {
 		const userRecord = await admin.auth().getUserByPhoneNumber(phoneNumber);
 		console.log(`User found: ${userRecord.uid}`);
-		return true;
+		response.status(200).json(true);
 	} catch (error: any) {
 		if (error.code === 'auth/user-not-found') {
-			return false;
+			response.status(200).json(false);
+			return;
 		}
 
 		console.error('Error fetching user:', error);
-		throw new HttpsError('internal', 'Unable to check phone number.');
+		response.status(500).json({
+			error: 'Unable to check phone number',
+			code: 'internal'
+		});
 	}
 });

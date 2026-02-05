@@ -14,7 +14,7 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
-import { firebaseFunctions } from '@infrastructure/firebase'
+import { callCloudFunction } from '@infrastructure/firebase/cloudFunctions'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
@@ -107,10 +107,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const callBackend = async (endpoint: string, data?: any, method: 'GET' | 'POST' | 'DELETE' = 'POST') => {
 		const action = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint
-		const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
 		const payload = { action, ...data }
-		const response = await stripeApi(payload)
-		return response as any
+		const response = await callCloudFunction('stripeApi', payload)
+		return response
 	}
 
 	async function getProducts() {

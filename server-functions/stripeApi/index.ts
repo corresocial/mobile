@@ -1,7 +1,8 @@
-import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https';
+import { onRequest } from 'firebase-functions/v2/https';
 import * as admin from 'firebase-admin';
 import express from 'express';
 import { Stripe } from 'stripe';
+import { validateAuthToken, AuthError } from './validateAuthToken';
 
 if (!admin.apps.length) admin.initializeApp();
 
@@ -11,7 +12,7 @@ if (!stripeSecretKey) {
 }
 
 const stripe = new Stripe(stripeSecretKey || 'sk_test_placeholder', {
-    apiVersion: '2025-12-15.clover',
+    apiVersion: '2026-01-28.clover',
 });
 
 const getCustomerId = async (uid: string) => {
@@ -20,15 +21,29 @@ const getCustomerId = async (uid: string) => {
     return userDoc.data()?.stripeCustomerId;
 };
 
-exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => {
-    if (!request.auth) throw new HttpsError('unauthenticated', 'User must be logged in');
+exports.stripeApi = onRequest({ region: 'southamerica-east1' }, async (request, response) => {
+    // Validate authentication token
+    let auth;
+    try {
+        auth = await validateAuthToken(request);
+        console.log(`Authenticated user: ${auth.uid}`);
+    } catch (error) {
+        if (error instanceof AuthError) {
+            response.status(401).json({
+                error: error.message,
+                code: error.code
+            });
+            return;
+        }
+        response.status(401).json({ error: 'Authentication failed' });
+        return;
+    }
 
-    const { uid, token } = request.auth;
-    const { action, ...data } = request.data;
-    const email = token.email || '';
-    const name = token.name || '';
+    const { uid, email, name } = auth;
+    const { action, ...data } = request.body;
 
     try {
+        let result;
         switch (action) {
             case 'create-customer': {
                 let customerId = await getCustomerId(uid);
@@ -41,42 +56,65 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
                         { stripeCustomerId: customerId }, { merge: true }
                     );
                 }
-                return { customerId };
+                result = { customerId };
+                break;
             }
             case 'update-customer': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) throw new HttpsError('not-found', 'Customer not found');
-                return await stripe.customers.update(customerId, data);
+                if (!customerId) {
+                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
+                    return;
+                }
+                result = await stripe.customers.update(customerId, data);
+                break;
             }
             case 'payment-methods': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) return { data: [] };
-                return await stripe.paymentMethods.list({ customer: customerId, type: 'card' });
+                if (!customerId) {
+                    result = { data: [] };
+                    break;
+                }
+                result = await stripe.paymentMethods.list({ customer: customerId, type: 'card' });
+                break;
             }
             case 'attach-payment-method': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) throw new HttpsError('not-found', 'Customer not found');
-                return await stripe.paymentMethods.attach(data.paymentMethodId, { customer: customerId });
+                if (!customerId) {
+                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
+                    return;
+                }
+                result = await stripe.paymentMethods.attach(data.paymentMethodId, { customer: customerId });
+                break;
             }
             case 'set-default-payment-method': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) throw new HttpsError('not-found', 'Customer not found');
-                return await stripe.customers.update(customerId, {
+                if (!customerId) {
+                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
+                    return;
+                }
+                result = await stripe.customers.update(customerId, {
                     invoice_settings: { default_payment_method: data.paymentMethodId },
                 });
+                break;
             }
             case 'subscriptions': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) return { data: [] };
-                const res = await stripe.subscriptions.list({
+                if (!customerId) {
+                    result = { data: [] };
+                    break;
+                }
+                result = await stripe.subscriptions.list({
                     customer: customerId,
                     status: data.status || 'active',
                 });
-                return res;
+                break;
             }
             case 'create-subscription': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) throw new HttpsError('not-found', 'Customer not found');
+                if (!customerId) {
+                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
+                    return;
+                }
                 const trialEndDate = Math.round((Date.now() / 1000)) + 31650000;
                 const freeTrialParams = data.freeTrial ? { trial_end: trialEndDate } : {};
                 const subscription = await stripe.subscriptions.create({
@@ -88,15 +126,19 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
                     expand: ['latest_invoice.payment_intent'],
                 });
                 console.log('sub', JSON.stringify(subscription))
-                return {
+                result = {
                     subscriptionId: subscription.id,
                     clientSecret: (subscription.latest_invoice as any)?.payment_intent?.client_secret,
                 };
+                break;
             }
             case 'update-subscription': {
                 console.log('update-subscription', data.subscriptionId, data.priceId);
                 const sub = await stripe.subscriptions.retrieve(data.subscriptionId);
-                if (!sub) throw new HttpsError('not-found', 'Subscription not found');
+                if (!sub) {
+                    response.status(404).json({ error: 'Subscription not found', code: 'not-found' });
+                    return;
+                }
                 console.log('sub-to-update', JSON.stringify(sub));
                 const updatedSub = await stripe.subscriptions.update(data.subscriptionId, {
                     proration_behavior: 'always_invoice',
@@ -105,42 +147,62 @@ exports.stripeApi = onCall({ region: 'southamerica-east1' }, async (request) => 
                     items: [{ id: sub.items.data[0].id, price: data.priceId }],
                 });
                 console.log('updated-sub', JSON.stringify(updatedSub));
-                return updatedSub;
+                result = updatedSub;
+                break;
             }
             case 'cancel-subscription': {
-                return await stripe.subscriptions.cancel(data.subscriptionId);
+                result = await stripe.subscriptions.cancel(data.subscriptionId);
+                break;
             }
             case 'refund-last-payment': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) throw new HttpsError('not-found', 'Customer not found');
+                if (!customerId) {
+                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
+                    return;
+                }
                 const paymentIntents = await stripe.paymentIntents.list({
                     customer: customerId,
                     limit: 10, // Fetch a few to find the latest succeeded one
                 });
                 const successfulPI = paymentIntents.data.find(pi => pi.status === 'succeeded' && pi.amount > 1);
-                if (!successfulPI) throw new HttpsError('not-found', 'No successful payment found');
-                return await stripe.refunds.create({ payment_intent: successfulPI.id });
+                if (!successfulPI) {
+                    response.status(404).json({ error: 'No successful payment found', code: 'not-found' });
+                    return;
+                }
+                result = await stripe.refunds.create({ payment_intent: successfulPI.id });
+                break;
             }
             case 'send-receipt': {
                 const customerId = await getCustomerId(uid);
-                if (!customerId) throw new HttpsError('not-found', 'Customer not found');
+                if (!customerId) {
+                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
+                    return;
+                }
                 const charges = await stripe.charges.list({
                     customer: customerId,
                     limit: 1,
                 });
-                if (charges.data.length === 0) throw new HttpsError('not-found', 'No charge found');
+                if (charges.data.length === 0) {
+                    response.status(404).json({ error: 'No charge found', code: 'not-found' });
+                    return;
+                }
                 const updatedCharge = await stripe.charges.update(charges.data[0].id, { receipt_email: data.email });
-                return { receipt_email: updatedCharge.receipt_email, receipt_url: charges.data[0].receipt_url };
+                result = { receipt_email: updatedCharge.receipt_email, receipt_url: charges.data[0].receipt_url };
+                break;
             }
             case 'products': {
-                return await stripe.products.list({ expand: ['data.default_price'], active: true });
+                result = await stripe.products.list({ expand: ['data.default_price'], active: true });
+                break;
             }
             default:
-                throw new HttpsError('invalid-argument', `Unknown action: ${action}`);
+                response.status(400).json({ error: `Unknown action: ${action}`, code: 'invalid-argument' });
+                return;
         }
+
+        response.status(200).json(result);
     } catch (error: any) {
         console.error(`Error in action ${action}:`, error);
-        throw new HttpsError('internal', error.message);
+        response.status(500).json({ error: error.message, code: 'internal' });
     }
 });
 

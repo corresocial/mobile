@@ -107,7 +107,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				highlightedWords: ['código', 'expirou']
 			},
 			invalid: {
-				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantes',
 				highlightedWords: ['do', 'nosso', 'lado,']
 			}
 		}
@@ -162,7 +162,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 	const verificationCodeErrorTreatment = (errorCode: string) => {
 		console.log(errorCode)
-		if (errorCode === 'auth/code-expired') {
+		if (errorCode === 'auth/code-expired' || errorCode === 'auth/session-expired') {
 			return setExpiredCodeAfterSubmit(true)
 		}
 		if (errorCode === 'auth/invalid-verification-code') {

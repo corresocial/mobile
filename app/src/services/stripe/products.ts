@@ -1,11 +1,10 @@
-import { firebaseFunctions } from '@infrastructure/firebase'
-
 import { StripeProducts } from './types'
 
+import { callCloudFunction } from '@infrastructure/firebase/cloudFunctions'
+
 async function getStripeProducts() {
-	const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
-	const result = await stripeApi({ action: 'products' })
-	return (result.data as any).data
+	const result = await callCloudFunction('stripeApi', { action: 'products' })
+	return (result as any).data
 }
 
 async function getStripePlans(stripeProducts: any[]) {

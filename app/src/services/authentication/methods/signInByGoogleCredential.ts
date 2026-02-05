@@ -5,7 +5,7 @@ import { authProviders, firebaseAuth } from '@infrastructure/firebase'
 
 async function signInByGoogleCredential(justReturnCredential?: boolean) {
 	try {
-		const { AUTH_IOS_CLIENT_ID, AUTH_WEB_CLIENT_ID } = getEnvVars()
+		const { AUTH_WEB_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
 
 		GoogleSignin.configure({

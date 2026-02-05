@@ -33,7 +33,7 @@ const getNearbyPosts = (collectionRef, searchParams) => __awaiter(void 0, void 0
     });
 });
 exports.getNearbyPosts = getNearbyPosts;
-const getCityPosts = (collectionRef, searchParams, nearPostIds = []) => __awaiter(void 0, void 0, void 0, function* () {
+const getCityPosts = (collectionRef_1, searchParams_1, ...args_1) => __awaiter(void 0, [collectionRef_1, searchParams_1, ...args_1], void 0, function* (collectionRef, searchParams, nearPostIds = []) {
     const queryCity = collectionRef
         .where('completed', '==', false)
         .where('location.city', '==', searchParams.city)
@@ -59,7 +59,7 @@ const getCityPosts = (collectionRef, searchParams, nearPostIds = []) => __awaite
     });
 });
 exports.getCityPosts = getCityPosts;
-const getCountryPosts = (collectionRef, searchParams, nearPostIds = [], cityPostIds = []) => __awaiter(void 0, void 0, void 0, function* () {
+const getCountryPosts = (collectionRef_1, searchParams_1, ...args_1) => __awaiter(void 0, [collectionRef_1, searchParams_1, ...args_1], void 0, function* (collectionRef, searchParams, nearPostIds = [], cityPostIds = []) {
     const countryQuery = collectionRef
         .where('completed', '==', false)
         .where('location.country', '==', searchParams.country)

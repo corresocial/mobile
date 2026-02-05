@@ -3,13 +3,13 @@ require('dotenv').config()
 /* eslint-disable camelcase */
 /* eslint-disable import/no-default-export */
 export default () => {
-	const GOOGLE_SERVICES_INFO_PLIST = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services-info.plist`
-	const GOOGLE_SERVICES_JSON = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services.json`
-	const IOS_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_IOS_MAPS_API_KEY : process.env.IOS_MAPS_API_KEY
-	const ANDROID_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
+	const GOOGLE_SERVICES_INFO_PLIST = 'build/prod/google-services-info.plist'
+	const GOOGLE_SERVICES_JSON = 'build/prod/google-services.json'
+	const IOS_MAPS_API_KEY = process.env.PROD_IOS_MAPS_API_KEY
+	const ANDROID_MAPS_API_KEY = process.env.PROD_ANDROID_MAPS_API_KEY
 
 	const version = '0.12.0'
-	const easUpdateChannel = process.env.NODE_ENV === 'production' ? '0.12.0' : 'development-build'
+	const easUpdateChannel = '0.12.0'
 
 	return ({
 		expo: {
@@ -41,7 +41,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '86',
+				buildNumber: '95',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -63,7 +63,7 @@ export default () => {
 				}
 			},
 			android: {
-				versionCode: 86,
+				versionCode: 95,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
@@ -98,6 +98,7 @@ export default () => {
 				}
 			},
 			plugins: [
+				'@react-native-community/datetimepicker',
 				[
 					'expo-font',
 					{
@@ -120,7 +121,6 @@ export default () => {
 					{
 						organization: 'corre-dev',
 						project: 'react-native',
-						url: 'https://sentry.io/'
 					}
 				],
 				'react-native-compressor',
@@ -133,17 +133,18 @@ export default () => {
 					{
 						ios: {
 							useFrameworks: 'static',
-							use_modular_headers: true,
+							// use_modular_headers: true,
 							autolinking: true,
 							privacyManifestAggregationEnabled: true,
-							// deploymentTarget: '13.4',
+							deploymentTarget: '15.1',
 							// newArchEnabled: true
 						},
 						android: {
-							minSdkVersion: 23,
-							compileSdkVersion: 34,
-							targetSdkVersion: 34,
-							buildToolsVersion: '34.0.0',
+							// minSdkVersion: 23,
+							compileSdkVersion: 35,
+							targetSdkVersion: 35,
+							buildToolsVersion: '35.0.0',
+							// kotlinVersion: '2.0.21',
 							enableProguardInReleaseBuilds: true,
 							enableShrinkResourcesInReleaseBuilds: true,
 							enableR8: true,
@@ -207,7 +208,10 @@ export default () => {
 					}
 				],
 				[
-					'@react-native-google-signin/google-signin'
+					'@react-native-google-signin/google-signin',
+					{
+						iosUrlScheme: process.env.IOS_URL_SCHEME
+					}
 				],
 				[
 					'expo-asset',
@@ -224,7 +228,7 @@ export default () => {
 						faceIDPermission: 'Você precisa permitir a utilização do faceID para podermos garantir a segurança da sua conta'
 					}
 				],
-				['./plugins/gradle-config.js']
+				// ['./plugins/gradle-config.js'],
 			],
 			web: {
 				favicon: './assets/favicon.png'

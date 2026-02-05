@@ -7,7 +7,6 @@ import firebase from '@react-native-firebase/app'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import firestore from '@react-native-firebase/firestore'
-import functions from '@react-native-firebase/functions'
 import storage from '@react-native-firebase/storage'
 
 import { getEnvVars } from '@infrastructure/environment'
@@ -21,8 +20,10 @@ export const firebaseFirestore = firestore()
 export const firebaseStorage = storage()
 export const firebaseDatabase = database()
 export const firebaseAnalytics = analytics()
-export const firebaseFunctions = firebase.app().functions('southamerica-east1') || functions()
-// 
+
+// @deprecated Use callCloudFunction from './cloudFunctions' instead
+// This export is kept for backward compatibility but will be removed in future versions
+
 export const firebaseSmasDatabase = firebase.app().database(FIREBASE_smas_databaseURL)
 
 export const authProviders = {
@@ -31,3 +32,6 @@ export const authProviders = {
 }
 
 export { firebase }
+
+// Export the new cloud function utility
+export { callCloudFunction } from './cloudFunctions'
