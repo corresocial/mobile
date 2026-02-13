@@ -1,5 +1,12 @@
 # Corre Mobile
 
+<div align="center">
+  <p>
+    <strong>🇧🇷 Português</strong> | 
+    <a href="./README-EN.md">🇺🇸 English</a>
+  </p>
+</div>
+
 Este repositório contém o código fonte da aplicação móvel Corre e suas funções de servidor associadas.
 
 ## Estrutura do Repositório
