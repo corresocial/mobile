@@ -1,68 +1,61 @@
-<div align="center">
-  <p>
-    <strong>🇧🇷 Português</strong> | 
-    <a href="#corre-mobile-english">🇺🇸 English</a>
-  </p>
-</div>
-
 # Corre Mobile
 
-Este repositório contém o código fonte da aplicação móvel Corre e suas funções de servidor associadas.
+This repository contains the source code for the Corre mobile application and its associated server functions.
 
-## Estrutura do Repositório
+## Repository Structure
 
-O projeto está organizado em dois diretórios principais que servem o aplicativo:
+The project is organized into two main directories that serve the application:
 
-- **`app/`**: Contém o código fonte da aplicação móvel desenvolvida com React Native e Expo. Aqui reside toda a interface do usuário e lógica do cliente.
-- **`server-functions/`**: Contém as funções de servidor (Cloud Functions), responsáveis pela lógica de backend, integrações e processamento de dados que dão suporte ao aplicativo.
+- **`app/`**: Contains the source code for the mobile application developed with React Native and Expo. This is where the user interface and client logic reside.
+- **`server-functions/`**: Contains the server functions (Cloud Functions), responsible for backend logic, integrations, and data processing that support the application.
 
-## Documentação do Ambiente
+## Environment Documentation
 
-Para configurar seu ambiente de desenvolvimento e acessar documentações detalhadas sobre o projeto, consulte nossa página de referência:
+To set up your development environment and access detailed documentation about the project, please consult our reference page:
 
-🔗 **[Documentação Open Source - Notion](https://corre.notion.site/Open-Source-2cc8fff6730e807da999e15a6f28caca)**
+🔗 **[Open Source Documentation - Notion](https://corre.notion.site/Open-Source-2cc8fff6730e807da999e15a6f28caca)**
 
-### Itens da Documentação
+### Documentation Items
 
-Na página de documentação, você encontrará os seguintes recursos essenciais:
+On the documentation page, you will find the following essential resources:
 
-* **Documentação do código**: Detalhes técnicos sobre a arquitetura, componentes e lógica interna do aplicativo.
-* **Ambientes de desenvolvimento**: Instruções para configurar os diferentes ambientes (desenvolvimento, produção) e suas respectivas variáveis.
-* **Manual de colaboração GitHub**: Guia de boas práticas para commits, pull requests e fluxo de trabalho no repositório.
-* **Publicação nas Lojas**: Processo e requisitos para publicar novas versões do aplicativo na Google Play Store e Apple App Store.
-* **Design System & Brandbook**: Diretrizes visuais, paleta de cores, tipografia e componentes de UI utilizados no projeto.
-* **Assets**: Recursos gráficos como logotipos, ícones e imagens utilizados no aplicativo.
-* **Banco de Dados**: Modelagem de dados, esquemas e informações sobre a estrutura do banco de dados utilizado.
+* **Code Documentation**: Technical details about the architecture, components, and internal logic of the application.
+* **Development Environments**: Instructions for configuring different environments (development, production) and their respective variables.
+* **GitHub Collaboration Manual**: Guide to best practices for commits, pull requests, and workflow within the repository.
+* **Store Publication**: Process and requirements for publishing new versions of the app on the Google Play Store and Apple App Store.
+* **Design System & Brandbook**: Visual guidelines, color palette, typography, and UI components used in the project.
+* **Assets**: Graphic resources such as logos, icons, and images used in the application.
+* **Database**: Data modeling, schemas, and information about the database structure used.
 
-## Como Executar
+## How to Run
 
-Cada parte do projeto possui seu próprio guia de execução detalhado:
+Each part of the project has its own detailed execution guide:
 
-### Aplicação Móvel (`app/`)
-Consulte o arquivo [`app/README.md`](app/README.md) para instruções sobre:
-- Instalação de dependências.
-- Configuração de variáveis de ambiente (`.env`).
-- Comandos para rodar em emuladores (Android/iOS) ou dispositivos físicos.
-- Scripts de build e deploy.
+### Mobile Application (`app/`)
+Refer to the [`app/README.md`](app/README.md) file for instructions on:
+- Installing dependencies.
+- Configuring environment variables (`.env`).
+- Commands to run on emulators (Android/iOS) or physical devices.
+- Build and deploy scripts.
 
-### Funções do Servidor (`server-functions/`)
-Consulte o arquivo [`server-functions/README.md`](server-functions/README.md) para instruções sobre:
-- Instalação de dependências das funções.
-- Configuração do Google Cloud SDK.
-- Scripts para deploy de funções individuais ou em massa.
-- Configuração de variáveis de ambiente específicas (ex: Algolia).
+### Server Functions (`server-functions/`)
+Refer to the [`server-functions/README.md`](server-functions/README.md) file for instructions on:
+- Installing function dependencies.
+- Google Cloud SDK configuration.
+- Scripts to deploy individual or bulk functions.
+- Configuration of specific environment variables (e.g., Algolia).
 
-## Como contribuir
+## How to Contribute
 
-Para contribuir é muito simples,
+Contributing is very simple:
 
-1. Utilizar nossos lints e configurações
-2. Escolher uma issue
-3. Comentar diretamente nele a data estimada de entrega, se atribuir no github e no discord `#tech` que está pegando a issue, enviar link.
+1. Use our lints and configurations.
+2. Choose an issue.
+3. Comment directly on the issue with your estimated delivery date, assign yourself on GitHub, and announce in the `#tech` Discord channel that you are working on it (send the link).
 
-Sempre que for começar uma nova contribuição, recomece o repositório.
+Always update the repository before starting a new contribution.
 
-Os commits devem seguir os padrões de [Commit Pattern](https://corre.notion.site/Manual-de-colabora-o-GitHub-2cc8fff6730e80e3b344f0ff4ee82c8c).
+Commits must follow the [Commit Pattern](https://corre.notion.site/Manual-de-colabora-o-GitHub-2cc8fff6730e80e3b344f0ff4ee82c8c) standards.
 
 ```bash
 git clone [https://github.com/corre-social/mobile/](https://github.com/corre-social/mobile/)
@@ -70,6 +63,6 @@ git checkout dev
 cd mobile/app
 git pull
 npm i
-git checkout -b feat/fix/XXXX # cria a nova branch que irá trabalhar
-# realizar todos os commits e alterações
-git commit -m "feat/fix/XXX: descrição"
+git checkout -b feat/fix/XXXX # creates the new branch you will work on
+# perform all commits and changes
+git commit -m "feat/fix/XXX: description"
