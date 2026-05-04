@@ -139,6 +139,11 @@ exports.stripeApi = onRequest({ region: 'southamerica-east1' }, async (request, 
                     response.status(404).json({ error: 'Subscription not found', code: 'not-found' });
                     return;
                 }
+                const customerId = await getCustomerId(uid);
+                if (sub.customer !== customerId) {
+                    response.status(403).json({ error: 'Assinatura não pertence ao usuário autenticado', code: 'permission-denied' });
+                    return;
+                }
                 console.log('sub-to-update', JSON.stringify(sub));
                 const updatedSub = await stripe.subscriptions.update(data.subscriptionId, {
                     proration_behavior: 'always_invoice',
@@ -151,6 +156,16 @@ exports.stripeApi = onRequest({ region: 'southamerica-east1' }, async (request, 
                 break;
             }
             case 'cancel-subscription': {
+                const sub = await stripe.subscriptions.retrieve(data.subscriptionId);
+                if (!sub) {
+                    response.status(404).json({ error: 'Subscription not found', code: 'not-found' });
+                    return;
+                }
+                const customerId = await getCustomerId(uid);
+                if (sub.customer !== customerId) {
+                    response.status(403).json({ error: 'Assinatura não pertence ao usuário autenticado', code: 'permission-denied' });
+                    return;
+                }
                 result = await stripe.subscriptions.cancel(data.subscriptionId);
                 break;
             }
