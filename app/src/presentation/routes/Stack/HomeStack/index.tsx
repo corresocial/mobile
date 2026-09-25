@@ -17,8 +17,6 @@ import { Profile } from '@screens/profileScreens/Profile'
 import { SocialMediaManagement } from '@screens/profileScreens/SocialMediaManagement'
 import { PostView } from '@screens/viewPostScreens/PostView'
 
-import { PublicServicesStack } from '../PublicServicesStack'
-
 const Stack = createStackNavigator<HomeStackParamList>()
 
 export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
@@ -49,7 +47,6 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 				<Stack.Screen name={'ProfileHome'} component={Profile as any} />
 				<Stack.Screen name={'SocialMediaManagementHome'} component={SocialMediaManagement as any} />
 
-				<Stack.Screen name={'PublicServicesStack'} component={PublicServicesStack} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

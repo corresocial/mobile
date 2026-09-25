@@ -25,7 +25,6 @@ import CheckWhiteIcon from "@assets/icons/check-white.svg";
 import DescriptionAlertWhiteIcon from "@assets/icons/description-alert-white.svg";
 import DescriptionWhiteIcon from "@assets/icons/description-white.svg";
 import EyeDashedWhiteIcon from "@assets/icons/eyeDashed-white.svg";
-// import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg' // SMAS
 import QuestionMarkWhiteIcon from "@assets/icons/questionMark-white.svg";
 import ShareWhiteIcon from "@assets/icons/share-white.svg";
 import XWhiteIcon from "@assets/icons/x-white.svg";
@@ -162,19 +161,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={"22%"}
 					onPress={() => navigateToScreen("NotificationSettings")}
 				/>
-				{/* // SMAS */}
-				{/* <VerticalSpacing />
-				<OptionButton
-					label={'serviços públicos'}
-					highlightedWords={['serviços', 'públicos']}
-					labelSize={18}
-					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={PublicServicesWhiteIcon}
-					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.colors.orange[3]}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
-				/> */}
 				<VerticalSpacing />
 				<OptionButton
 					label={"métodos de login"}

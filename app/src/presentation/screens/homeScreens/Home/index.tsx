@@ -302,10 +302,6 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('EditUserLocation' as any, { initialCoordinates: null })
 	}
 
-	const navigateToPublicServices = () => {
-		navigation.navigate('PublicServicesStack')
-	}
-
 	const navigateToEventCalendar = () => {
 		navigation.navigate('EventsCalendar')
 	}
@@ -347,7 +343,6 @@ function Home({ navigation }: HomeScreenProps) {
 								<HomeCatalogMenu navigateToScreen={navigateToViewPostsByPostType} />
 								<AdsCarousel
 									onPressCorreAd={() => setSubscriptionModalIsVisible(true)}
-									onPressPublicServicesAd={navigateToPublicServices}
 									onPressUserLocationAd={navigateToEditUserLocation}
 									onPressEventCalendarAd={navigateToEventCalendar}
 								/>

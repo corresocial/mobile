@@ -7,7 +7,7 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { firebaseAnalytics } from '@infrastructure/firebase'
 
-type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'smas_search' | 'recovery_nis' | 'visualized_post' | 'visualized_petition' | 'visualized_poll'
+type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'visualized_post' | 'visualized_petition' | 'visualized_poll'
 
 interface EventObject extends Record<string, string | number | boolean | undefined> {
 	// deviceId?: string
@@ -26,8 +26,6 @@ interface EventObject extends Record<string, string | number | boolean | undefin
 	deviceId?: string
 	appVersion?: string
 	macroCategory?: MacroCategoriesType
-	smasResponse?: 'success' | 'failed' | 'not_found'
-	smasService?: 'BEE' | 'PBF' | 'CADUNICO' | 'ANONIMIZADO' | undefined
 }
 
 function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: boolean) {
