@@ -1,3 +1,5 @@
+import { signOut } from '@react-native-firebase/auth'
+
 import { ChatDomainInterface } from '@domain/chat/ChatDomainInterface'
 
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
@@ -24,7 +26,7 @@ async function logoutUserDM(
 		await updateUserTokenNotification(userId, '')
 		removeChatListeners()
 
-		await firebaseAuth.signOut()
+		await signOut(firebaseAuth)
 	} catch (error: any) {
 		console.log(error)
 		// throw new Error(error)

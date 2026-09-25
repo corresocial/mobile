@@ -1,3 +1,4 @@
+import { onAuthStateChanged } from '@react-native-firebase/auth'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
@@ -66,7 +67,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	useEffect(() => {
 		console.log('[auth]: Sessão inciada!')
-		const unsubscribe = firebaseAuth.onAuthStateChanged(async (user) => {
+		const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
 			console.log(user ? '[auth]: Usuário logado!' : '[auth]: Usuário não logado!')
 			const hasValidLocalUser = await localStorage.hasValidLocalUser()
 			if (user && hasValidLocalUser) return

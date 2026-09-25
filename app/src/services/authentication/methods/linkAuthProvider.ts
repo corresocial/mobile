@@ -1,10 +1,10 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { AuthCredential, linkWithCredential } from '@react-native-firebase/auth'
 
 import { firebaseAuth } from '@infrastructure/firebase'
 
 import { ProviderId } from '../AuthenticationServiceInterface'
 
-async function linkAuthProvider(authCredential: FirebaseAuthTypes.AuthCredential | null, providerId: ProviderId) {
+async function linkAuthProvider(authCredential: AuthCredential | null, providerId: ProviderId) {
 	try {
 		const currentUser = firebaseAuth?.currentUser
 		if (!currentUser) {
@@ -12,12 +12,12 @@ async function linkAuthProvider(authCredential: FirebaseAuthTypes.AuthCredential
 		}
 
 		if (providerId === 'phone') {
-			const { user } = await currentUser.linkWithCredential(authCredential!)
+			const { user } = await linkWithCredential(currentUser, authCredential!)
 			return user
 		}
 
 		if (providerId === 'google.com') {
-			const { user } = await currentUser.linkWithCredential(authCredential!)
+			const { user } = await linkWithCredential(currentUser, authCredential!)
 			return user
 		}
 	} catch (error: any) {

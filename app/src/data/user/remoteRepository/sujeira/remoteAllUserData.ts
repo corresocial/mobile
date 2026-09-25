@@ -1,3 +1,5 @@
+import { deleteUser } from '@react-native-firebase/auth'
+
 import { Id } from '@domain/globalTypes'
 import { PostEntityOptional } from '@domain/post/entity/types'
 
@@ -29,7 +31,7 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 
 	await deleteUserProfilePicture(userPictureUrl)
 	await deleteUserData(userId)
-	await user?.delete()
+	if (user) await deleteUser(user)
 
 	return true
 }
