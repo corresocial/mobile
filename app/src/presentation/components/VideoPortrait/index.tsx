@@ -39,6 +39,8 @@ function VideoPortrait({
 
 	useEffect(() => {
 		videoPlayer.loop = true
+		videoPlayer.keepScreenOnWhilePlaying = false
+		videoPlayer.muted = true
 		videoPlayer.volume = 0
 		videoPlayer.play()
 	}, [videoPlayer])

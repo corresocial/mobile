@@ -32,7 +32,12 @@ function PostCardVideo({ videoUrl, videoMuted, isVisible, onLoad }: PostCardVide
 	})
 
 	useEffect(() => {
+		if (videoPlayer.status === 'readyToPlay') onLoad()
+	}, [videoPlayer])
+
+	useEffect(() => {
 		videoPlayer.loop = true
+		videoPlayer.keepScreenOnWhilePlaying = false
 	}, [videoPlayer])
 
 	useEffect(() => {
