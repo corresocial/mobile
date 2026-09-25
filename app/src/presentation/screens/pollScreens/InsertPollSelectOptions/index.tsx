@@ -110,7 +110,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 
 	const savePollQuestions = () => {
 		setRegisteredQuestionOnPollDataContext('select', selectOptions, !!route.params.multiSelect)
-		navigation.navigate('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
+		navigation.popTo('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
 	}
 
 	return (

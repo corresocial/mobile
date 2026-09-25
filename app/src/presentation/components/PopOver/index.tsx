@@ -6,6 +6,8 @@ import Popover from 'react-native-popover-view'
 import { PostRange } from '@domain/post/entity/types'
 import { VerifiedLabelName } from '@domain/user/entity/types'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
+
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
 import CityWhiteIcon from '@assets/icons/city-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
@@ -32,7 +34,7 @@ interface PopOverProps {
 	popoverVisibility: boolean
 	buttonLabel?: string
 	profileId?: string
-	children: React.ReactChild
+	children: React.ReactElement | number | string
 	reportUser?: () => void
 	onPressVerify?: (label: VerifiedLabelName) => void
 	removeProfileVerification?: () => void
@@ -111,7 +113,7 @@ function PopOver({
 	}
 
 	const navigateToSearchProfile = () => {
-		navigation.push('SearchProfile', { verifiedLabel: 'questionnaireAdministrator', profileId: profileId })
+		navigateToHomeTabScreen(navigation, 'LeaderAreaStack', 'SearchProfile', { verifiedLabel: 'questionnaireAdministrator', profileId: profileId })
 		closePopover()
 	}
 

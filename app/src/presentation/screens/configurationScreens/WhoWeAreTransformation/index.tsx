@@ -1,6 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { navigateToHomeTabStack } from '@routes/auxMethods'
 import { WhoWeAreTransformationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
@@ -14,7 +15,12 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScreenProps) {
 	const navigateToHelpUs = () => {
-		navigation.navigate('Configurations')
+		if (!navigation.getState().routeNames.includes('Configurations')) { // Aberta pelo CitizenRegistrationStack
+			return navigateToHomeTabStack(navigation, 'ProfileStack', {
+				state: { routes: [{ name: 'Profile' }, { name: 'Configurations' }, { name: 'HelpUs' }] }
+			})
+		}
+		navigation.popTo('Configurations')
 		navigation.navigate('HelpUs')
 	}
 

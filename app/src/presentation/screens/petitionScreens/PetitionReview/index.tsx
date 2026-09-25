@@ -101,7 +101,7 @@ function PetitionReview({ route, navigation }: PetitionReviewScreenProps) { // R
 
 	const navigateToEditScreen = (screenName: keyof PetitionStackParamList, initialValue: keyof PetitionEntity) => {
 		const value = getPetitionField(initialValue, true)
-		navigation.push(screenName, { editMode: true, initialValue: value })
+		navigation.push(screenName as any, { editMode: true, initialValue: value })
 	}
 
 	const toggleDefaultConfirmationModalVisibility = () => {

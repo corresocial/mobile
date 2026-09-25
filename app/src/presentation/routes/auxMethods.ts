@@ -1,3 +1,4 @@
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Linking } from 'react-native'
 
@@ -7,7 +8,38 @@ import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { PetitionStackParamList } from './Stack/PetitionStack/types'
 import { PollStackParamList } from './Stack/PollStack/types'
+import { HomeTabParamList } from './Tabs/HomeTab/types'
 import { StackLabelProps } from './types'
+
+type HomeTabStackName = Exclude<keyof HomeTabParamList, 'Post'>
+
+const profileScreenStacks: { [profileScreenName: string]: HomeTabStackName } = {
+	Profile: 'ProfileStack',
+	ProfileHome: 'HomeStack',
+	ProfileChat: 'ChatStack',
+	ProfileLeaderArea: 'LeaderAreaStack'
+}
+
+// O React Navigation 7 não encaminha mais navigate() pelo nome para telas de navegadores irmãos ou filhos,
+// então o caminho é explicitado a partir do AuthRegisterStack, o que funciona tanto em telas quanto em contextos
+const navigateToHomeTabStack = (navigation: NavigationProp<ParamListBase>, stackName: HomeTabStackName, stackParams: object) => {
+	navigation.navigate('UserStack', {
+		screen: 'HomeTab',
+		pop: true, // Volta para a HomeTab existente (removendo as telas acima dela) em vez de empilhar outra
+		params: {
+			screen: stackName,
+			merge: stackName === 'HomeStack', // Preserva o scrollToTop salvo nos parâmetros da aba HomeStack
+			params: stackParams
+		}
+	})
+}
+
+const navigateToHomeTabScreen = (navigation: NavigationProp<ParamListBase>, stackName: HomeTabStackName, screen: string, params?: object, pop?: boolean) => {
+	if (navigation.getState()?.routeNames.includes(screen)) {
+		return navigation.navigate(screen, params, { pop })
+	}
+	navigateToHomeTabStack(navigation, stackName, { screen, params, pop, initial: false })
+}
 
 const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => {
 	return navigation.push(`PostView${stackLabel || ''}`, { postData })
@@ -15,7 +47,8 @@ const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStac
 
 const navigateToProfileView = (navigation: NativeStackNavigationProp<any>, userId?: string, stackLabel?: StackLabelProps | '', redirect?: string) => {
 	if (redirect) return Linking.openURL(redirect)
-	navigation.navigate(`Profile${stackLabel || ''}`, { userId, stackLabel })
+	const profileScreenName = `Profile${stackLabel || ''}`
+	navigateToHomeTabScreen(navigation, profileScreenStacks[profileScreenName], profileScreenName, { userId, stackLabel }, !stackLabel)
 }
 
 const navigateToLeaderPostsView = (leaderPostData: PollEntity & PetitionEntity, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type
@@ -40,4 +73,4 @@ const getItemType = (item: PostEntityOptional & PollEntity & PetitionEntity) => 
 	return ''
 }
 
-export { navigateToPostView, navigateToProfileView, navigateToLeaderPostsView }
+export { navigateToPostView, navigateToProfileView, navigateToLeaderPostsView, navigateToHomeTabStack, navigateToHomeTabScreen }

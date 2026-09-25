@@ -81,7 +81,12 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ContactUsSuccess', { reportType: route.params.reportedType || 'none' })
+			const contactUsSuccessParams = { reportType: route.params.reportedType || 'none' }
+			// Instância registrada no UserStack (denúncias de enquete/abaixo-assinado) segue para a tela de sucesso do mesmo navegador
+			const isUserStackInstance = (route.name as string) === 'ContactUsInsertMessageUserStack'
+			isUserStackInstance
+				? navigation.navigate('ContactUsSuccessUserStack', contactUsSuccessParams)
+				: navigation.navigate('ContactUsSuccess', contactUsSuccessParams)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)

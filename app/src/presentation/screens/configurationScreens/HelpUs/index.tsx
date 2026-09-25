@@ -21,7 +21,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 	}
 
 	const navigateToSelectSubscriptionRange = () => {
-		navigation.navigate('Configurations')
+		navigation.popTo('Configurations')
 		navigation.navigate('SelectSubscriptionRange')
 	}
 

@@ -103,7 +103,7 @@ function PollReview({ route, navigation }: PollReviewScreenProps) { // REFACTOR 
 			return navigation.push(screenName as any, { editMode: true, initialValue: questions as PollQuestion[] })
 		}
 
-		navigation.push(screenName, { editMode: true, initialValue: value })
+		navigation.push(screenName as any, { editMode: true, initialValue: value })
 	}
 
 	const toggleDefaultConfirmationModalVisibility = () => {

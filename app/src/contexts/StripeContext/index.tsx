@@ -395,14 +395,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	const navigateToEditCurrentPlanScreen = () => {
-		navigation.navigate('HomeTab', {
-			screen: 'ProfileStack',
+		// O provider fica fora do Stack.Navigator do UserStack, então a navegação parte do AuthRegisterStack
+		navigation.navigate('UserStack' as any, {
+			screen: 'SelectSubscriptionRange',
 			params: {
-				screen: 'SelectSubscriptionRange',
-				params: {
-					editMode: true,
-					initialValue: 'value'
-				}
+				editMode: true,
+				initialValue: 'value'
 			}
 		} as any)
 	}

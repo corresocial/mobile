@@ -88,18 +88,18 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			}
 
 			if (!(getArrayObjectDifferences(userDataContext.socialMedias || [], socialMediaData.socialMedias) || []).length) {
-				return navigation.navigate('SocialMediaManagement', { isAuthor: true })
+				return navigation.popTo('SocialMediaManagement', { isAuthor: true })
 			}
 
 			await updateUserRepository(
 				useUserRepository,
 				userDataContext,
-				{ unapprovedData: { socialMedias: mergeArraysByKey(userDataContext.unapprovedData?.socialMedias || [], [{ title: route.params.socialMedia.title, link: linkValue } as SocialMedia] || [], 'title') as SocialMedia[] } }
+				{ unapprovedData: { socialMedias: mergeArraysByKey(userDataContext.unapprovedData?.socialMedias || [], [{ title: route.params.socialMedia.title, link: linkValue } as SocialMedia], 'title') as SocialMedia[] } }
 			)
 
 			setUserDataOnContext({ unapprovedData: socialMediaData })
 			showWaitingApproveModal()
-			navigation.navigate('SocialMediaManagement', { isAuthor: true })
+			navigation.popTo('SocialMediaManagement', { isAuthor: true })
 		} catch (err) {
 			console.log(err)
 			setInvaliLinkValueAfterSubmit(true)
