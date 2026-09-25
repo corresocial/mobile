@@ -13,7 +13,6 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
-import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -87,7 +86,6 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 		try {
 			const { newPost } = await savePost(
 				usePostRepository,
-				useCloudFunctionService,
 				userDataContext.subscription?.subscriptionRange,
 				postData,
 				postData,

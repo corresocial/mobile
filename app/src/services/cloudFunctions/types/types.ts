@@ -15,21 +15,3 @@ export type FeedSearchParams = {
 	coordinates: LatLong // Não existem
 	geohashes: string[]
 }
-
-export type NotifyUsersByLocationParams = {
-	state: string
-	city: string
-	district: string
-	postRange: 'near' | 'city'
-}
-
-export type RequestData = {
-	userId: string
-	userName: string
-	postDescription: string
-}
-
-export type RequestBody = {
-	searchParams: NotifyUsersByLocationParams
-	requestData: RequestData
-}

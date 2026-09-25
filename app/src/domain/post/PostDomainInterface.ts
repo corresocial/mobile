@@ -4,8 +4,6 @@ import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from './entity/types'
 
-import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
-
 import { PostRangeLocation } from './core/updatePostsLocation'
 
 interface PostDomainInterface {
@@ -27,12 +25,10 @@ interface PostDomainInterface {
 	updateLocationDataOnPosts(userId: string, newPostRangeLocation: PostRangeLocation, subscriptionDowngrade?: boolean): Promise<PostEntity[]>
 	savePost(
 		usePostRepository: () => PostRepositoryInterface,
-		useCloudFunctionService: () => CloudFunctionServiceInterface,
 		userSubscriptionRange: UserSubscription['subscriptionRange'],
 		storedPostData: PostEntity,
 		newPostData: PostEntity,
-		unsavedPostPictures: string[],
-		notifyUsersByLocation?: boolean
+		unsavedPostPictures: string[]
 	): Promise<{ newPost: PostEntity }>
 	approvePost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>
 	rejectPost(usePostRepository: () => PostRepositoryInterface, postData: PostEntity): Promise<PostEntity | void>

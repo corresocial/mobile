@@ -3,9 +3,6 @@ import { UserSubscription } from '@domain/user/entity/types'
 import { PostRepositoryInterface } from '@data/post/PostRepositoryInterface'
 
 import { PostEntity } from '../entity/types'
-import { NotifyUsersByLocationParams } from '@services/cloudFunctions/types/types'
-
-import { CloudFunctionServiceInterface } from '@services/cloudFunctions/CloudFunctionServiceInterface'
 
 import { mediaUrlUpdatedDM } from '../core/editPostValidationDM'
 import { postLocationChangedDM } from '../core/postLocationChangedDM'
@@ -13,17 +10,12 @@ import { updateLocationDataOnPostsDM } from './updateLocationDataOnPostsDM'
 
 async function savePostDM(
 	usePostRepository: () => PostRepositoryInterface,
-	useCloudFunctionService: () => CloudFunctionServiceInterface,
 	userSubscriptionRange: UserSubscription['subscriptionRange'], // REFACTOR Validar internamente com nova consulta de user
 	storedPostData: PostEntity,
 	newPostData: PostEntity,
-	unsavedPostPictures: string[],
-	notifyUsersByLocation?: boolean
+	unsavedPostPictures: string[]
 ) {
-	const { notifyUsersOnLocation } = useCloudFunctionService()
 	const { remoteStorage } = usePostRepository()
-
-	const owner = { ...newPostData.owner }
 
 	const postLocationIsOutsideSubscriptionRange = await postLocationChangedDM(
 		userSubscriptionRange,
@@ -87,19 +79,6 @@ async function savePostDM(
 	}
 
 	const newStoredPost = await remoteStorage.createPost(newPostWithUploadedPictures as PostEntity)
-
-	if (notifyUsersByLocation) {
-		await notifyUsersOnLocation({
-			state: newPostData.unapprovedData?.location?.state as string,
-			city: newPostData.unapprovedData?.location?.city as string,
-			district: newPostData.unapprovedData?.location?.district as string,
-			postRange: newPostData.unapprovedData?.range as NotifyUsersByLocationParams['postRange']
-		}, {
-			postDescription: newPostData.unapprovedData?.description || 'Nova postagem',
-			userId: owner.userId,
-			userName: owner.name
-		})
-	}
 
 	return { newPost: { ...newStoredPost } as PostEntity }
 }
