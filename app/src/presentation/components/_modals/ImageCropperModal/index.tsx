@@ -201,14 +201,18 @@ function ImageCropperModal({
 							height={relativeScreenWidth(20)}
 							onPress={cancelHandler}
 						/>
-						<SmallButton
-							color={theme.colors.green[3]}
-							labelColor={theme.colors.white[3]}
-							SvgIcon={CheckIcon}
-							relativeWidth={relativeScreenWidth(35)}
-							height={relativeScreenWidth(20)}
-							onPress={confirmCropHandler}
-						/>
+						{
+							imageResolution && !hasLoadingError && ( // só confirma com a imagem carregada
+								<SmallButton
+									color={theme.colors.green[3]}
+									labelColor={theme.colors.white[3]}
+									SvgIcon={CheckIcon}
+									relativeWidth={relativeScreenWidth(35)}
+									height={relativeScreenWidth(20)}
+									onPress={confirmCropHandler}
+								/>
+							)
+						}
 					</Footer>
 				</SafeAreaContainer>
 				{
