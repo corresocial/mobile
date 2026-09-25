@@ -24,6 +24,27 @@ Para saber mais sobre o conceito e como funciona, consulte a documentação ofic
 11. Instale a build gerada no seu emulador ou dispositivo físico.
 12. Execute a aplicação com o comando: `npm run dev`.
 
+### Variáveis de ambiente e segredos
+
+Toda variável importada de `@env` (via `react-native-dotenv`, em `src/infrastructure/environment`) é **embutida no bundle JavaScript** distribuído nas lojas e nas atualizações OTA, ou seja, é pública. No `.env` do app só podem existir valores que são públicos por natureza:
+
+- Configuração do Firebase client (`FIREBASE_*`) e IDs de cliente OAuth (`AUTH_*_CLIENT_ID`)
+- `STRIPE_PUBLISHABLE_KEY` e `DSN_SENTRY`
+- `ALGOLIA_KEY`: deve ser uma chave **Search-Only**, nunca a Admin/Write key
+- Chaves do Google Maps: devem estar restritas por app (bundle ID / SHA-1) e por API no Google Cloud Console
+
+Segredos de serviços de terceiros (Stripe secret key, webhooks do Discord, token do Notion) ficam **apenas** nas Cloud Functions (`server-functions/`, veja o [README](../server-functions/README.md)), e o app chama as funções via `firebaseFunctions.httpsCallable`.
+
+**`SENTRY_AUTH_TOKEN`** é usado somente em tempo de build (upload de source maps pelo plugin `@sentry/react-native/expo`) e **não deve ser importado de `@env`**. Cadastre-o como variável do EAS com visibilidade `secret`:
+
+```bash
+eas env:set --name SENTRY_AUTH_TOKEN --value <token> --environment production --visibility secret
+```
+
+Repita com `--environment development` se as builds de desenvolvimento também enviarem source maps. Em builds locais (`--local`), exporte a variável no terminal antes do build.
+
+> As variáveis `NOTION_FALECONOSCO_KEY`, `NOTION_FALECONOSCO_ID`, `NOTION_APPICONS_KEY` e `NOTION_APPICONS_ID` não são mais usadas pelo app e podem ser removidas dos arquivos `.env` locais.
+
 ### Extensões Essenciais
 
 - ESLint
