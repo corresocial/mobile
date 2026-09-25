@@ -1,5 +1,4 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 
@@ -16,7 +15,7 @@ export const Container = styled.KeyboardAvoidingView`
 export const Header = styled.View`
 	width: 100%;
 	padding: ${relativeScreenDensity(12)}px;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
+	padding-top:${Constants.statusBarHeight}px;
 	flex-direction: row;
 	justify-content: space-between;
 	background-color: ${({ theme }) => theme.colors.white[3]};

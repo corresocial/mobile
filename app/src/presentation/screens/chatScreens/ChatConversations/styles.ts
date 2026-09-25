@@ -1,5 +1,4 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -12,7 +11,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
 	width: 100%;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
+	padding-top:${Constants.statusBarHeight}px;
 	flex-direction: row;
 	justify-content: space-between;
 	background-color: ${({ theme }) => theme.colors.white[3]};
