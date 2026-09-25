@@ -278,7 +278,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	return (
 		<Container
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			keyboardVerticalOffset={Platform.OS === 'ios' ? -bottomSafeAreaInset : 0}
+			keyboardVerticalOffset={-bottomSafeAreaInset}
+			style={Platform.OS === 'android' ? { paddingBottom: relativeScreenHeight(9) + bottomSafeAreaInset } : undefined} // edge-to-edge: conteúdo acima da barra de navegação
 		>
 			<DefaultConfirmationModal // BLOCK
 				visibility={blockConfirmationModalIsVisible}

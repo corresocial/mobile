@@ -2,6 +2,7 @@ import * as MediaLibrary from 'expo-media-library/legacy'
 import { Asset, AssetRef } from 'expo-media-library/legacy'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform, StatusBar } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import uuid from 'react-uuid'
 
 import { AlbumInfo, AlbumType } from './types'
@@ -46,6 +47,9 @@ interface MediaBrowserProps {
 }
 
 function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, videoDurationLimit = 180, onClose, onSelectionConfirmed }: MediaBrowserProps) {
+	// No Android o Modal é edge-to-edge no RN 0.86: compensa as barras do sistema
+	const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
+
 	const [albums, setAlbums] = useState<AlbumType[]>([])
 	const [media, setMedia] = useState<Asset[]>([])
 	const [cursor, setCursor] = useState<AssetRef | undefined>(undefined)
@@ -249,7 +253,7 @@ function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, vide
 				}
 				{
 					(mediaSelected.length > 0) && (
-						<ConfirmSelectionButton>
+						<ConfirmSelectionButton androidBottomInset={Platform.OS === 'android' ? bottomInset : 0}>
 							<SmallButton
 								relativeWidth={relativeScreenWidth(20)}
 								height={relativeScreenWidth(13)}
@@ -280,7 +284,7 @@ function MediaBrowserModal({ showMediaBrowser, allowVideos, maxImages = 10, vide
 			}
 
 			<StatusBar backgroundColor={theme.colors.white[3]} />
-			<MediaBrowserHeader isIos={Platform.OS === 'ios'}>
+			<MediaBrowserHeader isIos={Platform.OS === 'ios'} androidTopInset={Platform.OS === 'android' ? topInset : 0}>
 				{
 					albumSelected ? (
 						<BackButton onPress={unselectAlbum} />

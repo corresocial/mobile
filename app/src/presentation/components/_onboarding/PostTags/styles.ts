@@ -27,12 +27,12 @@ export const TagsUnselectedArea = styled.View`
     flex-wrap: wrap;
 `
 
-export const FloatButtonContainer = styled.View`
+export const FloatButtonContainer = styled.View<{ bottomInset?: number }>`
     align-self: center;
     align-items: center;
     justify-content: center;
     width: 85%;
     height: 15%;
     position: absolute;
-    bottom: ${relativeScreenHeight(1.4)}px;
+    bottom: ${({ bottomInset = 0 }) => relativeScreenHeight(1.4) + bottomInset}px;
 `

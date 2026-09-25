@@ -8,6 +8,7 @@ export const MediaBrowserModalContainer = styled.Modal`
 
 interface MediaBrowserHeaderProps {
     isIos: boolean
+    androidTopInset: number
 }
 
 export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
@@ -16,8 +17,8 @@ export const MediaBrowserHeader = styled.View<MediaBrowserHeaderProps>`
     align-items: center;
 	justify-content: space-between;
     padding-left: ${relativeScreenWidth(8)}px;
-    padding-top: ${({ isIos }) => (isIos ? relativeScreenHeight(2) : 0)}px;
-    height: ${({ isIos }) => (isIos ? relativeScreenHeight(18) : relativeScreenHeight(12))}px;
+    padding-top: ${({ isIos, androidTopInset }) => (isIos ? relativeScreenHeight(2) : androidTopInset)}px;
+    height: ${({ isIos, androidTopInset }) => (isIos ? relativeScreenHeight(18) : relativeScreenHeight(12) + androidTopInset)}px;
 `
 
 export const HeaderTextContent = styled.View`
@@ -61,9 +62,9 @@ export const MediaFlatList = styled.FlatList`
     background-color: black;
 `
 
-export const ConfirmSelectionButton = styled.View`
+export const ConfirmSelectionButton = styled.View<{ androidBottomInset: number }>`
     position: absolute;
-    bottom: ${relativeScreenDensity(40)}px;
+    bottom: ${({ androidBottomInset }) => relativeScreenDensity(40) + androidBottomInset}px;
     right: ${relativeScreenDensity(20)}px;
 `
 

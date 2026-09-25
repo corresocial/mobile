@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Platform } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Container, InputMessage, SendButtonAreaInner, SideButtonArea } from './styles'
 import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'
@@ -16,6 +18,10 @@ interface ChatInputProps {
 }
 
 function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage }: ChatInputProps) {
+	const { bottom: bottomInset } = useSafeAreaInsets()
+	// edge-to-edge no Android: o fundo do input cobre a barra de navegação e os controles ficam acima dela
+	const androidBottomPadding = Platform.OS === 'android' ? { paddingBottom: relativeScreenDensity(10) + bottomInset } : undefined
+
 	const [message, setMessage] = useState('')
 	const [sendButtonPressed, setSendButtomPressed] = useState<boolean>(false)
 
@@ -38,7 +44,7 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 	}
 
 	return (
-		<Container>
+		<Container style={androidBottomPadding}>
 			{
 				showImpactReportButton && (
 					<SmallButton

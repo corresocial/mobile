@@ -1,8 +1,9 @@
 import * as ScreenOrientation from 'expo-screen-orientation'
 import { useVideoPlayer, type VideoPlayer } from 'expo-video'
 import React, { useEffect, useRef, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 import { Carousel } from 'react-native-reanimated-carousel'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
@@ -68,6 +69,10 @@ interface GalleryProps {
 }
 
 function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIndex = 0, onClose }: GalleryProps) {
+	// Modais do Android são edge-to-edge no RN 0.86: controles afastados das barras do sistema
+	const insets = useSafeAreaInsets()
+	const isAndroid = Platform.OS === 'android'
+
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
@@ -250,7 +255,10 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 			{
 				!hideElements && (
 					<>
-						<CloseButtonArea isPressing={isPressingCloseButton}>
+						<CloseButtonArea
+							isPressing={isPressingCloseButton}
+							style={isAndroid ? { top: insets.top + relativeScreenDensity(10), right: insets.right + relativeScreenWidth(5) } : undefined}
+						>
 							<SmallButton
 								color={theme.colors.red[3]}
 								SvgIcon={CloseIcon}
@@ -283,7 +291,8 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 				key={isLandscapeMode ? 'landscape' : 'portrait'}
 				style={{
 					opacity: hideThumbnailList() ? 0 : 1,
-					zIndex: hideThumbnailList() ? -1 : 1
+					zIndex: hideThumbnailList() ? -1 : 1,
+					...(isAndroid ? { bottom: insets.bottom + relativeScreenDensity(16) } : {})
 				}}
 			>
 				<ThumbnailList
