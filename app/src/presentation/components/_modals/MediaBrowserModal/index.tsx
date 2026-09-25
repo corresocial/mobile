@@ -1,5 +1,5 @@
-import * as MediaLibrary from 'expo-media-library'
-import { Asset, AssetRef } from 'expo-media-library'
+import * as MediaLibrary from 'expo-media-library/legacy'
+import { Asset, AssetRef } from 'expo-media-library/legacy'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Platform, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
