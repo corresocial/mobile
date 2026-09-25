@@ -1,4 +1,4 @@
-import { Asset } from 'expo-media-library'
+import { Asset } from 'expo-media-library/legacy'
 import React, { useContext, useLayoutEffect, useState } from 'react'
 
 import { LoaderContext } from '@contexts/LoaderContext'
