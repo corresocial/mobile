@@ -1,9 +1,11 @@
+import { httpsCallable } from '@react-native-firebase/functions'
+
 import { firebaseFunctions } from '@infrastructure/firebase'
 
 async function checkUserPhoneAlreadyRegistredCloud(phoneNumber: string) {
 	try {
 		// 1. Reference the function
-		const checkPhoneFn = firebaseFunctions.httpsCallable('checkUserPhoneAlreadyRegistred')
+		const checkPhoneFn = httpsCallable(firebaseFunctions, 'checkUserPhoneAlreadyRegistred')
 
 		console.log('checkPhone', checkPhoneFn)
 		// 2. Call it (Auth token is sent automatically)

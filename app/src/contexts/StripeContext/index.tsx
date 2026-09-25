@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { httpsCallable } from '@react-native-firebase/functions'
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, createContext, useEffect, useState } from 'react'
 
@@ -107,7 +108,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const callBackend = async (endpoint: string, data?: any, method: 'GET' | 'POST' | 'DELETE' = 'POST') => {
 		const action = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint
-		const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
+		const stripeApi = httpsCallable(firebaseFunctions, 'stripeApi')
 		const payload = { action, ...data }
 		const response = await stripeApi(payload)
 		return response as any

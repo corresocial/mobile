@@ -1,3 +1,5 @@
+import { deleteObject, getMetadata, ref } from '@react-native-firebase/storage'
+
 import { firebaseStorage } from '@infrastructure/firebase'
 
 async function deleteUserProfilePicture(profilePictures: string[]) {
@@ -8,9 +10,9 @@ async function deleteUserProfilePicture(profilePictures: string[]) {
 			const picturePath = `pictures/users/${pictureUrl.substring(startIndex, endIndex)}`
 
 			try {
-				const pictureStorageRef = firebaseStorage.ref(picturePath)
-				await pictureStorageRef.getMetadata()
-				await pictureStorageRef.delete()
+				const pictureStorageRef = ref(firebaseStorage, picturePath)
+				await getMetadata(pictureStorageRef)
+				await deleteObject(pictureStorageRef)
 			} catch (error: any) {
 				if (error?.code === 'storage/object-not-found') {
 					console.log(`File not found: ${pictureUrl}`)

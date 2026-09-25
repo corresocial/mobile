@@ -1,3 +1,5 @@
+import { getDownloadURL, putFile, ref } from '@react-native-firebase/storage'
+
 import { UploadObjects, UploadPath } from './types'
 
 import { firebaseStorage } from '@infrastructure/firebase'
@@ -21,7 +23,7 @@ async function processUpload(mediaUrl: string, uploadPath: UploadPath, folder: s
 				},
 				async () => {
 					try {
-						const downloadURL = await fileRef.getDownloadURL()
+						const downloadURL = await getDownloadURL(fileRef)
 						console.log(downloadURL)
 						resolve(downloadURL)
 					} catch (error) {
@@ -41,8 +43,8 @@ export async function configUploadObjects(localPath: string, path: UploadPath, f
 
 		const storageFilePath = `${folder}/${path}/${Date.now()}.${fileExtention}`
 
-		const fileRef = firebaseStorage.ref(storageFilePath)
-		const task = fileRef.putFile(localPath)
+		const fileRef = ref(firebaseStorage, storageFilePath)
+		const task = putFile(fileRef, localPath)
 
 		return { task, fileRef } as UploadObjects
 	} catch (error) {

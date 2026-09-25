@@ -1,9 +1,11 @@
+import { httpsCallable } from '@react-native-firebase/functions'
+
 import { firebaseFunctions } from '@infrastructure/firebase'
 
 import { StripeProducts } from './types'
 
 async function getStripeProducts() {
-	const stripeApi = firebaseFunctions.httpsCallable('stripeApi')
+	const stripeApi = httpsCallable(firebaseFunctions, 'stripeApi')
 	const result = await stripeApi({ action: 'products' })
 	return (result.data as any).data
 }

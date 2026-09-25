@@ -1,4 +1,4 @@
-import { addDoc, getDocs, limit, orderBy, query, startAfter, where } from '@react-native-firebase/firestore'
+import { addDoc, collection, getDocs, limit, orderBy, query, startAfter, where } from '@react-native-firebase/firestore'
 
 import { CitizenRegisterEntity } from '@domain/citizenRegister/model/entities/types'
 import { CitizenRegisterRemoteRepositoryInterface } from '@domain/citizenRegister/provider/CitizenRegisterRemoteRepositoryInterface'
@@ -9,7 +9,7 @@ import { firebaseFirestore } from '@infrastructure/firebase'
 
 export class CitizenRegisterRemoteRepository implements CitizenRegisterRemoteRepositoryInterface {
 	async createCitizenRegister(data: CitizenRegisterEntity) {
-		const collectionRef = firebaseFirestore.collection(CITIZEN_REGISTER_COLLECTION)
+		const collectionRef = collection(firebaseFirestore, CITIZEN_REGISTER_COLLECTION)
 
 		const citizenRegisterData = { ...data }
 		const docRef = await addDoc(collectionRef, citizenRegisterData)
@@ -19,7 +19,7 @@ export class CitizenRegisterRemoteRepository implements CitizenRegisterRemoteRep
 
 	async getCitizenRegistrationsByCoordinator(coordinatorId: string, maxDocs = 10, lastDoc: CitizenRegisterEntity | null = null) {
 		try {
-			const collectionRef = firebaseFirestore.collection(CITIZEN_REGISTER_COLLECTION)
+			const collectionRef = collection(firebaseFirestore, CITIZEN_REGISTER_COLLECTION)
 			let citizenRegistersByCoordinatorQuery
 			if (lastDoc) {
 				citizenRegistersByCoordinatorQuery = query(
@@ -48,7 +48,7 @@ export class CitizenRegisterRemoteRepository implements CitizenRegisterRemoteRep
 
 	async getAllCitizenRegisters(maxDocs = 10, lastDoc: CitizenRegisterEntity | null = null) {
 		try {
-			const collectionRef = firebaseFirestore.collection(CITIZEN_REGISTER_COLLECTION)
+			const collectionRef = collection(firebaseFirestore, CITIZEN_REGISTER_COLLECTION)
 			let allCitizenRegistersQuery
 			if (lastDoc) {
 				allCitizenRegistersQuery = query(
