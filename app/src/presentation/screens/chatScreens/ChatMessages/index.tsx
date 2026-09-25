@@ -387,7 +387,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				markChatAsCompleted={toggleImpactReportModalVisibility}
 				submitMessage={submitMessage}
 			/>
-			{Platform.OS === 'ios' && <BottomSafeAreaColor />}
+			{Platform.OS === 'ios' && <BottomSafeAreaColor edges={['bottom']} />}
 		</Container>
 	)
 }

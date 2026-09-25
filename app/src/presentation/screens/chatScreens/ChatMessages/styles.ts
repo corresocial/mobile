@@ -1,5 +1,6 @@
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
@@ -29,7 +30,7 @@ export const IsBlockedContainer = styled.View`
 	align-items: center;
 `
 
-export const BottomSafeAreaColor = styled.SafeAreaView`
+export const BottomSafeAreaColor = styled(SafeAreaView)`
 	flex: 0;
 	background-color: ${({ theme }) => theme.colors.white[3]};
 `
