@@ -1,4 +1,5 @@
 import { VideoView as ExpoVideoView } from 'expo-video'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import styled from 'styled-components/native'
 
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -38,7 +39,7 @@ export const VideoView = styled(ExpoVideoView)<VideoViewProps>`
 	height: ${({ isLandScapeMode }) => (isLandScapeMode ? relativeScreenHeight(40) : relativeScreenHeight(70))}px;
 `
 
-export const GalleryContainer = styled.View`
+export const GalleryContainer = styled(GestureHandlerRootView)`
     justify-content: center;
     align-items: center;
     flex: 1;

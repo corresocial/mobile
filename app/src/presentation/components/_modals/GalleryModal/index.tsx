@@ -2,7 +2,7 @@ import * as ScreenOrientation from 'expo-screen-orientation'
 import { useVideoPlayer, type VideoPlayer } from 'expo-video'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import { Carousel } from 'react-native-reanimated-carousel'
 
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
@@ -148,7 +148,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 	}
 
 	const goToNext = (direction: number) => {
-		const length = (picturesUrl.length + videosUrl.length) ?? 0
+		const length = picturesUrl.length + videosUrl.length
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -232,11 +232,10 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 			<StatusBar backgroundColor={theme.colors.black[4]} />
 			<GalleryContainer>
 				<Carousel
-					enabled={carouselEnabled}
+					scrollEnabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
-					width={screenSizes.width}
-					height={screenSizes.height}
+					style={{ width: screenSizes.width, height: screenSizes.height }}
 					data={mediaUrls}
 					onSnapToItem={(id) => {
 						handleVideoPause(currentIndex)

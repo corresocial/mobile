@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import { View } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import { Carousel } from 'react-native-reanimated-carousel'
 import uuid from 'react-uuid'
 
 import {
@@ -28,10 +28,9 @@ function CustomCarousel({ activeIndicatorColor, children }: CustomCarouselProps)
 		<>
 			<Carousel
 				data={children}
-				autoPlay
-				width={screenWidth}
-				height={screenHeight}
-				autoPlayInterval={3000}
+				autoplay
+				style={{ width: screenWidth, height: screenHeight }}
+				autoplayInterval={3000}
 				loop
 				renderItem={({ item, index }) => (
 					<View >
