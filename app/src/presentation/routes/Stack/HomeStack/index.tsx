@@ -46,7 +46,7 @@ export function HomeStack({ route, navigation }: any) { // REFACTOR Type Routes
 				<Stack.Screen name={'SearchResult'} component={SearchResult} />
 
 				<Stack.Screen name={'PostViewHome'} component={PostView as any} />
-				<Stack.Screen name={'ProfileHome'} component={Profile as any} />
+				<Stack.Screen name={'ProfileHome'} component={Profile as any} getId={({ params }) => params?.userId || undefined} />
 				<Stack.Screen name={'SocialMediaManagementHome'} component={SocialMediaManagement as any} />
 
 				<Stack.Screen name={'PublicServicesStack'} component={PublicServicesStack} />

@@ -279,7 +279,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 				messages: {},
 			} as Chat,
 			via: 'profile'
-		})
+		}, true)
 	}
 
 	const openSocialMediaManagement = () => {

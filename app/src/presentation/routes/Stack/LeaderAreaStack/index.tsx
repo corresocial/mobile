@@ -50,7 +50,7 @@ export function LeaderAreaStack({ route, navigation }: any) {
 				<Stack.Screen name={'ViewUnapprovedRegistersList'} component={ViewUnapprovedRegistersList} />
 
 				{/* TODO Type */}
-				<Stack.Screen name={'ProfileLeaderArea'} component={Profile as any} />
+				<Stack.Screen name={'ProfileLeaderArea'} component={Profile as any} getId={({ params }) => params?.userId || undefined} />
 				<Stack.Screen name={'SearchProfile'} component={SearchProfile as any} />
 
 				<Stack.Screen name={'CitizenRegistrationArea'} component={CitizenRegistrationStack} />

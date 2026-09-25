@@ -226,7 +226,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const recipientUserId = getRecipientUserName() !== 'corre.' ? getRecipientUserId() : 'gubzWyXdQFeC5xEaWlTtbaR64tT2'
 		navigation.navigate('ChatStack' as any, { // TODO type
 			screen: 'ProfileChat',
-			params: { userId: recipientUserId, stackLabel: 'Chat' }
+			params: { userId: recipientUserId, stackLabel: 'Chat' },
+			pop: true
 		})
 	}
 

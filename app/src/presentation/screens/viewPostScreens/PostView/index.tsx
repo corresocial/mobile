@@ -241,7 +241,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 				},
 				messages: {}
 			} as Chat
-		})
+		}, true)
 	}
 
 	const reportPost = () => {
@@ -262,7 +262,7 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		if (postData.owner.redirect) {
 			return Linking.openURL(postData.owner.redirect)
 		}
-		navigateToHomeTabScreen(navigation, 'HomeStack', 'ProfileHome', { userId: postData.owner.userId })
+		navigateToHomeTabScreen(navigation, 'HomeStack', 'ProfileHome', { userId: postData.owner.userId }, true)
 	}
 
 	type PostEntities = 'culture' | 'income' | 'socialImpact'

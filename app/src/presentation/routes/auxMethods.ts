@@ -48,7 +48,8 @@ const navigateToPostView = (postData: PostEntityOptional, navigation: NativeStac
 const navigateToProfileView = (navigation: NativeStackNavigationProp<any>, userId?: string, stackLabel?: StackLabelProps | '', redirect?: string) => {
 	if (redirect) return Linking.openURL(redirect)
 	const profileScreenName = `Profile${stackLabel || ''}`
-	navigateToHomeTabScreen(navigation, profileScreenStacks[profileScreenName], profileScreenName, { userId, stackLabel }, !stackLabel)
+	// Com o getId das telas de perfil, pop volta para o perfil já aberto do mesmo usuário (como no v6) e empilha um novo para outro usuário
+	navigateToHomeTabScreen(navigation, profileScreenStacks[profileScreenName], profileScreenName, { userId, stackLabel }, true)
 }
 
 const navigateToLeaderPostsView = (leaderPostData: PollEntity & PetitionEntity, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type
