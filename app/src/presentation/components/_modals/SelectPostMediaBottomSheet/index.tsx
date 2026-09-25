@@ -138,7 +138,7 @@ function SelectPostMediaBottomSheet({ initialValue, saveMedia }: SelectPostMedia
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
-				maxImages={10 - mediaPack.length ?? 0}
+				maxImages={10 - mediaPack.length}
 				showMediaBrowser={mediaBrowserOpened}
 			/>
 			<CustomCameraModal

@@ -149,7 +149,7 @@ function PostPicturePreview({
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
-				maxImages={10 - mediaPack.length ?? 0}
+				maxImages={10 - mediaPack.length}
 				allowVideos
 				showMediaBrowser={mediaBrowserOpened}
 			/>
