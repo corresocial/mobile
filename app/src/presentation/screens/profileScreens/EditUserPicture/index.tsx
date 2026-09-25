@@ -1,4 +1,3 @@
-import ImageEditor from 'expo-image-cropper'
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
@@ -20,6 +19,7 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
+import { ImageCropperModal } from '@components/_modals/ImageCropperModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
@@ -72,15 +72,15 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 			/>
 			{
 				imageCropperOpened && (
-					<ImageEditor
+					<ImageCropperModal
 						imageUri={profilePictureUrl}
-						fixedAspectRatio={1 / 1}
+						aspectRatio={1 / 1}
 						minimumCropDimensions={{
 							width: 50,
 							height: 50,
 						}}
-						onEditingCancel={() => setImageCropperOpened(false)}
-						onEditingComplete={saveCroppedImage}
+						onCancel={() => setImageCropperOpened(false)}
+						onComplete={saveCroppedImage}
 					/>
 				)
 			}

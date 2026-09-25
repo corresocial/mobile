@@ -1,5 +1,4 @@
-import ImageEditor from 'expo-image-cropper'
-import { Asset } from 'expo-media-library'
+import { Asset } from 'expo-media-library/legacy'
 import React, { useContext, useLayoutEffect, useState } from 'react'
 
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -21,6 +20,7 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
+import { ImageCropperModal } from '@components/_modals/ImageCropperModal'
 import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { VideoPortrait } from '@components/VideoPortrait'
@@ -99,7 +99,7 @@ function PostPicturePreview({
 
 	const saveCroppedImage = (image: any) => {
 		const newPicturesPack = [...mediaPack]
-		newPicturesPack[mediaIndexSelected] = image.uri
+		newPicturesPack[mediaIndexSelected] = { ...newPicturesPack[mediaIndexSelected], url: image.uri }
 		setMediaPack(newPicturesPack)
 		setImageCropperOpened(false)
 	}
@@ -149,7 +149,7 @@ function PostPicturePreview({
 			<MediaBrowserModal
 				onSelectionConfirmed={mediaBrowserHandler}
 				onClose={() => setMediaBrowserOpened(false)}
-				maxImages={10 - mediaPack.length ?? 0}
+				maxImages={10 - mediaPack.length}
 				allowVideos
 				showMediaBrowser={mediaBrowserOpened}
 			/>
@@ -160,15 +160,15 @@ function PostPicturePreview({
 			/>
 			{
 				imageCropperOpened && (
-					<ImageEditor
-						imageUri={mediaPack[mediaIndexSelected]}
-						fixedAspectRatio={1 / 1}
+					<ImageCropperModal
+						imageUri={mediaPack[mediaIndexSelected]?.url}
+						aspectRatio={1 / 1}
 						minimumCropDimensions={{
 							width: 50,
 							height: 50,
 						}}
-						onEditingCancel={() => setImageCropperOpened(false)}
-						onEditingComplete={saveCroppedImage}
+						onCancel={() => setImageCropperOpened(false)}
+						onComplete={saveCroppedImage}
 					/>
 				)
 			}
