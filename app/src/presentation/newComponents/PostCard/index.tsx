@@ -52,6 +52,7 @@ function PostCardVideo({ videoUrl, videoMuted, isVisible, onLoad }: PostCardVide
 			player={videoPlayer}
 			contentFit={'cover'}
 			nativeControls={false}
+			surfaceType={'textureView'}
 		/>
 	)
 }

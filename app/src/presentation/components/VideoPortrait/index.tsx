@@ -60,6 +60,7 @@ function VideoPortrait({
 								player={videoPlayer}
 								nativeControls={showVideoPlayer}
 								contentFit={'contain'}
+								surfaceType={'textureView'}
 							/>
 						</>
 					)

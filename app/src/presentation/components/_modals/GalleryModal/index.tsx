@@ -54,6 +54,7 @@ function GalleryVideo({ uri, isLandscapeMode, onPlayerChange }: GalleryVideoProp
 			player={videoPlayer}
 			contentFit={'contain'}
 			nativeControls
+			surfaceType={'textureView'}
 		/>
 	)
 }
