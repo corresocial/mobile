@@ -396,15 +396,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	const navigateToEditCurrentPlanScreen = () => {
-		navigation.navigate('HomeTab', {
-			screen: 'ProfileStack',
-			params: {
-				screen: 'SelectSubscriptionRange',
-				params: {
-					editMode: true,
-					initialValue: 'value'
-				}
-			}
+		// O provider fica fora do Stack.Navigator do UserStack, então a navegação parte do AuthRegisterStack
+		// SelectSubscriptionRange não é registrada na ProfileStack, então no v6 apenas a aba de perfil era aberta; comportamento mantido
+		navigation.navigate('UserStack' as any, {
+			screen: 'HomeTab',
+			pop: true, // Volta para a HomeTab existente, como o navigate do v6
+			params: { screen: 'ProfileStack' }
 		} as any)
 	}
 

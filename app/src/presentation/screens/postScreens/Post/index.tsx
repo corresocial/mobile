@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback } from 'react'
 import { View, BackHandler } from 'react-native'
 
 import { HomeTabScreenProps } from '@routes/Tabs/HomeTab/screenProps'
@@ -11,9 +12,10 @@ import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { SelectPostType } from '../SelectPostType'
 
 function Post({ navigation, route }: HomeTabScreenProps) {
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	})
+	useFocusEffect(useCallback(() => {
+		const backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+		return () => backHandlerSubscription.remove()
+	}, []))
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {

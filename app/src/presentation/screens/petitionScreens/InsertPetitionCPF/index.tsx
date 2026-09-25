@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
-import React, { useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { ExtraIdentificationRequest } from '@domain/petition/entity/types'
@@ -11,7 +12,6 @@ import { PetitionStackParamList } from '@routes/Stack/PetitionStack/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
@@ -23,14 +23,14 @@ function InsertPetitionCPF({ navigation }: InsertPetitionCPFScreenProps) {
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const savePetitionCPF = (inputText: string) => {
 		setPetitionSignatureOnContext({ cpf: inputText })

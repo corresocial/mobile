@@ -52,7 +52,7 @@ function StateProvider({ children }: StateProviderProps) {
 	}, [stateDataContext])
 
 	const navigateToTour = useCallback(() => {
-		navigation.navigate('SelectPostType' as any)
+		navigation.navigate('UserStack', { screen: 'SelectPostType' })
 		setStateDataOnContext({ showTourModal: false })
 	}, [])
 

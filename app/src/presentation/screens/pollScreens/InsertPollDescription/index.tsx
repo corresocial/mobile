@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
@@ -6,7 +7,6 @@ import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 
 import { InsertPollDescriptionScreenProps } from '@routes/Stack/PollStack/screenProps'
 
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
@@ -17,14 +17,14 @@ function InsertPollDescription({ route, navigation }: InsertPollDescriptionScree
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

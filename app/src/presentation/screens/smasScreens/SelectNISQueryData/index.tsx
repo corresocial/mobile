@@ -26,7 +26,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	const navigateToInputScreen = (inputScreenName: keyof PublicServiceStackParamList) => {
-		navigation.push(inputScreenName)
+		navigation.push(inputScreenName as any)
 	}
 
 	const numberOfMissingInfoRequested = () => {

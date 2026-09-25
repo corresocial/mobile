@@ -122,7 +122,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 			await citizenUseCases.deleteOfflineCitizenRegister(offlineRegisterId || '')
 
 			setIsLoading(false)
-			navigation.navigate('CitizenRegistrationHome')
+			navigation.popTo('CitizenRegistrationHome')
 		} catch (error) {
 			console.log(error)
 			setIsLoading(false)
@@ -156,7 +156,7 @@ function FinishCitizenRegistration({ navigation }: FinishCitizenRegistrationScre
 				highlightedWords={['armazenadas', 'no', 'dispositivo,']}
 				onPressButton={() => {
 					setTimeoutModalIsVisible(false)
-					navigation.navigate('CitizenRegistrationHome')
+					navigation.popTo('CitizenRegistrationHome')
 				}}
 			/>
 			<CitizenRegistrationHeader

@@ -206,10 +206,10 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					borderTopWidth: relativeScreenDensity(2),
 					marginBottom: 0
 				},
-				tabBarItemStyle: Platform.OS === 'ios' && {
+				tabBarItemStyle: Platform.OS === 'ios' ? {
 					flex: 1,
 					height: '100%'
-				},
+				} : undefined,
 				tabBarIconStyle: {
 					height: relativeScreenDensity(30),
 					width: '100%',

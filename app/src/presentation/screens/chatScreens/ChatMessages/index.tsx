@@ -1,4 +1,5 @@
-import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { RefObject, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { FlatList, Keyboard, Platform } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -103,13 +104,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		}
 	}, [])
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', () => scrollToEnd(true))
-			Keyboard.addListener('keyboardDidHide', () => scrollToEnd(true))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => scrollToEnd(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => scrollToEnd(true))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 	useEffect(() => {
 		setTimeout(() => {
 			setFirstRender(false)
@@ -226,7 +228,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const recipientUserId = getRecipientUserName() !== 'corre.' ? getRecipientUserId() : 'gubzWyXdQFeC5xEaWlTtbaR64tT2'
 		navigation.navigate('ChatStack' as any, { // TODO type
 			screen: 'ProfileChat',
-			params: { userId: recipientUserId, stackLabel: 'Chat' }
+			params: { userId: recipientUserId, stackLabel: 'Chat' },
+			pop: true
 		})
 	}
 

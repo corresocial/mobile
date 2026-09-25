@@ -6,6 +6,7 @@ import { useUtils } from '@newutils/useUtils'
 
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { AlertContextProps, AlertModalContent, AlertProviderProps, InitialNotificationStateType } from './types'
+import { navigateToHomeTabScreen, navigateToHomeTabStack } from '@routes/auxMethods'
 
 import { Permissions } from '@common/permissions/permissions'
 
@@ -108,13 +109,14 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const handlerAlertNotificationModal = useCallback(() => {
 		setAlertNotificationIsVisible(false)
 		updateNotificationState({ notificationAlertModal: false, configNotificationButton: false })
-		navigation.navigate('Configurations' as any)
-		navigation.navigate('NotificationSettings' as any)
+		navigateToHomeTabStack(navigation, 'ProfileStack', {
+			state: { routes: [{ name: 'Profile' }, { name: 'Configurations' }, { name: 'NotificationSettings' }] }
+		})
 	}, [])
 
 	const handleEventCalendarPresentation = useCallback(() => {
 		setEventCalendarPresentationModalIsVisible(false)
-		navigation.navigate('EventsCalendar' as any)
+		navigateToHomeTabScreen(navigation, 'HomeStack', 'EventsCalendar')
 	}, [])
 
 	const handlePermissionModal = useCallback(async () => {

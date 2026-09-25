@@ -7,6 +7,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { CulturePostReviewScreenProps } from '@routes/Stack/CultureStack/screenProps'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 
@@ -110,11 +111,11 @@ function CulturePostReview({ route, navigation }: CulturePostReviewScreenProps) 
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any) // TODO Type todas as navegações entre stacks que estão no mesmo nível
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'Profile', undefined, true)
 	}
 
 	const navigateToPostView = (culturePostData: PostEntityOptional) => {
-		navigation.navigate('PostViewProfile' as any, { postData: culturePostData })
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'PostViewProfile', { postData: culturePostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureEntity) => {
@@ -131,7 +132,7 @@ function CulturePostReview({ route, navigation }: CulturePostReviewScreenProps) 
 			}
 		}
 
-		navigation.push(screenName, { editMode: true, initialValue: value })
+		navigation.push(screenName as any, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectCultureLocationView', 'location')

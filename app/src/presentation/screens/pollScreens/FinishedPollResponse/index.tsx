@@ -86,7 +86,7 @@ function FinishedPollResponse({ navigation }: FinishedPollResponseScreenProps) {
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ViewPoll', {} as any)
+			navigation.popTo('ViewPoll', {} as any)
 			navigation.goBack()
 		} catch (error) {
 			setIsLoading(false)

@@ -16,7 +16,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { navigateToLeaderPostsView, navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
+import { navigateToHomeTabStack, navigateToLeaderPostsView, navigateToPostView, navigateToProfileView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
 import { FeedSearchParams } from '@services/cloudFunctions/types/types'
 import { AddressSearchResult, SelectedAddressRender, GeocodeAddress } from '@services/googleMaps/types/maps'
@@ -298,8 +298,15 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToEditUserLocation = () => {
-		navigation.navigate('EditProfile' as any, { user: userDataContext })
-		navigation.navigate('EditUserLocation' as any, { initialCoordinates: null })
+		navigateToHomeTabStack(navigation, 'ProfileStack', {
+			state: {
+				routes: [
+					{ name: 'Profile' },
+					{ name: 'EditProfile', params: { user: userDataContext } },
+					{ name: 'EditUserLocation', params: { initialCoordinates: null } }
+				]
+			}
+		})
 	}
 
 	const navigateToPublicServices = () => {

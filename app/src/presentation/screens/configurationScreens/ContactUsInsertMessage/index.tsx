@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -10,7 +11,6 @@ import { useNotionService } from '@services/notion/useNotionService'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -33,14 +33,14 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	useEffect(() => {
 		const validation = validateItemDescription(message)
@@ -81,7 +81,12 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ContactUsSuccess', { reportType: route.params.reportedType || 'none' })
+			const contactUsSuccessParams = { reportType: route.params.reportedType || 'none' }
+			// Instância registrada no UserStack (denúncias de enquete/abaixo-assinado) segue para a tela de sucesso do mesmo navegador
+			const isUserStackInstance = (route.name as string) === 'ContactUsInsertMessageUserStack'
+			isUserStackInstance
+				? navigation.navigate('ContactUsSuccessUserStack', contactUsSuccessParams)
+				: navigation.navigate('ContactUsSuccess', contactUsSuccessParams)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)

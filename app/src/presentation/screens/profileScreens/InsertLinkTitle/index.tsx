@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { SocialMedia } from '@domain/user/entity/types'
@@ -26,13 +27,14 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 		linkTitleInput: useRef<TextInput>(null),
 	}
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	useEffect(() => {
 		const validation = validateLinkTitle(linkTitle)

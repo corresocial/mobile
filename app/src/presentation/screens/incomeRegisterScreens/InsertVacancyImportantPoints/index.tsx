@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -9,7 +10,6 @@ import { InsertVacancyImportantPointsScreenProps } from '@routes/Stack/IncomeSta
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -38,14 +38,14 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		importantPointTextInput: useRef<TextInput>(null),
 	}
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext } from 'react'
 import { Alert, BackHandler } from 'react-native'
 
 import { PostEntityCommonFields } from '@domain/post/entity/types'
@@ -41,9 +42,10 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 
 	const { successfulPayment, postReview, editPaymentMethod } = route.params
 
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	})
+	useFocusEffect(useCallback(() => {
+		const backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+		return () => backHandlerSubscription.remove()
+	}, []))
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {

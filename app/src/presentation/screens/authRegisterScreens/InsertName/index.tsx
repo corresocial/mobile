@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, StatusBar, Platform, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -7,7 +8,6 @@ import { InsertNameScreenProps } from '@routes/Stack/AuthRegisterStack/screenPro
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -29,14 +29,14 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 		nameInput: useRef<TextInput>(null),
 	}
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	useEffect(() => {
 		if (!alreadyLoaded) {

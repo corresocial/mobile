@@ -17,9 +17,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { useLocationContext } from '@contexts/LocationContext'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
 import { PostViewHomeScreenProps } from '@routes/Stack/HomeStack/screenProps'
-import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
@@ -226,32 +226,27 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
 
-		navigation.navigate('HomeTab' as any, {
-			screen: 'ChatStack' as keyof HomeTabParamList
-		})
-		setTimeout(() => {
-			navigation.navigate('ChatMessages' as any, {
-				chat: {
-					chatId: '',
-					user1: {
-						userId: userId1 || '',
-						name: userDataContext.name || '',
-						profilePictureUrl: getUserProfilePictureFromContext()
-					},
-					user2: {
-						userId: userId2,
-						name: postData.owner.name,
-						profilePictureUrl: getProfilePictureUrl() || ''
-					},
-					messages: {}
-				} as Chat
-			})
-		}, 50)
+		navigateToHomeTabScreen(navigation, 'ChatStack', 'ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userId1 || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
+				},
+				user2: {
+					userId: userId2,
+					name: postData.owner.name,
+					profilePictureUrl: getProfilePictureUrl() || ''
+				},
+				messages: {}
+			} as Chat
+		}, true)
 	}
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, {
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'ContactUsInsertMessage', {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,
@@ -261,13 +256,13 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId && !route.params.redirectedPostId) {
-			return navigation.navigate('Profile' as any)
+			return navigateToHomeTabScreen(navigation, 'ProfileStack', 'Profile', undefined, true)
 		}
 
 		if (postData.owner.redirect) {
 			return Linking.openURL(postData.owner.redirect)
 		}
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+		navigateToHomeTabScreen(navigation, 'HomeStack', 'ProfileHome', { userId: postData.owner.userId }, true)
 	}
 
 	type PostEntities = 'culture' | 'income' | 'socialImpact'

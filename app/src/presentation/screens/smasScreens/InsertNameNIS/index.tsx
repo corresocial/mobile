@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { useSmasDomain } from '@domain/smas/useSmasDomain'
@@ -25,13 +26,14 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 		return unsubscribe
 	})
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const validateInputName = (name: string) => {
 		const isValid = validateName(name)

@@ -64,9 +64,13 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			screen: 'HomeTab',
 			params: {
 				screen: 'HomeStack',
+				params: {
+					screen: 'ProfileHome',
+					params: { userId: id },
+					initial: false
+				}
 			}
 		} as any)
-		navigation.navigate('ProfileHome' as any, { userId: id })
 	}
 
 	const navigateToPost = (id: string) => {
@@ -80,9 +84,13 @@ function Splash({ route, navigation }: SplashScreenProps) {
 			screen: 'HomeTab',
 			params: {
 				screen: 'HomeStack',
+				params: {
+					screen: 'PostViewHome',
+					params: { redirectedPostId: id },
+					initial: false
+				}
 			}
 		} as any)
-		navigation.navigate('PostViewHome' as any, { redirectedPostId: id })
 	}
 
 	const redirectToApp = async () => {

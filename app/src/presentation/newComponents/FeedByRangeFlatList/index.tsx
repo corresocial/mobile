@@ -68,7 +68,8 @@ function FeedByRangeFlatList({
 	const flatListRef = useRef<FlatList>(null)
 	const navigation = useNavigation<HomeScreenProps['navigation']>()
 	useEffect(() => {
-		navigation.getParent()?.setParams({
+		// replaceParams descarta parâmetros de navegação aninhada já consumidos (screen/params), que o React Navigation 7 reaplicaria a cada nova versão dos parâmetros
+		navigation.getParent()?.replaceParams({
 			scrollToTop: () => flatListRef.current?.scrollToOffset({ animated: true, offset: 0 })
 		})
 	}, [navigation])

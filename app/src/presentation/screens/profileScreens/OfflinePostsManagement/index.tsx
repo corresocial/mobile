@@ -11,6 +11,7 @@ import { usePostRepository } from '@data/post/usePostRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
@@ -151,9 +152,9 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 
 	const naigateToReviewPost = (post: PostEntityOptional) => {
 		switch (post.postType as any) {
-			case 'income': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
-			case 'culture': return navigation.navigate('CulturePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'socialImpact': return navigation.navigate('SocialImpactPostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'income': return navigateToHomeTabScreen(navigation, 'ProfileStack', 'IncomePostReview', { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
+			case 'culture': return navigateToHomeTabScreen(navigation, 'ProfileStack', 'CulturePostReview', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'socialImpact': return navigateToHomeTabScreen(navigation, 'ProfileStack', 'SocialImpactPostReview', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
 			default: return null
 		}
 	}
