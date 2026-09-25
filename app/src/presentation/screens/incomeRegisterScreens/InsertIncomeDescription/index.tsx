@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { useEditContext } from '@contexts/EditContext'
@@ -6,7 +7,6 @@ import { useIncomeContext } from '@contexts/IncomeContext'
 
 import { InsertIncomeDescriptionScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
@@ -23,14 +23,14 @@ function InsertIncomeDescription({ route, navigation }: InsertIncomeDescriptionS
 		}
 	}, [])
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

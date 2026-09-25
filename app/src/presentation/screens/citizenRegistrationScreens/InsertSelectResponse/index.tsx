@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, Keyboard, ListRenderItem, Platform } from 'react-native'
 import { useTheme } from 'styled-components'
 
@@ -31,7 +32,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 	const [inputText, setInputText] = useState<string>('')
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
-	const optionListRef = useRef<FlatList | any>()
+	const optionListRef = useRef<FlatList | any>(undefined)
 
 	const { questionData } = route.params
 	const { multiSelect } = questionData
@@ -41,17 +42,18 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 		setResponseProgress(progress)
 	}, [])
 
-	useEffect(() => {
+	useFocusEffect(useCallback(() => {
 		const handleKeyboardDidShow = () => setKeyboardOpened(true)
 		const handleKeyboardDidHide = () => setKeyboardOpened(false)
 
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow)
-			Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide)
-		})
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow)
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide)
 
-		return unsubscribe
-	}, [navigation])
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	useEffect(() => {
 		const questionIndex = citizenRegistrationResponseData.findIndex((res) => res.questionId === questionData.questionId)
