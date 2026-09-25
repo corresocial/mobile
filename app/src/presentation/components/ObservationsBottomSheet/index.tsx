@@ -114,6 +114,7 @@ const ObservationsBottomSheet = forwardRef(({
 			ref={bottomSheetModalRef}
 			index={0}
 			snapPoints={[relativeScreenHeight(50), relativeScreenHeight(85)]}
+			enableDynamicSizing={false}
 			handleComponent={renderCustomHeader}
 			backgroundStyle={bottomSheetBackgroundStyle}
 			backdropComponent={getBackgropBottomSheet}
