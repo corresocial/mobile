@@ -16,8 +16,11 @@ O projeto é organizado por função, onde cada diretório representa uma Cloud 
 | --- | --- | --- |
 | **chatMessagesNotificationListener** | Monitora novas mensagens no Realtime Database e envia notificações push via Expo. | Realtime Database (Create) |
 | **checkUserPhoneAlreadyRegistred** | Verifica se o número de telefone de um usuário já está registrado no Firebase Authentication. | Requisição HTTP |
+| **discordIntegration** | Encaminha mensagens do Fale Conosco, denúncias e erros para os webhooks do Discord. | Callable (HTTPS) |
 | **getFeedPosts** | Recupera postagens para o feed do usuário. | Requisição HTTP |
+| **notionIntegration** | Registra mensagens do Fale Conosco, denúncias e erros no banco de dados do Notion. | Callable (HTTPS) |
 | **searchPostsByAlgolia** | Realiza operações de busca de postagens usando a integração com Algolia. | Requisição HTTP |
+| **stripeApi** | Gerencia clientes, assinaturas e pagamentos do Stripe. | Callable (HTTPS) |
 
 ## Pré-requisitos
 
@@ -36,10 +39,25 @@ cp .env.sample .env
 
 2. Edite o arquivo `.env` e preencha com suas credenciais reais:
    - **Discord Webhooks**: URLs dos webhooks do seu servidor Discord
+   - **Notion**: Token da integração interna e ID do banco de dados do Fale Conosco
    - **Algolia**: ID e chave de API da sua conta Algolia
    - **Stripe**: Chave secreta e webhook secret do Stripe
 
 > ⚠️ **IMPORTANTE**: O arquivo `.env` contém credenciais sensíveis e **não deve ser commitado** no repositório. Certifique-se de que está no `.gitignore`.
+
+### Variáveis por função
+
+| Variável | Função | Descrição |
+| --- | --- | --- |
+| `FALECONOSCO_WEBHOOK` | discordIntegration | Webhook do canal de Fale Conosco |
+| `ERROS_WEBHOOK` | discordIntegration | Webhook do canal de erros |
+| `DENUNCIAR_WEBHOOK` | discordIntegration | Webhook do canal de denúncias |
+| `NOTION_FALECONOSCO_KEY` | notionIntegration | Token da integração interna do Notion |
+| `NOTION_FALECONOSCO_ID` | notionIntegration | ID do banco de dados do Fale Conosco no Notion |
+| `ALGOLIA_ID` / `ALGOLIA_KEY` | searchPostsByAlgolia | Credenciais do Algolia |
+| `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | stripeApi | Chave secreta e segredo do webhook do Stripe |
+
+> 🔒 Segredos de serviços de terceiros (Stripe, Discord, Notion) devem existir **apenas** aqui, nunca no `.env` do app: tudo que é importado de `@env` no app é embutido no bundle JavaScript distribuído nas lojas e nas atualizações OTA.
 
 ## Scripts Disponíveis
 
@@ -110,6 +128,7 @@ npm run deploy
 O script `config_all.sh` lê o arquivo `.env` principal e gera automaticamente arquivos `.env.yaml` específicos para cada função, incluindo apenas as variáveis relevantes:
 
 - **discordIntegration**: Recebe webhooks do Discord
+- **notionIntegration**: Recebe token e ID do banco do Notion
 - **searchPostsByAlgolia**: Recebe credenciais do Algolia
 - **stripeApi**: Recebe chaves do Stripe
 

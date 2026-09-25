@@ -68,6 +68,9 @@ get_relevant_vars() {
         *discord*|*webhook*)
             echo "FALECONOSCO_WEBHOOK ERROS_WEBHOOK DENUNCIAR_WEBHOOK"
             ;;
+        *notion*)
+            echo "NOTION_FALECONOSCO_KEY NOTION_FALECONOSCO_ID"
+            ;;
         *algolia*|*search*)
             echo "ALGOLIA_ID ALGOLIA_KEY"
             ;;
