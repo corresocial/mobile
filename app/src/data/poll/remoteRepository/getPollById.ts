@@ -8,7 +8,7 @@ async function getPollDataById(pollId: string) {
 	const postRef = firebaseFirestore.collection(POLL_COLLECTION).doc(pollId)
 	const postSnap = await postRef.get()
 
-	if (postSnap.exists) {
+	if (postSnap.exists()) {
 		return { ...postSnap.data(), pollId } as PollEntity
 	}
 }

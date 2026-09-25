@@ -13,7 +13,7 @@ async function getPrivateContacts(userId: string) {
 			.doc('contacts')
 
 		const docSnap = await docRef.get()
-		if (docSnap.exists) {
+		if (docSnap.exists()) {
 			return { ...docSnap.data() as PrivateUserEntity['contacts'] }
 		}
 

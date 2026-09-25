@@ -8,7 +8,7 @@ async function getPetitionDataById(petitionId: string) {
 	const postRef = firebaseFirestore.collection(PETITION_COLLECTION).doc(petitionId)
 	const postSnap = await postRef.get()
 
-	if (postSnap.exists) {
+	if (postSnap.exists()) {
 		return { ...postSnap.data(), petitionId } as PetitionEntity
 	}
 }

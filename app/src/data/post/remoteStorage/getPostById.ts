@@ -11,7 +11,7 @@ async function getPostById(postId: string) {
 			.doc(postId)
 			.get()
 
-		if (postSnap.exists) {
+		if (postSnap.exists()) {
 			return { postId, ...postSnap.data() } as PostEntity
 		}
 

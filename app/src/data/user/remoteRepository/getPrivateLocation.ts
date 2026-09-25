@@ -14,7 +14,7 @@ async function getPrivateLocation(userId: string) {
 
 		const docSnap = await docRef.get()
 
-		if (docSnap.exists) {
+		if (docSnap.exists()) {
 			return { ...docSnap.data() as PrivateUserEntity['location'] }
 		}
 
