@@ -327,12 +327,12 @@ function PostView({ route, navigation }: PostViewHomeScreenProps) {
 
 		setIsLoadingMore(false)
 		if (postData?.macroCategory === 'event') {
-			return navigation.navigate('EventsCalendar')
+			return navigation.navigate('EventsCalendar', undefined, { pop: true }) // v7: volta à lista existente como no v6
 		}
 
 		const commomRedirect = ['art', 'donation', 'education', 'informative', 'iniciative', 'sale', 'service', 'vacancy']
 		if (commomRedirect.includes(postData?.macroCategory)) {
-			return navigation.navigate('ViewPostsByMacroCategory')
+			return navigation.navigate('ViewPostsByMacroCategory', undefined, { pop: true })
 		}
 	}
 

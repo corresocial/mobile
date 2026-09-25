@@ -8,8 +8,11 @@ Para saber mais sobre o conceito e como funciona, consulte a documentação ofic
 
 # Instalação
 
-1. **Dependências globais instaladas:**
-    - npm@10.8.0
+1. **Dependências globais instaladas** (Expo SDK 57 / React Native 0.86):
+    - Node.js 22 LTS (>= 22.13; há um `.nvmrc` em `/app`) e npm >= 10.9
+    - eas-cli >= 18.0.5 (`npm i -g eas-cli@latest`)
+    - **iOS**: Xcode 26.x (>= 26.4; as builds na EAS usam o Xcode 26.6). Com o Xcode 27 o app só abre em simuladores/dispositivos com iOS 26 ou anterior, pois o SDK do iOS 27 exige o ciclo de vida com UIScene, que ainda não está habilitado
+    - **Android**: JDK 17 e Android SDK Platform 36, necessários apenas para builds locais
 2. Clone o repositório com o comando: `git clone https://github.com/corre-social/mobile.git ./`
 3. Ainda no git terminal, alterne para a branch dev com o comando `git checkout dev`
 4. Abra o VSCode dentro da pasta `/app`

@@ -110,7 +110,7 @@ export default () => {
 					'expo-splash-screen',
 					{
 						image: './assets/foreground.png',
-						imageWidth: 280,
+						imageWidth: 310,
 						resizeMode: 'contain',
 						backgroundColor: '#FFAA33'
 					}

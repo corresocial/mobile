@@ -1,6 +1,6 @@
 {
 	"cli": {
-		"version": ">= 3.6.0",
+		"version": ">= 18.0.5",
 		"appVersionSource": "local",
 		"promptToConfigurePushNotifications": false
 	},
@@ -17,7 +17,8 @@
 				"buildType": "apk"
 			},
 			"env": {},
-			"channel": "development-build"
+			"channel": "development-build",
+			"environment": "development"
 		},
 		"development": {
 			"developmentClient": false,
@@ -34,7 +35,8 @@
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "development"
+			"channel": "development",
+			"environment": "development"
 		},
 		"production": {
 			"ios": {
@@ -49,7 +51,8 @@
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.11.0"
+			"channel": "v0.11.0",
+			"environment": "production"
 		}
 	},
 	"submit": {
