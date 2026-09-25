@@ -2,8 +2,15 @@
 	"extends": "expo/tsconfig.base",
 	"compilerOptions": {
 		"strict": true,
-		"baseUrl": "./",
+		"types": [
+			"jest",
+			"node",
+			"styled-components-react-native"
+		],
 		"paths": {
+			"src/*": [
+				"./src/*"
+			],
 			"@globalTypes/*": [
 				"./src/types/*"
 			],
@@ -23,13 +30,13 @@
 				"./src/data/*"
 			],
 			"@newutils/*": [
-				"src/newutils/*"
+				"./src/newutils/*"
 			],
 			"@utils/*": [
-				"src/presentation/utils/*"
+				"./src/presentation/utils/*"
 			],
 			"@routes/*": [
-				"src/presentation/routes/*"
+				"./src/presentation/routes/*"
 			],
 			"@common/*": [
 				"./src/presentation/common/*"
