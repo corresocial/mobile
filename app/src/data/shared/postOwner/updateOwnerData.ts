@@ -1,3 +1,5 @@
+import { doc, writeBatch } from '@react-native-firebase/firestore'
+
 import { UserOwner } from '@domain/user/entity/types'
 
 import { PETITION_COLLECTION, POLL_COLLECTION, POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
@@ -29,9 +31,9 @@ async function updateOwnerData(
 
 		for (let i = 0; i < userPostIds.length; i += BATCH_SIZE) {
 			const batchIds = userPostIds.slice(i, i + BATCH_SIZE)
-			const batch = firebaseFirestore.batch()
+			const batch = writeBatch(firebaseFirestore)
 			batchIds.forEach((postId) => {
-				const ref = firebaseFirestore.collection(collection).doc(postId)
+				const ref = doc(firebaseFirestore, collection, postId)
 				batch.update(ref, {
 					owner,
 					updatedAt: new Date(),
