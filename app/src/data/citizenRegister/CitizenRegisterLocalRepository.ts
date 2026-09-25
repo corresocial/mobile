@@ -69,7 +69,7 @@ export class CitizenRegisterLocalRepository implements CitizenRegisterLocalRepos
 		}
 	}
 
-	async getCitizenRegistrationProgressData(): Promise<CitizenRegisterEntity> {
+	async getCitizenRegistrationProgressData(): Promise<CitizenRegisterEntity | null> {
 		const storagedDataJSON = await AsyncStorage.getItem(LOCAL_OFFLINE_CITIZEN_REGISTRATION_PROGRESS_KEY)
 		return storagedDataJSON
 			? JSONMethods.convertFromJson(storagedDataJSON)

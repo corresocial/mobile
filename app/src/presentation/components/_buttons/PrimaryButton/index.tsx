@@ -68,7 +68,7 @@ function PrimaryButton({
 
 	const theme = useTheme()
 
-	const buttonRef = useRef<any>()
+	const buttonRef = useRef<any>(undefined)
 
 	useEffect(() => {
 		if (startsHidden && keyboardHideButton) {

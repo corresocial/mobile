@@ -51,7 +51,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 		],
 		questionTextInput: useRef<TextInput>(null),
 	}
-	const questionListRef = useRef<FlatList | any>()
+	const questionListRef = useRef<FlatList | any>(undefined)
 
 	const questionLimit = 60
 

@@ -45,8 +45,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
 
-	const notificationListener: MutableObjectReference<any> = useRef()
-	const responseListener: MutableObjectReference<any> = useRef()
+	const notificationListener: MutableObjectReference<any> = useRef(undefined)
+	const responseListener: MutableObjectReference<any> = useRef(undefined)
 
 	const chatDataContextRef = useRef(chatDataContext)
 

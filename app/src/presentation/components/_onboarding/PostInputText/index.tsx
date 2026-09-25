@@ -66,7 +66,7 @@ function PostInputText({
 	const [inputText, setInputText] = useState<string>(initialValue || '')
 	const [inputTextIsValid, setInputTextIsValid] = useState<boolean>(false)
 
-	const textInputRef = useRef()
+	const textInputRef = useRef(undefined)
 
 	useEffect(() => {
 		setInputText(initialValue || '')

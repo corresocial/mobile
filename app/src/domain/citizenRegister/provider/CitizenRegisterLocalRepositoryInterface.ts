@@ -5,6 +5,6 @@ export interface CitizenRegisterLocalRepositoryInterface {
 	getOfflineCitizenRegisters(): Promise<CitizenRegisterEntity[]>
 	removeCitizenRegister(citizenRegisterId: string): Promise<CitizenRegisterEntity[]>
 	updateCitizenRegistrationInProgress(citizenRegister: CitizenRegisterEntityOptional): Promise<void>
-	getCitizenRegistrationProgressData(): Promise<CitizenRegisterEntity>
+	getCitizenRegistrationProgressData(): Promise<CitizenRegisterEntity | null>
 	removeCitizenRegistrationInProgress(): Promise<void>
 }

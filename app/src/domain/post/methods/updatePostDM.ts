@@ -42,7 +42,7 @@ async function updatePostDM(
 		const picturesAlreadyUploaded = (unsavedPostPictures || []).filter((url: string) => url.includes('https://')) || []
 
 		const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'pictures')
-		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
+		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl]
 	}
 
 	// 	// Tratamento de videos  ///////////////////////////////////////////////
@@ -55,7 +55,7 @@ async function updatePostDM(
 		const videosAlreadyUploaded = (unsavedPostVideos || []).filter((url: string) => url.includes('https://')) || []
 
 		const uploadedVideosUrl = await remoteStorage.uploadPostMedias(videosNotUploaded, 'videos')
-		newPostVideosUrl = [...videosAlreadyUploaded, ...uploadedVideosUrl] || []
+		newPostVideosUrl = [...videosAlreadyUploaded, ...uploadedVideosUrl]
 	}
 
 	/// ////

@@ -61,7 +61,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 
 	const horizontalScrollViewRef = useRef<InstanceType<typeof ScrollView>>(null)
-	const searchInputRef = useRef<TextInput>()
+	const searchInputRef = useRef<TextInput | undefined>(undefined)
 
 	const authenticatedUserId = userDataContext.userId
 
