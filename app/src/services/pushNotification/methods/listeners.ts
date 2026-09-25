@@ -12,9 +12,8 @@ function addNotificationListener(listenerReference: React.MutableRefObject<any>,
 
 function removeNotificationListener(listenerReference: React.MutableRefObject<any>, responseReference: React.MutableRefObject<any>) {
 	if (listenerReference && responseReference.current) {
-		Notifications.removePushTokenSubscription(listenerReference.current)
-		Notifications.removeNotificationSubscription(listenerReference.current)
-		Notifications.removeNotificationSubscription(responseReference.current)
+		listenerReference.current?.remove()
+		responseReference.current.remove()
 		Notifications.unregisterForNotificationsAsync()
 	}
 }

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { LegacyRef, useState } from 'react'
+import React, { Ref, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
@@ -32,7 +32,7 @@ interface PopOverProps {
 	popoverVisibility: boolean
 	buttonLabel?: string
 	profileId?: string
-	children: React.ReactChild
+	children: React.ReactElement | number | string
 	reportUser?: () => void
 	onPressVerify?: (label: VerifiedLabelName) => void
 	removeProfileVerification?: () => void
@@ -124,7 +124,7 @@ function PopOver({
 			backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
-					<View ref={sourceRef as LegacyRef<View>} >
+					<View ref={sourceRef as Ref<View>} >
 						{children}
 					</View>
 				</TouchableOpacity>

@@ -1,5 +1,6 @@
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
 import { FlatList, Keyboard, Platform } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 
@@ -65,6 +66,7 @@ const {
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { chatDataContext } = useContext(ChatContext)
+	const { bottom: bottomSafeAreaInset } = useSafeAreaInsets()
 
 	const chatFromRoute = route.params && route.params.chat
 
@@ -271,7 +273,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			keyboardVerticalOffset={Platform.OS === 'ios' ? -bottomSafeAreaInset : 0}
+		>
 			<DefaultConfirmationModal // BLOCK
 				visibility={blockConfirmationModalIsVisible}
 				title={isBlockedUser ? 'desbloquear' : 'bloquear'}
@@ -387,7 +392,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				markChatAsCompleted={toggleImpactReportModalVisibility}
 				submitMessage={submitMessage}
 			/>
-			{Platform.OS === 'ios' && <BottomSafeAreaColor />}
+			{Platform.OS === 'ios' && <BottomSafeAreaColor edges={['bottom']} />}
 		</Container>
 	)
 }

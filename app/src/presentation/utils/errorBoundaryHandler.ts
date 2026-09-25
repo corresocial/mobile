@@ -6,7 +6,8 @@ import { sendMessageToDiscordContactUs } from '@services/discord/methods/contact
 const { sendMessageToNotionContactUs } = useNotionService()
 
 // infra/service
-export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
+export const errorBoundaryHandler = async (error: unknown, stackTrace: any) => {
+	const currentError = error instanceof Error ? error : new Error(String(error))
 	console.log(error)
 	console.log(stackTrace)
 
@@ -21,7 +22,7 @@ export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
 	const { reportId } = await sendMessageToNotionContactUs({
 		userId: 'anonymous',
 		type: 'erro',
-		title: error.message,
+		title: currentError.message,
 		message: stackTrace.toString(),
 	})
 
@@ -31,8 +32,8 @@ export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
 		type: 'erro',
 		reportId: reportId || 'unknown',
 		message: `
-Tipo de erro: ${error.name}
-Erro: ${error.message}
+Tipo de erro: ${currentError.name}
+Erro: ${currentError.message}
 Local do erro: ${errorLocation}
 ID da stackTrace: ${reportId}
 		`,

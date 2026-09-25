@@ -1,4 +1,4 @@
-import { Asset } from 'expo-media-library'
+import { Asset } from 'expo-media-library/legacy'
 import React from 'react'
 
 import { MediaThumbnailImage, MediaThumbnailView, SelectionIndicatorView, ThumbnailOverlay, VideoIndicator } from './styles'

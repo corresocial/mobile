@@ -21,7 +21,7 @@ interface ChatPopOverProps {
 	popoverVisibility: boolean
 	impactReportButtonVisibility: boolean
 	userIsBlocked: boolean
-	children: React.ReactChild
+	children: React.ReactElement | number | string
 	closePopover: () => void
 	blockUser: () => void
 	unblockUser: () => void
@@ -51,7 +51,7 @@ function ChatPopOver({
 			backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
-					<View ref={sourceRef} >
+					<View ref={sourceRef as React.Ref<View>} >
 						{children}
 					</View>
 				</TouchableOpacity>

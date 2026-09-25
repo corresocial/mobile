@@ -1,3 +1,4 @@
+import { SafeAreaView } from 'react-native-safe-area-context'
 import styled, { DefaultTheme } from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
@@ -21,7 +22,7 @@ interface SafeAreaViewProps extends SectionProps {
 	withoutFlex?: boolean
 }
 
-export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
+export const SafeAreaViewContainer = styled(SafeAreaView)<SafeAreaViewProps>`
 	flex: ${({ withoutFlex }) => (withoutFlex ? 0 : 1)};
 	background-color: ${({ theme, safeAreaColor, tone }) => safeAreaColor || getScreenContainerColorByTone(theme, tone!, 1)};
 `

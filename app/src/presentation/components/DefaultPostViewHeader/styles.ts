@@ -1,5 +1,4 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
@@ -9,7 +8,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.View<ContainerProps>`
-	padding-top: ${({ ignorePlatform }) => (ignorePlatform ? 0 : Platform.OS === 'ios' ? Constants.statusBarHeight : 0)}px;
+	padding-top: ${({ ignorePlatform }) => (ignorePlatform ? 0 : Constants.statusBarHeight)}px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;

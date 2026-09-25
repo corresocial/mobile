@@ -1,8 +1,8 @@
-import { ResizeMode, Video } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
+import { useVideoPlayer, type VideoPlayer } from 'expo-video'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import { Carousel } from 'react-native-reanimated-carousel'
 
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
@@ -32,6 +32,33 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { Loader } from '@components/Loader'
 import { ThumbnailList } from '@components/ThumbnailList'
 
+interface GalleryVideoProps {
+	uri: string
+	isLandscapeMode: boolean
+	onPlayerChange: (player: VideoPlayer | null) => void
+}
+
+function GalleryVideo({ uri, isLandscapeMode, onPlayerChange }: GalleryVideoProps) {
+	const videoPlayer = useVideoPlayer(uri)
+
+	useEffect(() => {
+		videoPlayer.loop = true
+		videoPlayer.play()
+		onPlayerChange(videoPlayer)
+		return () => onPlayerChange(null)
+	}, [videoPlayer])
+
+	return (
+		<VideoView
+			isLandScapeMode={isLandscapeMode}
+			player={videoPlayer}
+			contentFit={'contain'}
+			nativeControls
+			surfaceType={'textureView'}
+		/>
+	)
+}
+
 interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
@@ -56,7 +83,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
-	const videoRefs = useRef<{ [key: number]: Video | null }>({})
+	const videoRefs = useRef<{ [key: number]: VideoPlayer | null }>({})
 
 	useEffect(() => {
 		if (showGallery) {
@@ -117,12 +144,12 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 	const handleVideoPause = (index: number) => {
 		const currentVideoRef = videoRefs.current[index]
 		if (currentVideoRef) {
-			currentVideoRef.pauseAsync()
+			currentVideoRef.pause()
 		}
 	}
 
 	const goToNext = (direction: number) => {
-		const length = (picturesUrl.length + videosUrl.length) ?? 0
+		const length = picturesUrl.length + videosUrl.length
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -174,15 +201,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 
 	const renderVideo = (uri: string, index: number) => (
 		<VideoContainer>
-			<VideoView
-				isLandScapeMode={isLandscapeMode}
-				source={{ uri: uri }}
-				resizeMode={ResizeMode.CONTAIN}
-				isLooping
-				useNativeControls
-				shouldPlay
-				ref={(el) => {
-					videoRefs.current[index] = el
+			<GalleryVideo
+				uri={uri}
+				isLandscapeMode={isLandscapeMode}
+				onPlayerChange={(player) => {
+					videoRefs.current[index] = player
 				}}
 			/>
 
@@ -210,11 +233,10 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 			<StatusBar backgroundColor={theme.colors.black[4]} />
 			<GalleryContainer>
 				<Carousel
-					enabled={carouselEnabled}
+					scrollEnabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
-					width={screenSizes.width}
-					height={screenSizes.height}
+					style={{ width: screenSizes.width, height: screenSizes.height }}
 					data={mediaUrls}
 					onSnapToItem={(id) => {
 						handleVideoPause(currentIndex)

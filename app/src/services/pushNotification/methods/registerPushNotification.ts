@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import { Alert, Platform } from 'react-native'
@@ -10,7 +11,8 @@ async function registerPushNotification() {
 	try {
 		Notifications.setNotificationHandler({
 			handleNotification: async () => ({
-				shouldShowAlert: true,
+				shouldShowBanner: true,
+				shouldShowList: true,
 				shouldPlaySound: false,
 				shouldSetBadge: false,
 			}),
@@ -39,7 +41,8 @@ async function registerPushNotification() {
 				return ''
 			}
 
-			const tokenNotification = (await Notifications.getExpoPushTokenAsync()).data
+			const projectId = Constants.easConfig?.projectId ?? Constants.expoConfig?.extra?.eas?.projectId
+			const tokenNotification = (await Notifications.getExpoPushTokenAsync({ projectId })).data
 			return tokenNotification
 		}
 
