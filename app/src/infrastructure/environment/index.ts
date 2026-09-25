@@ -10,8 +10,6 @@ import {
 	FIREBASE_appId,
 	FIREBASE_measurementId,
 	FIREBASE_databaseURL,
-	FIREBASE_smas_databaseURL,
-	PROD_FIREBASE_smas_databaseURL,
 	FIREBASE_CLOUD_URL,
 	AUTH_ANDROID_CLIENT_ID,
 	AUTH_IOS_CLIENT_ID,
@@ -54,7 +52,6 @@ type EnvironmentVars = {
 	FIREBASE_appId: string
 	FIREBASE_measurementId: string
 	FIREBASE_databaseURL: string
-	FIREBASE_smas_databaseURL: string
 	FIREBASE_CLOUD_URL: string
 	MAPS_API: string
 	IOS_MAPS_API_KEY: string
@@ -88,7 +85,6 @@ const ENV = {
 		FIREBASE_appId,
 		FIREBASE_measurementId,
 		FIREBASE_databaseURL,
-		FIREBASE_smas_databaseURL,
 		FIREBASE_CLOUD_URL,
 		MAPS_API,
 		IOS_MAPS_API_KEY,
@@ -111,7 +107,6 @@ const ENV = {
 		FIREBASE_appId: PROD_FIREBASE_appId,
 		FIREBASE_measurementId: PROD_FIREBASE_measurementId,
 		FIREBASE_databaseURL: PROD_FIREBASE_databaseURL,
-		FIREBASE_smas_databaseURL: PROD_FIREBASE_smas_databaseURL,
 		FIREBASE_CLOUD_URL: PROD_FIREBASE_CLOUD_URL,
 		MAPS_API: PROD_MAPS_API,
 		IOS_MAPS_API_KEY: PROD_IOS_MAPS_API_KEY,

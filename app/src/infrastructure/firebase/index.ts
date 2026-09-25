@@ -10,11 +10,7 @@ import { getFirestore } from '@react-native-firebase/firestore'
 import { getFunctions } from '@react-native-firebase/functions'
 import { getStorage } from '@react-native-firebase/storage'
 
-import { getEnvVars } from '@infrastructure/environment'
-
 import { startAppCheck } from './appCheck'
-
-const { FIREBASE_smas_databaseURL } = getEnvVars()
 
 setReactNativeAsyncStorage(AsyncStorage)
 startAppCheck()
@@ -25,8 +21,6 @@ export const firebaseStorage = getStorage()
 export const firebaseDatabase = getDatabase()
 export const firebaseAnalytics = getAnalytics()
 export const firebaseFunctions = getFunctions(getApp(), 'southamerica-east1')
-// 
-export const firebaseSmasDatabase = getDatabase(getApp(), FIREBASE_smas_databaseURL)
 
 export const authProviders = {
 	PhoneAuthProvider,
