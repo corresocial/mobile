@@ -9,18 +9,16 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
-import { PublicServicesAdButton } from '@components/_buttons/PublicServicesAdButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { CustomCarousel } from '@components/CustomCarousel'
 
 interface AdsCarouselProps {
 	onPressCorreAd?: () => void
 	onPressUserLocationAd?: () => void
-	onPressPublicServicesAd?: () => void
 	onPressEventCalendarAd?: () => void
 }
 
-function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServicesAd, onPressEventCalendarAd }: AdsCarouselProps) {
+function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressEventCalendarAd }: AdsCarouselProps) {
 	const userRange = checkFreeTrialRange('city')
 
 	const navigation = useNavigation<any>()
@@ -35,11 +33,6 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 	return (
 		<Container>
 			<CustomCarousel activeIndicatorColor={theme.colors.white[3]}>
-				<SubscriptionAdContainer>
-					<PublicServicesAdButton
-						onPress={() => onPressPublicServicesAd && onPressPublicServicesAd()}
-					/>
-				</SubscriptionAdContainer>
 				{/* // SMAS */}
 				{/* <SubscriptionAdContainer>
 					<UserLocationAdButton onPress={() => onPressUserLocationAd && onPressUserLocationAd()} />

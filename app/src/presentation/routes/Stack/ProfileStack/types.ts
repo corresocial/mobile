@@ -40,7 +40,6 @@ export type ProfileStackParamList = {
 	PrivacyAndSecurity: undefined
 	UserDataConfigurations: undefined
 	NotificationSettings: undefined
-	NotificationPublicServicesSettings: undefined
 
 	PostView: any
 } & UserStackParamList
