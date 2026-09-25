@@ -1,7 +1,20 @@
-import { Animated } from 'react-native'
+import { Animated, Platform, ViewStyle } from 'react-native'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity } from '@common/screenDimensions'
+import { theme as appTheme } from '@common/theme'
+
+// O bottom-tabs 7 soma o inset inferior como paddingBottom dentro da altura fixa da barra.
+// No Android (edge-to-edge) o inset é a barra de navegação, então ele entra na altura;
+// no iOS mantém o padding do bottom-tabs 6 (inset - 4)
+export const getTabBarStyle = (bottomInset: number): ViewStyle => ({
+	position: 'absolute',
+	height: Platform.OS === 'ios' ? relativeScreenDensity(77) : relativeScreenDensity(60) + bottomInset,
+	paddingBottom: Platform.OS === 'ios' ? Math.max(bottomInset - 4, 0) : bottomInset,
+	borderTopColor: appTheme.colors.black[4],
+	borderTopWidth: relativeScreenDensity(2),
+	marginBottom: 0
+})
 
 export const TabItemContainer = styled.View`
 	flex: 1;

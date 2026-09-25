@@ -5,6 +5,7 @@ import { RouteProp, useFocusEffect, useIsFocused } from '@react-navigation/nativ
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useContext, useRef } from 'react'
 import { Animated, Platform } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from 'styled-components'
 
 import { AlertContext } from '@contexts/AlertContext'
@@ -15,7 +16,7 @@ import { HomeTabParamList } from './types'
 import { LeaderAreaStack } from '@routes/Stack/LeaderAreaStack'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
 
-import { AnimatedTabItemText, TabItemContainer, TabItemContent, TabItemText } from './styles'
+import { AnimatedTabItemText, getTabBarStyle, TabItemContainer, TabItemContent, TabItemText } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
 import LeaderSealIcon from '@assets/icons/leaderLabel.svg'
@@ -43,6 +44,7 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 	const { notificationState } = useContext(AlertContext)
 
 	const theme = useTheme()
+	const { bottom: bottomInset } = useSafeAreaInsets()
 
 	const handlerTourButton = { navigation }
 
@@ -200,19 +202,17 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 
 				tabBarStyle: {
 					flex: 1,
-					position: 'absolute',
-					height: Platform.OS === 'ios' ? relativeScreenDensity(77) : relativeScreenDensity(60),
-					borderTopColor: theme.colors.black[4],
-					borderTopWidth: relativeScreenDensity(2),
-					marginBottom: 0
+					...getTabBarStyle(bottomInset)
 				},
 				tabBarItemStyle: Platform.OS === 'ios' ? {
 					flex: 1,
 					height: '100%'
 				} : undefined,
-				tabBarIconStyle: {
+				tabBarIconStyle: { // flex e marginVertical restauram o ícone ocupando o item inteiro, como no bottom-tabs 6
+					flex: 1,
 					height: relativeScreenDensity(30),
 					width: '100%',
+					marginVertical: -5
 				},
 				tabBarBadgeStyle: {
 					borderRadius: 5,
@@ -220,7 +220,10 @@ export function HomeTab({ route, navigation }: HomeTabProps) {
 					fontFamily: theme.fonts.arvoBold,
 					fontSize: relativeScreenDensity(10),
 					margin: relativeScreenDensity(3),
-					marginLeft: relativeScreenDensity(10)
+					marginLeft: relativeScreenDensity(10),
+					top: 3,
+					left: 3,
+					end: undefined
 				},
 				tabBarActiveBackgroundColor: theme.colors.white[3],
 				tabBarInactiveBackgroundColor: theme.colors.white[3],
