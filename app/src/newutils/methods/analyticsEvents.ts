@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable keyword-spacing */
+import { logEvent } from '@react-native-firebase/analytics'
 import * as Application from 'expo-application'
 import { Platform } from 'react-native'
 
@@ -40,7 +41,7 @@ function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: 
 		}
 		eventData.appVersion = Application.nativeBuildVersion as string
 
-		firebaseAnalytics.logEvent(eventName, eventData)
+		logEvent(firebaseAnalytics, eventName, eventData)
 	} catch (error) {
 		console.log('Erro ao enviar analytics para o Aptabase')
 		console.log(error)

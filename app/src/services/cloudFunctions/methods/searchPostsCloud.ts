@@ -1,3 +1,5 @@
+import { httpsCallable } from '@react-native-firebase/functions'
+
 import { Id } from '../../../domain/post/entity/types'
 import { FeedSearchParams } from '../types/types'
 
@@ -10,9 +12,9 @@ async function searchPostsCloud(
 	userId: Id
 ) {
 	try {
-		const searchPostsFn = firebaseFunctions.httpsCallable('searchPostsByAlgolia')
+		const searchPostsFn = httpsCallable(firebaseFunctions, 'searchPostsByAlgolia')
 		const response = await searchPostsFn({ searchText, searchParams, searchByRange })
-		return response.data
+		return response.data as any
 	} catch (error) {
 		console.log(error)
 		console.log('Cloud function error:', error)
