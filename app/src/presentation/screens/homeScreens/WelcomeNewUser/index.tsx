@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
@@ -22,9 +23,10 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const [userName, setUserName] = useState('amigo')
 
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	})
+	useFocusEffect(useCallback(() => {
+		const backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+		return () => backHandlerSubscription.remove()
+	}, []))
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
