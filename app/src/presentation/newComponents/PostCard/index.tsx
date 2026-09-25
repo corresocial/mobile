@@ -1,5 +1,6 @@
-import { ResizeMode, Video } from 'expo-av'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEventListener } from 'expo'
+import { useVideoPlayer } from 'expo-video'
+import React, { useEffect, useState } from 'react'
 
 import { DeliveryMethod, PostEntity, PostRange } from '@domain/post/entity/types'
 import { UserOwner } from '@domain/user/entity/types'
@@ -15,6 +16,45 @@ import { theme } from '@common/theme'
 import { SaleExchangeValue } from '@components/SaleExchangeValue'
 import { IconComponent } from '@newComponents/IconComponent'
 import { MiniUserIndentifier } from '@newComponents/MiniUserIdentifier'
+
+interface PostCardVideoProps {
+	videoUrl: string
+	videoMuted: boolean
+	isVisible: boolean
+	onLoad: () => void
+}
+
+function PostCardVideo({ videoUrl, videoMuted, isVisible, onLoad }: PostCardVideoProps) {
+	const videoPlayer = useVideoPlayer(videoUrl)
+
+	useEventListener(videoPlayer, 'statusChange', ({ status }) => {
+		if (status === 'readyToPlay') onLoad()
+	})
+
+	useEffect(() => {
+		videoPlayer.loop = true
+	}, [videoPlayer])
+
+	useEffect(() => {
+		videoPlayer.muted = videoMuted
+	}, [videoMuted, videoPlayer])
+
+	useEffect(() => {
+		if (isVisible) {
+			videoPlayer.play()
+		} else {
+			videoPlayer.pause()
+		}
+	}, [isVisible, videoPlayer])
+
+	return (
+		<VideoView
+			player={videoPlayer}
+			contentFit={'cover'}
+			nativeControls={false}
+		/>
+	)
+}
 
 interface PostCardProps {
 	post: PostEntity
@@ -34,8 +74,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 	const [videoThumbnail, setVideoThumbnail] = useState<string>('')
 	const [videoLoaded, setVideoLoaded] = useState<boolean>(false)
 
-	const videoRef = useRef<Video | null>(null)
-
 	const hasPictures = Array.isArray(post.picturesUrl) && post.picturesUrl.length > 0
 	const hasVideos = Array.isArray(post.videosUrl) && post.videosUrl.length > 0
 
@@ -52,14 +90,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 			generateThumbnail()
 		}
 	}, [])
-
-	useEffect(() => {
-		if (isVisible) {
-			playVideo()
-		} else {
-			stopVideo()
-		}
-	}, [isVisible])
 
 	useEffect(() => {
 		if (isOwner) {
@@ -82,20 +112,6 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 
 	const miniProfileHandler = () => {
 		navigateToProfile?.(owner.userId)
-	}
-
-	const playVideo = async () => {
-		const currentVideoRef = videoRef.current
-		if (currentVideoRef) {
-			currentVideoRef.playAsync()
-		}
-	}
-
-	const stopVideo = async () => {
-		const currentVideoRef = videoRef.current
-		if (currentVideoRef) {
-			currentVideoRef.pauseAsync()
-		}
 	}
 
 	const getRangeIcon = (range: DeliveryMethod | PostRange): IconName => {
@@ -169,13 +185,10 @@ function PostCard({ post: postData, owner, isOwner, hasAutoPlayFunction = true, 
 							hasVideos ? (
 								// VideoView must be in the screen to properly run onLoad
 								<>
-									<VideoView
-										source={{ uri: mediaSource }}
-										resizeMode={ResizeMode.COVER}
-										isLooping
-										ref={videoRef}
-										useNativeControls={false}
-										isMuted={videoMuted}
+									<PostCardVideo
+										videoUrl={mediaSource}
+										videoMuted={videoMuted}
+										isVisible={isVisible}
 										onLoad={() => {
 											setVideoLoaded(true)
 										}}

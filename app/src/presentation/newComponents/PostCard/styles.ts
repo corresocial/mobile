@@ -1,5 +1,5 @@
-import { Video } from 'expo-av'
 import { Image } from 'expo-image'
+import { VideoView as ExpoVideoView } from 'expo-video'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -61,7 +61,7 @@ export const VideoIconContainer = styled.View`
 	z-index: 10;
 `
 
-export const VideoView = styled(Video)`
+export const VideoView = styled(ExpoVideoView)`
 	flex: 1;
 `
 

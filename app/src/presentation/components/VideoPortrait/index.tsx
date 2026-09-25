@@ -1,5 +1,5 @@
-import { ResizeMode } from 'expo-av'
-import React from 'react'
+import { useVideoPlayer } from 'expo-video'
+import React, { useEffect } from 'react'
 
 import { Container, DeleteItemArea, NoPhotoContainer, PortraitVideo, VideoIndicatorContainer } from './styles'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
@@ -35,6 +35,14 @@ function VideoPortrait({
 	showVideoPlayer = false,
 	deleteCurrentVideo
 }: VideoPortraitProps) {
+	const videoPlayer = useVideoPlayer(videoUrl || null)
+
+	useEffect(() => {
+		videoPlayer.loop = true
+		videoPlayer.volume = 0
+		videoPlayer.play()
+	}, [videoPlayer])
+
 	return (
 		<Container
 			circle={circle}
@@ -49,12 +57,9 @@ function VideoPortrait({
 					? (
 						<>
 							<PortraitVideo
-								source={{ uri: videoUrl }}
-								useNativeControls={showVideoPlayer}
-								isLooping
-								volume={0}
-								resizeMode={ResizeMode.CONTAIN}
-								shouldPlay
+								player={videoPlayer}
+								nativeControls={showVideoPlayer}
+								contentFit={'contain'}
 							/>
 						</>
 					)
