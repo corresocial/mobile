@@ -19,7 +19,6 @@ export const errorBoundaryHandler = async (error: Error, stackTrace: any) => {
 	const errorLocation = errorLocationRegexResult.length ? errorLocationRegexResult[0] : 'não definido'
 
 	const { reportId } = await sendMessageToNotionContactUs({
-		userId: 'anonymous',
 		type: 'erro',
 		title: error.message,
 		message: stackTrace.toString(),

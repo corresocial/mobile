@@ -63,7 +63,6 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
 			const notionPage = await sendMessageToNotionContactUs({
-				userId: userDataContext.userId,
 				type: route.params.contactUsType,
 				message,
 				reportTarged: route.params.reportedType,

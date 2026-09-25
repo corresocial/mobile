@@ -2,7 +2,6 @@ type NotionContactUsType = 'erro' | 'denúncia' | 'melhoria' | 'outro'
 export type ReportedTarget = 'none' | 'income' | 'culture' | 'socialImpact' | 'user' | 'poll' | 'petition'
 
 export type NotionContactUsOptions = {
-	userId: string
 	type: NotionContactUsType
 	title?: string
 	message: string
