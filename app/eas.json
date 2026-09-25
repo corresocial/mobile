@@ -9,6 +9,7 @@
 			"developmentClient": true,
 			"distribution": "internal",
 			"ios": {
+				"image": "macos-tahoe-26.5-xcode-26.6",
 				"simulator": true,
 				"resourceClass": "medium"
 			},
@@ -22,6 +23,7 @@
 			"developmentClient": false,
 			"distribution": "internal",
 			"ios": {
+				"image": "macos-tahoe-26.5-xcode-26.6",
 				"simulator": true,
 				"resourceClass": "medium"
 			},
@@ -36,6 +38,7 @@
 		},
 		"production": {
 			"ios": {
+				"image": "macos-tahoe-26.5-xcode-26.6",
 				"resourceClass": "medium",
 				"applicationArchivePath": "ios/build"
 			},
