@@ -4,8 +4,7 @@
 		"strict": true,
 		"types": [
 			"jest",
-			"node",
-			"styled-components-react-native"
+			"node"
 		],
 		"paths": {
 			"src/*": [

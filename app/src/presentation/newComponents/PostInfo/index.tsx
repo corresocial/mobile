@@ -351,7 +351,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 				render: (
 					<LongText >
 						<HyperlinkContainer
-							text={descriptionIsExpanded && showResizeLabel() ? value : getShortText(value as string, sumarizedSubscriptionSize)}
+							text={descriptionIsExpanded && showResizeLabel() ? value as string : getShortText(value as string, sumarizedSubscriptionSize)}
 							linkStyle={linkStyle}
 						>
 							{descriptionIsExpanded && showResizeLabel() ? value : getShortText(value as string, sumarizedSubscriptionSize)}
