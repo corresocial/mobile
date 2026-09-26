@@ -205,7 +205,8 @@ function EditPost({
 			addUserPost(newPost)
 
 			clearTimeout(timeoutId)
-			offlinePost && deleteOfflinePostByDescription(postDataToSave.unapprovedData?.description || '')
+			// Espera remover o post offline antes de voltar: a lista de posts offline recarrega ao voltar e ainda o encontraria
+			offlinePost && await deleteOfflinePostByDescription(postDataToSave.unapprovedData?.description || '')
 			sendEvent('user_posted', { postType: getPostField('postType') })
 
 			!offlinePost && showWaitingApproveModal()

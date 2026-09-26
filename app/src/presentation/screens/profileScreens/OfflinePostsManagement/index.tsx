@@ -11,7 +11,6 @@ import { usePostRepository } from '@data/post/usePostRepository'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
@@ -150,11 +149,13 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 		return allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']
 	}
 
+	// Abre a revisão na pilha do tipo do post (como o PostView faz ao editar): as telas de edição dos campos só existem nessas pilhas
 	const naigateToReviewPost = (post: PostEntityOptional) => {
+		const reviewParams = { postData: { ...post } as any, unsavedPost: true, offlinePost: true } // TODO Type
 		switch (post.postType as any) {
-			case 'income': return navigateToHomeTabScreen(navigation, 'ProfileStack', 'IncomePostReview', { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
-			case 'culture': return navigateToHomeTabScreen(navigation, 'ProfileStack', 'CulturePostReview', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'socialImpact': return navigateToHomeTabScreen(navigation, 'ProfileStack', 'SocialImpactPostReview', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'income': return navigation.navigate('IncomeStack' as any, { screen: 'IncomePostReview', params: reviewParams })
+			case 'culture': return navigation.navigate('CultureStack' as any, { screen: 'CulturePostReview', params: reviewParams })
+			case 'socialImpact': return navigation.navigate('SocialImpactStack' as any, { screen: 'SocialImpactPostReview', params: reviewParams })
 			default: return null
 		}
 	}
