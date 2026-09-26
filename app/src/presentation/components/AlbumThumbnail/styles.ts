@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -8,7 +9,7 @@ export const AlbumView = styled.TouchableOpacity`
     height: ${relativeScreenWidth(32)}px;
 `
 
-export const AlbumThumbnailImage = styled.Image`
+export const AlbumThumbnailImage = styled(Image)`
     flex: 1;
     border-radius: ${relativeScreenDensity(15)}px;
 `

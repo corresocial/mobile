@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -8,7 +9,7 @@ export const MediaThumbnailView = styled.TouchableOpacity`
     height: ${relativeScreenWidth(32)}px;
 `
 
-export const MediaThumbnailImage = styled.Image`
+export const MediaThumbnailImage = styled(Image)`
     flex: 1;
 `
 

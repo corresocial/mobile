@@ -15,7 +15,7 @@ interface MediaThumbnailProps{
 function MediaThumbnail({ mediaAsset, active, onSelection }: MediaThumbnailProps) {
 	return (
 		<MediaThumbnailView activeOpacity={0.8} onPress={() => onSelection(mediaAsset)}>
-			<MediaThumbnailImage resizeMode={'cover'} source={{ uri: mediaAsset.uri }}/>
+			<MediaThumbnailImage contentFit={'cover'} source={{ uri: mediaAsset.uri }} recyclingKey={mediaAsset.id}/>
 			{	
 				active && (
 					<ThumbnailOverlay>

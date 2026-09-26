@@ -12,7 +12,7 @@ interface AlbumThumbnailProps{
 function AlbumThumbnail({ album, onSelectAlbum }: AlbumThumbnailProps) {
 	return (
 		<AlbumView key={album.id} onPress={async () => onSelectAlbum(album)}>
-			<AlbumThumbnailImage resizeMode={'cover'} source={{ uri: album.thumbnail }}/>
+			<AlbumThumbnailImage contentFit={'cover'} source={{ uri: album.thumbnail }} recyclingKey={album.id}/>
 			<AlbumThumbnailInfo>
 				<AlbumThumbnailBackground/>
 				<AlbumThumbnailTitle>{album.title}</AlbumThumbnailTitle>
