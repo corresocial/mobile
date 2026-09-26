@@ -1,5 +1,5 @@
 import { type BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import { getFocusedRouteNameFromRoute, useNavigationState } from '@react-navigation/native'
 import { useLayoutEffect, useMemo } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -12,16 +12,21 @@ const useHomeTabDisplay = <TabScreen extends keyof HomeTabParamList, Stack>
 		& { screens: Array<keyof Stack> }) => {
 	const visibleRoutes = useMemo(() => screens, [])
 	const { bottom: bottomInset } = useSafeAreaInsets()
+	// No React Navigation 7 a tela da aba não re-renderiza quando a pilha aninhada navega (o route mantém a
+	// mesma referência), então a rota focada é lida do estado da barra de abas, que notifica essas mudanças
+	const routeName = useNavigationState((state) => {
+		const tabRoute = state.routes.find(({ key }) => key === route.key)
+		return tabRoute ? getFocusedRouteNameFromRoute(tabRoute) : undefined
+	}) as keyof Stack | undefined
 
 	useLayoutEffect(() => {
-		const routeName = getFocusedRouteNameFromRoute(route) as keyof Stack
 		navigation.setOptions({
 			tabBarStyle: {
 				display: routeName === undefined || visibleRoutes.includes(routeName) ? 'flex' : 'none',
 				...getTabBarStyle(bottomInset)
 			}
 		})
-	}, [navigation, route, bottomInset])
+	}, [navigation, routeName, bottomInset])
 }
 
 export { useHomeTabDisplay }
