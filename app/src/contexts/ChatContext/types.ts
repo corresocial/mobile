@@ -9,7 +9,7 @@ export interface ChatProviderProps {
 export type ChatContextType = {
 	chatDataContext: Chat[]
 	pushNotificationEnabled: boolean
-	setPushNotificationState: (state: boolean) => Promise<void>
+	setPushNotificationState: (state: boolean) => Promise<boolean>
 	chatUserHasTokenNotification: () => Promise<boolean>
 	removeChatListeners: () => void
 }

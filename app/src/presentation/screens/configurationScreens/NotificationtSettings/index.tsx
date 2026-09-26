@@ -48,9 +48,9 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 	const toggleNotificationState = async () => {
 		try {
 			setIsLoading(true)
-			await setPushNotificationState(!notificationIsEnabled)
-			setNotificationIsEnabled(!notificationIsEnabled)
-			updateNotificationState({ configNotificationButton: notificationIsEnabled })
+			const notificationEnabled = await setPushNotificationState(!notificationIsEnabled)
+			setNotificationIsEnabled(notificationEnabled)
+			updateNotificationState({ configNotificationButton: !notificationEnabled })
 			setTimeout(() => {
 				setIsLoading(false)
 			}, 1000)
