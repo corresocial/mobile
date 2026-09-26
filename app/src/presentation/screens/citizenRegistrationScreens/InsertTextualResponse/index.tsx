@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
@@ -23,6 +24,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 	const { getNextQuestion, citizenRegistrationResponseData, getResponseProgress, saveResponseData } = useCitizenRegistrationContext()
 
 	const theme = useTheme()
+	const { bottom: bottomSafeAreaInset } = useSafeAreaInsets()
 
 	const [inputText, setInputText] = useState<string>('')
 	const [responseProgress, setResponseProgress] = useState([0, 0])
@@ -78,7 +80,10 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			keyboardVerticalOffset={Platform.OS === 'ios' ? -bottomSafeAreaInset : 0}
+		>
 			<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
 				<CitizenRegistrationHeader
 					message={`${questionData.questionId} - ${questionData.question}`}
