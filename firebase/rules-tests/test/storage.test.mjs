@@ -17,7 +17,10 @@ const MP4 = new Uint8Array([0, 0, 0, 0x18, 0x66, 0x74, 0x79, 0x70, 0x6d, 0x70, 0
 const jpegMeta = (extra = {}) => ({ contentType: 'image/jpeg', ...extra })
 
 let counter = 1695000000000
-const nextName = (ext) => `${counter++}.${ext}`
+// Formato atual do app: <ms>-<uuid>.ext
+const nextName = (ext) => `${counter++}-859c2737-956e-39d6-4874-3ae2e6177d46.${ext}`
+// Formato dos builds antigos: <ms>.ext
+const legacyName = (ext) => `${counter++}.${ext}`
 
 async function seedFile(path, customMetadata) {
 	await testEnv.withSecurityRulesDisabled(async (ctx) => {
@@ -91,6 +94,16 @@ describe('upload (processUpload/configUploadObjects)', () => {
 	it('nega: arquivo acima do limite (15 MB para fotos)', async () => {
 		const big = new Uint8Array(15 * 1024 * 1024 + 1)
 		await assertFails(as('alice').ref(`pictures/posts/${nextName('jpg')}`).put(big, jpegMeta()))
+	})
+
+	it('permite: nome no formato antigo (<ms>.ext), usado pelos builds nas lojas', async () => {
+		await assertSucceeds(as('alice').ref(`pictures/posts/${legacyName('jpg')}`).put(JPEG, jpegMeta()))
+		await assertSucceeds(as('alice').ref(`videos/posts/${legacyName('mp4')}`).put(MP4, { contentType: 'video/mp4' }))
+	})
+
+	it('nega: sufixo depois do timestamp fora do padrão de uuid', async () => {
+		await assertFails(as('alice').ref(`pictures/posts/${counter++}-evil.jpg`).put(JPEG, jpegMeta()))
+		await assertFails(as('alice').ref(`pictures/posts/${counter++}-859c2737-956e-39d6-4874-3ae2e6177d46.html.jpg`).put(JPEG, jpegMeta()))
 	})
 
 	it('nega: caminho ou nome fora do padrão do app', async () => {

@@ -10,7 +10,7 @@ Regras versionadas, com privilégio mínimo, para o que o app (`app/src`) acessa
 | `database.rules.json` | RTDB `corresocialapp-default-rtdb` (chat). Só participantes acessam a conversa e ninguém acessa a raiz. O dono controla o próprio nó, e as únicas escritas cruzadas permitidas são as que o app faz. |
 | `database.rules.interim.json` | Hot-fix do RTDB: só troca `"true"` por `"auth != null"`. **Já aplicado em produção.** |
 | `database-smas.rules.json` | RTDB `corresocialapp-smas` (instância desativada): nega tudo. |
-| `storage.rules` | Bucket `corresocialapp.appspot.com`. Só aceita os caminhos do app (`pictures/{users,posts,petitions}/<timestamp>.jpg` e `videos/posts/<timestamp>.mp4`), com limite de tamanho e de tipo. Não permite sobrescrever arquivos nem listar pastas. |
+| `storage.rules` | Bucket `corresocialapp.appspot.com`. Só aceita os caminhos do app (`pictures/{users,posts,petitions}/<timestamp>[-<uuid>].jpg` e `videos/posts/<timestamp>[-<uuid>].mp4`), com limite de tamanho e de tipo. Não permite sobrescrever arquivos nem listar pastas. |
 | `storage-deny-all.rules` | Buckets `corresocialapp-backup`, `corresocialapp-backupt` e `corresocialapp`: nega tudo. |
 | `firebase.json` / `.firebaserc` | Ligam cada arquivo ao seu banco ou bucket por meio de *targets* (`database:main`, `database:smas`, `storage:main`, `storage:backup`, `storage:backupt`, `storage:legacy`). |
 | `firebase.interim.json` | Configuração usada só para publicar o hot-fix do RTDB. |

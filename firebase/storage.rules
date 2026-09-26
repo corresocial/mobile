@@ -2,10 +2,11 @@ rules_version = '2';
 
 // Regras do bucket usado pelo app: corresocialapp.appspot.com
 // Caminhos gerados por data/shared/bucket/firebaseBucket.ts:
-//   pictures/users/{Date.now()}.jpg      (foto de perfil)
-//   pictures/posts/{Date.now()}.jpg      (fotos de post)
-//   pictures/petitions/{Date.now()}.jpg  (fotos de abaixo-assinado)
-//   videos/posts/{Date.now()}.mp4        (vídeos de post)
+//   pictures/users/{Date.now()}-{uuid}.jpg      (foto de perfil)
+//   pictures/posts/{Date.now()}-{uuid}.jpg      (fotos de post)
+//   pictures/petitions/{Date.now()}-{uuid}.jpg  (fotos de abaixo-assinado)
+//   videos/posts/{Date.now()}-{uuid}.mp4        (vídeos de post)
+// Builds antigos enviam só {Date.now()}.ext (sem o sufixo -{uuid}); os dois formatos são aceitos.
 // O caminho não contém o uid do dono, então a posse só pode ser checada pelo
 // metadado customizado `ownerId` (ainda não enviado pelo app).
 // O Admin SDK ignora estas regras. URLs com token (getDownloadURL) continuam
@@ -57,7 +58,8 @@ service firebase.storage {
     }
 
     function validFileName(fileName, extension) {
-      return fileName.matches('^[0-9]{10,16}[.]' + extension + '$');
+      // <ms>.ext (builds antigos) ou <ms>-<uuid>.ext; react-uuid pode gerar 32 a 36 caracteres
+      return fileName.matches('^[0-9]{10,16}(-[0-9a-f-]{32,36})?[.]' + extension + '$');
     }
 
     match /pictures/{area}/{fileName} {
