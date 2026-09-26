@@ -33,13 +33,17 @@ function InsertCitizenRegisterLocation({ route, navigation }: InsertCitizenRegis
 	}, [])
 
 	const loadCurrentLocation = async () => {
-		const location = await getCurrentLocation()
-		setCurrentLocation({
-			coordinates: {
-				latitude: location.coords.latitude,
-				longitude: location.coords.longitude
-			}
-		} as CitizenRegisterLocation)
+		try {
+			const location = await getCurrentLocation()
+			setCurrentLocation({
+				coordinates: {
+					latitude: location.coords.latitude,
+					longitude: location.coords.longitude
+				}
+			} as CitizenRegisterLocation)
+		} catch (error) {
+			console.log(error) // Sem localização o mapa fica nas coordenadas padrão
+		}
 	}
 
 	const saveLocation = async (markerCoordinate: Coordinates) => {
