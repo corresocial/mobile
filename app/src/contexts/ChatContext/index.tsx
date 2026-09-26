@@ -51,6 +51,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatDataContextRef = useRef(chatDataContext)
 
 	useEffect(() => {
+		if (!userDataContext.userId) return
 		loadChatFromCache()
 		initUserInstance(userDataContext.userId)
 		initPushNotificationService()
