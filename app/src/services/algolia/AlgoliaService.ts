@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { searchClient, SearchClient, SearchResult } from 'algoliasearch'
+import { algoliasearch, SearchClient, SearchResult } from 'algoliasearch'
 
 import { UserEntity } from '@domain/user/entity/types'
 
@@ -23,7 +23,8 @@ export class AlgoliaService implements AlgoliaServiceInterface {
 	algoliaClient: SearchClient
 
 	constructor() {
-		const client = searchClient(ALGOLIA_ID, ALGOLIA_KEY)
+		// O build react-native do algoliasearch só exporta a factory algoliasearch (searchClient vem undefined em runtime)
+		const client = algoliasearch(ALGOLIA_ID, ALGOLIA_KEY)
 		this.algoliaClient = client
 	}
 
