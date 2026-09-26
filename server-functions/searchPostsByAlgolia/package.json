@@ -6,7 +6,7 @@
         "start": "tsc && node deploy/index.js",
         "build": "tsc",
         "deploy": "npm-run-all build deploy-cloud-function",
-        "deploy-cloud-function": "cd deploy && gcloud functions deploy searchPostsByAlgolia --gen2 --runtime nodejs20 --trigger-http --entry-point searchPostsByAlgolia --region southamerica-east1 --allow-unauthenticated --env-vars-file ../.env.yaml"
+        "deploy-cloud-function": "cd deploy && gcloud functions deploy searchPostsByAlgolia --gen2 --runtime nodejs22 --trigger-http --region southamerica-east1 --allow-unauthenticated --project ${GCP_PROJECT:-corresocialapp} --entry-point searchPostsByAlgolia --service-account fn-search@${GCP_PROJECT:-corresocialapp}.iam.gserviceaccount.com --set-secrets ALGOLIA_ID=ALGOLIA_ID:latest,ALGOLIA_KEY=ALGOLIA_KEY:latest --clear-env-vars"
     },
     "author": "Wellington Souza",
     "license": "MIT",

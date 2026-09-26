@@ -12,17 +12,11 @@
 
 ## Configuração
 
-### Configuração de console Google Cloud Platform
+Service account: `fn-stripe` (`roles/datastore.user`).
 
-É necessário configurar as variáveis de ambiente para o funcionamento correto da integração com o Stripe.
+A `STRIPE_SECRET_KEY` fica no Secret Manager e chega à função como variável de ambiente via `--set-secrets` (veja o `package.json`). Para criar/rotacionar o segredo, use o `setup_secrets.sh` da raiz (veja o [README principal](../README.md)). Prefira uma *restricted key* (`rk_live_...`).
 
-Crie um arquivo `.env.yaml` na raiz da função (`server-functions/stripeApi/.env.yaml`) com as seguintes chaves:
-
-```yaml
-STRIPE_SECRET_KEY: "sua_chave_secreta_do_stripe"
-```
-
-> **Nota**: O arquivo `.env.yaml` é ignorado pelo git para segurança. Não comite este arquivo.
+> O `.env.yaml` não é mais usado. `STRIPE_WEBHOOK_SECRET` também não: o `stripeWebhook` não está implantado.
 
 ## Request
 
@@ -47,7 +41,7 @@ type RequestData = {
 
 </aside>
 
-Para fazer o deploy, execute o comando abaixo. Ele irá compilar o código TypeScript e realizar o deploy utilizando as variáveis de ambiente definidas no arquivo `.env.yaml`.
+Para fazer o deploy, execute o comando abaixo. Ele irá compilar o código TypeScript e realizar o deploy lendo a chave do Secret Manager.
 
 ```bash
 npm run deploy
@@ -56,4 +50,4 @@ npm run deploy
 O comando `npm run deploy` executa internamente:
 
 1. `npm run build`: Compila o TypeScript.
-2. `gcloud functions deploy ... --env-vars-file ../.env.yaml`: Faz o deploy enviando as variáveis de ambiente.
+2. `gcloud functions deploy ... --service-account fn-stripe@... --set-secrets STRIPE_SECRET_KEY=STRIPE_SECRET_KEY:latest`: Faz o deploy (runtime `nodejs22`) com a service account da função e a chave do Secret Manager.
