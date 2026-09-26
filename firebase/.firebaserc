@@ -1,0 +1,19 @@
+{
+  "projects": {
+    "default": "corresocialapp"
+  },
+  "targets": {
+    "corresocialapp": {
+      "database": {
+        "main": ["corresocialapp-default-rtdb"],
+        "smas": ["corresocialapp-smas"]
+      },
+      "storage": {
+        "main": ["corresocialapp.appspot.com"],
+        "backup": ["corresocialapp-backup"],
+        "backupt": ["corresocialapp-backupt"],
+        "legacy": ["corresocialapp"]
+      }
+    }
+  }
+}
