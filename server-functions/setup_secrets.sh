@@ -20,9 +20,11 @@ DRY_RUN=0
 
 usage() {
 	cat <<EOF
-Uso: bash setup_secrets.sh [--dry-run]
+Uso: bash setup_secrets.sh [--dry-run] [--only NOME1,NOME2]
 
   --dry-run   Só imprime os comandos gcloud (sem valores); não altera nada.
+  --only      Processa só os segredos listados (ex.: --only ALGOLIA_ID,ALGOLIA_KEY),
+              útil quando só parte das chaves foi rotacionada.
   -h, --help  Mostra esta ajuda.
 
 Variáveis:
@@ -38,6 +40,14 @@ EOF
 while [ $# -gt 0 ]; do
 	case "$1" in
 		--dry-run) DRY_RUN=1 ;;
+		--only)
+			[ $# -ge 2 ] || { echo "Erro: --only precisa de uma lista" >&2; exit 2; }
+			only_list=$(printf '%s' "$2" | tr ',' ' ')
+			for name in $only_list; do
+				case " $SECRETS " in *" $name "*) ;; *) echo "Erro: segredo desconhecido em --only: $name" >&2; exit 2 ;; esac
+			done
+			SECRETS="$only_list"
+			shift ;;
 		-h|--help) usage; exit 0 ;;
 		*) echo "Erro: argumento desconhecido: $1" >&2; usage >&2; exit 2 ;;
 	esac
