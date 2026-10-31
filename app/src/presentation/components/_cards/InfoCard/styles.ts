@@ -15,7 +15,7 @@ interface ContainerInnerProps {
 export const ContainerInner = styled.View<ContainerInnerProps>`
 	flex: 1;
 	width: 98%;
-    height:${relativeScreenHeight(10)}px;
+    min-height:${relativeScreenHeight(10)}px;
     background-color: ${({ theme }) => theme.colors.white[3]};
     border-radius: ${relativeScreenDensity(17)}px;
     border: ${relativeScreenDensity(3.2)}px solid ${({ theme }) => theme.colors.black[4]};

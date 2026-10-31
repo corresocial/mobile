@@ -24,7 +24,7 @@ export const ContainerBackground = styled.View<ContainerBackgroundProps>`
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: ${(relativeScreenDensity(2))}px ${(relativeScreenDensity(25))}px;
+    padding: ${(relativeScreenDensity(2))}px ${(relativeScreenDensity(10))}px;
     background-color: ${(props) => (props.selected ? props.selectedColor : props.theme.colors.white[3])};
     border-radius: ${(relativeScreenDensity(100))}px;
     gap: ${(relativeScreenDensity(6))}px;

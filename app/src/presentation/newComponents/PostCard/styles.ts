@@ -13,7 +13,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	height: ${({ hasMedia }) => (
 		hasMedia
 			? relativeScreenDensity(370)
-			: relativeScreenDensity(175)
+			: relativeScreenDensity(195)
 	)}px;
 	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
@@ -126,7 +126,7 @@ export const InfoGroup = styled.View`
 export const InfoContainer = styled.View`
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.colors.white[4]};
-	height: ${relativeScreenHeight(4)}px;
+	min-height: ${relativeScreenHeight(4)}px;
 	border-radius: ${relativeScreenDensity(10)}px;
 	padding: ${relativeScreenDensity(6)}px;
 	align-items: center;

@@ -33,7 +33,7 @@ function SelectButton({ text, icon, reversed, selected = false, relativeWidth = 
 				{
 					icon && <IconComponent iconName={icon} relativeHeight={25} relativeWidth={25} />
 				}
-				<ButtonText>{text}</ButtonText>
+				<ButtonText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{text}</ButtonText>
 			</ContainerBackground>
 		</Container>
 	)

@@ -49,7 +49,7 @@ function ContextHeader({ title, color = 'rgba(0,0,0,0)', rightLabel, icon, right
 					/>
 				)
 			}
-			{typeof (title) === 'string' ? <Title>{title}</Title> : title}
+			{typeof (title) === 'string' ? <Title numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{title}</Title> : title}
 			{rightLabel && (
 				<RightLabelContainer>
 					<RightLabel>{rightLabel}</RightLabel>

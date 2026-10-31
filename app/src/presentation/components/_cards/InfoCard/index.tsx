@@ -26,7 +26,7 @@ function InfoCard({
 }: InfoCardProps) {
 	return (
 		<Container
-			style={{ height }}
+			style={{ minHeight: height }}
 		>
 			<ContainerInner style={{ backgroundColor: color }} hasSvgIcon={!!SvgIcon}>
 				{SvgIcon && <SvgIcon height={relativeScreenDensity(40)} width={relativeScreenDensity(40)} />}
