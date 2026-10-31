@@ -14,7 +14,7 @@ export const GalleryModalContainer = styled.Modal`
 export const ImageContainer = styled.TouchableOpacity`
     flex: 1;
     border-width: 0;
-    justify-content: 'center';
+    justify-content: center;
 `
 
 export const VideoContainer = styled.View` // TODO Videos

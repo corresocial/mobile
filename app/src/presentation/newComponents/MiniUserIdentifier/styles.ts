@@ -44,7 +44,7 @@ export const UserPictureAreaInner = styled.TouchableOpacity`
 export const OwnerTextGroup = styled.View`
 	flex: 1;
 	width: 100%;
-	align-items: column;
+	align-items: stretch;
 	justify-content: center;
 `
 
