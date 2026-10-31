@@ -6,6 +6,7 @@
 		"node": ">=22.13.0"
 	},
 	"scripts": {
+		"audit:expo57": "node scripts/audit-expo57.mjs",
 		"dev": "NODE_ENV=development npx expo start --clear --dev-client",
 		"prod": "NODE_ENV=production npx expo start --clear --dev-client",
 		"update-dev": "NODE_ENV=dev APP_ENV=dev eas update --environment development --branch",
@@ -31,6 +32,7 @@
 		"@react-native-community/datetimepicker": "9.1.0",
 		"@react-native-firebase/analytics": "26.4.0",
 		"@react-native-firebase/app": "26.4.0",
+		"@react-native-firebase/app-check": "26.4.0",
 		"@react-native-firebase/auth": "26.4.0",
 		"@react-native-firebase/crashlytics": "26.4.0",
 		"@react-native-firebase/database": "26.4.0",

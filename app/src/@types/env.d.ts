@@ -45,6 +45,7 @@ declare module '@env' {
 	export const NOTION_APPICONS_ID: string
 	export const NOTION_APPICONS_KEY: string
 	export const DSN_SENTRY: string
+	export const APP_CHECK_DEBUG_TOKEN: string
 	export const STRIPE_PUBLISHABLE_KEY: string
 	export const SENTRY_AUTH_TOKEN: string
 }

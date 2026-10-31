@@ -12,9 +12,12 @@ import { getStorage } from '@react-native-firebase/storage'
 
 import { getEnvVars } from '@infrastructure/environment'
 
+import { startAppCheck } from './appCheck'
+
 const { FIREBASE_smas_databaseURL } = getEnvVars()
 
 setReactNativeAsyncStorage(AsyncStorage)
+startAppCheck()
 
 export const firebaseAuth = getAuth()
 export const firebaseFirestore = getFirestore()
