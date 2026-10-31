@@ -73,6 +73,8 @@ function DefaultInput({
 	editable = true,
 	placeholder,
 	keyboardType,
+	autoComplete,
+	textContentType,
 	returnKeyType,
 	blurOnSubmit = true,
 	iconPosition = 'right',
@@ -219,6 +221,8 @@ function DefaultInput({
 					onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }: any) => resizeMultilineInput(height)}
 					secureTextEntry={secureTextEntry}
 					keyboardType={keyboardType || 'ascii-capable'}
+					autoComplete={autoComplete}
+					textContentType={textContentType}
 					placeholder={placeholder}
 					returnKeyType={returnKeyType || (lastInput ? 'done' : 'next')}
 					blurOnSubmit={blurOnSubmit}
