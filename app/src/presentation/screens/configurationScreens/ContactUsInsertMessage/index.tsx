@@ -1,13 +1,14 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
+import uuid from 'react-uuid'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ContactUsInsertMessageScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
+import { sendContactUsToSentry } from '@infrastructure/sentry/contactUs'
 import { useDiscordService } from '@services/discord/useDiscordService'
-import { useNotionService } from '@services/notion/useNotionService'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -22,7 +23,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
-const { sendMessageToNotionContactUs } = useNotionService()
 const { sendMessageToDiscordContactUs } = useDiscordService()
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
@@ -62,11 +62,14 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const sendMessage = async () => {
 		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
-			const notionPage = await sendMessageToNotionContactUs({
+			const reportId = uuid()
+			sendContactUsToSentry({
 				userId: userDataContext.userId,
+				userName: userDataContext.name,
 				type: route.params.contactUsType,
 				message,
-				reportTarged: route.params.reportedType,
+				reportId,
+				reportedTarget: route.params.reportedType,
 				reportedId: route.params.reportedId
 			})
 
@@ -75,7 +78,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				userName: userDataContext.name,
 				type: route.params.contactUsType,
 				message,
-				reportId: notionPage.reportId,
+				reportId,
 				reportedTarget: route.params.reportedType,
 				reportedId: route.params.reportedId
 			})
@@ -95,10 +98,10 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(25)}
+				relativeHeight={relativeScreenHeight(30)}
 				centralized
 				backgroundColor={theme.colors.orange[2]}
 			>
@@ -108,7 +111,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					titleFontSize={24}
 					description={'fala para a gente o que aconteceu'}
 					highlightedWords={[route.params.title, 'o', 'que']}
-					height={'70%'}
+					height={'80%'}
 					color={theme.colors.white[3]}
 				/>
 			</DefaultHeaderContainer>
