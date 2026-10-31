@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, StatusBar, Platform, TextInput } from 'react-native'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -71,7 +71,7 @@ function InsertName({ navigation }: InsertNameScreenProps) {
 	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+		<Container behavior={'padding'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.green[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

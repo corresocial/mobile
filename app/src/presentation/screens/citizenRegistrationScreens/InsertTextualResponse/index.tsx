@@ -81,7 +81,7 @@ function InsertTextualResponse({ route, navigation }: InsertTextualResponseScree
 
 	return (
 		<Container
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			behavior={'padding'}
 			keyboardVerticalOffset={Platform.OS === 'ios' ? -bottomSafeAreaInset : 0}
 		>
 			<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>

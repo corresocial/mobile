@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
 
 import { SocialMedia } from '@domain/user/entity/types'
 
@@ -59,7 +59,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

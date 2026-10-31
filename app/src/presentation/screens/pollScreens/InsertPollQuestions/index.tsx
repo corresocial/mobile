@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { FlatList, ListRenderItem, Platform, StatusBar, TextInput } from 'react-native'
+import { FlatList, ListRenderItem, StatusBar, TextInput } from 'react-native'
 
 import { PollQuestion, PollQuestionOptional } from '@domain/poll/entity/types'
 
@@ -134,7 +134,7 @@ function InsertPollQuestions({ route, navigation }: InsertPollQuestionsScreenPro
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<SelectQuestionTypeModal
 				visibility={selectQuestionTypeModalIsVisible}

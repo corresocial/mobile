@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
 
 import { SmasRecoveryNISData } from '@domain/smas/entity/types'
 
@@ -118,7 +118,7 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.colors.red[2] : theme.colors.pink[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'45%'}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar, TextInputProps, TouchableWithoutFeedback } from 'react-native'
+import { Keyboard, StatusBar, TextInputProps, TouchableWithoutFeedback } from 'react-native'
 
 import { ButtonsContainer, Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -79,7 +79,7 @@ function PostInputText({
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<Container behavior={'padding'}>
 				<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 				<DefaultHeaderContainer
 					minHeight={relativeScreenHeight(28)}

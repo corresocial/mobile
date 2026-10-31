@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { Platform } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
 import { CardForm, CardFormView, Token } from '@stripe/stripe-react-native'
@@ -270,7 +269,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 					fontSize={20}
 				/>
 			</DefaultHeaderContainer>
-			<Body behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<Body behavior={'padding'}>
 				<BodyScrollable contentContainerStyle={{ padding: relativeScreenDensity(17) }} >
 					<TitleArea>
 						<DollarWhiteIcon width={30} height={30} />

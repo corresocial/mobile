@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Platform, TextInputProps, TextStyle } from 'react-native'
+import { Modal, TextInputProps, TextStyle } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 
 import {
@@ -116,7 +116,7 @@ function CustomModal({
 		>
 			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={getRelativeStatusBarColor(theme, overlayColor)} barStyle={'dark-content'} />}
 			<Container
-				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				behavior={'padding'}
 				overlayColor={overlayColor}
 			>
 				<TouchCloseArea onPress={closeModal}></TouchCloseArea>

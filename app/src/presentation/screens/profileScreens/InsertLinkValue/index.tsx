@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState, useContext } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
 
 import { useUtils } from '@newutils/useUtils'
 
@@ -151,7 +151,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={invalidLinkValueAfterSubmit ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

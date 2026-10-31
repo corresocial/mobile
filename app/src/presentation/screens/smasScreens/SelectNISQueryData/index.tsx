@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Platform } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
@@ -34,7 +33,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+		<Container behavior={'padding'} >
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(50)}
 				relativeHeight={relativeScreenHeight(50)}

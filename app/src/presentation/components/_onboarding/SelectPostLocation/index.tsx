@@ -197,7 +197,7 @@ function SelectPostLocation({
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}

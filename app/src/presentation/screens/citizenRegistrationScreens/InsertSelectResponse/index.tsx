@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FlatList, Keyboard, ListRenderItem, Platform } from 'react-native'
+import { FlatList, Keyboard, ListRenderItem } from 'react-native'
 import { useTheme } from 'styled-components'
 
 import { CitizenRegisterQuestionResponse } from '@domain/citizenRegister/model/entities/types'
@@ -140,7 +140,7 @@ function InsertSelectResponse({ route, navigation }: InsertSelectResponseScreenP
 
 	return (
 		<ScreenContainer topSafeAreaColor={theme.colors.orange[1]}>
-			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<Container behavior={'padding'}>
 				<CitizenRegistrationHeader
 					message={`${questionData.questionId} - ${questionData.question}`}
 					progress={responseProgress}

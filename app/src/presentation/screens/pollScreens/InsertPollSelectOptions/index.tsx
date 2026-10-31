@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useRef, useState } from 'react'
-import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
+import { Keyboard, ScrollView, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
@@ -114,7 +114,7 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { ChatContext } from '@contexts/ChatContext'
@@ -60,7 +60,7 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

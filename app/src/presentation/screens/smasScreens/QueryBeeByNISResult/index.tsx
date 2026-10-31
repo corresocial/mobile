@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
@@ -89,7 +89,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={checkResponseStatus() ? theme.colors.pink[2] : theme.colors.red[2]} />
 			<AlertNotificationModal
 				visibility={notificationModalIsVisible}

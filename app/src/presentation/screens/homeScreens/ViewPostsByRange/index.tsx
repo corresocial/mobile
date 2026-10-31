@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
-import { Platform } from 'react-native'
 
 import { PetitionEntity } from '@domain/petition/entity/types'
 import { PollEntity } from '@domain/poll/entity/types'
@@ -198,7 +197,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 				</Header>
 				<Body
 					style={{ backgroundColor: getRelativeBackgroundColor() }}
-					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+					behavior={'padding'}
 				>
 					{
 						(postsByRange && postsByRange.length) ? (

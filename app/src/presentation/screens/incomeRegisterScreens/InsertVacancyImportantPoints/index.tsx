@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useContext, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
 import { EditContext } from '@contexts/EditContext'
@@ -131,7 +131,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}

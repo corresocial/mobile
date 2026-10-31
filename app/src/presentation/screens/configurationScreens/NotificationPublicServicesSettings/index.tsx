@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { useSmasDomain } from '@domain/smas/useSmasDomain'
 
@@ -114,7 +114,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 	const toggleInsertNisModalVisibility = () => setInsertNisModalIsVisible(!insertNisModalIsVisible)
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<InsertNisModal
 				initialInputValue={userNis}
 				visibility={insertNisModalIsVisible}
