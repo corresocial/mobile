@@ -33,7 +33,8 @@
 				"resourceClass": "medium"
 			},
 			"env": {
-				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1",
+				"APP_ENV": "dev"
 			},
 			"channel": "development",
 			"environment": "development"
@@ -51,7 +52,7 @@
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
 			},
-			"channel": "v0.11.0",
+			"channel": "0.13.0",
 			"environment": "production"
 		}
 	},

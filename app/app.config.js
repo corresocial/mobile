@@ -3,15 +3,18 @@ require('dotenv').config({ quiet: true })
 /* eslint-disable camelcase */
 /* eslint-disable import/no-default-export */
 export default () => {
-	const GOOGLE_SERVICES_INFO_PLIST = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services-info.plist`
-	const GOOGLE_SERVICES_JSON = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services.json`
-	const ANDROID_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
+	// APP_ENV escolhe dev/prod sem mexer no NODE_ENV: um build de release com NODE_ENV=development
+	// embute as libs em modo desenvolvimento e o app fecha ao abrir.
+	const isProd = process.env.APP_ENV ? process.env.APP_ENV === 'prod' : process.env.NODE_ENV === 'production'
+	const GOOGLE_SERVICES_INFO_PLIST = `build/${isProd ? 'prod' : 'dev'}/google-services-info.plist`
+	const GOOGLE_SERVICES_JSON = process.env.GOOGLE_SERVICES_JSON || `build/${isProd ? 'prod' : 'dev'}/google-services.json`
+	const ANDROID_MAPS_API_KEY = isProd ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
 
 	// Pods do React Native Firebase precisam de linkagem estática com useFrameworks: 'static'
 	const RN_FIREBASE_PODS = ['RNFBApp', 'RNFBAnalytics', 'RNFBAuth', 'RNFBCrashlytics', 'RNFBDatabase', 'RNFBFirestore', 'RNFBFunctions', 'RNFBStorage']
 
-	const version = '0.11.0'
-	const easUpdateChannel = process.env.NODE_ENV === 'production' ? '0.11.0' : 'development-build'
+	const version = '0.13.0'
+	const easUpdateChannel = isProd ? '0.13.0' : 'development-build'
 
 	return ({
 		expo: {
@@ -37,7 +40,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '85',
+				buildNumber: '100',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
@@ -51,7 +54,7 @@ export default () => {
 				googleServicesFile: GOOGLE_SERVICES_INFO_PLIST
 			},
 			android: {
-				versionCode: 85,
+				versionCode: 100,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
@@ -125,6 +128,7 @@ export default () => {
 					}
 				],
 				'@react-native-firebase/auth',
+				'@react-native-firebase/app-check',
 				'@react-native-firebase/crashlytics',
 				[
 					'react-native-maps',
