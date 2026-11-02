@@ -1,4 +1,3 @@
-import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -10,8 +9,7 @@ export const Container = styled.View`
 	justify-content: space-between;
 	align-items: center;
 	padding: ${relativeScreenDensity(10)}px ${relativeScreenDensity(10)}px;
-	position: ${Platform.OS === 'ios' ? 'relative' : 'absolute'};
-	bottom: 0;
+	position: relative;
 `
 
 interface SideButtonAreaProps {

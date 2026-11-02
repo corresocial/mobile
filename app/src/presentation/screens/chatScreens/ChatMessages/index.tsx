@@ -271,15 +271,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		if (numberOfMessages < currentNumberOfMessages) {
 			setNumberOfMessages(getFilteredMessages().length)
-			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
+			!!(flatListRef && flatListRef.current) && height !== undefined && flatListRef.current?.scrollToOffset({ offset: height, animated })
 		}
 	}
 
 	return (
 		<Container
 			behavior={'padding'}
-			keyboardVerticalOffset={-bottomSafeAreaInset}
-			style={Platform.OS === 'android' ? { paddingBottom: relativeScreenHeight(9) + bottomSafeAreaInset } : undefined} // edge-to-edge: conteúdo acima da barra de navegação
+			keyboardVerticalOffset={Platform.OS === 'ios' ? -bottomSafeAreaInset : 0}
 		>
 			<DefaultConfirmationModal // BLOCK
 				visibility={blockConfirmationModalIsVisible}

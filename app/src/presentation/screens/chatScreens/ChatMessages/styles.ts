@@ -7,7 +7,6 @@ import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimen
 export const Container = styled.KeyboardAvoidingView`
 	flex: 1;
 	background-color: ${({ theme }) => theme.colors.orange[1]};
-	padding-bottom: ${relativeScreenHeight(9)}px;
 	flex-direction: column;
 	justify-content: space-between;
 	`
