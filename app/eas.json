@@ -50,7 +50,8 @@
 				"applicationArchivePath": "android/app/build/outputs/**/*.{apk,aab}"
 			},
 			"env": {
-				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1",
+				"APP_ENV": "prod"
 			},
 			"channel": "0.13.0",
 			"environment": "production"

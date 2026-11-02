@@ -6,7 +6,7 @@ export default () => {
 	// APP_ENV escolhe dev/prod sem mexer no NODE_ENV: um build de release com NODE_ENV=development
 	// embute as libs em modo desenvolvimento e o app fecha ao abrir.
 	const isProd = process.env.APP_ENV ? process.env.APP_ENV === 'prod' : process.env.NODE_ENV === 'production'
-	const GOOGLE_SERVICES_INFO_PLIST = `build/${isProd ? 'prod' : 'dev'}/google-services-info.plist`
+	const GOOGLE_SERVICES_INFO_PLIST = process.env.GOOGLE_SERVICES_INFO_PLIST || `build/${isProd ? 'prod' : 'dev'}/google-services-info.plist`
 	const GOOGLE_SERVICES_JSON = process.env.GOOGLE_SERVICES_JSON || `build/${isProd ? 'prod' : 'dev'}/google-services.json`
 	const ANDROID_MAPS_API_KEY = isProd ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
 
