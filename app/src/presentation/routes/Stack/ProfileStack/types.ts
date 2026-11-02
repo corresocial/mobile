@@ -3,8 +3,7 @@ import { SocialMedia, UserEntity, VerifiedLabelName } from '@domain/user/entity/
 
 import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
-import { ContactUsType } from '@services/contactUs/types'
-import { ReportedTarget } from '@services/notion/types/contactUs'
+import { ContactUsType, ReportedTarget } from '@services/contactUs/types'
 
 export type ProfileStackParamList = {
 	Profile: { userId: string, stackLabel: StackLabelProps } | undefined

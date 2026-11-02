@@ -2,8 +2,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 
 import { PostRange } from '@domain/post/entity/types'
 
-import { ContactUsType } from '@services/contactUs/types'
-import { ReportedTarget } from '@services/notion/types/contactUs'
+import { ContactUsType, ReportedTarget } from '@services/contactUs/types'
 
 export type UserStackNavigationProps = StackNavigationProp<UserStackParamList>
 
