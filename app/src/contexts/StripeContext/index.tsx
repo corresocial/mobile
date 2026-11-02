@@ -435,9 +435,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 				closeModal={toggleInvalidSubscriptionModalVisibility}
 				onPressButton={navigateToEditCurrentPlanScreen}
 			/>
-			<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
-				{children}
-			</StripeProviderRaw>
+			{/* Com os planos grátis não há chave do Stripe em produção: o SDK não é iniciado */}
+			{PLANS_ARE_FREE
+				? children
+				: (
+					<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
+						{children}
+					</StripeProviderRaw>
+				)}
 		</StripeContext.Provider>
 	)
 }
