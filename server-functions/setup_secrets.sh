@@ -12,7 +12,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_FILE="$SCRIPT_DIR/.env"
+ENV_FILE="${ENV_FILE:-$SCRIPT_DIR/.env}"
 PROJECT="${GCP_PROJECT:-corresocialapp}"
 SECRET_LOCATION="southamerica-east1"
 SECRETS="ALGOLIA_ID ALGOLIA_KEY STRIPE_SECRET_KEY FALECONOSCO_WEBHOOK ERROS_WEBHOOK DENUNCIAR_WEBHOOK"
@@ -29,6 +29,7 @@ Uso: bash setup_secrets.sh [--dry-run] [--only NOME1,NOME2]
 
 Variáveis:
   GCP_PROJECT  Projeto GCP (padrão: corresocialapp)
+  ENV_FILE     Arquivo de valores (padrão: server-functions/.env)
 
 Segredos lidos de server-functions/.env:
   ALGOLIA_ID, ALGOLIA_KEY                            -> fn-search
@@ -177,8 +178,10 @@ if [ "$DRY_RUN" -eq 0 ]; then
 	fi
 
 	missing_sa=""
-	for sa_name in fn-search fn-stripe fn-discord; do
-		sa="${sa_name}@${PROJECT}.iam.gserviceaccount.com"
+	# Só as contas dos segredos selecionados (com --only, as demais podem nem existir ainda)
+	for secret_name in $SECRETS; do
+		sa="$(service_account_for "$secret_name")"
+		case " $missing_sa " in *" $sa "*) continue ;; esac
 		if ! gcloud iam service-accounts describe "$sa" --project="$PROJECT" >/dev/null 2>&1; then
 			missing_sa="$missing_sa $sa"
 		fi
