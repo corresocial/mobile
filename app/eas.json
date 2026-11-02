@@ -51,7 +51,8 @@
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1",
-				"APP_ENV": "prod"
+				"APP_ENV": "prod",
+				"SENTRY_ALLOW_FAILURE": "true"
 			},
 			"channel": "0.13.0",
 			"environment": "production"
