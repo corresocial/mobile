@@ -2,7 +2,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 
 import { PostRange } from '@domain/post/entity/types'
 
-import { DiscordContactUsType } from '@services/discord/types/contactUs'
+import { ContactUsType } from '@services/contactUs/types'
 import { ReportedTarget } from '@services/notion/types/contactUs'
 
 export type UserStackNavigationProps = StackNavigationProp<UserStackParamList>
@@ -23,7 +23,7 @@ export type UserStackParamList = {
 	PetitionStack: undefined
 
 	ContactUsUserStack: undefined
-	ContactUsInsertMessageUserStack: { title: string, contactUsType: DiscordContactUsType, reportedType?: ReportedTarget, reportedId?: string }
+	ContactUsInsertMessageUserStack: { title: string, contactUsType: ContactUsType, reportedType?: ReportedTarget, reportedId?: string }
 	ContactUsSuccessUserStack: { reportType: ReportedTarget } | undefined
 
 	// Assinatura

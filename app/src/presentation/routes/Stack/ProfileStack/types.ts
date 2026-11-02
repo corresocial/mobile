@@ -3,7 +3,7 @@ import { SocialMedia, UserEntity, VerifiedLabelName } from '@domain/user/entity/
 
 import { StackLabelProps } from '../../types'
 import { UserStackParamList } from '../UserStack/types'
-import { DiscordContactUsType } from '@services/discord/types/contactUs'
+import { ContactUsType } from '@services/contactUs/types'
 import { ReportedTarget } from '@services/notion/types/contactUs'
 
 export type ProfileStackParamList = {
@@ -36,7 +36,7 @@ export type ProfileStackParamList = {
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
 	ContactUs: undefined
-	ContactUsInsertMessage: { title: string, contactUsType: DiscordContactUsType, reportedType?: ReportedTarget, reportedId?: string }
+	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedType?: ReportedTarget, reportedId?: string }
 	ContactUsSuccess: { reportType: ReportedTarget } | undefined
 	PrivacyAndSecurity: undefined
 	UserDataConfigurations: undefined

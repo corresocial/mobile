@@ -8,7 +8,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ContactUsInsertMessageScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
 import { sendContactUsToSentry } from '@infrastructure/sentry/contactUs'
-import { useDiscordService } from '@services/discord/useDiscordService'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -22,8 +21,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
-
-const { sendMessageToDiscordContactUs } = useDiscordService()
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -64,16 +61,6 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			setIsLoading(true)
 			const reportId = uuid()
 			sendContactUsToSentry({
-				userId: userDataContext.userId,
-				userName: userDataContext.name,
-				type: route.params.contactUsType,
-				message,
-				reportId,
-				reportedTarget: route.params.reportedType,
-				reportedId: route.params.reportedId
-			})
-
-			await sendMessageToDiscordContactUs({
 				userId: userDataContext.userId,
 				userName: userDataContext.name,
 				type: route.params.contactUsType,
