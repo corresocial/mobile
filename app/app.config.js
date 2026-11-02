@@ -216,7 +216,8 @@ export default () => {
 						faceIDPermission: 'Você precisa permitir a utilização do faceID para podermos garantir a segurança da sua conta'
 					}
 				],
-				['./plugins/gradle-config.js']
+				['./plugins/gradle-config.js'],
+				['./plugins/keyboard-no-resize.js']
 			],
 			web: {
 				favicon: './assets/favicon.png'
