@@ -17,6 +17,8 @@ import { ChatContext } from '@contexts/ChatContext'
 import { ConfigurationsScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { ProfileStackParamList } from '@routes/Stack/ProfileStack/types'
 
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
+
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'
@@ -129,11 +131,15 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					paddingHorizontal: relativeScreenWidth(5),
 				}}
 			>
-				<SubscriptionButton
-					customTitle={'doação corre.'}
-					onPress={performUserSubscription}
-				/>
-				<VerticalSpacing />
+				{!PLANS_ARE_FREE && (
+					<>
+						<SubscriptionButton
+							customTitle={'doação corre.'}
+							onPress={performUserSubscription}
+						/>
+						<VerticalSpacing />
+					</>
+				)}
 				<OptionButton
 					label={'corres concluídos'}
 					highlightedWords={['concluídos']}

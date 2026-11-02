@@ -16,6 +16,7 @@ import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserSt
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
 import { firebaseFunctions } from '@infrastructure/firebase'
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
@@ -100,6 +101,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const navigation = useNavigation<UserStackNavigationProps>()
 
 	useEffect(() => {
+		if (PLANS_ARE_FREE) return
 		getProducts()
 		if (userHasSubscription()) {
 			checkCurrentSubscriptionStatus()

@@ -24,6 +24,7 @@ import { navigateToHomeTabScreen, navigateToPostView } from '@routes/auxMethods'
 import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 import { FlatListItem } from 'src/presentation/types'
 
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -665,7 +666,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												reportUser={reportUser}
 												onPressVerify={verifyUserProfile}
 												removeProfileVerification={removeProfileVerification}
-												setFreeTrialToProfile={userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
+												setFreeTrialToProfile={!PLANS_ARE_FREE && userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
 											>
 												<SmallButton
 													color={theme.colors.white[3]}

@@ -30,7 +30,7 @@ function AdsCarousel({ onPressCorreAd, onPressUserLocationAd, onPressPublicServi
 	}
 
 	const promotionTitle = 'PROMOÇÃO'
-	const promotionText = 'aproveite 3 meses gratuitos de nosso aplicativo para alcançar a cidade ou o país todo com suas postagens!'
+	const promotionText = 'aproveite o aplicativo de graça para alcançar a cidade ou o país todo com suas postagens!'
 
 	return (
 		<Container>
