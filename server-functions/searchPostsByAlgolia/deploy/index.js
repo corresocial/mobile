@@ -48,16 +48,17 @@ const ALGOLIA_KEY = process.env.ALGOLIA_KEY;
 const client = (0, algoliasearch_1.default)(ALGOLIA_ID, ALGOLIA_KEY);
 const postsIndex = client.initIndex('postsIndex');
 const searchFilters_1 = require("./src/searchFilters");
+const validateSearchRequest_1 = require("./src/validateSearchRequest");
 exports.searchPostsByAlgolia = (0, https_1.onCall)((request) => __awaiter(void 0, void 0, void 0, function* () {
     // 1. SECURITY: Authenticated users only
     if (!request.auth) {
         throw new https_1.HttpsError('unauthenticated', 'User must be logged in to search.');
     }
+    // 2. INPUT: Get data from request.data (v2 Callable), validated before going into Algolia filters
+    const { searchText, searchParams, searchByRange } = (0, validateSearchRequest_1.validateSearchRequest)(request.data);
+    // Securely get userId from the auth token, not the body
+    const userId = request.auth.uid;
     try {
-        // 2. INPUT: Get data from request.data (v2 Callable)
-        const { searchText, searchParams, searchByRange } = request.data;
-        // Securely get userId from the auth token, not the body
-        const userId = request.auth.uid;
         const searchFilters = {
             completedFilter: '',
             cityFilter: '',
@@ -128,7 +129,9 @@ exports.searchPostsByAlgolia = (0, https_1.onCall)((request) => __awaiter(void 0
         return postsByRange;
     }
     catch (err) {
-        console.error('Error searching Algolia:', err);
-        throw new https_1.HttpsError('internal', 'Unable to search posts', err);
+        // Algolia errors carry the request body (search text, geohashes, city) and the response: log only the summary
+        console.error('Error searching Algolia:', { name: err === null || err === void 0 ? void 0 : err.name, status: err === null || err === void 0 ? void 0 : err.status, message: err === null || err === void 0 ? void 0 : err.message });
+        // No internal details to the client
+        throw new https_1.HttpsError('internal', 'Unable to search posts');
     }
 }));
