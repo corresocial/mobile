@@ -1,18 +1,46 @@
 {
   "projects": {
-    "default": "corresocialapp"
+    "default": "corresocialapp",
+    "prod": "corresocial-66840"
   },
   "targets": {
     "corresocialapp": {
       "database": {
-        "main": ["corresocialapp-default-rtdb"],
-        "smas": ["corresocialapp-smas"]
+        "main": [
+          "corresocialapp-default-rtdb"
+        ],
+        "smas": [
+          "corresocialapp-smas"
+        ]
       },
       "storage": {
-        "main": ["corresocialapp.appspot.com"],
-        "backup": ["corresocialapp-backup"],
-        "backupt": ["corresocialapp-backupt"],
-        "legacy": ["corresocialapp"]
+        "main": [
+          "corresocialapp.appspot.com"
+        ],
+        "backup": [
+          "corresocialapp-backup"
+        ],
+        "backupt": [
+          "corresocialapp-backupt"
+        ],
+        "legacy": [
+          "corresocialapp"
+        ]
+      }
+    },
+    "corresocial-66840": {
+      "database": {
+        "main": [
+          "corresocial-66840-default-rtdb"
+        ],
+        "smas": [
+          "corresocial-66840-smas"
+        ]
+      },
+      "storage": {
+        "main": [
+          "corresocial-66840.appspot.com"
+        ]
       }
     }
   }
