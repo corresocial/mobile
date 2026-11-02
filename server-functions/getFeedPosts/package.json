@@ -6,7 +6,7 @@
         "start": "tsc && node deploy/index.js",
         "build": "tsc",
         "deploy": "npm-run-all build deploy-cloud-function",
-        "deploy-cloud-function": "cd deploy && gcloud functions deploy getFeedPosts --gen2 --runtime nodejs22 --trigger-http --region southamerica-east1 --allow-unauthenticated --project ${GCP_PROJECT:-corresocialapp} --entry-point getFeedPosts --service-account fn-feed@${GCP_PROJECT:-corresocialapp}.iam.gserviceaccount.com"
+        "deploy-cloud-function": "cd deploy && gcloud functions deploy getFeedPosts --gen2 --runtime nodejs22 --max-instances 10 --trigger-http --region southamerica-east1 --allow-unauthenticated --project ${GCP_PROJECT:-corresocialapp} --entry-point getFeedPosts --service-account fn-feed@${GCP_PROJECT:-corresocialapp}.iam.gserviceaccount.com"
     },
     "author": "Wellington Souza",
     "license": "MIT",
