@@ -46,6 +46,8 @@ export default () => {
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
 					NSPhotoLibraryUsageDescription: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.',
 					NSFaceIDUsageDescription: 'Usamos o bloqueio do app com TouchID ou FaceID para garantir a segurança da sua conta.',
+					// O app só usa criptografia padrão do sistema (HTTPS/TLS): isento de conformidade de exportação
+					ITSAppUsesNonExemptEncryption: false,
 					CFBundleURLTypes: [
 						{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial', 'corre'].filter(Boolean) }
 					]
