@@ -51,7 +51,11 @@ export default () => {
 					]
 				},
 				supportsTablet: true,
-				googleServicesFile: GOOGLE_SERVICES_INFO_PLIST
+				googleServicesFile: GOOGLE_SERVICES_INFO_PLIST,
+				// App Check em produção (App Attest, com DeviceCheck como alternativa)
+				entitlements: {
+					'com.apple.developer.devicecheck.appattest-environment': 'production'
+				}
 			},
 			android: {
 				versionCode: 100,
