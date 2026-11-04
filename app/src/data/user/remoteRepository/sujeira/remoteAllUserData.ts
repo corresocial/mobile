@@ -20,14 +20,15 @@ const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: Po
 
 	const userPosts = await remoteStorage.getPostsByUser(firebaseAuth.currentUser?.uid, 1, null, false, true)
 
-	userPosts.forEach(async (postData) => {
+	// Espera todas as exclusões terminarem antes de apagar o login: depois do deleteUser as regras negam qualquer escrita
+	await Promise.all(userPosts.map(async (postData) => {
 		try {
 			await remoteStorage.deletePost(postData.postId)
 			await remoteStorage.deletePostMedias(postData.picturesUrl || [], 'pictures')
 		} catch (error: any) {
 			console.log(error)
 		}
-	})
+	}))
 
 	await deleteUserProfilePicture(userPictureUrl)
 	await deleteUserData(userId)
