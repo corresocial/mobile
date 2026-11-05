@@ -10,6 +10,7 @@ import { useAuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
 
+import { pickMediaFromLibrary } from '@utils-ui/common/pickMediaFromLibrary'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { ButtonsContainer, Container, InstructionCardContainer } from './styles'
@@ -25,7 +26,6 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { ImageCropperModal } from '@components/_modals/ImageCropperModal'
-import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
@@ -40,7 +40,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
-	const [mediaBrowserModalVisibility, setMediaBrowserModalVisibility] = useState<boolean>(false)
 
 	const saveCroppedImage = (image: any) => {
 		setProfilePictureUri(image.uri)
@@ -48,6 +47,11 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 	const setPictureUri = (pictureUri: string) => {
 		setProfilePictureUri(pictureUri)
+	}
+
+	const pickPictureFromLibrary = async () => {
+		const [picture] = await pickMediaFromLibrary({ maxSelection: 1 })
+		if (picture) setPictureUri(picture.url)
 	}
 
 	const saveUserData = async () => {
@@ -79,13 +83,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	return (
 		<Container >
 			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
-			<MediaBrowserModal
-				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
-				onClose={() => setMediaBrowserModalVisibility(false)}
-				maxImages={1}
-				allowVideos={false}
-				showMediaBrowser={mediaBrowserModalVisibility}
-			/>
 			<CustomCameraModal
 				cameraOpened={cameraModalVisibility}
 				onClose={() => { setCameraModalVisibility(false) }}
@@ -138,7 +135,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									SvgIcon={AddPictureWhiteIcon}
 									svgScale={['70%', '70%']}
 									halfRounded
-									onPress={() => { setMediaBrowserModalVisibility(true) }}
+									onPress={pickPictureFromLibrary}
 								/>
 								<SmallButton
 									relativeWidth={relativeScreenWidth(20)}

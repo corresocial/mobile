@@ -5,6 +5,7 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditUserPictureScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
+import { pickMediaFromLibrary } from '@utils-ui/common/pickMediaFromLibrary'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { ButtonsContainer, Container, InstructionCardContainer, TopArea } from './styles'
@@ -20,7 +21,6 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { ImageCropperModal } from '@components/_modals/ImageCropperModal'
-import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
 const { compressImage } = UiUtils()
@@ -31,13 +31,17 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 	const [profilePictureUrl, setProfilePictureUrl] = useState<string>(route.params.profilePictureUrl)
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
-	const [mediaBrowserModalVisibility, setMediaBrowserModalVisibility] = useState<boolean>(false)
 
 	const [hasSelectedNewPhoto, setHasSelectedNewPhoto] = useState(false)
 
 	const setPictureUri = (pictureUri: string) => {
 		setProfilePictureUrl(pictureUri)
 		setHasSelectedNewPhoto(true)
+	}
+
+	const pickPictureFromLibrary = async () => {
+		const [picture] = await pickMediaFromLibrary({ maxSelection: 1 })
+		if (picture) setPictureUri(picture.url)
 	}
 
 	const saveUserPicture = async () => {
@@ -58,13 +62,6 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	return (
 		<Container >
 			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
-			<MediaBrowserModal
-				onSelectionConfirmed={(imgs) => setPictureUri(imgs[0].uri)}
-				onClose={() => setMediaBrowserModalVisibility(false)}
-				maxImages={1}
-				allowVideos={false}
-				showMediaBrowser={mediaBrowserModalVisibility}
-			/>
 			<CustomCameraModal
 				cameraOpened={cameraModalVisibility}
 				onClose={() => { setCameraModalVisibility(false) }}
@@ -120,7 +117,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					SvgIcon={AddPictureWhiteIcon}
 					svgScale={['70%', '70%']}
 					halfRounded
-					onPress={() => { setMediaBrowserModalVisibility(true) }}
+					onPress={pickPictureFromLibrary}
 				/>
 				<SmallButton
 					relativeWidth={relativeScreenWidth(20)}
