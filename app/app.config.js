@@ -60,7 +60,7 @@ export default () => {
 				}
 			},
 			android: {
-				versionCode: 100,
+				versionCode: 101,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
@@ -71,10 +71,6 @@ export default () => {
 				permissions: [
 					'android.permission.LOCATION',
 					'android.permission.ACCESS_FINE_LOCATION',
-					'android.permission.READ_MEDIA_IMAGES',
-					'android.permission.READ_MEDIA_VIDEO',
-					'android.permission.WRITE_EXTERNAL_STORAGE',
-					'android.permission.READ_EXTERNAL_STORAGE',
 					'android.permission.USE_FINGERPRINT',
 					'android.permission.FOREGROUND_SERVICE',
 					'android.permission.CAMERA',
@@ -82,6 +78,16 @@ export default () => {
 					'android.permission.AD_ID',
 					'android.permission.SCHEDULE_EXACT_ALARM',
 					'android.permission.Intent.ACTION_BOOT_COMPLETED'
+				],
+				// Fotos e vídeos vêm do seletor do sistema (expo-image-picker): sem permissões amplas de mídia (política do Google Play)
+				blockedPermissions: [
+					'android.permission.READ_MEDIA_IMAGES',
+					'android.permission.READ_MEDIA_VIDEO',
+					'android.permission.READ_MEDIA_AUDIO',
+					'android.permission.READ_MEDIA_VISUAL_USER_SELECTED',
+					'android.permission.ACCESS_MEDIA_LOCATION',
+					'android.permission.READ_EXTERNAL_STORAGE',
+					'android.permission.WRITE_EXTERNAL_STORAGE'
 				]
 			},
 			extra: {
@@ -166,14 +172,6 @@ export default () => {
 							-dontwarn com.stripe.android.pushProvisioning.PushProvisioningEphemeralKeyProvider
 							`
 						}
-					}
-				],
-				[
-					'expo-media-library',
-					{
-						photosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts',
-						savePhotosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts',
-						isAccessMediaLocationEnabled: true
 					}
 				],
 				[

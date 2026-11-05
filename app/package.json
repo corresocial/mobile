@@ -71,7 +71,6 @@
 		"expo-local-authentication": "~57.0.3",
 		"expo-localization": "~57.0.2",
 		"expo-location": "~57.0.20",
-		"expo-media-library": "~57.0.5",
 		"expo-network": "~57.0.2",
 		"expo-notifications": "~57.0.21",
 		"expo-print": "~57.0.2",
