@@ -40,7 +40,7 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '100',
+				buildNumber: '101',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
