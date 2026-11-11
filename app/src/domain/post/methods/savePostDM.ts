@@ -76,13 +76,14 @@ async function savePostDM(
 		unapprovedData: { ...newPostData.unapprovedData, picturesUrl: newPostPicturesUrl, videosUrl: newPostVideosUrl }
 	} as any
 
+	// Remove só os arrays vazios, para a aprovação não sobrescrever campos com []; as URLs enviadas precisam ir para o post
 	if (newPostWithUploadedPictures?.unapprovedData) {
-		if (Array.isArray(newPostWithUploadedPictures.unapprovedData.picturesUrl)) {
-			delete newPostWithUploadedPictures?.unapprovedData.picturesUrl
+		if (!newPostWithUploadedPictures.unapprovedData.picturesUrl?.length) {
+			delete newPostWithUploadedPictures.unapprovedData.picturesUrl
 		}
 
-		if (Array.isArray(newPostWithUploadedPictures.unapprovedData.videosUrl)) {
-			delete newPostWithUploadedPictures?.unapprovedData?.videosUrl
+		if (!newPostWithUploadedPictures.unapprovedData.videosUrl?.length) {
+			delete newPostWithUploadedPictures.unapprovedData.videosUrl
 		}
 	}
 
