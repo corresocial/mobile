@@ -12,13 +12,9 @@
 
 ## Configuração
 
-[Variáveis de Ambiente](https://www.notion.so/Vari-veis-de-Ambiente-e0a9eda5f9e74be3980cd5be10aa8b39?pvs=21)
+Service account: `fn-search` (sem papéis no projeto).
 
-### Configuração de console Google Cloud Platform
-
-.env.yaml com algolia id e algolia key
-ALGOLIA_ID=
-ALGOLIA_KEY=
+`ALGOLIA_ID` e `ALGOLIA_KEY` ficam no Secret Manager e chegam à função como variáveis de ambiente via `--set-secrets` (veja o `package.json`). Use uma chave Algolia **só de busca** (ACL `search`). Para criar/rotacionar os segredos, use o `setup_secrets.sh` da raiz (veja o [README principal](../README.md)).
 
 ## Request
 
@@ -56,9 +52,23 @@ export type RequestBody = {
     - **postType**: Tipo de postagem (renda, cultura ou impacto).
     - **geohashes**: Lista de geohashes para pesquisa geográfica eficiente, buscando posts próximos
 
+### Validação
+
+Os campos abaixo entram nos filtros do Algolia e são validados em `src/validateSearchRequest.ts` (valores vazios são aceitos, como antes). Fora do formato, a função retorna `invalid-argument`:
+
+- **postType**: `income`, `socialImpact` ou `culture`
+- **macroCategory**: valores de `MacroCategoriesType` (`domain/entities/post`)
+- **geohashes**: até 50 geohashes (base32, 1 a 12 caracteres)
+- **city** / **country**: letras (com acento), números, espaço, `.`, `-` e apóstrofo; até 100 caracteres
+- **category**: identificador (`[A-Za-z0-9_-]`, até 64)
+- **tag**: letras (com acento), números, espaço, `_`, `+`, `.` e `-`; até 64
+- **searchText**: texto de até 512 caracteres
+
+Cidade, país, categoria e tag também vão entre aspas no filtro.
+
 ## Fluxo de informações
 
-1. Recebe-se os parâmetros de busca
+1. Recebe-se os parâmetros de busca e valida os campos usados nos filtros
 2. Gera os filtros de busca de acordo com os parâmetros recebidos
 3. Realiza a busca no algalia
 4. Todas as postagens resultantes da pesquisa passam por um filtro de localização
@@ -93,27 +103,10 @@ export type RequestBody = {
 
 </aside>
 
-É necessário converter o código para JavaScript antes de fazer o deploy, executando diretamente da pasta da função
+Dentro da pasta da função:
 
-```jsx
+```bash
 npm run deploy
 ```
 
-OU
-
-```jsx
-npm run build
-```
-
-```jsx
-cd deploy
-```
-
-```jsx
-gcloud functions deploy searchPostsByAlgolia \
-  --runtime nodejs18 \
-  --trigger-http \
-  --entry-point searchPostsByAlgolia \
-  --region southamerica-east1 \
-  --allow-unauthenticated
-```
+O comando compila o TypeScript (`npm run build`, saída em `deploy/`) e executa o `deploy-cloud-function` do `package.json` (runtime `nodejs22`, service account `fn-search` e `--set-secrets`). Não faça o deploy manualmente com outras flags: sem `--service-account` a função passa a rodar com a service account padrão, e sem `--set-secrets` fica sem as credenciais do Algolia.

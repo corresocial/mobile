@@ -6,24 +6,25 @@
 
 ## Configuração
 
-Configure suas [Variáveis de Ambiente](https://www.notion.so/Vari-veis-de-Ambiente-a70ccd10fec84c5d8a9a70f3e0e9e2c2?pvs=21)
-
+Service account: `fn-check-phone` (`roles/firebaseauth.viewer`). Não usa segredos.
 
 ## Request
 
 ```jsx
 {
-	phoneNumber: string // formato +55(DDD)(Telefone) = +5569992846588
+	phoneNumber: string // formato E.164: +55(DDD)(Telefone) = +5569992846588
 }
 ```
 
-- **phoneNumber**: Número de telefone à ser verificado se já foi ou não autenticado no firebase auth
+- **phoneNumber**: Número de telefone a ser verificado no Firebase Auth. Precisa estar no formato E.164 (`^\+[1-9]\d{7,14}$`); caso contrário a função retorna o erro `invalid-argument`.
 
 ## Fluxo de informações
 
-1. Recebe o telefone informado
+1. Recebe o telefone informado e valida o formato E.164
 2. Consulta o firebase auth por meio do firebase-admin
-3. Retorna um valor boleano notificando se existe ou não existe no firebase auth
+3. Retorna um valor booleano notificando se existe ou não existe no firebase auth
+
+A função não loga o telefone nem o uid encontrado.
 
 ## Response
 
@@ -31,7 +32,11 @@ Configure suas [Variáveis de Ambiente](https://www.notion.so/Vari-veis-de-Ambie
 true | false
 ```
 
-- Indica de o usuário possui ou não autenticação no firebase
+- Indica se o usuário possui ou não autenticação no firebase
+
+## Riscos
+
+A função é chamada **antes do login**, então não exige autenticação e permite descobrir se um telefone tem conta no Corre (dado pessoal, LGPD). App Check ainda não está ativo: a constante `ENFORCE_APP_CHECK` em `index.ts` deve virar `true` quando o app enviar tokens de App Check. Veja as opções em "Riscos Residuais" no [README principal](../README.md).
 
 ## Deploy
 
@@ -42,4 +47,3 @@ true | false
 ```jsx
 npm run deploy
 ```
-

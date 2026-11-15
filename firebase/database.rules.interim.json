@@ -1,0 +1,13 @@
+{
+  /*
+    HOT-FIX temporário do RTDB padrão (chat): idêntico às regras publicadas hoje,
+    trocando apenas "true" por "auth != null". Fecha o acesso anônimo; qualquer
+    usuário logado continua lendo/escrevendo tudo. Substituir por database.rules.json.
+  */
+  "rules": {
+    "$nodeId": {
+      ".write": "auth != null",
+      ".read": "auth != null"
+    }
+  }
+}

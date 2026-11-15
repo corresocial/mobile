@@ -1,0 +1,75 @@
+{
+  /*
+    RTDB padrão (corresocialapp-default-rtdb) = chat.
+    Na raiz convivem dois tipos de nó:
+      /{uid}              -> { blockedUsers, chatIds, tokenNotification } do usuário
+      /{uidA}-{uidB}      -> conversa { chatId, completed, user1, user2, messages }
+    Os uids do Firebase Auth não têm '-', então "{uid}-" no começo ou "-{uid}" no fim
+    do id identifica um participante. O Admin SDK (chatMessagesNotificationListener,
+    corre-bot/SMAS) ignora estas regras.
+
+    TODO(segurança): getRemoteUserData lê o nó inteiro do outro participante
+    (hasBlockedUserOnConversationDM, updateChatCompletedStateDM), o que expõe
+    tokenNotification e chatIds dele. Como qualquer usuário pode criar a conversa
+    "{eu}-{vítima}", isso ainda permite ler o token de push de qualquer pessoa com
+    um passo extra. Correção: ler só /{uid}/blockedUsers no app, enviar o push de
+    "conversa finalizada" pelo servidor e então restringir tokenNotification/chatIds
+    ao dono.
+
+    TODO(segurança): approveProfileDM -> updateProfilePictureOnConversationsDM é
+    executado pelo LÍDER e altera user1/user2 em conversas das quais ele não participa.
+    Isso não pode ser expresso com segurança aqui (o RTDB não enxerga o papel no
+    Firestore); com estas regras a atualização vira no-op. Mover para uma Cloud
+    Function disparada pela atualização de users/{uid}.
+  */
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "$nodeId": {
+      /*
+        Leitura:
+          - o próprio nó do usuário;
+          - conversa da qual participa (pelo id, inclusive se ainda não existe:
+            existsOnDatabase/getRemoteChatDataByUserDM; ou por user1/user2 em
+            conversas legadas);
+          - nó de usuário de quem já tem conversa comigo (blockedUsers/token).
+      */
+      ".read": "auth != null && ($nodeId === auth.uid || $nodeId.beginsWith(auth.uid + '-') || $nodeId.endsWith('-' + auth.uid) || data.child('user1/userId').val() === auth.uid || data.child('user2/userId').val() === auth.uid || root.child(auth.uid + '-' + $nodeId).exists() || root.child($nodeId + '-' + auth.uid).exists())",
+      /*
+        Escrita:
+          - o próprio nó do usuário (sem virar "conversa");
+          - conversa existente: participante, sem apagar o nó e sem trocar user1/user2.userId;
+          - conversa nova: id == user1.userId + '-' + user2.userId e eu sou um deles.
+      */
+      ".write": "auth != null && (($nodeId === auth.uid && !newData.hasChild('user1') && !newData.hasChild('user2')) || (newData.exists() && data.exists() && ($nodeId.beginsWith(auth.uid + '-') || $nodeId.endsWith('-' + auth.uid) || data.child('user1/userId').val() === auth.uid || data.child('user2/userId').val() === auth.uid) && newData.child('user1/userId').val() === data.child('user1/userId').val() && newData.child('user2/userId').val() === data.child('user2/userId').val()) || (newData.exists() && !data.exists() && ($nodeId.beginsWith(auth.uid + '-') || $nodeId.endsWith('-' + auth.uid)) && newData.child('user1/userId').isString() && newData.child('user2/userId').isString() && newData.child('user1/userId').val() + '-' + newData.child('user2/userId').val() === $nodeId && (!newData.hasChild('chatId') || newData.child('chatId').val() === $nodeId)))",
+      "chatIds": {
+        "$entryKey": {
+          /*
+            setChatIdForUsersDM faz push do chatId no nó do OUTRO usuário.
+            Só é permitido criar (não sobrescrever/apagar) uma entrada cujo valor é uma
+            conversa já existente entre mim e o dono do nó.
+          */
+          ".write": "auth != null && $nodeId !== auth.uid && !data.exists() && newData.isString() && (newData.val() === auth.uid + '-' + $nodeId || newData.val() === $nodeId + '-' + auth.uid) && root.child(newData.val()).exists()"
+        }
+      },
+      "tokenNotification": {
+        ".validate": "newData.isString() && newData.val().length <= 256"
+      },
+      "completed": {
+        ".validate": "newData.isBoolean()"
+      },
+      "messages": {
+        "$messageId": {
+          /*
+            Mensagem nova: owner == eu, texto limitado e sem metadata.smasProject (usado
+            pelo servidor para títulos oficiais "Bolsa Família"/"Benefício Eventual").
+            Mensagem existente (marcar lida / limpar conversa): owner, texto e data imutáveis.
+            TODO(segurança): metadata.title vira o título do push e é escolhido por quem
+            envia; o chatMessagesNotificationListener deveria usar o nome do perfil.
+          */
+          ".validate": "(data.exists() && newData.child('owner').val() === data.child('owner').val() && newData.child('message').val() === data.child('message').val() && newData.child('dateTime').val() === data.child('dateTime').val()) || (!data.exists() && newData.child('owner').val() === auth.uid && newData.child('message').isString() && newData.child('message').val().length <= 20000 && !newData.child('metadata/smasProject').exists())"
+        }
+      }
+    }
+  }
+}

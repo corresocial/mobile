@@ -97,9 +97,10 @@ export const getFeedPosts = onCall(async (request) => {
 
 		return completeFeed
 	} catch (err) {
+		// Full error stays in the server logs only
 		console.error("Error fetching feed:", err)
 
-		// Throw a structured error that the client SDK can catch
-		throw new HttpsError('internal', 'Unable to fetch feed posts', err)
+		// Throw a structured error that the client SDK can catch (no internal details)
+		throw new HttpsError('internal', 'Unable to fetch feed posts')
 	}
 })

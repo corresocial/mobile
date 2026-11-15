@@ -111,8 +111,9 @@ exports.getFeedPosts = (0, https_1.onCall)((request) => __awaiter(void 0, void 0
         return completeFeed;
     }
     catch (err) {
+        // Full error stays in the server logs only
         console.error("Error fetching feed:", err);
-        // Throw a structured error that the client SDK can catch
-        throw new https_1.HttpsError('internal', 'Unable to fetch feed posts', err);
+        // Throw a structured error that the client SDK can catch (no internal details)
+        throw new https_1.HttpsError('internal', 'Unable to fetch feed posts');
     }
 }));

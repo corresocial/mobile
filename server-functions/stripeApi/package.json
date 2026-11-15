@@ -7,7 +7,7 @@
     "dev": "ts-node-dev -r --respawn --transpile-only --ignore-watch node_modules index.ts",
     "build": "tsc",
     "deploy": "npm-run-all build deploy-cloud-function",
-    "deploy-cloud-function": "cd deploy && gcloud functions deploy stripeApi --gen2 --runtime nodejs20 --trigger-http --entry-point stripeApi --region southamerica-east1 --allow-unauthenticated --env-vars-file ../.env.yaml"
+    "deploy-cloud-function": "cd deploy && gcloud functions deploy stripeApi --gen2 --runtime nodejs22 --max-instances 5 --trigger-http --region southamerica-east1 --allow-unauthenticated --project ${GCP_PROJECT:-corresocialapp} --entry-point stripeApi --service-account fn-stripe@${GCP_PROJECT:-corresocialapp}.iam.gserviceaccount.com --set-secrets STRIPE_SECRET_KEY=STRIPE_SECRET_KEY:latest --clear-env-vars"
   },
   "keywords": [],
   "author": "",

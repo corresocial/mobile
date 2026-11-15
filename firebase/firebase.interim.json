@@ -1,0 +1,5 @@
+{
+  "database": [
+    { "target": "main", "rules": "database.rules.interim.json" }
+  ]
+}
