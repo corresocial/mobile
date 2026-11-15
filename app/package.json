@@ -1,6 +1,7 @@
 {
 	"name": "corre",
 	"version": "0.13.0",
+	"license": "MIT",
 	"main": "expo/AppEntry.js",
 	"engines": {
 		"node": ">=22.13.0"

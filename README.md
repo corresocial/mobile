@@ -73,3 +73,8 @@ npm i
 git checkout -b feat/fix/XXXX # cria a nova branch que irá trabalhar
 # realizar todos os commits e alterações
 git commit -m "feat/fix/XXX: descrição"
+```
+
+## Licença
+
+Este projeto é distribuído sob a [licença MIT](LICENSE). © 2022–2026 CORRE.SOCIAL.
