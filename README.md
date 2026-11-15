@@ -1,11 +1,11 @@
+# Corre Mobile
+
 <div align="center">
   <p>
     <strong>🇧🇷 Português</strong> | 
-    <a href="#corre-mobile-english">🇺🇸 English</a>
+    <a href="./README-EN.md">🇺🇸 English</a>
   </p>
 </div>
-
-# Corre Mobile
 
 Este repositório contém o código fonte da aplicação móvel Corre e suas funções de servidor associadas.
 
@@ -26,13 +26,13 @@ Para configurar seu ambiente de desenvolvimento e acessar documentações detalh
 
 Na página de documentação, você encontrará os seguintes recursos essenciais:
 
-* **Documentação do código**: Detalhes técnicos sobre a arquitetura, componentes e lógica interna do aplicativo.
-* **Ambientes de desenvolvimento**: Instruções para configurar os diferentes ambientes (desenvolvimento, produção) e suas respectivas variáveis.
-* **Manual de colaboração GitHub**: Guia de boas práticas para commits, pull requests e fluxo de trabalho no repositório.
-* **Publicação nas Lojas**: Processo e requisitos para publicar novas versões do aplicativo na Google Play Store e Apple App Store.
-* **Design System & Brandbook**: Diretrizes visuais, paleta de cores, tipografia e componentes de UI utilizados no projeto.
-* **Assets**: Recursos gráficos como logotipos, ícones e imagens utilizados no aplicativo.
-* **Banco de Dados**: Modelagem de dados, esquemas e informações sobre a estrutura do banco de dados utilizado.
+*   **Documentação do código**: Detalhes técnicos sobre a arquitetura, componentes e lógica interna do aplicativo.
+*   **Ambientes de desenvolvimento**: Instruções para configurar os diferentes ambientes (desenvolvimento, produção) e suas respectivas variáveis.
+*   **Manual de colaboração GitHub**: Guia de boas práticas para commits, pull requests e fluxo de trabalho no repositório.
+*   **Publicação nas Lojas**: Processo e requisitos para publicar novas versões do aplicativo na Google Play Store e Apple App Store.
+*   **Design System & Brandbook**: Diretrizes visuais, paleta de cores, tipografia e componentes de UI utilizados no projeto.
+*   **Assets**: Recursos gráficos como logotipos, ícones e imagens utilizados no aplicativo.
+*   **Banco de Dados**: Modelagem de dados, esquemas e informações sobre a estrutura do banco de dados utilizado.
 
 ## Como Executar
 
@@ -65,7 +65,7 @@ Sempre que for começar uma nova contribuição, recomece o repositório.
 Os commits devem seguir os padrões de [Commit Pattern](https://corre.notion.site/Manual-de-colabora-o-GitHub-2cc8fff6730e80e3b344f0ff4ee82c8c).
 
 ```bash
-git clone [https://github.com/corre-social/mobile/](https://github.com/corre-social/mobile/)
+git clone https://github.com/corre-social/mobile/
 git checkout dev
 cd mobile/app
 git pull
@@ -74,6 +74,10 @@ git checkout -b feat/fix/XXXX # cria a nova branch que irá trabalhar
 # realizar todos os commits e alterações
 git commit -m "feat/fix/XXX: descrição"
 ```
+
+💡 Todo esse processo de alternância de branchs, commits e publicação de novas branchs no github pode ser facilmente realizado pelo próprio VS Code na aba de Source Control, veja [Como gerenciar o git pelo VSCode](https://www.youtube.com/watch?v=HIqyLRKv-YE)
+
+💡 Criar Pull Request diretamente no repositório online.
 
 ## Licença
 
