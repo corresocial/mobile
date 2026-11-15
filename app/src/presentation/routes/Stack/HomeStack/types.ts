@@ -17,5 +17,4 @@ export type HomeStackParamList = {
 	PostViewHome: { postData: PostEntity, redirectedPostId: string }
 	SocialMediaManagementHome: { socialMedias?: SocialMedia[], isAuthor?: boolean }
 
-	PublicServicesStack: undefined
 } & UserStackParamList

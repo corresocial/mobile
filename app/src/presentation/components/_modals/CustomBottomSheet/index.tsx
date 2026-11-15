@@ -75,6 +75,7 @@ const CustomBottomSheet = forwardRef(({
 			ref={bottomSheetModalRef}
 			index={initialSnapPoint || 0}
 			snapPoints={[relativeScreenHeight(50), relativeScreenHeight(85)]}
+			enableDynamicSizing={false}
 			handleComponent={renderCustomHeader}
 			backgroundStyle={bottomSheetBackgroundStyle}
 			backdropComponent={getBackgropBottomSheet}

@@ -123,27 +123,10 @@ Estar dentro do diretório raiz da cloud function que deseja realizar o deploy
 
 </aside>
 
-É necessário converter o código para JavaScript antes de fazer o deploy, executando diretamente da pasta da função
+Dentro da pasta da função:
 
-```jsx
+```bash
 npm run deploy
 ```
 
-OU
-
-```jsx
-npm run build
-```
-
-```jsx
-cd deploy
-```
-
-```jsx
-gcloud functions deploy getFeedPosts \
-  --runtime nodejs18 \
-  --trigger-http \
-  --entry-point getFeedPosts \
-  --region southamerica-east1 \
-  --allow-unauthenticated
-```
+O comando compila o TypeScript (`npm run build`, saída em `deploy/`) e executa o `deploy-cloud-function` do `package.json` (runtime `nodejs22`, service account `fn-feed` com `roles/datastore.viewer`). O projeto vem de `GCP_PROJECT` (padrão `corresocialapp`). Não faça o deploy manualmente com outras flags: sem `--service-account` a função passa a rodar com a service account padrão.

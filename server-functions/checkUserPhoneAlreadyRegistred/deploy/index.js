@@ -37,22 +37,33 @@ const https_1 = require("firebase-functions/v2/https");
 if (!admin.apps.length) {
     admin.initializeApp();
 }
+// E.164: "+" and 8 to 15 digits, no leading zero (e.g. +5543999999999)
+const E164_REGEX = /^\+[1-9]\d{7,14}$/;
+// enforceAppCheck: false -> set to true once App Check is set up in the app.
+// firebase-functions 3.x has no `enforceAppCheck` option for v2 onCall (it would be
+// ignored), so the check is explicit here. Invalid tokens are already rejected by the
+// SDK; enabling this also rejects requests without a token.
+// With firebase-functions >= 4, use onCall({ enforceAppCheck: true }, ...) instead.
+const ENFORCE_APP_CHECK = false;
 // Note: Function name is defined here
 exports.checkUserPhoneAlreadyRegistred = (0, https_1.onCall)((request) => __awaiter(void 0, void 0, void 0, function* () {
-    const { phoneNumber } = request.data;
-    if (!phoneNumber) {
-        throw new https_1.HttpsError('invalid-argument', 'Missing phoneNumber.');
+    if (ENFORCE_APP_CHECK && !request.app) {
+        throw new https_1.HttpsError('unauthenticated', 'Unauthenticated');
+    }
+    const { phoneNumber } = (request.data || {});
+    if (typeof phoneNumber !== 'string' || !E164_REGEX.test(phoneNumber)) {
+        throw new https_1.HttpsError('invalid-argument', 'phoneNumber must be in E.164 format.');
     }
     try {
-        const userRecord = yield admin.auth().getUserByPhoneNumber(phoneNumber);
-        console.log(`User found: ${userRecord.uid}`);
+        yield admin.auth().getUserByPhoneNumber(phoneNumber);
         return true;
     }
     catch (error) {
         if (error.code === 'auth/user-not-found') {
             return false;
         }
-        console.error('Error fetching user:', error);
+        // Don't log the phone number or the uid (LGPD)
+        console.error('Error fetching user:', error === null || error === void 0 ? void 0 : error.code, error === null || error === void 0 ? void 0 : error.message);
         throw new https_1.HttpsError('internal', 'Unable to check phone number.');
     }
 }));

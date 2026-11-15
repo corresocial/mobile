@@ -12,6 +12,7 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { ViewUnapprovedProfileScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
@@ -170,7 +171,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 
 	const reportUser = () => {
 		setProfileOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, {
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'ContactUsInsertMessage', {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedId: getUserField('userId'),
@@ -332,7 +333,7 @@ export function ViewUnapprovedProfile({ route, navigation }: ViewUnapprovedProfi
 							<PopOver
 								popoverVisibility={profileOptionsIsOpen}
 								buttonLabel={'denunciar'}
-								title={'' || 'usuário do corre.'}
+								title={'usuário do corre.'}
 								closePopover={() => setProfileOptionsIsOpen(false)}
 								reportUser={reportUser}
 							>

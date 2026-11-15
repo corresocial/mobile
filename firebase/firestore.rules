@@ -1,0 +1,330 @@
+rules_version = '2';
+
+// Regras do Firestore (banco "(default)") do projeto corresocialapp.
+// Princípio: tudo que não está explicitamente liberado abaixo é negado.
+// O Admin SDK (server-functions, cloud-functions, corre-bot) ignora estas regras.
+//
+// Papéis (users/{uid}.verified):
+//   verified.admin == true  -> administrador (ÚNICA checagem de admin: isAdmin())
+//   verified.type           -> 'default' | 'impact' | 'government' | 'leader'
+//                              | 'coordinator' | 'questionnaireAdministrator'
+//   verified.coordinatorId  -> coordenador de um aplicador de questionário
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =====================================================================
+    // Funções auxiliares
+    // =====================================================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Único ponto que lê o perfil de quem faz a requisição (1 leitura, em cache
+    // durante a requisição inteira, inclusive em batches).
+    function requesterVerified() {
+      let requesterDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return requesterDoc == null ? {} : requesterDoc.data.get('verified', {});
+    }
+
+    // Checagem ÚNICA de administrador.
+    // TODO(segurança): migrar para custom claims (request.auth.token.admin) via Admin SDK,
+    // o que evita a leitura extra e desacopla o papel do documento público.
+    function isAdmin() {
+      return signedIn() && requesterVerified().get('admin', false) == true;
+    }
+
+    function hasRole(roles) {
+      return signedIn() && requesterVerified().get('type', '') in roles;
+    }
+
+    function isLeaderOrAdmin() {
+      return isAdmin() || hasRole(['leader']);
+    }
+
+    // Quem pode criar enquetes/abaixo-assinados (espelha quem enxerga
+    // LeaderAreaHome -> PollPetitionArea no app).
+    function canCreateCampaigns() {
+      return isAdmin() || hasRole(['leader', 'government', 'coordinator', 'questionnaireAdministrator']);
+    }
+
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    // updatePostData/updatePoll/updatePetition regravam createdAt como
+    // new Date(seconds * 1000), truncando frações de segundo.
+    function createdAtOnlyTruncated() {
+      return !changedKeys().hasAny(['createdAt'])
+        || (request.resource.data.createdAt is timestamp
+          && resource.data.createdAt is timestamp
+          && request.resource.data.createdAt <= resource.data.createdAt
+          && request.resource.data.createdAt > resource.data.createdAt - duration.value(1, 's'));
+    }
+
+    // Moderação (approvePostDM / approveProfileDM / reject*): todo campo alterado
+    // precisa receber exatamente o valor pendente em unapprovedData. Só os campos
+    // de controle em `extras` podem mudar livremente.
+    function appliesOnlyPendingData(extras) {
+      return resource.data.get('unapprovedData', null) is map
+        && changedKeys()
+          .intersection(request.resource.data.diff(resource.data.unapprovedData).affectedKeys())
+          .hasOnly(extras);
+    }
+
+    // =====================================================================
+    // users/{userId}  (perfil público)
+    // =====================================================================
+    match /users/{userId} {
+
+      // Campos que o próprio usuário pode propor para aprovação (EditProfile,
+      // InsertLinkValue). Qualquer outro campo aqui viraria campo "aprovado"
+      // quando um líder aprovasse (ex.: verified), por isso a lista fechada.
+      function validUnapprovedData() {
+        let pending = request.resource.data.get('unapprovedData', {});
+        return pending is map
+          && pending.keys().hasOnly(['name', 'description', 'profilePictureUrl', 'socialMedias', 'owner', 'reject', 'updatedAt'])
+          && (!('owner' in pending) || pending.owner.get('userId', userId) == userId);
+      }
+
+      // TODO(segurança): subscription é um direito de acesso (subscriptionRange libera
+      // alcance pago), mas hoje é escrito pelo CLIENTE depois do pagamento
+      // (SubscriptionContext.updateUserSubscription, StripeContext, telas de pagamento;
+      // no fluxo Pix nem há verificação do pagamento). As regras não conseguem provar o
+      // pagamento. Mover a escrita de subscription para o webhook do Stripe / stripeApi
+      // e então remover esta permissão do dono. Por enquanto só protegemos os campos que
+      // o servidor escreve (status/updatedAt) e o domínio de subscriptionRange.
+      function validOwnSubscriptionChange() {
+        let after = request.resource.data.get('subscription', {});
+        let before = resource.data.get('subscription', {});
+        return after is map
+          && after.get('status', null) == before.get('status', null)
+          && after.get('updatedAt', null) == before.get('updatedAt', null)
+          && after.get('subscriptionRange', 'near') in ['near', 'city', 'country'];
+      }
+
+      // Líder concedendo/removendo selo 'default'/'impact' (SetVerificationBadge /
+      // RemoveVerificationBadge disparados pelo PopOver do Profile).
+      function leaderBadgeChange() {
+        let before = resource.data.get('verified', {});
+        let after = request.resource.data.get('verified', {});
+        return changedKeys().hasOnly(['verified', 'updatedAt'])
+          && before.get('admin', false) != true
+          && before.get('type', '') in ['', 'default', 'impact']
+          && after.get('admin', false) != true
+          && (after.keys().size() == 0
+            || (after.keys().hasOnly(['type', 'by', 'name', 'at', 'admin'])
+              && after.type in ['default', 'impact']
+              && after.by == request.auth.uid));
+      }
+
+      // Líder aprovando/rejeitando alterações de perfil (approveProfileDM / rejectProfileDM).
+      // A lista fechada impede que um unapprovedData antigo/malicioso aplique
+      // verified, subscription etc. na aprovação.
+      function leaderProfileModeration() {
+        return changedKeys().hasOnly(['name', 'description', 'profilePictureUrl', 'socialMedias', 'unapprovedData', 'updatedAt', 'userId'])
+          && appliesOnlyPendingData(['unapprovedData', 'updatedAt', 'userId'])
+          && request.resource.data.get('userId', userId) == userId;
+      }
+
+      // Admin: tudo, menos
+      //  - stripeCustomerId (só a função stripeApi escreve);
+      //  - a flag verified.admin (promoção/rebaixamento de admin só pelo console/Admin SDK);
+      //  - verified/subscription junto com outros campos: selos e assinatura gratuita são
+      //    escritas dedicadas (SetVerificationBadge, RemoveVerificationBadge,
+      //    setFreeTrialPlans). Isso impede que a aprovação de um unapprovedData com
+      //    verified/subscription embutidos promova alguém.
+      function adminChange() {
+        return !changedKeys().hasAny(['stripeCustomerId'])
+          && request.resource.data.get('verified', {}).get('admin', false)
+            == resource.data.get('verified', {}).get('admin', false)
+          && (!changedKeys().hasAny(['verified']) || changedKeys().hasOnly(['verified', 'updatedAt']))
+          && (!changedKeys().hasAny(['subscription']) || changedKeys().hasOnly(['subscription', 'updatedAt']));
+      }
+
+      // Perfil público: qualquer usuário logado lê um perfil por id (Profile,
+      // CitizenRegistrationHeader, setFreeTrialPlans).
+      // TODO(segurança): este documento contém subscription.customerId/subscriptionId,
+      // stripeCustomerId, verified.by e unapprovedData, legíveis por QUALQUER usuário
+      // logado. Firestore não restringe leitura por campo: mover dados de cobrança para
+      // users/{uid}/private/billing (ou só servidor) e manter aqui só o perfil público.
+      allow get: if signedIn();
+
+      // Listagem só para moderação (getUnapprovedProfiles). Impede dump da coleção.
+      allow list: if isLeaderOrAdmin();
+
+      allow create: if isSelf(userId)
+        && !request.resource.data.keys().hasAny(['verified', 'stripeCustomerId', 'subscription'])
+        && request.resource.data.get('userId', userId) == userId
+        && validUnapprovedData();
+
+      // TODO(segurança): assim como em posts, o dono ainda consegue gravar name,
+      // description etc. direto no topo do documento, sem passar pela moderação.
+      allow update: if signedIn() && (
+        (isSelf(userId)
+          && !changedKeys().hasAny(['verified', 'stripeCustomerId'])
+          && request.resource.data.get('userId', userId) == userId
+          && (!changedKeys().hasAny(['unapprovedData']) || validUnapprovedData())
+          && (!changedKeys().hasAny(['subscription']) || validOwnSubscriptionChange()))
+        || (!isSelf(userId) && hasRole(['leader'])
+          && (leaderBadgeChange() || leaderProfileModeration()))
+        || (isAdmin() && adminChange())
+      );
+
+      // Exclusão da própria conta (removeAllUserData).
+      allow delete: if isSelf(userId);
+
+      // Dados privados (contatos e endereço): só o dono.
+      match /private/{docId} {
+        allow read, write: if isSelf(userId) && docId in ['contacts', 'location'];
+      }
+    }
+
+    // =====================================================================
+    // posts/{postId}
+    // =====================================================================
+    match /posts/{postId} {
+
+      // Qualquer usuário marca/desmarca a própria presença (updatePostPresenceList).
+      // TODO(segurança): o app regrava o post inteiro para isso; trocar por
+      // update({ presenceList: arrayUnion/arrayRemove(uid) }) e remover a tolerância
+      // de postId/createdAt abaixo.
+      function presenceToggleOnly() {
+        let before = resource.data.get('presenceList', []).toSet();
+        let after = request.resource.data.get('presenceList', []).toSet();
+        return changedKeys().hasOnly(['presenceList', 'updatedAt', 'postId', 'createdAt'])
+          && request.resource.data.get('presenceList', []) is list
+          && before.difference(after).union(after.difference(before)).hasOnly([request.auth.uid])
+          && request.resource.data.get('postId', postId) == postId
+          && createdAtOnlyTruncated();
+      }
+
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && request.resource.data.owner.userId == request.auth.uid;
+
+      // TODO(segurança): o dono consegue gravar campos "aprovados" direto no post
+      // (fora de unapprovedData), contornando a moderação. Validar no servidor ou
+      // mover a aprovação para uma função.
+      allow update: if signedIn() && (
+        (resource.data.owner.userId == request.auth.uid
+          && request.resource.data.owner.userId == request.auth.uid)
+        // líder/admin: approvePostDM / rejectPostDM (só aplica o que está pendente) e
+        // sincronização de owner ao aprovar perfil (approveProfileDM). Nunca muda o dono.
+        || (isLeaderOrAdmin()
+          && request.resource.data.owner.userId == resource.data.owner.userId
+          && ((appliesOnlyPendingData(['unapprovedData', 'updatedAt', 'createdAt', 'postId'])
+              && createdAtOnlyTruncated()
+              && request.resource.data.get('postId', postId) == postId)
+            || changedKeys().hasOnly(['owner', 'updatedAt'])))
+        || presenceToggleOnly()
+      );
+
+      allow delete: if signedIn()
+        && (resource.data.owner.userId == request.auth.uid || isAdmin());
+    }
+
+    // =====================================================================
+    // polls/{pollId} e petitions/{petitionId}
+    // =====================================================================
+    function campaignUpdateAllowed() {
+      let before = resource.data.get('idUsersResponded', []).toSet();
+      let after = request.resource.data.get('idUsersResponded', []).toSet();
+      return signedIn() && (
+        // dono: markPollAsCompleted / markPetitionAsCompleted
+        (resource.data.owner.userId == request.auth.uid
+          && request.resource.data.owner.userId == request.auth.uid)
+        // quem respondeu se adiciona em idUsersResponded (arrayUnion)
+        // TODO(segurança): nada garante que a resposta foi de fato criada; mover
+        // resposta + idUsersResponded para uma transação/callable.
+        || (changedKeys().hasOnly(['idUsersResponded', 'updatedAt'])
+          && after.difference(before).hasOnly([request.auth.uid])
+          && before.difference(after).size() == 0)
+        // líder/admin: sincroniza dados do dono ao aprovar perfil (approveProfileDM)
+        || (isLeaderOrAdmin()
+          && changedKeys().hasOnly(['owner', 'updatedAt'])
+          && request.resource.data.owner.userId == resource.data.owner.userId)
+      );
+    }
+
+    match /polls/{pollId} {
+      allow read: if signedIn();
+      allow create: if canCreateCampaigns()
+        && request.resource.data.owner.userId == request.auth.uid;
+      allow update: if campaignUpdateAllowed();
+      allow delete: if signedIn()
+        && (resource.data.owner.userId == request.auth.uid || isAdmin());
+
+      // Respostas individuais (contêm localização do respondente).
+      match /responses/{responseId} {
+        allow create: if signedIn()
+          && request.resource.data.userId == request.auth.uid
+          && exists(/databases/$(database)/documents/polls/$(pollId));
+        // relatório e exclusão da enquete: só o dono da enquete (ou admin)
+        allow read, delete: if signedIn()
+          && (get(/databases/$(database)/documents/polls/$(pollId)).data.owner.userId == request.auth.uid
+            || isAdmin());
+      }
+    }
+
+    match /petitions/{petitionId} {
+      allow read: if signedIn();
+      allow create: if canCreateCampaigns()
+        && request.resource.data.owner.userId == request.auth.uid;
+      allow update: if campaignUpdateAllowed();
+      allow delete: if signedIn()
+        && (resource.data.owner.userId == request.auth.uid || isAdmin());
+
+      // Assinaturas (contêm CPF, RG, telefone, e-mail e endereço).
+      match /responses/{responseId} {
+        allow create: if signedIn()
+          && request.resource.data.userId == request.auth.uid
+          && exists(/databases/$(database)/documents/petitions/$(petitionId));
+        allow read, delete: if signedIn()
+          && (get(/databases/$(database)/documents/petitions/$(petitionId)).data.owner.userId == request.auth.uid
+            || isAdmin());
+      }
+    }
+
+    // =====================================================================
+    // citizenRegister/{registerId}  (Cadastro Cidadão - dados sensíveis)
+    // Coleção usada pelo app (CITIZEN_REGISTER_COLLECTION = 'citizenRegister').
+    // As coleções citizenRegisters e citizens (+ registers) são só do servidor
+    // e ficam negadas pelo padrão.
+    // =====================================================================
+    match /citizenRegister/{registerId} {
+      // TODO(segurança): censusTakerId não é amarrado a request.auth.uid porque
+      // SendOfflineRegisters envia cadastros offline salvos por outro aplicador no
+      // mesmo aparelho. Guardar os cadastros offline por usuário e então exigir
+      // request.resource.data.censusTakerId == request.auth.uid.
+      allow create: if (isAdmin() || hasRole(['questionnaireAdministrator', 'coordinator', 'leader']))
+        && request.resource.data.censusTakerId is string;
+
+      // Monitoramento: admin/líder veem tudo; coordenador só os seus
+      // (query where('coordinatorId', '==', uid)).
+      allow read: if isAdmin()
+        || hasRole(['leader'])
+        || (hasRole(['coordinator']) && resource.data.coordinatorId == request.auth.uid);
+
+      allow update, delete: if false;
+    }
+
+    // =====================================================================
+    // impactReports/{reportId}  (sendImpactReportDM - só criação)
+    // =====================================================================
+    match /impactReports/{reportId} {
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['dateTime', 'reportContext', 'hadImpact', 'impactValue', 'usersIdInvolved'])
+        && request.resource.data.usersIdInvolved is list
+        && request.resource.data.usersIdInvolved.size() <= 2
+        && request.auth.uid in request.resource.data.usersIdInvolved
+        && request.resource.data.impactValue is number;
+    }
+  }
+}

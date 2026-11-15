@@ -1,8 +1,10 @@
+import { signInWithPhoneNumber } from '@react-native-firebase/auth'
+
 import { firebaseAuth } from '@infrastructure/firebase'
 
 async function getPhoneVerificationCodeId(completeNumber: string) {
 	try {
-		const confirmation = await firebaseAuth.signInWithPhoneNumber(completeNumber)
+		const confirmation = await signInWithPhoneNumber(firebaseAuth, completeNumber)
 		return confirmation.verificationId
 	} catch (err: any) {
 		console.log(err)

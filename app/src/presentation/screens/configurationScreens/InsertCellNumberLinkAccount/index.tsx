@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StatusBar, Platform, TextInput } from 'react-native'
+import { StatusBar, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -157,7 +157,7 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<SocialLoginAlertModal
 				visibility={loginAlertModalIsVisible}

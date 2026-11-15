@@ -28,7 +28,7 @@ const {
 const initialValue: ChatContextType = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
-	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),
+	setPushNotificationState: (state: boolean) => new Promise<boolean>(() => { }),
 	chatUserHasTokenNotification: () => new Promise<boolean>(() => { }),
 	removeChatListeners: () => { },
 }
@@ -45,12 +45,13 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
 
-	const notificationListener: MutableObjectReference<any> = useRef()
-	const responseListener: MutableObjectReference<any> = useRef()
+	const notificationListener: MutableObjectReference<any> = useRef(undefined)
+	const responseListener: MutableObjectReference<any> = useRef(undefined)
 
 	const chatDataContextRef = useRef(chatDataContext)
 
 	useEffect(() => {
+		if (!userDataContext.userId) return
 		loadChatFromCache()
 		initUserInstance(userDataContext.userId)
 		initPushNotificationService()
@@ -115,19 +116,28 @@ function ChatProvider({ children }: ChatProviderProps) {
 		const authenticatedUserId = userDataContext.userId
 
 		try {
-			setPushNotificationEnabled(state)
-
 			if (state === true) {
 				const tokenNotification = await registerPushNotification()
-				updateUserTokenNotification(authenticatedUserId, tokenNotification)
+				// Sem token (simulador, permissão negada ou erro) não sobrescreve o token salvo, que pode ser de outro aparelho
+				if (!tokenNotification) {
+					setPushNotificationEnabled(false)
+					return false
+				}
+
+				setPushNotificationEnabled(true)
+				await updateUserTokenNotification(authenticatedUserId, tokenNotification)
 				addNotificationListener(notificationListener, responseListener)
-			} else {
-				await updateUserTokenNotification(authenticatedUserId, '')
-				removeNotificationListener(notificationListener, responseListener)
+				return true
 			}
+
+			setPushNotificationEnabled(false)
+			await updateUserTokenNotification(authenticatedUserId, '')
+			removeNotificationListener(notificationListener, responseListener)
+			return false
 		} catch (err) {
 			setPushNotificationEnabled(!state)
 			console.log(err)
+			return !state
 		}
 	}
 

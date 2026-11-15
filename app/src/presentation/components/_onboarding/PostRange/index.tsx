@@ -114,7 +114,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('city')}
 						leftSideTextColor={isVacancy && theme.colors.black[4]}
-						onPress={() => ((plansAvailable && plansAvailable.cityMonthly.price) || hiddenValues) && savePostRange('city')}
+						onPress={() => (freePlans || hiddenValues || plansAvailable?.cityMonthly.price) && savePostRange('city')}
 					/>
 					<OptionButton
 						label={'brasil'}
@@ -129,7 +129,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, hiddenValues, cityP
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('country')}
 						leftSideTextColor={isVacancy && theme.colors.black[4]}
-						onPress={() => ((plansAvailable && plansAvailable.countryMonthly.price) || hiddenValues) && savePostRange('country')}
+						onPress={() => (freePlans || hiddenValues || plansAvailable?.countryMonthly.price) && savePostRange('country')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

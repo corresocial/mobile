@@ -1,5 +1,3 @@
-import ImageEditor from 'expo-image-cropper'
-import { Asset } from 'expo-media-library'
 import React, { useContext, useLayoutEffect, useState } from 'react'
 
 import { LoaderContext } from '@contexts/LoaderContext'
@@ -7,6 +5,7 @@ import { LoaderContext } from '@contexts/LoaderContext'
 import { MediaAsset } from 'src/presentation/types'
 
 import { generateVideoThumbnails } from '@utils-ui/common/convertion/generateVideoThumbnail'
+import { pickMediaFromLibrary } from '@utils-ui/common/pickMediaFromLibrary'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { ButtonsContainer, Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
@@ -21,7 +20,7 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
-import { MediaBrowserModal } from '@components/_modals/MediaBrowserModal'
+import { ImageCropperModal } from '@components/_modals/ImageCropperModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { VideoPortrait } from '@components/VideoPortrait'
 
@@ -47,7 +46,6 @@ function PostPicturePreview({
 	const [mediaPack, setMediaPack] = useState<MediaAsset[]>(initialValue || [])
 	const [mediaIndexSelected, setMediaIndexSelected] = useState<number>(0)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
-	const [mediaBrowserOpened, setMediaBrowserOpened] = useState<boolean>(false)
 	const [imageCropperOpened, setImageCropperOpened] = useState<boolean>(false)
 
 	useLayoutEffect(() => {
@@ -99,15 +97,14 @@ function PostPicturePreview({
 
 	const saveCroppedImage = (image: any) => {
 		const newPicturesPack = [...mediaPack]
-		newPicturesPack[mediaIndexSelected] = image.uri
+		newPicturesPack[mediaIndexSelected] = { ...newPicturesPack[mediaIndexSelected], url: image.uri }
 		setMediaPack(newPicturesPack)
 		setImageCropperOpened(false)
 	}
 
-	const mediaBrowserHandler = async (mediaSelected: Asset[]) => {
-		const currentMedia = mediaSelected.map((media: Asset) => {
-			return { url: media.uri, mediaType: media.mediaType, videoThumbnail: (media as any).videoThumbnail! } as MediaAsset
-		})
+	const pickMediaFromLibraryHandler = async () => {
+		const currentMedia = await pickMediaFromLibrary({ maxSelection: 10 - mediaPack.length, allowVideos: true })
+		if (!currentMedia.length) return
 
 		setMediaPack([...mediaPack, ...currentMedia])
 		setMediaIndexSelected(mediaPack.length)
@@ -146,13 +143,6 @@ function PostPicturePreview({
 
 	return (
 		<Container>
-			<MediaBrowserModal
-				onSelectionConfirmed={mediaBrowserHandler}
-				onClose={() => setMediaBrowserOpened(false)}
-				maxImages={10 - mediaPack.length ?? 0}
-				allowVideos
-				showMediaBrowser={mediaBrowserOpened}
-			/>
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
 				onClose={() => setCameraOpened(false)}
@@ -160,15 +150,15 @@ function PostPicturePreview({
 			/>
 			{
 				imageCropperOpened && (
-					<ImageEditor
-						imageUri={mediaPack[mediaIndexSelected]}
-						fixedAspectRatio={1 / 1}
+					<ImageCropperModal
+						imageUri={mediaPack[mediaIndexSelected]?.url}
+						aspectRatio={1 / 1}
 						minimumCropDimensions={{
 							width: 50,
 							height: 50,
 						}}
-						onEditingCancel={() => setImageCropperOpened(false)}
-						onEditingComplete={saveCroppedImage}
+						onCancel={() => setImageCropperOpened(false)}
+						onComplete={saveCroppedImage}
 					/>
 				)
 			}
@@ -221,7 +211,7 @@ function PostPicturePreview({
 			</DefaultHeaderContainer >
 			<ButtonsContainer>
 				<SmallButton
-					onPress={() => { setMediaBrowserOpened(true) }}
+					onPress={pickMediaFromLibraryHandler}
 					relativeWidth={relativeScreenWidth(20)}
 					height={relativeScreenWidth(20)}
 					SvgIcon={AddPictureWhiteIcon}

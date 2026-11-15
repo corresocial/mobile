@@ -1,15 +1,20 @@
-require('dotenv').config()
+require('dotenv').config({ quiet: true })
 
 /* eslint-disable camelcase */
 /* eslint-disable import/no-default-export */
 export default () => {
-	const GOOGLE_SERVICES_INFO_PLIST = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services-info.plist`
-	const GOOGLE_SERVICES_JSON = `build/${process.env.NODE_ENV === 'production' ? 'prod' : 'dev'}/google-services.json`
-	const IOS_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_IOS_MAPS_API_KEY : process.env.IOS_MAPS_API_KEY
-	const ANDROID_MAPS_API_KEY = process.env.NODE_ENV === 'production' ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
+	// APP_ENV escolhe dev/prod sem mexer no NODE_ENV: um build de release com NODE_ENV=development
+	// embute as libs em modo desenvolvimento e o app fecha ao abrir.
+	const isProd = process.env.APP_ENV ? process.env.APP_ENV === 'prod' : process.env.NODE_ENV === 'production'
+	const GOOGLE_SERVICES_INFO_PLIST = process.env.GOOGLE_SERVICES_INFO_PLIST || `build/${isProd ? 'prod' : 'dev'}/google-services-info.plist`
+	const GOOGLE_SERVICES_JSON = process.env.GOOGLE_SERVICES_JSON || `build/${isProd ? 'prod' : 'dev'}/google-services.json`
+	const ANDROID_MAPS_API_KEY = isProd ? process.env.PROD_ANDROID_MAPS_API_KEY : process.env.ANDROID_MAPS_API_KEY
 
-	const version = '0.11.0'
-	const easUpdateChannel = process.env.NODE_ENV === 'production' ? '0.11.0' : 'development-build'
+	// Pods do React Native Firebase precisam de linkagem estática com useFrameworks: 'static'
+	const RN_FIREBASE_PODS = ['RNFBApp', 'RNFBAnalytics', 'RNFBAuth', 'RNFBCrashlytics', 'RNFBDatabase', 'RNFBFirestore', 'RNFBFunctions', 'RNFBStorage']
+
+	const version = '0.13.0'
+	const easUpdateChannel = isProd ? '0.13.0' : 'development-build'
 
 	return ({
 		expo: {
@@ -21,12 +26,6 @@ export default () => {
 			orientation: 'portrait',
 			userInterfaceStyle: 'light',
 			icon: './assets/icon.png',
-			splash: {
-				image: './assets/splash.png',
-				resizeMode: 'contain',
-				backgroundColor: '#FFAA33',
-				statusBarStyle: 'dark'
-			},
 			updates: {
 				enabled: true,
 				requestHeaders: {
@@ -41,29 +40,27 @@ export default () => {
 			],
 			ios: {
 				bundleIdentifier: 'corre',
-				buildNumber: '85',
+				buildNumber: '101',
 				infoPlist: {
 					NSCameraUsageDescription: 'Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.',
 					NSLocationWhenInUseUsageDescription: 'Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.',
 					NSPhotoLibraryUsageDescription: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.',
 					NSFaceIDUsageDescription: 'Usamos o bloqueio do app com TouchID ou FaceID para garantir a segurança da sua conta.',
+					// O app só usa criptografia padrão do sistema (HTTPS/TLS): isento de conformidade de exportação
+					ITSAppUsesNonExemptEncryption: false,
 					CFBundleURLTypes: [
-						{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial', 'corre'] }
+						{ CFBundleURLSchemes: [process.env.IOS_URL_SCHEME, 'com.corresocial.corresocial', 'corre'].filter(Boolean) }
 					]
 				},
 				supportsTablet: true,
 				googleServicesFile: GOOGLE_SERVICES_INFO_PLIST,
-				splash: {
-					image: './assets/splash.png',
-					resizeMode: 'contain',
-					backgroundColor: '#FFAA33'
-				},
-				config: {
-					googleMapsApiKey: IOS_MAPS_API_KEY
+				// App Check em produção (App Attest, com DeviceCheck como alternativa)
+				entitlements: {
+					'com.apple.developer.devicecheck.appattest-environment': 'production'
 				}
 			},
 			android: {
-				versionCode: 85,
+				versionCode: 101,
 				package: 'com.corresocial.corresocial',
 				googleServicesFile: GOOGLE_SERVICES_JSON,
 				icon: './assets/icon.png',
@@ -74,10 +71,6 @@ export default () => {
 				permissions: [
 					'android.permission.LOCATION',
 					'android.permission.ACCESS_FINE_LOCATION',
-					'android.permission.READ_MEDIA_IMAGES',
-					'android.permission.READ_MEDIA_VIDEO',
-					'android.permission.WRITE_EXTERNAL_STORAGE',
-					'android.permission.READ_EXTERNAL_STORAGE',
 					'android.permission.USE_FINGERPRINT',
 					'android.permission.FOREGROUND_SERVICE',
 					'android.permission.CAMERA',
@@ -86,11 +79,16 @@ export default () => {
 					'android.permission.SCHEDULE_EXACT_ALARM',
 					'android.permission.Intent.ACTION_BOOT_COMPLETED'
 				],
-				config: {
-					googleMaps: {
-						apiKey: ANDROID_MAPS_API_KEY
-					}
-				}
+				// Fotos e vídeos vêm do seletor do sistema (expo-image-picker): sem permissões amplas de mídia (política do Google Play)
+				blockedPermissions: [
+					'android.permission.READ_MEDIA_IMAGES',
+					'android.permission.READ_MEDIA_VIDEO',
+					'android.permission.READ_MEDIA_AUDIO',
+					'android.permission.READ_MEDIA_VISUAL_USER_SELECTED',
+					'android.permission.ACCESS_MEDIA_LOCATION',
+					'android.permission.READ_EXTERNAL_STORAGE',
+					'android.permission.WRITE_EXTERNAL_STORAGE'
+				]
 			},
 			extra: {
 				eas: {
@@ -123,33 +121,46 @@ export default () => {
 						url: 'https://sentry.io/'
 					}
 				],
+				[
+					'expo-splash-screen',
+					{
+						image: './assets/foreground.png',
+						imageWidth: 310,
+						resizeMode: 'contain',
+						backgroundColor: '#FFAA33'
+					}
+				],
 				'react-native-compressor',
-				'expo-av',
-				'@react-native-firebase/app',
+				[
+					'@react-native-firebase/app',
+					{
+						ios: {
+							disableSPM: true
+						}
+					}
+				],
 				'@react-native-firebase/auth',
+				'@react-native-firebase/app-check',
 				'@react-native-firebase/crashlytics',
+				[
+					'react-native-maps',
+					{
+						androidGoogleMapsApiKey: ANDROID_MAPS_API_KEY
+					}
+				],
 				[
 					'expo-build-properties',
 					{
 						ios: {
 							useFrameworks: 'static',
-							use_modular_headers: true,
-							autolinking: true,
-							privacyManifestAggregationEnabled: true,
-							// deploymentTarget: '13.4',
-							// newArchEnabled: true
+							forceStaticLinking: RN_FIREBASE_PODS,
+							privacyManifestAggregationEnabled: true
 						},
 						android: {
-							minSdkVersion: 23,
-							compileSdkVersion: 34,
-							targetSdkVersion: 34,
-							buildToolsVersion: '34.0.0',
-							enableProguardInReleaseBuilds: true,
+							enableMinifyInReleaseBuilds: true,
 							enableShrinkResourcesInReleaseBuilds: true,
-							enableR8: true,
 							usesCleartextTraffic: true,
 							enablePngCrunchInReleaseBuilds: false,
-							// newArchEnabled: false,
 							extraProguardRules: `
 							-keep public class com.horcrux.svg.** {*;}
 							-keep public class com.stripe.android.pushProvisioning.** { *; }
@@ -164,14 +175,6 @@ export default () => {
 					}
 				],
 				[
-					'expo-media-library',
-					{
-						photosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts',
-						savePhotosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts',
-						isAccessMediaLocationEnabled: true
-					}
-				],
-				[
 					'expo-image-picker',
 					{
 						photosPermission: 'Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.',
@@ -182,13 +185,6 @@ export default () => {
 					'expo-camera',
 					{
 						cameraPermission: 'Você precisa permitir o acesso a camera para tirar fotos de perfil e posts.'
-					}
-				],
-				[
-					'expo-notifications',
-					{
-						icon: './assets/notification.png',
-						color: '#FFAA33'
 					}
 				],
 				[
@@ -224,15 +220,14 @@ export default () => {
 						faceIDPermission: 'Você precisa permitir a utilização do faceID para podermos garantir a segurança da sua conta'
 					}
 				],
-				['./plugins/gradle-config.js']
+				['./plugins/gradle-config.js'],
+				['./plugins/keyboard-no-resize.js']
 			],
 			web: {
 				favicon: './assets/favicon.png'
 			},
-			runtimeVersion: '1.0.0'
-			// runtimeVersion: {
-			// 	policy: 'appVersion'
-			// }
+			// 2.0.0: Expo SDK 57. Não publicar updates deste runtime para builds do SDK 51 (runtime 1.0.0)
+			runtimeVersion: '2.0.0'
 		}
 	})
 }

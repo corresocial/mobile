@@ -1,0 +1,105 @@
+rules_version = '2';
+
+// Regras do bucket usado pelo app: corresocialapp.appspot.com
+// Caminhos gerados por data/shared/bucket/firebaseBucket.ts:
+//   pictures/users/{Date.now()}-{uuid}.jpg      (foto de perfil)
+//   pictures/posts/{Date.now()}-{uuid}.jpg      (fotos de post)
+//   pictures/petitions/{Date.now()}-{uuid}.jpg  (fotos de abaixo-assinado)
+//   videos/posts/{Date.now()}-{uuid}.mp4        (vídeos de post)
+// Builds antigos enviam só {Date.now()}.ext (sem o sufixo -{uuid}); os dois formatos são aceitos.
+// O caminho não contém o uid do dono, então a posse só pode ser checada pelo
+// metadado customizado `ownerId` (ainda não enviado pelo app).
+// O Admin SDK ignora estas regras. URLs com token (getDownloadURL) continuam
+// funcionando independentemente de `read`.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Leitura cross-service do perfil no Firestore (mesma checagem única de admin
+    // do firestore.rules: verified.admin == true).
+    function requesterVerified() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.get('verified', {});
+    }
+
+    function isLeaderOrAdmin() {
+      return signedIn()
+        && (requesterVerified().get('admin', false) == true
+          || requesterVerified().get('type', '') == 'leader');
+    }
+
+    // Upload com ownerId, se presente, precisa ser do próprio usuário.
+    function ownerMetadataOk() {
+      return request.resource.metadata == null
+        || !('ownerId' in request.resource.metadata)
+        || request.resource.metadata.ownerId == request.auth.uid;
+    }
+
+    function hasOwnerMetadata() {
+      return resource.metadata != null && ('ownerId' in resource.metadata);
+    }
+
+    function isOwnerByMetadata() {
+      return hasOwnerMetadata() && resource.metadata.ownerId == request.auth.uid;
+    }
+
+    // TODO(segurança): objetos antigos (e todos os enviados pela versão atual do app)
+    // não têm ownerId, então qualquer usuário logado ainda consegue APAGAR esses
+    // arquivos (deletePostMedias, deleteUserProfilePicture, approvePostDM e
+    // approveProfileDM apagam arquivos pelo caminho). Correção: enviar
+    // customMetadata { ownerId: uid } e contentType no putFile, exigir ownerId no
+    // create e remover este ramo; ou mover as exclusões para uma Cloud Function.
+    function canDelete() {
+      return signedIn()
+        && (isOwnerByMetadata() || !hasOwnerMetadata() || isLeaderOrAdmin());
+    }
+
+    function validFileName(fileName, extension) {
+      // <ms>.ext (builds antigos) ou <ms>-<uuid>.ext; react-uuid pode gerar 32 a 36 caracteres
+      return fileName.matches('^[0-9]{10,16}(-[0-9a-f-]{32,36})?[.]' + extension + '$');
+    }
+
+    match /pictures/{area}/{fileName} {
+      allow get: if signedIn() && area in ['users', 'posts', 'petitions'];
+      allow list: if false;
+
+      // Só cria objeto novo: sem sobrescrever arquivo de outra pessoa. `resource == null`
+      // é explícito porque o emulador avalia sobrescrita como `create` (produção usa `update`).
+      allow create: if signedIn()
+        && resource == null
+        && area in ['users', 'posts', 'petitions']
+        && validFileName(fileName, 'jpg')
+        && request.resource.size > 0
+        && request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*')
+        && request.resource.contentType != 'image/svg+xml'
+        && ownerMetadataOk();
+
+      allow update: if false;
+
+      allow delete: if area in ['users', 'posts', 'petitions'] && canDelete();
+    }
+
+    match /videos/posts/{fileName} {
+      allow get: if signedIn();
+      allow list: if false;
+
+      allow create: if signedIn()
+        && resource == null
+        && validFileName(fileName, 'mp4')
+        && request.resource.size > 0
+        && request.resource.size < 100 * 1024 * 1024
+        && request.resource.contentType.matches('video/.*')
+        && ownerMetadataOk();
+
+      allow update: if false;
+
+      allow delete: if canDelete();
+    }
+
+    // Qualquer outro caminho: negado (padrão).
+  }
+}

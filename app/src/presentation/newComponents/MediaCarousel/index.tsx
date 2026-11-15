@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import { Carousel } from 'react-native-reanimated-carousel'
 import uuid from 'react-uuid'
 
 import {
@@ -80,16 +80,15 @@ function MediaCarousel({
 			}
 			<Carousel
 				data={getCarouselPictures()}
-				autoPlay={(picturesUrl.length + videosThumbnails.length) > 1}
-				width={screenWidth}
-				height={relativeScreenHeight(28)}
-				autoPlayInterval={3000}
+				autoplay={(picturesUrl.length + videosThumbnails.length) > 1}
+				itemSize={screenWidth}
+				autoplayInterval={3000}
 				style={{
 					width: '100%',
 					height: '100%'
 				}}
 				loop
-				enabled={(picturesUrl.length + videosThumbnails.length) !== 1}
+				scrollEnabled={(picturesUrl.length + videosThumbnails.length) !== 1}
 				renderItem={({ item, index }) => item}
 				onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
 			/>

@@ -7,6 +7,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { IncomePostReviewScreenProps } from '@routes/Stack/IncomeStack/screenProps'
 import { IncomeStackParamList } from '@routes/Stack/IncomeStack/types'
 
@@ -105,11 +106,11 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any)
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'Profile', undefined, true)
 	}
 
 	const navigateToPostView = (incomePostData: PostEntityOptional) => {
-		navigation.navigate('PostViewProfile' as any, { postData: incomePostData })
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'PostViewProfile', { postData: incomePostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof IncomeStackParamList, initialValue: keyof IncomeEntity, customStack?: string) => { // TODO tipar com tipos de rotas
@@ -136,7 +137,7 @@ function IncomePostReview({ route, navigation }: IncomePostReviewScreenProps) {
 			})
 		}
 
-		navigation.push(screenName, { editMode: true, initialValue: value })
+		navigation.push(screenName as any, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')

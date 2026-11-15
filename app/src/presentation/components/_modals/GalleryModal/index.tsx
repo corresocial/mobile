@@ -1,8 +1,9 @@
-import { ResizeMode, Video } from 'expo-av'
 import * as ScreenOrientation from 'expo-screen-orientation'
+import { useVideoPlayer, type VideoPlayer } from 'expo-video'
 import React, { useEffect, useRef, useState } from 'react'
-import { StatusBar } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import { Platform, StatusBar } from 'react-native'
+import { Carousel } from 'react-native-reanimated-carousel'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 
@@ -32,6 +33,33 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { Loader } from '@components/Loader'
 import { ThumbnailList } from '@components/ThumbnailList'
 
+interface GalleryVideoProps {
+	uri: string
+	isLandscapeMode: boolean
+	onPlayerChange: (player: VideoPlayer | null) => void
+}
+
+function GalleryVideo({ uri, isLandscapeMode, onPlayerChange }: GalleryVideoProps) {
+	const videoPlayer = useVideoPlayer(uri)
+
+	useEffect(() => {
+		videoPlayer.loop = true
+		videoPlayer.play()
+		onPlayerChange(videoPlayer)
+		return () => onPlayerChange(null)
+	}, [videoPlayer])
+
+	return (
+		<VideoView
+			isLandScapeMode={isLandscapeMode}
+			player={videoPlayer}
+			contentFit={'contain'}
+			nativeControls
+			surfaceType={'textureView'}
+		/>
+	)
+}
+
 interface GalleryProps {
 	picturesUrl: string[],
 	videosUrl: string[],
@@ -41,6 +69,10 @@ interface GalleryProps {
 }
 
 function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIndex = 0, onClose }: GalleryProps) {
+	// Modais do Android são edge-to-edge no RN 0.86: controles afastados das barras do sistema
+	const insets = useSafeAreaInsets()
+	const isAndroid = Platform.OS === 'android'
+
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
@@ -56,7 +88,7 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
-	const videoRefs = useRef<{ [key: number]: Video | null }>({})
+	const videoRefs = useRef<{ [key: number]: VideoPlayer | null }>({})
 
 	useEffect(() => {
 		if (showGallery) {
@@ -117,12 +149,12 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 	const handleVideoPause = (index: number) => {
 		const currentVideoRef = videoRefs.current[index]
 		if (currentVideoRef) {
-			currentVideoRef.pauseAsync()
+			currentVideoRef.pause()
 		}
 	}
 
 	const goToNext = (direction: number) => {
-		const length = (picturesUrl.length + videosUrl.length) ?? 0
+		const length = picturesUrl.length + videosUrl.length
 		const nextIndex = (currentIndex + direction + length) % length
 		setCurrentIndex(nextIndex)
 		goToIndex(nextIndex)
@@ -174,15 +206,11 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 
 	const renderVideo = (uri: string, index: number) => (
 		<VideoContainer>
-			<VideoView
-				isLandScapeMode={isLandscapeMode}
-				source={{ uri: uri }}
-				resizeMode={ResizeMode.CONTAIN}
-				isLooping
-				useNativeControls
-				shouldPlay
-				ref={(el) => {
-					videoRefs.current[index] = el
+			<GalleryVideo
+				uri={uri}
+				isLandscapeMode={isLandscapeMode}
+				onPlayerChange={(player) => {
+					videoRefs.current[index] = player
 				}}
 			/>
 
@@ -210,11 +238,10 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 			<StatusBar backgroundColor={theme.colors.black[4]} />
 			<GalleryContainer>
 				<Carousel
-					enabled={carouselEnabled}
+					scrollEnabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
-					width={screenSizes.width}
-					height={screenSizes.height}
+					style={{ width: screenSizes.width, height: screenSizes.height }}
 					data={mediaUrls}
 					onSnapToItem={(id) => {
 						handleVideoPause(currentIndex)
@@ -228,7 +255,10 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 			{
 				!hideElements && (
 					<>
-						<CloseButtonArea isPressing={isPressingCloseButton}>
+						<CloseButtonArea
+							isPressing={isPressingCloseButton}
+							style={isAndroid ? { top: insets.top + relativeScreenDensity(10), right: insets.right + relativeScreenWidth(5) } : undefined}
+						>
 							<SmallButton
 								color={theme.colors.red[3]}
 								SvgIcon={CloseIcon}
@@ -261,7 +291,8 @@ function GalleryModal({ picturesUrl = [], videosUrl = [], showGallery, initialIn
 				key={isLandscapeMode ? 'landscape' : 'portrait'}
 				style={{
 					opacity: hideThumbnailList() ? 0 : 1,
-					zIndex: hideThumbnailList() ? -1 : 1
+					zIndex: hideThumbnailList() ? -1 : 1,
+					...(isAndroid ? { bottom: insets.bottom + relativeScreenDensity(16) } : {})
 				}}
 			>
 				<ThumbnailList

@@ -1,6 +1,7 @@
 import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Coordinates, LatLong } from '@domain/post/entity/types'
 
@@ -69,6 +70,10 @@ function SelectPostLocation({
 	saveLocation,
 	navigateBackwards
 }: SelectPostLocationProps) {
+	// edge-to-edge no Android: botão flutuante acima da barra de navegação
+	const { bottom: bottomInset } = useSafeAreaInsets()
+	const androidBottomInset = Platform.OS === 'android' ? bottomInset : 0
+
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
@@ -192,7 +197,7 @@ function SelectPostLocation({
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={headerDescription ? relativeScreenHeight(25) : relativeScreenHeight(20)}
@@ -264,7 +269,7 @@ function SelectPostLocation({
 			{
 
 				markerCoordinate && (
-					<ButtonContainerBottom>
+					<ButtonContainerBottom bottomInset={androidBottomInset}>
 						{
 							isLoading
 								? <Loader />

@@ -15,7 +15,7 @@ export const CardHeaderContainer = styled.View`
 
 export const CardHeader = styled.View`
 	flex-direction: row;
-	justify-content: start;
+	justify-content: flex-start;
 	align-items: center;
 `
 

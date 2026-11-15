@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
@@ -14,13 +15,14 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const validateProfileDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1

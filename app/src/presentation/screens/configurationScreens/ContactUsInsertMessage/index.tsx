@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar, TextInput } from 'react-native'
+import uuid from 'react-uuid'
 
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ContactUsInsertMessageScreenProps } from '@routes/Stack/ProfileStack/screenProps'
 
-import { useDiscordService } from '@services/discord/useDiscordService'
-import { useNotionService } from '@services/notion/useNotionService'
+import { sendContactUsToSentry } from '@infrastructure/sentry/contactUs'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -22,9 +22,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
-const { sendMessageToNotionContactUs } = useNotionService()
-const { sendMessageToDiscordContactUs } = useDiscordService()
-
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
@@ -33,14 +30,14 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	useEffect(() => {
 		const validation = validateItemDescription(message)
@@ -62,26 +59,24 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const sendMessage = async () => {
 		try { // REFACTOR Deve virar um caso de domínio
 			setIsLoading(true)
-			const notionPage = await sendMessageToNotionContactUs({
-				userId: userDataContext.userId,
-				type: route.params.contactUsType,
-				message,
-				reportTarged: route.params.reportedType,
-				reportedId: route.params.reportedId
-			})
-
-			await sendMessageToDiscordContactUs({
+			const reportId = uuid()
+			sendContactUsToSentry({
 				userId: userDataContext.userId,
 				userName: userDataContext.name,
 				type: route.params.contactUsType,
 				message,
-				reportId: notionPage.reportId,
+				reportId,
 				reportedTarget: route.params.reportedType,
 				reportedId: route.params.reportedId
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ContactUsSuccess', { reportType: route.params.reportedType || 'none' })
+			const contactUsSuccessParams = { reportType: route.params.reportedType || 'none' }
+			// Instância registrada no UserStack (denúncias de enquete/abaixo-assinado) segue para a tela de sucesso do mesmo navegador
+			const isUserStackInstance = (route.name as string) === 'ContactUsInsertMessageUserStack'
+			isUserStackInstance
+				? navigation.navigate('ContactUsSuccessUserStack', contactUsSuccessParams)
+				: navigation.navigate('ContactUsSuccess', contactUsSuccessParams)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
@@ -90,10 +85,10 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(25)}
+				relativeHeight={relativeScreenHeight(30)}
 				centralized
 				backgroundColor={theme.colors.orange[2]}
 			>
@@ -103,7 +98,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					titleFontSize={24}
 					description={'fala para a gente o que aconteceu'}
 					highlightedWords={[route.params.title, 'o', 'que']}
-					height={'70%'}
+					height={'80%'}
 					color={theme.colors.white[3]}
 				/>
 			</DefaultHeaderContainer>

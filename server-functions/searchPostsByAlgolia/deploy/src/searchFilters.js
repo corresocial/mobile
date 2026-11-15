@@ -42,11 +42,13 @@ const getGeohashFilter = (geohashes, geohashField, negativeClause) => {
     }, '');
 };
 exports.getGeohashFilter = getGeohashFilter;
+// Quotes a free-text value for Algolia filters (escapes \ and "); input is also validated in validateSearchRequest
+const quoteFilterValue = (value) => `"${String(value).replace(/["\\]/g, '\\$&')}"`;
 const getRangeFilter = (range, city, country) => {
     if (range === 'nearby' || range === 'city')
-        return ` (range:city OR range:country) AND location.city:'${city}'`;
+        return ` (range:city OR range:country) AND location.city:${quoteFilterValue(city)}`;
     if (range === 'country')
-        return `range:${range} AND location.country:'${country}'`;
+        return `range:${range} AND location.country:${quoteFilterValue(country)}`;
     return '';
 };
 exports.getRangeFilter = getRangeFilter;
@@ -59,13 +61,13 @@ exports.getMacroCategoryFilter = getMacroCategoryFilter;
 const getCategoryFilter = (category) => {
     if (!category)
         return '';
-    return ` AND category:${category}`;
+    return ` AND category:${quoteFilterValue(category)}`;
 };
 exports.getCategoryFilter = getCategoryFilter;
 const getTagFilter = (tag) => {
     if (!tag)
         return '';
-    return ` AND tags:${tag}`;
+    return ` AND tags:${quoteFilterValue(tag)}`;
 };
 exports.getTagFilter = getTagFilter;
 const structurePostObject = (record) => {

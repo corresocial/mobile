@@ -27,7 +27,7 @@ import {
 	filterLocation
 } from './src/searchFilters'
 
-import { RequestBody } from './domain/entities/request'
+import { validateSearchRequest } from './src/validateSearchRequest'
 import { PostCollection, PostCollectionRequired } from './domain/entities/post/common'
 
 export const searchPostsByAlgolia = onCall(async (request) => {
@@ -36,13 +36,13 @@ export const searchPostsByAlgolia = onCall(async (request) => {
 		throw new HttpsError('unauthenticated', 'User must be logged in to search.');
 	}
 
+	// 2. INPUT: Get data from request.data (v2 Callable), validated before going into Algolia filters
+	const { searchText, searchParams, searchByRange } = validateSearchRequest(request.data)
+
+	// Securely get userId from the auth token, not the body
+	const userId = request.auth.uid;
+
 	try {
-		// 2. INPUT: Get data from request.data (v2 Callable)
-		const { searchText, searchParams, searchByRange }: RequestBody = request.data
-
-		// Securely get userId from the auth token, not the body
-		const userId = request.auth.uid;
-
 		const searchFilters = {
 			completedFilter: '',
 			cityFilter: '',
@@ -119,8 +119,10 @@ export const searchPostsByAlgolia = onCall(async (request) => {
 		// 3. RETURN: Directly return data (no res.status needed)
 		return postsByRange
 
-	} catch (err) {
-		console.error('Error searching Algolia:', err)
-		throw new HttpsError('internal', 'Unable to search posts', err)
+	} catch (err: any) {
+		// Algolia errors carry the request body (search text, geohashes, city) and the response: log only the summary
+		console.error('Error searching Algolia:', { name: err?.name, status: err?.status, message: err?.message })
+		// No internal details to the client
+		throw new HttpsError('internal', 'Unable to search posts')
 	}
 })

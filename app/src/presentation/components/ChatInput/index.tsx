@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Keyboard, Platform } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { Container, InputMessage, SendButtonAreaInner, SideButtonArea } from './styles'
 import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'
@@ -16,6 +18,24 @@ interface ChatInputProps {
 }
 
 function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage }: ChatInputProps) {
+	const { bottom: bottomInset } = useSafeAreaInsets()
+	const [keyboardIsVisible, setKeyboardIsVisible] = useState(false)
+
+	useEffect(() => {
+		const showSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardIsVisible(true))
+		const hideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardIsVisible(false))
+		return () => {
+			showSubscription.remove()
+			hideSubscription.remove()
+		}
+	}, [])
+
+	// edge-to-edge no Android: o fundo do input cobre a barra de navegação e os controles ficam acima dela.
+	// Com o teclado aberto a barra de navegação fica atrás dele, então não precisa do espaço extra.
+	const androidBottomPadding = Platform.OS === 'android'
+		? { paddingBottom: relativeScreenDensity(10) + (keyboardIsVisible ? 0 : bottomInset) }
+		: undefined
+
 	const [message, setMessage] = useState('')
 	const [sendButtonPressed, setSendButtomPressed] = useState<boolean>(false)
 
@@ -38,7 +58,7 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 	}
 
 	return (
-		<Container>
+		<Container style={androidBottomPadding}>
 			{
 				showImpactReportButton && (
 					<SmallButton

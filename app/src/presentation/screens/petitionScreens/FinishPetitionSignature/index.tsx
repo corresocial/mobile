@@ -85,7 +85,7 @@ function FinishPetitionSignature({ navigation }: FinishPetitionSignatureScreenPr
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ViewPetition', {} as any)
+			navigation.popTo('ViewPetition', {} as any)
 			navigation.goBack()
 		} catch (error) {
 			setIsLoading(false)

@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useState, Fragment } from 'react'
 import { Linking } from 'react-native'
 import uuid from 'react-uuid'
 import { useTheme } from 'styled-components'
@@ -51,7 +51,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 
 	const linkStyle = {
 		color: theme.colors.orange[3],
-		fontFamily: theme.fonts.nunito,
+		fontFamily: theme.fonts.nunitoSemiBold,
 		fontSize: theme.fontSizes[4]
 	}
 
@@ -190,48 +190,48 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 
 		switch (dateTimeInfo.weekDaysfrequency) {
 			case 'today': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('só hoje', ['só', 'hoje'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'everyday': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('todos os dias', ['todos', 'os', 'dias'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'businessDay': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('seg à sex', ['seg', 'à', 'sex'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'someday': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight(
 							`${listDaysOfWeek(dateTimeInfo.daysOfWeek || [])}`,
 							listDaysOfWeek(dateTimeInfo.daysOfWeek || []).split(' ')
 						)}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 		}
 
 		if (!dateTimeInfo.weekDaysfrequency && (dateTimeInfo.daysOfWeek && dateTimeInfo.daysOfWeek.length)) {
 			dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight(
 							`${listDaysOfWeek(dateTimeInfo.daysOfWeek || [])}`,
 							listDaysOfWeek(dateTimeInfo.daysOfWeek || []).split(' ')
 						)}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			)
 		}
 
@@ -239,14 +239,14 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			const startDate = dateTimeInfo.startDate ? formatDate(dateTimeInfo.startDate) : null
 			const startTime = dateTimeInfo.startTime ? formatHour(dateTimeInfo.startTime) : null
 			dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight(
 							`começa${startDate ? ` dia ${startDate}` : ''} ${startTime ? `às ${startTime}` : ''}`,
 							[startDate ?? '', startTime ?? '']
 						)}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			)
 		}
 
@@ -254,52 +254,52 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 			const endDate = dateTimeInfo.endDate ? formatDate(dateTimeInfo.endDate) : null
 			const endTime = dateTimeInfo.endTime ? formatHour(dateTimeInfo.endTime) : null
 			dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight(
 							`termina${endDate ? ` dia ${endDate}` : ''} ${endTime ? `às ${endTime}` : ''}`,
 							[endDate ?? '', endTime ?? '']
 						)}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			)
 		}
 
 		switch (dateTimeInfo.repetition) {
 			case 'unrepeatable': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('não se repete', ['não', 'se', 'repete'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'everyDay': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('repete todos os dias', ['repete', 'todos', 'os', 'dias'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'weekly': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('repete semanalmente', ['repete', 'semanalmente'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'biweekly': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('repete a cada 15 dias', ['repete', 'a', 'cada', '15', 'dias'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 			case 'monthly': dateTimeInfosToRender.push(
-				<>
+				<Fragment key={`datetime-${dateTimeInfosToRender.length}`}>
 					<DateTimeLabel>
 						{showMessageWithHighlight('repete mensalmente', ['repete', 'mensalmente'])}
 					</DateTimeLabel>
-				</>
+				</Fragment>
 			); break
 		}
 
@@ -351,7 +351,7 @@ function PostInfo({ title, value, type, icon }: PostInfoProps) {
 				render: (
 					<LongText >
 						<HyperlinkContainer
-							text={descriptionIsExpanded && showResizeLabel() ? value : getShortText(value as string, sumarizedSubscriptionSize)}
+							text={descriptionIsExpanded && showResizeLabel() ? value as string : getShortText(value as string, sumarizedSubscriptionSize)}
 							linkStyle={linkStyle}
 						>
 							{descriptionIsExpanded && showResizeLabel() ? value : getShortText(value as string, sumarizedSubscriptionSize)}

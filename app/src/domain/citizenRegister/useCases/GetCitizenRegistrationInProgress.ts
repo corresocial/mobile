@@ -6,7 +6,7 @@ import { CitizenRegisterEntity } from '../model/entities/types'
 import { CitizenRegisterLocalRepositoryInterface } from '../provider/CitizenRegisterLocalRepositoryInterface'
 
 type Input = null
-type Output = Promise<CitizenRegisterEntity>
+type Output = Promise<CitizenRegisterEntity | null>
 
 export class GetCitizenRegistrationInProgress implements UseCase<Input, Output> {
 	private localRepository: CitizenRegisterLocalRepositoryInterface

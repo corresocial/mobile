@@ -1,3 +1,5 @@
+import { httpsCallable } from '@react-native-firebase/functions'
+
 import { FeedPosts, Id } from '../../../domain/post/entity/types'
 import { FeedSearchParams } from '../types/types'
 
@@ -5,7 +7,7 @@ import { firebaseFunctions } from '@infrastructure/firebase'
 
 async function getPostsByLocationCloud(searchParams: FeedSearchParams, userId: Id) {
 	try {
-		const getPostsFn = firebaseFunctions.httpsCallable('getFeedPosts')
+		const getPostsFn = httpsCallable(firebaseFunctions, 'getFeedPosts')
 		const response = await getPostsFn({ searchParams, userId })
 		return response.data as FeedPosts
 	} catch (error) {

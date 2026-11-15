@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Platform, StatusBar, TextInput } from 'react-native'
+import { StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
 import { EditContext } from '@contexts/EditContext'
@@ -128,7 +128,7 @@ function PostLinks({
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.green[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}

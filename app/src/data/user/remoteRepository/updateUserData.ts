@@ -1,3 +1,5 @@
+import { doc, setDoc } from '@react-native-firebase/firestore'
+
 import { UserEntityOptional } from '@domain/user/entity/types'
 
 import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
@@ -6,10 +8,11 @@ import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function updateUserData(userId: string, data: UserEntityOptional, merge = true) {
 	try {
-		const docRef = firebaseFirestore.collection(USER_COLLECTION).doc(userId)
+		const docRef = doc(firebaseFirestore, USER_COLLECTION, userId)
 
 		const options = merge ? { merge: true } : {}
-		const success = await docRef.set(
+		const success = await setDoc(
+			docRef,
 			{ ...data, updatedAt: new Date() },
 			options
 		)

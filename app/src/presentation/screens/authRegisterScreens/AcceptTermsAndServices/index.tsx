@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
 import { AcceptTermsAndConditionsScreenProps } from '@routes/Stack/AuthRegisterStack/screenProps'
@@ -21,9 +22,10 @@ import { TermsOfServiceModal } from '@components/_modals/TermsOfServiceModal'
 function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreenProps) {
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	})
+	useFocusEffect(useCallback(() => {
+		const backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+		return () => backHandlerSubscription.remove()
+	}, []))
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {

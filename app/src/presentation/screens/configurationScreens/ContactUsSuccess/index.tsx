@@ -19,7 +19,7 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 			navigation.goBack()
 			return
 		}
-		navigation.navigate('Configurations')
+		navigation.popTo('Configurations')
 	}
 
 	return (

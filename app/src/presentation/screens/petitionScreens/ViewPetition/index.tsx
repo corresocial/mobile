@@ -16,7 +16,7 @@ import { usePetitionContext } from '@contexts/PetitionContext'
 
 import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewPetitionScreenProps } from '@routes/Stack/PetitionStack/screenProps'
-import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
+import { ContactUsType, ReportedTarget } from '@services/contactUs/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -111,7 +111,7 @@ function ViewPetition({ route, navigation }: ViewPetitionScreenProps) {
 		setPetitionOptionsIsOpen(false)
 		const params = {
 			title: 'denunciar',
-			contactUsType: 'denúncia' as DiscordContactUsType,
+			contactUsType: 'denúncia' as ContactUsType,
 			reportedType: 'petition' as ReportedTarget,
 			reportedId: petitionData.petitionId
 		}

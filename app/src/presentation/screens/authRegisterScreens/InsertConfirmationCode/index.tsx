@@ -1,6 +1,6 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { UserCredential } from '@react-native-firebase/auth'
 import React, { useEffect, useRef, useState } from 'react'
-import { Platform, StatusBar, TextInput } from 'react-native'
+import { StatusBar, TextInput } from 'react-native'
 
 import { useUserDomain } from '@domain/user/useUserDomain'
 
@@ -14,7 +14,7 @@ import { useAuthenticationService } from '@services/authentication/useAuthentica
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, applyCodeInputChange } from '@common/auxiliaryFunctions'
 import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -174,7 +174,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		setHasServerSideError(true)
 	}
 
-	const extractUserIdentification = async ({ user }: FirebaseAuthTypes.UserCredential) => user.uid
+	const extractUserIdentification = async ({ user }: UserCredential) => user.uid
 
 	const allInputCodesIsValid = () => {
 		const inputCodeLength = mergeAllInputCodes().length || 0
@@ -220,7 +220,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+		<Container behavior={'padding'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.blue[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				flexDirection={'column'}
@@ -267,7 +267,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									defaultBackgroundColor={theme.colors.white[2]}
 									validBackgroundColor={theme.colors.blue[1]}
 									invalidBackgroundColor={getRelativeInputErrorStyle()}
-									maxLength={1}
+									maxLength={6}
+									autoComplete={'sms-otp'}
+									textContentType={'oneTimeCode'}
 									textIsValid={insertedCodeIsValid}
 									invalidTextAfterSubmit={invalidCodeAfterSubmit || expiredCodeAfterSubmit}
 									placeholder={'0'}
@@ -276,7 +278,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									error={hasServerSideError}
 									filterText={filterLeavingOnlyNumbers}
 									validateText={(text: string) => validateCode(text)}
-									onChangeText={(text: string) => inputConfig.set(text)}
+									onChangeText={(text: string) => applyCodeInputChange(index, text, inputsConfig)}
 								/>
 							)
 						})

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-const { withGradleProperties } = require('@expo/config-plugins')
+const { withGradleProperties } = require('expo/config-plugins')
 
 module.exports = (config) => {
 	return withGradleProperties(config, (gradleConfig) => {

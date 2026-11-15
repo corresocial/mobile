@@ -52,8 +52,8 @@ export function MediaView({ picturesUrl, videosUrl, indicatorTone, onPress }: Me
 				onPress={mediaPressHandler}
 			>
 				<MediaCarousel
-					picturesUrl={[...(picturesUrl || [])] || []}
-					videosThumbnails={[...(videosUrl || [])] || []}
+					picturesUrl={[...(picturesUrl || [])]}
+					videosThumbnails={[...(videosUrl || [])]}
 					indicatorColor={getIndicatorColor()}
 					square
 					showFullscreenIcon

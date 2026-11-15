@@ -14,6 +14,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/screenProps'
 
 import { useCloudFunctionService } from '@services/cloudFunctions/useCloudFunctionService'
+import { checkFreeTrialRange } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -88,7 +89,7 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 			const { newPost } = await savePost(
 				usePostRepository,
 				useCloudFunctionService,
-				userDataContext.subscription?.subscriptionRange,
+				getEffectiveSubscriptionRange(),
 				postData,
 				postData,
 				postData.unapprovedData?.picturesUrl || []
@@ -107,11 +108,14 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 		}
 	}
 
+	const getEffectiveSubscriptionRange = () => checkFreeTrialRange(userDataContext.subscription?.subscriptionRange).range
+
 	const allOfflinePostsOnRange = () => {
+		const subscriptionRange = getEffectiveSubscriptionRange()
 		const posts = offlinePosts.map((post: PostEntityOptional) => {
-			if (post.range === 'city' && userDataContext.subscription?.subscriptionRange === 'near') return false
-			if (post.range === 'country' && userDataContext.subscription?.subscriptionRange === 'near') return false
-			if (post.range === 'country' && userDataContext.subscription?.subscriptionRange === 'city') return false
+			if (post.range === 'city' && subscriptionRange === 'near') return false
+			if (post.range === 'country' && subscriptionRange === 'near') return false
+			if (post.range === 'country' && subscriptionRange === 'city') return false
 			return true
 		})
 
@@ -149,11 +153,13 @@ function OfflinePostsManagement({ navigation }: OfflinePostsManagementScreenProp
 		return allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']
 	}
 
+	// Abre a revisão na pilha do tipo do post (como o PostView faz ao editar): as telas de edição dos campos só existem nessas pilhas
 	const naigateToReviewPost = (post: PostEntityOptional) => {
+		const reviewParams = { postData: { ...post } as any, unsavedPost: true, offlinePost: true } // TODO Type
 		switch (post.postType as any) {
-			case 'income': return navigation.navigate('IncomePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true }) // TODO Type
-			case 'culture': return navigation.navigate('CulturePostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
-			case 'socialImpact': return navigation.navigate('SocialImpactPostReview' as any, { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'income': return navigation.navigate('IncomeStack' as any, { screen: 'IncomePostReview', params: reviewParams })
+			case 'culture': return navigation.navigate('CultureStack' as any, { screen: 'CulturePostReview', params: reviewParams })
+			case 'socialImpact': return navigation.navigate('SocialImpactStack' as any, { screen: 'SocialImpactPostReview', params: reviewParams })
 			default: return null
 		}
 	}

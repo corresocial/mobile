@@ -12,5 +12,3 @@ export type SearchResultScreenProps = NativeStackScreenProps<HomeStackParamList,
 export type ProfileHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ProfileHome'>
 export type PostViewHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostViewHome'>
 export type SocialMediaManagementHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'SocialMediaManagementHome'>
-
-export type PublicServicesStackScreenProps = NativeStackScreenProps<HomeStackParamList, 'PublicServicesStack'>

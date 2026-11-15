@@ -25,6 +25,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 	return (
 		<>
 			<SafeAreaViewContainer
+				edges={['top']}
 				safeAreaColor={props.topSafeAreaColor}
 				tone={props.tone}
 				withoutFlex
@@ -32,7 +33,7 @@ function ScreenContainer({ ...props }: ScreenContainerProps) {
 			{
 				!props.infinityBottom
 					? (
-						<SafeAreaViewContainer safeAreaColor={props.bottomSafeAreaColor}>
+						<SafeAreaViewContainer edges={['right', 'bottom', 'left']} safeAreaColor={props.bottomSafeAreaColor}>
 							<StatusBar backgroundColor={props.topSafeAreaColor} />
 							<Container
 								withPadding={!!props.enableScreenPadding}

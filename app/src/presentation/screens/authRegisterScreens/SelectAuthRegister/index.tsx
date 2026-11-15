@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
@@ -53,9 +54,10 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 		setLocalUser(authenticatedLocalUser)
 	}
 
-	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	}, [])
+	useFocusEffect(useCallback(() => {
+		const backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+		return () => backHandlerSubscription.remove()
+	}, []))
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {

@@ -1,4 +1,4 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { AuthCredential, User } from '@react-native-firebase/auth'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
@@ -153,7 +153,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 			if (!googleCredential) throw new Error('Credenciais inválidas')
 
-			const linkedUser = await linkAuthProvider(googleCredential as FirebaseAuthTypes.AuthCredential, 'google.com') as FirebaseAuthTypes.User
+			const linkedUser = await linkAuthProvider(googleCredential as AuthCredential, 'google.com') as User
 			if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 
 			await remoteStorage.updatePrivateContacts(

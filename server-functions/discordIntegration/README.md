@@ -12,33 +12,51 @@
 
 ## Configuração
 
-[Variáveis de Ambiente](https://www.notion.so/Vari-veis-de-Ambiente-e0a9eda5f9e74be3980cd5be10aa8b39?pvs=21)
+Service account: `fn-discord` (sem papéis no projeto).
 
-### Configuração de console Google Cloud Platform
+As URLs dos webhooks ficam no Secret Manager e chegam à função como variáveis de ambiente via `--set-secrets` (veja o `package.json`):
 
-.env.yaml com as keys de webhook:
-FALECONOSCO_WEBHOOK=
-ERROS_WEBHOOK=
-DENUNCIAR_WEBHOOK=
+- `FALECONOSCO_WEBHOOK`
+- `ERROS_WEBHOOK`
+- `DENUNCIAR_WEBHOOK`
+
+Para criar/rotacionar os segredos, use o `setup_secrets.sh` da raiz (veja o [README principal](../README.md)).
 
 ## Request
 
-```jsx
+```ts
 export type RequestBody = {
-    content: string
-    type: 'erro' | 'denúncia' | 'fale-conosco' // ou outro tipo padrão
+    content: string // obrigatório, até 1800 caracteres
+    type?: 'erro' | 'denúncia' | 'melhoria' | 'outro' | 'fale-conosco' // padrão: 'fale-conosco'
 }
 ```
 
-- **content**: Conteúdo da mensagem a ser enviada.
-- **type**: Tipo de mensagem para determinar o webhook de destino.
+- **content**: Conteúdo da mensagem a ser enviada. Menções (`@everyone`, `@here`, cargos e usuários) não notificam ninguém.
+- **type**: Tipo de mensagem, que define o webhook de destino:
+    - `erro` → `ERROS_WEBHOOK` (aceita chamada anônima, porque o app reporta erros antes do login)
+    - `denúncia` → `DENUNCIAR_WEBHOOK`
+    - `melhoria`, `outro`, `fale-conosco` ou ausente → `FALECONOSCO_WEBHOOK`
+    - Qualquer outro valor → erro `invalid-argument`
+
+## Response
+
+```ts
+{ ok: true }
+```
+
+A resposta do Discord não é repassada ao cliente.
 
 ## Fluxo de informações
 
 1. Recebe a requisição com conteúdo e tipo.
-2. Verifica autenticação (exceto para tipo 'erro').
-3. Seleciona o webhook apropriado baseado no tipo.
-4. Encaminha a mensagem para o Discord via axios.
+2. Valida o tipo (allowlist) e o conteúdo.
+3. Verifica autenticação (exceto para tipo `erro`).
+4. Encaminha a mensagem para o webhook do tipo, com `allowed_mentions: { parse: [] }`.
+5. Em caso de erro, loga só o nome do webhook, o status HTTP e o código do erro (nunca a URL, que contém o token).
+
+## Riscos
+
+Sem App Check nem rate limit: o tipo `erro` pode ser usado anonimamente para enviar spam ao canal de erros. Veja "Riscos Residuais" no [README principal](../README.md).
 
 ## Deploy
 
@@ -47,34 +65,10 @@ export type RequestBody = {
 
 </aside>
 
-<aside>
-💡 Estar dentro do diretório raiz da cloud function que deseja realizar o deploy
+Dentro da pasta da função:
 
-</aside>
-
-É necessário converter o código para JavaScript antes de fazer o deploy, executando diretamente da pasta da função
-
-```jsx
+```bash
 npm run deploy
 ```
 
-OU
-
-```jsx
-npm run build
-```
-
-```jsx
-cd deploy
-```
-
-```jsx
-gcloud functions deploy discordIntegration \
-  --gen2 \
-  --runtime nodejs20 \
-  --trigger-http \
-  --entry-point discordIntegration \
-  --region southamerica-east1 \
-  --allow-unauthenticated \
-  --env-vars-file ../.env.yaml
-```
+O comando compila o TypeScript (`npm run build`, saída em `deploy/`) e executa o `deploy-cloud-function` do `package.json` (runtime `nodejs22`, service account `fn-discord` e `--set-secrets`). Não faça o deploy manualmente com outras flags: sem `--service-account` a função passa a rodar com a service account padrão.

@@ -16,7 +16,7 @@ interface SelectedTagsHorizontalListProps {
 }
 
 function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelectTag }: SelectedTagsHorizontalListProps) {
-	const tagsSelectedRef = useRef() as any
+	const tagsSelectedRef = useRef(undefined) as any
 
 	const scrollToEnd = () => {
 		tagsSelectedRef.current.scrollToEnd({

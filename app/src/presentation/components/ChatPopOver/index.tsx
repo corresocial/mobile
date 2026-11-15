@@ -1,5 +1,5 @@
-import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import React, { useRef } from 'react'
+import { View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
@@ -21,7 +21,7 @@ interface ChatPopOverProps {
 	popoverVisibility: boolean
 	impactReportButtonVisibility: boolean
 	userIsBlocked: boolean
-	children: React.ReactChild
+	children: React.ReactElement | number | string
 	closePopover: () => void
 	blockUser: () => void
 	unblockUser: () => void
@@ -42,83 +42,88 @@ function ChatPopOver({
 	cleanConversation,
 	markAsCompleted
 }: ChatPopOverProps) {
+	const anchorRef = useRef<View>(null)
+
+	// O Popover só existe enquanto está aberto: com ele sempre montado, a biblioteca mede a âncora a cada mudança
+	// de layout (teclado, troca de tela) e rejeita "getRectForRef - current is not set" quando a âncora já saiu.
 	return (
-		<Popover
-			isVisible={popoverVisibility}
-			onRequestClose={closePopover}
-			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.colors.black[4], borderRadius: relativeScreenDensity(15) }}
-			backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
-			from={(sourceRef, showPopover) => (
-				<TouchableOpacity onPress={showPopover} >
-					<View ref={sourceRef} >
-						{children}
-					</View>
-				</TouchableOpacity>
+		<>
+			<View ref={anchorRef} collapsable={false}>
+				{children}
+			</View>
+			{popoverVisibility && (
+				<Popover
+					isVisible
+					onRequestClose={closePopover}
+					animationConfig={{ delay: 0, duration: 300 }}
+					popoverStyle={{ backgroundColor: theme.colors.black[4], borderRadius: relativeScreenDensity(15) }}
+					backgroundStyle={{ backgroundColor: theme.transparence.orange() }}
+					from={anchorRef as unknown as React.RefObject<React.Component>}
+				>
+					<Container>
+						<FocusAwareStatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
+						<ContainerInner>
+							<CloseIcon onPress={closePopover}>
+								<XIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
+							</CloseIcon>
+							<UserName>{userName}</UserName>
+							<VerticalSpacing />
+							<PrimaryButton
+								color={theme.colors.red[3]}
+								label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}
+								highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
+								labelColor={theme.colors.white[3]}
+								fontSize={13}
+								SvgIcon={DeniedWhiteIcon}
+								justifyContent={'space-around'}
+								minHeight={20}
+								relativeHeight={relativeScreenHeight(8)}
+								onPress={!userIsBlocked ? blockUser : unblockUser}
+							/>
+							{
+								hasMessages && (
+									<>
+										<VerticalSpacing />
+										<PrimaryButton
+											color={theme.colors.red[3]}
+											label={'apagar conversa'}
+											highlightedWords={['apagar', 'conversa']}
+											labelColor={theme.colors.white[3]}
+											fontSize={13}
+											SvgIcon={TrashIcon}
+											justifyContent={'space-around'}
+											minHeight={20}
+											relativeHeight={relativeScreenHeight(8)}
+											onPress={cleanConversation}
+										/>
+									</>
+								)
+							}
+							{
+								impactReportButtonVisibility && (
+									<>
+										<VerticalSpacing />
+										<PrimaryButton
+											color={theme.colors.pink[3]}
+											label={'marcar como \nfinalizado'}
+											highlightedWords={['marcar', 'como', '\nfinalizado']}
+											labelColor={theme.colors.white[3]}
+											justifyContent={'space-around'}
+											textAlign={'left'}
+											fontSize={13}
+											SecondSvgIcon={ImpactWhiteIcon}
+											minHeight={20}
+											relativeHeight={relativeScreenHeight(8)}
+											onPress={markAsCompleted}
+										/>
+									</>
+								)
+							}
+						</ContainerInner>
+					</Container>
+				</Popover >
 			)}
-		>
-			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.transparence.orange()} barStyle={'dark-content'} />
-				<ContainerInner>
-					<CloseIcon onPress={closePopover}>
-						<XIcon width={relativeScreenDensity(25)} height={relativeScreenDensity(25)} />
-					</CloseIcon>
-					<UserName>{userName}</UserName>
-					<VerticalSpacing />
-					<PrimaryButton
-						color={theme.colors.red[3]}
-						label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}
-						highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
-						labelColor={theme.colors.white[3]}
-						fontSize={13}
-						SvgIcon={DeniedWhiteIcon}
-						justifyContent={'space-around'}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={!userIsBlocked ? blockUser : unblockUser}
-					/>
-					{
-						hasMessages && (
-							<>
-								<VerticalSpacing />
-								<PrimaryButton
-									color={theme.colors.red[3]}
-									label={'apagar conversa'}
-									highlightedWords={['apagar', 'conversa']}
-									labelColor={theme.colors.white[3]}
-									fontSize={13}
-									SvgIcon={TrashIcon}
-									justifyContent={'space-around'}
-									minHeight={20}
-									relativeHeight={relativeScreenHeight(8)}
-									onPress={cleanConversation}
-								/>
-							</>
-						)
-					}
-					{
-						impactReportButtonVisibility && (
-							<>
-								<VerticalSpacing />
-								<PrimaryButton
-									color={theme.colors.pink[3]}
-									label={'marcar como \nfinalizado'}
-									highlightedWords={['marcar', 'como', '\nfinalizado']}
-									labelColor={theme.colors.white[3]}
-									justifyContent={'space-around'}
-									textAlign={'left'}
-									fontSize={13}
-									SecondSvgIcon={ImpactWhiteIcon}
-									minHeight={20}
-									relativeHeight={relativeScreenHeight(8)}
-									onPress={markAsCompleted}
-								/>
-							</>
-						)
-					}
-				</ContainerInner>
-			</Container>
-		</Popover >
+		</>
 	)
 }
 

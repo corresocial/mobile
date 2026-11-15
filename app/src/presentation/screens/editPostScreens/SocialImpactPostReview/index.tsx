@@ -7,6 +7,7 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
+import { navigateToHomeTabScreen } from '@routes/auxMethods'
 import { SocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/screenProps'
 import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
 
@@ -114,11 +115,11 @@ function SocialImpactPostReview({ route, navigation }: SocialImpactPostReviewScr
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('Profile' as any)
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'Profile', undefined, true)
 	}
 
 	const navigateToPostView = (socialImpactPostData: PostEntityOptional) => {
-		navigation.navigate('PostViewProfile' as any, { postData: socialImpactPostData })
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'PostViewProfile', { postData: socialImpactPostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactEntity) => {
@@ -135,7 +136,7 @@ function SocialImpactPostReview({ route, navigation }: SocialImpactPostReviewScr
 			}
 		}
 
-		navigation.push(screenName, { editMode: true, initialValue: value })
+		navigation.push(screenName as any, { editMode: true, initialValue: value })
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectSocialImpactLocationView', 'location')

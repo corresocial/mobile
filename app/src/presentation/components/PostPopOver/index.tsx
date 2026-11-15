@@ -21,7 +21,7 @@ interface PostPopOverProps {
 	isAuthor?: boolean
 	isCompleted?: boolean
 	popoverVisibility: boolean
-	children: React.ReactChild
+	children: React.ReactElement | number | string
 	goToComplaint?: () => void
 	editPost?: () => void
 	deletePost?: () => void

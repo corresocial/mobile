@@ -1,0 +1,16 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "rules": "firestore.rules"
+  },
+  "database": [
+    { "target": "main", "rules": "database.rules.json" },
+    { "target": "smas", "rules": "database-smas.rules.json" }
+  ],
+  "storage": [
+    { "target": "main", "bucket": "corresocialapp.appspot.com", "rules": "storage.rules" },
+    { "target": "backup", "bucket": "corresocialapp-backup", "rules": "storage-deny-all.rules" },
+    { "target": "backupt", "bucket": "corresocialapp-backupt", "rules": "storage-deny-all.rules" },
+    { "target": "legacy", "bucket": "corresocialapp", "rules": "storage-deny-all.rules" }
+  ]
+}

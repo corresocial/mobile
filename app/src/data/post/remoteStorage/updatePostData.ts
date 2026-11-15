@@ -1,3 +1,5 @@
+import { doc, setDoc } from '@react-native-firebase/firestore'
+
 import { PostEntityOptional } from '@domain/post/entity/types'
 
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
@@ -9,10 +11,11 @@ type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number };
 async function updatePostData(postId: string, data: PostEntityOptional, merge = true) {
 	try {
 		const createdAtPost = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {}
-		const docRef = firebaseFirestore.collection(POST_COLLECTION).doc(postId)
+		const docRef = doc(firebaseFirestore, POST_COLLECTION, postId)
 
 		const options = merge ? { merge: true } : {}
-		await docRef.set(
+		await setDoc(
+			docRef,
 			{ ...data, updatedAt: new Date(), ...createdAtPost },
 			options
 		)

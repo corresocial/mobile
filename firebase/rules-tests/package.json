@@ -1,0 +1,17 @@
+{
+  "name": "corre-rules-tests",
+  "private": true,
+  "description": "Testes das regras de segurança (Firestore, RTDB e Storage) do projeto corresocialapp, contra os emuladores do Firebase.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "firebase emulators:exec --config ../firebase.test.json --project demo-corre --only firestore,database,storage \"node --test --test-concurrency=1 test/*.test.mjs\"",
+    "test:only-node": "node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.2",
+    "firebase": "^12.0.0"
+  }
+}

@@ -20,11 +20,11 @@ import { useAuthContext } from '@contexts/AuthContext'
 import { useLoaderContext } from '@contexts/LoaderContext'
 import { StripeContext } from '@contexts/StripeContext'
 
-import { navigateToPostView } from '@routes/auxMethods'
+import { navigateToHomeTabScreen, navigateToPostView } from '@routes/auxMethods'
 import { ProfileTabScreenProps } from '@routes/Stack/ProfileStack/screenProps'
-import { HomeTabParamList } from '@routes/Tabs/HomeTab/types'
 import { FlatListItem } from 'src/presentation/types'
 
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { getNetworkStatus } from '@utils/deviceNetwork'
@@ -226,12 +226,12 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	const openProfileOptions = () => {
 		!isLoggedUser
 			? setProfileOptionsIsOpen(true)
-			: navigation.navigate('Configurations')
+			: navigateToHomeTabScreen(navigation, 'ProfileStack', 'Configurations')
 	}
 
 	const reportUser = () => {
 		setProfileOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage', {
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'ContactUsInsertMessage', {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedId: getUserField('userId') as Id,
@@ -240,7 +240,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile', { user: userDataContext })
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'EditProfile', { user: userDataContext })
 	}
 
 	const navigationToBack = () => navigation.goBack()
@@ -264,32 +264,27 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 	}
 
 	const openChat = async () => {
-		navigation.navigate('HomeTab' as any, {
-			screen: 'ChatStack' as keyof HomeTabParamList
-		})
-		setTimeout(() => {
-			navigation.navigate('ChatMessages' as any, {
-				chat: {
-					chatId: '',
-					user1: {
-						userId: userDataContext.userId || '',
-						name: userDataContext.name || '',
-						profilePictureUrl: getUserProfilePictureFromContext(),
-					},
-					user2: {
-						userId: getUserField('userId') as Id,
-						name: getUserField('name') as string,
-						profilePictureUrl: getProfilePicture() || '',
-					},
-					messages: {},
-				} as Chat,
-				via: 'profile'
-			})
-		}, 50)
+		navigateToHomeTabScreen(navigation, 'ChatStack', 'ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userDataContext.userId || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext(),
+				},
+				user2: {
+					userId: getUserField('userId') as Id,
+					name: getUserField('name') as string,
+					profilePictureUrl: getProfilePicture() || '',
+				},
+				messages: {},
+			} as Chat,
+			via: 'profile'
+		}, true)
 	}
 
 	const openSocialMediaManagement = () => {
-		navigation.navigate(isLoggedUser ? 'SocialMediaManagement' : 'SocialMediaManagementHome' as any, {
+		navigateToHomeTabScreen(navigation, isLoggedUser ? 'ProfileStack' : 'HomeStack', isLoggedUser ? 'SocialMediaManagement' : 'SocialMediaManagementHome', {
 			userId: getUserField('userId'),
 			socialMedias: getUserField('socialMedias') || [],
 			isAuthor: isLoggedUser,
@@ -671,7 +666,7 @@ function Profile({ route, navigation }: ProfileTabScreenProps) {
 												reportUser={reportUser}
 												onPressVerify={verifyUserProfile}
 												removeProfileVerification={removeProfileVerification}
-												setFreeTrialToProfile={userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
+												setFreeTrialToProfile={!PLANS_ARE_FREE && userCanReceiveFreeTrial() ? setFreeTrialToProfile : undefined}
 											>
 												<SmallButton
 													color={theme.colors.white[3]}

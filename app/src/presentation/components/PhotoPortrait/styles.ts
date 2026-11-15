@@ -1,5 +1,4 @@
 import { Image, ImageProps } from 'expo-image'
-import { ImageResizeMode } from 'react-native'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -29,7 +28,6 @@ export const Container = styled.View<ContainerProps>`
 `
 
 interface PortraitImageProps extends ImageProps {
-	resizeMode?: ImageResizeMode
 	circle?: boolean
 }
 

@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimensions'
@@ -7,7 +7,6 @@ import { relativeScreenDensity, relativeScreenHeight } from '@common/screenDimen
 export const Container = styled.KeyboardAvoidingView`
 	flex: 1;
 	background-color: ${({ theme }) => theme.colors.orange[1]};
-	padding-bottom: ${relativeScreenHeight(9)}px;
 	flex-direction: column;
 	justify-content: space-between;
 	`
@@ -15,7 +14,7 @@ export const Container = styled.KeyboardAvoidingView`
 export const Header = styled.View`
 	width: 100%;
 	padding: ${relativeScreenDensity(12)}px;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
+	padding-top:${Constants.statusBarHeight}px;
 	flex-direction: row;
 	justify-content: space-between;
 	background-color: ${({ theme }) => theme.colors.white[3]};
@@ -29,7 +28,7 @@ export const IsBlockedContainer = styled.View`
 	align-items: center;
 `
 
-export const BottomSafeAreaColor = styled.SafeAreaView`
+export const BottomSafeAreaColor = styled(SafeAreaView)`
 	flex: 0;
 	background-color: ${({ theme }) => theme.colors.white[3]};
 `

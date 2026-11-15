@@ -1,15 +1,18 @@
+import { arrayUnion, doc, setDoc } from '@react-native-firebase/firestore'
+
 import { PetitionEntityOptional } from '@domain/petition/entity/types'
 
 import { PETITION_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firebase, firebaseFirestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function updatePetitionArrayField(petitionId: string, data: any, fieldName: keyof PetitionEntityOptional) {
-	const docRef = firebaseFirestore.collection(PETITION_COLLECTION).doc(petitionId)
+	const docRef = doc(firebaseFirestore, PETITION_COLLECTION, petitionId)
 
-	await docRef.set(
+	await setDoc(
+		docRef,
 		{
-			[fieldName as string]: firebase.firestore.FieldValue.arrayUnion(data),
+			[fieldName as string]: arrayUnion(data),
 			updatedAt: new Date(),
 		},
 		{ merge: true }

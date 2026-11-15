@@ -1,12 +1,14 @@
+import { get, ref } from '@react-native-firebase/database'
+
 import { Id } from '@domain/globalTypes'
 
 import { firebaseDatabase } from '@infrastructure/firebase'
 
 async function getRemoteChatData(chatId: Id): Promise<any> {
-	const realTimeDatabaseRef = firebaseDatabase.ref(chatId)
+	const realTimeDatabaseRef = ref(firebaseDatabase, chatId)
 
 	try {
-		const snapshot = await realTimeDatabaseRef.once('value') // Use 'once' para obter os dados uma única vez
+		const snapshot = await get(realTimeDatabaseRef) // Use 'get' para obter os dados uma única vez
 		return snapshot.val() // Retorna os dados do snapshot
 	} catch (error) {
 		console.error('Erro ao obter dados do chat:', error)

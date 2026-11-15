@@ -21,12 +21,12 @@ export const Row = styled.View`
     width: 100%;
 `
 
-export const FloatButtonContainer = styled.View`
+export const FloatButtonContainer = styled.View<{ bottomInset?: number }>`
     align-self: center;
     align-items: center;
     justify-content: center;
     width: 85%;
     height: 15%;
     position: absolute;
-    bottom: ${relativeScreenDensity(10)}px;
+    bottom: ${({ bottomInset = 0 }) => relativeScreenDensity(10) + bottomInset}px;
 `

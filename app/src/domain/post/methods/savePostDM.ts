@@ -48,7 +48,7 @@ async function savePostDM(
 		const picturesAlreadyUploaded = (unsavedPostPictures || []).filter((url: string) => url.includes('https://')) || []
 
 		const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(picturesNotUploaded, 'pictures')
-		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl] || []
+		newPostPicturesUrl = [...picturesAlreadyUploaded, ...uploadedPicturesUrl]
 	}
 
 	// Tratamento de imagens ^ ///////////////////////////////////////////////
@@ -64,7 +64,7 @@ async function savePostDM(
 		const videosAlreadyUploaded = (postVideos || []).filter((url: string) => url.includes('https://')) || []
 
 		const uploadedPicturesUrl = await remoteStorage.uploadPostMedias(videosNotUploaded, 'videos')
-		newPostVideosUrl = [...videosAlreadyUploaded, ...uploadedPicturesUrl] || []
+		newPostVideosUrl = [...videosAlreadyUploaded, ...uploadedPicturesUrl]
 	}
 	console.log('newPostVideosUrl')
 	console.log(newPostVideosUrl)
@@ -76,13 +76,14 @@ async function savePostDM(
 		unapprovedData: { ...newPostData.unapprovedData, picturesUrl: newPostPicturesUrl, videosUrl: newPostVideosUrl }
 	} as any
 
+	// Remove só os arrays vazios, para a aprovação não sobrescrever campos com []; as URLs enviadas precisam ir para o post
 	if (newPostWithUploadedPictures?.unapprovedData) {
-		if (Array.isArray(newPostWithUploadedPictures.unapprovedData.picturesUrl)) {
-			delete newPostWithUploadedPictures?.unapprovedData.picturesUrl
+		if (!newPostWithUploadedPictures.unapprovedData.picturesUrl?.length) {
+			delete newPostWithUploadedPictures.unapprovedData.picturesUrl
 		}
 
-		if (Array.isArray(newPostWithUploadedPictures.unapprovedData.videosUrl)) {
-			delete newPostWithUploadedPictures?.unapprovedData?.videosUrl
+		if (!newPostWithUploadedPictures.unapprovedData.videosUrl?.length) {
+			delete newPostWithUploadedPictures.unapprovedData.videosUrl
 		}
 	}
 

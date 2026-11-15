@@ -63,6 +63,41 @@ const filterLeavingOnlyNumbers = (dirtyText: string) => {
 	return cleanText
 }
 
+interface CodeBox {
+	field: string
+	set: (value: string) => void
+	ref: React.RefObject<{ focus: () => void, blur: () => void } | null>
+}
+
+/**
+ * Trata o texto recebido por uma das caixas do código SMS.
+ * Colar o código (ou o preenchimento automático do SMS) vem com vários dígitos de uma vez:
+ * eles são distribuídos pelas caixas. Digitar por cima de um dígito já preenchido o substitui.
+ */
+const applyCodeInputChange = (index: number, text: string, boxes: CodeBox[]) => {
+	const digits = filterLeavingOnlyNumbers(text)
+	const previous = boxes[index].field
+
+	if (digits.length <= 1) {
+		boxes[index].set(digits)
+		return
+	}
+
+	if (digits.length === 2 && previous) {
+		const typed = digits.includes(previous) ? digits.replace(previous, '') : digits.slice(-1)
+		boxes[index].set(typed.slice(-1))
+		return
+	}
+
+	const startAt = digits.length >= boxes.length ? 0 : index
+	const chars = digits.slice(0, boxes.length - startAt).split('')
+	chars.forEach((char, offset) => boxes[startAt + offset].set(char))
+
+	const nextIndex = startAt + chars.length
+	if (nextIndex >= boxes.length) boxes[boxes.length - 1].ref.current?.blur()
+	else boxes[nextIndex].ref.current?.focus()
+}
+
 const getShortText = (longText: string | undefined, size: number) => {
 	if (!longText) return ''
 	if (longText.length <= size) return longText
@@ -96,6 +131,7 @@ const emailIsValid = (email?: string) => { // Business rule
 export {
 	showMessageWithHighlight, // string highlight
 	filterLeavingOnlyNumbers, // string filter
+	applyCodeInputChange, // código SMS em várias caixas
 	getShortText,
 	dateHasExpired,
 	emailIsValid,
