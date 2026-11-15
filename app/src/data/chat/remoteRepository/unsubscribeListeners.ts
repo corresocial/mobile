@@ -1,20 +1,24 @@
+import { ref } from '@react-native-firebase/database'
+
 import { Id } from '@domain/globalTypes'
 
 import { firebaseDatabase } from '@infrastructure/firebase'
 
+import { removeValueListeners } from '../listeners/listeners'
+
 async function unsubscribeUserChatIdsListener(userId: Id): Promise<void> {
-	const listenerRef = firebaseDatabase.ref(`${userId}`)
-	listenerRef.off('value')
+	const listenerRef = ref(firebaseDatabase, `${userId}`)
+	removeValueListeners(listenerRef)
 }
 
 async function unsubscribeUserChatListener(chatId: Id): Promise<void> {
-	const listenerRef = firebaseDatabase.ref(`${chatId}`)
-	listenerRef.off('value')
+	const listenerRef = ref(firebaseDatabase, `${chatId}`)
+	removeValueListeners(listenerRef)
 }
 
 async function unsubscribeChatMessagesListener(chatId: Id): Promise<void> {
-	const listenerRef = firebaseDatabase.ref(`${chatId}/messages`)
-	listenerRef.off('value')
+	const listenerRef = ref(firebaseDatabase, `${chatId}/messages`)
+	removeValueListeners(listenerRef)
 }
 
 export { unsubscribeUserChatIdsListener, unsubscribeUserChatListener, unsubscribeChatMessagesListener }

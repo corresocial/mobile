@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react'
-import { Platform } from 'react-native'
 
 import { sendEvent } from '@newutils/methods/analyticsEvents'
-import { CardForm } from '@stripe/stripe-react-native'
+import { CardForm, CardFormView, Token } from '@stripe/stripe-react-native'
 
 import { PostRange } from '@domain/post/entity/types'
 import { usePostDomain } from '@domain/post/usePostDomain'
@@ -13,8 +12,6 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '@routes/Stack/UserStack/screenProps'
-import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
-import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
@@ -40,7 +37,7 @@ const { updateLocationDataOnPosts } = usePostDomain()
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 type CustomCardDetails = {
-	brand: CardBrand
+	brand: Token.CardBrand
 	expiryMonth: number
 	expiryYear: number
 	last4: string
@@ -49,7 +46,7 @@ type CustomCardDetails = {
 
 type RemoteCardDetails = {
 	card: {
-		brand: CardBrand
+		brand: Token.CardBrand
 		exp_month: number
 		exp_year: number
 		last4: string
@@ -247,7 +244,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		return true
 	}
 
-	const saveCardDetailsOnCompleteForm = (cardData: Details) => {
+	const saveCardDetailsOnCompleteForm = (cardData: CardFormView.Details) => {
 		setCardDetails({
 			brand: cardData.brand,
 			expiryMonth: cardData.expiryMonth,
@@ -272,7 +269,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 					fontSize={20}
 				/>
 			</DefaultHeaderContainer>
-			<Body behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<Body behavior={'padding'}>
 				<BodyScrollable contentContainerStyle={{ padding: relativeScreenDensity(17) }} >
 					<TitleArea>
 						<DollarWhiteIcon width={30} height={30} />

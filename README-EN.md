@@ -66,3 +66,7 @@ npm i
 git checkout -b feat/fix/XXXX # creates the new branch you will work on
 # perform all commits and changes
 git commit -m "feat/fix/XXX: description"
+
+## License
+
+This project is released under the [MIT License](LICENSE). © 2022–2026 CORRE.SOCIAL.

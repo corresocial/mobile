@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable keyword-spacing */
+import { logEvent } from '@react-native-firebase/analytics'
 import * as Application from 'expo-application'
 import { Platform } from 'react-native'
 
@@ -7,7 +8,7 @@ import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 import { firebaseAnalytics } from '@infrastructure/firebase'
 
-type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'smas_search' | 'recovery_nis' | 'visualized_post' | 'visualized_petition' | 'visualized_poll'
+type EventName = 'opened_app' | 'opened_auth_screen' | 'user_authed' | 'user_posted' | 'chat_started' | 'reported_impact' | 'user_opened_screen' | 'user_subscribed' | 'visualized_post' | 'visualized_petition' | 'visualized_poll'
 
 interface EventObject extends Record<string, string | number | boolean | undefined> {
 	// deviceId?: string
@@ -26,8 +27,6 @@ interface EventObject extends Record<string, string | number | boolean | undefin
 	deviceId?: string
 	appVersion?: string
 	macroCategory?: MacroCategoriesType
-	smasResponse?: 'success' | 'failed' | 'not_found'
-	smasService?: 'BEE' | 'PBF' | 'CADUNICO' | 'ANONIMIZADO' | undefined
 }
 
 function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: boolean) {
@@ -40,7 +39,7 @@ function sendEvent(eventName: EventName, value: EventObject, sendWithDeviceId?: 
 		}
 		eventData.appVersion = Application.nativeBuildVersion as string
 
-		firebaseAnalytics.logEvent(eventName, eventData)
+		logEvent(firebaseAnalytics, eventName, eventData)
 	} catch (error) {
 		console.log('Erro ao enviar analytics para o Aptabase')
 		console.log(error)

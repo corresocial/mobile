@@ -14,7 +14,7 @@ import { EditContext } from '@contexts/EditContext'
 import { useLeaderAreaContext } from '@contexts/LeaderAreaContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 
-import { navigateToProfileView } from '@routes/auxMethods'
+import { navigateToHomeTabScreen, navigateToProfileView } from '@routes/auxMethods'
 import { ViewUnapprovedPostScreenProps } from '@routes/Stack/LeaderAreaStack/screenProps'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
@@ -101,7 +101,7 @@ function ViewUnapprovedPost({ route, navigation }: ViewUnapprovedPostScreenProps
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { // TODO TYpe
+		navigateToHomeTabScreen(navigation, 'ProfileStack', 'ContactUsInsertMessage', {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,

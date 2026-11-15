@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -52,7 +52,7 @@ function PostDate({
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(24)}

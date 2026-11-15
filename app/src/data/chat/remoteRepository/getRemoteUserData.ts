@@ -1,3 +1,5 @@
+import { get, ref } from '@react-native-firebase/database'
+
 import { ChatUserData } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
@@ -9,9 +11,9 @@ async function getRemoteUserData(userId: Id): Promise<ChatUserData | null> {
 			throw new Error(`◊UserId contém caracteres inválidos. Operação cancelada \n id: ${userId}`)
 		}
 
-		const realTimeDatabaseRef = firebaseDatabase.ref(`${userId}`)
+		const realTimeDatabaseRef = ref(firebaseDatabase, `${userId}`)
 
-		const snapshot = await realTimeDatabaseRef.once('value')
+		const snapshot = await get(realTimeDatabaseRef)
 		const remoteUser: ChatUserData | null = snapshot.val()
 		return remoteUser
 	} catch (error) {

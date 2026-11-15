@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { StatusBar, Platform, TextInput } from 'react-native'
+import { StatusBar, TextInput } from 'react-native'
 
 import { useCitizenRegistrationContext } from '@contexts/CitizenRegistrationContext'
 
@@ -88,7 +88,7 @@ export function InsertCitizenCellNumber({ route, navigation }: InsertCitizenCell
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}

@@ -1,13 +1,15 @@
+import { get, ref } from '@react-native-firebase/database'
+
 import { UserDatabase } from '@domain/chat/entity/types'
 import { Id } from '@domain/globalTypes'
 
 import { firebaseDatabase } from '@infrastructure/firebase'
 
 async function getUserChatIds(userId: Id): Promise<Id[]> {
-	const realTimeDatabaseRef = firebaseDatabase.ref(`${userId}`)
+	const realTimeDatabaseRef = ref(firebaseDatabase, `${userId}`)
 
 	try {
-		const snapshot = await realTimeDatabaseRef.once('value')
+		const snapshot = await get(realTimeDatabaseRef)
 		const chatData: UserDatabase | null = snapshot.val()
 		return chatData?.chatIds || []
 	} catch (error) {

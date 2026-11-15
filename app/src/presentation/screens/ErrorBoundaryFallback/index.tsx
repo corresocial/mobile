@@ -9,7 +9,7 @@ import { theme } from '@common/theme'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 
 interface ErrorBoundaryFallbackProps {
-	error: Error,
+	error: unknown,
 	resetError: Function
 }
 

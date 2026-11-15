@@ -6,7 +6,7 @@ import { relativeScreenDensity } from '@common/screenDimensions'
 interface SelectButtonsContainerProps {
 	backgroundColor: string
 	noPadding?: boolean
-	children: React.ReactChild | React.ReactChild[] | (React.ReactElement | null)[]
+	children: React.ReactElement | string | number | (React.ReactElement | string | number)[] | (React.ReactElement | null)[]
 }
 
 function SelectButtonsContainer({ backgroundColor, noPadding, children }: SelectButtonsContainerProps) {

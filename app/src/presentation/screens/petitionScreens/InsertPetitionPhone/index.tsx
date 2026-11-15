@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StatusBar, Platform, TextInput } from 'react-native'
+import { StatusBar, TextInput } from 'react-native'
 
 import { ExtraIdentificationRequest } from '@domain/petition/entity/types'
 
@@ -78,7 +78,7 @@ export function InsertPetitionPhone({ route, navigation }: InsertPetitionPhoneSc
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.colors.red[2] : theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}

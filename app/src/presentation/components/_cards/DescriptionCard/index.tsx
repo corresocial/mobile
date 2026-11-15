@@ -18,7 +18,7 @@ interface DescriptionCardProps {
 	text?: string
 	hightligtedWords?: string[]
 	textFontSize?: number
-	children?: React.ReactChild
+	children?: React.ReactElement | string | number
 	CustomHeaderIcon?: React.FC<SvgProps>
 	onEdit?: () => void
 }

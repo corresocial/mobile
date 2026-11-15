@@ -1,5 +1,5 @@
-import { Video } from 'expo-av'
 import { Image } from 'expo-image'
+import { VideoView as ExpoVideoView } from 'expo-video'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -13,7 +13,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	height: ${({ hasMedia }) => (
 		hasMedia
 			? relativeScreenDensity(370)
-			: relativeScreenDensity(175)
+			: relativeScreenDensity(195)
 	)}px;
 	min-height: ${relativeScreenDensity(135)}px;
     background-color: ${({ theme }) => theme.colors.black[4]};
@@ -61,7 +61,7 @@ export const VideoIconContainer = styled.View`
 	z-index: 10;
 `
 
-export const VideoView = styled(Video)`
+export const VideoView = styled(ExpoVideoView)`
 	flex: 1;
 `
 
@@ -126,7 +126,7 @@ export const InfoGroup = styled.View`
 export const InfoContainer = styled.View`
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.colors.white[4]};
-	height: ${relativeScreenHeight(4)}px;
+	min-height: ${relativeScreenHeight(4)}px;
 	border-radius: ${relativeScreenDensity(10)}px;
 	padding: ${relativeScreenDensity(6)}px;
 	align-items: center;

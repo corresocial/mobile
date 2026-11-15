@@ -1,7 +1,10 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { navigateToHomeTabStack } from '@routes/auxMethods'
 import { WhoWeAreTransformationScreenProps } from '@routes/Stack/ProfileStack/screenProps'
+
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
@@ -14,7 +17,12 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScreenProps) {
 	const navigateToHelpUs = () => {
-		navigation.navigate('Configurations')
+		if (!navigation.getState().routeNames.includes('Configurations')) { // Aberta pelo CitizenRegistrationStack
+			return navigateToHomeTabStack(navigation, 'ProfileStack', {
+				state: { routes: [{ name: 'Profile' }, { name: 'Configurations' }, { name: 'HelpUs' }] }
+			})
+		}
+		navigation.popTo('Configurations')
 		navigation.navigate('HelpUs')
 	}
 
@@ -42,17 +50,21 @@ function WhoWeAreTransformation({ route, navigation }: WhoWeAreTransformationScr
 						</Description>
 					</ContainerContent>
 				</DefaultCardContainer>
-				<VerticalSpacing />
-				<ButtonContainer>
-					<PrimaryButton
-						color={theme.colors.orange[3]}
-						label={'acensão social!'}
-						highlightedWords={['acensão']}
-						SecondSvgIcon={HandOnCorreWhiteIcon}
-						svgIconScale={['50%', '30%']}
-						onPress={navigateToHelpUs}
-					/>
-				</ButtonContainer>
+				{!PLANS_ARE_FREE && (
+					<>
+						<VerticalSpacing />
+						<ButtonContainer>
+							<PrimaryButton
+								color={theme.colors.orange[3]}
+								label={'acensão social!'}
+								highlightedWords={['acensão']}
+								SecondSvgIcon={HandOnCorreWhiteIcon}
+								svgIconScale={['50%', '30%']}
+								onPress={navigateToHelpUs}
+							/>
+						</ButtonContainer>
+					</>
+				)}
 			</Body>
 		</Container >
 	)

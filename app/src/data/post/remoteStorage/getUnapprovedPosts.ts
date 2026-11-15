@@ -1,3 +1,5 @@
+import { collection, getDocs, limit, orderBy, query, startAfter, where } from '@react-native-firebase/firestore'
+
 import { PostEntity } from '@domain/post/entity/types'
 
 import { POST_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
@@ -9,21 +11,23 @@ export async function getUnapprovedPosts(maxDocs = 1, lastDoc: PostEntity | null
 		let unapprovedPostsQuery
 
 		if (lastDoc) {
-			unapprovedPostsQuery = firebaseFirestore
-				.collection(POST_COLLECTION)
-				.where('unapprovedData.updatedAt', '!=', false)
-				.orderBy('unapprovedData.updatedAt', 'desc')
-				.limit(maxDocs)
-				.startAfter(lastDoc.updatedAt)
+			unapprovedPostsQuery = query(
+				collection(firebaseFirestore, POST_COLLECTION),
+				where('unapprovedData.updatedAt', '!=', false),
+				orderBy('unapprovedData.updatedAt', 'desc'),
+				limit(maxDocs),
+				startAfter(lastDoc.updatedAt)
+			)
 		} else {
-			unapprovedPostsQuery = firebaseFirestore
-				.collection(POST_COLLECTION)
-				.where('unapprovedData.updatedAt', '!=', false)
-				.orderBy('unapprovedData.updatedAt', 'desc')
-				.limit(maxDocs)
+			unapprovedPostsQuery = query(
+				collection(firebaseFirestore, POST_COLLECTION),
+				where('unapprovedData.updatedAt', '!=', false),
+				orderBy('unapprovedData.updatedAt', 'desc'),
+				limit(maxDocs)
+			)
 		}
 
-		const postsSnap = await unapprovedPostsQuery.get()
+		const postsSnap = await getDocs(unapprovedPostsQuery)
 		const posts = postsSnap.docs.map((doc) => ({ postId: doc.id, ...doc.data() } as PostEntity))
 		const filteredPosts = posts.filter(
 			(post) => post.unapprovedData && (post.unapprovedData as any).reject !== true

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { DaysOfWeek } from '@domain/post/entity/types'
 
@@ -41,6 +42,10 @@ function PostDaysOfWeek({
 	skipScreen,
 	savePostDaysOfWeek
 }: PostDaysOfWeekProps) {
+	// edge-to-edge no Android: botão flutuante acima da barra de navegação
+	const { bottom: bottomInset } = useSafeAreaInsets()
+	const androidBottomInset = Platform.OS === 'android' ? bottomInset : 0
+
 	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>(initialValue || [])
 	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
@@ -147,7 +152,7 @@ function PostDaysOfWeek({
 			{
 				selectedDays.length
 					? (
-						<FloatButtonContainer>
+						<FloatButtonContainer bottomInset={androidBottomInset}>
 							<PrimaryButton
 								color={theme.colors.green[3]}
 								label={'continuar'}

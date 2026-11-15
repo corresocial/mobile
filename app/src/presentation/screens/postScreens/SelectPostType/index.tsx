@@ -9,6 +9,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/screenProps'
 import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 
 import { CardsContainer, CardsContent, Container, SubscriptionButtonContainer } from './styles'
@@ -77,12 +78,14 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 		<ScreenContainer topSafeAreaColor={theme.colors.orange[3]}>
 			<FocusAwareStatusBar backgroundColor={theme.colors.orange[3]} barStyle={'dark-content'} />
 			<Container>
-				<SubscriptionPresentationModal
-					visibility={subscriptionModalIsVisible}
-					profilePictureUri={profilePictureUrl}
-					closeModal={() => setSubscriptionModalIsVisible(false)}
-					onPressButton={navigateToSelectSubscriptionRange}
-				/>
+				{!PLANS_ARE_FREE && (
+					<SubscriptionPresentationModal
+						visibility={subscriptionModalIsVisible}
+						profilePictureUri={profilePictureUrl}
+						closeModal={() => setSubscriptionModalIsVisible(false)}
+						onPressButton={navigateToSelectSubscriptionRange}
+					/>
+				)}
 				<SubtitleCard
 					text={'O que você quer postar?'}
 					highlightedText={['postar?']}
@@ -181,15 +184,19 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						}
 					</CardsContent>
 				</CardsContainer>
-				<SubtitleCard
-					text={'assinar o corre.'}
-					highlightedText={['corre']}
-					SvgIcon={HandOnMoneyWhiteIcon}
-				/>
-				<SubscriptionButtonContainer>
-					<SubscriptionButton onPress={adSubscriptionHandle} />
-					<VerticalSpacing />
-				</SubscriptionButtonContainer>
+				{!PLANS_ARE_FREE && (
+					<>
+						<SubtitleCard
+							text={'assinar o corre.'}
+							highlightedText={['corre']}
+							SvgIcon={HandOnMoneyWhiteIcon}
+						/>
+						<SubscriptionButtonContainer>
+							<SubscriptionButton onPress={adSubscriptionHandle} />
+							<VerticalSpacing />
+						</SubscriptionButtonContainer>
+					</>
+				)}
 			</Container >
 		</ScreenContainer>
 	)

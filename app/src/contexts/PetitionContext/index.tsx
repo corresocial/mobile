@@ -8,7 +8,7 @@ const initialValue: PetitionContextType = {
 	petitionDataContext: {} as PetitionEntity,
 	petitionSignatureData: {} as PrivatePetitionResponse,
 	petitionToRespond: {} as PetitionEntity,
-	petitionSignatureDataWithoutResponse: () => [] as ExtraIdentificationRequest[] || null,
+	petitionSignatureDataWithoutResponse: () => [] as ExtraIdentificationRequest[],
 	setPetitionDataOnContext: (data: PetitionEntityOptional) => { },
 	savePetitionToRespondOnContext: (petitionData: PetitionEntity) => { },
 	setPetitionSignatureOnContext: (data: Partial<PrivatePetitionResponse>) => { }

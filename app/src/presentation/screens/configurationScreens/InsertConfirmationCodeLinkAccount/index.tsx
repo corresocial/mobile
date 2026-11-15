@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Platform, StatusBar, TextInput } from 'react-native'
+import { StatusBar, TextInput } from 'react-native'
 
 import { useUserRepository } from '@data/user/useUserRepository'
 
@@ -11,7 +11,7 @@ import { useAuthenticationService } from '@services/authentication/useAuthentica
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, applyCodeInputChange } from '@common/auxiliaryFunctions'
 import { relativeScreenDensity } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -107,7 +107,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 				highlightedWords: ['código', 'expirou']
 			},
 			invalid: {
-				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantes',
+				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
 				highlightedWords: ['do', 'nosso', 'lado,']
 			}
 		}
@@ -162,7 +162,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 	const verificationCodeErrorTreatment = (errorCode: string) => {
 		console.log(errorCode)
-		if (errorCode === 'auth/code-expired' || errorCode === 'auth/session-expired') {
+		if (errorCode === 'auth/code-expired') {
 			return setExpiredCodeAfterSubmit(true)
 		}
 		if (errorCode === 'auth/invalid-verification-code') {
@@ -222,7 +222,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+		<Container behavior={'padding'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.colors.red[2] : theme.colors.orange[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				flexDirection={'column'}
@@ -271,7 +271,9 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 									defaultBackgroundColor={theme.colors.white[2]}
 									validBackgroundColor={theme.colors.orange[1]}
 									invalidBackgroundColor={getRelativeInputErrorStyle()}
-									maxLength={1}
+									maxLength={6}
+									autoComplete={'sms-otp'}
+									textContentType={'oneTimeCode'}
 									textIsValid={insertedCodeIsValid}
 									invalidTextAfterSubmit={invalidCodeAfterSubmit || expiredCodeAfterSubmit}
 									placeholder={'0'}
@@ -280,7 +282,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 									error={hasServerSideError}
 									filterText={filterLeavingOnlyNumbers}
 									validateText={(text: string) => validateCode(text)}
-									onChangeText={(text: string) => inputConfig.set(text)}
+									onChangeText={(text: string) => applyCodeInputChange(index, text, inputsConfig)}
 								/>
 							)
 						})

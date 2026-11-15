@@ -1,0 +1,12 @@
+{
+  /*
+    Instância SMAS (corresocialapp-smas), hoje DESATIVADA.
+    O app ainda referencia firebaseSmasDatabase (NotificationPublicServicesSettings:
+    getNotificationTokenByNis / updateSmasTokenNotification gravam /{nis} = uid), mas
+    esses fluxos já falham com a instância desativada. Nega tudo para o cliente.
+  */
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}

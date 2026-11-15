@@ -1,15 +1,18 @@
+import { arrayUnion, doc, setDoc } from '@react-native-firebase/firestore'
+
 import { PollEntityOptional } from '@domain/poll/entity/types'
 
 import { POLL_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
 
-import { firebase, firebaseFirestore } from '@infrastructure/firebase/index'
+import { firebaseFirestore } from '@infrastructure/firebase/index'
 
 async function updatePollArrayField(pollId: string, data: any, fieldName: keyof PollEntityOptional) {
-	const docRef = firebaseFirestore.collection(POLL_COLLECTION).doc(pollId)
+	const docRef = doc(firebaseFirestore, POLL_COLLECTION, pollId)
 
-	await docRef.set(
+	await setDoc(
+		docRef,
 		{
-			[fieldName as string]: firebase.firestore.FieldValue.arrayUnion(data),
+			[fieldName as string]: arrayUnion(data),
 			updatedAt: new Date(),
 		},
 		{ merge: true }

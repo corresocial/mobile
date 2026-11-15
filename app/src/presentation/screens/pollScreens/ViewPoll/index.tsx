@@ -17,7 +17,7 @@ import { usePollRegisterContext } from '@contexts/PollRegisterContext'
 import { navigateToProfileView } from '@routes/auxMethods'
 import { ViewPollScreenProps } from '@routes/Stack/PollStack/screenProps'
 import { PollStackParamList } from '@routes/Stack/PollStack/types'
-import { DiscordContactUsType, ReportedTarget } from '@services/discord/types/contactUs'
+import { ContactUsType, ReportedTarget } from '@services/contactUs/types'
 
 import { Body } from './styles'
 import DocumentWhiteIcon from '@assets/icons/document-white.svg'
@@ -122,7 +122,7 @@ function ViewPoll({ route, navigation }: ViewPollScreenProps) {
 		setPollOptionsIsOpen(false)
 		const params = {
 			title: 'denunciar',
-			contactUsType: 'denúncia' as DiscordContactUsType,
+			contactUsType: 'denúncia' as ContactUsType,
 			reportedType: 'poll' as ReportedTarget,
 			reportedId: pollData.pollId
 		}

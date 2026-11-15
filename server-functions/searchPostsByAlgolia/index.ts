@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin'
-import { onRequest, HttpsError } from 'firebase-functions/v2/https'
+import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import algoliasearch from 'algoliasearch'
-import { validateAuthToken, AuthError } from './validateAuthToken'
 
 // Prevent "App already exists" errors
 if (!admin.apps.length) {
@@ -28,32 +27,22 @@ import {
 	filterLocation
 } from './src/searchFilters'
 
-import { RequestBody } from './domain/entities/request'
+import { validateSearchRequest } from './src/validateSearchRequest'
 import { PostCollection, PostCollectionRequired } from './domain/entities/post/common'
 
-export const searchPostsByAlgolia = onRequest(async (request, response) => {
-	// 1. SECURITY: Validate authentication token
-	let userId: string;
-	try {
-		const auth = await validateAuthToken(request);
-		userId = auth.uid;
-		console.log(`Authenticated user: ${userId}`);
-	} catch (error) {
-		if (error instanceof AuthError) {
-			response.status(401).json({
-				error: error.message,
-				code: error.code
-			});
-			return;
-		}
-		response.status(401).json({ error: 'Authentication failed' });
-		return;
+export const searchPostsByAlgolia = onCall(async (request) => {
+	// 1. SECURITY: Authenticated users only
+	if (!request.auth) {
+		throw new HttpsError('unauthenticated', 'User must be logged in to search.');
 	}
 
-	try {
-		// 2. INPUT: Get data from request body
-		const { searchText, searchParams, searchByRange }: RequestBody = request.body
+	// 2. INPUT: Get data from request.data (v2 Callable), validated before going into Algolia filters
+	const { searchText, searchParams, searchByRange } = validateSearchRequest(request.data)
 
+	// Securely get userId from the auth token, not the body
+	const userId = request.auth.uid;
+
+	try {
 		const searchFilters = {
 			completedFilter: '',
 			cityFilter: '',
@@ -127,14 +116,13 @@ export const searchPostsByAlgolia = onRequest(async (request, response) => {
 
 		const postsByRange = spreadPostsByRange(filteredPosts)
 
-		// 3. RETURN: Return data with HTTP response
-		response.status(200).json(postsByRange)
+		// 3. RETURN: Directly return data (no res.status needed)
+		return postsByRange
 
-	} catch (err) {
-		console.error('Error searching Algolia:', err)
-		response.status(500).json({
-			error: 'Unable to search posts',
-			code: 'internal'
-		})
+	} catch (err: any) {
+		// Algolia errors carry the request body (search text, geohashes, city) and the response: log only the summary
+		console.error('Error searching Algolia:', { name: err?.name, status: err?.status, message: err?.message })
+		// No internal details to the client
+		throw new HttpsError('internal', 'Unable to search posts')
 	}
 })

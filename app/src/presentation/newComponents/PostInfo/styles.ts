@@ -26,7 +26,7 @@ interface TitleProps {
 
 export const Title = styled(CommonText) <TitleProps>`
 	color: ${({ theme }) => theme.colors.black[4]};
-	${({ theme, titleLarge }) => titleLarge && `font-size: ${theme.fontSizes[6]}px};`}
+	${({ theme, titleLarge }) => titleLarge && `font-size: ${theme.fontSizes[6]}px;`}
 `
 
 export const ColumnContainer = styled.View`

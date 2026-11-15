@@ -1,11 +1,12 @@
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { signInWithCredential } from '@react-native-firebase/auth'
+import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin'
 
 import { getEnvVars } from '@infrastructure/environment'
 import { authProviders, firebaseAuth } from '@infrastructure/firebase'
 
 async function signInByGoogleCredential(justReturnCredential?: boolean) {
 	try {
-		const { AUTH_WEB_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
+		const { AUTH_IOS_CLIENT_ID, AUTH_WEB_CLIENT_ID } = getEnvVars()
 		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
 
 		GoogleSignin.configure({
@@ -23,18 +24,18 @@ async function signInByGoogleCredential(justReturnCredential?: boolean) {
 		}
 
 		const res = await GoogleSignin.signIn()
-		if (!res || (res && !res.data)) {
+		if (!isSuccessResponse(res)) {
 			if (justReturnCredential) return null
 			return { email: '', userId: '' }
 		}
 
-		const googleCredential = authProviders.GoogleAuthProvider.credential(res.data?.idToken!)
+		const googleCredential = authProviders.GoogleAuthProvider.credential(res.data.idToken)
 
 		if (justReturnCredential) {
 			return googleCredential
 		}
 
-		const userCredential = await firebaseAuth.signInWithCredential(googleCredential)
+		const userCredential = await signInWithCredential(firebaseAuth, googleCredential)
 		const user = userCredential?.user
 		return {
 			email: user?.email || '',

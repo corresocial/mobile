@@ -1,4 +1,4 @@
-import { Video } from 'expo-av'
+import { VideoView } from 'expo-video'
 import styled from 'styled-components/native'
 
 import { relativeScreenDensity, relativeScreenWidth } from '@common/screenDimensions'
@@ -12,7 +12,7 @@ interface ContainerProps {
 	borderRightWidth?: number
 }
 
-export const PortraitVideo = styled(Video)`
+export const PortraitVideo = styled(VideoView)`
 	width: 100%;
 	height: 100%;
 `

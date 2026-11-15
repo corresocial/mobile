@@ -48,28 +48,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const https_1 = require("firebase-functions/v2/https");
 const admin = __importStar(require("firebase-admin"));
 const axios_1 = __importDefault(require("axios"));
-const validateAuthToken_1 = require("./validateAuthToken");
 if (!admin.apps.length) {
     admin.initializeApp();
 }
-exports.discordIntegration = (0, https_1.onRequest)({ region: 'southamerica-east1' }, (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    const { content, type } = request.body;
-    // Allow anonymous error reporting, require auth for other types
+exports.discordIntegration = (0, https_1.onCall)({ region: 'southamerica-east1' }, (request) => __awaiter(void 0, void 0, void 0, function* () {
+    const { content, type } = request.data;
+    // Allow anonymous error reporting
     if (type !== 'erro') {
-        try {
-            const auth = yield (0, validateAuthToken_1.validateAuthToken)(request);
-            console.log(`Authenticated user: ${auth.uid}`);
-        }
-        catch (error) {
-            if (error instanceof validateAuthToken_1.AuthError) {
-                response.status(401).json({
-                    error: error.message,
-                    code: error.code
-                });
-                return;
-            }
-            response.status(401).json({ error: 'Authentication failed' });
-            return;
+        if (!request.auth) {
+            throw new https_1.HttpsError('unauthenticated', 'User must be logged in');
         }
     }
     // Determine Webhook URL based on type
@@ -80,24 +67,17 @@ exports.discordIntegration = (0, https_1.onRequest)({ region: 'southamerica-east
         webhookUrl = process.env.DENUNCIAR_WEBHOOK;
     if (!webhookUrl) {
         console.error(`Webhook URL not configured for type: ${type}`);
-        response.status(500).json({
-            error: 'Server configuration error',
-            code: 'internal'
-        });
-        return;
+        throw new https_1.HttpsError('internal', 'Server configuration error');
     }
     try {
         // Forward to Discord
-        const axiosResponse = yield axios_1.default.post(`${webhookUrl}?wait=true`, {
+        const response = yield axios_1.default.post(`${webhookUrl}?wait=true`, {
             content: content
         });
-        response.status(200).json(axiosResponse.data);
+        return response.data;
     }
     catch (error) {
         console.error('Error forwarding to Discord:', error);
-        response.status(500).json({
-            error: 'Failed to send message',
-            code: 'internal'
-        });
+        throw new https_1.HttpsError('internal', 'Failed to send message');
     }
 }));

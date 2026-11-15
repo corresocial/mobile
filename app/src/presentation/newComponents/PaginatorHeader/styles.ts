@@ -17,7 +17,7 @@ export const Container = styled.View<ContainerProps>`
 
 export const ButtonContainer = styled.View`
 	flex: 1;
-	justify-content: end ;
+	justify-content: flex-start;
 	align-items: center;
 `
 

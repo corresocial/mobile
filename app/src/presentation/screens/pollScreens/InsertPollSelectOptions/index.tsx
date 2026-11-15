@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, ScrollView, StatusBar, TextInput } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useRef, useState } from 'react'
+import { Keyboard, ScrollView, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
 import { usePollRegisterContext } from '@contexts/PollRegisterContext'
@@ -8,7 +9,6 @@ import { InsertPollSelectOptionsScreenProps } from '@routes/Stack/PollStack/scre
 
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
-import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -43,14 +43,14 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 		selectOptionTextInput: useRef<TextInput>(null),
 	}
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	useFocusEffect(useCallback(() => {
+		const keyboardDidShowSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		return () => {
+			keyboardDidShowSubscription.remove()
+			keyboardDidHideSubscription.remove()
+		}
+	}, []))
 
 	const validatePollQuestions = (text: string) => {
 		const isValid = (text).trim().length >= 1
@@ -110,11 +110,11 @@ function InsertSelectOptions({ route, navigation }: InsertPollSelectOptionsScree
 
 	const savePollQuestions = () => {
 		setRegisteredQuestionOnPollDataContext('select', selectOptions, !!route.params.multiSelect)
-		navigation.navigate('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
+		navigation.popTo('InsertPollQuestions', { editMode: !!route.params?.editMode, initialValue: null })
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.purple[2]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}

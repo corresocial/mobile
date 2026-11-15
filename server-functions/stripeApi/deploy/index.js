@@ -60,7 +60,6 @@ const https_1 = require("firebase-functions/v2/https");
 const admin = __importStar(require("firebase-admin"));
 const express_1 = __importDefault(require("express"));
 const stripe_1 = require("stripe");
-const validateAuthToken_1 = require("./validateAuthToken");
 if (!admin.apps.length)
     admin.initializeApp();
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -68,7 +67,7 @@ if (!stripeSecretKey) {
     console.warn('WARNING: STRIPE_SECRET_KEY is missing. Stripe functionality will fail until it is set.');
 }
 const stripe = new stripe_1.Stripe(stripeSecretKey || 'sk_test_placeholder', {
-    apiVersion: '2026-01-28.clover',
+    apiVersion: '2025-12-15.clover',
 });
 const getCustomerId = (uid) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -76,29 +75,15 @@ const getCustomerId = (uid) => __awaiter(void 0, void 0, void 0, function* () {
     const userDoc = yield admin.firestore().collection('users').doc(uid).get();
     return (_a = userDoc.data()) === null || _a === void 0 ? void 0 : _a.stripeCustomerId;
 });
-exports.stripeApi = (0, https_1.onRequest)({ region: 'southamerica-east1' }, (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+exports.stripeApi = (0, https_1.onCall)({ region: 'southamerica-east1' }, (request) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    // Validate authentication token
-    let auth;
+    if (!request.auth)
+        throw new https_1.HttpsError('unauthenticated', 'User must be logged in');
+    const { uid, token } = request.auth;
+    const _c = request.data, { action } = _c, data = __rest(_c, ["action"]);
+    const email = token.email || '';
+    const name = token.name || '';
     try {
-        auth = yield (0, validateAuthToken_1.validateAuthToken)(request);
-        console.log(`Authenticated user: ${auth.uid}`);
-    }
-    catch (error) {
-        if (error instanceof validateAuthToken_1.AuthError) {
-            response.status(401).json({
-                error: error.message,
-                code: error.code
-            });
-            return;
-        }
-        response.status(401).json({ error: 'Authentication failed' });
-        return;
-    }
-    const { uid, email, name } = auth;
-    const _c = request.body, { action } = _c, data = __rest(_c, ["action"]);
-    try {
-        let result;
         switch (action) {
             case 'create-customer': {
                 let customerId = yield getCustomerId(uid);
@@ -109,87 +94,62 @@ exports.stripeApi = (0, https_1.onRequest)({ region: 'southamerica-east1' }, (re
                     customerId = customer.id;
                     yield admin.firestore().collection('users').doc(uid).set({ stripeCustomerId: customerId }, { merge: true });
                 }
-                result = { customerId };
-                break;
+                return { customerId };
             }
             case 'update-customer': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
-                    return;
-                }
-                result = yield stripe.customers.update(customerId, data);
-                break;
+                if (!customerId)
+                    throw new https_1.HttpsError('not-found', 'Customer not found');
+                return yield stripe.customers.update(customerId, data);
             }
             case 'payment-methods': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    result = { data: [] };
-                    break;
-                }
-                result = yield stripe.paymentMethods.list({ customer: customerId, type: 'card' });
-                break;
+                if (!customerId)
+                    return { data: [] };
+                return yield stripe.paymentMethods.list({ customer: customerId, type: 'card' });
             }
             case 'attach-payment-method': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
-                    return;
-                }
-                result = yield stripe.paymentMethods.attach(data.paymentMethodId, { customer: customerId });
-                break;
+                if (!customerId)
+                    throw new https_1.HttpsError('not-found', 'Customer not found');
+                return yield stripe.paymentMethods.attach(data.paymentMethodId, { customer: customerId });
             }
             case 'set-default-payment-method': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
-                    return;
-                }
-                result = yield stripe.customers.update(customerId, {
+                if (!customerId)
+                    throw new https_1.HttpsError('not-found', 'Customer not found');
+                return yield stripe.customers.update(customerId, {
                     invoice_settings: { default_payment_method: data.paymentMethodId },
                 });
-                break;
             }
             case 'subscriptions': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    result = { data: [] };
-                    break;
-                }
-                result = yield stripe.subscriptions.list({
+                if (!customerId)
+                    return { data: [] };
+                const res = yield stripe.subscriptions.list({
                     customer: customerId,
                     status: data.status || 'active',
                 });
-                break;
+                return res;
             }
             case 'create-subscription': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
-                    return;
-                }
+                if (!customerId)
+                    throw new https_1.HttpsError('not-found', 'Customer not found');
                 const trialEndDate = Math.round((Date.now() / 1000)) + 31650000;
                 const freeTrialParams = data.freeTrial ? { trial_end: trialEndDate } : {};
                 const subscription = yield stripe.subscriptions.create(Object.assign(Object.assign({ customer: customerId, items: [{ price: data.priceId }] }, freeTrialParams), { payment_behavior: 'allow_incomplete', payment_settings: { save_default_payment_method: 'on_subscription' }, expand: ['latest_invoice.payment_intent'] }));
                 console.log('sub', JSON.stringify(subscription));
-                result = {
+                return {
                     subscriptionId: subscription.id,
                     clientSecret: (_b = (_a = subscription.latest_invoice) === null || _a === void 0 ? void 0 : _a.payment_intent) === null || _b === void 0 ? void 0 : _b.client_secret,
                 };
-                break;
             }
             case 'update-subscription': {
                 console.log('update-subscription', data.subscriptionId, data.priceId);
                 const sub = yield stripe.subscriptions.retrieve(data.subscriptionId);
-                if (!sub) {
-                    response.status(404).json({ error: 'Subscription not found', code: 'not-found' });
-                    return;
-                }
-                const customerId = yield getCustomerId(uid);
-                if (sub.customer !== customerId) {
-                    response.status(403).json({ error: 'Assinatura não pertence ao usuário autenticado', code: 'permission-denied' });
-                    return;
-                }
+                if (!sub)
+                    throw new https_1.HttpsError('not-found', 'Subscription not found');
                 console.log('sub-to-update', JSON.stringify(sub));
                 const updatedSub = yield stripe.subscriptions.update(data.subscriptionId, {
                     proration_behavior: 'always_invoice',
@@ -198,72 +158,47 @@ exports.stripeApi = (0, https_1.onRequest)({ region: 'southamerica-east1' }, (re
                     items: [{ id: sub.items.data[0].id, price: data.priceId }],
                 });
                 console.log('updated-sub', JSON.stringify(updatedSub));
-                result = updatedSub;
-                break;
+                return updatedSub;
             }
             case 'cancel-subscription': {
-                const sub = yield stripe.subscriptions.retrieve(data.subscriptionId);
-                if (!sub) {
-                    response.status(404).json({ error: 'Subscription not found', code: 'not-found' });
-                    return;
-                }
-                const customerId = yield getCustomerId(uid);
-                if (sub.customer !== customerId) {
-                    response.status(403).json({ error: 'Assinatura não pertence ao usuário autenticado', code: 'permission-denied' });
-                    return;
-                }
-                result = yield stripe.subscriptions.cancel(data.subscriptionId);
-                break;
+                return yield stripe.subscriptions.cancel(data.subscriptionId);
             }
             case 'refund-last-payment': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
-                    return;
-                }
+                if (!customerId)
+                    throw new https_1.HttpsError('not-found', 'Customer not found');
                 const paymentIntents = yield stripe.paymentIntents.list({
                     customer: customerId,
                     limit: 10, // Fetch a few to find the latest succeeded one
                 });
                 const successfulPI = paymentIntents.data.find(pi => pi.status === 'succeeded' && pi.amount > 1);
-                if (!successfulPI) {
-                    response.status(404).json({ error: 'No successful payment found', code: 'not-found' });
-                    return;
-                }
-                result = yield stripe.refunds.create({ payment_intent: successfulPI.id });
-                break;
+                if (!successfulPI)
+                    throw new https_1.HttpsError('not-found', 'No successful payment found');
+                return yield stripe.refunds.create({ payment_intent: successfulPI.id });
             }
             case 'send-receipt': {
                 const customerId = yield getCustomerId(uid);
-                if (!customerId) {
-                    response.status(404).json({ error: 'Customer not found', code: 'not-found' });
-                    return;
-                }
+                if (!customerId)
+                    throw new https_1.HttpsError('not-found', 'Customer not found');
                 const charges = yield stripe.charges.list({
                     customer: customerId,
                     limit: 1,
                 });
-                if (charges.data.length === 0) {
-                    response.status(404).json({ error: 'No charge found', code: 'not-found' });
-                    return;
-                }
+                if (charges.data.length === 0)
+                    throw new https_1.HttpsError('not-found', 'No charge found');
                 const updatedCharge = yield stripe.charges.update(charges.data[0].id, { receipt_email: data.email });
-                result = { receipt_email: updatedCharge.receipt_email, receipt_url: charges.data[0].receipt_url };
-                break;
+                return { receipt_email: updatedCharge.receipt_email, receipt_url: charges.data[0].receipt_url };
             }
             case 'products': {
-                result = yield stripe.products.list({ expand: ['data.default_price'], active: true });
-                break;
+                return yield stripe.products.list({ expand: ['data.default_price'], active: true });
             }
             default:
-                response.status(400).json({ error: `Unknown action: ${action}`, code: 'invalid-argument' });
-                return;
+                throw new https_1.HttpsError('invalid-argument', `Unknown action: ${action}`);
         }
-        response.status(200).json(result);
     }
     catch (error) {
         console.error(`Error in action ${action}:`, error);
-        response.status(500).json({ error: error.message, code: 'internal' });
+        throw new https_1.HttpsError('internal', error.message);
     }
 }));
 const webhookApp = (0, express_1.default)();

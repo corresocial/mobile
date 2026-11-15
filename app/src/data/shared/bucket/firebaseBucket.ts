@@ -1,3 +1,6 @@
+import { getDownloadURL, putFile, ref } from '@react-native-firebase/storage'
+import uuid from 'react-uuid'
+
 import { UploadObjects, UploadPath } from './types'
 
 import { firebaseStorage } from '@infrastructure/firebase'
@@ -21,7 +24,7 @@ async function processUpload(mediaUrl: string, uploadPath: UploadPath, folder: s
 				},
 				async () => {
 					try {
-						const downloadURL = await fileRef.getDownloadURL()
+						const downloadURL = await getDownloadURL(fileRef)
 						console.log(downloadURL)
 						resolve(downloadURL)
 					} catch (error) {
@@ -39,10 +42,11 @@ export async function configUploadObjects(localPath: string, path: UploadPath, f
 	try {
 		const fileExtention = folder === 'pictures' ? 'jpg' : 'mp4'
 
-		const storageFilePath = `${folder}/${path}/${Date.now()}.${fileExtention}`
+		// uploadMedia prepara todos os arquivos no mesmo tick, então só o Date.now() repetia o nome e um arquivo sobrescrevia o outro
+		const storageFilePath = `${folder}/${path}/${Date.now()}-${uuid()}.${fileExtention}`
 
-		const fileRef = firebaseStorage.ref(storageFilePath)
-		const task = fileRef.putFile(localPath)
+		const fileRef = ref(firebaseStorage, storageFilePath)
+		const task = putFile(fileRef, localPath)
 
 		return { task, fileRef } as UploadObjects
 	} catch (error) {

@@ -1,3 +1,5 @@
+import { doc, setDoc } from '@react-native-firebase/firestore'
+
 import { PetitionEntityOptional } from '@domain/petition/entity/types'
 
 import { PETITION_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
@@ -8,9 +10,10 @@ type DateFirestore = { nanoseconds: number, seconds: number, _seconds: number };
 
 async function updatePetition(petitionId: string, data: PetitionEntityOptional) {
 	const createdAt = data.createdAt ? { createdAt: getNewDate(data.createdAt) } : {}
-	const docRef = firebaseFirestore.collection(PETITION_COLLECTION).doc(petitionId)
+	const docRef = doc(firebaseFirestore, PETITION_COLLECTION, petitionId)
 
-	await docRef.set(
+	await setDoc(
+		docRef,
 		{ ...data, updatedAt: new Date(), ...createdAt },
 		{ merge: true }
 	)

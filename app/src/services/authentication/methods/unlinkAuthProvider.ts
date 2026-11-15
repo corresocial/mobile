@@ -1,3 +1,5 @@
+import { unlink } from '@react-native-firebase/auth'
+
 import { firebaseAuth } from '@infrastructure/firebase'
 
 import { ProviderId } from '../AuthenticationServiceInterface'
@@ -9,7 +11,7 @@ async function unlinkAuthProvider(providerId: ProviderId): Promise<boolean> {
 			throw new Error('No current user')
 		}
 
-		await currentUser.unlink(providerId)
+		await unlink(currentUser, providerId)
 		return true
 	} catch (error: any) {
 		console.error(error)

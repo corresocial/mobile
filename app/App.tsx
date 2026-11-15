@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, ParamListBase, useNavigationContainerRef } from '@react-navigation/native'
+import { createURL } from 'expo-linking'
 import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from 'styled-components/native'
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
@@ -44,11 +46,11 @@ function App() {
 		}, 300)
 	}
 
-	const routeNameRef = React.useRef<string>()
-	const navigationRef = React.useRef<any>()
+	const routeNameRef = React.useRef<string | undefined>(undefined)
+	const navigationRef = useNavigationContainerRef<ParamListBase>()
 
 	const { defaultCachePersistence } = useCacheRepository()
-	/* const linking = {
+	const linking = {
 		prefixes: [createURL('', { scheme: 'com.corresocial.corresocial' }), createURL('', { scheme: 'corre' })],
 		config: {
 			screens: {
@@ -57,7 +59,7 @@ function App() {
 				}
 			},
 		},
-	} */
+	}
 
 	const asyncStoragePersister = createAsyncStoragePersister({ storage: AsyncStorage })
 	const queryClient = new QueryClient({
@@ -74,37 +76,40 @@ function App() {
 			fallback={ErrorBoundaryFallback}
 			onError={errorBoundaryHandler}
 		>
-			<NavigationContainer
-				ref={navigationRef}
-				onReady={() => {
-					routeNameRef.current = navigationRef.current.getCurrentRoute().name
-				}}
-				onStateChange={() => {
-					const previousRouteName = routeNameRef.current
-					const currentRouteName = navigationRef.current.getCurrentRoute().name
-					if (previousRouteName !== currentRouteName) {
-						sendEvent('user_opened_screen', { screenName: currentRouteName })
-					}
-					routeNameRef.current = currentRouteName
-				}}
-			>
-				<ThemeProvider theme={theme}>
-					<GestureHandlerRootView style={{ flex: 1 }}>
-						<BottomSheetModalProvider>
-							<AlertProvider>
-								<LoaderProvider>
-									<PersistQueryClientProvider
-										client={queryClient}
-										persistOptions={{ persister: asyncStoragePersister }}
-									>
-										<AuthRegisterStack />
-									</PersistQueryClientProvider>
-								</LoaderProvider>
-							</AlertProvider>
-						</BottomSheetModalProvider>
-					</GestureHandlerRootView>
-				</ThemeProvider>
-			</NavigationContainer >
+			<SafeAreaProvider>
+				<NavigationContainer
+					ref={navigationRef}
+					linking={linking}
+					onReady={() => {
+						routeNameRef.current = navigationRef.getCurrentRoute()?.name
+					}}
+					onStateChange={() => {
+						const previousRouteName = routeNameRef.current
+						const currentRouteName = navigationRef.getCurrentRoute()?.name
+						if (previousRouteName !== currentRouteName) {
+							sendEvent('user_opened_screen', { screenName: currentRouteName })
+						}
+						routeNameRef.current = currentRouteName
+					}}
+				>
+					<ThemeProvider theme={theme}>
+						<GestureHandlerRootView style={{ flex: 1 }}>
+							<BottomSheetModalProvider>
+								<AlertProvider>
+									<LoaderProvider>
+										<PersistQueryClientProvider
+											client={queryClient}
+											persistOptions={{ persister: asyncStoragePersister }}
+										>
+											<AuthRegisterStack />
+										</PersistQueryClientProvider>
+									</LoaderProvider>
+								</AlertProvider>
+							</BottomSheetModalProvider>
+						</GestureHandlerRootView>
+					</ThemeProvider>
+				</NavigationContainer >
+			</SafeAreaProvider>
 		</Sentry.ErrorBoundary>
 	)
 }

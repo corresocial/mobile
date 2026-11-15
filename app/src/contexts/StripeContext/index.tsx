@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { httpsCallable } from '@react-native-firebase/functions'
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, createContext, useEffect, useState } from 'react'
 
@@ -14,7 +15,8 @@ import { useCacheRepository } from '@data/application/cache/useCacheRepository'
 import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
-import { callCloudFunction } from '@infrastructure/firebase/cloudFunctions'
+import { firebaseFunctions } from '@infrastructure/firebase'
+import { PLANS_ARE_FREE } from '@services/stripe/checkFreeTrialRange'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
@@ -99,6 +101,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const navigation = useNavigation<UserStackNavigationProps>()
 
 	useEffect(() => {
+		if (PLANS_ARE_FREE) return
 		getProducts()
 		if (userHasSubscription()) {
 			checkCurrentSubscriptionStatus()
@@ -107,9 +110,10 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const callBackend = async (endpoint: string, data?: any, method: 'GET' | 'POST' | 'DELETE' = 'POST') => {
 		const action = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint
+		const stripeApi = httpsCallable(firebaseFunctions, 'stripeApi')
 		const payload = { action, ...data }
-		const response = await callCloudFunction('stripeApi', payload)
-		return response
+		const response = await stripeApi(payload)
+		return response as any
 	}
 
 	async function getProducts() {
@@ -394,15 +398,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	const navigateToEditCurrentPlanScreen = () => {
-		navigation.navigate('HomeTab', {
-			screen: 'ProfileStack',
-			params: {
-				screen: 'SelectSubscriptionRange',
-				params: {
-					editMode: true,
-					initialValue: 'value'
-				}
-			}
+		// O provider fica fora do Stack.Navigator do UserStack, então a navegação parte do AuthRegisterStack
+		// SelectSubscriptionRange não é registrada na ProfileStack, então no v6 apenas a aba de perfil era aberta; comportamento mantido
+		navigation.navigate('UserStack' as any, {
+			screen: 'HomeTab',
+			pop: true, // Volta para a HomeTab existente, como o navigate do v6
+			params: { screen: 'ProfileStack' }
 		} as any)
 	}
 
@@ -434,9 +435,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 				closeModal={toggleInvalidSubscriptionModalVisibility}
 				onPressButton={navigateToEditCurrentPlanScreen}
 			/>
-			<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
-				{children}
-			</StripeProviderRaw>
+			{/* Com os planos grátis não há chave do Stripe em produção: o SDK não é iniciado */}
+			{PLANS_ARE_FREE
+				? children
+				: (
+					<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
+						{children}
+					</StripeProviderRaw>
+				)}
 		</StripeContext.Provider>
 	)
 }

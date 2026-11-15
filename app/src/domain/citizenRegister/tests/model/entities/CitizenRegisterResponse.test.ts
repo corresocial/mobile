@@ -5,6 +5,7 @@ import { sharedErrors } from '@domain/shared/constants/common/errorMessages'
 
 const questionResponse: CitizenRegisterQuestionResponse = {
 	questionId: 'Q12345',
+	slug: 'faixaEtaria',
 	question: 'Qual é a sua faixa etária?',
 	questionType: 'select',
 	response: ['A'],

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Platform, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { AlertContext } from '@contexts/AlertContext'
 import { ChatContext } from '@contexts/ChatContext'
@@ -48,9 +48,9 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 	const toggleNotificationState = async () => {
 		try {
 			setIsLoading(true)
-			await setPushNotificationState(!notificationIsEnabled)
-			setNotificationIsEnabled(!notificationIsEnabled)
-			updateNotificationState({ configNotificationButton: notificationIsEnabled })
+			const notificationEnabled = await setPushNotificationState(!notificationIsEnabled)
+			setNotificationIsEnabled(notificationEnabled)
+			updateNotificationState({ configNotificationButton: !notificationEnabled })
 			setTimeout(() => {
 				setIsLoading(false)
 			}, 1000)
@@ -60,7 +60,7 @@ function NotificationSettings({ navigation }: NotificationSettingsScreenProps) {
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<Container behavior={'padding'}>
 			<StatusBar backgroundColor={theme.colors.white[3]} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

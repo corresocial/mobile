@@ -32,10 +32,10 @@ export const MyLocationButtonContainer = styled.View`
     z-index: 1;
 `
 
-export const ButtonContainerBottom = styled.View`
+export const ButtonContainerBottom = styled.View<{ bottomInset?: number }>`
 	padding: 0px ${relativeScreenWidth(7)}px;
     width: 100%;
     position: absolute;
-    bottom: ${relativeScreenHeight(5)}px;
+    bottom: ${({ bottomInset = 0 }) => relativeScreenHeight(5) + bottomInset}px;
     z-index: 1;
 `

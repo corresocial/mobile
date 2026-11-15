@@ -1,3 +1,5 @@
+import { doc, getDoc } from '@react-native-firebase/firestore'
+
 import { PrivateUserEntity } from '@domain/user/entity/types'
 
 import { USER_COLLECTION } from '@data/shared/storageKeys/remoteStorageKeys'
@@ -6,14 +8,10 @@ import { firebaseFirestore } from '@infrastructure/firebase'
 
 async function getPrivateContacts(userId: string) {
 	try {
-		const docRef = firebaseFirestore
-			.collection(USER_COLLECTION)
-			.doc(userId)
-			.collection('private')
-			.doc('contacts')
+		const docRef = doc(firebaseFirestore, USER_COLLECTION, userId, 'private', 'contacts')
 
-		const docSnap = await docRef.get()
-		if (docSnap.exists) {
+		const docSnap = await getDoc(docRef)
+		if (docSnap.exists()) {
 			return { ...docSnap.data() as PrivateUserEntity['contacts'] }
 		}
 

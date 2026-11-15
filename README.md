@@ -78,3 +78,7 @@ git commit -m "feat/fix/XXX: descrição"
 💡 Todo esse processo de alternância de branchs, commits e publicação de novas branchs no github pode ser facilmente realizado pelo próprio VS Code na aba de Source Control, veja [Como gerenciar o git pelo VSCode](https://www.youtube.com/watch?v=HIqyLRKv-YE)
 
 💡 Criar Pull Request diretamente no repositório online.
+
+## Licença
+
+Este projeto é distribuído sob a [licença MIT](LICENSE). © 2022–2026 CORRE.SOCIAL.

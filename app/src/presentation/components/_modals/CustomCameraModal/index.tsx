@@ -1,6 +1,5 @@
 import { Camera, CameraView, CameraType, FlashMode } from 'expo-camera'
 import * as Device from 'expo-device'
-import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState, useRef } from 'react'
 import { ActivityIndicator, Modal, StatusBar, View } from 'react-native'
 
@@ -44,11 +43,9 @@ function CustomCameraModal({
 	const [cameraFacing, setCameraFacing] = useState<CameraType>('back')
 	const [flashMode, setFlashMode] = useState<FlashMode>('off')
 	const [cameraHasPermission, setCameraHasPermission] = useState(false)
-	const [mediaLibrayHasPermission, setMediaLibraryHasPermission] = useState(false)
 	const cameraRef = useRef<CameraView>(null)
 
 	useEffect(() => {
-		getMediaLibraryPermissions()
 		Camera.requestCameraPermissionsAsync()
 			.then(({ status }: any) => {
 				setCameraHasPermission(status === 'granted')
@@ -63,11 +60,6 @@ function CustomCameraModal({
 	const getCameraPermissions = async () => {
 		const { status } = await Camera.requestCameraPermissionsAsync()
 		setCameraHasPermission(status === 'granted')
-	}
-
-	const getMediaLibraryPermissions = async () => {
-		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
-		setMediaLibraryHasPermission(status === 'granted')
 	}
 
 	const toggleFlashMode = () => {
@@ -98,12 +90,9 @@ function CustomCameraModal({
 				backgroundColor={theme.colors.black[4]}
 				barStyle={'dark-content'}
 			/>
-			{!cameraHasPermission && !mediaLibrayHasPermission ? (
+			{!cameraHasPermission ? (
 				<NotPermissionContainer
-					onPress={() => {
-						getCameraPermissions()
-						getMediaLibraryPermissions()
-					}}
+					onPress={getCameraPermissions}
 					activeOpacity={0.9}
 				>
 					{
@@ -112,7 +101,7 @@ function CustomCameraModal({
 							: (
 								<>
 									<NotPermissionText>
-										{'Você não permitiu o uso da câmera ou galeria, você precisa ir em configurações "corre." e permitir.'}
+										{'Você não permitiu o uso da câmera, você precisa ir em configurações "corre." e permitir.'}
 									</NotPermissionText>
 									<PrimaryButton
 										label={'voltar'}

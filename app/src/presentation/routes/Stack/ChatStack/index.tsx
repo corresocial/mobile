@@ -12,6 +12,12 @@ import { PostView } from '@screens/viewPostScreens/PostView'
 
 const Stack = createStackNavigator<ChatStackParamList>()
 
+// A conversa é identificada pelo par de usuários, pois o chatId chega vazio quando o chat é aberto a partir de um perfil ou post
+const getChatMessagesId = ({ params }: { params: ChatStackParamList['ChatMessages'] }) => {
+	const usersIds = [params?.chat?.user1?.userId, params?.chat?.user2?.userId]
+	return usersIds.every(Boolean) ? usersIds.sort().join('_') : undefined
+}
+
 export function ChatStack({ route, navigation }: any) { // REFACTOR type route
 	useHomeTabDisplay<'ProfileStack', ChatStackParamList>({
 		navigation,
@@ -29,10 +35,10 @@ export function ChatStack({ route, navigation }: any) { // REFACTOR type route
 			}}
 		>
 			<Stack.Screen name={'ChatConversations'} component={ChatConversations} />
-			<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
+			<Stack.Screen name={'ChatMessages'} component={ChatMessages} getId={getChatMessagesId} />
 
 			{/* REFACTOR conflito de tipagem  das telas que reaproveitam em diferentes stacks */}
-			<Stack.Screen name={'ProfileChat'} component={Profile as any} />
+			<Stack.Screen name={'ProfileChat'} component={Profile as any} getId={({ params }) => params?.userId || undefined} />
 			<Stack.Screen name={'PostViewChat'} component={PostView as any} />
 		</Stack.Navigator>
 	)

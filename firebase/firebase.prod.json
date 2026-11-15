@@ -1,0 +1,22 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "rules": "firestore.rules"
+  },
+  "database": [
+    {
+      "target": "main",
+      "rules": "database.rules.json"
+    },
+    {
+      "target": "smas",
+      "rules": "database-smas.rules.json"
+    }
+  ],
+  "storage": [
+    {
+      "target": "main",
+      "rules": "storage.rules"
+    }
+  ]
+}

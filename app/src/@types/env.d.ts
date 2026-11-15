@@ -9,7 +9,6 @@ declare module '@env' {
 	export const FIREBASE_appId: string
 	export const FIREBASE_measurementId: string
 	export const FIREBASE_databaseURL: string
-	export const FIREBASE_smas_databaseURL: string
 	export const FIREBASE_CLOUD_URL: string
 	export const MAPS_API: string
 	export const IOS_MAPS_API_KEY: string
@@ -26,7 +25,6 @@ declare module '@env' {
 	export const PROD_FIREBASE_appId: string
 	export const PROD_FIREBASE_measurementId: string
 	export const PROD_FIREBASE_CLOUD_URL: string
-	export const PROD_FIREBASE_smas_databaseURL: string
 	export const PROD_ALGOLIA_ID: string
 	export const PROD_ALGOLIA_KEY: string
 	export const PROD_AUTH_ANDROID_CLIENT_ID: string
@@ -40,9 +38,7 @@ declare module '@env' {
 
 	export const AUTH_ANDROID_CLIENT_ID: string
 	export const AUTH_IOS_CLIENT_ID: string
-	export const NOTION_FALECONOSCO_KEY: string
-	export const NOTION_FALECONOSCO_ID: string
 	export const DSN_SENTRY: string
+	export const APP_CHECK_DEBUG_TOKEN: string
 	export const STRIPE_PUBLISHABLE_KEY: string
-	export const SENTRY_AUTH_TOKEN: string
 }

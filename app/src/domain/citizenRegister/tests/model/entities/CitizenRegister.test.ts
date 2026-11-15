@@ -22,7 +22,8 @@ const validProps: CitizenRegisterEntity = {
 	createdAt: new Date('2023-06-19T00:00:00Z'),
 	censusTakerName: 'Jane Smith',
 	location: validLocation, // Exemplo de coordenadas
-	responses: []
+	responses: [],
+	employmentStatus: { suggestedOpportunityIds: [], status: 'uncontacted' }
 }
 
 const validNewRegisterProps: CitizenRegisterEntity = {
@@ -41,7 +42,7 @@ describe('Entity CitizenRegister.ts', () => {
 		expect(citizenRegister.createdAt).toEqual(validProps.createdAt)
 		expect(citizenRegister.censusTakerName.value).toBe(validProps.censusTakerName)
 		expect(citizenRegister.location).toEqual(validProps.location)
-		expect(citizenRegister.responses).toEqual(validProps.responses)
+		expect(citizenRegister.responses.data()).toEqual(validProps.responses)
 	})
 
 	// Teste de tratamento de novo registro (citizenRegisterId nulo)

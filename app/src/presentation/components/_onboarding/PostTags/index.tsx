@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { ScrollView } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import uuid from 'react-uuid'
 
 import { PostCategoriesObject } from '@domain/post/entity/types'
@@ -40,6 +41,10 @@ interface PostTagsProps {
 }
 
 function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, savePostTags, navigateBackwards }: PostTagsProps) {
+	// edge-to-edge no Android: botão flutuante acima da barra de navegação
+	const { bottom: bottomInset } = useSafeAreaInsets()
+	const androidBottomInset = Platform.OS === 'android' ? bottomInset : 0
+
 	const [textTag, setTextTag] = useState('')
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 
@@ -168,7 +173,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 				{
 					selectedTags.length
 						? (
-							<FloatButtonContainer>
+							<FloatButtonContainer bottomInset={androidBottomInset}>
 								<PrimaryButton
 									color={theme.colors.green[3]}
 									label={'continuar'}

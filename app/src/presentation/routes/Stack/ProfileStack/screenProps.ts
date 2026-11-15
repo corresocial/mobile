@@ -36,5 +36,4 @@ export type ContactUsSuccessScreenProps = NativeStackScreenProps<ProfileStackPar
 export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<ProfileStackParamList, 'PrivacyAndSecurity'>
 export type UserDataConfigurationsScreenProps = NativeStackScreenProps<ProfileStackParamList, 'UserDataConfigurations'>
 export type NotificationSettingsScreenProps = NativeStackScreenProps<ProfileStackParamList, 'NotificationSettings'>
-export type NotificationPublicServicesSettingsScreenProps = NativeStackScreenProps<ProfileStackParamList, 'NotificationPublicServicesSettings'>
 export type PostViewScreenProps = NativeStackScreenProps<ProfileStackParamList, 'PostView'>

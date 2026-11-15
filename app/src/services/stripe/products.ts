@@ -1,10 +1,13 @@
+import { httpsCallable } from '@react-native-firebase/functions'
+
+import { firebaseFunctions } from '@infrastructure/firebase'
+
 import { StripeProducts } from './types'
 
-import { callCloudFunction } from '@infrastructure/firebase/cloudFunctions'
-
 async function getStripeProducts() {
-	const result = await callCloudFunction('stripeApi', { action: 'products' })
-	return (result as any).data
+	const stripeApi = httpsCallable(firebaseFunctions, 'stripeApi')
+	const result = await stripeApi({ action: 'products' })
+	return (result.data as any).data
 }
 
 async function getStripePlans(stripeProducts: any[]) {
